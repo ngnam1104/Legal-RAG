@@ -1,0 +1,85 @@
+services:
+  # 1. Database Servers
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: always
+
+  # 2. Application Servers
+  api:
+    image: chatbotvbpl:local
+    build: .
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      # Ket noi ra internet den Groq, yeu cau co .env chua LLM_API_KEY
+      - LLM_PROVIDER=${LLM_PROVIDER:-groq}
+      - LLM_BASE_URL=${LLM_BASE_URL:-https://api.groq.com/openai/v1}
+      - LLM_CHAT_MODEL=${LLM_CHAT_MODEL:-llama3-8b-8192}
+      - GEMINI_CHAT_MODEL=${GEMINI_CHAT_MODEL:-gemini-3-flash-preview}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - QDRANT_URL=${QDRANT_URL:-http://qdrant:6333}
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - qdrant
+
+  ui:
+    image: chatbotvbpl:local
+    command: streamlit run ui/app.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-groq}
+      - LLM_BASE_URL=${LLM_BASE_URL:-https://api.groq.com/openai/v1}
+      - LLM_CHAT_MODEL=${LLM_CHAT_MODEL:-llama3-8b-8192}
+      - GEMINI_CHAT_MODEL=${GEMINI_CHAT_MODEL:-gemini-3-flash-preview}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - QDRANT_URL=${QDRANT_URL:-http://qdrant:6333}
+    env_file:
+      - .env
+    depends_on:
+      - api
+
+  worker:
+    image: chatbotvbpl:local
+    command: celery -A workers.celery_app worker --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-groq}
+      - LLM_BASE_URL=${LLM_BASE_URL:-https://api.groq.com/openai/v1}
+      - LLM_CHAT_MODEL=${LLM_CHAT_MODEL:-llama3-8b-8192}
+      - GEMINI_CHAT_MODEL=${GEMINI_CHAT_MODEL:-gemini-3-flash-preview}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - QDRANT_URL=${QDRANT_URL:-http://qdrant:6333}
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - qdrant
+
+volumes:
+  qdrant_data:
+  redis_data:
