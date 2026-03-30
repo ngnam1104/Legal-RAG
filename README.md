@@ -86,6 +86,47 @@
   - Giao tiếp qua chuẩn OpenAI-compatible API
   - Embedding local bằng `BAAI/bge-m3` (SentenceTransformer, chạy CPU)
 
-  ### 5. Triển khai — ĐÃ HOÀN THÀNH ✅
-  - **Local**: `run_local.ps1` (tự tạo venv, cấu hình .env, chạy Streamlit)
-  - **Docker**: `docker-compose up -d --build` (5 services: Redis, Qdrant, API, Worker, UI)
+  ### 5. Triển khai & Chạy Demo
+
+  #### 5.1. Chạy bằng Docker (Khuyên dùng cho Demo)
+  Bản demo sử dụng **Qdrant Cloud** làm database mặc định để đảm bảo tính ổn định và không phụ thuộc file local.
+
+  **Các bước chuẩn bị:**
+  1. Sao chép file `.env.example` thành `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+  2. Điền các API Key cần thiết (`LLM_API_KEY`, `QDRANT_API_KEY`, `QDRANT_URL`) vào file `.env`.
+     *Lưu ý: Nếu collection trên Qdrant Cloud chưa có dữ liệu, chatbot vẫn khởi động được nhưng sẽ không tìm thấy context khi hỏi đáp.*
+
+  **Chạy ứng dụng:**
+  ```bash
+  # Build và chạy toàn bộ service (API, UI, Worker, Redis)
+  docker compose up -d --build
+  ```
+
+  **Truy cập:**
+  - **Giao diện Chatbot (UI)**: `http://localhost:8501`
+  - **API Documentation**: `http://localhost:8000/docs`
+
+  ---
+
+  #### 5.2. Chạy Local (Development)
+  Nếu bạn muốn phát triển thêm hoặc dùng Qdrant local:
+
+  1. **Tạo venv và cài đặt**:
+     ```powershell
+     ./run_local.ps1
+     ```
+  2. **Chạy Qdrant Local bằng Docker**:
+     ```bash
+     docker compose --profile local-db up -d
+     ```
+  3. **Chạy các service thủ công**: Theo hướng dẫn trong source code từng package.
+
+  ---
+
+  ### 6. Rủi ro & Lưu ý (Caveats)
+  - **Model Embedding**: Khi chạy lần đầu trong Docker, container sẽ tải model `BAAI/bge-m3` (~2.5GB) về cache. Quá trình này có thể mất vài phút tùy tốc độ mạng.
+  - **Qdrant Cloud**: Đảm bảo cấu hình Firewall trên Qdrant Cloud cho phép IP từ nơi chạy Docker (hoặc để `0.0.0.0/0` cho demo).
+  - **Hệ điều hành**: Nếu chạy trên Windows, hãy đảm bảo Docker Desktop đang ở chế độ Linux Containers.

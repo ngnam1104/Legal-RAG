@@ -43,4 +43,4 @@ GEMINI_CHAT_MODEL=gemini-3-flash-preview
 }
 
 Write-Host "`n[4/4] Khoi dong Giao dien Chatbot..." -ForegroundColor Cyan
-streamlit run ui\app.py
+streamlit run frontend\app.py

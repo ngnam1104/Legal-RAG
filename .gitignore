@@ -49,6 +49,8 @@ Thumbs.db
 
 # Project specific
 local_qdrant_db/
+local_qdrant_data/
+local_redis_data/
 tmp_uploads/
 test_out.txt
 *.log
