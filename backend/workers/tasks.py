@@ -1,113 +1,90 @@
 import os
 import uuid
-import docx
-from pdf2image import convert_from_path
-import pytesseract
 from qdrant_client.models import PointStruct
 
 from backend.workers.celery_app import celery_app
 from backend.config import settings
-from retrieval.vector_db import client as qdrant
-from retrieval.embedder import embedder
+from backend.retrieval.vector_db import client as qdrant
+from backend.retrieval.embedder import embedder
+from backend.utils.document_parser import parser
+from backend.agent.flow_conflict_analyzer import conflict_analyzer_flow
+from backend.llm.factory import chat_completion
 
 @celery_app.task(bind=True, max_retries=3)
 def process_document_task(self, file_path: str):
     """
-    Task xử lý bất đồng bộ: Đọc file PDF/Docx -> text -> chunking -> vector -> qdrant.
+    Task xử lý thông minh: 
+    1. Trích xuất & Chunks (Hierarchical)
+    2. Tóm tắt nội dung (LLM Summary)
+    3. Phân tích xung đột (Conflict Analysis)
+    4. Lưu trữ Hybrid Vector (Dense + Sparse)
     """
     try:
         if settings.QDRANT_READ_ONLY:
-            return {
-                "status": "error",
-                "error": "Qdrant is configured as read-only. Ingestion task is disabled.",
-            }
+            return {"status": "error", "error": "Qdrant is read-only."}
 
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File {file_path} không tồn tại.")
 
-        ext = os.path.splitext(file_path)[1].lower()
-        full_text = ""
-
-        if ext == ".docx":
-            doc = docx.Document(file_path)
-            full_text = "\n".join([para.text for para in doc.paragraphs])
-        elif ext == ".doc":
-            try:
-                import subprocess
-                result = subprocess.run(['antiword', file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-                full_text = result.stdout
-            except Exception:
-                try:
-                    import win32com.client
-                    word = win32com.client.DispatchEx("Word.Application")
-                    word.Visible = False
-                    abs_path = os.path.abspath(file_path)
-                    doc = word.Documents.Open(abs_path)
-                    full_text = doc.Content.Text
-                    doc.Close(False)
-                    word.Quit()
-                except Exception as e:
-                    raise ValueError(f"Không thể đọc .doc: {str(e)}")
-        elif ext == ".pdf":
-            images = convert_from_path(file_path)
-            text_pages = []
-            for img in images:
-                text = pytesseract.image_to_string(img, lang="vie")
-                text_pages.append(text)
-            full_text = "\n".join(text_pages)
-        else:
-            raise ValueError(f"Định dạng không được hỗ trợ: {ext}")
-
-        if len(full_text.strip()) < 50:
-            raise ValueError("Nội dung file quá ngắn hoặc không có chữ.")
-
         filename = os.path.basename(file_path)
-        doc_number = filename.split('.')[0]
         
-        # Simple chunking: split by paragraphs
-        paragraphs = [p.strip() for p in full_text.split("\n") if len(p.strip()) > 20]
-        if not paragraphs:
-            raise ValueError("Không tìm thấy đoạn văn bản hợp lệ.")
+        # 1. Trích xuất văn bản & Phân đoạn phân cấp (Hierarchical Chunking)
+        print(f"⏳ Processing document: {filename}")
+        chunks = parser.parse_and_chunk(file_path)
+        if not chunks:
+            raise ValueError("Không trích xuất được nội dung hợp lệ.")
 
-        # Encode and upsert
-        dense_vectors = embedder.encode_dense(paragraphs, batch_size=32)
-        sparse_vectors = embedder.encode_sparse_documents(paragraphs, batch_size=32)
+        # 2. Tạo bản Tóm tắt nhanh (Quick Summary)
+        full_text_sample = "\n".join([c.get("text_to_embed", "") for c in chunks[:5]])
+        summary_prompt = f"Hãy viết một bản tóm tắt cực ngắn (khoảng 3-5 câu) nội dung chính của tài liệu sau:\n\n{full_text_sample}"
+        summary = chat_completion([{"role": "user", "content": summary_prompt}], temperature=0.3)
+
+        # 3. Chạy phân tích xung đột tự động (Conflict Analysis)
+        # Sử dụng logic chuyên sâu từ ConflictAnalyzerFlow
+        conflict_report = conflict_analyzer_flow.process_file(file_path)
+
+        # 4. Lưu trữ vào Vector DB (Hybrid)
+        all_texts = [c["text_to_embed"] for c in chunks]
+        dense_vectors = embedder.encode_dense(all_texts)
+        sparse_vectors = embedder.encode_sparse_documents(all_texts)
 
         points = []
-        for idx, text in enumerate(paragraphs):
+        for idx, chunk in enumerate(chunks):
+            p = chunk["metadata"]
             payload = {
-                "document_number": doc_number,
-                "title": f"Tài liệu OCR từ {filename}",
-                "article_ref": f"Đoạn {idx + 1}",
-                "is_appendix": False,
-                "chunk_text": text,
+                "document_id": str(uuid.uuid4()),
+                "chunk_id": chunk.get("chunk_id", str(uuid.uuid4())),
+                "title": p.get("title", filename),
+                "is_appendix": bool(p.get("is_appendix", False)),
+                "chunk_text": chunk.get("text_to_embed", ""),
+                "is_user_upload": True,
+                "summary": summary if idx == 0 else "" # Gắn summary vào chunk đầu tiên để dễ tra cứu
             }
-            points.append(
-                PointStruct(
-                    id=str(uuid.uuid4()),
-                    vector={
-                        "dense": dense_vectors[idx],
-                    },
-                    payload=payload,
-                )
-            )
-            # Note: sparse vectors need separate upsert or named vector support
+            
+            points.append(PointStruct(
+                id=str(uuid.uuid4()),
+                vector={
+                    "dense": dense_vectors[idx],
+                    "sparse": sparse_vectors[idx],
+                },
+                payload=payload
+            ))
 
-        BATCH_SIZE = 100
         collection_name = settings.QDRANT_COLLECTION
-        for i in range(0, len(points), BATCH_SIZE):
-            batch = points[i : i + BATCH_SIZE]
-            qdrant.upsert(collection_name=collection_name, points=batch)
+        qdrant.upsert(collection_name=collection_name, points=points)
 
-        if os.path.exists(file_path):
-            os.remove(file_path)
-        
+        # Cleanup file tạm (Để lại để chat_engine có thể parse context thô nhanh)
+        # if os.path.exists(file_path):
+        #     os.remove(file_path)
+
         return {
-            "status": "success", 
-            "doc_number": doc_number, 
-            "chunks_inserted": len(points),
+            "status": "success",
+            "filename": filename,
+            "summary": summary,
+            "conflict_report": conflict_report,
+            "chunks": len(points)
         }
 
     except Exception as exc:
-        print(f"Error processing file {file_path}: {exc}")
+        print(f"Error processing {file_path}: {exc}")
         return {"status": "error", "error": str(exc)}

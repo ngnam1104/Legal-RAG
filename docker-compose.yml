@@ -1,7 +1,7 @@
 services:
-  # 1. Database Servers
   redis:
     image: redis:7-alpine
+    container_name: legal-rag-redis
     ports:
       - "6379:6379"
     volumes:
@@ -14,101 +14,37 @@ services:
       retries: 5
 
   qdrant:
-    image: qdrant/qdrant:latest
-    profiles: ["local-db"]
+    image: qdrant/qdrant:v1.17.0
+    container_name: legal-rag-qdrant
     ports:
-      - "6333:6333"
-      - "6334:6334"
+      - "6335:6333"
+      - "6336:6334"
     volumes:
-      - ./local_qdrant_data:/qdrant/storage
+      - qdrant_local_storage:/qdrant/storage
+      - qdrant_local_snapshots:/qdrant/snapshots
     restart: always
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:6333/healthz" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  # 2. Application Servers
-  api:
-    image: legal-rag-app:latest
-    build: .
-    command: uvicorn backend.api.main:app --host 0.0.0.0 --port 8000
-    ports:
-      - "8000:8000"
-    environment:
-      - LLM_PROVIDER=${LLM_PROVIDER}
-      - LLM_API_KEY=${LLM_API_KEY}
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
-      - OLLAMA_API_KEY=${OLLAMA_API_KEY}
-      - OLLAMA_CHAT_MODEL=${OLLAMA_CHAT_MODEL:-qwen3.5:cloud}
-      - REDIS_URL=redis://redis:6379/0
-      - QDRANT_URL=${QDRANT_URL:-http://qdrant:6333}
-      - QDRANT_API_KEY=${QDRANT_API_KEY}
-      - QDRANT_COLLECTION=${QDRANT_COLLECTION:-legal_rag_10000}
-      - QDRANT_READ_ONLY=${QDRANT_READ_ONLY:-true}
-    env_file:
-      - .env
-    volumes:
-      - .env:/app/.env
-      - hf_cache:/app/.cache/huggingface
-      - ./backend/tmp_uploads:/app/backend/tmp_uploads
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 300s
-
-  ui:
-    image: legal-rag-app:latest
-    build: .
-    command: streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0
-    ports:
-      - "8501:8501"
-    environment:
-      - API_URL=http://api:8000/api
-    depends_on:
-      - api
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  worker:
-    image: legal-rag-app:latest
-    build: .
-    command: celery -A backend.workers.celery_app worker --loglevel=info
-    environment:
-      - LLM_PROVIDER=${LLM_PROVIDER}
-      - LLM_API_KEY=${LLM_API_KEY}
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
-      - OLLAMA_API_KEY=${OLLAMA_API_KEY}
-      - OLLAMA_CHAT_MODEL=${OLLAMA_CHAT_MODEL:-qwen3.5:cloud}
-      - REDIS_URL=redis://redis:6379/0
-      - QDRANT_URL=${QDRANT_URL:-http://qdrant:6333}
-      - QDRANT_API_KEY=${QDRANT_API_KEY}
-      - QDRANT_COLLECTION=${QDRANT_COLLECTION:-legal_rag_10000}
-      - QDRANT_READ_ONLY=${QDRANT_READ_ONLY:-true}
-    env_file:
-      - .env
-    volumes:
-      - .env:/app/.env
-      - hf_cache:/app/.cache/huggingface
-      - ./backend/tmp_uploads:/app/backend/tmp_uploads
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    healthcheck:
-      test: ["CMD-SHELL", "celery -A backend.workers.celery_app inspect ping || exit 1"]
-      interval: 60s
-      timeout: 15s
-      retries: 5
-      start_period: 300s
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 2G
+    stop_grace_period: 2m
+    # Healthcheck tạm thời được tắt để Qdrant tập trung recovery 15GB dữ liệu mà không bị Docker can thiệp
+    # healthcheck:
+    #   test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/6333'"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 20
 
 volumes:
   local_redis_data:
-  hf_cache:
+  qdrant_local_storage:
+  qdrant_local_snapshots:
+
+    # NOTE: Khi chạy backend trong Docker, mount volume cho SQLite:
+    # docker run -v ./backend/data:/app/backend/data ...
+    # Hoặc thêm volume vào service backend nếu có:
+    #   volumes:
+    #     - ./backend/data:/app/backend/data
+

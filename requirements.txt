@@ -1,8 +1,13 @@
+# --- CORE API & SERVER ---
 fastapi
 uvicorn
 python-multipart
 pydantic
 pydantic-settings
+python-dotenv
+watchdog
+
+# --- VECTOR DB & SEARCH ---
 qdrant-client
 sentence-transformers
 FlagEmbedding==1.3.5
@@ -10,13 +15,35 @@ transformers==4.48.3
 huggingface-hub<1.0
 tokenizers<0.22
 torch
+
+# --- LLM CLIENTS ---
 openai
+groq
 google-genai
-streamlit
-requests
-python-dotenv
+langchain-openai
+langchain-google-genai
+langchain-core
+langchain-community
+
+# --- AGENTIC ORCHESTRATION ---
+langgraph
+
+# --- WORKERS & CACHE ---
 celery
 redis
-pdf2image
-pytesseract
+
+# --- DOCUMENT PROCESSING ---
+pymupdf
 python-docx
+pandas
+
+# --- UTILS & CLIENTS ---
+requests
+httpx
+aiosqlite
+tqdm
+datasets
+onnx
+onnxruntime
+optimum[onnxruntime]
+rich

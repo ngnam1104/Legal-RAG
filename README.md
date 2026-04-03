@@ -1,132 +1,162 @@
-# Legal-RAG
-# Chatbot Văn Bản Pháp Luật Việt Nam (RAG)
+# ⚖️ Legal-RAG: Trợ lý Pháp luật Việt Nam Thông minh
 
-  ## Báo cáo ngày 24/03/2026
+Hệ thống **Advanced Agentic RAG** mã nguồn mở chuyên biệt cho văn bản pháp luật Việt Nam. Ứng dụng công nghệ Hybrid Search (Dense + Sparse), Kiến trúc Đa tác vụ (Multi-agent) và cơ chế Tự phản hồi (Reflection) để đảm bảo độ chính xác pháp lý tối đa.
 
-  ### 1. Xây dựng Vector Database (Qdrant) — ĐÃ HOÀN THÀNH ✅
+---
 
-  #### 1.1. Nguồn dữ liệu
-  - Dataset: **`th1nhng0/vietnamese-legal-documents`** trên Hugging Face (518,255 văn bản).
-  - Lọc ra **2,000 văn bản** loại "Quyết định" bằng phương pháp **Stratified Sampling** (lấy mẫu phân tầng đều theo 1,063 lĩnh vực pháp luật), đảm bảo tính đa dạng và đại diện.
-  - Tách riêng **200 văn bản** làm tập test cho RAG.
+## 🌟 Tính năng Nổi bật
 
-  #### 1.2. Quy trình xử lý dữ liệu (Pipeline)
-  ```
-  Raw Text → AdvancedLegalChunker → Embedding (bge-m3) → Qdrant Upsert
-  ```
+- **🔍 Tra cứu Hybrid (Dense + Sparse)**: Kết hợp sức mạnh của vector embedding (`BGE-M3`) và tìm kiếm từ khóa truyền thống để xử lý các thuật ngữ chuyên môn phức tạp.
+- **🤖 Query Router & Multi-turn**: Tự động phân loại ý định người dùng và duy trì ngữ cảnh hội thoại (Query Condensation) để xử lý câu hỏi tiếp nối.
+- **🛡️ Reflection Agent (Tự kiểm duyệt)**: Cơ chế AI tự kiểm tra câu trả lời của chính mình trước khi phản hồi người dùng để loại bỏ hoàn toàn hiện tượng "ảo giác" (hallucination).
+- **📋 4 Chế độ Hoạt động Chuyên biệt**:
+    1. **Legal QA**: Giải đáp tình huống dựa trên căn cứ pháp luật cụ thể.
+    2. **Sector Search**: Tổng hợp, liệt kê văn bản theo lĩnh vực/ngành.
+    3. **Conflict Analyzer**: Tải lên file nội quy/hợp đồng để đối soát xem có nội dung nào trái luật không.
+    4. **General Chat**: Trò chuyện tự do về mọi chủ đề không liên quan đến pháp luật.
+- **💾 2-Layer Memory System**: Quản lý hội thoại thông minh với Redis (truy xuất nhanh) và SQLite (lưu trữ vĩnh viễn).
 
-  **Chi tiết từng bước:**
+---
 
-  | Bước | Mô tả | Công cụ |
-  |------|--------|---------|
-  | **Chunking** | Chia văn bản theo cấu trúc pháp lý: tách riêng Phần căn cứ, từng Điều khoản, và Phụ lục. Mỗi chunk được gắn header metadata (số hiệu, tiêu đề, cơ quan ban hành) | `AdvancedLegalChunker` (tự viết) |
-  | **Embedding** | Chuyển text → vector 1024 chiều. Chạy batch trên GPU T4 của Kaggle | `BAAI/bge-m3` (SentenceTransformer) |
-  | **Upsert** | Đẩy lên Qdrant Cloud theo batch 100 points/lần | `qdrant-client` |
-  | **Indexing** | Tạo Payload Index cho các trường: `is_appendix`, `legal_type`, `document_number`, `issuance_date`, `legal_sectors`, `title` | Qdrant Payload Index |
-  | **Quantization** | Nén vector bằng Scalar Quantization (int8) để giảm RAM | `ScalarQuantization` |
+## 🏗️ Kiến trúc Hệ thống & Luồng Dữ liệu
 
-  #### 1.3. Kết quả Database
-  - **Collection**: `legal_vn_200_docs`
-  - **Tổng số points (chunks)**: 3,048 (từ 200 văn bản)
-  - **Vector dimension**: 1024 (BAAI/bge-m3)
-  - **Distance metric**: Cosine
-  - **Quantization**: int8 (giảm ~75% RAM)
-  - **Hosting**: Qdrant Cloud (US-West-1)
+Dưới đây là sơ đồ luồng dữ liệu tổng thể từ lúc người dùng đặt câu hỏi đến khi nhận được phản hồi đã qua kiểm duyệt:
 
-  #### 1.4. Cấu trúc Payload mỗi Point
-  ```json
-  {
-    "document_id": "680040",
-    "document_number": "1415/QĐ-UBND",
-    "title": "Quyết định 1415/QĐ-UBND năm 2025...",
-    "legal_type": "Quyết định",
-    "legal_sectors": "Bộ máy hành chính, Xây dựng - Đô thị",
-    "issuance_date": "07/11/2025",
-    "issuing_authority": "Tỉnh Đồng Tháp",
-    "article_ref": "Điều 1.",
-    "is_appendix": false,
-    "chunk_text": "[THÔNG TIN TRÍCH DẪN]..."
-  }
-  ```
+```mermaid
+graph TD
+    User([Người dùng]) -->|Hỏi| UI[Next.js Frontend]
+    UI -->|REST API| API[FastAPI Backend]
+    
+    subgraph "Orchestration Layer"
+        API -->|1. Routing| Router{Query Router}
+        Router -->|Hỏi đáp| QA[Legal QA Flow]
+        Router -->|Liệt kê| Sector[Sector Search Flow]
+        Router -->|Phân tích file| Conflict[Conflict Analyzer Flow]
+        Router -->|Chat| General[General Chat Flow]
+    end
+    
+    subgraph "Retrieval Engine"
+        QA & Sector & Conflict -->|2. Hybrid Search| Qdrant[(Qdrant Vector DB)]
+        Qdrant <-->|Embedding| Embed[BAAI/bge-m3 Model]
+    end
+    
+    subgraph "Quality Control"
+        QA -->|3. Reflection| ReflAgent[Reflection Agent]
+        ReflAgent -.->|Nếu ảo giác| QA
+    end
+    
+    subgraph "Persistence"
+        API <-->|Short-term| Redis[(Redis)]
+        API <-->|Long-term| SQLite[(SQLite)]
+    end
+    
+    subgraph "Background Tasks"
+        UI -.->|Tải lên| Upload[OCR / Document Ingestion]
+        Upload --> Celery[Celery Worker]
+        Celery --> Qdrant
+    end
+```
 
-  #### 1.5. Kiểm thử Retrieval
-  Đã test thành công trên Kaggle Notebook với nhiều kịch bản:
-  - Truy vấn theo lĩnh vực (đường bộ, giao thông) → Score 0.62
-  - Truy vấn theo mã hồ sơ TTHC → Score 0.54
-  - Truy vấn theo căn cứ pháp lý → Score 0.58
+---
 
-  Notebook đầy đủ: [`icomm-qdrant-vecdb.ipynb`](icomm-qdrant-vecdb.ipynb)
+## 📂 Cấu trúc Repository
 
-  ---
+```text
+Legal-RAG/
+├── backend/            # Lõi xử lý FastAPI & RAG Agent
+│   ├── agent/          # Logic 4 Flow (QA, Sector, Conflict, General Chat)
+│   ├── api/            # API Endpoints & Session Management
+│   ├── retrieval/      # Hybrid Search & Rerank logic
+│   └── workers/        # Celery Background Worker (OCR/Ingestion)
+├── frontend/           # Giao diện Next.js Web App (Premium UI)
+├── scripts/            # Công cụ nạp dữ liệu (Ingest) & Snapshot
+├── qdrant_snapshots/   # Nơi chứa file backup CSDL (.snapshot)
+├── qdrant_storage/     # Dữ liệu Vector DB thực tế (Docker mount)
+├── start_backend.ps1   # Script khởi động 1-click (Windows)
+└── docker-compose.yml  # Triển khai Redis & Qdrant Containers
+```
 
-  ### 2. Kiến trúc Chatbot — ĐÃ HOÀN THÀNH ✅
+---
 
-  Tái cấu trúc repo thành 5 package:
+## 🚀 Hướng dẫn Cài đặt từ đầu (Zero to Hero)
 
-  ```
-  ChatbotVBPL/
-  ├── api/          # FastAPI endpoints (/chat, /upload-document)
-  ├── core/         # Config, DB singleton, NLP (Chunker + Embedder)
-  ├── rag/          # RAGEngine (3 modes), Retriever, DocumentManager
-  ├── workers/      # Celery background tasks (OCR + Ingestion)
-  ├── ui/           # Streamlit Web Chatbot
-  ├── Dockerfile
-  ├── docker-compose.yml
-  └── run_local.ps1
-  ```
+### 1. Yêu cầu Hệ thống
+- **Docker Desktop**: Chạy Redis và Qdrant.
+- **Python 3.10+**: Cho Backend.
+- **Node.js 18+**: Cho Frontend.
+- **Dung lượng ổ đĩa**: Khoảng 5-10GB (để chứa Model Embedding bge-m3 và Vector DB).
 
-  ### 3. Tính năng Chatbot — ĐÃ HOÀN THÀNH ✅
-  - **3 chế độ hỏi đáp**: Q&A, Tìm VBPL liên quan, Phát hiện xung đột
-  - **Conversation memory**: Lưu 7 lượt chat gần nhất
-  - **Upload on-demand**: Hỗ trợ PDF (scan OCR), DOCX, DOC
-  - **Conflict Detection**: Tự động phát hiện xung đột khi thêm văn bản mới
+### 2. Các bước triển khai
 
-  ### 4. LLM Engine — ĐÃ HOÀN THÀNH ✅
-  - Sử dụng **Groq API** (model `llama3-8b-8192`, mã nguồn mở)
-  - Giao tiếp qua chuẩn OpenAI-compatible API
-  - Embedding local bằng `BAAI/bge-m3` (SentenceTransformer, chạy CPU)
+**Bước 1: Clone Repository**
+```bash
+git clone https://github.com/ngnam1104/Legal-RAG.git
+cd Legal-RAG
+```
 
-  ### 5. Triển khai & Chạy Demo
+**Bước 2: Cấu hình Môi trường (.env)**
+Copy file mẫu và điền thông tin API Key (ưu tiên Gemini để có hiệu suất tốt nhất):
+```bash
+cp .env.example .env
+```
+*Lưu ý: Đảm bảo các đường dẫn CACHE (`HF_HOME`, `SENTENCE_TRANSFORMERS_HOME`) trong `.env` trỏ về ổ đĩa có dung lượng trống.*
 
-  #### 5.1. Chạy bằng Docker (Khuyên dùng cho Demo)
-  Bản demo sử dụng **Qdrant Cloud** làm database mặc định để đảm bảo tính ổn định và không phụ thuộc file local.
+**Bước 3: Khởi động Database (Docker)**
+Mở Docker Desktop, sau đó chạy:
+```bash
+docker-compose up -d
+```
 
-  **Các bước chuẩn bị:**
-  1. Sao chép file `.env.example` thành `.env`:
-     ```bash
-     cp .env.example .env
-     ```
-  2. Điền các API Key cần thiết (`LLM_API_KEY`, `QDRANT_API_KEY`, `QDRANT_URL`) vào file `.env`.
-     *Lưu ý: Nếu collection trên Qdrant Cloud chưa có dữ liệu, chatbot vẫn khởi động được nhưng sẽ không tìm thấy context khi hỏi đáp.*
+**Bước 4: Khôi phục Dữ liệu (Qdrant Snapshot)**
+Nếu bạn có file snapshot (.snapshot) của CSDL Luật Việt Nam:
+1. Copy file snapshot vào thư mục `./qdrant_snapshots/`.
+2. Truy cập Dashboard Qdrant tại: `http://localhost:6335/dashboard`.
+3. Chọn **Collections** -> Tạo collection mới (nếu chưa có) -> **Snapshots** -> **Restore from snapshot**.
+4. (Hoặc dùng script nạp dữ liệu từ đầu):
+   ```bash
+   # Tạo venv và cài dependencies trước khi chạy script
+   python -m venv venv
+   .\venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   python scripts/ingest_local.py
+   ```
 
-  **Chạy ứng dụng:**
-  ```bash
-  # Build và chạy toàn bộ service (API, UI, Worker, Redis)
-  docker compose up -d --build
-  ```
+**Bước 5: Khởi động toàn bộ Hệ thống**
+Sử dụng script tự động (tốt nhất trên Windows):
+```powershell
+.\start_backend.ps1
+```
+Script sẽ tự động:
+- Dọn dẹp các cổng 3000, 8000, 8001.
+- Kích hoạt Python Venv và cài thư viện.
+- Mở 4 cửa sổ riêng biệt cho: **Embedding Server**, **FastAPI Backend**, **Celery Worker**, và **Next.js Frontend**.
 
-  **Truy cập:**
-  - **Giao diện Chatbot (UI)**: `http://localhost:8501`
-  - **API Documentation**: `http://localhost:8000/docs`
+---
 
-  ---
+## 💻 Truy cập Ứng dụng
 
-  #### 5.2. Chạy Local (Development)
-  Nếu bạn muốn phát triển thêm hoặc dùng Qdrant local:
+- **Giao diện người dùng**: `http://localhost:3000` (Giao diện Next.js Premium Dark Theme).
+- **Backend API Docs**: `http://localhost:8000/docs`.
+- **Qdrant Dashboard**: `http://localhost:6335/dashboard`.
 
-  1. **Tạo venv và cài đặt**:
-     ```powershell
-     ./run_local.ps1
-     ```
-  2. **Chạy Qdrant Local bằng Docker**:
-     ```bash
-     docker compose --profile local-db up -d
-     ```
-  3. **Chạy các service thủ công**: Theo hướng dẫn trong source code từng package.
+---
 
-  ---
+## ⚙️ Cấu hình (Environment Variables)
 
-  ### 6. Rủi ro & Lưu ý (Caveats)
-  - **Model Embedding**: Khi chạy lần đầu trong Docker, container sẽ tải model `BAAI/bge-m3` (~2.5GB) về cache. Quá trình này có thể mất vài phút tùy tốc độ mạng.
-  - **Qdrant Cloud**: Đảm bảo cấu hình Firewall trên Qdrant Cloud cho phép IP từ nơi chạy Docker (hoặc để `0.0.0.0/0` cho demo).
-  - **Hệ điều hành**: Nếu chạy trên Windows, hãy đảm bảo Docker Desktop đang ở chế độ Linux Containers.
+| Biến | Mô tả |
+| :--- | :--- |
+| `LLM_PROVIDER` | `groq` \| `gemini` \| `ollama` |
+| `QDRANT_URL` | Địa chỉ Qdrant (mặc định localhost:6335) |
+| `REDIS_URL` | Địa chỉ Redis cho memory |
+| `LEGAL_DENSE_MODEL`| Model embedding (mặc định `BAAI/bge-m3`) |
+
+---
+
+## 🛠️ Công nghệ Sử dụng
+
+- **Models**: BGE-M3 (Embedding), Llama-3 (LLM), Gemini (Fallback).
+- **Backend**: FastAPI, Celery, Redis.
+- **Frontend**: Streamlit.
+- **Vector DB**: Qdrant.
+- **ORM/Storage**: SQLite (History), Redis (Cache/Queue).
+

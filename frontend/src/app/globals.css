@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  /* Emerald Diamond UI Palette */
+  --color-emerald-base: rgb(10, 25, 20);
+  --color-emerald-surface: rgb(20, 40, 35);
+  --color-emerald-primary: rgb(0, 200, 140);
+  --color-emerald-accent: rgb(0, 255, 180);
+  --color-emerald-glow: rgb(0, 255, 200);
+  
+  /* Text Colors */
+  --color-text-main: rgb(200, 255, 230);
+  --color-text-dim: rgb(120, 180, 150);
+  --color-text-disabled: rgb(80, 120, 100);
+
+  /* Overriding Tailwind Defaults for easier usage */
+  --color-gray-50: var(--color-emerald-base);
+  --color-gray-100: var(--color-emerald-surface);
+  --color-gray-200: rgb(30, 55, 50);
+  --color-gray-300: rgb(40, 75, 65);
+  --color-gray-400: var(--color-text-disabled);
+  --color-gray-500: var(--color-text-dim);
+  --color-gray-600: var(--color-text-main);
+  
+  --color-blue-600: var(--color-emerald-primary);
+  --color-blue-500: var(--color-emerald-accent);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-emerald-base);
+    color: var(--color-text-main);
+    @apply font-sans antialiased;
+  }
+}
+
+/* Custom Scrollbar for Emerald Theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-emerald-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-emerald-surface);
+  border: 1px solid var(--color-emerald-primary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-emerald-primary);
+  box-shadow: 0 0 10px var(--color-emerald-glow);
+}
+
+/* Markdown Styles for Emerald Theme */
+.markdown-body {
+  @apply text-base leading-relaxed;
+  color: var(--color-text-main);
+}
+.markdown-body p {
+  @apply mb-4 last:mb-0;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+  color: var(--color-emerald-accent);
+  @apply font-semibold mb-3 mt-6;
+  text-shadow: 0 0 10px rgba(0, 255, 180, 0.2);
+}
+.markdown-body h1 { @apply text-2xl; }
+.markdown-body h2 { @apply text-xl; }
+.markdown-body h3 { @apply text-lg; }
+.markdown-body ul {
+  @apply list-disc pl-6 mb-4 space-y-1;
+}
+.markdown-body ol {
+  @apply list-decimal pl-6 mb-4 space-y-1;
+}
+.markdown-body a {
+  color: var(--color-emerald-accent);
+  @apply hover:underline;
+  text-shadow: 0 0 5px rgba(0, 255, 180, 0.3);
+}
+.markdown-body strong {
+  color: var(--color-emerald-glow);
+  @apply font-bold;
+}
+.markdown-body blockquote {
+  border-left: 4px solid var(--color-emerald-primary);
+  background: rgba(0, 200, 140, 0.05);
+  @apply pl-4 py-2 italic my-4 rounded-r-md;
+  color: var(--color-text-dim);
+}
+
+/* Diamond UI Utils */
+.glow-border {
+  border: 1px solid rgba(0, 255, 180, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 180, 0.1);
+}
+.glow-text {
+  text-shadow: 0 0 10px rgba(0, 255, 180, 0.5);
+}
+.glass-emerald {
+  background: rgba(20, 40, 35, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 170, 0.1);
+}
