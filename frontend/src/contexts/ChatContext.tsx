@@ -39,6 +39,7 @@ interface ChatContextProps {
   activeMode: 'LEGAL_QA' | 'SECTOR_SEARCH' | 'CONFLICT_ANALYZER' | 'GENERAL_CHAT' | 'AUTO';
   inputBuffer: string;
   isPendingEdit: boolean;
+  editingIndex: number | null;
   isLoading: boolean;
   isSending: boolean;
   isIngesting: boolean;
@@ -52,9 +53,9 @@ interface ChatContextProps {
   createNewSession: () => void;
   deleteSession: (id: string) => Promise<void>;
   renameSession: (id: string, newTitle: string) => Promise<void>;
-  sendMessage: (query: string) => Promise<void>;
+  sendMessage: (query: string, editIndex?: number) => Promise<void>;
   stopResponse: () => void;
-  editLastMessage: () => void;
+  setEditingIndex: (index: number | null) => void;
   cancelEdit: () => void;
   uploadFile: (file: File) => Promise<any>;
   ingestFile: () => Promise<any>;
@@ -73,6 +74,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [activeMode, setActiveMode] = useState<'LEGAL_QA' | 'SECTOR_SEARCH' | 'CONFLICT_ANALYZER' | 'GENERAL_CHAT' | 'AUTO'>('AUTO');
   const [lastFileId, setLastFileId] = useState<string | null>(null);
   const [isPendingEdit, setIsPendingEdit] = useState(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isIngesting, setIsIngesting] = useState(false);
@@ -183,51 +185,59 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     }
   };
 
-  const sendMessage = async (query: string) => {
-    let sid = currentSessionId;
-    if (!sid) {
-      sid = crypto.randomUUID();
-      isCreatingSessionRef.current = true;
-      setCurrentSessionId(sid);
-    }
-
-    const payload = {
-      session_id: sid,
-      query,
-      mode: activeMode,
-      file_path: lastFileId ? `backend/tmp_uploads/${lastFileId}` : null,
-      provider: settings.provider,
-      top_k: settings.top_k,
-      use_reflection: settings.use_reflection,
-      use_rerank: settings.use_rerank,
-    };
-
-    // If we're resending an edited message, sync with backend AND local state now
-    if (isPendingEdit && sid) {
-      try {
-        await fetch(`${API_BASE_URL}/sessions/${sid}/last-turn`, { method: 'DELETE' });
-        
-        // Find last user message index to slice local state
-        const lastUserIdx = [...messages].reverse().findIndex(m => m.role === 'user');
-        if (lastUserIdx !== -1) {
-            const actualIdx = messages.length - 1 - lastUserIdx;
-            setMessages(prev => prev.slice(0, actualIdx));
-        }
-        
-        setIsPendingEdit(false);
-      } catch (e) {
-        console.error("Failed to delete last turn in BE", e);
-      }
-    }
-
-    setMessages(prev => [...prev, { role: 'user', content: query }]);
+  const sendMessage = async (query: string, editIndex?: number) => {
     setIsSending(true);
-
-    // Setup abort controller
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-
+    
     try {
+      let sid = currentSessionId;
+      if (!sid) {
+        sid = crypto.randomUUID();
+        isCreatingSessionRef.current = true;
+        setCurrentSessionId(sid);
+      }
+
+      const payload = {
+        session_id: sid,
+        query,
+        mode: activeMode,
+        file_path: lastFileId ? `backend/tmp_uploads/${lastFileId}` : null,
+        provider: settings.provider,
+        top_k: settings.top_k,
+        use_reflection: settings.use_reflection,
+        use_rerank: settings.use_rerank,
+      };
+
+      // LOGIC SỬA TIN NHẮN (INLINE EDIT)
+      // Nếu là edit, xóa lịch sử trên Server và cắt local state
+      if ((isPendingEdit || editIndex !== undefined) && sid) {
+        try {
+          // Xóa lệnh sửa ở UI ngay lập tức
+          setEditingIndex(null);
+          setIsPendingEdit(false);
+
+          // Gọi API xóa lượt cuối trên Server
+          await fetch(`${API_BASE_URL}/sessions/${sid}/last-turn`, { method: 'DELETE' });
+          
+          // Cập nhật Local state
+          setMessages(prev => {
+            const targetIdx = editIndex !== undefined ? editIndex : prev.length - 1;
+            return prev.slice(0, targetIdx);
+          });
+        } catch (e) {
+          console.error("Failed to handle edit on backend", e);
+        }
+      }
+
+      // Dọn dẹp tin nhắn "Đã dừng" ngay lập tức nếu có
+      setMessages(prev => {
+        const filtered = prev.filter(msg => msg.content !== "_Đã dừng phản hồi._");
+        return [...filtered, { role: 'user', content: query }];
+      });
+
+      // Setup abort controller
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+
       const res = await fetch(`${API_BASE_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -242,7 +252,6 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
           references: data.references || []
         }]);
 
-        // Cập nhật lại danh sách session để hiển thị tiêu đề mới ở Sidebar
         if (data.title) {
           fetchSessions();
         }
@@ -268,22 +277,9 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     }
   };
 
-  const editLastMessage = () => {
-    if (messages.length === 0 || isSending) return;
-    
-    // Find last user message
-    const lastUserIdx = [...messages].reverse().findIndex(m => m.role === 'user');
-    if (lastUserIdx === -1) return;
-    
-    const actualIdx = messages.length - 1 - lastUserIdx;
-    const lastUserMsg = messages[actualIdx];
-    
-    setInputBuffer(lastUserMsg.content);
-    setIsPendingEdit(true);
-  };
-
   const cancelEdit = () => {
     setIsPendingEdit(false);
+    setEditingIndex(null);
     setInputBuffer("");
   };
 
@@ -361,6 +357,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
       activeMode,
       inputBuffer,
       isPendingEdit,
+      editingIndex,
       isLoading,
       isSending,
       isIngesting,
@@ -374,7 +371,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
       renameSession,
       sendMessage,
       stopResponse,
-      editLastMessage,
+      setEditingIndex,
       cancelEdit,
       uploadFile,
       ingestFile,

@@ -5,8 +5,12 @@ import sys
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
 
-# Load env
-load_dotenv()
+# Cấu hình đường dẫn: 3 cấp lên tới Root (scripts/tests/file.py)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, ROOT_DIR)
+
+# Load env từ thư mục gốc
+load_dotenv(dotenv_path=os.path.join(ROOT_DIR, ".env"))
 
 def print_result(name, success, message=""):
     symbol = "✅" if success else "❌"

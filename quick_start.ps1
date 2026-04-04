@@ -85,7 +85,7 @@ Write-Host "`n[6/6] Khoi dong cac dich vu (Embedding, API, Celery, Next.js)..." 
 Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'Embedding Server'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting Embedding Server (Port 8001)...'; python -m backend.retrieval.server"
 
 # Start FastAPI
-Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'FastAPI Backend'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting FastAPI Backend (Port 8000)...'; uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload"
+Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'FastAPI Backend'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting FastAPI Backend (Port 8000)...'; uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir=backend"
 
 # Start Celery Worker
 Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'Celery Worker (Task Queue)'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting Celery Background Worker...'; celery -A backend.workers.celery_app worker --loglevel=info -P solo"

@@ -10,11 +10,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 from backend.retrieval.hybrid_search import retriever
 
 TEST_QUERIES = [
-    "phòng cháy chữa cháy",
-    "xử phạt vi phạm giao thông",
-    "quyền lợi người lao động",
-    "hợp đồng lao động thời vụ",
-    "bảo vệ môi trường",
+    # query_text, kwargs_filters
+    ("phòng cháy chữa cháy", {}),
+    ("xử phạt vi phạm giao thông", {"legal_type": "Nghị định"}),
+    ("quyền lợi người lao động", {"is_appendix": False}),
+    ("hợp đồng lao động thời vụ", {"legal_type": "Luật", "include_inactive": False}),
+    ("bảo vệ môi trường", {}),
 ]
 
 def benchmark():
@@ -30,13 +31,13 @@ def benchmark():
     
     results = []
     
-    for query in TEST_QUERIES:
-        print(f"🔎 Query: \"{query}\"")
+    for query, filters in TEST_QUERIES:
+        print(f"🔎 Query: \"{query}\" | Filters: {filters}")
         try:
-            # Bước 1: Broad Retrieve (Hybrid Dense + Sparse)
+            # Bước 1: Broad Retrieve (Hybrid Dense + Sparse) with metadata filters
             print(f"   [1/3] Đang lấy văn bản thô (Hybrid Search)...")
             t1 = time.perf_counter()
-            broad_hits = retriever.broad_retrieve(query, top_k=40)  # Tăng lên 40 cho Sector Overview
+            broad_hits = retriever.broad_retrieve(query, top_k=40, **filters)  # Tăng lên 40 cho Sector Overview
             t2 = time.perf_counter()
             broad_time = t2 - t1
             print(f"   [1/3] ✅ Xong {len(broad_hits)} hits → {broad_time:.3f}s")
@@ -63,6 +64,7 @@ def benchmark():
             
             results.append({
                 "query": query,
+                "filters": filters,
                 "broad_count": len(broad_hits),
                 "broad_time": broad_time,
                 "rerank_count": len(reranked),

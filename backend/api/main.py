@@ -87,7 +87,7 @@ async def chat_endpoint(request: ChatRequest):
     print(f"    Query: {request.query[:100]}...")
     print(f"    Top-K: {request.top_k} | Rerank: {request.use_rerank} | Reflection: {request.use_reflection}")
 
-    response = rag_engine.chat(
+    response = await rag_engine.chat(
         session_id=session_id,
         query=request.query,
         mode=request.mode,

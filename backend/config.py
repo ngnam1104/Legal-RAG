@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     OLLAMA_CHAT_MODEL: str = "llama3"
     OLLAMA_API_KEY: str = ""
 
+    # RAG Context limits
+    MAX_CONTEXT_CHARS: int = 12000  # ~3000 tokens, safe for Groq 6000 TPM limit
+    
     HF_HOME: str = "./.cache/huggingface"
     SENTENCE_TRANSFORMERS_HOME: str = "./.cache/sentence_transformers"
 
@@ -30,7 +33,7 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
 
     model_config = {
-        "env_file": ".env",
+        "env_file": os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"),
         "case_sensitive": True,
         "extra": "ignore"
     }

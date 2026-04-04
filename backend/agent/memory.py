@@ -177,6 +177,8 @@ class ChatSessionManager:
             val = self.redis_client.get(f"session:{session_id}")
             if val:
                 return json.loads(val)
+        elif session_id in self.local_sessions:
+            return self.local_sessions[session_id]
 
         # Fallback: Lấy từ SQLite (limited)
         return self._get_recent_messages(session_id, limit=self.max_turns * 2)
@@ -308,11 +310,12 @@ class ChatSessionManager:
         finally:
             conn.close()
 
-        # Đồng bộ lại Redis
+        # Đồng bộ lại short-term cache sau khi xóa
+        updated_history = self._get_recent_messages(session_id, limit=self.max_turns * 2)
         if self.use_redis:
-            self.redis_client.set(f"session:{session_id}", json.dumps(history), ex=86400)
+            self.redis_client.set(f"session:{session_id}", json.dumps(updated_history), ex=86400)
         else:
-            self.redis_client.delete(f"session:{session_id}")
+            self.local_sessions[session_id] = updated_history
 
     # =====================================================================
     # TEMPORARY CHUNKS (Session-local RAM)

@@ -1,21 +1,36 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message, useChat } from "@/contexts/ChatContext";
 import LegalReference from "./LegalReference";
-import { Edit2 } from "lucide-react";
+import { Edit2, X, Check, Send } from "lucide-react";
+import TextareaAutosize from "react-textarea-autosize";
 
-export function MessageItem({ message, isLastUserMessage, isDimmed }: { 
+export function MessageItem({ message, index, isLastUserMessage }: { 
   message: Message, 
-  isLastUserMessage?: boolean,
-  isDimmed?: boolean
+  index: number,
+  isLastUserMessage?: boolean
 }) {
   const isUser = message.role === "user";
-  const { editLastMessage, isSending, isPendingEdit } = useChat();
+  const { setEditingIndex, editingIndex, sendMessage, isSending, cancelEdit } = useChat();
+  const [editValue, setEditValue] = useState(message.content);
+  const isEditing = editingIndex === index;
+
+  const handleUpdate = () => {
+    if (!editValue.trim() || editValue.trim() === message.content.trim() || isSending) return;
+    sendMessage(editValue, index);
+  };
+
+  // Đồng bộ nội dung khi bắt đầu sửa
+  useEffect(() => {
+    if (isEditing) {
+      setEditValue(message.content);
+    }
+  }, [isEditing, message.content]);
 
   return (
-    <div className={`flex w-full mb-10 group transition-all duration-500 ${isUser ? "justify-end" : "justify-start"} ${isDimmed ? "opacity-30 blur-[1px]" : "opacity-100"}`}>
+    <div className={`flex w-full mb-10 group transition-all duration-500 ${isUser ? "justify-end" : "justify-start"}`}>
       {/* Bot Avatar */}
       {!isUser && (
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-primary to-emerald-accent flex-shrink-0 flex items-center justify-center text-emerald-base shadow-[0_0_20px_rgba(0,255,180,0.4)] mr-4 mt-1 border border-white/20 transform rotate-3 hover:rotate-0 transition-transform">
@@ -26,20 +41,50 @@ export function MessageItem({ message, isLastUserMessage, isDimmed }: {
       <div className={`max-w-[88%] relative ${isUser ? "" : "glass-emerald p-6 rounded-2xl glow-border shadow-[0_10px_30px_rgba(0,0,0,0.3)]"}`}>
         {/* User Message Bubble */}
         {isUser ? (
-          <div className="relative">
-            <div className="bg-emerald-surface text-text-main px-6 py-4 rounded-3xl rounded-tr-md text-[15px] leading-relaxed break-words border border-emerald-primary/20 shadow-xl">
-              {message.content}
+          isEditing ? (
+            <div className="flex flex-col w-full min-w-[300px] md:min-w-[500px] animate-in fade-in zoom-in-95 duration-300">
+              <TextareaAutosize
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                autoFocus
+                className="w-full bg-emerald-surface/50 text-text-main px-6 py-4 rounded-2xl border-2 border-emerald-primary/40 focus:border-emerald-accent outline-none shadow-2xl resize-none text-[15px] leading-relaxed transition-all"
+              />
+              <div className="flex justify-end gap-3 mt-3">
+                <button 
+                  onClick={() => {
+                      cancelEdit();
+                      setEditValue(message.content);
+                  }}
+                  className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-text-disabled hover:text-white hover:bg-white/5 rounded-xl transition-all border border-white/5"
+                >
+                  Hủy
+                </button>
+                <button 
+                  onClick={handleUpdate}
+                  disabled={!editValue.trim() || editValue.trim() === message.content.trim() || isSending}
+                  className="flex items-center gap-2 px-5 py-2 text-xs font-black uppercase tracking-widest bg-gradient-to-br from-emerald-primary to-emerald-accent text-emerald-base rounded-xl shadow-[0_5px_15px_rgba(0,255,180,0.3)] hover:scale-105 transition-all disabled:opacity-30 disabled:grayscale disabled:scale-100"
+                >
+                  <Send size={14} />
+                  Cập nhật
+                </button>
+              </div>
             </div>
-            {isLastUserMessage && !isSending && !isPendingEdit && (
-              <button 
-                onClick={() => editLastMessage()}
-                className="absolute -left-12 top-1/2 -translate-y-1/2 p-2.5 text-text-disabled hover:text-emerald-accent hover:bg-emerald-primary/10 rounded-full opacity-0 group-hover:opacity-100 transition-all"
-                title="Sửa câu hỏi"
-              >
-                <Edit2 size={18} />
-              </button>
-            )}
-          </div>
+          ) : (
+            <div className="relative">
+              <div className="bg-emerald-surface text-text-main px-6 py-4 rounded-3xl rounded-tr-md text-[15px] leading-relaxed break-words border border-emerald-primary/20 shadow-xl">
+                {message.content}
+              </div>
+              {isLastUserMessage && !isSending && (
+                <button 
+                  onClick={() => setEditingIndex(index)}
+                  className="absolute -left-12 top-1/2 -translate-y-1/2 p-2.5 text-text-disabled hover:text-emerald-accent hover:bg-emerald-primary/10 rounded-full opacity-0 group-hover:opacity-100 transition-all"
+                  title="Sửa câu hỏi"
+                >
+                  <Edit2 size={18} />
+                </button>
+              )}
+            </div>
+          )
         ) : (
           /* Assistant Message Block */
           <div className="text-text-main text-[15.5px] leading-relaxed">
@@ -63,7 +108,7 @@ export function MessageItem({ message, isLastUserMessage, isDimmed }: {
 }
 
 export default function ChatArea() {
-  const { messages, isLoading, isSending, isPendingEdit, activeMode } = useChat();
+  const { messages, isLoading, isSending, editingIndex, activeMode } = useChat();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Auto scroll to bottom
@@ -111,29 +156,34 @@ export default function ChatArea() {
       {messages.map((msg, idx) => {
         const lastUserIdx = messages.length - 1 - [...messages].reverse().findIndex(m => m.role === 'user');
         const isActuallyLastUser = msg.role === 'user' && idx === lastUserIdx;
-        const isDimmed = isPendingEdit && idx >= lastUserIdx;
 
         return (
           <MessageItem 
             key={idx} 
+            index={idx}
             message={msg} 
             isLastUserMessage={isActuallyLastUser} 
-            isDimmed={isDimmed}
           />
         );
       })}
 
       {/* Modern Skeletal Loading during send */}
       {isSending && (
-         <div className="flex justify-start mb-10 animate-pulse">
+         <div className="flex justify-start mb-10 animate-in fade-in slide-in-from-left-4 duration-500">
             <div className="w-10 h-10 rounded-xl bg-emerald-primary/10 flex-shrink-0 flex items-center justify-center text-emerald-accent mr-4 mt-1 border border-emerald-primary/10">
-                <span className="font-black text-xs">...</span>
+                <div className="w-5 h-5 border-2 border-emerald-accent/20 border-t-emerald-accent rounded-full animate-spin"></div>
             </div>
-            <div className="glass-emerald p-6 rounded-2xl border border-emerald-primary/20 w-48 h-18 flex items-center justify-center">
-                <div className="flex gap-2">
-                    <div className="w-2.5 h-2.5 bg-emerald-accent rounded-full animate-bounce shadow-[0_0_10px_rgba(0,255,180,0.5)]"></div>
-                    <div className="w-2.5 h-2.5 bg-emerald-accent rounded-full animate-bounce [animation-delay:0.2s] shadow-[0_0_10px_rgba(0,255,180,0.5)]"></div>
-                    <div className="w-2.5 h-2.5 bg-emerald-accent rounded-full animate-bounce [animation-delay:0.4s] shadow-[0_0_10px_rgba(0,255,180,0.5)]"></div>
+            <div className="glass-emerald p-6 rounded-2xl border border-emerald-primary/20 flex flex-col gap-3 min-w-[200px]">
+                <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-emerald-accent rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-emerald-accent rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                    <div className="w-2 h-2 bg-emerald-accent rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-accent/60 ml-2">Đang xử lý...</span>
+                </div>
+                <div className="space-y-2">
+                    <div className="h-2 w-full bg-emerald-primary/5 rounded-full animate-pulse"></div>
+                    <div className="h-2 w-5/6 bg-emerald-primary/5 rounded-full animate-pulse [animation-delay:0.2s]"></div>
+                    <div className="h-2 w-4/6 bg-emerald-primary/5 rounded-full animate-pulse [animation-delay:0.4s]"></div>
                 </div>
             </div>
          </div>

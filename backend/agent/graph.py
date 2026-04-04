@@ -411,6 +411,7 @@ workflow.add_conditional_edges(
     {
         "sector": "sector",
         "conflict": "conflict",
+        "general": "general",
         "legal_qa": "legal_qa_retrieve"
     }
 )

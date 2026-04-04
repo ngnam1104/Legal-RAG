@@ -12,7 +12,7 @@ export default function ChatInput() {
     sendMessage, uploadFile, ingestFile, clearStagedFile, 
     isSending, isIngesting, stagedFile, 
     stopResponse, inputBuffer, setInputBuffer, 
-    isPendingEdit, cancelEdit, activeMode 
+    isPendingEdit, editingIndex, cancelEdit, activeMode 
   } = useChat();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -169,13 +169,15 @@ export default function ChatInput() {
           placeholder={
             isSending 
               ? "Đang xử lý..." 
-              : isGeneralChat 
-                ? "Bắt đầu cuộc trò chuyện..." 
-                : "Tra cứu pháp luật hoặc phân tích tài liệu..."
+              : editingIndex !== null
+                ? "Đang sửa tin nhắn phía trên..."
+                : isGeneralChat 
+                  ? "Bắt đầu cuộc trò chuyện..." 
+                  : "Tra cứu pháp luật hoặc phân tích tài liệu..."
           }
           className="flex-1 bg-transparent border-none outline-none resize-none py-3 px-1 text-[15.5px] text-text-main placeholder-text-disabled/50 max-h-[300px] font-medium"
           minRows={1}
-          disabled={isSending}
+          disabled={isSending || editingIndex !== null}
         />
 
         {/* Action Button: Send or Stop */}

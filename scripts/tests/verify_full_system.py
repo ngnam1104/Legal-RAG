@@ -7,8 +7,8 @@ import re
 from datetime import datetime
 from typing import Dict, Any, List
 
-# Cấu hình đường dẫn
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Cấu hình đường dẫn: 3 cấp lên tới Root (scripts/tests/file.py)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from backend.retrieval.chunker import AdvancedLegalChunker
 from backend.retrieval.embedder import get_embedder

@@ -1,9 +1,17 @@
 import os
 import sys
 from typing import List, Dict, Any
-from tests.config import QDRANT_URL, QDRANT_COLLECTION
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Cấu hình đường dẫn: 4 cấp lên tới Root (scripts/tests/research/generate/file.py)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+RESEARCH_DIR = os.path.join(ROOT_DIR, "scripts", "tests", "research")
+
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+if RESEARCH_DIR not in sys.path:
+    sys.path.insert(0, RESEARCH_DIR)
+
+from config import QDRANT_URL, QDRANT_COLLECTION
 
 def load_clusters_from_qdrant(limit: int = 10, cluster_size: int = 3) -> List[List[Dict[str, Any]]]:
     """

@@ -23,7 +23,7 @@ def run_quick_evaluation(mode: str = "all", limit: int = 5):
     mode: "1" (Search), "2" (QA), "3" (Conflict), "all"
     """
     import json
-    from tests.config import (
+    from config import (
         MODE1_OUTPUT_PATH, MODE2_OUTPUT_PATH, MODE3_OUTPUT_PATH,
         BENCHMARK_REPORT_JSON
     )

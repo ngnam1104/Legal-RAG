@@ -1,5 +1,8 @@
 import os
 import sys
+import json
+import argparse
+from tqdm import tqdm
 
 # Cấu hình đường dẫn: 4 cấp lên tới Root (scripts/tests/research/generate/file.py)
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))

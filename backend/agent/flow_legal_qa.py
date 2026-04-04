@@ -3,6 +3,7 @@ import json
 import time
 from backend.llm.factory import chat_completion
 from backend.retrieval.hybrid_search import retriever
+from backend.config import settings
 
 # --- PROMPTS ---
 REWRITE_PROMPT = """
@@ -147,7 +148,10 @@ def transform_query(query: str) -> str:
         print(f"       ⚠️ Query Transform failed: {e}. Fallback to original.")
         return query
 
-def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, Any]] = None, max_chars: int = 25000) -> str:
+def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, Any]] = None, max_chars: int = None) -> str:
+    if max_chars is None:
+        max_chars = settings.MAX_CONTEXT_CHARS
+    
     context_parts = []
     current_chars = 0
     

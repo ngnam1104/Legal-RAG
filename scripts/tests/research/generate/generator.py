@@ -1,10 +1,21 @@
 import json
 import time
+import os
+import sys
 from typing import List, Dict, Any
 from groq import Groq
 
-from tests.config import GROQ_API_KEY, QA_MODEL_NAME
-from tests.prompts import MODE1_SEARCH_PROMPT, MODE2_QA_PROMPT, MODE3_CONFLICT_PROMPT
+# Cấu hình đường dẫn: 4 cấp lên tới Root (scripts/tests/research/generate/file.py)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+RESEARCH_DIR = os.path.join(ROOT_DIR, "scripts", "tests", "research")
+
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+if RESEARCH_DIR not in sys.path:
+    sys.path.insert(0, RESEARCH_DIR)
+
+from config import GROQ_API_KEY, QA_MODEL_NAME
+from generate.prompts import MODE1_SEARCH_PROMPT, MODE2_QA_PROMPT, MODE3_CONFLICT_PROMPT
 
 # Cấu hình Groq Client
 client = Groq(api_key=GROQ_API_KEY)
