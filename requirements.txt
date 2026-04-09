@@ -29,7 +29,6 @@ langchain-community
 langgraph
 
 # --- WORKERS & CACHE ---
-celery
 redis
 
 # --- DOCUMENT PROCESSING ---
@@ -47,3 +46,4 @@ onnx
 onnxruntime
 optimum[onnxruntime]
 rich
+fpdf2

@@ -1,21 +1,43 @@
 import os
 import uuid
 import shutil
-from fastapi import FastAPI, UploadFile, File, HTTPException, Form
+import asyncio
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form, Request
 from pydantic import BaseModel
 from typing import Optional, List, Dict
 import uvicorn
+import json
 from qdrant_client import models
+from fastapi.responses import StreamingResponse
 
 from backend.agent.chat_engine import rag_engine
 from backend.config import settings
-
+from backend.retrieval.embedder import embedder
+from backend.retrieval.reranker import reranker
 from fastapi.middleware.cors import CORSMiddleware
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # --- WARMUP STRATEGY ---
+    print("\n🔥 [Startup] Warming up local models (Embedder & Reranker)...")
+    try:
+        from backend.retrieval.embedder import get_embedder
+        from backend.retrieval.reranker import reranker
+        get_embedder()
+        reranker._lazy_load()
+        print(f"✅ [Startup] Local models are ready.")
+    except Exception as e:
+        print(f"⚠️ [Startup] Warmup failed: {e}")
+    
+    yield
+    print("\n💤 [Shutdown] Cleaning up...")
 
 app = FastAPI(
     title="Chatbot VBPL API",
     description="API hệ thống RAG VBPL với FastAPI - Bao gồm Chat, Sessions, Upload.",
-    version="3.0.0"
+    version="3.1.0",
+    lifespan=lifespan
 )
 
 # Thêm CORS Middleware để cho phép frontend gọi API
@@ -39,11 +61,12 @@ class ChatRequest(BaseModel):
     query: str
     mode: str = "LEGAL_QA"  # Mặc định: Hỏi đáp Pháp luật
     file_path: Optional[str] = None  # Đường dẫn file tạm nếu cần context riêng
-    provider: str = None
-    model: str = None
+    provider: Optional[str] = None
+    model: Optional[str] = None
+    llm_preset: Optional[str] = "groq_8b" # Mặc định 8B để tiết kiệm
     top_k: int = 3
     use_reflection: bool = True
-    use_rerank: bool = None  # None = dùng config mặc định, True/False = override
+    use_rerank: bool = False
 
 class CreateSessionRequest(BaseModel):
     title: Optional[str] = None
@@ -67,12 +90,13 @@ def health_check():
 # CHAT ENDPOINT
 # =====================================================================
 @app.post("/api/chat")
-async def chat_endpoint(request: ChatRequest):
+async def chat_endpoint(request_data: ChatRequest, fastapi_request: Request):
     """
     Endpoint Hỏi đáp API. Tự động tạo session nếu chưa có.
+    Hỗ trợ ngắt kết nối (Cancellation): Nếu FE hủy request, BE sẽ dừng xử lý.
     """
     # Tự tạo session nếu client không gửi session_id
-    session_id = request.session_id
+    session_id = request_data.session_id
     if not session_id:
         session_id = str(uuid.uuid4())
         rag_engine.memory.create_session(session_id=session_id)
@@ -82,23 +106,40 @@ async def chat_endpoint(request: ChatRequest):
         rag_engine.memory.create_session(session_id=session_id)
 
     print(f"\n--- [API] Incoming Chat Request ---")
-    print(f"    Session ID: {session_id}")
-    print(f"    Mode: {request.mode}")
-    print(f"    Query: {request.query[:100]}...")
-    print(f"    Top-K: {request.top_k} | Rerank: {request.use_rerank} | Reflection: {request.use_reflection}")
+    print(f"    Session ID: {session_id} | Mode: {request_data.mode}")
+    print(f"    Query: {request_data.query[:100]}...")
 
-    response = await rag_engine.chat(
-        session_id=session_id,
-        query=request.query,
-        mode=request.mode,
-        file_path=request.file_path,
-        top_k=request.top_k,
-        use_reflection=request.use_reflection,
-        use_rerank=request.use_rerank
-    )
-    
-    print(f"--- [API] Request Handled Successfully ---\n")
-    return response
+    # Chuyển đổi tên file từ frontend gửi thành đường dẫn tuyệt đối an toàn
+    absolute_file_path = None
+    if request_data.file_path:
+        filename = os.path.basename(request_data.file_path)
+        absolute_file_path = os.path.join(UPLOAD_DIR, filename)
+
+    # LUỒNG STREAMING: Chuyển tiếp sự kiện từ LangGraph tới Client
+    async def event_generator():
+        try:
+            async for event in rag_engine.chat(
+                session_id=session_id,
+                query=request_data.query,
+                mode=request_data.mode,
+                file_path=absolute_file_path,
+                llm_preset=request_data.llm_preset,
+                top_k=request_data.top_k,
+                use_reflection=request_data.use_reflection,
+                use_rerank=request_data.use_rerank
+            ):
+                # Check for disconnect
+                if await fastapi_request.is_disconnected():
+                    print(f"    ⚠️ [API] Client disconnected during stream.")
+                    break
+                
+                # Format as SSE
+                yield f"data: {json.dumps(event, ensure_ascii=False)}\n\n"
+        except Exception as e:
+            print(f"    ❌ [API] Stream error: {e}")
+            yield f"data: {json.dumps({'type': 'error', 'content': str(e)})}\n\n"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
 # =====================================================================
@@ -165,12 +206,48 @@ async def delete_session_last_turn(session_id: str):
     return {"message": "Last turn deleted", "session_id": session_id}
 
 
-# =====================================================================
-# UPLOAD ENDPOINT (giữ nguyên logic cũ)
-# =====================================================================
+class SyncConflictRequest(BaseModel):
+    document_numbers_to_disable: List[str]
+    new_file_id: Optional[str] = None
+    new_filename: Optional[str] = None
+
 # =====================================================================
 # UPLOAD & INGEST ENDPOINTS
 # =====================================================================
+@app.post("/api/documents/sync-conflict")
+async def sync_conflict_database(request: SyncConflictRequest):
+    """
+    Xác nhận đồng bộ cơ sở dữ liệu sau khi nhận kết quả phân tích Xung đột.
+    Sẽ đánh dấu is_active = False đối với danh sách document_number cung cấp.
+    """
+    try:
+        from backend.retrieval.hybrid_search import retriever
+        total_disabled = 0
+        for doc_num in request.document_numbers_to_disable:
+            disabled_chunks = retriever.deactivate_document_by_number(doc_num)
+            total_disabled += disabled_chunks
+            print(f"    [API] Diactivated {disabled_chunks} chunks for document: {doc_num}")
+            
+        ingest_task_id = None
+        if request.new_file_id and request.new_filename:
+            # Trigger Ingestion
+            ext = os.path.splitext(request.new_filename)[1].lower()
+            file_path = os.path.join(UPLOAD_DIR, f"{request.new_file_id}{ext}")
+            
+            if os.path.exists(file_path):
+                from backend.retrieval.ingestion import process_document_task
+                result = process_document_task(file_path)
+                print(f"    -> [API] Synchronous Ingestion Completed: {result.get('status')}")
+            
+        return {
+            "status": "success",
+            "message": f"Cập nhật thành công. Đã vô hiệu hoá {total_disabled} record thuộc về {len(request.document_numbers_to_disable)} văn bản cũ.",
+            "disabled_chunks": total_disabled
+        }
+    except Exception as e:
+        print(f"    ❌ Sync conflict error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/upload")
 async def upload_document(
     file: UploadFile = File(...), 
@@ -257,43 +334,24 @@ async def ingest_document(request: IngestRequest):
                     "document_number": doc_number
                 }
 
-        # 2. Trigger Background Task
-        from backend.workers.tasks import process_document_task
-        task = process_document_task.delay(file_path)
-        print(f"    -> Ingestion Task Triggered: {task.id}")
+        # 2. Execute Task Synchronously
+        from backend.retrieval.ingestion import process_document_task
+        print(f"    -> Running Ingestion synchronously...")
+        result = process_document_task(file_path)
 
-        return {
-            "status": "success",
-            "message": "Bắt đầu nạp dữ liệu vào DB...",
-            "task_id": task.id
-        }
+        if result.get("status") == "success":
+            return {
+                "status": "success",
+                "message": "Nạp dữ liệu vào DB thành công.",
+                "result": result
+            }
+        else:
+            raise HTTPException(status_code=500, detail=result.get("error", "Unknown error during ingestion"))
 
     except Exception as e:
         print(f"    ❌ Ingestion Error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-
-@app.get("/api/task-status/{task_id}")
-async def get_task_status(task_id: str):
-    try:
-        from backend.workers.tasks import process_document_task
-        task_result = process_document_task.AsyncResult(task_id)
-
-        if task_result.ready():
-            result = task_result.result
-            if isinstance(result, dict) and result.get("status") == "success":
-                return {
-                    "status": "completed",
-                    "result": result
-                }
-            else:
-                return {
-                    "status": "failed",
-                    "error": str(result.get("error") if isinstance(result, dict) else result)
-                }
-        return {"status": "pending"}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
 
 
 if __name__ == "__main__":

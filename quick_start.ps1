@@ -62,8 +62,8 @@ if (-Not (Test-Path "backend/tmp_uploads")) {
 }
 
 # 5. Dọn dẹp cổng cũ — tắt hết các tiến trình Next.js/FastAPI/Embedding còn sót
-Write-Host "`n[5/6] Don dep cac cong cu (3000-3002, 8000, 8001)..." -ForegroundColor Cyan
-$portsToKill = @(3000, 3001, 3002, 8000, 8001)
+Write-Host "`n[5/6] Don dep cac cong cu (3000-3001, 8000, 8001)..." -ForegroundColor Cyan
+$portsToKill = @(3000, 3001, 8000, 8001)
 foreach ($port in $portsToKill) {
     $pidsToRemove = (Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue).OwningProcess | Sort-Object -Unique
     foreach ($p in $pidsToRemove) {
@@ -79,7 +79,7 @@ foreach ($port in $portsToKill) {
 Start-Sleep -Seconds 2
 
 # 6. Start Services
-Write-Host "`n[6/6] Khoi dong cac dich vu (Embedding, API, Celery, Next.js)..." -ForegroundColor Cyan
+Write-Host "`n[6/6] Khoi dong cac dich vu (Embedding, API, Next.js)..." -ForegroundColor Cyan
 
 # Start Embedding Server
 Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'Embedding Server'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting Embedding Server (Port 8001)...'; python -m backend.retrieval.server"
@@ -87,17 +87,24 @@ Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExi
 # Start FastAPI
 Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'FastAPI Backend'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting FastAPI Backend (Port 8000)...'; uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir=backend"
 
-# Start Celery Worker
-Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'Celery Worker (Task Queue)'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting Celery Background Worker...'; celery -A backend.workers.celery_app worker --loglevel=info -P solo"
-
-Write-Host "Dang cho cac backend services khoi dong an toan..." -ForegroundColor Yellow
-Start-Sleep -Seconds 5
+Write-Host "VUI LONG DOI: Backend dang thuc hien WARMUP (Nap model vao RAM)..." -ForegroundColor Yellow
+Write-Host "Thoi gian cho du kien: 20-30 giay de dam bao truy van 'Zero-Wait' ngay tu cau dau tien." -ForegroundColor Gray
+Start-Sleep -Seconds 20
 
 # Start Next.js Frontend — Cố định cổng 3000
 Start-Process powershell -WorkingDirectory "$PSScriptRoot/frontend" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'Next.js Frontend'", "-Command", "`$env:PORT=3000; npm run dev -- --port 3000"
 
-Write-Host "`nHoan tat! He thong Legal-RAG (Local) dang duoc khoi dong tren nhieu cuaso." -ForegroundColor Green
-Write-Host "Frontend: http://localhost:3000  |  API: http://localhost:8000" -ForegroundColor Cyan
-Write-Host "Vui long doi Embedding Server tai model (bge-m3) neu day la lan dau chay tren may!" -ForegroundColor Yellow
-Write-Host "`nLuu y: He thong hien da ho tro Che do Tai len Tam thoi (Staged Ingestion) giup truy van nhanh trong RAM!" -ForegroundColor Magenta
-
+Write-Host "`n============================================================" -ForegroundColor Green
+Write-Host " HOAN TAT! HE THONG LEGAL-RAG (LOCAL) DA SAN SANG" -ForegroundColor Green
+Write-Host "============================================================" -ForegroundColor Green
+Write-Host "  - Frontend: http://localhost:3000" -ForegroundColor Cyan
+Write-Host "  - Backend API: http://localhost:8000" -ForegroundColor Cyan
+Write-Host "------------------------------------------------------------" -ForegroundColor DarkGray
+Write-Host "🚀 TINH NANG MOI DA DUOC CAP NHAT:" -ForegroundColor Magenta
+Write-Host "  [+] Zero-Wait Warmup: Models da duoc nap vao RAM ngay khi khoi dong." -ForegroundColor White
+Write-Host "  [+] Smart Routing: Conflict Analyzer dung Llama 3.3-70B (Max Reasoning)." -ForegroundColor White
+Write-Host "  [+] Tiered RRF: Toi uu hoa truy xuat rieng cho Phu luc & Bang bieu." -ForegroundColor White
+Write-Host "  [+] Async Cancel: Ho tro FE huy request ngay lap tuc de tiet kiem TPM." -ForegroundColor White
+Write-Host "------------------------------------------------------------" -ForegroundColor DarkGray
+Write-Host "Vui long kiem tra cac cua so Terminal de theo doi log chi tiet." -ForegroundColor Yellow
+Write-Host "Chuc ban co trai nghiem tra cuu phap luat tuyet voi!`n" -ForegroundColor Green

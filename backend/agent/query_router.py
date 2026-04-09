@@ -69,7 +69,7 @@ class QueryRouter:
         
         try:
             # Force JSON mode by prompt
-            response_text = chat_completion(messages, temperature=0.0)
+            response_text = chat_completion(messages, temperature=0.1)
             
             # Extract JSON block if surrounded by markdown
             if "```json" in response_text:

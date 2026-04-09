@@ -1,10 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 
 export interface Message {
   role: 'user' | 'assistant';
   content: string;
+  attached_file?: { id: string; name: string };
   references?: Array<{
     title: string;
     article: string;
@@ -24,7 +26,7 @@ export interface Session {
 }
 
 export interface ChatSettings {
-  provider: string;
+  llm_preset: string; // 'groq_8b', 'groq_70b', 'gemini', 'ollama'
   top_k: number;
   use_reflection: boolean;
   use_rerank: boolean;
@@ -44,6 +46,7 @@ interface ChatContextProps {
   isSending: boolean;
   isIngesting: boolean;
   stagedFile: { id: string, name: string } | null;
+  processingSteps: { text: string; time: string }[];
   
   // Actions
   setInputBuffer: (text: string) => void;
@@ -60,6 +63,7 @@ interface ChatContextProps {
   uploadFile: (file: File) => Promise<any>;
   ingestFile: () => Promise<any>;
   clearStagedFile: () => void;
+  syncConflict: (docNumbers: string[], fileId?: string, filename?: string) => Promise<any>;
 }
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
@@ -71,7 +75,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [sessions, setSessions] = useState<Session[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputBuffer, setInputBuffer] = useState("");
-  const [activeMode, setActiveMode] = useState<'LEGAL_QA' | 'SECTOR_SEARCH' | 'CONFLICT_ANALYZER' | 'GENERAL_CHAT' | 'AUTO'>('AUTO');
+  const [activeMode, setActiveMode] = useState<'LEGAL_QA' | 'SECTOR_SEARCH' | 'CONFLICT_ANALYZER' | 'GENERAL_CHAT' | 'AUTO'>('GENERAL_CHAT');
   const [lastFileId, setLastFileId] = useState<string | null>(null);
   const [isPendingEdit, setIsPendingEdit] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -79,13 +83,14 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [isSending, setIsSending] = useState(false);
   const [isIngesting, setIsIngesting] = useState(false);
   const [stagedFile, setStagedFile] = useState<{ id: string, name: string } | null>(null);
+  const [processingSteps, setProcessingSteps] = useState<{ text: string; time: string }[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
   const isCreatingSessionRef = useRef(false);
   const [settings, setSettingsState] = useState<ChatSettings>({
-    provider: 'groq',
+    llm_preset: 'groq_70b',
     top_k: 3,
     use_reflection: true,
-    use_rerank: true,
+    use_rerank: false, // Mặc định tắt Reranker để ưu tiên tốc độ xử lý Local
   });
 
   const setSettings = (newSettings: Partial<ChatSettings>) => {
@@ -129,13 +134,17 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     fetchSessions();
   }, [fetchSessions]);
 
-  // AUTO-LOAD LATEST SESSION on first page load
+  // AUTO-LOAD LATEST SESSION on first page load - DISABLED per user request
+  // We want to ALWAYS start a New Chat on refresh.
   useEffect(() => {
-    if (!hasInitializedRef.current && sessions.length > 0 && currentSessionId === null) {
-      setCurrentSessionId(sessions[0].id);
+    if (!hasInitializedRef.current && sessions.length > 0) {
+      // setCurrentSessionId(sessions[0].id); // DISABLED
       hasInitializedRef.current = true;
     }
-  }, [sessions, currentSessionId]);
+  }, [sessions]);
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Load messages when session changes
   useEffect(() => {
@@ -151,10 +160,21 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   }, [currentSessionId, fetchMessages]);
 
   const createNewSession = () => {
-    // Refresh sidebar to finalize previous session in history
-    fetchSessions();
-    setCurrentSessionId(null); // Just set to null, let sendMessage generate ID when user types
+    // 1. Dừng ngay LLM nếu đang phản hồi
+    stopResponse();
+
+    // 2. Force a fresh state locally
     setMessages([]);
+    setInputBuffer("");
+    setStagedFile(null);
+    setLastFileId(null);
+    isCreatingSessionRef.current = false;
+    
+    // 3. Navigate home
+    router.push("/");
+    
+    // 4. Refresh sidebar to ensure any previous session is up to date
+    fetchSessions();
   };
 
   const renameSession = async (id: string, newTitle: string) => {
@@ -176,8 +196,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     try {
       await fetch(`${API_BASE_URL}/sessions/${id}`, { method: 'DELETE' });
       if (currentSessionId === id) {
-        setCurrentSessionId(null);
-        setMessages([]);
+        router.push("/");
       }
       fetchSessions();
     } catch (e) {
@@ -194,49 +213,57 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
         sid = crypto.randomUUID();
         isCreatingSessionRef.current = true;
         setCurrentSessionId(sid);
+        if (pathname === "/") {
+          router.push(`/${sid}`);
+        }
+        // Refresh sessions to show the new empty/loading session in sidebar if needed
+        fetchSessions();
       }
 
       const payload = {
         session_id: sid,
         query,
         mode: activeMode,
-        file_path: lastFileId ? `backend/tmp_uploads/${lastFileId}` : null,
-        provider: settings.provider,
+        file_path: lastFileId ? lastFileId : null,
+        llm_preset: settings.llm_preset,
         top_k: settings.top_k,
         use_reflection: settings.use_reflection,
         use_rerank: settings.use_rerank,
       };
 
-      // LOGIC SỬA TIN NHẮN (INLINE EDIT)
-      // Nếu là edit, xóa lịch sử trên Server và cắt local state
-      if ((isPendingEdit || editIndex !== undefined) && sid) {
-        try {
-          // Xóa lệnh sửa ở UI ngay lập tức
-          setEditingIndex(null);
-          setIsPendingEdit(false);
-
-          // Gọi API xóa lượt cuối trên Server
-          await fetch(`${API_BASE_URL}/sessions/${sid}/last-turn`, { method: 'DELETE' });
-          
-          // Cập nhật Local state
-          setMessages(prev => {
-            const targetIdx = editIndex !== undefined ? editIndex : prev.length - 1;
-            return prev.slice(0, targetIdx);
-          });
-        } catch (e) {
-          console.error("Failed to handle edit on backend", e);
+      // --- STATE CẬP NHẬT (Xử lý Edit + Append Query) ---
+      setMessages(prev => {
+        let baseMessages = prev;
+        
+        // 1. Nếu là Edit: Cắt bỏ các tin nhắn từ vị trí edit trở đi
+        if (isPendingEdit || editIndex !== undefined) {
+          const targetIdx = editIndex !== undefined ? editIndex : prev.length - 1;
+          baseMessages = prev.slice(0, targetIdx);
         }
+
+        // 2. Dọn dẹp tin nhắn "Đã dừng"
+        const filtered = baseMessages.filter(msg => msg.content !== "_Đã dừng phản hồi._");
+        
+        // 3. Append tin nhắn mới
+        return [...filtered, { role: 'user', content: query, attached_file: stagedFile ? { ...stagedFile } : undefined }];
+      });
+
+      // Reset edit states ngay lập tức
+      setEditingIndex(null);
+      setIsPendingEdit(false);
+
+      // Gọi API xóa trên Server nếu là Edit (Silent)
+      if ((isPendingEdit || editIndex !== undefined) && sid) {
+        fetch(`${API_BASE_URL}/sessions/${sid}/last-turn`, { method: 'DELETE' }).catch(e => console.error("Sync edit error:", e));
       }
 
-      // Dọn dẹp tin nhắn "Đã dừng" ngay lập tức nếu có
-      setMessages(prev => {
-        const filtered = prev.filter(msg => msg.content !== "_Đã dừng phản hồi._");
-        return [...filtered, { role: 'user', content: query }];
-      });
+      // Clear staged file locally
+      clearStagedFile();
 
       // Setup abort controller
       const controller = new AbortController();
       abortControllerRef.current = controller;
+      setProcessingSteps([{ text: "🚀 Bắt đầu...", time: new Date().toLocaleTimeString() }]);
 
       const res = await fetch(`${API_BASE_URL}/chat`, {
         method: 'POST',
@@ -244,20 +271,57 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
-      if (res.ok) {
-        const data = await res.json();
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: data.answer,
-          references: data.references || []
-        }]);
 
-        if (data.title) {
-          fetchSessions();
-        }
-      } else {
+      if (!res.ok) {
         const errText = await res.text();
         setMessages(prev => [...prev, { role: 'assistant', content: `Lỗi API (${res.status}): ${errText}` }]);
+        return;
+      }
+
+      // --- STREAMING HANDLER (SSE) ---
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      
+      if (!reader) throw new Error("No reader available");
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+        
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              
+              if (data.type === "step") {
+                setProcessingSteps(prev => [...prev, { text: data.content, time: new Date().toLocaleTimeString() }]);
+              } 
+              else if (data.type === "final") {
+                const final = data.content;
+                setMessages(prev => [...prev, {
+                  role: 'assistant',
+                  content: final.answer,
+                  references: final.references || []
+                }]);
+                
+                if (final.title) {
+                  fetchSessions();
+                }
+              }
+              else if (data.type === "error") {
+                setMessages(prev => [...prev, { role: 'assistant', content: `Lỗi Hệ thống: ${data.content}` }]);
+              }
+              else if (data.type === "cancelled") {
+                 setMessages(prev => [...prev, { role: 'assistant', content: "_Đã dừng phản hồi._" }]);
+              }
+            } catch (e) {
+              // Ignore partial JSON or malformed SSE lines
+            }
+          }
+        }
       }
     } catch (e: any) {
       if (e.name === 'AbortError') {
@@ -272,8 +336,11 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   };
 
   const stopResponse = () => {
+    console.log("🛑 Client: stopResponse triggered");
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
+      // Chúng ta sẽ setIsSending(false) ngay lập tức để UI cập nhật trạng thái đã dừng
+      setIsSending(false);
     }
   };
 
@@ -327,11 +394,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
       
       const data = await res.json();
       if (res.ok) {
-        if (data.status === "success") {
-          // Manual clear staged file on successful completion will be handled by UI polling if needed
-          // or just return the task_id
-          return data;
-        } else if (data.status === "duplicate") {
+        if (data.status === "success" || data.status === "duplicate") {
           setIsIngesting(false);
           return data;
         }
@@ -348,35 +411,63 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     setLastFileId(null);
   };
 
+  const syncConflict = async (docNumbers: string[], fileId?: string, filename?: string) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/documents/sync-conflict`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          document_numbers_to_disable: docNumbers,
+          new_file_id: fileId,
+          new_filename: filename
+        }),
+      });
+      return await res.json();
+    } catch (e) {
+      console.error("Sync conflict error", e);
+      throw e;
+    }
+  };
+
+  const contextValue = useMemo(() => ({
+    currentSessionId,
+    sessions,
+    messages,
+    settings,
+    activeMode,
+    inputBuffer,
+    isPendingEdit,
+    editingIndex,
+    isLoading,
+    isSending,
+    isIngesting,
+    stagedFile,
+    processingSteps,
+    setInputBuffer,
+    setActiveMode,
+    setCurrentSessionId,
+    setSettings,
+    createNewSession,
+    deleteSession,
+    renameSession,
+    sendMessage,
+    stopResponse,
+    setEditingIndex,
+    cancelEdit,
+    uploadFile,
+    ingestFile,
+    clearStagedFile,
+    syncConflict
+  }), [
+    currentSessionId, sessions, messages, settings, activeMode,
+    inputBuffer, isPendingEdit, editingIndex, isLoading,
+    isSending, isIngesting, stagedFile, processingSteps, fetchSessions, fetchMessages,
+    createNewSession, deleteSession, renameSession, sendMessage,
+    stopResponse, uploadFile, ingestFile, clearStagedFile, syncConflict
+  ]);
+
   return (
-    <ChatContext.Provider value={{
-      currentSessionId,
-      sessions,
-      messages,
-      settings,
-      activeMode,
-      inputBuffer,
-      isPendingEdit,
-      editingIndex,
-      isLoading,
-      isSending,
-      isIngesting,
-      stagedFile,
-      setInputBuffer,
-      setActiveMode,
-      setCurrentSessionId,
-      setSettings,
-      createNewSession,
-      deleteSession,
-      renameSession,
-      sendMessage,
-      stopResponse,
-      setEditingIndex,
-      cancelEdit,
-      uploadFile,
-      ingestFile,
-      clearStagedFile
-    }}>
+    <ChatContext.Provider value={contextValue}>
       {children}
     </ChatContext.Provider>
   );

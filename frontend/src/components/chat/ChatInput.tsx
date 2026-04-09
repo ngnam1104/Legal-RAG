@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { Paperclip, ArrowUp, X, Square } from "lucide-react";
+import { Paperclip, ArrowUp, X, Square, Database, Plus } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useChat } from "@/contexts/ChatContext";
 import toast from "react-hot-toast";
@@ -69,35 +69,18 @@ export default function ChatInput() {
         return;
       }
 
-      const taskId = data.task_id;
-      // Polling function
-      const pollTimer = setInterval(async () => {
-        try {
-          const res = await fetch(`${API_BASE_URL}/task-status/${taskId}`);
-          if (res.ok) {
-            const statusData = await res.json();
-            if (statusData.status === "completed") {
-              clearInterval(pollTimer);
-              clearStagedFile();
-              toast.success(
-                <div>
-                  <strong>{statusData.result.filename} đã được đưa lên DB!</strong><br/>
-                  <p className="text-sm mt-1">{statusData.result.summary}</p>
-                </div>, 
-                { id: toastId, duration: 8000 }
-              );
-            } else if (statusData.status === "failed") {
-              clearInterval(pollTimer);
-              toast.error(`Lỗi nạp DB: ${statusData.error}`, { id: toastId });
-            }
-          }
-        } catch (err) {
-          console.error("Polling error", err);
-        }
-      }, 3000);
-
-      // Stop polling after 3 minutes
-      setTimeout(() => clearInterval(pollTimer), 180000);
+      if (data.status === "success" && data.result) {
+        clearStagedFile();
+        toast.success(
+          <div>
+            <strong>{data.result.filename} đã được đưa lên DB!</strong><br/>
+            <p className="text-sm mt-1">{data.result.summary}</p>
+          </div>, 
+          { id: toastId, duration: 8000 }
+        );
+      } else {
+        toast.error("Phản hồi không hợp lệ từ server.", { id: toastId });
+      }
     } catch (error: any) {
       toast.error(`Lỗi: ${error.message}`, { id: toastId });
     }
@@ -107,23 +90,6 @@ export default function ChatInput() {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      {/* File Staging indicator if any */}
-      {stagedFile && !isGeneralChat && (
-        <div className="flex items-center justify-between px-4 py-2 bg-emerald-primary/10 border border-emerald-primary/30 rounded-xl mb-1 animate-in fade-in slide-in-from-bottom-2">
-          <div className="flex items-center gap-2 overflow-hidden">
-             <Paperclip size={14} className="text-emerald-accent" />
-             <span className="text-xs font-bold text-emerald-accent truncate">{stagedFile.name} (Chưa nạp DB)</span>
-          </div>
-          <div className="flex gap-2">
-             <button onClick={handleIngest} disabled={isIngesting} className="text-[10px] font-black uppercase tracking-widest text-emerald-base bg-emerald-accent px-3 py-1 rounded-md hover:brightness-110 disabled:opacity-50">
-               {isIngesting ? "Đang nạp..." : "Nạp DB"}
-             </button>
-             <button onClick={clearStagedFile} className="text-text-disabled hover:text-red-400">
-               <X size={14} />
-             </button>
-          </div>
-        </div>
-      )}
 
       <div className="flex items-end gap-2 bg-emerald-surface/90 backdrop-blur-xl rounded-[2rem] p-2 pr-4 pl-4 border border-emerald-primary/20 shadow-2xl focus-within:border-emerald-primary/60 focus-within:shadow-[0_0_25px_rgba(0,255,180,0.15)] transition-all group/input relative">
         
@@ -184,7 +150,7 @@ export default function ChatInput() {
         {isSending ? (
           <button 
             onClick={stopResponse}
-            className="p-3 rounded-full mb-1 bg-red-900/20 text-red-400 hover:bg-red-900/40 transition-colors border border-red-900/30"
+            className="p-3 rounded-full mb-1 bg-red-900/20 text-red-400 hover:bg-red-900/40 transition-colors border border-red-900/30 relative z-50 pointer-events-auto"
             type="button"
             title="Dừng phản hồi"
           >
@@ -205,6 +171,47 @@ export default function ChatInput() {
           </button>
         )}
       </div>
+
+      {/* NEW STAGED FILE UI - Horizontal box, vertical buttons, below input */}
+      {stagedFile && !isGeneralChat && (
+        <div className="flex items-center gap-3 w-fit max-w-[40%] min-w-[200px] bg-emerald-surface/80 backdrop-blur-md border border-emerald-primary/30 rounded-2xl p-2 pr-2 animate-in fade-in slide-in-from-top-2 shadow-lg">
+          {/* File Info */}
+          <div className="flex items-center gap-2 flex-1 min-w-0 px-1">
+             <div className="p-2 bg-emerald-primary/10 rounded-lg">
+               <Paperclip size={16} className="text-emerald-accent" />
+             </div>
+             <div className="flex flex-col overflow-hidden">
+                <span className="text-[13px] font-bold text-text-main truncate">{stagedFile.name}</span>
+                <span className="text-[10px] text-emerald-accent font-medium uppercase tracking-wider">
+                  {isIngesting ? "Đang nạp dữ liệu..." : "Chờ nạp DB"}
+                </span>
+             </div>
+          </div>
+
+          {/* Action Vertical Stack */}
+          <div className="flex flex-col gap-1 border-l border-emerald-primary/10 pl-2">
+             <button 
+               onClick={handleIngest} 
+               disabled={isIngesting} 
+               className={`p-1.5 rounded-lg transition-all flex items-center justify-center group/db ${
+                 isIngesting ? "bg-emerald-accent/20 animate-pulse text-emerald-accent" : "bg-emerald-accent/10 text-emerald-accent hover:bg-emerald-accent hover:text-emerald-base"
+               }`}
+               title="Nạp vào DB"
+             >
+               <Plus size={10} className="mr-0.5" />
+               <Database size={14} />
+             </button>
+             <button 
+               onClick={clearStagedFile} 
+               disabled={isIngesting}
+               className="p-1.5 rounded-lg text-text-disabled hover:bg-red-400/10 hover:text-red-400 transition-all flex items-center justify-center disabled:opacity-30"
+               title="Hủy tài liệu"
+             >
+               <X size={14} />
+             </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

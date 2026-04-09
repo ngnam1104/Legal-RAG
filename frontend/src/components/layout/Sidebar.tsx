@@ -3,8 +3,10 @@
 import { useState, useRef } from "react";
 import { MessageSquarePlus, MessageSquare, Trash2, Edit2, Check, X } from "lucide-react";
 import { useChat } from "@/contexts/ChatContext";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
+  const router = useRouter();
   const { sessions, currentSessionId, setCurrentSessionId, createNewSession, deleteSession, renameSession } = useChat();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
@@ -53,7 +55,11 @@ export default function Sidebar() {
                     ? "bg-emerald-surface/80 text-emerald-accent font-semibold border-emerald-primary/40 shadow-[inset_0_0_10px_rgba(0,255,180,0.1)]" 
                     : "text-text-dim hover:bg-emerald-surface/40 hover:text-text-main border-transparent"
                 }`}
-                onClick={() => !isEditing && setCurrentSessionId(sess.id)}
+                onClick={() => {
+                  if (!isEditing) {
+                    router.push(`/${sess.id}`);
+                  }
+                }}
               >
                 <div className="flex items-center gap-3 overflow-hidden flex-1">
                   <MessageSquare size={16} className={isActive ? "text-emerald-accent glow-text" : "text-text-disabled"} />

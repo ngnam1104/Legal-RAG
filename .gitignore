@@ -23,12 +23,9 @@ wheels/
 .ruff_cache/
 .mypy_cache/
 
-# Virtual Environment
+# Virtual Environment (Python)
 venv/
-.venv/
-env/
-ENV/
-env.bak/
+venv.bak/
 venv.bak/
 
 # Environment Variables
@@ -70,8 +67,6 @@ local_qdrant_db/
 local_qdrant_data/
 qdrant_storage/
 qdrant_snapshots/
-local_redis_data/
-legal_docs/
 tmp_uploads/
 test_out.txt
 *.log
@@ -79,9 +74,7 @@ test_out.txt
 *.db
 !example.db
 
-# Data & Personal files
-*.csv
-note.txt
+
 
 # Models & Cache
 huggingface_cache/

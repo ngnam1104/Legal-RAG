@@ -6,12 +6,6 @@ import { useChat } from "@/contexts/ChatContext";
 
 const modes = [
   {
-    id: "AUTO",
-    label: "Tự động thông minh",
-    icon: <span className="text-sm font-bold">AI</span>,
-    description: "AI tự động nhận diện ý định và chọn luồng xử lý phù hợp",
-  },
-  {
     id: "GENERAL_CHAT",
     label: "Trò chuyện tự do",
     icon: <Coffee size={16} />,
@@ -35,6 +29,12 @@ const modes = [
     icon: <AlertTriangle size={16} />,
     description:
       "Rà soát điểm trái luật giữa văn bản nội bộ với quy định nhà nước",
+  },
+  {
+    id: "AUTO",
+    label: "Tự động thông minh",
+    icon: <span className="text-sm font-bold">AI</span>,
+    description: "AI tự động nhận diện ý định và chọn luồng xử lý phù hợp",
   },
 ] as const;
 

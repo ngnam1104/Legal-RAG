@@ -20,8 +20,30 @@ def get_client(provider: str):
             provider = "groq"
     return _clients[provider]
 
-def chat_completion(messages: List[Dict[str, str]], temperature: float = 0.3, provider: str = None, model: str = None) -> str:
-    """Unified entry point for LLM chat completion."""
+def chat_completion(messages: List[Dict[str, str]], temperature: float = 0.1, provider: str = None, model: str = None, llm_preset: str = None) -> str:
+    """Unified entry point for LLM chat completion. Always returns str, never None."""
+    # 1. Preset Mapping
+    if llm_preset:
+        if llm_preset == "groq_8b":
+            provider = "groq"
+            # Force everything to 8B even if a node attempts to use CORE_MODEL
+            model = settings.LLM_ROUTING_MODEL
+        elif llm_preset == "groq_70b":
+            provider = "groq"
+            # Keep existing logic: Use whatever model is passed (ROUTING or CORE)
+            model = model or settings.LLM_ROUTING_MODEL
+        elif llm_preset == "gemini":
+            provider = "gemini"
+            model = settings.GEMINI_CHAT_MODEL
+        elif llm_preset == "ollama":
+            provider = "ollama"
+            model = settings.OLLAMA_CHAT_MODEL
+            
+    # 2. Final Fallbacks
     provider = provider or settings.LLM_PROVIDER or "groq"
+    model = model or getattr(settings, "LLM_ROUTING_MODEL", settings.LLM_CHAT_MODEL)
+    
     client = get_client(provider)
-    return client.chat_completion(messages, temperature=temperature, model=model)
+    result = client.chat_completion(messages, temperature=temperature, model=model)
+    # Guard: LLM APIs can return None (e.g. Groq message.content=null, Gemini safety filter)
+    return result if isinstance(result, str) else (str(result) if result is not None else "")

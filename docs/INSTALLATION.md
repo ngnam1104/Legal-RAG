@@ -199,7 +199,7 @@ Script sẽ tự động thực hiện:
 3. Cài đặt thư viện Python
 4. Kiểm tra file `.env`
 5. Dọn dẹp cổng cũ
-6. Khởi động 4 dịch vụ song song (mỗi dịch vụ 1 cửa sổ terminal)
+6. Khởi động các dịch vụ song song (mỗi dịch vụ 1 cửa sổ terminal)
 
 ### Cách 2: Khởi động thủ công từng bước
 
@@ -221,10 +221,7 @@ python -m backend.retrieval.server
 # Bước 5: Khởi động API Backend (Cửa sổ terminal 2)
 uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload
 
-# Bước 6: Khởi động Celery Worker (Cửa sổ terminal 3)
-celery -A backend.workers.celery_app worker --loglevel=info -P solo
-
-# Bước 7: Khởi động Frontend (Cửa sổ terminal 4)
+# Bước 6: Khởi động Frontend (Cửa sổ terminal 3)
 cd frontend
 npm run dev -- --port 3000
 ```
@@ -321,7 +318,7 @@ docker logs legal-rag-redis   # Xem logs lỗi
                             └──────────────┘
 ```
 
-### Tóm tắt Các Dịch vụ cần chạy (5 dịch vụ):
+### Tóm tắt Các Dịch vụ cần chạy (4 dịch vụ):
 
 | # | Dịch vụ | Port | Vai trò |
 |:--|:--------|:-----|:--------|

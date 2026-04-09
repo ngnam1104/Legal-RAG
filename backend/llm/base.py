@@ -5,7 +5,7 @@ class BaseLLMClient(ABC):
     """Lớp nền tảng trừu tượng cho tất cả các LLM Client."""
     
     @abstractmethod
-    def chat_completion(self, messages: List[Dict[str, str]], temperature: float = 0.3, model: str = None) -> str:
+    def chat_completion(self, messages: List[Dict[str, str]], temperature: float = 0.1, model: str = None) -> str:
         """
         Gửi hội thoại tới LLM và trả về phản hồi dưới dạng string.
         

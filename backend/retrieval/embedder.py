@@ -54,19 +54,26 @@ class LocalBGEHybridEncoder(BaseEmbedder):
             values=[val for _, val in pairs],
         )
 
-    def encode_hybrid(self, texts: Union[str, List[str]], batch_size: int = 8) -> Tuple[List[List[float]], List[SparseVector]]:
+    def encode_hybrid(self, texts: Union[str, List[str]], batch_size: int = 16) -> Tuple[List[List[float]], List[SparseVector]]:
         """
         Thực hiện cả dense và sparse encoding trong DUY NHẤT 1 LẦN pass qua model.
         Sử dụng Lexicon Weights (Học máy) nguyên bản của BGE-M3.
         """
+        # Guard: handle None input
+        if texts is None:
+            texts = ["N/A"]
         if isinstance(texts, str):
             texts = [texts]
+
+        # Guard: ensure all items are non-empty strings (prevents TextEncodeInput tokenizer errors)
+        texts = [str(t) if t is not None else "" for t in texts]
+        texts = [t if t.strip() else "N/A" for t in texts]
 
         # SPEED OPTIMIZATION: SINGLE FORWARD PASS
         outputs = self.model.encode(
             texts,
-            batch_size=batch_size,
-            max_length=1024,
+            batch_size=(128 if torch.cuda.is_available() else batch_size),
+            max_length=4096,
             return_dense=True,
             return_sparse=True,
             return_colbert_vecs=False,

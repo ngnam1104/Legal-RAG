@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message, useChat } from "@/contexts/ChatContext";
 import LegalReference from "./LegalReference";
-import { Edit2, X, Check, Send } from "lucide-react";
+import { Edit2, X, Check, Send, Paperclip } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 
 export function MessageItem({ message, index, isLastUserMessage }: { 
@@ -13,8 +13,9 @@ export function MessageItem({ message, index, isLastUserMessage }: {
   isLastUserMessage?: boolean
 }) {
   const isUser = message.role === "user";
-  const { setEditingIndex, editingIndex, sendMessage, isSending, cancelEdit } = useChat();
+  const { setEditingIndex, editingIndex, sendMessage, isSending, cancelEdit, syncConflict } = useChat();
   const [editValue, setEditValue] = useState(message.content);
+  const [syncStatus, setSyncStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const isEditing = editingIndex === index;
 
   const handleUpdate = () => {
@@ -70,7 +71,17 @@ export function MessageItem({ message, index, isLastUserMessage }: {
               </div>
             </div>
           ) : (
-            <div className="relative">
+            <div className="relative flex flex-col gap-2 items-end">
+              {message.attached_file && (
+                <div className="flex items-center gap-2 bg-emerald-surface/80 backdrop-blur-md border border-emerald-primary/30 rounded-xl p-2 pr-3 animate-in fade-in zoom-in shadow-md self-end mb-1">
+                  <div className="p-1.5 bg-emerald-primary/10 rounded-lg">
+                    <Paperclip size={14} className="text-emerald-accent" />
+                  </div>
+                  <span className="text-[12px] font-bold text-text-main truncate max-w-[200px]">
+                    {message.attached_file.name}
+                  </span>
+                </div>
+              )}
               <div className="bg-emerald-surface text-text-main px-6 py-4 rounded-3xl rounded-tr-md text-[15px] leading-relaxed break-words border border-emerald-primary/20 shadow-xl">
                 {message.content}
               </div>
@@ -86,14 +97,57 @@ export function MessageItem({ message, index, isLastUserMessage }: {
             </div>
           )
         ) : (
-          /* Assistant Message Block */
           <div className="text-text-main text-[15.5px] leading-relaxed">
             <div className="markdown-body">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {message.content}
+                {message.content.replace(/<!-- DB_UPDATE_PROPOSAL: .* -->/g, "")}
               </ReactMarkdown>
             </div>
             
+            {/* Logic Phê duyệt cập nhật DB (Conflict Analyzer) */}
+            {message.content.includes("<!-- DB_UPDATE_PROPOSAL:") && (
+                <div className="mt-6 p-5 rounded-2xl bg-emerald-accent/5 border border-emerald-accent/20 animate-in fade-in slide-in-from-bottom-2 duration-700">
+                    <p className="text-sm font-bold text-emerald-accent mb-4 flex items-center gap-2">
+                         <Check size={16} /> 
+                         Đề xuất cập nhật Hệ thống
+                    </p>
+                    <p className="text-xs text-text-dim mb-5 leading-relaxed">
+                        Phát hiện văn bản mới có hiệu lực thay thế dữ liệu hiện tại. Bạn có muốn vô hiệu hóa các văn bản cũ và nạp văn bản mới này vào cơ sở dữ liệu?
+                    </p>
+                    
+                    {syncStatus === 'success' ? (
+                        <div className="flex items-center gap-2 text-emerald-primary font-bold text-sm bg-emerald-primary/10 p-3 rounded-xl">
+                            <Check size={18} /> Đã cập nhật cơ sở dữ liệu thành công!
+                        </div>
+                    ) : (
+                        <button
+                            disabled={syncStatus === 'loading'}
+                            onClick={async () => {
+                                try {
+                                    setSyncStatus('loading');
+                                    const match = message.content.match(/<!-- DB_UPDATE_PROPOSAL: (.*) -->/);
+                                    if (match && match[1]) {
+                                        const proposal = JSON.parse(match[1]);
+                                        await syncConflict(
+                                            proposal.document_numbers_to_disable, 
+                                            proposal.new_file_id, 
+                                            proposal.new_filename
+                                        );
+                                        setSyncStatus('success');
+                                    }
+                                } catch (e) {
+                                    setSyncStatus('error');
+                                }
+                            }}
+                            className="w-full py-3 rounded-xl bg-emerald-accent text-emerald-base font-black uppercase tracking-widest text-[11px] shadow-lg hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                        >
+                            {syncStatus === 'loading' ? "Đang đồng bộ..." : "Xác nhận cập nhật dữ liệu"}
+                        </button>
+                    )}
+                    {syncStatus === 'error' && <p className="text-[10px] text-red-400 mt-2">Có lỗi xảy ra khi đồng bộ.</p>}
+                </div>
+            )}
+
             {/* References Accordion */}
             {message.references && message.references.length > 0 && (
               <div className="mt-8 pt-8 border-t border-emerald-primary/10">
@@ -108,7 +162,7 @@ export function MessageItem({ message, index, isLastUserMessage }: {
 }
 
 export default function ChatArea() {
-  const { messages, isLoading, isSending, editingIndex, activeMode } = useChat();
+  const { messages, isLoading, isSending, editingIndex, activeMode, processingSteps, currentSessionId } = useChat();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Auto scroll to bottom
@@ -125,7 +179,7 @@ export default function ChatArea() {
     );
   }
 
-  if (messages.length === 0) {
+  if (messages.length === 0 && !isLoading && !currentSessionId) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-center px-4 py-20 animate-in fade-in zoom-in duration-700">
         <div className="w-28 h-28 bg-gradient-to-br from-emerald-primary to-emerald-accent rounded-[2.5rem] flex items-center justify-center text-emerald-base text-6xl mb-10 shadow-[0_15px_50px_rgba(0,255,180,0.4)] border-2 border-white/20 transform hover:scale-110 transition-transform cursor-default">
@@ -173,12 +227,14 @@ export default function ChatArea() {
             <div className="w-10 h-10 rounded-xl bg-emerald-primary/10 flex-shrink-0 flex items-center justify-center text-emerald-accent mr-4 mt-1 border border-emerald-primary/10">
                 <div className="w-5 h-5 border-2 border-emerald-accent/20 border-t-emerald-accent rounded-full animate-spin"></div>
             </div>
-            <div className="glass-emerald p-6 rounded-2xl border border-emerald-primary/20 flex flex-col gap-3 min-w-[200px]">
-                <div className="flex items-center gap-2 mb-2">
+            <div className="glass-emerald p-6 rounded-2xl border border-emerald-primary/20 flex flex-col gap-3 min-w-[300px]">
+                <div className="flex items-center gap-2 mb-2 mt-1">
                     <div className="w-2 h-2 bg-emerald-accent rounded-full animate-bounce"></div>
                     <div className="w-2 h-2 bg-emerald-accent rounded-full animate-bounce [animation-delay:0.2s]"></div>
                     <div className="w-2 h-2 bg-emerald-accent rounded-full animate-bounce [animation-delay:0.4s]"></div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-accent/60 ml-2">Đang xử lý...</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-accent/60 ml-2">
+                        Đang suy nghĩ...
+                    </span>
                 </div>
                 <div className="space-y-2">
                     <div className="h-2 w-full bg-emerald-primary/5 rounded-full animate-pulse"></div>

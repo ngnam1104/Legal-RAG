@@ -89,8 +89,21 @@
 .markdown-body blockquote {
   border-left: 4px solid var(--color-emerald-primary);
   background: rgba(0, 200, 140, 0.05);
-  @apply pl-4 py-2 italic my-4 rounded-r-md;
+  @apply pl-4 py-3 italic my-4 rounded-r-2xl;
   color: var(--color-text-dim);
+}
+
+/* Custom Alert for [!NOTE] */
+.markdown-body blockquote > p:first-child::before {
+    content: "💡 LƯU Ý";
+    display: block;
+    font-size: 10px;
+    font-weight: 900;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    color: var(--color-emerald-accent);
+    opacity: 0.8;
 }
 
 /* Diamond UI Utils */

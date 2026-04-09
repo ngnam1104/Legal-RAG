@@ -1,0 +1,136 @@
+========================================
+🏁 TIẾN TRÌNH HOÀN TẤT
+Chế độ Upsert (Làm full): BẬT (Đã lưu DB)
+{
+  "documents": 5000,
+  "chunks": 110597,
+  "chunk_seconds": 10.346374137996463,
+  "embed_seconds": 3599.4536982009995,
+  "point_build_seconds": 6.7807070200015005,
+  "upsert_seconds": 311.330548558999
+}
+
+============================================================
+📊 BÁO CÁO TỶ LỆ PHỤ LỤC (APPENDIX RATIO REPORT)
+============================================================
+🔹 Tổng số văn bản đã quét: 5,000
+🔹 Tổng số chunks sinh ra:  139,841
+------------------------------------------------------------
+🟢 NỘI DUNG CHÍNH (is_appendix=False):  84,146 chunks (60.17%)
+🟡 PHỤ LỤC (is_appendix=True):         55,695 chunks (39.83%)
+------------------------------------------------------------
+⏱️ Thời gian tính toán: 14.98 giây
+============================================================
+
+==================================================
+📊 BÁO CÁO DỰ KIẾN (ESTIMATION REPORT)
+==================================================
+🔹 Tổng số văn bản: 5,000
+🔹 Tổng số chunk dự kiến: 139,841
+🔹 Tỷ lệ trung bình: 27.97 chunks/văn bản
+⏱️ Thời gian quét: 15.11 giây
+💾 Ước tính dung lượng DB: ~1365.63 MB
+
+======================================================================
+📊 BENCHMARK TRUY XUẤT TÀI LIỆU (Hybrid Search + Rerank)
+======================================================================
+
+⏳ Warm-up (nạp model nếu cần)...
+🏠 [Embedder] Chế độ Local: Đang chuẩn bị nạp mô hình vào RAM...
+⏳ Đang nạp mô hình BGE-M3 (PyTorch): BAAI/bge-m3 trên thiết bị: cpu...
+Fetching 30 files: 100%|█████████████████████████████████████████████████████████████| 30/30 [00:00<00:00, 15072.97it/s]
+✅ Đã tải xong Embedding Model (Native).
+pre tokenize: 100%|█████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 1003.66it/s]
+You're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  3.29it/s]
+pre tokenize: 100%|███████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<?, ?it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  2.22it/s]
+⏳ Đang nạp Mini Reranker model (nhẹ cho CPU): cross-encoder/ms-marco-MiniLM-L-6-v2...
+The CrossEncoder `default_activation_function` argument was renamed and is now deprecated, please use `activation_fn` instead.
+✅ Reranker model đã sẵn sàng.
+   Warm-up xong: 20.98s
+
+🔎 Query: "phòng cháy chữa cháy" | Filters: {}
+   [1/3] Đang lấy văn bản thô (Hybrid Search)...
+pre tokenize: 100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 279.21it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.50it/s]
+pre tokenize: 100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 994.62it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  2.21it/s]
+   [1/3] ✅ Xong 20 hits → 2.920s
+   [2/3] Đang sắp xếp lại với Reranker model (20 cặp)...
+   [2/3] ✅ Xong 20 hits → 6.160s
+   [3/3] Đang mở rộng ngữ cảnh (Context Expand)...
+   [3/3] ✅ Xong 5 hits → 0.254s
+   ─────────────────────────────────
+   TỔNG PIPELINE  :             → 9.334s
+
+🔎 Query: "xử phạt vi phạm giao thông" | Filters: {'legal_type': 'Nghị định'}
+   [1/3] Đang lấy văn bản thô (Hybrid Search)...
+pre tokenize: 100%|███████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<?, ?it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.37it/s]
+pre tokenize: 100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 803.04it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  2.26it/s]
+   [1/3] ✅ Xong 20 hits → 2.816s
+   [2/3] Đang sắp xếp lại với Reranker model (20 cặp)...
+   [2/3] ✅ Xong 20 hits → 5.492s
+   [3/3] Đang mở rộng ngữ cảnh (Context Expand)...
+   [3/3] ✅ Xong 5 hits → 0.215s
+   ─────────────────────────────────
+   TỔNG PIPELINE  :             → 8.523s
+
+🔎 Query: "quyền lợi người lao động" | Filters: {'is_appendix': False}
+   [1/3] Đang lấy văn bản thô (Hybrid Search)...
+pre tokenize: 100%|███████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<?, ?it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  2.50it/s]
+pre tokenize: 100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 863.74it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.76it/s]
+   [1/3] ✅ Xong 40 hits → 2.174s
+   [2/3] Đang sắp xếp lại với Reranker model (40 cặp)...
+   [2/3] ✅ Xong 20 hits → 13.356s
+   [3/3] Đang mở rộng ngữ cảnh (Context Expand)...
+   [3/3] ✅ Xong 5 hits → 0.009s
+   ─────────────────────────────────
+   TỔNG PIPELINE  :             → 15.540s
+
+🔎 Query: "hợp đồng lao động thời vụ" | Filters: {'legal_type': 'Luật', 'include_inactive': False}
+   [1/3] Đang lấy văn bản thô (Hybrid Search)...
+pre tokenize: 100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 996.27it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.66it/s]
+pre tokenize: 100%|█████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 1941.81it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.42it/s]
+   [1/3] ✅ Xong 20 hits → 3.462s
+   [2/3] Đang sắp xếp lại với Reranker model (20 cặp)...
+   [2/3] ✅ Xong 20 hits → 7.212s
+   [3/3] Đang mở rộng ngữ cảnh (Context Expand)...
+   [3/3] ✅ Xong 5 hits → 0.429s
+   ─────────────────────────────────
+   TỔNG PIPELINE  :             → 11.104s
+
+🔎 Query: "bảo vệ môi trường" | Filters: {}
+   [1/3] Đang lấy văn bản thô (Hybrid Search)...
+pre tokenize: 100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 926.10it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.41it/s]
+pre tokenize: 100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 987.36it/s]
+Inference Embeddings: 100%|███████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.32it/s]
+   [1/3] ✅ Xong 20 hits → 2.983s
+   [2/3] Đang sắp xếp lại với Reranker model (20 cặp)...
+   [2/3] ✅ Xong 20 hits → 6.444s
+   [3/3] Đang mở rộng ngữ cảnh (Context Expand)...
+   [3/3] ✅ Xong 5 hits → 0.001s
+   ─────────────────────────────────
+   TỔNG PIPELINE  :             → 9.428s
+
+======================================================================
+📈 TỔNG KẾT
+======================================================================
+  Bước                      Min      Avg      Max
+  ──────────────────── ──────── ──────── ────────
+  Broad Retrieve         2.174s   2.871s   3.462s
+  Rerank                 5.492s   7.733s  13.356s
+  Context Expand         0.001s   0.182s   0.429s
+  ──────────────────── ──────── ──────── ────────
+  TỔNG PIPELINE          8.523s  10.786s  15.540s
+
+
+
+TODO: Thời gian chạy mỗi luồng

@@ -14,41 +14,34 @@ export default function SettingsHeader() {
       </div>
 
       <div className="flex items-center gap-6 text-xs font-medium text-text-dim">
-        <label className="flex items-center gap-2">
-          <span className="uppercase tracking-tighter">AI Focus:</span>
-          <select 
-            value={settings.provider}
-            onChange={(e) => setSettings({ provider: e.target.value })}
-            className="bg-emerald-surface border border-emerald-primary/30 rounded-lg px-2 py-1 outline-none focus:border-emerald-accent text-text-main transition-all"
-          >
-            <option value="groq">Groq (Llama 3)</option>
-            <option value="ollama">Ollama (Local)</option>
-            <option value="gemini">Gemini (Pro)</option>
-          </select>
-        </label>
-
         <label className="flex items-center gap-2 cursor-pointer group">
-          <div className="relative flex items-center">
+          <span className="uppercase tracking-tighter group-hover:text-emerald-accent transition-colors">Chế độ Reranker:</span>
+          <div className="relative inline-flex items-center cursor-pointer">
             <input 
               type="checkbox" 
-              checked={settings.use_reflection}
-              onChange={(e) => setSettings({ use_reflection: e.target.checked })}
-              className="rounded bg-emerald-surface border-emerald-primary/30 text-emerald-primary focus:ring-emerald-accent w-4 h-4 transition-all"
-            />
-          </div>
-          <span title="Tự kiểm tra chống ảo giác" className="group-hover:text-emerald-accent transition-colors">Reflection</span>
-        </label>
-
-        <label className="flex items-center gap-2 cursor-pointer group">
-          <div className="relative flex items-center">
-            <input 
-              type="checkbox" 
+              className="sr-only peer" 
               checked={settings.use_rerank}
               onChange={(e) => setSettings({ use_rerank: e.target.checked })}
-              className="rounded bg-emerald-surface border-emerald-primary/30 text-emerald-primary focus:ring-emerald-accent w-4 h-4 transition-all"
             />
+            <div className="w-11 h-6 bg-emerald-surface border border-emerald-primary/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-text-dim after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-primary peer-checked:after:bg-emerald-base shadow-inner"></div>
+            <span className="ml-2 text-[10px] font-bold uppercase text-emerald-accent/80">
+              {settings.use_rerank ? "Chính xác cao" : "Tốc độ nhanh"}
+            </span>
           </div>
-          <span title="Xếp hạng bằng Cross-Encoder" className="group-hover:text-emerald-accent transition-colors">Rerank</span>
+        </label>
+
+        <label className="flex items-center gap-2">
+          <span className="uppercase tracking-tighter">AI Model:</span>
+          <select 
+            value={settings.llm_preset}
+            onChange={(e) => setSettings({ llm_preset: e.target.value })}
+            className="bg-emerald-surface border border-emerald-primary/30 rounded-lg px-2 py-1 outline-none focus:border-emerald-accent text-text-main transition-all pointer-events-auto cursor-pointer"
+          >
+            <option value="groq_8b">Groq (Llama 8B-Fast)</option>
+            <option value="groq_70b">Groq (Llama 70B-Power)</option>
+            <option value="gemini">Gemini (Flash-3)</option>
+            <option value="ollama">Ollama (Local)</option>
+          </select>
         </label>
       </div>
     </header>

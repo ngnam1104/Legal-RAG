@@ -8,7 +8,7 @@
 - **Thành phần Xử lý Tài liệu (Document Processing Pipeline):**
     - **Document Parser:** Sử dụng thư viện `PyMuPDF (fitz)` để xử lý tệp PDF và `python-docx` cho tệp Word. Module này chịu trách nhiệm trích xuất văn bản thô (Raw Text) từ các tài liệu được tải lên.
     - **Structure-Aware Chunking:** Áp dụng logic từ `AdvancedLegalChunker` để tự động nhận diện cấu trúc phân cấp (Chương, Điều, Khoản) ngay cả trên các tài liệu người dùng tải lên, đảm bảo tính toàn vẹn ngữ nghĩa.
-    - **Celery Workers:** Đảm nhận việc xử lý các tác vụ nặng như OCR (nếu cần), trích xuất đặc trưng và nạp dữ liệu vào Vector DB một cách bất đồng bộ để tránh gây nghẽn hệ thống.
+    - **Synchronous Ingestion:** Thực hiện việc xử lý trích xuất vĩnh viễn, trích xuất đặc trưng và nạp dữ liệu vào Vector DB một cách trực tiếp bên trong API để đảm bảo tính đồng bộ dữ liệu.
 - **Agent Orchestrator (LangGraph):** "Bộ não" điều phối toàn bộ vòng đời của một yêu cầu. Sử dụng đồ thị trạng thái (State Graph) để quản trị các bước: Viết lại câu hỏi -> Tìm kiếm -> Rerank -> Tổng hợp -> Phản hồi.
 - **Hệ thống Lưu trữ & Cơ sở dữ liệu:**
     - **Lưu trữ Dài hạn (Persistent Storage):**
@@ -16,12 +16,9 @@
         - **Qdrant:** Lưu trữ bền vững các Vector nhúng (Dense & Sparse) cùng toàn bộ Metadata của 5.000 văn bản pháp luật (242k chunks). Đây là "kho tri thức" chính của hệ thống.
         - **File System:** Lưu trữ các tệp văn bản pháp luật gốc (PDF/Docx) và các bản snapshot của cơ sở dữ liệu để phục vụ việc sao lưu.
     - **Lưu trữ Ngắn hạn & Đệm (In-memory Storage):**
-        - **Redis:** Đóng vai trò vừa là **Message Broker** cho Celery, vừa là bộ đệm tốc độ cao cho toàn bộ hệ thống.
-        - **Celery:** Quản lý và thực thi hàng đợi các tác vụ nền (Background Jobs).
+        - **Redis:** Đóng vai trò là bộ đệm tốc độ cao và lưu trữ Session Memory cho toàn bộ hệ thống.
         - **Vai trò cụ thể trong hệ thống:**
-            - **Indexing & Ingestion:** Xử lý nạp văn bản quy mô lớn (Batch Ingestion). Khi người dùng nạp dữ liệu, Celery sẽ nhận nhiệm vụ từ Redis và thực hiện Chunking -> Embedding -> Upsert Qdrant một cách bất đồng bộ để không gây treo giao diện.
-            - **Quản lý Task Status:** Lưu trữ trạng thái của các tác vụ đang xử lý (Pending, Processing, Completed) giúp người dùng theo dõi tiến độ nạp liệu theo thời gian thực.
-            - **Tối ưu hóa Điều phối:** Giảm độ trễ bằng cách giải phóng tài nguyên cho Backend chính (FastAPI), chỉ tập trung xử lý yêu cầu HTTP và giao nhiệm vụ nặng cho các Workers.
+            - **Indexing & Ingestion:** Xử lý nạp văn bản ngay khi người dùng yêu cầu (Direct Ingestion). Khi người dùng nạp dữ liệu, hệ thống thực hiện Chunking -> Embedding -> Upsert Qdrant đồng bộ để trả kết quả tức thì.
 - **Vector Database (Qdrant):** Lưu trữ và tìm kiếm vector đa nhiệm (Hybrid Search). Hỗ trợ lọc (Filtering) dựa trên siêu dữ liệu (Metadata) như Số hiệu văn bản, Loại văn bản.
 - **Mô hình AI (Core AI Models):**
     - **Embedding Model:** **BGE-M3** (BAAI) - Đóng vai trò then chốt trong việc trích xuất vector ngữ nghĩa và từ khóa.
@@ -32,8 +29,8 @@
         - **Ollama:** Đảm bảo quyền riêng tư khi chạy các mô hình nội bộ (Local).
 
 - **Hạ tầng (Infrastructure):**
-    - **Docker & Docker Compose:** Đóng gói các dịch vụ cơ sở hạ tầng thiết yếu bao gồm **Qdrant DB** (Vector Database) và **Redis** (Message Broker/Cache). Việc sử dụng Docker giúp đảm bảo các dịch vụ lưu trữ này luôn chạy ổn định trên mọi môi trường mà không cần cấu hình phức tạp.
-    - **Triển khai ứng dụng:** Các thành phần khác như **Frontend (Next.js)** và **Backend (FastAPI/Celery)** được triển khai trực tiếp thông qua quản lý mã nguồn (Git) và cài đặt môi trường (Environment setup) tương ứng sau khi clone dự án, giúp tối ưu hóa khả năng can thiệp trực tiếp vào mã nguồn trong quá trình phát triển.
+    - **Docker & Docker Compose:** Đóng gói các dịch vụ cơ sở hạ tầng thiết yếu bao gồm **Qdrant DB** (Vector Database) và **Redis** (Cache/Memory). Việc sử dụng Docker giúp đảm bảo các dịch vụ lưu trữ này luôn chạy ổn định trên mọi môi trường mà không cần cấu hình phức tạp.
+    - **Triển khai ứng dụng:** Các thành phần khác như **Frontend (Next.js)** và **Backend (FastAPI)** được triển khai trực tiếp thông qua quản lý mã nguồn (Git) và cài đặt môi trường (Environment setup) tương ứng sau khi clone dự án, giúp tối ưu hóa khả năng can thiệp trực tiếp vào mã nguồn trong quá trình phát triển.
 
 ## 2. Quy trình Xử lý Dữ liệu 
 
@@ -42,8 +39,7 @@ Trái tim của hệ thống là quy trình tìm kiếm 5 bước, được tố
 ### 2.1. Ingestion & Chunking (Xử lý đầu vào)
 Hệ thống sử dụng module `AdvancedLegalChunker` (đã được tinh chỉnh trong [notebook/legal_rag_qdrant_kaggle.ipynb](notebook/legal_rag_qdrant_kaggle.ipynb)) để chuyển đổi văn bản thô thành các đơn vị tri thức có cấu trúc.
 
-- Đầu vào: 5000 văn bản - 242.000 Chunks: Đây là quy mô dữ liệu tối ưu cho phiên bản hiện tại. Do giới hạn về tài nguyên phần cứng (GPU VRAM) và dung lượng lưu trữ vector (Vector Storage), hệ thống hiện dừng lại ở mức 242.000 chunks để đảm bảo tốc độ phản hồi và độ chính xác cao nhất (không thực hiện nâng cấp lên quy mô 500.000 văn bản như dự kiến ban đầu để tránh gây treo hệ thống).
-
+- Đầu vào: **5,000 văn bản** tương đương **139,841 Chunks** (trung bình ~28 chunks/văn bản). Đây là quy mô dữ liệu tối ưu cho phiên bản hiện tại. Cơ cấu dữ liệu phân bổ gồm: **60.17% Nội dung chính** và **39.83% Phụ lục/Bảng biểu**.
 - **Hierarchical Regex Chunking:** Thay vì cắt theo độ dài cố định (Fixed-size), hệ thống sử dụng các biểu thức chính quy (Regex) để nhận diện cấu trúc cây của văn bản luật: `Chương > Điều > Khoản`, hay từng phần 1, 2, 3 trong Phụ Lục. Điều này đảm bảo mỗi "chunk" là một đơn vị pháp lý độc lập, toàn vẹn về ý nghĩa. 
 - **Smart Metadata Enrichment:** Mỗi đơn vị văn bản được làm giàu bằng bộ siêu dữ liệu (Metadata) chi tiết, hỗ trợ lọc chính xác tại tầng Vector DB:
     - **Cấu trúc:** `article_id`, `reference_citation`.
@@ -74,23 +70,27 @@ Hệ thống sử dụng module `AdvancedLegalChunker` (đã được tinh chỉ
     ```
 - **Contextual Embedding:** Nội dung đưa vào model Vector không chỉ có văn bản thuần mà bao gồm cả `[LEGAL HEADER]` chứa Tiêu đề và reference_citation. Kỹ thuật này giúp model "hiểu" rõ đoạn văn đang thuộc văn bản nào và vị trí pháp lý nào trong hệ thống.
 
-- **High-Precision Indexing (Float32):** Hệ thống sử dụng cấu hình vector `float32` nguyên bản (không nén/quantization). Mặc dù tiêu tốn nhiều bộ nhớ hơn, nhưng điều này đảm bảo giữ lại 100% đặc trưng ngữ nghĩa từ model BGE-M3, giúp đạt độ chính xác **Precision@10 = 1.0** trong môi trường thử nghiệm.
-- **Payload Indexing & Filtering:** Để tối ưu hóa tốc độ truy vấn trên 242.000 chunks, hệ thống thiết lập các chỉ mục (Indexes) trên các trường thuộc tính quan trọng:
+- **High-Precision Indexing (Float32):** Hệ thống sử dụng cấu hình vector `float32` nguyên bản (không nén/quantization). Dung lượng bộ nhớ lưu trữ ước tính khoảng **~1.36 GB** cho hệ DB, đảm bảo giữ lại 100% đặc trưng ngữ nghĩa từ model BGE-M3.
+- **Payload Indexing & Filtering:** Để tối ưu hóa tốc độ truy vấn trên 139,841 chunks, hệ thống thiết lập các chỉ mục (Indexes) trên các trường thuộc tính quan trọng:
     - **Keyword Index:** Áp dụng cho `document_id`, `document_number`, `legal_sectors`, `article_ref`, giúp lọc (Filtering) tức thì khi người dùng yêu cầu tra cứu văn bản cụ thể.
     - **Full-Text Index:** Áp dụng cho trường `title` và `reference_citation` (sử dụng tokenizer `word`), cho phép tìm kiếm từ khóa linh hoạt ngay trong metadata của văn bản.
     - **On-Disk Optimization:** Cấu hình `on_disk=True` cho Dense Vectors để giảm tải RAM, đồng thời duy trì hiệu năng cao cho các tác vụ Hybrid Search.
 
 #### Hiệu năng Xử lý & Đánh chỉ mục (Indexing Performance)
-Dựa trên kết quả thực tế từ các bài kiểm tra hiệu năng ([docs/time_delay.md](docs/time_delay.md)):
+Dựa trên kết quả thực tế từ đợt chạy Ingest Local (CPU/Hybrid):
 
-- **Tổng thời gian Indexing:** ~1.19 giờ cho 5.000 văn bản (~242.245 chunks).
+- **Tổng thời gian Indexing:** ~65 phút (3928 giây) cho **5,000 văn bản** (~110.597 chunks thực tế được upscale).
 - **Phân bổ thời gian (Bottleneck):**
-    - **Upsert Qdrant:** Chiếm **46.1%** (do kết nối mạng/disk I/O khi đẩy lượng lớn vector).
-    - **Embedding (Dense + Sparse):** Chiếm **53.2%** tổng thời gian xử lý trên GPU T4.
-- **Tốc độ truy xuất (Search Latency):**
-    - **Search Regular:** ~22ms.
-    - **Hybrid Search (bao gồm Embedding trên CPU):** 1.5s - 1.9s.
-    - **Reranking (CPU):** ~8.6s (Đây là khâu tốn thời gian nhất nếu không có GPU hỗ trợ).
+    - **Embedding BGE-M3 (Chạy Local):** Chiếm ~3599.5 giây (**91.6%** tổng thời gian xử lý) - Đây là công đoạn nặng nhất.
+    - **Chuẩn bị cấu trúc Chunk:** ~10.3 giây.
+    - **Upsert Qdrant:** ~311.3 giây (**7.9%**) cùng với 6.7 giây cấu trúc Point_build.
+
+#### Benchmark Truy xuất Tài liệu (Retrieval Latency)
+Hệ thống sử dụng cơ chế **Zero-Wait Warmup** tải thẳng mô hình vào RAM lúc khởi động (~21s), đảm bảo loại bỏ trễ lạnh (Cold Start). Khi truy xuất thực tế với truy vấn phổ thông:
+- **Broad Retrieve (Hybrid Search Qdrant):** Trọng số dao động từ **2.17s đến 3.46s** (Trung bình 2.87s).
+- **Rerank (Cross-Encoder):** Trọng số dao động từ **5.49s đến 13.35s** (Trung bình 7.73s). Đây là tác vụ thắt cổ chai lớn nhất khi chạy CPU.
+- **Context Expand:** Rất mượt, từ **0.001s đến 0.429s** (Trung bình 0.182s).
+- **TỔNG PIPELINE TRUY XUẤT:** Dao động khoảng **8.5s - 15.5s** (Trung bình 10.78s). Người dùng có thiết lập UI để lược bỏ quá trình Rerank (giảm tải CPU), giảm tổng thời gian truy xuất xuống chỉ còn ~3s.
 
 ### 2.3. Chiến lược Embedding & Hybrid Search
 

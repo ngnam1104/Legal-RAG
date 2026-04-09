@@ -2,10 +2,10 @@ from typing import List, Dict, Any
 from backend.config import settings
 
 class DocumentReranker:
-    """Cross-Encoder reranker using cross-encoder/ms-marco-MiniLM-L-6-v2 (siêu nhẹ cho CPU).
-    Nếu model chưa tải xong hoặc lỗi, tự động fallback về RRF score."""
+    """Cross-Encoder reranker siêu xịn (Hỗ trợ đa ngôn ngữ/Tiếng Việt).
+    Sử dụng mô hình BAAI/bge-reranker-v2-m3."""
 
-    def __init__(self, model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2", use_fp16: bool = False):
+    def __init__(self, model_name: str = "BAAI/bge-reranker-v2-m3", use_fp16: bool = True):
         self.model_name = model_name
         self.model = None
         self.use_fp16 = use_fp16
@@ -16,10 +16,14 @@ class DocumentReranker:
             return
         try:
             from sentence_transformers import CrossEncoder
+            import torch
             
-            print(f"⏳ Đang nạp Mini Reranker model (nhẹ cho CPU): {self.model_name}...")
-            # Mô hình nhẹ ~90MB nên cứ để nó tự động tải xuống nếu chưa có
-            self.model = CrossEncoder(self.model_name, max_length=512, default_activation_function=None)
+            print(f"⏳ Đang nạp Reranker model (BAAI/bge-reranker-v2-m3)...")
+            model_kwargs = {}
+            if self.use_fp16:
+                model_kwargs['torch_dtype'] = torch.float16
+                
+            self.model = CrossEncoder(self.model_name, max_length=4096, default_activation_function=None, model_kwargs=model_kwargs)
             print(f"✅ Reranker model đã sẵn sàng.")
         except Exception as e:
             print(f"⚠️ Không thể tải Reranker model: {e}")
@@ -32,6 +36,12 @@ class DocumentReranker:
             return [0.0] * len(docs)
         if not docs:
             return []
+        # Guard: ensure query and all docs are non-empty strings for CrossEncoder tokenizer
+        query = str(query) if query is not None else "N/A"
+        if not query.strip():
+            query = "N/A"
+        docs = [str(d) if d is not None else "N/A" for d in docs]
+        docs = [d if d.strip() else "N/A" for d in docs]
         pairs = [[query, d] for d in docs]
         # CrossEncoder sử dụng hàm predict
         scores = self.model.predict(pairs)

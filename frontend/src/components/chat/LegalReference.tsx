@@ -17,7 +17,8 @@ export default function LegalReference({ refs }: { refs: NonNullable<Message['re
         document_number: ref.document_number,
         url: ref.url,
         articles: new Set<string>(),
-        chunks: []
+        chunks: [],
+        maxScore: 0
       };
     }
     
@@ -25,9 +26,13 @@ export default function LegalReference({ refs }: { refs: NonNullable<Message['re
       acc[key].articles.add(ref.article);
     }
     acc[key].chunks.push(ref);
+    // Track max score for sorting groups
+    const score = (ref as any).score || 0;
+    if (score > acc[key].maxScore) acc[key].maxScore = score;
     
     return acc;
-  }, {} as Record<string, any>));
+  }, {} as Record<string, any>))
+    .sort((a: any, b: any) => (b.maxScore || 0) - (a.maxScore || 0));
 
   return (
     <div className="mt-4 border border-emerald-primary/10 rounded-2xl overflow-hidden glass-emerald shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
