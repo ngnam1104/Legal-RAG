@@ -23,14 +23,18 @@ class LegalQAStrategy(BaseRAGStrategy):
         rewrite_data = rewrite_legal_query(query, llm_preset=state.get("llm_preset"))
         
         hypothetical = rewrite_data.get("hypothetical_answer") or query
+        
+        filters = state.get("router_filters", {}) or {}
+        filters.update(rewrite_data.get("filters", {}))
+        
         return {
             "rewritten_queries": [hypothetical],
-            "metadata_filters": rewrite_data.get("filters", {}),
+            "metadata_filters": filters,
             "pending_tasks": []
         }
 
     def retrieve(self, state: AgentState) -> Dict[str, Any]:
-        """Truy xuất Qdrant bằng Hybrid Search (với Appendix filtering)."""
+        """Truy xuất Qdrant + Neo4j Graph Expansion (Bottom-Up + Lateral)."""
         rewritten_queries = state.get("rewritten_queries") or [state.get("condensed_query") or state["query"]]
         kw = rewritten_queries[0] or state.get("condensed_query") or state["query"]
         filters = state.get("metadata_filters", {})
@@ -66,25 +70,35 @@ class LegalQAStrategy(BaseRAGStrategy):
                 use_rerank=use_rerank,
                 limit=15
             )
+        
+        # --- NEO4J GRAPH EXPANSION ---
+        graph_context = {"lateral_docs": [], "document_toc": "", "sibling_texts": []}
+        chunk_ids = [h.get("chunk_id", "") for h in hits if h.get("chunk_id")]
+        
+        if chunk_ids:
+            try:
+                from backend.retrieval.graph_db import bottom_up_expand, lateral_expand
+                
+                # YÊU CẦU 2: Bottom-Up — lấy TOC + sibling chunks
+                bu_result = bottom_up_expand(chunk_ids)
+                graph_context["document_toc"] = bu_result.get("document_toc", "")
+                graph_context["sibling_texts"] = bu_result.get("sibling_texts", [])
+                
+                # YÊU CẦU 1: Lateral Expansion — tài liệu cùng ngành
+                graph_context["lateral_docs"] = lateral_expand(chunk_ids)
+                
+                if graph_context["document_toc"]:
+                    print(f"       📋 [Neo4j] Got document TOC ({len(graph_context['document_toc'])} chars)")
+                if graph_context["lateral_docs"]:
+                    print(f"       🔗 [Neo4j] Found {len(graph_context['lateral_docs'])} related docs via Lateral Expansion")
+            except Exception as e:
+                print(f"       ⚠️ [Neo4j] Graph expansion failed (non-fatal): {e}")
             
-        return {"raw_hits": hits}
-
-    def resolve_references(self, state: AgentState) -> Dict[str, Any]:
-        """BƯỚC 2.5: Truy xuất đệ quy Điều/Khoản được dẫn chiếu."""
-        from backend.agent.utils_legal_qa import resolve_recursive_references
-        hits = state.get("raw_hits", [])
-        
-        # Recursive Reference Resolution
-        final_hits_with_refs = resolve_recursive_references(hits)
-        
-        # State: Lưu riêng các hit phụ để grade
-        recursive_only = [h for h in final_hits_with_refs if h not in hits]
-        return {"recursive_hits": recursive_only}
+        return {"raw_hits": hits, "graph_context": graph_context}
 
     def grade(self, state: AgentState) -> Dict[str, Any]:
         """Kiểm định Hits so với câu hỏi gốc (Tiết kiệm token: Truncation Grading)."""
         hits = state.get("raw_hits", [])
-        all_hits = hits + state.get("recursive_hits", [])
         
         file_chunks = state.get("file_chunks", [])
         query = state.get("condensed_query", state["query"])
@@ -104,14 +118,15 @@ class LegalQAStrategy(BaseRAGStrategy):
                 scored.sort(key=lambda x: x[1], reverse=True)
                 file_chunks = [item[0] for item in scored]
         
-        if not all_hits and not file_chunks:
+        if not hits and not file_chunks:
             return {
                 "is_sufficient": False,
                 "filtered_context": ""
             }
             
-        # 1. Build FULL context for Generate step
-        context_text = build_legal_context(all_hits, file_chunks=file_chunks)
+        # 1. Build FULL context for Generate step (with graph_context)
+        graph_ctx = state.get("graph_context", {})
+        context_text = build_legal_context(hits, file_chunks=file_chunks, graph_context=graph_ctx)
         
         # 2. Build TRUNCATED context for Grade step (SAVE TOKENS: ~150 chars/chunk)
         truncated_parts = []
@@ -120,7 +135,7 @@ class LegalQAStrategy(BaseRAGStrategy):
                 f_text = f_chunk.get("text_to_embed", f_chunk.get("unit_text", ""))[:200]
                 truncated_parts.append(f"[Tài liệu đính kèm {idx}]: {f_text}...")
                 
-        for h in all_hits:
+        for h in hits:
             title = h.get("title", "")
             ref = h.get("article_ref", "")
             # Chỉ lấy 150 ký tự đầu tiên để LLM phán đoán độ liên quan
@@ -134,7 +149,7 @@ class LegalQAStrategy(BaseRAGStrategy):
         is_relevant = grade_documents(query=query, context=truncated_context, llm_preset=state.get("llm_preset"))
         
         is_best_effort = False
-        if not is_relevant and all_hits:
+        if not is_relevant and hits:
             # Fallback nếu GPT-grader bảo không khớp, nhưng ta vẫn có hits
             print("       ⚠️ Legal QA Gradder said 'No'. Switching to Best-Effort mode.")
             is_relevant = True
@@ -147,16 +162,17 @@ class LegalQAStrategy(BaseRAGStrategy):
         }
 
     def generate(self, state: AgentState) -> Dict[str, Any]:
-        """Sinh câu trả lời từ context."""
+        """Sinh câu trả lời từ context + lateral docs."""
         context_text = state.get("filtered_context", "")
         query = state.get("condensed_query", state["query"])
+        graph_ctx = state.get("graph_context", {})
         
         if not context_text:
             return {"draft_response": "Xin lỗi, tôi không tìm thấy quy định pháp luật nào liên quan đến câu hỏi của bạn."}
             
         # Thêm reference logic và đảm bảo được sort theo score (Rerank score)
         refs = []
-        combined_hits = state.get("raw_hits", []) + state.get("recursive_hits", [])
+        combined_hits = state.get("raw_hits", [])
         combined_hits.sort(key=lambda x: x.get("score", 0), reverse=True)
         
         for h in combined_hits:
@@ -172,12 +188,21 @@ class LegalQAStrategy(BaseRAGStrategy):
             
         history_msgs = state.get("history", [])[-6:] # Giữ lại 3 lượt QA gần nhất
         history_str = "\n".join([f"{'User' if m['role']=='user' else 'AI'}: {m['content']}" for m in history_msgs]) if history_msgs else "(Không có lịch sử)"
+        
+        # Build supplemental context from lateral docs (YÊU CẦU 1)
+        supplemental = state.get("supplemental_context", "")
+        lateral_docs = graph_ctx.get("lateral_docs", [])
+        if lateral_docs:
+            lateral_lines = ["\n**📚 Tài liệu tham khảo thêm (cùng lĩnh vực):**"]
+            for ld in lateral_docs:
+                lateral_lines.append(f"- {ld.get('title', 'N/A')} ({ld.get('document_number', '')}) — Ngành: {ld.get('shared_sector', '')}")
+            supplemental += "\n".join(lateral_lines)
             
         prompt = ANSWER_PROMPT.format(
             history=history_str,
             context=context_text, 
             query=query, 
-            supplemental_context=state.get("supplemental_context", "")
+            supplemental_context=supplemental
         )
         answer = strip_thinking_tags(chat_completion(
             [{"role": "user", "content": prompt}], 
@@ -190,6 +215,12 @@ class LegalQAStrategy(BaseRAGStrategy):
             # Chèn cảnh báo Best-effort vào đầu câu trả lời
             disclaimer = "> [!NOTE]\n> **Thông báo:** Hệ thống không tìm thấy quy định trực tiếp, tuy nhiên dựa trên nội dung liên quan nhất tìm thấy, tôi xin cung cấp thông tin tham khảo như sau:\n\n"
             answer = disclaimer + answer
+            
+        # Append lateral docs to answer
+        if lateral_docs:
+            answer += "\n\n---\n**📚 Tài liệu tham khảo thêm (cùng lĩnh vực):**\n"
+            for ld in lateral_docs:
+                answer += f"- **{ld.get('title', '')}** ({ld.get('document_number', '')})\n"
             
         return {
             "draft_response": answer,

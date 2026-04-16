@@ -151,28 +151,25 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
                 "claim": claim,
                 "raw_qdrant_hits": hits
             })
-            
-        return {"raw_hits": batch_hits}
-
-    def resolve_references(self, state: AgentState) -> Dict[str, Any]:
-        """Truy xuất bổ sung Phụ lục cho từng Claim nếu được dẫn chiếu."""
-        from backend.agent.utils_legal_qa import resolve_recursive_references
-        batch_hits = state.get("raw_hits", [])
-        if not batch_hits:
-            return {"recursive_hits": []}
-            
-        resolved_batch = []
+        
+        # --- YÊU CẦU 4: NEO4J TIME-TRAVEL ---
+        # Kiểm tra xem các document có bị AMENDS/REPLACES không
+        graph_context = {"time_travel": []}
         for item in batch_hits:
-            primary_hits = item["raw_qdrant_hits"]
-            # To avoid affecting 'raw_hits' structure, we just compute recursive ones
-            full_list = resolve_recursive_references(primary_hits)
-            recursive_only = [h for h in full_list if h not in primary_hits]
+            chunk_ids = [h.get("chunk_id", "") for h in item["raw_qdrant_hits"] if h.get("chunk_id")]
+            if chunk_ids:
+                try:
+                    from backend.retrieval.graph_db import conflict_time_travel
+                    tt_results = conflict_time_travel(chunk_ids)
+                    if tt_results:
+                        graph_context["time_travel"].extend(tt_results)
+                        for tt in tt_results:
+                            if tt.get("amending_doc_number"):
+                                print(f"       ⚠️ [Neo4j] Time-Travel: {tt['original_doc_number']} → {tt['relation_type']} by {tt['amending_doc_number']}")
+                except Exception as e:
+                    print(f"       ⚠️ [Neo4j] Time-Travel query failed (non-fatal): {e}")
             
-            # Chúng ta gộp recursive_only vào raw_qdrant_hits của item này luôn để các bước sau (grade/judge) thấy được
-            item["raw_qdrant_hits"] = full_list
-            resolved_batch.append(item)
-            
-        return {"raw_hits": resolved_batch}
+        return {"raw_hits": batch_hits, "graph_context": graph_context}
 
     def grade(self, state: AgentState) -> Dict[str, Any]:
         """
@@ -213,11 +210,13 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
 
     def generate(self, state: AgentState) -> Dict[str, Any]:
         """
-        Judge Agent:
-        Xử lý từng Claim trong chế độ Sequential. Đưa ra phán quyết (Label).
+        Judge Agent với Deontic Logic:
+        Xử lý từng Claim. Đưa thẳng bối cảnh Time-Travel vào Prompt.
         """
         pruned_batch = state.get("filtered_context", [])
         metadata = state.get("metadata_filters", {})
+        graph_ctx = state.get("graph_context", {})
+        time_travel_data = graph_ctx.get("time_travel", []) if graph_ctx else []
         
         if not pruned_batch:
             return {"draft_response": ""}
@@ -226,7 +225,39 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
         history_msgs = state.get("history", [])[-6:]
         history_str = "\n".join([f"{'User' if m['role']=='user' else 'AI'}: {m['content']}" for m in history_msgs]) if history_msgs else "(Không có lịch sử)"
         
+        # Build Time-Travel context map: original_doc_number -> amendment info
+        tt_map = {}
+        for tt in time_travel_data:
+            key = tt.get("original_doc_number", "")
+            if key and tt.get("amending_doc_number"):
+                if key not in tt_map:
+                    tt_map[key] = []
+                tt_map[key].append(tt)
+        
         for item in pruned_batch:
+            # YÊU CẦU 4: Inject Time-Travel context vào claim metadata
+            claim_obj = item["claim"]
+            top_hits = item["top_hits"]
+            
+            # Tìm amendments liên quan tới các document của hits
+            deontic_context = ""
+            for h in top_hits:
+                doc_num = h.get("document_number", "")
+                if doc_num in tt_map:
+                    for tt in tt_map[doc_num]:
+                        deontic_context += (
+                            f"\n[CẢNH BÁO HIỆU LỰC] Văn bản {doc_num} đã bị tác động bởi {tt.get('amending_doc_number', 'N/A')} "
+                            f"(Quan hệ: {tt.get('relation_type', 'N/A')}).\n"
+                        )
+                        if tt.get("old_text"):
+                            deontic_context += f"Nội dung cũ: {tt['old_text']}\n"
+                        if tt.get("new_text"):
+                            deontic_context += f"Nội dung hiện hành: {tt['new_text']}\n"
+            
+            # Gắn deontic context vào metadata để judge_claim sử dụng
+            if deontic_context:
+                metadata["deontic_context"] = deontic_context
+            
             dec = judge_claim(item["claim"], item["top_hits"], metadata, history_str=history_str, llm_preset=state.get("llm_preset"))
             judge_results.append({
                 "claim_text": item["claim_text"],
@@ -234,7 +265,6 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
                 "judge_dec": dec
             })
             
-        # Tạm chứa vào draft (hoặc pass qua field cho reflect xử tiếp)
         return {"draft_response": judge_results}
 
     def reflect(self, state: AgentState) -> Dict[str, Any]:

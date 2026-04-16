@@ -251,13 +251,14 @@ def transform_query(query: str, llm_preset: str = None) -> str:
         print(f"       ⚠️ Query Transform failed: {e}. Fallback to original.")
         return query
 
-def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, Any]] = None, max_chars: int = None) -> str:
+def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, Any]] = None, max_chars: int = None, graph_context: Dict[str, Any] = None) -> str:
     """
-    Xây dựng Ngữ cảnh Pháp lý (Legal Context) sử dụng 3 chiến thuật nâng cao:
-    1. Lost-in-the-Middle Reordering: Đưa hits quan trọng nhất ra 2 đầu.
-    2. XML Context Injection: Phân tách rõ Metadata và Nội dung.
-    3. Hard Character Limit: Đảm bảo không vượt quá cửa sổ ngữ cảnh LLM.
-    4. Cấu trúc Nén (Compression): Loại bỏ khoảng trắng thừa để tiết kiệm token.
+    Xây dựng Ngữ cảnh Pháp lý (Legal Context) sử dụng 5 chiến thuật:
+    1. Document TOC Injection: Đưa Mục lục văn bản (từ Neo4j) vào đầu context chống Lost-in-the-Middle.
+    2. XML Context Separation: Tách biệt <tai_lieu_tam> (upload) và <tai_lieu_db> (hệ thống).
+    3. Lost-in-the-Middle Reordering: Đưa hits quan trọng nhất ra 2 đầu.
+    4. Hard Character Limit: Đảm bảo không vượt quá cửa sổ ngữ cảnh LLM.
+    5. Sibling Expansion: Ghép sibling texts từ Bottom-Up traversal (Neo4j).
     """
     import re
     if max_chars is None:
@@ -266,10 +267,17 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
     context_parts = []
     current_chars = 0
     doc_counter = 0
+    
+    # --- Chiến thuật 0: Document TOC (từ Neo4j graph_context) ---
+    if graph_context and graph_context.get("document_toc"):
+        toc_text = graph_context["document_toc"][:2000]  # Giới hạn 2000 chars
+        toc_block = f"<muc_luc_van_ban>\n{toc_text}\n</muc_luc_van_ban>\n"
+        context_parts.append(toc_block)
+        current_chars += len(toc_block)
 
-    # --- Ưu tiên File Upload (File Chunks) ---
+    # --- [TÀI LIỆU TẢI LÊN]: Bọc trong thẻ <tai_lieu_tam> ---
     if file_chunks:
-        context_parts.append("<!-- BẮT ĐẦU: DỮ LIỆU TỪ FILE USER TẢI LÊN -->")
+        context_parts.append("<tai_lieu_tam>")
         for idx, f_chunk in enumerate(file_chunks, start=1):
             text = f_chunk.get("text_to_embed", f_chunk.get("unit_text", ""))
             # Nén trắng
@@ -279,18 +287,17 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
             if current_chars + len(chunk_info) < max_chars:
                 context_parts.append(chunk_info)
                 current_chars += len(chunk_info)
-        context_parts.append("<!-- KẾT THÚC: DỮ LIỆU TỪ FILE USER TẢI LÊN -->\n")
+        context_parts.append("</tai_lieu_tam>\n")
 
-    # --- Chiến thuật 1: Lost-in-the-Middle Reordering ---
+    # --- [CƠ SỞ PHÁP LÝ TỪ HỆ THỐNG DB]: Bọc trong thẻ <tai_lieu_db> ---
+    # Chiến thuật 1: Lost-in-the-Middle Reordering
     if hits and len(hits) > 2:
-        # Sắp xếp hits theo score giảm dần (đảm bảo input chuẩn)
         sorted_hits = sorted(hits, key=lambda x: x.get("score", 0), reverse=True)
         reordered = [None] * len(sorted_hits)
         
         left = 0
         right = len(sorted_hits) - 1
         for i, hit in enumerate(sorted_hits):
-            # i=0 (H1) -> reordered[0], i=1 (H2) -> reordered[last], i=2 (H3) -> reordered[1]...
             if i % 2 == 0:
                 reordered[left] = hit
                 left += 1
@@ -299,7 +306,9 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
                 right -= 1
         hits = reordered
 
-    # --- Chiến thuật 2: XML Context Injection ---
+    context_parts.append("<tai_lieu_db>")
+    
+    # Chiến thuật 2: XML Context Injection
     for hit in hits:
         doc_counter += 1
         ref = hit.get("article_ref") or hit.get("reference_tag") or "N/A"
@@ -313,17 +322,15 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
         is_appendix = hit.get("is_appendix", False)
         base_laws = hit.get("base_laws", [])
 
-        # Xác định loại nội dung để LLM xử lý đúng logic (ví dụ: bảng biểu có độ tin cậy thấp hơn điều khoản chính)
         if is_appendix:
             loai = "PHỤ LỤC / BẢNG BIỂU ĐÍNH KÈM - Đây là dữ liệu chi tiết, định mức hoặc biểu mẫu."
         else:
             loai = "NỘI DUNG CHÍNH - Quy định trực tiếp trong văn bản pháp luật."
 
-        # Build XML
         base_law_xml = f"\n    <can_cu_phap_ly>{', '.join(base_laws)}</can_cu_phap_ly>" if base_laws else ""
         
         chunk_xml = (
-            f'<tai_lieu id="{doc_counter}">\n'
+            f'<can_cu id="{doc_counter}">\n'
             f'  <metadata>\n'
             f'    <nguon>{doc_number} ({title})</nguon>\n'
             f'    <vi_tri>{ref_citation}</vi_tri>\n'
@@ -332,16 +339,28 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
             f'  <noi_dung>\n'
             f'    {text}\n'
             f'  </noi_dung>\n'
-            f'</tai_lieu>\n'
+            f'</can_cu>\n'
         )
 
-        # --- Chiến thuật 3: Hard Character Limit ---
+        # Chiến thuật 3: Hard Character Limit
         if current_chars + len(chunk_xml) > max_chars:
             print(f"       ⚠️ [Context Builder] Reached character limit ({max_chars}). Skipping remaining {len(hits)-doc_counter} chunks.")
             break
 
         context_parts.append(chunk_xml)
         current_chars += len(chunk_xml)
+    
+    # --- Sibling texts từ Neo4j Bottom-Up Expansion ---
+    if graph_context and graph_context.get("sibling_texts"):
+        for sib_text in graph_context["sibling_texts"][:5]:
+            sib_text_clean = re.sub(r'\s*\n\s*', '\n', sib_text)
+            sib_block = f'<can_cu_bo_sung>\n  {sib_text_clean}\n</can_cu_bo_sung>\n'
+            if current_chars + len(sib_block) > max_chars:
+                break
+            context_parts.append(sib_block)
+            current_chars += len(sib_block)
+    
+    context_parts.append("</tai_lieu_db>")
 
     return "\n".join(context_parts)
 

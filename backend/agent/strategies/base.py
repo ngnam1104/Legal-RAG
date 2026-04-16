@@ -20,19 +20,11 @@ class BaseRAGStrategy(ABC):
     @abstractmethod
     def retrieve(self, state: AgentState) -> Dict[str, Any]:
         """
-        BƯỚC 2: Truy xuất dữ liệu (Vector DB / Hybrid Search).
-        Output: Cập nhật danh sách `raw_hits`. 
+        BƯỚC 2: Truy xuất dữ liệu (Vector DB / Hybrid Search + Neo4j Graph Expansion).
+        Output: Cập nhật danh sách `raw_hits` và `graph_context`. 
         """
         pass
         
-    @abstractmethod
-    def resolve_references(self, state: AgentState) -> Dict[str, Any]:
-        """
-        BƯỚC 2.5: Truy xuất đệ quy (Recursive Reference Resolution).
-        Tìm các Điều/Khoản được dẫn chiếu trong `raw_hits` và lấy thêm nội dung.
-        Output: Cập nhật `recursive_hits`.
-        """
-        pass
         
     @abstractmethod
     def grade(self, state: AgentState) -> Dict[str, Any]:

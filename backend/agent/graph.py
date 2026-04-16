@@ -21,17 +21,42 @@ from backend.agent.strategies.conflict_analyzer import ConflictAnalyzerStrategy
 from backend.agent.utils_general_chat import execute_general_chat
 
 # --- PROMPTS ---
-CONDENSE_PROMPT = """Bạn là hệ thống viết lại câu hỏi (Query Condensation) cho hệ thống RAG pháp lý.
+CONDENSE_PROMPT = """Bạn là chuyên gia phân tích ngữ cảnh (Context Analyzer) cho một Trợ lý Pháp lý AI.
+Nhiệm vụ của bạn là đọc LỊCH SỬ HỘI THOẠI và CÂU HỎI MỚI để tạo ra một "Câu hỏi độc lập" (Standalone Query) hoàn chỉnh.
+
+QUY TẮC BẮT BUỘC:
+1. TRÁNH MẤT MÁT NGỮ CẢNH: Nếu câu hỏi mới ngầm ám chỉ đến một văn bản, đạo luật, nghị định, hoặc chủ đề đã được đề cập trong lịch sử, BẠN PHẢI đưa tên/số hiệu của văn bản/chủ đề đó vào câu viết lại.
+2. PHỤC HỒI ĐẠI TỪ: Thay thế hoàn toàn các từ "nó", "điều đó", "luật này", "văn bản trên", "khoản đó" bằng danh từ cụ thể.
+3. CHUYỂN HƯỚNG CHỦ ĐỀ (TOPIC SHIFT): Nếu câu hỏi mới hoàn toàn không liên quan đến lịch sử hội thoại, HÃY BỎ QUA lịch sử và chỉ làm rõ câu hỏi mới.
+4. ĐỊNH DẠNG ĐẦU RA: TUYỆT ĐỐI KHÔNG giải thích, KHÔNG trả lời câu hỏi, KHÔNG dùng từ ngữ giao tiếp (như "Câu hỏi là:", "Dạ đây là..."). CHỈ TRẢ VỀ DUY NHẤT một chuỗi văn bản là câu hỏi đã được viết lại.
+
+--- VÍ DỤ MẪU ---
+Lịch sử:
+User: Tìm hiểu về Luật Đất đai 2024.
+AI: Luật Đất đai 2024 có nhiều điểm mới về bồi thường, hỗ trợ tái định cư...
+Câu hỏi mới: Mức bồi thường khi thu hồi đất nông nghiệp theo nó là bao nhiêu?
+Viết lại: Mức bồi thường khi thu hồi đất nông nghiệp theo Luật Đất đai 2024 là bao nhiêu?
+
+Lịch sử:
+User: Điều kiện để thành lập công ty TNHH 1 thành viên?
+AI: Cần có đủ vốn, trụ sở, người đại diện pháp luật...
+Câu hỏi mới: Thế thủ tục xin giấy phép an toàn vệ sinh thực phẩm thì sao?
+Viết lại: Thủ tục xin giấy phép an toàn vệ sinh thực phẩm như thế nào? (Lưu ý: Chủ đề đã thay đổi, không kế thừa lịch sử).
+
+Lịch sử:
+User: Tôi đang đọc Nghị định 100/2019 về giao thông.
+AI: Nghị định này quy định xử phạt vi phạm hành chính trong lĩnh vực giao thông đường bộ và đường sắt.
+Câu hỏi mới: Khoản 3 điều 5 phạt bao nhiêu?
+Viết lại: Khoản 3 Điều 5 của Nghị định 100/2019/NĐ-CP phạt bao nhiêu tiền?
+----------------
+
 LỊCH SỬ HỘI THOẠI GẦN NHẤT:
 {history}
 
 CÂU HỎI MỚI NHẤT CỦA NGƯỜI DÙNG:
 {query}
 
-NHIỆM VỤ:
-Nếu câu hỏi mới chứa đại từ (nó, điều đó...) hoặc cần ngữ cảnh, hãy viết lại thành câu độc lập. Nếu không, trả về nguyên bản.
-KHÔNG giải thích. CHỈ TRẢ VỀ CÂU HỎI ĐÃ VIẾT LẠI.
-"""
+CÂU HỎI ĐỘC LẬP ĐÃ VIẾT LẠI (Chỉ xuất kết quả, không giải thích):"""
 
 # --- HELPERS (DELEGATE FACTORY) ---
 
@@ -101,19 +126,30 @@ def node_condense(state: AgentState):
     if not history:
         condensed = query
     else:
-        history_lines = [f"{'User' if m['role']=='user' else 'AI'}: {m['content'][:2000]}" for m in history[-4:]]
-        prompt = CONDENSE_PROMPT.format(history="\\n".join(history_lines), query=query)
-        condensed = chat_completion([{"role": "user", "content": prompt}], temperature=0.0, model=settings.LLM_ROUTING_MODEL, llm_preset=state.get("llm_preset"))
-        condensed = (condensed or "").strip()
-        if not condensed or len(condensed) > len(query) * 3:
-            condensed = query
+        # Lấy tối đa 10 lượt tương tác gần nhất (5 lượt trao đổi)
+        history_lines = []
+        for m in history[-10:]:
+            role = "User" if m["role"] == "user" else "AI"
+            # Lược bỏ các khoảng trắng thừa, giới hạn 1000 ký tự mỗi tin nhắn
+            content_snippet = " ".join(m["content"].split())[:1000] 
+            history_lines.append(f"{role}: {content_snippet}")
+            
+        prompt = CONDENSE_PROMPT.format(history="\n".join(history_lines), query=query)
+        condensed = chat_completion(
+            messages=[{"role": "user", "content": prompt}], 
+            temperature=0.0, 
+            model=settings.LLM_ROUTING_MODEL, 
+            llm_preset=state.get("llm_preset")
+        )
+        condensed = (condensed or query).strip().strip('"').strip("'")
             
     # Auto Intent Detection
     detected_mode = state.get("mode")
+    router_filters = {}
     if detected_mode == RouteIntent.AUTO:
-         detected_mode = router.route_query(condensed, has_file_attachment=bool(state.get("file_path")))
+         detected_mode, router_filters = router.route_query(condensed, has_file_attachment=bool(state.get("file_path")))
          
-    return {"condensed_query": condensed, "detected_mode": detected_mode}
+    return {"condensed_query": condensed, "detected_mode": detected_mode, "router_filters": router_filters}
 
 @node_timer("General Chat")
 def node_general_chat(state: AgentState):
@@ -122,7 +158,7 @@ def node_general_chat(state: AgentState):
     return {"answer": answer, "draft_response": answer, "final_response": answer}
 
 
-# --- UNIVERSAL 5-STAGE RAG NODES ---
+# --- UNIVERSAL 5-STAGE RAG NODES (Vector-to-Graph) ---
 
 @node_timer("1. Understand")
 def node_understand(state: AgentState):
@@ -135,17 +171,11 @@ def node_understand(state: AgentState):
     result["retry_count"] = retry_count + 1
     return result
 
-@node_timer("2. Retrieve")
+@node_timer("2. Retrieve + Graph Expand")
 def node_retrieve(state: AgentState):
     mode = state.get("detected_mode") or state.get("mode")
     strategy = get_strategy(mode)
     return strategy.retrieve(state)
-
-@node_timer("2.5 Resolve References")
-def node_resolve_references(state: AgentState):
-    mode = state.get("detected_mode") or state.get("mode")
-    strategy = get_strategy(mode)
-    return strategy.resolve_references(state)
 
 @node_timer("3. Grade")
 def node_grade(state: AgentState):
@@ -216,7 +246,6 @@ workflow.add_node("general", node_general_chat)
 
 workflow.add_node("understand", node_understand)
 workflow.add_node("retrieve", node_retrieve)
-workflow.add_node("resolve_references", node_resolve_references)
 workflow.add_node("grade", node_grade)
 workflow.add_node("generate", node_generate)
 workflow.add_node("reflect", node_reflect)
@@ -234,10 +263,9 @@ workflow.add_conditional_edges(
 )
 workflow.add_edge("general", END)
 
-# RAG Pipeline Flow
+# RAG Pipeline Flow: Understand → Retrieve(+Graph) → Grade → Generate → Reflect
 workflow.add_edge("understand", "retrieve")
-workflow.add_edge("retrieve", "resolve_references")
-workflow.add_edge("resolve_references", "grade")
+workflow.add_edge("retrieve", "grade")
 
 workflow.add_conditional_edges(
     "grade",

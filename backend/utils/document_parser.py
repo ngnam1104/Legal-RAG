@@ -69,9 +69,11 @@ class DocumentParser:
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
+        from backend.retrieval.chunker import metadata as md
+        
         # Lấy 100 dòng đầu tiên để tìm số hiệu
         preamble = "\n".join(content.splitlines()[:100])
-        doc_number = chunker._extract_doc_number(preamble)
+        doc_number = md.extract_doc_number(preamble)
         
         return {
             "document_number": doc_number,

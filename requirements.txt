@@ -28,6 +28,10 @@ langchain-community
 # --- AGENTIC ORCHESTRATION ---
 langgraph
 
+# --- GRAPH DB ---
+neo4j
+neo4j-graphrag[qdrant]
+
 # --- WORKERS & CACHE ---
 redis
 

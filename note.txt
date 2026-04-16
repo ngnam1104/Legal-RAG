@@ -2,34 +2,136 @@
 🏁 TIẾN TRÌNH HOÀN TẤT
 Chế độ Upsert (Làm full): BẬT (Đã lưu DB)
 {
-  "documents": 5000,
-  "chunks": 110597,
-  "chunk_seconds": 10.346374137996463,
-  "embed_seconds": 3599.4536982009995,
-  "point_build_seconds": 6.7807070200015005,
-  "upsert_seconds": 311.330548558999
+  "documents": 10000,
+  "chunks": 389872,
+  "chunk_seconds": 41.190025366003965,
+  "embed_seconds": 8231.435011873,
+  "point_build_seconds": 22.45484716900137,
+  "upsert_seconds": 1223.6214949620005
 }
 
 ============================================================
 📊 BÁO CÁO TỶ LỆ PHỤ LỤC (APPENDIX RATIO REPORT)
 ============================================================
-🔹 Tổng số văn bản đã quét: 5,000
-🔹 Tổng số chunks sinh ra:  139,841
+🔹 Tổng số văn bản đã quét: 10,000
+🔹 Tổng số chunks sinh ra:  389,872
 ------------------------------------------------------------
-🟢 NỘI DUNG CHÍNH (is_appendix=False):  84,146 chunks (60.17%)
-🟡 PHỤ LỤC (is_appendix=True):         55,695 chunks (39.83%)
+🟢 NỘI DUNG CHÍNH (is_appendix=False): 349,515 chunks (89.65%)
+🟡 PHỤ LỤC (is_appendix=True):         40,357 chunks (10.35%)
 ------------------------------------------------------------
-⏱️ Thời gian tính toán: 14.98 giây
+⏱️ Thời gian tính toán: 43.71 giây
 ============================================================
+✅ TUYỆT VỜI: Tỷ lệ nội dung chính áp đảo, DB rất 'sạch' và chất lượng!
 
 ==================================================
 📊 BÁO CÁO DỰ KIẾN (ESTIMATION REPORT)
 ==================================================
-🔹 Tổng số văn bản: 5,000
-🔹 Tổng số chunk dự kiến: 139,841
-🔹 Tỷ lệ trung bình: 27.97 chunks/văn bản
-⏱️ Thời gian quét: 15.11 giây
-💾 Ước tính dung lượng DB: ~1365.63 MB
+🔹 Tổng số văn bản: 10,000
+🔹 Tổng số chunk dự kiến: 389,872
+🔹 Tỷ lệ trung bình: 38.99 chunks/văn bản
+⏱️ Thời gian quét: 43.16 giây
+💾 Ước tính dung lượng DB: ~3807.34 MB
+
+==================================================
+⚠️ THÔNG TIN CHUNK DÀI NHẤT (MAX LENGTH CHUNK)
+==================================================
+🔸 Số ký tự (Max Len): 7,244 characters
+🔸 Số hiệu văn bản: 22/2025/TT-BGDĐT
+🔸 Vị trí (Breadcrumb): 22/2025/TT-BGDĐT | Nội dung chung (tiếp theo)
+--------------------------------------------------
+🔸 NỘI DUNG CHUNK:
+
+[THÔNG TIN] Văn bản: 22/2025/TT-BGDĐT do Bộ Giáo dục và Đào tạo ban hành năm 2025.
+[TIÊU ĐỀ] Thông tư 22/2025/TT-BGDĐT quy định Chương trình giáo dục nâng cao dành cho các môn chuyên trong trường trung học phổ thông chuyên do Bộ trưởng Bộ Giáo dục và Đào tạo ban hành
+[LĨNH VỰC] Giáo dục
+[VỊ TRÍ] Nội dung chung (tiếp theo)
+[NỘI DUNG NỘI DUNG CHUNG (TIẾP THEO)]
+Chương trình được biên soạn theo đường hướng giao tiếp và hành động, bảo đảm hình thành và phát triển năng lực giao tiếp bằng tiếng Pháp cho học sinh thông qua các hoạt động giao tiếp: nghe, nói, đọc, viết. Kiến thức về ngôn ngữ (từ vựng, ngữ pháp, ngữ âm), văn hoá và ngôn ngữ xã hội là phương tiện phục vụ phát triển các kĩ năng giao tiếp. Chương trình được xây dựng xoay quanh các “chức năng” và các “khái niệm” (ngữ cảnh cụ thể), thay vì các cấu trúc ngữ pháp truyền thống. Cách tiếp cận này cho phép người học chuẩn bị các kiến thức và các kĩ năng của mình cho các tình huống giao tiếp thực; trên cơ sở hệ thống chủ điểm và chủ đề giao tiếp, các hành động giao tiếp đã được xác định. Một chủ điểm bao gồm nhiều chủ đề. Các chủ điểm và chủ đề có mối liên quan chặt chẽ với nhau, phù hợp với đặc điểm lứa tuổi và môi trường sinh hoạt, học tập của học sinh. Các chủ điểm này có thể được lặp lại và mở rộng theo các chuyên đề, từ đó cho phép học sinh củng cố và mở rộng kiến thức, rèn luyện các kĩ năng giao tiếp và phát triển năng lực giao tiếp và hành động của mình trong khuôn khổ một chương trình thống nhất. Thông qua các chủ điểm này, học sinh sẽ được tiếp cận với thực tiễn cuộc sống của nước Pháp và của các nước nói tiếng Pháp để trên cơ sở đó có sự đối chiếu với thực tế ở Việt Nam.
+Nội dung chung (tiếp theo) (tiếp theo)
+| - Có thể hiểu được hầu hết các chương trình thời sự và tạp chí truyền hình. - Có thể hiểu được một bộ phim tài liệu, một cuộc phỏng vấn, một cuộc thảo luận bàn tròn, một vở kịch trên truyền hình và phần lớn các bộ phim sử dụng tiếng Pháp chuẩn. | ● Hành động giao tiếp - Khuyên: cảnh báo (conseiller : mettre en garde) - Diễn đạt điều kiện: cảnh báo (exprimer la condition : mettre en garde) - Đưa ra các hướng dẫn, chỉ dẫn (donner des instructions) - Đưa ra quan điểm cá nhân (donner son point de vue) ● Ngữ pháp - Động từ + Thức chủ quan/ Thức nguyên thể (Verbes + Subjonctif / Infinitif) - Tính từ đi kèm với giới từ: (ví dụ: être heureux de, sûr de, prêt à, confiant en, remarquable par…) - Các cấp độ ngôn ngữ khác nhau: thân mật/ thông dụng/ trang trọng (les différents niveaux de langue : familier / courant / soutenu) - Các đại từ quan hệ kép (les pronoms relatifs composés) ● Từ vựng - Các từ, ngữ liên quan đến các chủ đề thời sự và các sự việc xảy ra trong xã hội: chính trị, giáo dục, văn hóa, sinh thái, kinh tế, luật pháp, công lý, khoa học và công nghệ, sức khỏe, lịch sử, thời trang, thế giới việc làm (sujets d’actualité et faits de société : politique, éducation, culture, écologie, économie, droit, justice, sciences et technologies, santé, histoire, mode, monde du travail) - Từ vựng chuyên ngành (vocabulaire spécialisé : domaine professionnel ou de spécialité) - Từ đa nghĩa, từ đồng nghĩa, từ trái nghĩa-những công cụ làm phong phú và phát triển từ vựng (polysémie, synonymes, antonymes-des moyens d’enrichir le lexique) ● Văn hóa-xã hội - Ngôn ngữ chuyên ngành (langue de spécialité) - Giọng điệu: hài hước, bi kịch, trữ tình (ton du discours : comique, tragique, lyrique) - Các loại văn bản học thuật và chuyên môn khác nhau (différents types d’écrits scolaires et professionnels) ● Tài liệu - Các bài báo, và báo cáo/ các vấn đề đương đại (articles de presse et rapports / questions contemporaines) - Các bài báo chuyên ngành (articles spécialisés) - Các thư từ chính thức: lĩnh vực chuyên môn hay học tập của mình (lettres formelles : domaine professionnel ou d’études) - Các văn bản văn học đương đại bằng văn xuôi (textes littéraires contemporaines en prose) - Các hướng dẫn dài và phức tạp (Instructions longues et complexes) |
+Chuyên đề 16: Viết tương tác: Ghi chép, nhắn tin, điền biểu mẫu (Notes, messages et formulaires)
+| Yêu cầu cần đạt | Nội dung dạy học |
+|||
+| - Có thể ghi lại một lời nhắn liên quan đến việc yêu cầu thông tin hoặc giải thích một vấn đề. - Có thể viết để lại những ghi chú truyền tải thông tin đơn giản và ngay lập tức có liên quan cho bạn bè, nhân viên, giáo viên và những người khác thường gặp trong cuộc sống hàng ngày, bằng cách truyền đạt rõ ràng những điểm mà mình cho là quan trọng đối với người nhận tin. | ● Hành động giao tiếp - Định vị các sự kiện trong không gian và thời gian (situer des événements dans l’espace et dans le temps) - Diễn đạt lại (reformuler) - Trình bày ý kiến của những người khác (présenter les opinions des autres) - Tổng hợp các thông tin (synthétiser des informations) - Đánh giá các thông tin (évaluer des informations) - Đánh giá các giải pháp cho một vấn đề (évaluer des solutions à un problème) ● Ngữ pháp - Phân từ hiện tại: dạng thức kép (le participe présent : formes composées) diễn đạt hành động xảy ra trước hành động khác (l’antériorité) - Động từ + Thức chủ quan/ Thức nguyên thể (Verbes + Subjonctif / Infinitif) - Đại từ bổ ngữ y/ en (verbes à prépositions) - Tính từ đi kèm với giới từ: (ví dụ: être heureux de, sûr de, prêt à, confiant en, remarquable par…) - Các đại từ quan hệ kép (les pronoms relatifs composés) - Các cấp độ ngôn ngữ khác nhau: thân mật/ thông dụng/ trang trọng (les différents niveaux de langue : familier / courant / soutenu) - Cải thiện phong cách viết (1): les synonymes / l’anaphore et les métaphores - Phủ định (la négation : sans + infinitif) ● Từ vựng - Các từ, ngữ liên quan đến các chủ đề thời sự và các sự việc xảy ra trong xã hội: chính trị, giáo dục, văn hóa, sinh thái, kinh tế, luật pháp, công lý, khoa học và công nghệ, sức khỏe, lịch sử, thời trang, thế giới việc làm (sujets d’actualité et faits de société : politique, éducation, culture, écologie, économie, droit, justice, sciences et technologies, santé, histoire, mode, monde du travail) - Từ vựng chuyên ngành (vocabulaire spécialisé : domaine professionnel ou de spécialité) - Từ đa nghĩa, từ đồng nghĩa, từ trái nghĩa-những công cụ làm phong phú và phát triển từ vựng (polysémie, synonymes, antonymes-des moyens d’enrichir le lexique) ● Văn hóa-xã hội - Các loại diễn ngôn khác nhau: giải thích và lập luận (différents types de discours : explicatif et argumentatif) - Các loại văn bản học thuật và chuyên nghiệp khác nhau (différents types d’écrits scolaires et professionnels) - Nghi thức viết thư bày tỏ nguyện vọng, ví dụ xin việc, xin đi học… (rituel de la lettre de motivation) ● Tài liệu - Các bài báo, và báo cáo/ các vấn đề đương đại (articles de presse et rapports / questions contemporaines) - Các văn bản văn học đương đại bằng văn xuôi (textes littéraires contemporaines en prose) - Các bài báo chuyên ngành (articles spécialisés) - Các thư từ chính thức: lĩnh vực chuyên môn hay học tập (lettres formelles : domaine professionnel ou d’études) - Các văn bản chuyên môn: chương trình họp, biên bản họp, sơ yếu lý lịch và thư bày tỏ nguyện vọng (écrits professionnels : ordre du jour, compte rendu, CV et lettres de motivation) - Các hướng dẫn dài và phức tạp (instructions longues et complexes) |
+3. Hệ thống các chủ điểm, chủ đề
+
+==================================================
+🔎 THÔNG TIN CHUNK NGẮN NHẤT (MIN LENGTH CHUNK)
+==================================================
+🔸 Số ký tự (Min Len): 219 characters
+🔸 Số hiệu văn bản: 46/2024/QH15
+🔸 Vị trí (Breadcrumb): 46/2024/QH15 | Chương V.
+--------------------------------------------------
+🔸 NỘI DUNG CHUNK:
+
+[THÔNG TIN] Văn bản: 46/2024/QH15 do Quốc hội ban hành năm 2024.
+[TIÊU ĐỀ] Luật Công chứng 2024
+[LĨNH VỰC] Dịch vụ pháp lý
+[VỊ TRÍ] Chương V.
+[NỘI DUNG CHUNG]
+Chính phủ quy định chi tiết Điều 63 và Điều 64 của Luật này.
+
+count
+legal_sectors_list	
+Tài chính nhà nước	1081
+Bộ máy hành chính	976
+Văn hóa - Xã hội	892
+Tài nguyên - Môi trường	710
+Xây dựng - Đô thị	669
+Thể thao - Y tế	559
+Thuế - Phí - Lệ Phí	524
+Đầu tư	521
+Lao động - Tiền lương	505
+Thương mại	488
+Xuất nhập khẩu	442
+Doanh nghiệp	434
+Dịch vụ pháp lý	434
+Vi phạm hành chính	426
+Tiền tệ - Ngân hàng	421
+
+============================================================
+PHASE 3: KIỂM TRA ĐỘ CHÍNH XÁC VÀ HIỆU NĂNG TRUY XUẤT
+============================================================
+[*] Đang nạp mô hình Embedding trên thiết bị: cpu
+Fetching 30 files: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 30/30 [00:00<?, ?it/s]
+
+🔎 Query: 'Tiêu chí và quyền nghĩa vụ của doanh nghiệp xã hội' | Filters: 1 conditions
+You're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+pre tokenize: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<?, ?it/s]
+Inference Embeddings: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  2.39it/s]
+   [✓] Trả về 5 kết quả trong 3.587s
+       1. [Luật | 2025-12-10 | App:False] Luật Báo chí 2025... Score: 0.5000
+       2. [Luật | 2025-06-18 | App:False] Luật Chất lượng sản phẩm, hàng hóa sửa đổi 2025... Score: 0.5000
+       3. [Luật | 2025-12-11 | App:False] Luật Phục hồi, phá sản 2025... Score: 0.3333
+       4. [Luật | 2025-06-18 | App:False] Luật Chất lượng sản phẩm, hàng hóa sửa đổi 2025... Score: 0.3333
+       5. [Luật | 2025-12-10 | App:False] Luật Quản lý thuế 2025... Score: 0.3125
+
+🔎 Query: 'Quy định về người đại diện theo pháp luật của doanh nghiệp' | Filters: 1 conditions
+pre tokenize: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<?, ?it/s]
+Inference Embeddings: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  5.53it/s]
+   [✓] Trả về 0 kết quả trong 0.823s
+
+🔎 Query: 'Điều kiện và hồ sơ đăng ký thành lập công ty cổ phần' | Filters: 1 conditions
+pre tokenize: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<?, ?it/s]
+Inference Embeddings: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  4.78it/s]
+   [✓] Trả về 5 kết quả trong 1.456s
+       1. [Thông tư | 2024-12-24 | App:False] Thông tư 56/2024/TT-NHNN quy định hồ sơ, thủ tục cấp giấy ph... Score: 0.5000
+       2. [Quyết định | 2026-02-13 | App:True] Quyết định 211/QĐ-UBND năm 2026 công bố Danh mục thủ tục hàn... Score: 0.5000
+       3. [Quyết định | 2026-01-29 | App:True] Quyết định 417/QĐ-UBND năm 2026 công bố Danh mục thủ tục hàn... Score: 0.3333
+       4. [Nghị định | 2026-02-12 | App:False] Nghị định 57/2026/NĐ-CP cơ cấu lại vốn nhà nước tại doanh ng... Score: 0.3333
+       5. [Nghị định | 2025-06-30 | App:False] Nghị định 168/2025/NĐ-CP về đăng ký doanh nghiệp... Score: 0.3000
+
+🔎 Query: 'Các hành vi bị nghiêm cấm trong hoạt động doanh nghiệp' | Filters: 1 conditions
+pre tokenize: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 997.46it/s]
+Inference Embeddings: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  4.37it/s]
+   [✓] Trả về 5 kết quả trong 1.453s
+       1. [Luật | 2024-11-27 | App:False] Luật Công đoàn 2024... Score: 0.5000
+       2. [Luật | 2025-12-11 | App:False] Luật Chuyển đổi số 2025... Score: 0.5000
+       3. [Quyết định | 2025-10-20 | App:False] Quyết định 74/2025/QĐ-UBND về Quy chế quản lý, vận hành và k... Score: 0.4242
+       4. [Quyết định | 2025-10-22 | App:False] Quyết định 5278/QĐ-UBND năm 2025 về Quy chế quản lý, khai th... Score: 0.3750
+       5. [Luật | 2025-12-10 | App:False] Luật Công nghệ cao 2025... Score: 0.3333
+
+[✓] HOÀN TẤT KIỂM TRA ACCURACY.
 
 ======================================================================
 📊 BENCHMARK TRUY XUẤT TÀI LIỆU (Hybrid Search + Rerank)

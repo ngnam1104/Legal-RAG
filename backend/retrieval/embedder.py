@@ -73,7 +73,7 @@ class LocalBGEHybridEncoder(BaseEmbedder):
         outputs = self.model.encode(
             texts,
             batch_size=(128 if torch.cuda.is_available() else batch_size),
-            max_length=4096,
+            max_length=2048,
             return_dense=True,
             return_sparse=True,
             return_colbert_vecs=False,

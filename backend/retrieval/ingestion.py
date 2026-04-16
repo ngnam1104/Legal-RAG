@@ -1,25 +1,52 @@
+"""
+Document ingestion pipeline for single-upload mode.
+Đồng bộ với output schema mới từ AdvancedLegalChunker:
+  chunk["qdrant_metadata"] — payload nhẹ cho Qdrant
+  chunk["neo4j_metadata"] — payload đầy đủ cho Neo4j
+  chunk["text_to_embed"]  — text tinh gọn để embed (không có metadata header)
+"""
 import os
 import uuid
-from qdrant_client.models import PointStruct
+import time
+from qdrant_client.models import PointStruct, Filter, FieldCondition, MatchValue
 
 from backend.config import settings
 from backend.retrieval.vector_db import client as qdrant
 from backend.retrieval.embedder import embedder
 from backend.utils.document_parser import parser
-from backend.agent.utils_conflict_analyzer import (
-    extract_claims_from_text, 
-    judge_claim, 
-    review_claim
-) # Changed from flow_conflict_analyzer to utils_conflict_analyzer
 from backend.llm.factory import chat_completion
+from backend.retrieval.graph_db import get_neo4j_driver, build_neo4j
+
+
+def fetch_old_text_from_qdrant(doc_number: str, article_ref: str) -> str:
+    """Truy vấn Qdrant để trích xuất nội dung cũ của một điều luật."""
+    try:
+        search_result = qdrant.scroll(
+            collection_name=settings.QDRANT_COLLECTION,
+            scroll_filter=Filter(
+                must=[
+                    FieldCondition(key="document_number", match=MatchValue(value=doc_number)),
+                    FieldCondition(key="article_ref", match=MatchValue(value=article_ref)),
+                ]
+            ),
+            limit=1,
+            with_payload=True
+        )
+        if search_result and search_result[0]:
+            return search_result[0][0].payload.get("chunk_text", "")
+    except Exception as e:
+        print(f"Lỗi truy vấn old_text trên Qdrant: {e}")
+    return ""
+
 
 def process_document_task(file_path: str):
     """
-    Task xử lý thông minh (Đồng bộ): 
-    1. Trích xuất & Chunks (Hierarchical)
-    2. Tóm tắt nội dung (LLM Summary)
-    3. Phân tích xung đột (Conflict Analysis)
-    4. Lưu trữ Hybrid Vector (Dense + Sparse)
+    Task xử lý Single Upload toàn diện:
+    1. Trích xuất văn bản & Phân rã Hierarchical Chunks + Graph Relations
+    2. Lookup old_text từ Qdrant
+    3. Tóm tắt nội dung
+    4. Upsert Qdrant (Hybrid) — dùng qdrant_metadata + text_to_embed
+    5. Build Neo4j (Graph) — dùng neo4j_metadata
     """
     try:
         if settings.QDRANT_READ_ONLY:
@@ -30,56 +57,74 @@ def process_document_task(file_path: str):
 
         filename = os.path.basename(file_path)
         
-        # 1. Trích xuất văn bản & Phân đoạn phân cấp (Hierarchical Chunking)
+        # 1. Trích xuất Text & Chunks + Lấy Relation
         print(f"⏳ Processing document: {filename}")
         chunks = parser.parse_and_chunk(file_path)
         if not chunks:
             raise ValueError("Không trích xuất được nội dung hợp lệ.")
 
-        # 2. Tạo bản Tóm tắt nhanh (Quick Summary)
-        full_text_sample = "\n".join([c.get("text_to_embed", "") for c in chunks[:5]])
+        # 2. Xử lý thiếu Cross-document `old_text` do chạy cục bộ
+        for chunk in chunks:
+            # Hỗ trợ cả output schema mới (neo4j_metadata) và cũ (metadata) 
+            meta = chunk.get("neo4j_metadata", chunk.get("metadata", {}))
+            for rel_type in ["amended_refs", "replaced_refs", "repealed_refs"]:
+                if rel_type in meta:
+                    for ref in meta[rel_type]:
+                        target_doc = ref.get("doc_number") or ref.get("target_doc_number")
+                        target_art = ref.get("target_article")
+                        if target_doc and target_art and not ref.get("old_text"):
+                            old_txt = fetch_old_text_from_qdrant(target_doc, target_art)
+                            ref["old_text"] = old_txt[:1500] if old_txt else ""
+
+        # 3. Tóm tắt (Summary)
+        full_text_sample = "\n".join([c.get("chunk_text", "") for c in chunks[:5]])
         summary_prompt = f"Hãy viết một bản tóm tắt cực ngắn (khoảng 3-5 câu) nội dung chính của tài liệu sau:\n\n{full_text_sample}"
         summary = chat_completion([{"role": "user", "content": summary_prompt}], temperature=0.1)
 
-        # 3. [FREE TIER SAFETY] Bỏ qua Phân tích xung đột tự động khi upload để tiết kiệm Token 70B
-        # Phân tích này nên được kích hoạt thủ công trong Chat qua chế độ CONFLICT_ANALYZER
-        conflict_report = "Tự động phân tích bị tắt để tiết kiệm API Quota. Vui lòng chat với file để phân tích."
-        # conflict_report = analyze_document_conflicts(chunks)
+        conflict_report = "Tự động phân tích xung đột đã tắt. Vui lòng hỏi trong Chat."
 
-
-        # 4. Lưu trữ vào Vector DB (Hybrid)
-        all_texts = [c["text_to_embed"] for c in chunks]
+        # 4. Lưu trữ Qdrant Vector DB
+        # Ưu tiên dùng text_to_embed (tinh gọn) nếu có, fallback về chunk_text
+        all_texts = [c.get("text_to_embed", c.get("chunk_text", "")) for c in chunks]
         dense_vectors = embedder.encode_dense(all_texts)
         sparse_vectors = embedder.encode_sparse_documents(all_texts)
 
         points = []
+        doc_id_override = str(uuid.uuid4())
+        
         for idx, chunk in enumerate(chunks):
-            p = chunk["metadata"]
-            payload = {
-                "document_id": str(uuid.uuid4()),
-                "chunk_id": chunk.get("chunk_id", str(uuid.uuid4())),
-                "title": p.get("title", filename),
-                "is_appendix": bool(p.get("is_appendix", False)),
-                "chunk_text": chunk.get("text_to_embed", ""),
-                "is_user_upload": True,
-                "summary": summary if idx == 0 else "" # Gắn summary vào chunk đầu tiên để dễ tra cứu
-            }
+            # Lấy payload Qdrant (nhẹ) — fallback về metadata cũ nếu chưa có schema mới
+            q_payload = chunk.get("qdrant_metadata", chunk.get("metadata", {}))
+            q_payload["document_id"] = doc_id_override
+            q_payload["is_user_upload"] = True
+            q_payload["summary"] = summary if idx == 0 else ""
+            
+            # Cập nhật neo4j_metadata document_id nếu có
+            n_payload = chunk.get("neo4j_metadata", {})
+            if n_payload:
+                n_payload["document_id"] = doc_id_override
             
             points.append(PointStruct(
-                id=str(uuid.uuid4()),
+                id=str(uuid.uuid5(uuid.NAMESPACE_DNS, chunk["chunk_id"])),
                 vector={
                     "dense": dense_vectors[idx],
                     "sparse": sparse_vectors[idx],
                 },
-                payload=payload
+                payload=q_payload
             ))
 
         collection_name = settings.QDRANT_COLLECTION
         qdrant.upsert(collection_name=collection_name, points=points)
+        print(f"✅ Đã Upsert {len(points)} chunks lên Qdrant.")
 
-        # Cleanup file tạm (Để lại để chat_engine có thể parse context thô nhanh)
-        # if os.path.exists(file_path):
-        #     os.remove(file_path)
+        # 5. Lưu trữ Neo4j Graph DB
+        driver = get_neo4j_driver()
+        if driver:
+            build_neo4j(driver, chunks)
+            print(f"✅ Đã Push Graph Nodes và Relations lên Neo4j.")
+            driver.close()
+        else:
+            print("⚠️ Bỏ qua Neo4j vì config không hợp lệ hoặc không có kết nối.")
 
         return {
             "status": "success",

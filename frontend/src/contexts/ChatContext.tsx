@@ -38,7 +38,6 @@ interface ChatContextProps {
   sessions: Session[];
   messages: Message[];
   settings: ChatSettings;
-  activeMode: 'LEGAL_QA' | 'SECTOR_SEARCH' | 'CONFLICT_ANALYZER' | 'GENERAL_CHAT' | 'AUTO';
   inputBuffer: string;
   isPendingEdit: boolean;
   editingIndex: number | null;
@@ -50,7 +49,6 @@ interface ChatContextProps {
   
   // Actions
   setInputBuffer: (text: string) => void;
-  setActiveMode: (mode: 'LEGAL_QA' | 'SECTOR_SEARCH' | 'CONFLICT_ANALYZER' | 'GENERAL_CHAT' | 'AUTO') => void;
   setCurrentSessionId: (id: string | null) => void;
   setSettings: (settings: Partial<ChatSettings>) => void;
   createNewSession: () => void;
@@ -75,7 +73,6 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [sessions, setSessions] = useState<Session[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputBuffer, setInputBuffer] = useState("");
-  const [activeMode, setActiveMode] = useState<'LEGAL_QA' | 'SECTOR_SEARCH' | 'CONFLICT_ANALYZER' | 'GENERAL_CHAT' | 'AUTO'>('GENERAL_CHAT');
   const [lastFileId, setLastFileId] = useState<string | null>(null);
   const [isPendingEdit, setIsPendingEdit] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -223,7 +220,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
       const payload = {
         session_id: sid,
         query,
-        mode: activeMode,
+        mode: 'AUTO',
         file_path: lastFileId ? lastFileId : null,
         llm_preset: settings.llm_preset,
         top_k: settings.top_k,
@@ -434,7 +431,6 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     sessions,
     messages,
     settings,
-    activeMode,
     inputBuffer,
     isPendingEdit,
     editingIndex,
@@ -444,7 +440,6 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     stagedFile,
     processingSteps,
     setInputBuffer,
-    setActiveMode,
     setCurrentSessionId,
     setSettings,
     createNewSession,
@@ -459,7 +454,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     clearStagedFile,
     syncConflict
   }), [
-    currentSessionId, sessions, messages, settings, activeMode,
+    currentSessionId, sessions, messages, settings,
     inputBuffer, isPendingEdit, editingIndex, isLoading,
     isSending, isIngesting, stagedFile, processingSteps, fetchSessions, fetchMessages,
     createNewSession, deleteSession, renameSession, sendMessage,

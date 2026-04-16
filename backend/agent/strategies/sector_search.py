@@ -48,7 +48,8 @@ class SectorSearchStrategy(BaseRAGStrategy):
                 tf["keywords"] = f"{tf.get('keywords', query)} {file_analysis['suggested_keywords']}"
         
         # Merge filters + extra extraction
-        filters = tf.get("filters", {})
+        filters = state.get("router_filters", {}) or {}
+        filters.update(tf.get("filters", {}))
         filters["legal_sectors"] = list(set(tf.get("legal_sectors", []) + file_analysis.get("legal_sectors", [])))
         filters["effective_date_range"] = tf.get("effective_date_range", {})
         
@@ -60,7 +61,7 @@ class SectorSearchStrategy(BaseRAGStrategy):
         }
 
     def retrieve(self, state: AgentState) -> Dict[str, Any]:
-        """Broad Fetch: Top 30 kết quả, no rerank, no context expansion."""
+        """Broad Fetch: Qdrant Top 15 + Neo4j Sector MapReduce."""
         rewritten_queries = state.get("rewritten_queries") or [state.get("condensed_query") or state["query"]]
         kw = rewritten_queries[0] or state.get("condensed_query") or state["query"]
         filters = state.get("metadata_filters", {})
@@ -70,23 +71,30 @@ class SectorSearchStrategy(BaseRAGStrategy):
         hits = retriever.search(
             query=kw,
             expand_context=False,  # Sector search chỉ cần metadata
-            use_rerank=use_rerank, # Sử dụng flag từ frontend
+            use_rerank=use_rerank,
             legal_type=filters.get("legal_type"),
             doc_number=filters.get("doc_number"),
-            limit=15               # 10 main + 5 appendices
+            limit=15
         )
-        return {"raw_hits": hits}
-
-    def resolve_references(self, state: AgentState) -> Dict[str, Any]:
-        """Sector search hỗ trợ truy xuất thêm Phụ lục nếu Điều khoản nhắc tới."""
-        from backend.agent.utils_legal_qa import resolve_recursive_references
-        hits = state.get("raw_hits", [])
-        final_hits_with_refs = resolve_recursive_references(hits)
         
-        # Chỉ lấy các hits mới nạp thêm
-        recursive_only = [h for h in final_hits_with_refs if h not in hits]
-        # Giới hạn sector search chỉ lấy tối đa 3 tham chiếu bổ sung để tránh rác
-        return {"recursive_hits": recursive_only[:3]}
+        # --- YÊU CẦU 3: NEO4J SECTOR MAPREDUCE ---
+        graph_context = {"sector_mapreduce": [], "lateral_docs": []}
+        sectors = filters.get("legal_sectors", [])
+        
+        if sectors:
+            try:
+                from backend.retrieval.graph_db import sector_mapreduce
+                for sector_name in sectors[:3]:  # Giới hạn 3 ngành
+                    mr_result = sector_mapreduce(sector_name)
+                    if mr_result:
+                        graph_context["sector_mapreduce"].extend(mr_result)
+                        print(f"       📊 [Neo4j] Sector MapReduce for '{sector_name}': {len(mr_result)} groups")
+            except Exception as e:
+                print(f"       ⚠️ [Neo4j] Sector MapReduce failed (non-fatal): {e}")
+        
+        return {"raw_hits": hits, "graph_context": graph_context}
+
+
 
     def grade(self, state: AgentState) -> Dict[str, Any]:
         """

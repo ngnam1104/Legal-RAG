@@ -17,6 +17,7 @@ class AgentState(TypedDict):
     condensed_query: str
     file_chunks: List[Dict[str, Any]]
     detected_mode: Optional[str]
+    router_filters: Optional[Dict[str, Any]]
     metrics: Annotated[Dict[str, float], operator.ior]
     
     # --- Legacy Variables (gradually deprecate) ---
@@ -37,9 +38,9 @@ class AgentState(TypedDict):
     rewritten_queries: List[str]      # Hỗ trợ search đa luồng / đa mệnh đề
     metadata_filters: Dict[str, Any]  # Tham số filter Qdrant (vd: {"legal_type": "Luật", "is_appendix": False})
     
-    # 2. Retrieve (Vector/Hybrid DB Fetch)
-    raw_hits: List[Dict[str, Any]]    # Kết quả thô ban đầu
-    recursive_hits: List[Dict[str, Any]] # Search đệ quy Điều/Khoản
+    # 2. Retrieve (Vector/Hybrid DB Fetch + Graph Expansion)
+    raw_hits: List[Dict[str, Any]]    # Kết quả thô từ Qdrant
+    graph_context: Dict[str, Any]     # Kết quả từ Neo4j (lateral_docs, document_toc, sibling_texts, time_travel)
     
     # 3. Grade (Kiểm định)
     filtered_context: str             # Context sau khi loại bỏ nhiễu

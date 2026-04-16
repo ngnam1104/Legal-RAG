@@ -37,14 +37,34 @@ services:
     #   timeout: 10s
     #   retries: 20
 
+  neo4j:
+    image: neo4j:5.20.0
+    container_name: legal-rag-neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      # Khớp với mật khẩu trong .env để dễ quản lý
+      - NEO4J_AUTH=neo4j/u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0
+      - NEO4J_PLUGINS=["apoc"]
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_import:/var/lib/neo4j/import
+      - neo4j_plugins:/plugins
+    restart: always
+
 volumes:
   local_redis_data:
   qdrant_local_storage:
   qdrant_local_snapshots:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_import:
+  neo4j_plugins:
 
     # NOTE: Khi chạy backend trong Docker, mount volume cho SQLite:
     # docker run -v ./backend/data:/app/backend/data ...
     # Hoặc thêm volume vào service backend nếu có:
     #   volumes:
-    #     - ./backend/data:/app/backend/data
 

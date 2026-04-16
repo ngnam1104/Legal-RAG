@@ -37,6 +37,11 @@ class Settings(BaseSettings):
     ENABLE_RERANK: bool = True
     QDRANT_READ_ONLY: bool = False
     REDIS_URL: str = "redis://localhost:6379/0"
+    
+    # Neo4j Graph DB
+    NEO4J_URI: str = "neo4j+s://7b7f7d06.databases.neo4j.io"
+    NEO4J_USERNAME: str = "7b7f7d06"
+    NEO4J_PASSWORD: str = "u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0"
 
     model_config = {
         "env_file": os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"),

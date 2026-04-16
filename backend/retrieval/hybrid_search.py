@@ -4,8 +4,14 @@ from backend.retrieval.vector_db import client
 from backend.retrieval.embedder import embedder
 from backend.retrieval.reranker import reranker
 from backend.config import settings
+from backend.retrieval.graph_db import get_neo4j_driver
 import re
 import time
+
+try:
+    from neo4j_graphrag.retrievers import QdrantNeo4jRetriever
+except ImportError:
+    QdrantNeo4jRetriever = None
 
 def detect_sector_hints(query: str, hot_sectors: List[str]) -> List[str]:
     lowered = query.lower()
@@ -47,7 +53,7 @@ class HybridRetriever:
             must_conditions.append(models.FieldCondition(key="document_number", match=models.MatchValue(value=doc_number)))
         if article_ref:
             # Use MatchText for article_ref to allow "Điều 2" to match "Điều 2. Đối tượng áp dụng"
-            must_conditions.append(models.FieldCondition(key="article", match=models.MatchText(text=article_ref)))
+            must_conditions.append(models.FieldCondition(key="article_ref", match=models.MatchText(text=article_ref)))
         return must_conditions
 
     def build_filter(
@@ -230,9 +236,8 @@ class HybridRetriever:
         
         # Thử khớp với article_ref HOẶC reference_citation (cho phụ lục)
         should = [
-            models.FieldCondition(key="article_ref", match=models.MatchValue(value=ref_id)),
+            models.FieldCondition(key="article_ref", match=models.MatchText(text=ref_id)),
             models.FieldCondition(key="reference_citation", match=models.MatchValue(value=ref_id)),
-            models.FieldCondition(key="article_ref", match=models.MatchText(text=ref_id))
         ]
         
         points, _ = self.client.scroll(
@@ -508,5 +513,62 @@ class HybridRetriever:
             })
 
         return formatted_results
+
+    def graph_search(
+        self,
+        query: str,
+        top_k: int = 5,
+        explore_depth: int = 1
+    ) -> List[Dict]:
+        """
+        Sử dụng neo4j_graphrag.retrievers.QdrantNeo4jRetriever để tự động hoá
+        quy trình Vector Search -> Graph Traversal (tìm Relationship: AMENDS, REPLACES...)
+        """
+        if not QdrantNeo4jRetriever:
+            print("⚠️ Cần cài đặt `neo4j-graphrag` để dùng QdrantNeo4jRetriever. Fallback sang Vector search.")
+            return self.search(query, limit=top_k)
+
+        driver = get_neo4j_driver()
+        if not driver:
+            print("⚠️ Không khởi tạo được Neo4j Driver. Fallback sang Vector search.")
+            return self.search(query, limit=top_k)
+
+        try:
+            # Note: We must specify vector_name='dense' since we use Hybrid Qdrant Collection
+            from neo4j_graphrag.embeddings import OpenAIEmbeddings # Fallback if we need an embedder interface
+            
+            # Since neo4j-graphrag natively expects an embedder for its own Qdrant querying 
+            # if we don't pass vector directly, we'll configure it. 
+            # However QdrantNeo4jRetriever handles vector search out of the box if we provide correct parameters.
+            
+            retriever = QdrantNeo4jRetriever(
+                driver=driver,
+                client=self.client,
+                collection_name=self.collection_name,
+                id_property_external="id",  # ID in Qdrant
+                id_property_neo4j="chunk_id" # ID loaded via Chunk Node
+            )
+            
+            # Run GraphRAG Search (This yields nodes augmented with exact old_text/new_text relations)
+            records = retriever.search(query_text=query, top_k=top_k)
+            
+            driver.close()
+            
+            # Format output compatible with our system
+            results = []
+            for item in records.items:
+                results.append({
+                    "id": getattr(item, "id", ""),
+                    "score": 1.0,
+                    "title": "Graph Retrieval Hit",
+                    "text": getattr(item, "content", ""),
+                    "chunk_id": getattr(item, "id", "")
+                })
+            return results
+            
+        except Exception as e:
+            print(f"Lỗi Graph Search: {e}")
+            if driver: driver.close()
+            return self.search(query, limit=top_k)
 
 retriever = HybridRetriever()
