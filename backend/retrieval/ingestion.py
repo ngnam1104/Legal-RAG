@@ -63,18 +63,17 @@ def process_document_task(file_path: str):
         if not chunks:
             raise ValueError("Không trích xuất được nội dung hợp lệ.")
 
-        # 2. Xử lý thiếu Cross-document `old_text` do chạy cục bộ
+        # 2. Xử lý thiếu Cross-document `target_text` do chạy cục bộ
         for chunk in chunks:
             # Hỗ trợ cả output schema mới (neo4j_metadata) và cũ (metadata) 
             meta = chunk.get("neo4j_metadata", chunk.get("metadata", {}))
-            for rel_type in ["amended_refs", "replaced_refs", "repealed_refs"]:
-                if rel_type in meta:
-                    for ref in meta[rel_type]:
-                        target_doc = ref.get("doc_number") or ref.get("target_doc_number")
-                        target_art = ref.get("target_article")
-                        if target_doc and target_art and not ref.get("old_text"):
-                            old_txt = fetch_old_text_from_qdrant(target_doc, target_art)
-                            ref["old_text"] = old_txt[:1500] if old_txt else ""
+            if "ontology_relations" in meta:
+                for rel in meta["ontology_relations"]:
+                    target_doc = rel.get("target_doc")
+                    target_art = rel.get("target_article")
+                    if target_doc and target_art and not rel.get("target_text"):
+                        old_txt = fetch_old_text_from_qdrant(target_doc, target_art)
+                        rel["target_text"] = old_txt if old_txt else ""
 
         # 3. Tóm tắt (Summary)
         full_text_sample = "\n".join([c.get("chunk_text", "") for c in chunks[:5]])

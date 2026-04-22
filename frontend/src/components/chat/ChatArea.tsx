@@ -100,53 +100,59 @@ export function MessageItem({ message, index, isLastUserMessage }: {
           <div className="text-text-main text-[15.5px] leading-relaxed">
             <div className="markdown-body">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {message.content.replace(/<!-- DB_UPDATE_PROPOSAL: .* -->/g, "")}
+                {message.content.replace(/<!-- DB_UPDATE_PROPOSAL: [\s\S]*? -->/g, "").trim()}
               </ReactMarkdown>
             </div>
             
             {/* Logic Phê duyệt cập nhật DB (Conflict Analyzer) */}
-            {message.content.includes("<!-- DB_UPDATE_PROPOSAL:") && (
-                <div className="mt-6 p-5 rounded-2xl bg-emerald-accent/5 border border-emerald-accent/20 animate-in fade-in slide-in-from-bottom-2 duration-700">
-                    <p className="text-sm font-bold text-emerald-accent mb-4 flex items-center gap-2">
-                         <Check size={16} /> 
-                         Đề xuất cập nhật Hệ thống
-                    </p>
-                    <p className="text-xs text-text-dim mb-5 leading-relaxed">
-                        Phát hiện văn bản mới có hiệu lực thay thế dữ liệu hiện tại. Bạn có muốn vô hiệu hóa các văn bản cũ và nạp văn bản mới này vào cơ sở dữ liệu?
-                    </p>
-                    
-                    {syncStatus === 'success' ? (
-                        <div className="flex items-center gap-2 text-emerald-primary font-bold text-sm bg-emerald-primary/10 p-3 rounded-xl">
-                            <Check size={18} /> Đã cập nhật cơ sở dữ liệu thành công!
-                        </div>
-                    ) : (
-                        <button
-                            disabled={syncStatus === 'loading'}
-                            onClick={async () => {
-                                try {
-                                    setSyncStatus('loading');
-                                    const match = message.content.match(/<!-- DB_UPDATE_PROPOSAL: (.*) -->/);
-                                    if (match && match[1]) {
-                                        const proposal = JSON.parse(match[1]);
-                                        await syncConflict(
-                                            proposal.document_numbers_to_disable, 
-                                            proposal.new_file_id, 
-                                            proposal.new_filename
-                                        );
-                                        setSyncStatus('success');
+            {message.content.includes("<!-- DB_UPDATE_PROPOSAL:") && (() => {
+                const match = message.content.match(/<!-- DB_UPDATE_PROPOSAL: ([\s\S]*?) -->/);
+                let proposal = { old_nums_display: "các văn bản cũ", new_num_display: "mới tải lên" };
+                try { if(match) proposal = JSON.parse(match[1]); } catch(e) {}
+
+                return (
+                    <div className="mt-6 p-5 rounded-2xl bg-emerald-accent/5 border border-emerald-accent/20 animate-in fade-in slide-in-from-bottom-2 duration-700">
+                        <p className="text-sm font-bold text-emerald-accent mb-4 flex items-center gap-2">
+                            <Check size={16} /> 
+                            Đề xuất cập nhật Cơ sở dữ liệu
+                        </p>
+                        <p className="text-xs text-text-main mb-5 leading-relaxed font-medium">
+                            Hệ thống phát hiện văn bản <span className="text-emerald-accent font-bold">{proposal.new_num_display}</span> có tính chất thay thế cho <span className="text-red-400 font-bold">{proposal.old_nums_display}</span>. 
+                            <br/>Bạn có muốn thực hiện đồng bộ ngay?
+                        </p>
+                        
+                        {syncStatus === 'success' ? (
+                            <div className="flex items-center gap-2 text-emerald-primary font-bold text-sm bg-emerald-primary/10 p-3 rounded-xl border border-emerald-primary/20">
+                                <Check size={18} /> Đã cập nhật cơ sở dữ liệu thành công!
+                            </div>
+                        ) : (
+                            <button
+                                disabled={syncStatus === 'loading'}
+                                onClick={async () => {
+                                    try {
+                                        setSyncStatus('loading');
+                                        if (match && match[1]) {
+                                            const p = JSON.parse(match[1]);
+                                            await syncConflict(
+                                                p.document_numbers_to_disable, 
+                                                p.new_file_id, 
+                                                p.new_filename
+                                            );
+                                            setSyncStatus('success');
+                                        }
+                                    } catch (e) {
+                                        setSyncStatus('error');
                                     }
-                                } catch (e) {
-                                    setSyncStatus('error');
-                                }
-                            }}
-                            className="w-full py-3 rounded-xl bg-emerald-accent text-emerald-base font-black uppercase tracking-widest text-[11px] shadow-lg hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
-                        >
-                            {syncStatus === 'loading' ? "Đang đồng bộ..." : "Xác nhận cập nhật dữ liệu"}
-                        </button>
-                    )}
-                    {syncStatus === 'error' && <p className="text-[10px] text-red-400 mt-2">Có lỗi xảy ra khi đồng bộ.</p>}
-                </div>
-            )}
+                                }}
+                                className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-accent to-emerald-primary text-emerald-base font-black uppercase tracking-widest text-[11px] shadow-lg hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                            >
+                                {syncStatus === 'loading' ? "Đang đồng bộ..." : "Xác nhận cập nhật dữ liệu"}
+                            </button>
+                        )}
+                        {syncStatus === 'error' && <p className="text-[10px] text-red-400 mt-2 font-bold italic">⚠️ Lỗi: Không thể kết nối tới server đồng bộ.</p>}
+                    </div>
+                );
+            })()}
 
             {/* References Accordion */}
             {message.references && message.references.length > 0 && (

@@ -1,97 +1,174 @@
-from typing import List, Dict, Any
-from backend.config import settings
+"""
+Internal API Reranker — On-Premise Adapter
+===========================================
+Gọi REST API nội bộ tại 10.9.3.75:30546 để re-rank documents.
+KHÔNG dùng ``sentence-transformers`` hay ``CrossEncoder``.
+"""
 
-class DocumentReranker:
-    """Cross-Encoder reranker siêu xịn (Hỗ trợ đa ngôn ngữ/Tiếng Việt).
-    Sử dụng mô hình BAAI/bge-reranker-v2-m3."""
+from __future__ import annotations
 
-    def __init__(self, model_name: str = "BAAI/bge-reranker-v2-m3", use_fp16: bool = True):
-        self.model_name = model_name
-        self.model = None
-        self.use_fp16 = use_fp16
-        self._load_failed = False
+import logging
+from typing import Any, Dict, List
 
-    def _lazy_load(self):
-        if self.model is not None or self._load_failed:
+import requests
+
+logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
+_RERANKING_ENDPOINT: str = "http://10.9.3.75:30546/api/v1/reranking"
+_REQUEST_TIMEOUT: int = 60  # seconds
+
+# ---------------------------------------------------------------------------
+# Singleton guard
+# ---------------------------------------------------------------------------
+_instance: "InternalAPIReranker | None" = None
+
+
+class InternalAPIReranker:
+    """
+    Adapter Reranker gọi REST API nội bộ.
+
+    * Singleton: chỉ tạo 1 instance duy nhất.
+    * Fallback: nếu API sập → giữ nguyên thứ tự gốc với score = 0.0.
+    """
+
+    def __new__(cls, *args, **kwargs) -> "InternalAPIReranker":
+        global _instance
+        if _instance is None:
+            _instance = super().__new__(cls)
+            _instance._initialized = False
+        return _instance
+
+    def __init__(
+        self,
+        endpoint: str = _RERANKING_ENDPOINT,
+        timeout: int = _REQUEST_TIMEOUT,
+    ) -> None:
+        if self._initialized:
             return
-        try:
-            from sentence_transformers import CrossEncoder
-            import torch
-            
-            print(f"⏳ Đang nạp Reranker model (BAAI/bge-reranker-v2-m3)...")
-            model_kwargs = {}
-            if self.use_fp16:
-                model_kwargs['torch_dtype'] = torch.float16
-                
-            self.model = CrossEncoder(self.model_name, max_length=4096, default_activation_function=None, model_kwargs=model_kwargs)
-            print(f"✅ Reranker model đã sẵn sàng.")
-        except Exception as e:
-            print(f"⚠️ Không thể tải Reranker model: {e}")
-            print(f"   → Hệ thống sẽ dùng RRF score thay thế.")
-            self._load_failed = True
+        self.endpoint: str = endpoint
+        self.timeout: int = timeout
+        self._session: requests.Session = requests.Session()
+        self._initialized = True
+        logger.info("✅ [InternalAPIReranker] Singleton khởi tạo — endpoint: %s", self.endpoint)
 
-    def score(self, query: str, docs: List[str]) -> List[float]:
-        self._lazy_load()
-        if self.model is None:
-            return [0.0] * len(docs)
+    # ------------------------------------------------------------------
+    # Core rerank
+    # ------------------------------------------------------------------
+    def rerank(
+        self,
+        query: str,
+        docs: List[str],
+        top_k: int = 5,
+    ) -> List[Dict[str, Any]]:
+        """
+        Gửi query + docs lên API reranking, nhận về scores, sắp xếp giảm dần.
+
+        Returns:
+            List[{"index": int, "document": str, "score": float}]
+            cắt theo ``top_k``.
+        """
         if not docs:
             return []
-        # Guard: ensure query and all docs are non-empty strings for CrossEncoder tokenizer
-        query = str(query) if query is not None else "N/A"
-        if not query.strip():
-            query = "N/A"
-        docs = [str(d) if d is not None else "N/A" for d in docs]
+
+        # Guard
+        query = str(query).strip() or "N/A"
+        docs = [str(d) if d else "N/A" for d in docs]
         docs = [d if d.strip() else "N/A" for d in docs]
-        pairs = [[query, d] for d in docs]
-        # CrossEncoder sử dụng hàm predict
-        scores = self.model.predict(pairs)
-        if isinstance(scores, (int, float)):
-            return [float(scores)]
-        return [float(s) for s in scores]
 
-    def _build_rerank_text(self, payload: Dict[str, Any]) -> str:
-        title = payload.get("title") or ""
-        citation = payload.get("reference_citation") or ""
-        # Gộp title, citation và nội dung chunk_text để Reranker đánh giá chính xác nhất
-        content = payload.get("chunk_text") or payload.get("text") or ""
-        return f"{title}\n{citation}\n{content}".strip()
+        payload = {"query": query, "docs": docs}
 
-    def rerank(self, query: str, candidates: List[Dict[str, Any]], top_k: int = 5) -> List[Dict[str, Any]]:
+        try:
+            resp = self._session.post(
+                self.endpoint, json=payload, timeout=self.timeout,
+            )
+            resp.raise_for_status()
+
+            data = resp.json()
+            scores: List[float] = data.get("scores", [])
+
+            # Đảm bảo số scores khớp số docs
+            if len(scores) < len(docs):
+                logger.warning(
+                    "⚠️ [InternalAPIReranker] Scores (%d) < docs (%d). Padding 0.0.",
+                    len(scores), len(docs),
+                )
+                scores.extend([0.0] * (len(docs) - len(scores)))
+
+            # Map score → doc, sắp xếp giảm dần
+            results = [
+                {"index": i, "document": doc, "score": float(scores[i])}
+                for i, doc in enumerate(docs)
+            ]
+            results.sort(key=lambda x: x["score"], reverse=True)
+            return results[:top_k]
+
+        except requests.exceptions.Timeout:
+            logger.error(
+                "❌ [InternalAPIReranker] Timeout (%ds) khi gọi %s.",
+                self.timeout, self.endpoint,
+            )
+        except requests.exceptions.HTTPError as exc:
+            logger.error(
+                "❌ [InternalAPIReranker] HTTP %s khi gọi %s.",
+                exc.response.status_code if exc.response is not None else "???",
+                self.endpoint,
+            )
+        except requests.exceptions.ConnectionError:
+            logger.error(
+                "❌ [InternalAPIReranker] Không thể kết nối tới %s.",
+                self.endpoint,
+            )
+        except Exception:
+            logger.exception("❌ [InternalAPIReranker] Lỗi không xác định.")
+
+        # Fallback: giữ nguyên thứ tự, score = 0.0
+        return [
+            {"index": i, "document": doc, "score": 0.0}
+            for i, doc in enumerate(docs[:top_k])
+        ]
+
+    # ------------------------------------------------------------------
+    # Convenience — tương thích interface cũ (DocumentReranker)
+    # ------------------------------------------------------------------
+    def rerank_candidates(
+        self,
+        query: str,
+        candidates: List[Dict[str, Any]],
+        top_k: int = 5,
+    ) -> List[Dict[str, Any]]:
         """
-        Sắp xếp lại các Documents.
-        Nếu Reranker model chưa sẵn sàng → fallback về sắp xếp theo RRF score.
+        Nhận list candidates dạng pipeline (chứa payload), rerank rồi trả
+        lại list candidate đã enriched ``rerank_score``.
         """
         if not candidates:
             return []
 
-        # Fallback: nếu model chưa load, dùng RRF score có sẵn
-        if self.model is None and not self._load_failed:
-            self._lazy_load()
-        
-        if self.model is None:
-            # Fallback: sort theo rrf_score
-            scored = []
-            for item in candidates:
-                enriched = dict(item)
-                enriched["score"] = enriched.get("rrf_score", 0.0)
-                enriched["rerank_score"] = enriched.get("rrf_score", 0.0)
-                scored.append(enriched)
-            scored.sort(key=lambda x: x.get("rerank_score", -1e9), reverse=True)
-            return scored[:top_k]
+        def _build_text(item: Dict[str, Any]) -> str:
+            p = item.get("payload", item)
+            title = p.get("title", "")
+            citation = p.get("reference_citation", "")
+            content = p.get("chunk_text", "") or p.get("text", "")
+            return f"{title}\n{citation}\n{content}".strip()
 
-        docs = [self._build_rerank_text(item.get("payload", item)) for item in candidates]
-        rerank_scores = self.score(query, docs)
+        docs = [_build_text(c) for c in candidates]
+        ranked = self.rerank(query, docs, top_k=len(docs))
 
-        scored = []
-        for item, score in zip(candidates, rerank_scores):
-            enriched = dict(item)
-            enriched["score"] = float(score)
-            enriched["rerank_score"] = float(score)
-            scored.append(enriched)
+        # Map lại score vào candidates theo original index
+        score_map = {r["index"]: r["score"] for r in ranked}
+        enriched = []
+        for i, item in enumerate(candidates):
+            entry = dict(item)
+            entry["score"] = score_map.get(i, 0.0)
+            entry["rerank_score"] = score_map.get(i, 0.0)
+            enriched.append(entry)
 
-        scored.sort(key=lambda x: x.get("rerank_score", -1e9), reverse=True)
-        return scored[:top_k]
+        enriched.sort(key=lambda x: x["rerank_score"], reverse=True)
+        return enriched[:top_k]
 
-# Singleton instance
-reranker = DocumentReranker()
+    def __repr__(self) -> str:
+        return f"<InternalAPIReranker endpoint={self.endpoint!r}>"
 
+reranker = InternalAPIReranker()

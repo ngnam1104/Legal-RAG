@@ -74,12 +74,45 @@ export default function LegalReference({ refs }: { refs: NonNullable<Message['re
                 <div className="space-y-3">
                   {group.chunks.map((chunk: any, cidx: number) => (
                     <div key={cidx} className="text-text-dim/80 leading-relaxed italic border-l-2 border-emerald-primary/30 pl-4 break-words text-[13px] relative group/chunk hover:border-emerald-accent transition-colors">
-                      {chunk.article && (
+                      {group.articles.size > 1 && chunk.article && (
                         <div className="font-black not-italic mb-1 text-emerald-primary/70 text-[11px] uppercase tracking-tighter">
                             {chunk.article}
                         </div>
                       )}
-                      <span className="opacity-90">"{chunk.text_preview}..."</span>
+                      <div className="opacity-90 space-y-1.5 mt-2">
+                        {(() => {
+                          const textStr = chunk?.text_preview;
+                          if (!textStr || typeof textStr !== 'string') return <span className="opacity-90">"{textStr}..."</span>;
+
+                          const parts = textStr.split(/(Văn bản:|Lĩnh vực:|Điều khoản:|Nội dung:)/);
+                          if (parts.length <= 1) return <span className="opacity-90">"{textStr}..."</span>;
+
+                          return parts.reduce((acc: any[], part: string, idx: number, arr: string[]) => {
+                            if (["Văn bản:", "Lĩnh vực:", "Điều khoản:", "Nội dung:"].includes(part)) {
+                              let contentValue: React.ReactNode = arr[idx + 1] || "";
+                              if (part === "Nội dung:" && typeof contentValue === 'string' && contentValue.includes(";")) {
+                                const contentString = contentValue;
+                                const contentParts = contentString.split(";").filter((s) => s.trim() !== "");
+                                contentValue = (
+                                  <ul className="list-disc leading-relaxed pl-4 space-y-1 mt-1">
+                                    {contentParts.map((s, i) => (
+                                      <li key={i}>{s.trim()}{i < contentParts.length - 1 ? ";" : ""}</li>
+                                    ))}
+                                  </ul>
+                                );
+                              }
+
+                              acc.push(
+                                <div key={`${cidx}-${idx}`} className="flex flex-col sm:flex-row gap-1 sm:gap-2 border-b border-emerald-primary/5 pb-2 pt-1">
+                                  <span className="font-bold text-emerald-primary/90 whitespace-nowrap shrink-0">{part}</span>
+                                  <div className="text-text-dim relative top-[1px] w-full">{contentValue}</div>
+                                </div>
+                              );
+                            }
+                            return acc;
+                          }, []);
+                        })()}
+                      </div>
                     </div>
                   ))}
                 </div>

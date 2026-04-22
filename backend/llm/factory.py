@@ -1,49 +1,34 @@
-from typing import List, Dict
+from typing import List, Dict, Optional
 from backend.config import settings
 
 # Lazy loading to avoid importing packages if not used
 _clients = {}
 
-def get_client(provider: str):
-    provider = provider.lower()
-    if provider not in _clients:
-        if provider == "gemini":
-            from backend.llm.gemini_client import GeminiClient
-            _clients[provider] = GeminiClient()
-        elif provider == "ollama":
-            from backend.llm.ollama_client import OllamaClient
-            _clients[provider] = OllamaClient()
-        else:
-            # Default to Groq (or OpenAI compatible)
-            from backend.llm.groq_client import GroqClient
-            _clients["groq"] = GroqClient()
-            provider = "groq"
-    return _clients[provider]
+def get_client():
+    if "internal" not in _clients:
+        from backend.llm.client import InternalLLMClient
+        _clients["internal"] = InternalLLMClient()
+    return _clients["internal"]
 
 def chat_completion(messages: List[Dict[str, str]], temperature: float = 0.1, provider: str = None, model: str = None, llm_preset: str = None) -> str:
-    """Unified entry point for LLM chat completion. Always returns str, never None."""
-    # 1. Preset Mapping
-    if llm_preset:
-        if llm_preset == "groq_8b":
-            provider = "groq"
-            # Force everything to 8B even if a node attempts to use CORE_MODEL
-            model = settings.LLM_ROUTING_MODEL
-        elif llm_preset == "groq_70b":
-            provider = "groq"
-            # Keep existing logic: Use whatever model is passed (ROUTING or CORE)
-            model = model or settings.LLM_ROUTING_MODEL
-        elif llm_preset == "gemini":
-            provider = "gemini"
-            model = settings.GEMINI_CHAT_MODEL
-        elif llm_preset == "ollama":
-            provider = "ollama"
-            model = settings.OLLAMA_CHAT_MODEL
-            
-    # 2. Final Fallbacks
-    provider = provider or settings.LLM_PROVIDER or "groq"
-    model = model or getattr(settings, "LLM_ROUTING_MODEL", settings.LLM_CHAT_MODEL)
-    
-    client = get_client(provider)
-    result = client.chat_completion(messages, temperature=temperature, model=model)
-    # Guard: LLM APIs can return None (e.g. Groq message.content=null, Gemini safety filter)
+    """Unified entry point for LLM chat completion using the On-Premise Internal API. Always returns str."""
+    client = get_client()
+    result = client.chat_completion(messages, temperature=temperature)
     return result if isinstance(result, str) else (str(result) if result is not None else "")
+
+def batch_completion(
+    messages_list: List[List[Dict[str, str]]], 
+    temperature: float = 0.1, 
+    max_tokens: int = 1024, 
+    max_input_length: int = 4000,
+    response_format: Optional[Dict] = None # Thêm dòng này
+) -> List[str]:
+    """Unified entry point for Batch LLM completion."""
+    client = get_client()
+    return client.batch_chat_completion(
+        messages_list, 
+        temperature=temperature, 
+        max_tokens=max_tokens, 
+        max_input_length=max_input_length,
+        response_format=response_format # Truyền tiếp xuống client
+    )

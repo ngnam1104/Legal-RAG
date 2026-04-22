@@ -8,8 +8,12 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict
 import uvicorn
 import json
+import logging
 from qdrant_client import models
 from fastapi.responses import StreamingResponse
+
+# Silence redundant logs
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 from backend.agent.chat_engine import rag_engine
 from backend.config import settings
@@ -65,8 +69,9 @@ class ChatRequest(BaseModel):
     model: Optional[str] = None
     llm_preset: Optional[str] = "groq_8b" # Mặc định 8B để tiết kiệm
     top_k: int = 3
-    use_reflection: bool = True
-    use_rerank: bool = False
+    use_reflection: Optional[bool] = None
+    use_grading: Optional[bool] = None
+    use_rerank: Optional[bool] = None
 
 class CreateSessionRequest(BaseModel):
     title: Optional[str] = None
@@ -126,6 +131,7 @@ async def chat_endpoint(request_data: ChatRequest, fastapi_request: Request):
                 llm_preset=request_data.llm_preset,
                 top_k=request_data.top_k,
                 use_reflection=request_data.use_reflection,
+                use_grading=request_data.use_grading,
                 use_rerank=request_data.use_rerank
             ):
                 # Check for disconnect

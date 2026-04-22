@@ -10,71 +10,78 @@ class RouteIntent(str):
 
 class QueryRouter:
     def __init__(self):
-        self.system_prompt = """
-        Bạn là Bộ định tuyến truy vấn (Query Router). 
-        Nhiệm vụ của bạn là phân loại ý định trong câu hỏi của người dùng vào 1 trong 4 Luồng (Intent) và trích xuất các tham số bộ lọc (nếu có).
+        self.super_system_prompt = """
+        Bạn là SIÊU ĐIỀU PHỐI (Super Router) của Trợ lý Pháp lý AI.
+        Nhiệm vụ của bạn là thực hiện CÙNG LÚC 3 công việc: Viết lại câu hỏi mồ côi (kế thừa HISTORY và CONTEXT), Phân loại ý định, và Trích xuất tham số.
+        
+        Quy tắc BẮT BUỘC để Viết lại câu hỏi mồ côi (Standalone Query):
+        1. Đọc HISTORY, CONTEXT và QUERY mới nhất.
+        2. Nếu QUERY ngầm ám chỉ văn bản/chủ đề trong HISTORY ("nghị quyết này", "văn bản nêu trên"), BẮT BUỘC rà soát HISTORY để tìm SỐ HIỆU CHÍNH XÁC (VD: 53/2025/NQ-HĐND) và thay thế thẳng đại từ đó bằng số hiệu trong QUERY. Cấm để lại đại từ chỉ định.
+        3. Sử dụng CONTEXT để giải quyết các đại từ nếu HISTORY quá ngắn hoặc không rõ ràng.
+        4. Phục hồi hoàn toàn đại từ ("nó", "điều đó", "luật kia").
+        5. (Tính năng HyDE) Bổ sung một đoạn "câu trả lời giả định" tối ưu từ khóa pháp lý (đặc biệt là tên văn bản + số hiệu) vào thẳng câu hỏi luôn để tạo thành "hypothetical_query" dựa trên QUERY.
+        
+        Quy tắc Phân loại (Routing):
+        - SECTOR_SEARCH: Dùng khi yêu cầu tìm kiếm, tổng hợp, liệt kê, thống kê, hoặc tóm tắt các văn bản pháp luật liên quan đến một CHỦ ĐỀ, LĨNH VỰC, hoặc PHẠM TRÙ cụ thể. VD: "Văn bản nào quy định về bảo hiểm y tế?", "Liệt kê các nghị định về đất đai", "Có bao nhiêu thông tư về giáo dục?", "Tổng hợp quy định về an toàn lao động", "Tìm tài liệu liên quan đến phòng cháy chữa cháy".
+        - CONFLICT_ANALYZER: Dùng khi yêu cầu **đối chiếu, so sánh** giữa một khẳng định/tình huống/văn bản với văn bản pháp luật, hoặc hỏi về **mâu thuẫn, chồng chéo, thay thế, bãi bỏ** giữa các quy định. BẮT BUỘC có tính chất "va chạm", "so sánh", hoặc "kiểm tra tính hợp pháp". VD: "Quy định A có mâu thuẫn với quy định B không?", "Nghị định X có bãi bỏ thông tư Y không?", "Nội quy công ty tôi có vi phạm luật lao động không?".
+        - LEGAL_QA (Mặc định ưu tiên): Hỏi về nội dung chi tiết của MỘT văn bản cụ thể, thủ tục, hoặc trích xuất chuyên sâu. VD: "Điều 5 Nghị định 100 nói gì?", "Thủ tục xin giấy phép xây dựng?", "Cơ quan nào cấp phép?". Nếu phân vân giữa Sector_Search và Legal_QA, ưu tiên LEGAL_QA khi câu hỏi chỉ hướng về 1-2 văn bản cụ thể.
+        - GENERAL_CHAT: Chào hỏi, rỗng tuếch, không liên quan luật.
+        
+        Quy tắc Trích xuất Bộ Lọc (Filters) (QUAN TRỌNG):
+        - Chỉ trích xuất từ câu hỏi người dùng (đã qua viết lại).
+        - doc_number: Bắt buộc SAO CHÉP NGUYÊN VĂN số hiệu (kể cả hậu tố như "51/2025/TT-BYT"). Tuyệt đối không cắt đuôi.
+        - article_ref: CHỈ có khi user đích danh gọi tên "Điều X", "Phụ lục Y". Không tự đoán.
+        - legal_type: "Luật", "Thông tư", "Nghị định"...
+        - year: (2024, 2025)
+        - sector: Lĩnh vực chuyên môn (Đất đai, Y tế, Giáo dục)
 
-        BỐN Ý ĐỊNH BAO GỒM:
-        1. "SECTOR_SEARCH": Tìm kiếm, liệt kê danh sách NHIỀU văn bản hoặc tìm văn bản cốt lõi (Không đi sâu giải thích nội dung. Ví dụ: "Các luật về môi trường", "Cho tôi bản 2024").
-        2. "LEGAL_QA": Tư vấn nghiệp vụ, giải quyết tình huống, giải thích sâu, hoặc yêu cầu trích xuất/tóm tắt/liệt kê nội dung chi tiết bên trong MỘT văn bản (Ví dụ: "Điều 5 nói gì", "Làm sao để công chứng", "Còn hiệu lực không").
-        3. "CONFLICT_ANALYZER": Yêu cầu phân tích rủi ro, rà soát xung đột hợp đồng/thỏa thuận/nội quy so với luật bảo vệ. (Thường áp dụng nếu có file đính kèm, hoặc câu hỏi nhờ rà soát nội dung).
-        4. "GENERAL_CHAT": Câu hỏi thông thường, không liên quan đến pháp lý hoặc nằm ngoài khả năng.
-
-        THAM SỐ CẦN TRÍCH XUẤT (Chỉ lấy nếu người dùng nhắc đến, nếu không thì để null):
-        - legal_type: Loại văn bản (Nghị định, Thông tư, Luật, Quyết định...)
-        - year: Năm ban hành (VD: 2024, 2025...)
-        - sector: Lĩnh vực (VD: Thuế, Xây dựng, Hôn nhân gia đình, Lao động...)
-
-        === QUY TẮC BẮT BUỘC (VÀNG) ===
-        1. Bạn phải xuất kết quả DUY NHẤT dưới dạng JSON. Không có bất kỳ text nào nằm ngoài khối JSON.
-        2. Tư duy từng bước (Chain of Thought - CoT): Trong JSON, phải có trường "reasoning" để giải thích lý do trước.
-
-        === VÍ DỤ MẪU (Few-Shot) ===
-
-        Câu: "Tìm các nghị định về thuế thu nhập cá nhân năm 2023"
-        {"reasoning": "Yêu cầu tìm kiếm danh sách nhiều văn bản theo tiêu chí", "intent": "SECTOR_SEARCH", "filters": {"legal_type": "Nghị định", "year": 2023, "sector": "Thuế"}}
-
-        Câu: "Công ty có được giữ bằng đại học của bản gốc nhân viên không?"
-        {"reasoning": "Tình huống pháp lý cụ thể cần viện dẫn luật lao động", "intent": "LEGAL_QA", "filters": {"legal_type": null, "year": null, "sector": "Lao động"}}
-
-        Câu: "Nội quy công ty tôi soạn thế này có đúng luật chưa?"
-        {"reasoning": "Yêu cầu rà soát, đánh giá xung đột của tài liệu với quy định", "intent": "CONFLICT_ANALYZER", "filters": {"legal_type": null, "year": null, "sector": null}}
-
-        Câu: "Luật Đất đai 2013 còn hiệu lực không? Mức phạt là bao nhiêu?"
-        {"reasoning": "Hỏi chi tiết về nội dung/tình trạng của một luật cụ thể", "intent": "LEGAL_QA", "filters": {"legal_type": "Luật", "year": 2013, "sector": "Đất đai"}}
-
-        Câu: "Hôm nay trời có mưa không?"
-        {"reasoning": "Không liên quan đến pháp luật", "intent": "GENERAL_CHAT", "filters": {"legal_type": null, "year": null, "sector": null}}
-
-        === KẾT THÚC VÍ DỤ ===
-
-        Chỉ trả về ĐÚNG MỘT khối JSON hợp lệ theo định dạng sau:
+        TRẢ VỀ JSON DUY NHẤT:
+        ```json
         {
-          "reasoning": "giải thích ngắn gọn",
-          "intent": "SECTOR_SEARCH | LEGAL_QA | CONFLICT_ANALYZER | GENERAL_CHAT",
-          "filters": {
-            "legal_type": "...",
-            "year": 2026,
-            "sector": "..."
-          }
+            "reasoning": "Tại sao lại phân loại vào Intent này?",
+            "intent": "LEGAL_QA | SECTOR_SEARCH | CONFLICT_ANALYZER | GENERAL_CHAT",
+            "standalone_query": "[CÂU HỎI VIẾT LẠI HOÀN CHỈNH - Đã thay thế đầy đủ đại từ]",
+            "hypothetical_query": "[Câu hỏi viết lại] + [CÂU TRẢ LỜI GIẢ ĐỊNH TỪ KHÓA]",
+            "filters": {
+                "legal_type": "...",
+                "doc_number": "...",
+                "article_ref": "...",
+                "year": 2025,
+                "sector": "..."
+            }
         }
+        ```
         """
 
-    def route_query(self, query: str, has_file_attachment: bool = False) -> tuple[str, dict]:
-        if has_file_attachment:
-            # Nếu có file đính kèm, mặc định thường là rà soát rủi ro/xung đột
-            pass
+    def super_route_query(self, query: str, history: list = None, conv_state: dict = None, has_file_attachment: bool = False, llm_preset: str = None) -> tuple[str, str, str, dict]:
+        """Thực hiện gộp Prompt: Standalone query + Intent Routing + Metadata Extraction."""
+        if history is None:
+            history = []
+        
+        # Xử lý history thành Text để đẩy vào LLM
+        history_str = "\n".join([f"{'User' if m['role']=='user' else 'AI'}: {m['content']}" for m in history[-4:]]) if history else "(Không có lịch sử)"
+        
+        # Xử lý conversation state thành bối cảnh
+        context_str = "(Không có bối cảnh bổ sung)"
+        if conv_state:
+            curr_doc = conv_state.get("current_document")
+            entities = conv_state.get("entities", [])
+            if curr_doc or entities:
+                context_str = f"Văn bản đang thảo luận: {curr_doc or 'Chưa xác định'}\nThực thể pháp lý liên quan: {', '.join(entities) if entities else 'None'}"
 
+        user_prompt = f"CONTEXT = {context_str}\n\nHISTORY = {history_str}\n\nQUERY = {query}"
+        
         messages = [
-            {"role": "system", "content": self.system_prompt},
-            {"role": "user", "content": f"Câu hỏi: {query}"}
+            {"role": "system", "content": self.super_system_prompt},
+            {"role": "user", "content": user_prompt}
         ]
         
         import re
         try:
-            response_text = chat_completion(messages, temperature=0.1)
-            
-            # Trích xuất linh hoạt vùng JSON (Kể cả bị bọc markdown hay text thừa)
+            response_text = chat_completion(messages, temperature=0.1, llm_preset=llm_preset)
+            response_text = response_text or ""
+            response_text = response_text.replace("```json", "").replace("```", "").strip()
+                
             match = re.search(r'\{.*\}', response_text, re.DOTALL)
             if match:
                 response_text = match.group(0)
@@ -82,15 +89,26 @@ class QueryRouter:
                 raise ValueError("Không tìm thấy khối JSON trong phản hồi.")
                 
             data = json.loads(response_text)
-            intent = data.get("intent", "GENERAL_CHAT")
+            intent = str(data.get("intent", "GENERAL_CHAT")).upper()
+            standalone_query = data.get("standalone_query", query)
+            hypo_query = data.get("hypothetical_query", standalone_query)
             filters = data.get("filters", {})
+            reasoning = data.get("reasoning", "N/A")
             
-            if intent in [RouteIntent.SECTOR_SEARCH, RouteIntent.LEGAL_QA, RouteIntent.CONFLICT_ANALYZER, RouteIntent.GENERAL_CHAT]:
-                return intent, filters
+            # Chuẩn hóa giá trị None trong filter
+            for k, v in filters.items():
+                if v == "null" or v == "":
+                    filters[k] = None
+            
+            # Only print Intent to keep terminal clean as requested
+            print(f"       🎯 [SuperRouter] Intent: {intent}")
+
+            if intent not in [RouteIntent.SECTOR_SEARCH, RouteIntent.LEGAL_QA, RouteIntent.CONFLICT_ANALYZER, RouteIntent.GENERAL_CHAT]:
+                intent = RouteIntent.LEGAL_QA
                 
-            return RouteIntent.GENERAL_CHAT, filters
+            return intent, standalone_query, hypo_query, filters
         except Exception as e:
-            print(f"Router error: {str(e)}. Fallback to GENERAL_CHAT.")
-            return RouteIntent.GENERAL_CHAT, {}
+            print(f"SuperRouter error: {str(e)}. Fallback to LEGAL_QA and raw query.")
+            return RouteIntent.LEGAL_QA, query, query, {}
 
 router = QueryRouter()

@@ -7,11 +7,20 @@ from backend.config import settings
 from backend.retrieval.graph_db import get_neo4j_driver
 import re
 import time
+from types import SimpleNamespace
 
 try:
     from neo4j_graphrag.retrievers import QdrantNeo4jRetriever
 except ImportError:
     QdrantNeo4jRetriever = None
+
+class ScoredPointMock(dict):
+    """Giả lập ScoredPoint để hỗ trợ cả hit.get() và hit.score"""
+    def __getattr__(self, name):
+        try:
+            return self[name]
+        except KeyError:
+            raise AttributeError(name)
 
 def detect_sector_hints(query: str, hot_sectors: List[str]) -> List[str]:
     lowered = query.lower()
@@ -50,10 +59,9 @@ class HybridRetriever:
         if legal_type:
             must_conditions.append(models.FieldCondition(key="legal_type", match=models.MatchValue(value=legal_type)))
         if doc_number:
-            must_conditions.append(models.FieldCondition(key="document_number", match=models.MatchValue(value=doc_number)))
-        if article_ref:
-            # Use MatchText for article_ref to allow "Điều 2" to match "Điều 2. Đối tượng áp dụng"
-            must_conditions.append(models.FieldCondition(key="article_ref", match=models.MatchText(text=article_ref)))
+            # Dùng MatchText để linh hoạt hơn (VD: 51/2025 khớp 51/2025/TT-BYT)
+            must_conditions.append(models.FieldCondition(key="document_number", match=models.MatchText(text=doc_number)))
+        # Removed article_ref hard filter, it should be a should condition
         return must_conditions
 
     def build_filter(
@@ -70,6 +78,9 @@ class HybridRetriever:
 
         if is_appendix is not None:
             must_conditions.append(models.FieldCondition(key="is_appendix", match=models.MatchValue(value=is_appendix)))
+
+        if article_ref:
+            should_conditions.append(models.FieldCondition(key="article_ref", match=models.MatchText(text=article_ref)))
 
         for sector in detect_sector_hints(query, self.hot_sectors):
             should_conditions.append(models.FieldCondition(key="legal_sectors", match=models.MatchValue(value=sector)))
@@ -98,60 +109,133 @@ class HybridRetriever:
         dense_query = self.hybrid_encoder.encode_query_dense(query)
         sparse_query = self.hybrid_encoder.encode_query_sparse(query)
 
-        # Nếu caller CHỈ ĐỊNH cụ thể is_appendix -> fallback về single-tier (backward compat)
-        if is_appendix is not None or article_ref is not None:
-            query_filter = self.build_filter(query, is_appendix=is_appendix, legal_type=legal_type,
-                                             doc_number=doc_number, include_inactive=include_inactive, article_ref=article_ref)
-            prefetch_limit = max(top_k * 4, 30)
-            raw_hits = self.client.query_points(
-                collection_name=self.collection_name,
-                prefetch=[
-                    models.Prefetch(query=dense_query, using="dense", limit=prefetch_limit, filter=query_filter),
-                    models.Prefetch(query=sparse_query, using="sparse", limit=prefetch_limit, filter=query_filter),
-                ],
-                query=models.FusionQuery(fusion=models.Fusion.RRF),
-                limit=prefetch_limit,
-                with_payload=True,
-            ).points
+        # Kiểm tra xem collection có hỗ trợ sparse vector không
+        collection_info = self.client.get_collection(self.collection_name)
+        has_sparse = "sparse" in (collection_info.config.params.vectors or {})
+        if not has_sparse:
+            # Nếu dùng multivector (với vector chính mang tên 'dense' nhưng config.params.vectors là dict)
+            # hoặc fallback nếu cấu trúc config khác
+             try:
+                 vectors_config = collection_info.config.params.vectors
+                 if hasattr(vectors_config, "keys"):
+                     has_sparse = "sparse" in vectors_config.keys()
+             except:
+                 pass
+
+        if not has_sparse:
+            # DIAGNOSTIC: In thử vector để kiểm tra lỗi đầu vào
+            v_sample = dense_query[:5] if dense_query else []
+            print(f"       DEBUG: Dense Query Sample: {v_sample}")
+            
+            # OPTIMIZATION: Nếu chỉ có dense, gọi trực tiếp query_points không qua RRF để tránh lỗi/overhead
+            if is_appendix is not None or article_ref is not None:
+                query_filter = self.build_filter(query, is_appendix=is_appendix, legal_type=legal_type,
+                                                 doc_number=doc_number, include_inactive=include_inactive, article_ref=article_ref)
+                raw_hits = self.client.query_points(
+                    collection_name=self.collection_name,
+                    query=dense_query,
+                    using="dense",
+                    query_filter=query_filter,
+                    limit=top_k,
+                    with_payload=True
+                ).points
+            else:
+                # Tiered fallback: Vẫn ưu tiên Nội dung chính qua limit, nhưng gộp kết quả
+                base_conditions = self._build_base_conditions(query, legal_type, doc_number, include_inactive, article_ref)
+                main_filter = models.Filter(must=base_conditions + [models.FieldCondition(key="is_appendix", match=models.MatchValue(value=False))])
+                
+                # Tìm mẻ chính trước
+                main_hits = self.client.query_points(
+                    collection_name=self.collection_name,
+                    query=dense_query, using="dense", query_filter=main_filter, limit=main_limit, with_payload=True
+                ).points
+                
+                # FALLBACK: Nếu tiered filter trả 0 hits (dữ liệu cũ thiếu is_appendix),
+                # thử lại KHÔNG filter is_appendix
+                if not main_hits:
+                    fallback_filter = models.Filter(must=base_conditions) if base_conditions else None
+                    main_hits = self.client.query_points(
+                        collection_name=self.collection_name,
+                        query=dense_query, using="dense",
+                        query_filter=fallback_filter,
+                        limit=top_k, with_payload=True
+                    ).points
+
+                # Nếu thiếu, tìm mẻ phụ (appendix)
+                appendix_hits = []
+                if len(main_hits) < top_k:
+                    appendix_filter = models.Filter(must=base_conditions + [models.FieldCondition(key="is_appendix", match=models.MatchValue(value=True))])
+                    appendix_hits = self.client.query_points(
+                        collection_name=self.collection_name,
+                        query=dense_query, using="dense", query_filter=appendix_filter, limit=appendix_limit, with_payload=True
+                    ).points
+                raw_hits = main_hits + appendix_hits
+
+            # CRITICAL FALLBACK: Nếu vẫn là 0 hits và có doc_number, thử tìm chính xác theo metadata (ID-based retrieval)
+            if not raw_hits and doc_number:
+                print(f"       ⚠️ [Retrieve] Vector mismatch suspected. Attempting metadata scroll for: {doc_number}")
+                # Dùng MatchText để linh hoạt với hậu tố /TT-BYT...
+                must_cond = [models.FieldCondition(key="document_number", match=models.MatchText(text=doc_number))]
+                # KHÔNG filter thêm article_ref hay is_appendix ở đây để lấy TOÀN BỘ document
+                # Kể cả phụ lục cuối văn bản (vd: 168 trạm y tế = hàng chục chunks cuối)
+                
+                # CRITICAL FALLBACK: thường doc có rất nhiều phụ lục (ví dụ 168 trạm y tế = 60+ chunks)
+                # tăng limit lên 200 để luôn bắt được toàn bộ
+                scroll_limit = 200
+                points, _ = self.client.scroll(
+                    collection_name=self.collection_name,
+                    scroll_filter=models.Filter(must=must_cond),
+                    with_payload=True,
+                    limit=scroll_limit
+                )
+                if points:
+                    # Sort: ưu tiên is_appendix=False trước (nội dung chính), sau đó appendix theo chunk order
+                    points_sorted = sorted(
+                        points,
+                        key=lambda p: (
+                            1 if (p.payload or {}).get('is_appendix') else 0,
+                            parse_chunk_order(str((p.payload or {}).get('chunk_id', '')))
+                        )
+                    )
+                    print(f"       ✅ [Retrieve] Metadata scroll found {len(points_sorted)} matching chunks!")
+                    # Map Record objects to a compatible format (Mock ScoredPoint)
+                    raw_hits = [ScoredPointMock(id=p.id, payload=p.payload, score=1.0) for p in points_sorted]
         else:
-            # ---- TIERED PREFETCH: 4 luồng song song ----
-            base_conditions = self._build_base_conditions(query, legal_type, doc_number, include_inactive, article_ref)
+            # ---- TIERED PREFETCH RRF: Chạy khi có đầy đủ bộ đôi Dense/Sparse ----
+            if is_appendix is not None or article_ref is not None:
+                query_filter = self.build_filter(query, is_appendix=is_appendix, legal_type=legal_type,
+                                                 doc_number=doc_number, include_inactive=include_inactive, article_ref=article_ref)
+                prefetch_limit = max(top_k * 4, 30)
+                raw_hits = self.client.query_points(
+                    collection_name=self.collection_name,
+                    prefetch=[
+                        models.Prefetch(query=dense_query, using="dense", limit=prefetch_limit, filter=query_filter),
+                        models.Prefetch(query=sparse_query, using="sparse", limit=prefetch_limit, filter=query_filter),
+                    ],
+                    query=models.FusionQuery(fusion=models.Fusion.RRF),
+                    limit=prefetch_limit,
+                    with_payload=True,
+                ).points
+            else:
+                base_conditions = self._build_base_conditions(query, legal_type, doc_number, include_inactive, article_ref)
+                main_filter = models.Filter(must=base_conditions + [models.FieldCondition(key="is_appendix", match=models.MatchValue(value=False))])
+                appendix_filter = models.Filter(must=base_conditions + [models.FieldCondition(key="is_appendix", match=models.MatchValue(value=True))])
+                
+                main_prefetch_limit = max(main_limit * 4, 30)
+                appendix_prefetch_limit = max(appendix_limit * 4, 15)
 
-            # Luồng 1+2: NỘI DUNG CHÍNH (is_appendix=false), Limit cao hơn
-            main_filter = models.Filter(must=base_conditions + [
-                models.FieldCondition(key="is_appendix", match=models.MatchValue(value=False))
-            ]) if base_conditions else models.Filter(must=[
-                models.FieldCondition(key="is_appendix", match=models.MatchValue(value=False))
-            ])
-
-            # Luồng 3+4: PHỤ LỤC (is_appendix=true), Limit thấp hơn
-            appendix_filter = models.Filter(must=base_conditions + [
-                models.FieldCondition(key="is_appendix", match=models.MatchValue(value=True))
-            ]) if base_conditions else models.Filter(must=[
-                models.FieldCondition(key="is_appendix", match=models.MatchValue(value=True))
-            ])
-
-            main_prefetch_limit = max(main_limit * 4, 30)
-            appendix_prefetch_limit = max(appendix_limit * 4, 15)
-
-            raw_hits = self.client.query_points(
-                collection_name=self.collection_name,
-                prefetch=[
-                    # Luồng 1: Dense cho Nội dung chính (Ưu tiên)
-                    models.Prefetch(query=dense_query, using="dense", limit=main_prefetch_limit, filter=main_filter),
-                    # Luồng 2: Sparse cho Nội dung chính
-                    models.Prefetch(query=sparse_query, using="sparse", limit=main_prefetch_limit, filter=main_filter),
-                    # Luồng 3: Dense cho Phụ lục
-                    models.Prefetch(query=dense_query, using="dense", limit=appendix_prefetch_limit, filter=appendix_filter),
-                    # Luồng 4: Sparse cho Phụ lục (nhạy với số hiệu "Mẫu 01", "PHỤ LỤC I")
-                    models.Prefetch(query=sparse_query, using="sparse", limit=appendix_prefetch_limit, filter=appendix_filter),
-                ],
-                # CHIẾN THUẬT 2: RRF tự nhiên - không hardcode weight
-                # Chunk đứng Top 1 ở cả Dense + Sparse sẽ được đẩy lên cao nhất tự động
-                query=models.FusionQuery(fusion=models.Fusion.RRF),
-                limit=main_limit + appendix_limit,  # Tổng: 20 candidates
-                with_payload=True,
-            ).points
+                raw_hits = self.client.query_points(
+                    collection_name=self.collection_name,
+                    prefetch=[
+                        models.Prefetch(query=dense_query, using="dense", limit=main_prefetch_limit, filter=main_filter),
+                        models.Prefetch(query=sparse_query, using="sparse", limit=main_prefetch_limit, filter=main_filter),
+                        models.Prefetch(query=dense_query, using="dense", limit=appendix_prefetch_limit, filter=appendix_filter),
+                        models.Prefetch(query=sparse_query, using="sparse", limit=appendix_prefetch_limit, filter=appendix_filter),
+                    ],
+                    query=models.FusionQuery(fusion=models.Fusion.RRF),
+                    limit=main_limit + appendix_limit,
+                    with_payload=True,
+                ).points
 
         # Dedup
         dedup = []
@@ -259,7 +343,7 @@ class HybridRetriever:
                 "document_number": payload.get("document_number", document_number),
                 "article_ref": payload.get("article_ref", ref_id),
                 "title": payload.get("title", ""),
-                "text": payload.get("expanded_context_text") or payload.get("chunk_text", ""),
+                "text": payload.get("expanded_context_text") or payload.get("chunk_text") or payload.get("text") or payload.get("content") or "",
                 "reference_citation": payload.get("reference_citation", ""),
                 "is_appendix": payload.get("is_appendix", False),
                 "url": payload.get("url", ""),
@@ -312,7 +396,7 @@ class HybridRetriever:
         expanded_results = []
         for item in refined_hits:
             payload = item.get("payload", {})
-            article_id = payload.get("article_id")
+            article_id = payload.get("article_ref")
             document_id = payload.get("document_id")
             is_appendix = payload.get("is_appendix", False)
 
@@ -372,7 +456,7 @@ class HybridRetriever:
                 expanded_results.append(expanded)
                 continue
 
-            must = [models.FieldCondition(key="article_id", match=models.MatchValue(value=article_id))]
+            must = [models.FieldCondition(key="article_ref", match=models.MatchValue(value=article_id))]
             if document_id:
                 must.append(models.FieldCondition(key="document_id", match=models.MatchValue(value=document_id)))
 
@@ -416,7 +500,7 @@ class HybridRetriever:
         doc_number: Optional[str] = None,
         expand_context: bool = True,
         max_neighbors: int = 8,
-        use_rerank: bool = False,
+        use_rerank: bool = True,
         include_inactive: bool = False,
         article_ref: Optional[str] = None,
     ) -> List[Dict]:
@@ -432,8 +516,10 @@ class HybridRetriever:
             rerank_top_l = limit
 
         t0 = time.perf_counter()
+        # Khi có doc_number cụ thể, tăng broad_top_k để bắt đủ tất cả chunks (kể cả Phụ lục cuối)
+        actual_broad_top_k = 60 if doc_number else broad_top_k
         broad_hits = self.broad_retrieve(
-            query, top_k=broad_top_k,
+            query, top_k=actual_broad_top_k,
             main_limit=20,
             appendix_limit=5,
             is_appendix=is_appendix, legal_type=legal_type,
@@ -443,7 +529,8 @@ class HybridRetriever:
 
         t1 = time.perf_counter()
         if use_rerank:
-            reranked_hits = self.reranker.rerank(query=query, candidates=broad_hits, top_k=rerank_top_l)
+            reranked_hits = self.reranker.rerank_candidates(query=query, candidates=broad_hits, top_k=rerank_top_l)
+            print(f"       ✅ [Reranker] Đã re-score thành công {len(reranked_hits)} candidates trong {time.perf_counter() - t1:.2f}s")
         else:
             reranked_hits = sorted(broad_hits, key=lambda x: x.get('rrf_score', 0), reverse=True)[:rerank_top_l]
             for item in reranked_hits:
@@ -475,6 +562,80 @@ class HybridRetriever:
         reranked_hits = sorted(reranked_hits, key=lambda x: x.get('rerank_score', 0.0), reverse=True)
 
         t2 = time.perf_counter()
+        
+        # --- CRITICAL RECOVERY: Nếu 0 hits, thử tìm theo số hiệu trích xuất bằng Regex từ Query ---
+        if not reranked_hits:
+            # Fix 1.1: Regex bắt đầy đủ hậu tố cơ quan (-BYT, -NĐ-CP, -BCT...)
+            # (?i) = case-insensitive để bắt cả chữ thường từ LLM
+            doc_ids = re.findall(r"(?i)(\d+/\d{4}/(?:TT|NĐ|NĐ-CP|QH|L|QĐ|NQ)(?:-[A-ZĐa-zđÀ-ỹ]+)*)", query)
+            if not doc_ids:
+                 # Thử format ngắn hơn (chỉ số hiệu/năm)
+                 doc_ids = re.findall(r"(\d+/\d{4})", query)
+            
+            # Chuẩn hóa chữ hoa cho hậu tố
+            doc_ids = [d.upper() if '/' in d else d for d in doc_ids]
+            unique_doc_ids = sorted(list(set(doc_ids)))
+            temp_hits = []
+            seen_ids = set()
+
+            if unique_doc_ids:
+                print(f"       ⚠️ [Retrieve] 0 vector hits. Emergency Regex found: {unique_doc_ids}. Scrolling metadata...")
+                for doc_id in unique_doc_ids:
+                    # Fix 1.2 & 6B: Tăng limit=20 để bao phủ nhiều Điều, thêm is_active filter
+                    scroll_must = [models.FieldCondition(key="document_number", match=models.MatchText(text=doc_id))]
+                    if not include_inactive:
+                        scroll_must.append(models.FieldCondition(key="is_active", match=models.MatchValue(value=True)))
+                    
+                    points, _ = self.client.scroll(
+                        collection_name=self.collection_name,
+                        scroll_filter=models.Filter(must=scroll_must),
+                        limit=50,  # Tăng từ 20 lên 50 để bao phủ tất cả phiếu có thể
+                        with_payload=True
+                    )
+                    if points:
+                        # Fix 1.2: Sắp xếp theo article_ref để ưu tiên đầy đủ các Điều
+                        points_sorted = sorted(points, key=lambda p: (p.payload or {}).get("article_ref", "ZZZ"))
+                        print(f"       ✅ [Retrieve] Emergency scroll recovered {len(points_sorted)} chunks for {doc_id}!")
+                        for p in points_sorted:
+                            if p.id not in seen_ids:
+                                temp_hits.append(ScoredPointMock(id=p.id, payload=p.payload, score=1.0))
+                                seen_ids.add(p.id)
+            
+            if temp_hits:
+                reranked_hits = temp_hits
+
+        # --- KEYWORD RESCUE: Sau rerank, kiểm tra lại broad_hits để bắt chunk bị bỏ sót ---
+        # Trường hợp điển hình: bảng phụ lục chứa tên riêng (xã Nghĩa Thành) không match embedding
+        # nhưng lại có keyword exact trong chunk_text
+        if len(broad_hits) > len(reranked_hits) and broad_hits:
+            # Trích xuất các từ "nặng" từ query (tên riêng, địa danh > 3 ký tự)
+            import unicodedata
+            query_words = [w.strip() for w in re.split(r'[\s,;.]+', query) if len(w.strip()) > 3]
+            reranked_chunk_ids = {
+                str(item.get("payload", {}).get("chunk_id") or item.get("id"))
+                for item in reranked_hits
+            }
+            rescued = []
+            for item in broad_hits:
+                cid = str(item.get("payload", {}).get("chunk_id") or item.get("id"))
+                if cid in reranked_chunk_ids:
+                    continue
+                ct = item.get("payload", {}).get("chunk_text", "")
+                # Tìm chunk có ít nhất 2 keyword quan trọng từ query
+                matches = sum(1 for w in query_words if w in ct)
+                if matches >= 2:
+                    item_clone = dict(item)
+                    item_clone["score"] = item_clone.get("rrf_score", 0)
+                    item_clone["rerank_score"] = item_clone.get("rrf_score", 0) + (matches * 0.1) # Boost dựa trên số match
+                    item_clone["match_count"] = matches
+                    rescued.append(item_clone)
+            if rescued:
+                # Sắp xếp rescued theo số match giảm dần
+                rescued = sorted(rescued, key=lambda x: x.get("match_count", 0), reverse=True)
+                print(f"       🔑 [Keyword Rescue] Injecting {len(rescued)} missed chunks back into context")
+                reranked_hits = reranked_hits + rescued[:10]  # Tăng lên 10 để tránh mất chunk ở cuối mảng
+
+        
         if expand_context:
             final_hits = self.expand_context(refined_hits=reranked_hits, max_neighbors=max_neighbors)
         else:
@@ -490,7 +651,7 @@ class HybridRetriever:
                 "document_number": p.get("document_number", ""),
                 "article_ref": p.get("article_ref", ""),
                 "title": p.get("title", ""),
-                "text": p.get("expanded_context_text", p.get("chunk_text", "")),
+                "text": p.get("expanded_context_text") or p.get("chunk_text") or p.get("text") or p.get("content") or "",
                 "breadcrumb_path": p.get("breadcrumb_path", ""),
                 "reference_citation": p.get("reference_citation", ""),
                 "is_appendix": p.get("is_appendix", False),
@@ -545,8 +706,8 @@ class HybridRetriever:
                 driver=driver,
                 client=self.client,
                 collection_name=self.collection_name,
-                id_property_external="id",  # ID in Qdrant
-                id_property_neo4j="chunk_id" # ID loaded via Chunk Node
+                id_property_external="chunk_id",  # ID field in Qdrant Payload
+                id_property_neo4j="qdrant_id" # ID loaded via Chunk Node in Neo4j
             )
             
             # Run GraphRAG Search (This yields nodes augmented with exact old_text/new_text relations)

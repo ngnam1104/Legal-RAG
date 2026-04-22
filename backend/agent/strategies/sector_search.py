@@ -3,31 +3,27 @@ import time
 
 from backend.agent.state import AgentState
 from backend.agent.strategies.base import BaseRAGStrategy
-from backend.agent.utils_sector_search import (
-    transform_sector_query,
+from backend.agent.utils.utils_sector_search import (
     deduplicate_by_document,
     _heuristic_date_filter,
-    grade_relevance_batch,
     map_reduce_aggregate,
-    generate_executive_summary,
-    check_coverage_bias,
-    supplemental_search_by_basis
+    generate_executive_summary
 )
+from backend.agent.utils.utils_legal_qa import filter_cited_references
+from backend.config import settings
 from backend.retrieval.hybrid_search import retriever
 
 
 class SectorSearchStrategy(BaseRAGStrategy):
     def understand(self, state: AgentState) -> Dict[str, Any]:
-        """Sector Query Planner: Trích xuất keywords, legal_sectors, date range, filters."""
-        query = state.get("condensed_query", state["query"])
-        tf = transform_sector_query(query, llm_preset=state.get("llm_preset"))
+        """Sector Query Planner: Sử dụng tham số từ SuperRouter."""
+        query = state.get("condensed_query") or state["query"]
+        filters = state.get("router_filters", {}) or {}
         
-        # --- NẮM BẮT TÀI LIỆU (Nếu có) ---
         file_chunks = state.get("file_chunks", [])
         file_analysis = {}
         if file_chunks:
-            # Optimize: Rerank file chunks based on query before analysis
-            from backend.agent.utils_conflict_analyzer import get_pruner
+            from backend.agent.utils.utils_conflict_analyzer import get_pruner
             import numpy as np
             model = get_pruner()
             if model and query:
@@ -39,133 +35,253 @@ class SectorSearchStrategy(BaseRAGStrategy):
                 scored.sort(key=lambda x: x[1], reverse=True)
                 file_chunks = [item[0] for item in scored]
 
-            from backend.agent.utils_sector_search import analyze_document_focus
+            from backend.agent.utils.utils_sector_search import analyze_document_focus
             file_analysis = analyze_document_focus(file_chunks, llm_preset=state.get("llm_preset"))
-            print(f"       🧠 Document Analysis Focus: {file_analysis.get('focus_summary')}")
             
-            # Gộp keywords từ file vào query search
             if file_analysis.get("suggested_keywords"):
-                tf["keywords"] = f"{tf.get('keywords', query)} {file_analysis['suggested_keywords']}"
+                query = f"{query} {file_analysis['suggested_keywords']}"
         
-        # Merge filters + extra extraction
-        filters = state.get("router_filters", {}) or {}
-        filters.update(tf.get("filters", {}))
-        filters["legal_sectors"] = list(set(tf.get("legal_sectors", []) + file_analysis.get("legal_sectors", [])))
-        filters["effective_date_range"] = tf.get("effective_date_range", {})
+        # Ensure sector and legal_sectors are lists before concatenation to avoid TypeError
+        sector_val = filters.get("sector", [])
+        sector_list = [sector_val] if isinstance(sector_val, str) else list(sector_val) if sector_val else []
+        
+        fa_val = file_analysis.get("legal_sectors", [])
+        fa_list = [fa_val] if isinstance(fa_val, str) else list(fa_val) if fa_val else []
+        
+        filters["legal_sectors"] = list(set(sector_list + fa_list))
+        # Note: SuperRouter doesn't extract effective_date_range explicitly like transform_sector_query did
+        # but sector_search can still proceed without it.
+        
+        
+        is_appendix = filters.get("is_appendix")
+        if isinstance(is_appendix, str):
+            filters["is_appendix"] = True if is_appendix.lower() == "true" else None
+        elif is_appendix is False:
+            filters["is_appendix"] = None
         
         return {
-            "rewritten_queries": [tf.get("keywords") or query],
+            "rewritten_queries": [query],
             "metadata_filters": filters,
             "file_analysis": file_analysis.get("focus_summary", ""),
             "pending_tasks": []
         }
 
     def retrieve(self, state: AgentState) -> Dict[str, Any]:
-        """Broad Fetch: Qdrant Top 15 + Neo4j Sector MapReduce."""
+        """Hierarchical Search: Sector -> Title Groups (Neo4j) -> TOC Drill-down -> Targeted Vector Search."""
         rewritten_queries = state.get("rewritten_queries") or [state.get("condensed_query") or state["query"]]
-        kw = rewritten_queries[0] or state.get("condensed_query") or state["query"]
+        query = state.get("condensed_query") or state["query"]
+        kw = rewritten_queries[0]
         filters = state.get("metadata_filters", {})
+        sectors = filters.get("legal_sectors", [])
+        use_rerank = state.get("use_rerank", True)
+        llm_preset = state.get("llm_preset")
         
-        use_rerank = state.get("use_rerank", False)
+        all_hierarchical_hits = []
+        doc_ids_searched = set()
         
-        hits = retriever.search(
+        if sectors:
+            from backend.retrieval.graph_db import find_docs_in_sector_by_title
+            from backend.agent.utils.utils_sector_search import drill_down_toc_with_llm
+            
+            for sector_name in sectors[:2]:
+                candidate_docs = find_docs_in_sector_by_title(sector_name, kw)
+                if not candidate_docs:
+                    continue
+                
+                for doc in candidate_docs[:3]:
+                    doc_id = doc['id']
+                    if doc_id in doc_ids_searched: continue
+                    doc_ids_searched.add(doc_id)
+                    
+                    doc_title = doc['title']
+                    doc_num = doc['document_number']
+                    doc_toc = doc.get('document_toc', '')
+                    
+                    article_coords = drill_down_toc_with_llm(query, doc_title, doc_toc, llm_preset=llm_preset)
+                    
+                    if article_coords:
+                        for coord in article_coords[:2]:
+                            targeted_hits = retriever.search(
+                                query=kw,
+                                doc_number=doc_num,
+                                article_ref=coord,
+                                expand_context=False,
+                                limit=5
+                            )
+                            all_hierarchical_hits.extend(targeted_hits)
+                    else:
+                        doc_hits = retriever.search(
+                            query=kw,
+                            doc_number=doc_num,
+                            expand_context=False,
+                            limit=settings.MAX_RETRIEVAL_HITS // 2
+                        )
+                        all_hierarchical_hits.extend(doc_hits)
+
+        broad_hits = retriever.search(
             query=kw,
-            expand_context=False,  # Sector search chỉ cần metadata
+            expand_context=True,
             use_rerank=use_rerank,
             legal_type=filters.get("legal_type"),
             doc_number=filters.get("doc_number"),
-            limit=15
+            limit=settings.MAX_RETRIEVAL_HITS
         )
         
-        # --- YÊU CẦU 3: NEO4J SECTOR MAPREDUCE ---
-        graph_context = {"sector_mapreduce": [], "lateral_docs": []}
-        sectors = filters.get("legal_sectors", [])
+        try:
+            from backend.retrieval.graph_db import search_docs_by_keyword
+            graph_keyword_hits = search_docs_by_keyword(query, limit=5)
+            for h in graph_keyword_hits:
+                payload = getattr(h, "payload", {}) or {}
+                fake_hit = {
+                    "id": getattr(h, "id", f"neo4j_kw_{payload.get('document_number')}"),
+                    "score": getattr(h, "score", 0.95),
+                    "document_number": payload.get("document_number", ""),
+                    "title": payload.get("title", ""),
+                    "text": payload.get("chunk_text", ""),
+                    "legal_type": payload.get("legal_type", "Document"),
+                    "chunk_id": getattr(h, "id", f"neo4j_kw_{payload.get('document_number')}")
+                }
+                all_hierarchical_hits.append(fake_hit)
+        except Exception:
+            pass
+            
+        final_hits = all_hierarchical_hits + broad_hits
         
+        doc_number = filters.get("doc_number")
+        article_ref = filters.get("article_ref")
+        
+        if doc_number:
+            try:
+                from backend.retrieval.graph_db import fetch_document_administrative_metadata, run_cypher
+                admin_meta = fetch_document_administrative_metadata(doc_number)
+                if admin_meta:
+                    graph_context = state.get("graph_context", {})
+                    graph_context["admin_metadata"] = admin_meta
+                    state["graph_context"] = graph_context
+                
+                query_lower = query.lower()
+                if "căn cứ" in query_lower or "dựa trên" in query_lower:
+                    based_cypher = """
+                    MATCH (d:Document)-[r:BASED_ON]->(b:Document) 
+                    WHERE b.document_number CONTAINS $doc_num OR toLower(b.title) CONTAINS toLower($doc_num)
+                    RETURN d.id AS id, d.title AS title, d.document_number AS document_number
+                    LIMIT 20
+                    """
+                    res_based = run_cypher(based_cypher, {"doc_num": doc_number})
+                    for r in res_based:
+                        if r.get("document_number"):
+                            fake_hit = {
+                                "id": r.get("id", f"neo4j_based_{r.get('document_number')}"),
+                                "score": 0.99,
+                                "document_number": r.get('document_number'),
+                                "title": r.get('title'),
+                                "text": f"Văn bản này được ban hành dựa trên căn cứ là phần lớn của {doc_number}",
+                                "legal_type": "Document",
+                                "chunk_id": getattr(r, "id", f"neo4j_based_{r.get('document_number')}")
+                            }
+                            final_hits.insert(0, fake_hit)
+            except Exception as e:
+                pass
+                
+        if doc_number and article_ref:
+            try:
+                from backend.retrieval.graph_db import fetch_specific_article
+                graph_articles = fetch_specific_article(doc_number, article_ref)
+                for ga in graph_articles:
+                    fake_hit = {
+                        "id": f"graph_{ga.get('document_number')}_{ga.get('article_ref')}",
+                        "score": 1.0,
+                        "document_number": ga.get("document_number"),
+                        "article_ref": ga.get("article_ref"),
+                        "title": ga.get("title"),
+                        "text": ga.get("article_text"),
+                        "is_appendix": "phụ lục" in ga.get("article_ref", "").lower(),
+                        "url": "",
+                        "chunk_id": f"graph_{ga.get('document_number')}_{ga.get('article_ref')}"
+                    }
+                    if fake_hit["text"]:
+                        final_hits.insert(0, fake_hit)
+            except Exception as e:
+                pass
+                
+        seen_chunks = set()
+        dedup_hits = []
+        for h in final_hits:
+            cid = h.get("chunk_id")
+            if cid and cid not in seen_chunks:
+                seen_chunks.add(cid)
+                dedup_hits.append(h)
+        
+        graph_context = state.get("graph_context", {})
+        graph_context.update({"sector_mapreduce": [], "lateral_docs": []})
+        
+        chunk_ids = [h.get("chunk_id", "") for h in dedup_hits if h.get("chunk_id")]
+        if chunk_ids:
+            try:
+                from backend.retrieval.graph_db import lateral_expand
+                graph_context["lateral_docs"] = lateral_expand(chunk_ids)
+            except Exception:
+                pass
+
         if sectors:
             try:
                 from backend.retrieval.graph_db import sector_mapreduce
-                for sector_name in sectors[:3]:  # Giới hạn 3 ngành
+                for sector_name in sectors[:3]:
                     mr_result = sector_mapreduce(sector_name)
                     if mr_result:
                         graph_context["sector_mapreduce"].extend(mr_result)
-                        print(f"       📊 [Neo4j] Sector MapReduce for '{sector_name}': {len(mr_result)} groups")
             except Exception as e:
-                print(f"       ⚠️ [Neo4j] Sector MapReduce failed (non-fatal): {e}")
+                pass
         
-        return {"raw_hits": hits, "graph_context": graph_context}
+        return {"raw_hits": dedup_hits[:20], "graph_context": graph_context}
 
-
-
-    def grade(self, state: AgentState) -> Dict[str, Any]:
-        """
-        Strict Filter & Deduplication + MapReduce Aggregation.
-        
-        Pipeline:
-        1. Deduplicate by document_number
-        2. Heuristic date filter (pure Python)
-        3. LLM relevance batch filter (1 call)
-        4. MapReduce aggregate → Markdown table (pure Python)
-        """
-        query = state.get("condensed_query", state["query"])
+    def generate(self, state: AgentState) -> Dict[str, Any]:
+        """Executive Summary + Bảng thống kê + Tóm tắt nội dung từng văn bản."""
+        query = state.get("standalone_query") or state.get("condensed_query") or state["query"]
         hits = state.get("raw_hits", [])
         filters = state.get("metadata_filters", {})
         
         if not hits:
-            return {
-                "raw_hits": [],
-                "filtered_context": "",
-                "is_sufficient": False
-            }
-        
-        # Step 1: Dedup by document_number (giữ chunk score cao nhất)
-        unique_docs = deduplicate_by_document(hits)
-        print(f"       📋 Dedup: {len(hits)} chunks → {len(unique_docs)} unique docs")
-        
-        # Step 2: Heuristic date filter (không tốn token)
-        date_range = filters.get("effective_date_range", {})
-        date_filtered = _heuristic_date_filter(unique_docs, date_range)
-        if len(date_filtered) < len(unique_docs):
-            print(f"       📅 Date filter: {len(unique_docs)} → {len(date_filtered)} docs")
-        
-        # Step 3: LLM relevance batch (1 call nhẹ)
-        relevant_docs = grade_relevance_batch(query, date_filtered, llm_preset=state.get("llm_preset"))
-        print(f"       ✅ Relevance filter: {len(date_filtered)} → {len(relevant_docs)} docs")
-        
-        is_best_effort = False
-        if not relevant_docs and date_filtered:
-            # --- BEST-EFFORT FALLBACK ---
-            # Nếu lọc sạch không còn gì, lấy Top 3 văn bản có điểm cao nhất làm tham khảo
-            print("       ⚠️ No relevant docs found by LLM. Using Best-Effort (Top 3 closest matches).")
-            relevant_docs = date_filtered[:3]
-            is_best_effort = True
+            return {"final_response": "Không tìm thấy văn bản pháp luật nào phù hợp với truy vấn."}
             
-        # Step 4: MapReduce Aggregation (pure Python)
+        unique_docs = deduplicate_by_document(hits)
+        date_range = filters.get("effective_date_range", {})
+        relevant_docs = _heuristic_date_filter(unique_docs, date_range)
+        
+        # Bảng thống kê MapReduce (giữ lại cho câu hỏi đếm)
         table_markdown = map_reduce_aggregate(relevant_docs)
         
-        return {
-            "raw_hits": relevant_docs, 
-            "filtered_context": table_markdown,
-            "is_sufficient": len(relevant_docs) > 0,
-            "is_best_effort": is_best_effort
-        }
-
-    def generate(self, state: AgentState) -> Dict[str, Any]:
-        """
-        Executive Summary + Markdown Table Report.
-        Chỉ dùng 1 LLM call (~100 tokens output) để sinh summary.
-        """
-        query = state.get("condensed_query", state["query"])
-        table_markdown = state.get("filtered_context", "")
+        graph_context = state.get("graph_context", {})
+        if graph_context and graph_context.get("admin_metadata"):
+            table_markdown = f"{graph_context['admin_metadata']}\n\n---\n\n{table_markdown}"
         
         file_chunks = state.get("file_chunks", [])
         
         if not table_markdown and not file_chunks:
-            return {"draft_response": "Không tìm thấy văn bản pháp luật nào phù hợp với truy vấn."}
+            return {"final_response": "Không tìm thấy văn bản pháp luật nào phù hợp với truy vấn."}
+        
+        # Tạo tóm tắt nội dung liên quan cho từng văn bản (top 5)
+        doc_summaries = []
+        for doc in relevant_docs[:5]:
+            doc_num = doc.get("document_number", "N/A")
+            title = doc.get("title", "N/A")
+            text_snippet = doc.get("text", "")
+            if text_snippet:
+                # Cắt ngắn và format snippet
+                snippet = text_snippet[:500].strip()
+                if len(text_snippet) > 500:
+                    snippet += "..."
+                doc_summaries.append(
+                    f"#### 📄 {doc_num} — {title}\n> {snippet}\n"
+                )
+        
+        content_section = ""
+        if doc_summaries:
+            content_section = "### 📝 Nội dung liên quan\n\n" + "\n".join(doc_summaries)
         
         history_msgs = state.get("history", [])[-6:]
         history_str = "\n".join([f"{'User' if m['role']=='user' else 'AI'}: {m['content']}" for m in history_msgs]) if history_msgs else "(Không có lịch sử)"
         
-        # Generate Executive Summary (1 LLM call)
         summary = generate_executive_summary(
             query, 
             table_markdown, 
@@ -175,108 +291,34 @@ class SectorSearchStrategy(BaseRAGStrategy):
             llm_preset=state.get("llm_preset")
         )
         
-        if state.get("is_best_effort"):
-            # Chèn cảnh báo Best-effort vào đầu báo cáo
-            best_effort_msg = "> [!NOTE]\n> **Thông báo:** Hệ thống không tìm thấy quy định trực tiếp, tuy nhiên dựa trên nội dung liên quan nhất tìm thấy, tôi xin cung cấp thông tin tham khảo như sau:\n\n"
-            summary = best_effort_msg + summary
-            
-        # Assemble final report: Summary + Table
         report = ""
         if file_chunks:
             file_insight = state.get("file_analysis", "Tài liệu tải lên chứa các nội dung liên quan đến lĩnh vực này.")
             report += f"### 💡 Phân tích từ Tài liệu tải lên\n> {file_insight}\n\n---\n\n"
             
-        report += f"### 📊 Tổng quan\n\n{summary}\n\n---\n\n### 📚 Danh sách văn bản pháp luật\n{table_markdown}"
+        report += f"### 📊 Tổng quan\n\n{summary}\n\n---\n\n"
         
-        # Build references (đảm bảo được sort theo score)
+        if content_section:
+            report += f"{content_section}\n\n---\n\n"
+        
+        report += f"### 📚 Danh sách văn bản pháp luật\n{table_markdown}"
+        
         refs = []
-        sorted_hits = sorted(state.get("raw_hits", []), key=lambda x: x.get("score", 0), reverse=True)
+        sorted_hits = sorted(relevant_docs, key=lambda x: x.get("score", 0), reverse=True)
         for h in sorted_hits:
             refs.append({
                 "title": h.get("title", ""),
                 "article": h.get("article_ref", h.get("document_number", "")),
                 "score": h.get("score", 0),
                 "chunk_id": h.get("chunk_id", ""),
+                "text_preview": h.get("text", ""),
                 "document_number": h.get("document_number", ""),
                 "url": h.get("url", "")
             })
             
-        return {
-            "draft_response": report,
-            "references": refs
-        }
-
-    def reflect(self, state: AgentState) -> Dict[str, Any]:
-        """
-        Coverage Check: Phát hiện thiên lệch và bổ sung kết quả.
-        
-        Nếu danh sách chỉ toàn 1 loại (VD: chỉ Luật), trigger supplemental search
-        qua legal_basis_refs để tìm Nghị định/Thông tư hướng dẫn.
-        Chỉ retry tối đa 1 lần.
-        """
-        hits = state.get("raw_hits", [])
-        retry_count = state.get("retry_count", 0)
-        
-        # Skip coverage check nếu đã retry hoặc ít kết quả
-        if retry_count >= 3 or len(hits) < 3:
-            return {
-                "final_response": state.get("draft_response", ""),
-                "pass_flag": True,
-                "feedback": ""
-            }
-        
-        # Coverage Check
-        coverage = check_coverage_bias(hits)
-        
-        if coverage["biased"] and coverage["basis_doc_numbers"]:
-            print(f"       🔍 Coverage bias detected: {coverage['dominant_type']} dominates ({coverage['type_distribution']})")
-            print(f"       🔍 Missing types: {coverage['missing_types']}")
-            print(f"       🔄 Triggering supplemental search for {len(coverage['basis_doc_numbers'])} basis docs...")
+        cited_refs = filter_cited_references(report, refs)
             
-            # Supplemental search
-            existing_doc_nums = {h.get("document_number") for h in hits}
-            supplemental = supplemental_search_by_basis(
-                coverage["basis_doc_numbers"], existing_doc_nums
-            )
-            
-            if supplemental:
-                print(f"       ✅ Found {len(supplemental)} supplemental docs")
-                
-                # Rebuild report with supplemental results
-                all_hits = hits + supplemental
-                query = state.get("condensed_query", state["query"])
-                new_table = map_reduce_aggregate(all_hits)
-                new_summary = generate_executive_summary(query, new_table, llm_preset=state.get("llm_preset"))
-                
-                report = f"### 📊 Tổng quan\n\n{new_summary}\n\n---\n\n### 📚 Danh sách văn bản pháp luật\n{new_table}"
-                report += "\n\n> *🔄 Danh sách đã được bổ sung tự động các văn bản hướng dẫn thi hành (Coverage Check).*"
-                
-                # Build updated refs (đảm bảo được sort theo score)
-                refs = []
-                all_hits_sorted = sorted(all_hits, key=lambda x: x.get("score", 0), reverse=True)
-                for h in all_hits_sorted:
-                    refs.append({
-                        "title": h.get("title", ""),
-                        "article": h.get("article_ref", h.get("document_number", "")),
-                        "score": h.get("score", 0),
-                        "chunk_id": h.get("chunk_id", ""),
-                        "document_number": h.get("document_number", ""),
-                        "url": h.get("url", "")
-                    })
-                
-                return {
-                    "final_response": report,
-                    "references": refs,
-                    "raw_hits": all_hits,
-                    "pass_flag": True,
-                    "feedback": f"Coverage Check: Bổ sung {len(supplemental)} văn bản hướng dẫn."
-                }
-            else:
-                print(f"       ℹ️ No supplemental docs found, keeping original results")
-        
-        # No bias or no supplemental found — pass through
         return {
-            "final_response": state.get("draft_response", ""),
-            "pass_flag": True,
-            "feedback": ""
+            "final_response": report,
+            "references": cited_refs
         }

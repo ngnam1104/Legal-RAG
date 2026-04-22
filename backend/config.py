@@ -1,28 +1,25 @@
 import os
+import logging
 from pydantic_settings import BaseSettings
 
-class Settings(BaseSettings):
-    # LLM
-    LLM_PROVIDER: str = "groq"  # groq | gemini | ollama
-    LLM_API_KEY: str = ""  
-    LLM_BASE_URL: str = "https://api.groq.com/openai/v1"
-    LLM_CHAT_MODEL: str = "llama-3.1-8b-instant"  # Deprecated in favor of ROUTING/CORE
-    LLM_ROUTING_MODEL: str = "llama-3.1-8b-instant"
-    LLM_CORE_MODEL: str = "llama-3.3-70b-versatile"
-    
-    # Retry strategy for FREE Tier (TPM/RPM limits)
-    LLM_RETRY_DELAY: int = 20  # Seconds
-    LLM_MAX_RETRIES: int = 5
-    
-    GEMINI_API_KEY: str = ""
-    GEMINI_CHAT_MODEL: str = "models/gemini-1.5-flash"
-    
-    OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_CHAT_MODEL: str = "llama3"
-    OLLAMA_API_KEY: str = ""
+# Silence redundant httpx logs globally
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
-    # RAG Context limits
-    MAX_CONTEXT_CHARS: int = 25000  # ~3500 tokens (Tối ưu cho 70B FREE Tier 12,000 TPM, cho phép 2 lần gọi/request)
+class Settings(BaseSettings):
+    # LLM (Đổi sang Internal On-Premise)
+    LLM_PROVIDER: str = "internal"
+    LLM_API_KEY: str = ""  
+    LLM_BASE_URL: str = "http://localhost:11434"
+    LLM_ROUTING_MODEL: str = "llama3"
+    LLM_CORE_MODEL: str = "llama3"
+    
+    # Retry strategy cho hệ thống mạng nội bộ
+    LLM_RETRY_DELAY: int = 3  # Seconds
+    LLM_MAX_RETRIES: int = 3
+
+    # RAG Retrieval limits
+    MAX_CONTEXT_CHARS: int = 50000  # Soft safety limit, no longer a hard cut-off
+    MAX_RETRIEVAL_HITS: int = 20    # Default top-K chunks to include in context
     
     HF_HOME: str = "./.cache/huggingface"
     SENTENCE_TRANSFORMERS_HOME: str = "./.cache/sentence_transformers"
@@ -33,14 +30,16 @@ class Settings(BaseSettings):
     QDRANT_URL: str = "http://localhost:6335"
     QDRANT_PATH: str = "" # Set this to use local path instead of URL
     QDRANT_API_KEY: str = ""
-    QDRANT_COLLECTION: str = "legal_rag_docs_5000"
+    QDRANT_COLLECTION: str = "legal_hybrid_rag_docs"
     ENABLE_RERANK: bool = True
+    ENABLE_GRADING: bool = False     # [Ablation Study] Bật/tắt node Grade
+    ENABLE_REFLECTION: bool = False  # [Ablation Study] Bật/tắt node Reflect
     QDRANT_READ_ONLY: bool = False
     REDIS_URL: str = "redis://localhost:6379/0"
     
-    # Neo4j Graph DB
-    NEO4J_URI: str = "neo4j+s://7b7f7d06.databases.neo4j.io"
-    NEO4J_USERNAME: str = "7b7f7d06"
+    # Neo4j Graph DB (Bắt buộc dùng Docker Local)
+    NEO4J_URI: str = "bolt://localhost:7687"
+    NEO4J_USERNAME: str = "neo4j"
     NEO4J_PASSWORD: str = "u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0"
 
     model_config = {

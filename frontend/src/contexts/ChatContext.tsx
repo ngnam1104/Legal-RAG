@@ -16,6 +16,7 @@ export interface Message {
     document_number?: string;
     url?: string;
   }>;
+  related_docs?: Array<any>;
 }
 
 export interface Session {
@@ -28,7 +29,6 @@ export interface Session {
 export interface ChatSettings {
   llm_preset: string; // 'groq_8b', 'groq_70b', 'gemini', 'ollama'
   top_k: number;
-  use_reflection: boolean;
   use_rerank: boolean;
 }
 
@@ -46,6 +46,7 @@ interface ChatContextProps {
   isIngesting: boolean;
   stagedFile: { id: string, name: string } | null;
   processingSteps: { text: string; time: string }[];
+  activeMode: string;
   
   // Actions
   setInputBuffer: (text: string) => void;
@@ -81,13 +82,13 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [isIngesting, setIsIngesting] = useState(false);
   const [stagedFile, setStagedFile] = useState<{ id: string, name: string } | null>(null);
   const [processingSteps, setProcessingSteps] = useState<{ text: string; time: string }[]>([]);
+  const [activeMode, setActiveMode] = useState<string>("GENERAL_CHAT");
   const abortControllerRef = useRef<AbortController | null>(null);
   const isCreatingSessionRef = useRef(false);
   const [settings, setSettingsState] = useState<ChatSettings>({
     llm_preset: 'groq_70b',
-    top_k: 3,
-    use_reflection: true,
-    use_rerank: false, // Mặc định tắt Reranker để ưu tiên tốc độ xử lý Local
+    top_k: 5,
+    use_rerank: true, // Bật Rerank để tăng cường độ chính xác tìm kiếm
   });
 
   const setSettings = (newSettings: Partial<ChatSettings>) => {
@@ -224,7 +225,6 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
         file_path: lastFileId ? lastFileId : null,
         llm_preset: settings.llm_preset,
         top_k: settings.top_k,
-        use_reflection: settings.use_reflection,
         use_rerank: settings.use_rerank,
       };
 
@@ -301,7 +301,8 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
                 setMessages(prev => [...prev, {
                   role: 'assistant',
                   content: final.answer,
-                  references: final.references || []
+                  references: final.references || [],
+                  related_docs: final.related_docs || []
                 }]);
                 
                 if (final.title) {
@@ -439,6 +440,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     isIngesting,
     stagedFile,
     processingSteps,
+    activeMode,
     setInputBuffer,
     setCurrentSessionId,
     setSettings,
@@ -456,7 +458,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   }), [
     currentSessionId, sessions, messages, settings,
     inputBuffer, isPendingEdit, editingIndex, isLoading,
-    isSending, isIngesting, stagedFile, processingSteps, fetchSessions, fetchMessages,
+    isSending, isIngesting, stagedFile, processingSteps, activeMode, fetchSessions, fetchMessages,
     createNewSession, deleteSession, renameSession, sendMessage,
     stopResponse, uploadFile, ingestFile, clearStagedFile, syncConflict
   ]);

@@ -9,11 +9,13 @@ class AgentState(TypedDict):
     file_path: Optional[str]
     top_k: int
     use_reflection: bool
+    use_grading: bool
     use_rerank: bool
     llm_preset: Optional[str]  # e.g., 'groq_8b', 'groq_70b', 'gemini', 'ollama'
     
     # --- Trace & Memory ---
     history: List[Dict[str, str]]
+    standalone_query: str
     condensed_query: str
     file_chunks: List[Dict[str, Any]]
     detected_mode: Optional[str]
@@ -57,3 +59,14 @@ class AgentState(TypedDict):
     # --- Iterators (Batching/MapReduce) ---
     pending_tasks: List[Any]          # Hàng đợi, VD: danh sách Claims chưa xử lý
     completed_results: List[Any]      # Lưu trữ kết quả sau từng vòng loop
+    
+    # Hotfix: Chống lỗi InvalidUpdateError
+    is_best_effort: bool
+    file_analysis: str
+    
+    # --- Conflict Analyzer Specific ---
+    pruned_batch: List[Dict[str, Any]]
+    conflict_draft: List[Dict[str, Any]]
+    
+    # --- Stateful Conversation (New) ---
+    conversation_state: Dict[str, Any]

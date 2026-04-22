@@ -24,8 +24,56 @@ def canonical_doc_type(raw: str) -> str:
     return "other"
 
 def extract_year(text: str) -> str:
-    m = re.search(r"\b(19|20)\d{2}\b", text or "")
-    return m.group(0) if m else ""
+    """Bóc tách năm 4 chữ số từ chuỗi. Ưu tiên 19xx/20xx, fallback bất kỳ 4 chữ số."""
+    t = str(text or "")
+    # Ưu tiên: tìm năm 19xx hoặc 20xx với word boundary
+    m = re.search(r"\b((?:19|20)\d{2})\b", t)
+    if m:
+        return m.group(1)
+    # Fallback: tìm bất kỳ chuỗi 4 chữ số nào
+    m2 = re.search(r"(\d{4})", t)
+    if m2:
+        yr = int(m2.group(1))
+        if 1900 <= yr <= 2100:
+            return str(yr)
+    return ""
+
+VALID_DOC_STATUSES = [
+    "Đang có hiệu lực",
+    "Hết hiệu lực một phần",
+    "Hết hiệu lực toàn bộ",
+    "Chưa có hiệu lực",
+]
+
+def normalize_doc_status(raw: str) -> str:
+    """
+    Ép giá trị doc_status về 1 trong 4 trạng thái chuẩn.
+    Xử lý mọi giá trị rác từ LLM hoặc HF metadata.
+    """
+    if not raw or str(raw).strip().lower() in ("", "nan", "none", "n/a"):
+        return "Đang có hiệu lực"  # default an toàn
+
+    text = str(raw).strip().lower()
+
+    # Kiểm tra "hết hiệu lực" trước (vì nó chứa từ "hiệu lực")
+    if "hết hiệu lực" in text or "het hieu luc" in text:
+        if "một phần" in text or "mot phan" in text or "1 phần" in text:
+            return "Hết hiệu lực một phần"
+        if "toàn bộ" in text or "toan bo" in text:
+            return "Hết hiệu lực toàn bộ"
+        # "Hết hiệu lực" không rõ → mặc định toàn bộ
+        return "Hết hiệu lực toàn bộ"
+
+    if "chưa" in text or "chua" in text or "sắp" in text:
+        return "Chưa có hiệu lực"
+
+    if ("còn" in text or "đang" in text or "con hieu" in text
+            or "dang co" in text or "có hiệu lực" in text or "hieu luc" in text):
+        return "Đang có hiệu lực"
+
+    # Fallback: không nhận ra → mặc định
+    return "Đang có hiệu lực"
+
 
 def extract_doc_number(text: str) -> str:
     patterns = [r"(?i)(?:số\s*)?(\d+\/\d+(?:\/[A-Z0-9Đ\-]+)?)", r"(?i)(\d+\/[A-Z0-9Đ\-]+)"]
@@ -65,7 +113,7 @@ appx_lvl2_pattern = re.compile(r"(?im)^\s*(\d+)\s*[\.\:\-]\s*(.*)$")
 appx_lvl3_pattern = re.compile(r"(?im)^\s*(\d+(?:\.\d+)+)\s*[\.\:\-]?\s*(.*)$")
 
 substantive_title_pattern = re.compile(
-    r"(?im)^\s*(QUY ĐỊNH|QUY CHẾ|PHƯƠNG ÁN|ĐIỀU LỆ|CHƯƠNG TRÌNH|HƯỚNG DẪN|NỘI QUY|KẾ HOẠCH|CHIẾN LƯỢC|ĐỀ ÁN|DỰ ÁN)\b(?!\s*CHUNG\b).*$"
+    r"(?im)^\s*(QUY ĐỊNH|QUY CHẾ|QUY CHUẨN|QCVN|TIÊU CHUẨN|TCVN|PHƯƠNG ÁN|ĐIỀU LỆ|CHƯƠNG TRÌNH|HƯỚNG DẪN|NỘI QUY|KẾ HOẠCH|CHIẾN LƯỢC|ĐỀ ÁN|DỰ ÁN)\b(?!\s*CHUNG\b).*$"
 )
 appendix_title_pattern = re.compile(
     r"(?im)^\s*("
@@ -117,9 +165,10 @@ relationship_pattern = re.compile(
 extract_article_pattern = re.compile(r"(điều\s+\d+[a-zA-ZđĐ]*)", re.IGNORECASE)
 extract_clause_pattern = re.compile(r"(khoản\s+\d+[a-zA-ZđĐ]*)", re.IGNORECASE)
 def normalize_doc_key(text: str) -> str:
+    """Chuẩn hóa số hiệu VB thành key tra cứu: bỏ dấu cách, chấm, gạch, slash, viết hoa."""
     if not text:
-        return 
-    return re.sub(r'[\\s\\.\\-\\/]', '', text).strip().upper()
+        return ""
+    return re.sub(r'[\s.\-/]', '', str(text)).strip().upper()
 
 part_lesson_pattern = re.compile(
     r"(?im)^\s*(phần|tập|bài)\s+([ivxlcdm0-9]+)\s*[\.\:\-–—]?\s*(.+)?$",

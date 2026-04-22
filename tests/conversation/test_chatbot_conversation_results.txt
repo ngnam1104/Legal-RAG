@@ -1,0 +1,1430 @@
+❌ KHÔNG ĐẠTSTARTING TEST: CONVERSATION MEMORY (MULTI-TURN)
+============================================================
+Logging to: D:\iCOMM\Legal-RAG\tests\test_chatbot_conversation_results.txt
+Logging failures to: D:\iCOMM\Legal-RAG\tests\test_conversation_false_result.txt
+
+============================================================
+BẮT ĐẦU HỘI THOẠI: conv_001 (Session ID: test_conv_001_1c5e51)
+============================================================
+
+--- [Turn 1] Query: Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 quy định về vấn đề gì?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 quy định về vấn đề gì? Nghị quyết này quy...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Quản lý nhà nước'}
+       DEBUG: Dense Query Sample: [-0.036180900914912995, 0.004608795861779437, -0.023165759305244928, -0.01416803057509223, -0.02717735718493469]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.21s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 quy định về vấn đề gì?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Điều 1, Nghị quyết này quy định về **mức giá dịch vụ khám bệnh, chữa bệnh** tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
+
+Cụ thể, phạm vi điều chỉnh bao gồm:
+1. Mức giá dịch vụ khám bệnh, chữa bệnh do Quỹ bảo hiểm y tế thanh toán.
+2. Mức giá dịch vụ khám bệnh, chữa bệnh do ngân sách nhà nước thanh toán.
+3. Mức giá dịch vụ khám bệnh, chữa bệnh không thuộc danh mục do Quỹ bảo hiểm y tế thanh toán mà không phải là dịch vụ khám bệnh, chữa bệnh theo yêu cầu.
+
+Các mức giá này được chi tiết hóa trong các Phụ lục kèm theo Nghị quyết, bao gồm: mức giá khám bệnh, kiểm tra sức khỏe; mức giá ngày giường điều trị; mức giá dịch vụ kỹ thuật, xét nghiệm; và mức giá dịch vụ kỹ thuật thực hiện bằng phương pháp vô cảm gây tê.
+
+[Expected Answer]: Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi quy định về mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.
+[Expected Citation]: Tiêu đề, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác về nội dung cốt lõi, đồng thời cung cấp thông tin chi tiết và đầy đủ hơn so với câu trả lời mẫu về các loại hình thanh toán và danh mục dịch vụ cụ thể.
+⏱️ [Turn Time]: 18.25s
+------------------------------------------------------------
+
+--- [Turn 2] Query: Văn bản này do ai ký và ban hành vào ngày nào?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi do ai ký và ban hành vào ngày n...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.013334526069854946, 0.0017722717092843155, -0.014177355074270237, -0.028388120148715494, -0.010962860057430612]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi do ai ký và ban hành vào ngày nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Phần Lời dẫn và Phần Nơi nhận và Chữ ký, Nghị quyết này được ban hành vào ngày **30 tháng 12 năm 2025** và do **Ông Nguyễn Đức Tuy** (Chủ tịch Hội đồng nhân dân tỉnh Quảng Ngãi) ký.
+
+[Expected Answer]: Nghị quyết 54/NQ-HĐND được ký bởi ông Nguyễn Đức Tuy và ban hành vào ngày 30 tháng 12 năm 2025.
+[Expected Citation]: Phần đầu văn bản, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG cung cấp chính xác tên người ký, chức vụ và ngày ban hành tương đồng hoàn toàn với câu trả lời mẫu, đồng thời trích dẫn đúng số hiệu văn bản trọng tâm.
+⏱️ [Turn Time]: 13.47s
+------------------------------------------------------------
+
+--- [Turn 3] Query: Mức giá khám bệnh thông thường theo quy định đó là bao nhiêu?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Mức giá khám bệnh thông thường theo quy định tại Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dâ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.05695077307735218, -0.005237785515143709, -0.04585962925703753, -0.025183272592010954, 0.0034046887448413343]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.18s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Mức giá khám bệnh thông thường theo quy định tại Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi là bao nhiêu?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Phụ lục I.1 (Dữ liệu Bảng biểu), mức giá dịch vụ **Khám bệnh** thuộc danh mục do Quỹ bảo hiểm y tế thanh toán là **39.800 đồng**.
+
+Cụ thể, theo bảng biểu đính kèm trong Nghị quyết:
+- Dịch vụ kỹ thuật: Khám bệnh.
+- Mức giá: 39.800 đồng.
+- Ghi chú: Danh mục dịch vụ khám bệnh, chữa bệnh thuộc danh mục do Quỹ bảo hiểm y tế thanh toán.
+
+Mức giá này được quy định tại Phụ lục I.1 áp dụng cho các cơ sở như Bệnh viện đa khoa tỉnh Quảng Ngãi và Bệnh viện đa khoa tỉnh Quảng Ngãi 2.
+
+[Expected Answer]: Mức giá dịch vụ khám bệnh thông thường được quy định chi tiết theo từng tuyến bệnh viện, trung tâm y tế và trạm y tế tại Phụ lục I ban hành kèm theo Nghị quyết.
+[Expected Citation]: Phụ lục I, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG cung cấp thông tin chính xác và chi tiết hơn câu trả lời mẫu bằng cách nêu rõ mức giá cụ thể (39.800 đồng) và trích dẫn đúng số hiệu văn bản trọng tâm (Nghị quyết 54/NQ-HĐND, Phụ lục I).
+⏱️ [Turn Time]: 17.50s
+------------------------------------------------------------
+
+--- [Turn 4] Query: Nó có bãi bỏ hay thay thế cho văn bản nào trước đây không?
+       🎯 [SuperRouter] Intent: CONFLICT_ANALYZER
+       DEBUG: Dense Query Sample: [-0.007107572728984526, 0.026495297480822855, 0.0006368830115578211, 0.02094073838002161, -0.015580899282754043]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.20s
+       DEBUG: Dense Query Sample: [-0.04018242530280994, 0.003441829854627007, -0.03653833145672598, 0.004724662600443842, -0.01416224540182749]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.20s
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có bãi bỏ hay thay thế cho văn bản nào trước đây không?
+[Detected Intent]: CONFLICT_ANALYZER
+[Generated Answer]:
+### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết 54/NQ-HĐND năm 2025 bãi bỏ Nghị quyết 12/NQ-HĐND năm 2022 | ⚪ **Neutral** | Căn cứ Không có văn bản liên quan trong cơ sở dữ liệu hiện tại | Cơ sở dữ liệu pháp luật (Legal Context) chỉ cung cấp thông tin về các văn bản của tỉnh Cà Mau (NQ 36/2025), Bình Định (QĐ 3197/QĐ-UBND) và Lạng Sơn (NQ 50/2025). Không có tài liệu nào trong cơ sở dữ liệu đề cập đến Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi hoặc Nghị quyết 12/NQ-HĐND năm 2022. Do đó, không thể xác minh hoặc bác bỏ mệnh đề về việc bãi bỏ dựa trên các căn cứ pháp luật được cung cấp. |\n| thay thế các quy định về giá khám chữa bệnh tại Phụ lục I của Nghị quyết 12/NQ-HĐND | ✅ **Entailment** | Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Điều 2 | Mệnh đề nội bộ khẳng định Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi thay thế các quy định về giá tại Nghị quyết 12/NQ-HĐND. Căn cứ vào tài liệu id='3' trong cơ sở dữ liệu, Nghị quyết 54/NQ-HĐND năm 2025 thực sự là văn bản quy định mới về giá dịch vụ khám chữa bệnh tại tỉnh Quảng Ngãi (Điều 2). Theo nguyên tắc Lex Posterior (luật mới thay thế luật cũ), việc Nghị quyết 54 thay thế Nghị quyết 12 là hoàn toàn hợp pháp và phù hợp với nội dung văn bản mới được cung cấp. Không có sự xung đột nào giữa mệnh đề và căn cứ pháp luật. |\n
+
+[Expected Answer]: Có, Nghị quyết này thường sẽ bãi bỏ hoặc thay thế các Nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh của nhà nước trên địa bàn tỉnh Quảng Ngãi đã được ban hành trước đó để áp dụng mức giá mới từ ngày có hiệu lực.
+[Expected Citation]: Điều khoản thi hành, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT RAG xác định đúng Nghị quyết 54/NQ-HĐND thay thế quy định cũ và trích dẫn chính xác số hiệu văn bản trọng tâm theo yêu cầu, dù có ghi chú thêm về hạn chế dữ liệu nhưng không làm sai lệch bản chất câu trả lời.
+⏱️ [Turn Time]: 60.56s
+------------------------------------------------------------
+
+--- [Turn 5] Query: Vậy chính thức áp dụng từ khi nào?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết 54/NQ-HĐND năm 2025 chính thức áp dụng từ khi nào? Theo Điều 3 của Nghị quyết 54/NQ-HĐND ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.0018801102689879655, 0.019333472709414216, 0.0045128881655939965, -0.012157519446102842, -0.03421549625548885]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND năm 2025 chính thức áp dụng từ khi nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Điều 5, Khoản 1, Nghị quyết này chính thức có hiệu lực thi hành (áp dụng) từ ngày **01 tháng 01 năm 2026**.
+
+Cụ thể, Điều 5 quy định: "1. Nghị quyết này có hiệu lực thi hành từ ngày 01 tháng 01 năm 2026."
+
+[Expected Answer]: Theo thông tin chung của các văn bản pháp luật ban hành cuối năm, Nghị quyết này có hiệu lực thi hành kể từ ngày 01 tháng 01 năm 2026.
+[Expected Citation]: Điều khoản thi hành, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG cung cấp chính xác ngày hiệu lực và trích dẫn đúng số hiệu văn bản cùng điều khoản cụ thể so với yêu cầu mẫu.
+⏱️ [Turn Time]: 17.10s
+------------------------------------------------------------
+
+--- [Turn 6] Query: Ngoài nghị quyết trên, có văn bản nào khác liên quan đến lĩnh vực y tế của Quảng Ngãi trong năm 2025 không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Ngoài Nghị quyết 54/NQ-HĐND năm 2025, có văn bản nào khác liên quan đến lĩnh vực y tế của tỉnh Quảng...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.07150293863650369, -0.0010819296793685804, -0.022971391561956357, 0.00036951129295375413, -0.004342978317183335]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Ngoài Nghị quyết 54/NQ-HĐND năm 2025, có văn bản nào khác liên quan đến lĩnh vực y tế của tỉnh Quảng Ngãi được ban hành trong năm 2025 không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các văn bản pháp lý được cung cấp trong ngữ cảnh hiện tại, **không có thông tin** về bất kỳ văn bản nào khác liên quan đến lĩnh vực y tế của tỉnh Quảng Ngãi được ban hành trong năm 2025 ngoài Nghị quyết 54/NQ-HĐND.
+
+Cụ thể:
+- Văn bản duy nhất được xác định trong cơ sở dữ liệu là **Nghị quyết 54/NQ-HĐND năm 2025** (ban hành ngày 30 tháng 12 năm 2025) quy định về giá dịch vụ khám bệnh, chữa bệnh.
+- Các văn bản khác được nhắc đến trong ngữ cảnh (như Nghị quyết số 71/NQ-HĐND) đều thuộc năm 2024 hoặc thuộc địa phương khác (tỉnh Kon Tum).
+- Các văn bản căn cứ khác (Thông tư 21/2024/TT-BYT, Thông tư 23/2024/TT-BYT) là văn bản của Bộ Y tế (cấp Trung ương) ban hành năm 2024, không phải văn bản của tỉnh Quảng Ngãi năm 2025.
+
+Do đó, trong phạm vi dữ liệu được cung cấp, Nghị quyết 54/NQ-HĐND năm 2025 là văn bản duy nhất của tỉnh Quảng Ngãi liên quan đến lĩnh vực y tế được ban hành trong năm 2025.
+
+[Expected Answer]: Trong năm 2025, tỉnh Quảng Ngãi có thể ban hành các văn bản khác liên quan đến y tế như quy định về chính sách hỗ trợ nhân viên y tế, kế hoạch phòng chống dịch bệnh, hoặc phân bổ ngân sách cho cơ sở y tế. Để có danh sách chính xác, cần tra cứu thêm trên Cổng thông tin điện tử tỉnh Quảng Ngãi.
+[Expected Citation]: Cơ sở dữ liệu pháp luật tỉnh Quảng Ngãi năm 2025
+
+[LLM JUDGE]: ✅ ĐẠT RAG trả lời chính xác dựa trên dữ liệu thực tế được cung cấp, xác nhận không có văn bản nào khác ngoài Nghị quyết 54/NQ-HĐND, trong khi câu trả lời mẫu chỉ đưa ra các dự đoán chung chung không có căn cứ cụ thể.
+⏱️ [Turn Time]: 18.95s
+------------------------------------------------------------
+
+============================================================
+BẮT ĐẦU HỘI THOẠI: conv_002 (Session ID: test_conv_002_600ee4)
+============================================================
+
+--- [Turn 1] Query: Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, chi phí ngày giường bệnh ban ngày được tính như thế nào?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, chi phí ngày giường bệnh ban ngày được tính như ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.0819930883819513, 0.01251914775294758, -0.053303471948111164, -0.017526044654141655, -0.03323034534423354]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, chi phí ngày giường bệnh ban ngày được tính như thế nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Dữ liệu Bảng biểu (Phụ lục đính kèm), chi phí ngày giường bệnh ban ngày được tính như sau:
+
+**Được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng.**
+
+Cụ thể, theo bảng dữ liệu trong Nghị quyết:
+- Dịch vụ: Ngày giường bệnh ban ngày.
+- Mức giá: Được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng.
+
+[Expected Answer]: Theo Nghị quyết 54/NQ-HĐND, ngày giường bệnh ban ngày được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng.
+[Expected Citation]: Phụ lục II.1, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG hoàn toàn chính xác về nội dung (0,3 lần giá ngày giường) và trích dẫn đúng văn bản cùng phụ lục so với câu trả lời mẫu.
+⏱️ [Turn Time]: 13.61s
+------------------------------------------------------------
+
+--- [Turn 2] Query: Mức giá này đã bao gồm chi phí máy thở và khí y tế chưa?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Mức giá chi phí ngày giường bệnh ban ngày theo Nghị quyết 54/NQ-HĐND năm 2025 đã bao gồm chi phí máy...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.06437424027937601, 0.009140000039666437, -0.030705439133257698, -0.004366515018950119, -0.012572848054564559]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Mức giá chi phí ngày giường bệnh ban ngày theo Nghị quyết 54/NQ-HĐND năm 2025 đã bao gồm chi phí máy thở và khí y tế chưa?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Dữ liệu Bảng biểu (Phụ lục đính kèm) và các Phụ lục II.1, II.2, II.5, mức giá chi phí ngày giường bệnh ban ngày **chưa bao gồm** chi phí máy thở và khí y tế.
+
+Cụ thể:
+1. Theo quy định tại Dữ liệu Bảng biểu (Phụ lục đính kèm), dịch vụ "Ngày giường bệnh ban ngày" được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng.
+2. Tại các Phụ lục quy định mức giá dịch vụ ngày giường điều trị (Phụ lục II.1, II.2, II.5) và bảng biểu chi tiết, văn bản ghi chú rõ: **"Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."**
+
+Do giá ngày giường bệnh ban ngày được tính dựa trên giá ngày giường điều trị nội trú, nên quy định về việc chưa bao gồm chi phí máy thở và khí y tế cũng được áp dụng cho dịch vụ này.
+
+[Expected Answer]: Chưa, quy định có ghi rõ giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế.
+[Expected Citation]: Ghi chú tại Phụ lục II.1, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác về bản chất (chưa bao gồm), cung cấp lập luận logic rõ ràng và trích dẫn đúng số hiệu văn bản trọng tâm (Nghị quyết 54/NQ-HĐND, Phụ lục II.1) tương đương với câu trả lời mẫu.
+⏱️ [Turn Time]: 23.46s
+------------------------------------------------------------
+
+--- [Turn 3] Query: Vậy đối với Trạm Y tế cấp xã có giường lưu thì thanh toán tiền giường ra sao?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Theo Nghị quyết 54/NQ-HĐND năm 2025, đối với Trạm Y tế cấp xã có giường lưu thì thanh toán tiền giườ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.07365118258244648, -0.007772237272519545, -0.03209500912535387, 0.003049736206933524, -0.012496932438182498]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Theo Nghị quyết 54/NQ-HĐND năm 2025, đối với Trạm Y tế cấp xã có giường lưu thì thanh toán tiền giường được quy định như thế nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Điều 3, Khoản 2, quy định về thanh toán tiền giường đối với Trạm Y tế cấp xã có giường lưu như sau:
+
+1. **Giới hạn số ngày thanh toán:** Số ngày giường được thanh toán tối đa là **03 ngày/người/đợt điều trị**.
+2. **Quy định về tiền khám bệnh:** **Không thanh toán tiền khám bệnh** trong trường hợp đã thanh toán tiền ngày giường.
+
+Quy định này áp dụng đối với các Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu.
+
+[Expected Answer]: Đối với Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán tối đa là 03 ngày/người/đợt điều trị.
+[Expected Citation]: Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác về nội dung giới hạn 03 ngày và bổ sung thêm thông tin về việc không thanh toán tiền khám bệnh, đồng thời trích dẫn đúng số hiệu văn bản Nghị quyết 54/NQ-HĐND.
+⏱️ [Turn Time]: 16.22s
+------------------------------------------------------------
+
+--- [Turn 4] Query: Nếu đã thu tiền giường rồi thì có được tính tiền khám bệnh nữa không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Căn cứ Nghị quyết 54/NQ-HĐND năm 2025, nếu đã thu tiền giường đối với Trạm Y tế cấp xã có giường lưu...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': 'Điều 3, Khoản 2', 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.055547045808369236, 0.011767386383094713, -0.024769686806392834, 0.010824298352391884, -0.012497512406864428]
+       ⚠️ [Retrieve] Vector mismatch suspected. Attempting metadata scroll for: 54/NQ-HĐND
+       ✅ [Retrieve] Metadata scroll found 200 matching chunks!
+       ✅ [Reranker] Đã re-score thành công 20 candidates trong 0.68s
+       🔑 [Keyword Rescue] Injecting 40 missed chunks back into context
+       🔍 [Retrieve] Qdrant search returned 30 hits
+       🎯 [Neo4j] Direct Entity Query for exact match: 54/NQ-HĐND - Điều 3, Khoản 2
+       ✍️ [Generate] Generating answer with 30 candidate references...
+       📌 [Generate] Cited 30/30 references
+[Rewritten/Standalone Query]: Căn cứ Nghị quyết 54/NQ-HĐND năm 2025, nếu đã thu tiền giường đối với Trạm Y tế cấp xã có giường lưu thì có được tính tiền khám bệnh nữa không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+<thinking>
+A. QUÉT TIÊU ĐỀ VÀ METADATA:
+- Câu hỏi: "Căn cứ Nghị quyết 54/NQ-HĐND năm 2025, nếu đã thu tiền giường đối với Trạm Y tế cấp xã có giường lưu thì có được tính tiền khám bệnh nữa không?"
+- Từ khóa: "Trạm Y tế cấp xã", "giường lưu", "tiền khám bệnh", "tiền giường".
+- Duyệt qua các tài liệu trong ngữ cảnh:
+  - `<can_cu id="6">`: Chứa nội dung "Điều 3 | Khoản 1, 2, 3." của Nghị quyết 54/NQ-HĐND.
+  - Nội dung Khoản 2 của Điều 3 trong `<can_cu id="6">` ghi rõ: "Đối với phòng khám đa khoa khu vực, Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu: Số ngày giường được thanh toán tối đa 03 ngày/người/đợt điều trị. Không thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường."
+  - Các tài liệu khác (Phụ lục I, II, III...) chủ yếu liệt kê mức giá cụ thể hoặc danh mục dịch vụ, không quy định nguyên tắc thanh toán kép này.
+
+B. TRÍCH XUẤT THÔ:
+- Từ `<can_cu id="6">`: "2. Đối với phòng khám đa khoa khu vực, Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu: Số ngày giường được thanh toán tối đa 03 ngày/người/đợt điều trị. Không thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường."
+
+C. GIẢI QUYẾT XUNG ĐỘT:
+- Không có xung đột. Quy định tại Điều 3 Khoản 2 là rõ ràng và trực tiếp trả lời câu hỏi.
+
+D. XÁC ĐỊNH CÁCH TRÍCH DẪN:
+- Nguồn: Nghị quyết 54/NQ-HĐND năm 2025.
+- Vị trí: Điều 3, Khoản 2.
+- Định dạng: "Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Điều 3, Khoản 2".
+</think>
+
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Điều 3, Khoản 2, quy định về thanh toán đối với Trạm Y tế cấp xã có giường lưu như sau:
+
+**Không được tính tiền khám bệnh** trong trường hợp đã thanh toán tiền ngày giường.
+
+Cụ thể, văn bản quy định: "Đối với phòng khám đa khoa khu vực, Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu... **Không thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường.**"
+
+Ngoài ra, quy định này cũng kèm theo giới hạn số ngày thanh toán tiền giường tối đa là 03 ngày/người/đợt điều trị.
+
+[Expected Answer]: Không, quy định nêu rõ cơ sở y tế không được thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường.
+[Expected Citation]: Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT: Câu trả lời của RAG chính xác về bản chất (không được tính tiền khám bệnh khi đã thu tiền giường), trích dẫn đúng số hiệu văn bản (Nghị quyết 54/NQ-HĐND, Điều 3, Khoản 2) và cung cấp thêm thông tin bổ sung về giới hạn số ngày giường, đáp ứng yêu cầu chấm điểm nới lỏng.
+⏱️ [Turn Time]: 18.46s
+------------------------------------------------------------
+
+--- [Turn 5] Query: Nghị quyết này có làm hết hiệu lực văn bản nào của tỉnh Kon Tum không?
+       🎯 [SuperRouter] Intent: CONFLICT_ANALYZER
+       DEBUG: Dense Query Sample: [-0.0036882061809699533, 0.02201717288639794, 0.02428472387469805, -0.01064734494506287, 0.0007079561463471569]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.21s
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND năm 2025 có làm hết hiệu lực văn bản nào của tỉnh Kon Tum không?
+[Detected Intent]: CONFLICT_ANALYZER
+[Generated Answer]:
+### 💡 Kết Luận Phân Tích\n\n**⚪ Phán quyết:** Neutral\n\n**Trích dẫn:** Không có căn cứ pháp luật nào trong ngữ cảnh hiện tại quy định về việc bãi bỏ văn bản của tỉnh Kon Tum bởi Nghị quyết 54/NQ-HĐND năm 2025.\n\n**Giải thích chi tiết:** Các tài liệu pháp luật được cung cấp trong ngữ cảnh (Thông tư 47/2025/TT-BYT) chỉ quy định việc bãi bỏ các văn bản do Bộ Y tế ban hành. Không có thông tin nào trong các tài liệu này đề cập đến Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Kon Tum hay danh sách các văn bản của tỉnh bị bãi bỏ bởi Nghị quyết này. Do đó, không thể xác định tính đúng sai của mệnh đề dựa trên căn cứ pháp luật hiện có.\n
+
+[Expected Answer]: Có, Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi quy định làm hết hiệu lực Nghị quyết số 117/NQ-HĐND ngày 27 tháng 12 năm 2024 của Hội đồng nhân dân tỉnh Kon Tum về định giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước thuộc tỉnh Kon Tum.
+[Expected Citation]: Điểm b Khoản 3 Điều 5, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định không tìm thấy thông tin trong khi câu trả lời mẫu đã xác nhận rõ Nghị quyết 54/NQ-HĐND có làm hết hiệu lực văn bản của tỉnh Kon Tum.
+⏱️ [Turn Time]: 32.50s
+------------------------------------------------------------
+
+--- [Turn 6] Query: Ngoài ra, có văn bản nào của Bộ Y tế được dùng làm căn cứ pháp lý để ban hành quy định đó không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Ngoài ra, có văn bản nào của Bộ Y tế được dùng làm căn cứ pháp lý để ban hành Nghị quyết 54/NQ-HĐND ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.02988143889984168, 0.008252631248517536, -0.016253730489460504, 0.0019785902595827395, -0.012931055389402353]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.22s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Ngoài ra, có văn bản nào của Bộ Y tế được dùng làm căn cứ pháp lý để ban hành Nghị quyết 54/NQ-HĐND năm 2025 không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ phần Lời dẫn và nội dung ban hành của Nghị quyết 54/NQ-HĐND năm 2025, có **02 văn bản của Bộ Y tế** được dùng làm căn cứ pháp lý để ban hành Nghị quyết này, cụ thể là:
+
+1. **Thông tư số 21/2024/TT-BYT** ngày 17 tháng 10 năm 2024 của Bộ trưởng Bộ Y tế về Quy định phương pháp định giá dịch vụ khám bệnh, chữa bệnh.
+2. **Thông tư số 23/2024/TT-BYT** ngày 18 tháng 10 năm 2024 của Bộ trưởng Bộ Y tế ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh.
+
+Ngoài ra, Nghị quyết này còn căn cứ vào các văn bản khác như Luật Khám bệnh, chữa bệnh, Luật Giá, Nghị định số 96/2023/NĐ-CP và các văn bản của Quốc hội.
+
+[Expected Answer]: Có, Nghị quyết này được ban hành dựa trên một số căn cứ của Bộ Y tế, bao gồm: Thông tư số 21/2024/TT-BYT ngày 17/10/2024 về quy định phương pháp định giá dịch vụ khám bệnh, chữa bệnh và Thông tư số 23/2024/TT-BYT ngày 18/10/2024 ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh.
+[Expected Citation]: Phần Căn cứ ban hành, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác và đầy đủ hơn mẫu khi liệt kê đúng hai Thông tư của Bộ Y tế (21/2024 và 23/2024) cùng ngày ban hành, đồng thời bổ sung thêm các căn cứ pháp lý khác có liên quan.
+⏱️ [Turn Time]: 20.56s
+------------------------------------------------------------
+
+============================================================
+BẮT ĐẦU HỘI THOẠI: conv_003 (Session ID: test_conv_003_2bc799)
+============================================================
+
+--- [Turn 1] Query: Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá khám sức khỏe đi xuất khẩu lao động nằm ở phụ lục nào?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá khám sức khỏe đi xuất khẩu lao động nằm ở...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': 'Phụ lục', 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.06386842581739008, -0.023417772933044888, -0.04379110387479431, 0.00938984797315294, -0.007802573977691208]
+       ⚠️ [Retrieve] Vector mismatch suspected. Attempting metadata scroll for: 54/NQ-HĐND
+       ✅ [Retrieve] Metadata scroll found 200 matching chunks!
+       ✅ [Reranker] Đã re-score thành công 20 candidates trong 0.65s
+       🔑 [Keyword Rescue] Injecting 40 missed chunks back into context
+       🔍 [Retrieve] Qdrant search returned 30 hits
+       🎯 [Neo4j] Direct Entity Query for exact match: 54/NQ-HĐND - Phụ lục
+       ✍️ [Generate] Generating answer with 30 candidate references...
+       📌 [Generate] Cited 1/30 references
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá khám sức khỏe đi xuất khẩu lao động nằm ở phụ lục nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các văn bản và dữ liệu được cung cấp trong ngữ cảnh, **không tìm thấy thông tin** quy định cụ thể về giá dịch vụ "khám sức khỏe đi xuất khẩu lao động" hay phụ lục nào chứa quy định này.
+
+Các tài liệu trong ngữ cảnh chỉ liệt kê các phụ lục sau liên quan đến khám bệnh và kiểm tra sức khỏe với tiêu đề chung là "MỨC GIÁ DỊCH VỤ KHÁM BỆNH, KIỂM TRA SỨC KHỎE":
+- **Phụ lục I.1**: Áp dụng tại Bệnh viện đa khoa tỉnh Quảng Ngãi; Bệnh viện đa khoa tỉnh Quảng Ngãi 2.
+- **Phụ lục I.2**: Áp dụng tại Bệnh viện Sản - Nhi tỉnh Quảng Ngãi, Bệnh viện đa khoa khu vực Ngọc Hồi.
+- **Phụ lục I.5**: Áp dụng tại Bệnh viện đa khoa khu vực Đặng Thùy Trâm và các Trung tâm Y tế thuộc tỉnh Quảng Ngãi.
+
+Các bảng biểu chi tiết đi kèm (trong các tài liệu `can_cu` 2, 3, 4, 5, 10, 12, 13, 14, 16, 17, 18, 19, 22, 23, 26, 27, 28, 29, 30) chỉ liệt kê các dịch vụ kỹ thuật cụ thể (như Siêu âm, X-quang, Chụp CLVT, Thủ thuật...) và các dịch vụ khám bệnh chung (như "Khám bệnh", "Khám cấp giấy chứng thương, giám định y khoa"), nhưng **không có dòng nào** đề cập đến "khám sức khỏe đi xuất khẩu lao động".
+
+Do đó, dựa hoàn toàn vào ngữ cảnh được cung cấp, không thể xác định được phụ lục nào quy định giá cho dịch vụ này.
+
+[Expected Answer]: Mức giá dịch vụ khám sức khỏe, bao gồm cả khám sức khỏe cho người đi xuất khẩu lao động, được quy định chi tiết tại Phụ lục I ban hành kèm theo Nghị quyết 54/NQ-HĐND.
+[Expected Citation]: Phụ lục I, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời "không tìm thấy thông tin" trong khi câu trả lời mẫu khẳng định rõ ràng quy định nằm tại Phụ lục I, vi phạm tiêu chí đánh giá về việc báo thiếu thông tin khi mẫu có sẵn.
+⏱️ [Turn Time]: 29.30s
+------------------------------------------------------------
+
+--- [Turn 2] Query: Thế còn giá khám cấp giấy chứng thương thì sao?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết 54/NQ-HĐND năm 2025 quy định giá dịch vụ khám cấp giấy chứng thương nằm ở phụ lục nào và ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.08546582652797617, -0.02586773015980124, -0.0395670242444304, -0.015606640096412033, 0.002938820318154942]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND năm 2025 quy định giá dịch vụ khám cấp giấy chứng thương nằm ở phụ lục nào và mức giá cụ thể là bao nhiêu?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các văn bản và dữ liệu được cung cấp trong ngữ cảnh, **không tìm thấy thông tin cụ thể** về mức giá hay dòng dịch vụ "khám cấp giấy chứng thương" trong Nghị quyết 54/NQ-HĐND năm 2025.
+
+Tuy nhiên, căn cứ vào **Điều 2, Khoản 1** của Nghị quyết 54/NQ-HĐND (tại tài liệu `can_cu id="13"`), quy định chung về mức giá dịch vụ khám bệnh, kiểm tra sức khỏe được ban hành kèm theo Nghị quyết này nằm trong các phụ lục sau:
+- **Phụ lục I.1 đến Phụ lục I.6**.
+
+Các tài liệu trong ngữ cảnh chỉ cung cấp tiêu đề chung của các phụ lục này là "MỨC GIÁ DỊCH VỤ KHÁM BỆNH, KIỂM TRA SỨC KHỎE" và danh sách các cơ sở áp dụng (ví dụ: Phụ lục I.1 áp dụng tại Bệnh viện đa khoa tỉnh Quảng Ngãi...), nhưng **không liệt kê chi tiết** các dòng dịch vụ cụ thể (như "khám cấp giấy chứng thương") hay mức giá tương ứng trong nội dung được trích xuất.
+
+Do đó, dựa hoàn toàn vào ngữ cảnh hiện có, không thể xác định được phụ lục cụ thể nào chứa dòng "khám cấp giấy chứng thương" và mức giá chính xác của dịch vụ này.
+
+[Expected Answer]: Giá khám cấp giấy chứng thương cũng được quy định trong nhóm dịch vụ khám bệnh và kiểm tra sức khỏe tại Phụ lục I, mức giá cụ thể sẽ phụ thuộc vào tuyến bệnh viện hoặc cơ sở y tế thực hiện việc thăm khám.
+[Expected Citation]: Phụ lục I, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy thông tin" trong khi câu trả lời mẫu khẳng định dịch vụ này có quy định tại Phụ lục I, đồng thời RAG không đưa ra được kết luận đúng hướng như yêu cầu.
+⏱️ [Turn Time]: 21.39s
+------------------------------------------------------------
+
+--- [Turn 3] Query: Đối với bệnh nhân đang điều trị trước ngày văn bản này có hiệu lực thì tính tiền theo giá mới hay cũ?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Đối với bệnh nhân đang điều trị trước ngày Nghị quyết 54/NQ-HĐND năm 2025 có hiệu lực thì tính tiền ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.02314578207164412, 0.008136263025184519, -0.009481897029349718, 0.016849458052154844, -0.0034653763107265266]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.22s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Đối với bệnh nhân đang điều trị trước ngày Nghị quyết 54/NQ-HĐND năm 2025 có hiệu lực thì tính tiền theo giá mới hay giá cũ?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ **Nghị quyết 54/NQ-HĐND năm 2025 - Điều 5, Khoản 2**, đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày Nghị quyết có hiệu lực (ngày 01 tháng 01 năm 2026), việc tính tiền sẽ được thực hiện như sau:
+
+Người bệnh **tiếp tục được áp dụng mức giá dịch vụ khám bệnh, chữa bệnh theo quy định của cấp có thẩm quyền trước thời điểm thực hiện giá theo quy định tại Nghị quyết này** (tức là áp dụng **giá cũ**) cho đến khi ra viện hoặc kết thúc đợt điều trị ngoại trú.
+
+Do đó, bệnh nhân đang điều trị trước ngày có hiệu lực sẽ **không** bị tính theo giá mới ngay lập tức mà vẫn được hưởng mức giá cũ cho đến khi kết thúc đợt điều trị.
+
+[Expected Answer]: Theo điều khoản chuyển tiếp, đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày Nghị quyết này có hiệu lực thì tiếp tục áp dụng mức giá theo quy định cũ cho đến khi người bệnh ra viện hoặc kết thúc đợt điều trị.
+[Expected Citation]: Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác về bản chất (áp dụng giá cũ đến khi kết thúc điều trị) và trích dẫn đúng số hiệu văn bản trọng tâm (Nghị quyết 54/NQ-HĐND) so với câu trả lời mẫu.
+⏱️ [Turn Time]: 17.49s
+------------------------------------------------------------
+
+--- [Turn 4] Query: Nếu họ chuyển tuyến điều trị thì quy định đó còn áp dụng không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Đối với bệnh nhân đang điều trị trước ngày Nghị quyết 54/NQ-HĐND năm 2025 có hiệu lực, nếu họ chuyển...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.034519570583368936, -0.013375825226046871, -0.03577808060463732, 0.026043480440125912, -0.008537728144284686]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Đối với bệnh nhân đang điều trị trước ngày Nghị quyết 54/NQ-HĐND năm 2025 có hiệu lực, nếu họ chuyển tuyến điều trị thì quy định về việc tiếp tục áp dụng mức giá dịch vụ khám bệnh, chữa bệnh theo quy định cũ (trước thời điểm thực hiện giá mới) còn được áp dụng không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các văn bản và dữ liệu được cung cấp trong ngữ cảnh, **không tìm thấy thông tin quy định cụ thể** về việc áp dụng mức giá cũ đối với trường hợp bệnh nhân **chuyển tuyến điều trị**.
+
+Căn cứ **Nghị quyết 54/NQ-HĐND năm 2025 - Điều 5, Khoản 2** (tại tài liệu `can_cu id="1"`), quy định về việc tiếp tục áp dụng mức giá cũ chỉ nêu rõ điều kiện như sau:
+"Đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày 01 tháng 01 năm 2026 tiếp tục được áp dụng mức giá dịch vụ khám bệnh, chữa bệnh theo quy định của cấp có thẩm quyền trước thời điểm thực hiện giá theo quy định tại Nghị quyết này **cho đến khi ra viện hoặc kết thúc đợt điều trị ngoại trú**."
+
+Văn bản **không đề cập** đến trường hợp bệnh nhân chuyển tuyến điều trị trong quá trình đang áp dụng giá cũ. Do đó, dựa hoàn toàn vào ngữ cảnh hiện có, không thể xác định được việc chuyển tuyến có làm chấm dứt việc áp dụng mức giá cũ hay không.
+
+[Expected Answer]: Trường hợp người bệnh chuyển tuyến điều trị sang một cơ sở y tế khác sau khi Nghị quyết đã có hiệu lực, thì cơ sở y tế tiếp nhận sẽ áp dụng mức giá mới theo quy định tại Nghị quyết 54/NQ-HĐND.
+[Expected Citation]: Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không tìm thấy thông tin" trong khi câu trả lời mẫu đã có quy định rõ ràng về việc áp dụng mức giá mới khi chuyển tuyến, vi phạm tiêu chí đánh giá về việc báo không tìm thấy khi mẫu có thông tin.
+⏱️ [Turn Time]: 19.64s
+------------------------------------------------------------
+
+--- [Turn 5] Query: Các nghị quyết quy định về giá y tế trước đây của tỉnh có bị bãi bỏ hoàn toàn không?
+       🎯 [SuperRouter] Intent: CONFLICT_ANALYZER
+       DEBUG: Dense Query Sample: [-0.02043850113393852, 0.013759062416973198, -0.009773800585844768, -0.01711311927484832, 0.006683164016807466]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.23s
+[Rewritten/Standalone Query]: Các nghị quyết quy định về giá y tế trước đây của tỉnh Quảng Ngãi có bị Nghị quyết 54/NQ-HĐND năm 2025 bãi bỏ hoàn toàn không?
+[Detected Intent]: CONFLICT_ANALYZER
+[Generated Answer]:
+### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết 54/NQ-HĐND năm 2025 có Điều khoản quy định về việc bãi bỏ các văn bản cũ, cụ thể là bãi bỏ hoàn toàn các nghị quyết trước đây về giá dịch vụ y tế tại tỉnh Quảng Ngãi để thay thế bằng quy định mới. | ⚪ **Neutral** | Căn cứ Không tìm thấy văn bản Nghị quyết 54/NQ-HĐND năm 2025 trong các tài liệu được cung cấp (Tài liệu 1, 2, 3 thuộc các địa phương/cơ quan khác). | Các văn bản pháp luật được cung cấp trong căn cứ (Nghị quyết 36/2025/NQ-HĐND của Cà Mau, Thông tư 47/2025/TT-BYT, Quyết định 3197/QĐ-UBND của Bình Định) không chứa thông tin về 'Nghị quyết 54/NQ-HĐND năm 2025' của tỉnh Quảng Ngãi. Do thiếu văn bản gốc tương ứng trong cơ sở dữ liệu, không thể xác minh tính đúng đắn hay sự xung đột của mệnh đề nội bộ về việc bãi bỏ văn bản cũ. |\n
+
+[Expected Answer]: Có, khi Nghị quyết 54/NQ-HĐND có hiệu lực thi hành, các quy định và Nghị quyết trước đây của Hội đồng nhân dân tỉnh Quảng Ngãi về giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước sẽ bị bãi bỏ hoặc hết hiệu lực để thống nhất áp dụng biểu giá mới.
+[Expected Citation]: Điều khoản thi hành, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG báo "không tìm thấy" văn bản Nghị quyết 54/NQ-HĐND trong khi câu trả lời mẫu khẳng định rõ ràng văn bản này tồn tại và có hiệu lực bãi bỏ các quy định cũ.
+⏱️ [Turn Time]: 35.85s
+------------------------------------------------------------
+
+--- [Turn 6] Query: Liên quan đến việc xuất khẩu lao động, có văn bản nào của trung ương quy định chi tiết về tiêu chuẩn sức khỏe không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Liên quan đến việc xuất khẩu lao động, có văn bản nào của trung ương quy định chi tiết về tiêu chuẩn...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': None, 'article_ref': None, 'year': 2025, 'sector': 'Lao động'}
+       DEBUG: Dense Query Sample: [-0.006721144381432162, -0.0019297054659580285, -0.050738304104924595, 0.0112283988019196, -0.0035288747377470522]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.23s
+       🔍 [Retrieve] Qdrant search returned 15 hits
+       ✍️ [Generate] Generating answer with 15 candidate references...
+       📌 [Generate] Cited 3/15 references
+[Rewritten/Standalone Query]: Liên quan đến việc xuất khẩu lao động, có văn bản nào của trung ương quy định chi tiết về tiêu chuẩn sức khỏe không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các văn bản và dữ liệu được cung cấp trong ngữ cảnh hiện tại, **không tìm thấy thông tin quy định** nào liên quan đến việc **xuất khẩu lao động** hay **tiêu chuẩn sức khỏe** cho lao động xuất khẩu.
+
+Các tài liệu trong ngữ cảnh chỉ bao gồm nội dung của **Nghị định 343/2025/NĐ-CP** với tiêu đề: *"Quy định chế độ an điều dưỡng, chăm sóc khi mắc bệnh hiểm nghèo, chế độ thông tin, hỗ trợ tang lễ khi từ trần đối với sĩ quan Quân đội nghỉ hưu"*.
+
+Văn bản này chỉ quy định về:
+- Chế độ chăm sóc khi mắc bệnh hiểm nghèo cho sĩ quan Quân đội nghỉ hưu (Điều 5).
+- Trình tự, thủ tục giám định y khoa để hưởng chế độ hỗ trợ bệnh hiểm nghèo.
+- Quản lý và đăng ký sĩ quan Quân đội nghỉ hưu.
+
+Do đó, dựa hoàn toàn vào ngữ cảnh được cung cấp, không thể xác định được văn bản nào của trung ương quy định chi tiết về tiêu chuẩn sức khỏe cho xuất khẩu lao động.
+
+[Expected Answer]: Có, tiêu chuẩn sức khỏe cho người đi làm việc ở nước ngoài thường được quy định trong các Thông tư liên tịch của Bộ Y tế và Bộ Lao động - Thương binh và Xã hội (ví dụ: Thông tư quy định về việc khám và chứng nhận sức khỏe cho người lao động Việt Nam đi làm việc ở nước ngoài).
+[Expected Citation]: Hệ thống văn bản pháp luật của Bộ Y tế và Bộ LĐ-TB&XH
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy" trong khi câu trả lời mẫu xác nhận có quy định và chỉ rõ cơ quan ban hành (Bộ Y tế và Bộ LĐ-TB&XH).
+⏱️ [Turn Time]: 17.11s
+------------------------------------------------------------
+
+============================================================
+BẮT ĐẦU HỘI THOẠI: conv_004 (Session ID: test_conv_004_bcd409)
+============================================================
+
+--- [Turn 1] Query: Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là bao nhiêu?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyế...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.022982296932452004, -0.009849737399629655, -0.033950594377464574, 0.003909252158608603, -0.004960520901261331]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 7/14 references
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là bao nhiêu?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có thông tin cụ thể về mức giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu**.
+
+Căn cứ **Nghị quyết số 54/NQ-HĐND** ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi:
+- **Điều 2** quy định mức giá dịch vụ khám bệnh, chữa bệnh được ban hành kèm theo Nghị quyết này tại các Phụ lục (từ Phụ lục I.1 đến I.6, II.1 đến II.5, Phụ lục III và Phụ lục IV).
+- Tuy nhiên, các tài liệu trong ngữ cảnh hiện tại chỉ cung cấp tiêu đề và phạm vi áp dụng của các Phụ lục (ví dụ: Phụ lục I.1 áp dụng cho Bệnh viện đa khoa tỉnh Quảng Ngãi; Phụ lục I.4 áp dụng cho Bệnh viện Y học cổ truyền tỉnh Quảng Ngãi...), mà **không cung cấp nội dung chi tiết của bảng giá** (danh mục kỹ thuật và mức giá cụ thể) bên trong các Phụ lục này.
+
+Do đó, mức giá cụ thể cho dịch vụ "điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu" không thể xác định được từ dữ liệu hiện có.
+
+[Expected Answer]: Theo Phụ lục của Nghị quyết 54/NQ-HĐND, mức giá cho dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là 3.333.000 đồng.
+[Expected Citation]: Số thứ tự 724, Phụ lục Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy thông tin" trong khi câu trả lời mẫu đã cung cấp mức giá cụ thể (3.333.000 đồng) và số hiệu văn bản chính xác.
+⏱️ [Turn Time]: 21.05s
+------------------------------------------------------------
+
+--- [Turn 2] Query: Mức giá đó đã bao gồm chi phí bộ kít tách và thuốc chưa?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Mức giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu theo Nghị quyết số 54/NQ-HĐND...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.023511530009562635, -0.007530654623359115, -0.0438948588848033, 0.018186690780919123, 0.017993065772605052]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.21s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 7/14 references
+[Rewritten/Standalone Query]: Mức giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi đã bao gồm chi phí bộ kít tách và thuốc chưa?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có thông tin cụ thể về dịch vụ "điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu"** cũng như quy định về việc mức giá có bao gồm chi phí bộ kít tách và thuốc hay không.
+
+Căn cứ **Nghị quyết số 54/NQ-HĐND** ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi:
+- **Điều 2** quy định mức giá dịch vụ khám bệnh, chữa bệnh được ban hành kèm theo Nghị quyết này tại các Phụ lục (từ Phụ lục I.1 đến I.6, II.1 đến II.5, Phụ lục III và Phụ lục IV).
+- Tuy nhiên, các tài liệu trong ngữ cảnh hiện tại chỉ cung cấp tiêu đề và phạm vi áp dụng của các Phụ lục, cùng với một số trích đoạn bảng biểu về các dịch vụ khác (như can thiệp mạch, phẫu thuật chỉnh hình, thủy châm, tiêm Botulinum toxine...), mà **không cung cấp nội dung chi tiết của bảng giá** (danh mục kỹ thuật và mức giá cụ thể) cho dịch vụ "điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu".
+
+Do đó, không thể xác định được mức giá cũng như các khoản chi phí đi kèm (bộ kít tách, thuốc) cho dịch vụ này từ dữ liệu hiện có.
+
+[Expected Answer]: Chưa, quy định ghi rõ mức giá này chưa bao gồm chi phí cho bộ kít tách huyết tương, thuốc và oxy.
+[Expected Citation]: Ghi chú tại Số thứ tự 724, Phụ lục Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy thông tin" trong khi câu trả lời mẫu đã xác định rõ mức giá chưa bao gồm các chi phí này dựa trên Nghị quyết 54/NQ-HĐND.
+⏱️ [Turn Time]: 26.49s
+------------------------------------------------------------
+
+--- [Turn 3] Query: Còn phẫu thuật nạo xương viêm trên người bệnh đái tháo đường thì sao?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi quy định mức giá dịch vụ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.042667585456077774, -0.01619008979361031, -0.04364277944364609, 0.00860535589029976, -0.014335834817248172]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 6/14 references
+[Rewritten/Standalone Query]: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi quy định mức giá dịch vụ phẫu thuật nạo xương viêm trên người bệnh đái tháo đường là bao nhiêu?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ **Nghị quyết số 54/NQ-HĐND** ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi - **Dữ liệu Bảng biểu** (Phụ lục kèm theo Nghị quyết):
+
+Mức giá dịch vụ **"Nạo xương viêm trên người bệnh đái tháo đường"** (Mã tương đương: 07.0219.1144) được quy định là **2.872.600 đồng**.
+
+Thông tin này được ghi nhận tại dòng số 6547 trong bảng biểu dữ liệu của Nghị quyết.
+
+[Expected Answer]: Mức giá cho dịch vụ nạo xương viêm trên người bệnh đái tháo đường là 2.092.800 đồng và cũng chưa bao gồm chi phí thuốc và oxy.
+[Expected Citation]: Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG cung cấp mức giá sai lệch hoàn toàn so với câu trả lời mẫu (2.872.600 đồng so với 2.092.800 đồng) và trích dẫn sai số thứ tự dòng trong bảng biểu.
+⏱️ [Turn Time]: 16.58s
+------------------------------------------------------------
+
+--- [Turn 4] Query: Nếu trước đây tỉnh có quy định mức giá thấp hơn cho các kỹ thuật này thì quy định đó còn hiệu lực không?
+       🎯 [SuperRouter] Intent: CONFLICT_ANALYZER
+       DEBUG: Dense Query Sample: [-0.02157160644516811, 0.01887348538948763, -0.02036311842022883, 0.014118189291353715, -0.028249284582973766]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.20s
+[Rewritten/Standalone Query]: Nếu trước đây tỉnh Quảng Ngãi có quy định mức giá thấp hơn cho các kỹ thuật phẫu thuật nạo xương viêm trên người bệnh đái tháo đường và các dịch vụ khác trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 thì quy định đó còn hiệu lực không?
+[Detected Intent]: CONFLICT_ANALYZER
+[Generated Answer]:
+### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Theo nguyên tắc pháp luật, khi Nghị quyết số 54/NQ-HĐND có hiệu lực thi hành, các quy định trước đây trái hoặc thấp hơn về cùng nội dung sẽ bị bãi bỏ hoặc không còn hiệu lực, trừ khi có điều khoản chuyển tiếp đặc biệt. | ✅ **Entailment** | Căn cứ Nghị quyết số 54/NQ-HĐND - Điều 5, Khoản 3 | Mệnh đề nội bộ của công ty khẳng định nguyên tắc pháp lý: khi Nghị quyết 54/NQ-HĐND có hiệu lực, các quy định trước đây trái hoặc thấp hơn sẽ bị bãi bỏ. Điều này hoàn toàn phù hợp với quy định tại Khoản 3 Điều 5 của Nghị quyết 54/NQ-HĐND, nơi quy định cụ thể việc bãi bỏ các Nghị quyết cũ (71/NQ-HĐND và 117/NQ-HĐND) kể từ ngày Nghị quyết mới có hiệu lực. Không có sự xung đột hay vi phạm pháp luật. |\n
+
+[Expected Answer]: Không, khi Nghị quyết 54/NQ-HĐND chính thức có hiệu lực thi hành, các quy định về giá dịch vụ khám bệnh, chữa bệnh do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó sẽ bị bãi bỏ hoặc hết hiệu lực để áp dụng thống nhất theo bảng giá mới này.
+[Expected Citation]: Điều khoản thi hành, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời xác nhận đúng bản chất pháp lý là các quy định cũ bị bãi bỏ khi Nghị quyết 54/NQ-HĐND có hiệu lực và trích dẫn chính xác số hiệu văn bản cùng điều khoản liên quan.
+⏱️ [Turn Time]: 39.88s
+------------------------------------------------------------
+
+--- [Turn 5] Query: Có văn bản nào của Bộ Y tế hướng dẫn chi tiết về danh mục các kỹ thuật này không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Có văn bản nào của Bộ Y tế hướng dẫn chi tiết về danh mục kỹ thuật phẫu thuật nạo xương viêm trên ng...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Thông tư', 'doc_number': None, 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.02912351595280372, -0.016979752555508872, -0.053343256745175746, 0.02441188979865836, -0.02076568667936933]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 15 hits
+       ✍️ [Generate] Generating answer with 15 candidate references...
+       📌 [Generate] Cited 5/15 references
+[Rewritten/Standalone Query]: Có văn bản nào của Bộ Y tế hướng dẫn chi tiết về danh mục kỹ thuật phẫu thuật nạo xương viêm trên người bệnh đái tháo đường không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có văn bản nào của Bộ Y tế** trong danh mục tài liệu hiện có hướng dẫn chi tiết về danh mục kỹ thuật phẫu thuật nạo xương viêm trên người bệnh đái tháo đường.
+
+Các văn bản pháp luật hiện có trong ngữ cảnh chỉ bao gồm:
+1.  **Thông tư 56/2025/TT-BYT**: Hướng dẫn quản lý bệnh nghề nghiệp (liên quan đến hồ sơ, khám sức khỏe, báo cáo bệnh nghề nghiệp).
+2.  **Thông tư 57/2025/TT-BYT**: Hướng dẫn về phân nhóm thiết bị y tế theo tiêu chuẩn kỹ thuật, chất lượng.
+3.  **Thông tư 55/2025/TT-BYT**: Quy định về kê đơn thuốc cổ truyền, thuốc dược liệu và kê đơn kết hợp.
+
+Không có nội dung nào trong các văn bản trên đề cập đến danh mục kỹ thuật phẫu thuật hay mức giá cụ thể cho kỹ thuật "nạo xương viêm trên người bệnh đái tháo đường".
+
+[Expected Answer]: Có, danh mục kỹ thuật trong khám bệnh, chữa bệnh được Bộ Y tế quy định và hướng dẫn chi tiết tại các Thông tư chuyên ngành, ví dụ như Thông tư số 23/2024/TT-BYT ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh.
+[Expected Citation]: Hệ thống văn bản pháp luật y tế (Thông tư 23/2024/TT-BYT)
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không có văn bản" trong khi câu trả lời mẫu đã xác nhận sự tồn tại của Thông tư 23/2024/TT-BYT quy định danh mục kỹ thuật.
+⏱️ [Turn Time]: 22.81s
+------------------------------------------------------------
+
+============================================================
+BẮT ĐẦU HỘI THOẠI: conv_004 (Session ID: test_conv_004_c926a5)
+============================================================
+
+--- [Turn 1] Query: Phạm vi điều chỉnh của Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 là gì?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Phạm vi điều chỉnh của Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 là gì? Nghị quyết ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Quản lý nhà nước địa phương'}
+       DEBUG: Dense Query Sample: [-0.039447884414992244, 0.00649267690371432, 0.001340469680120983, -0.014499187284978657, -0.027438632593088118]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.18s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 7/14 references
+[Rewritten/Standalone Query]: Phạm vi điều chỉnh của Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 là gì?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND - Điều 1, Khoản 1, phạm vi điều chỉnh của Nghị quyết này quy định:
+
+1. Mức giá dịch vụ khám bệnh, chữa bệnh do Quỹ bảo hiểm y tế thanh toán.
+2. Mức giá dịch vụ khám bệnh, chữa bệnh do ngân sách nhà nước thanh toán.
+3. Mức giá dịch vụ khám bệnh, chữa bệnh không thuộc danh mục do Quỹ bảo hiểm y tế thanh toán mà không phải là dịch vụ khám bệnh, chữa bệnh theo yêu cầu.
+
+Các mức giá này được áp dụng đối với các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
+
+[Expected Answer]: Nghị quyết 54/NQ-HĐND quy định giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.
+[Expected Citation]: Tiêu đề, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác và chi tiết hơn câu trả lời mẫu bằng cách liệt kê cụ thể 3 nhóm dịch vụ được điều chỉnh trong khi vẫn xác định đúng đối tượng áp dụng là các cơ sở y tế công lập thuộc tỉnh Quảng Ngãi.
+⏱️ [Turn Time]: 14.65s
+------------------------------------------------------------
+
+--- [Turn 2] Query: Áp dụng cho những đối tượng nào?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 áp dụng cho những đối tượng nào? Câu trả ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.03312112857312709, 0.032744584589348764, -0.02221622804291504, -0.007672161669479871, -0.010332308554879563]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 7/14 references
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 áp dụng cho những đối tượng nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND - Điều 1, Khoản 2, đối tượng áp dụng của Nghị quyết này bao gồm:
+
+1. Các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
+2. Người bệnh sử dụng các dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
+3. Các cơ quan, đơn vị, tổ chức và cá nhân có liên quan.
+
+[Expected Answer]: Nghị quyết này áp dụng cho các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi, người bệnh sử dụng dịch vụ tại các cơ sở này và các cơ quan, tổ chức, cá nhân có liên quan.
+[Expected Citation]: Phần quy định chung, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác, đầy đủ các đối tượng áp dụng tương đương với mẫu và trích dẫn đúng số hiệu văn bản Nghị quyết 54/NQ-HĐND.
+⏱️ [Turn Time]: 15.72s
+------------------------------------------------------------
+
+--- [Turn 3] Query: Trong văn bản này, giá phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu là bao nhiêu?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Trong Nghị quyết 54/NQ-HĐND, giá phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.030009494052603173, -0.02586636618340132, -0.06475214795578094, 0.012375853609295499, -0.0002846229710144803]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.21s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 6/14 references
+[Rewritten/Standalone Query]: Trong Nghị quyết 54/NQ-HĐND, giá phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu là bao nhiêu?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết 54/NQ-HĐND, văn bản **không ghi nhận** mức giá cụ thể cho dịch vụ có tên chính xác là "phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu".
+
+Tuy nhiên, trong danh mục dịch vụ kỹ thuật phẫu thuật (Phụ lục đính kèm, cụ thể tại `can_cu id="1"`), có quy định mức giá cho dịch vụ tương tự là:
+- **Tên dịch vụ:** Phẫu thuật lấy xương chết, nạo viêm (Mã tương đương: 10.0947.0571).
+- **Mức giá:** 2.493.700 đồng.
+- **Ghi chú:** Chưa bao gồm thuốc và oxy.
+
+Ngoài ra, các dịch vụ liên quan đến điều trị bỏng sâu (như cắt bỏ hoại tử, ghép da) được quy định tại `can_cu id="14"` nhưng không bao gồm thủ thuật phẫu thuật xương cụ thể như câu hỏi nêu. Do đó, không thể xác định chính xác mức giá cho cụm từ "khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu" dựa hoàn toàn vào ngữ cảnh hiện có.
+
+[Expected Answer]: Theo phụ lục của Nghị quyết, giá phẫu thuật khoan đục xương, lấy bỏ xương chết trong điều trị bỏng sâu là 2.850.000 đồng.
+[Expected Citation]: Số thứ tự 726, Phụ lục Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định văn bản không ghi nhận dịch vụ trong khi câu trả lời mẫu đã xác định rõ mức giá 2.850.000 đồng cho đúng tên dịch vụ đó.
+⏱️ [Turn Time]: 21.00s
+------------------------------------------------------------
+
+--- [Turn 4] Query: Mức giá đó đã tính luôn tiền thuốc chưa?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Mức giá 2.493.700 đồng cho dịch vụ Phẫu thuật lấy xương chết, nạo viêm (Mã 10.0947.0571) quy định tạ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.03206826951083428, 0.014389435780505189, -0.05335578918611688, 0.041962671359906195, -0.013699208791033831]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.22s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 6/14 references
+[Rewritten/Standalone Query]: Mức giá 2.493.700 đồng cho dịch vụ Phẫu thuật lấy xương chết, nạo viêm (Mã 10.0947.0571) quy định tại Nghị quyết 54/NQ-HĐND đã bao gồm tiền thuốc chưa?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND - Phụ lục đính kèm (Bảng biểu), cụ thể tại dòng STT 469, mức giá 2.493.700 đồng cho dịch vụ "Phẫu thuật lấy xương chết, nạo viêm" (Mã tương đương: 10.0947.0571) **chưa bao gồm** tiền thuốc và oxy.
+
+Cụ thể, tại cột "Ghi chú" của dịch vụ này trong văn bản quy định rõ: "Chưa bao gồm thuốc và oxy".
+
+[Expected Answer]: Chưa, quy định nêu rõ mức giá này chưa bao gồm chi phí thuốc và oxy.
+[Expected Citation]: Ghi chú tại Số thứ tự 726, Phụ lục Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời xác nhận chính xác mức giá chưa bao gồm tiền thuốc và oxy, đồng thời trích dẫn đúng văn bản Nghị quyết 54/NQ-HĐND dù số thứ tự dòng khác với mẫu nhưng nội dung bản chất vẫn đúng.
+⏱️ [Turn Time]: 16.41s
+------------------------------------------------------------
+
+--- [Turn 5] Query: Thế còn nạo xương viêm cho người bị đái tháo đường thì quy định đó tính phí sao?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Trong Nghị quyết 54/NQ-HĐND, mức phí cho dịch vụ nạo xương viêm cho người bị đái tháo đường được quy...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.026783329018955748, -0.014023420486337338, -0.051178755125377784, 0.019797455274840718, -0.018231899332185327]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 6/14 references
+[Rewritten/Standalone Query]: Trong Nghị quyết 54/NQ-HĐND, mức phí cho dịch vụ nạo xương viêm cho người bị đái tháo đường được quy định như thế nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND - Phụ lục đính kèm (Bảng biểu), cụ thể tại dòng STT 6547, mức giá cho dịch vụ **"Nạo xương viêm trên người bệnh đái tháo đường"** (Mã tương đương: 07.0219.1144) được quy định là **2.872.600 đồng**.
+
+Văn bản không ghi chú thêm các điều kiện loại trừ (như chưa bao gồm thuốc hay vật tư) cho dịch vụ cụ thể này trong cột ghi chú.
+
+[Expected Answer]: Mức giá cho dịch vụ nạo xương viêm trên người bệnh đái tháo đường được quy định là 2.092.800 đồng.
+[Expected Citation]: Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG cung cấp sai số hiệu văn bản (STT 6547 thay vì 728) và sai lệch mức giá đáng kể (2.872.600 đồng thay vì 2.092.800 đồng) so với câu trả lời mẫu.
+⏱️ [Turn Time]: 16.35s
+------------------------------------------------------------
+
+--- [Turn 6] Query: Có bao gồm chi phí oxy y tế không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Mức giá cho dịch vụ 'Nạo xương viêm trên người bệnh đái tháo đường' (Mã 07.0219.1144) được quy định ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': 'Phụ lục đính kèm (Bảng biểu)', 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.04853809522548859, 0.0005375225646455971, -0.05343278244991171, 0.03252443149125653, -0.02248596703098943]
+       ⚠️ [Retrieve] Vector mismatch suspected. Attempting metadata scroll for: 54/NQ-HĐND
+       ✅ [Retrieve] Metadata scroll found 200 matching chunks!
+       ✅ [Reranker] Đã re-score thành công 20 candidates trong 0.65s
+       🔑 [Keyword Rescue] Injecting 40 missed chunks back into context
+       🔍 [Retrieve] Qdrant search returned 30 hits
+       🎯 [Neo4j] Direct Entity Query for exact match: 54/NQ-HĐND - Phụ lục đính kèm (Bảng biểu)
+       ✍️ [Generate] Generating answer with 30 candidate references...
+       📌 [Generate] Cited 1/30 references
+[Rewritten/Standalone Query]: Mức giá cho dịch vụ 'Nạo xương viêm trên người bệnh đái tháo đường' (Mã 07.0219.1144) được quy định tại Nghị quyết 54/NQ-HĐND có bao gồm chi phí oxy y tế không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+<thinking>
+A. QUÉT TIÊU ĐỀ VÀ METADATA:
+- Câu hỏi: Mức giá cho dịch vụ 'Nạo xương viêm trên người bệnh đái tháo đường' (Mã 07.0219.1144) có bao gồm chi phí oxy y tế không?
+- Từ khóa: "Nạo xương viêm trên người bệnh đái tháo đường", "07.0219.1144", "oxy", "bao gồm".
+- Duyệt qua ngữ cảnh:
+  - Lịch sử hội thoại: AI đã trả lời câu hỏi trước đó về dịch vụ này, trích dẫn dòng STT 6547, mức giá 2.872.600 đồng và ghi chú "Văn bản không ghi chú thêm các điều kiện loại trừ (như chưa bao gồm thuốc hay vật tư) cho dịch vụ cụ thể này trong cột ghi chú."
+  - Tuy nhiên, tôi cần kiểm tra lại trong thẻ `<tai_lieu_db>` (ngữ cảnh hiện tại) xem có thông tin cụ thể nào về dịch vụ này không.
+  - Quét các thẻ `<can_cu>` từ 1 đến 30:
+    - `can_cu id="1"`: Bảng giá ngày giường, không có dịch vụ phẫu thuật cụ thể này.
+    - `can_cu id="2"`: Chụp CLVT, không có.
+    - `can_cu id="3"`: Lọc máu, nội soi, không có.
+    - `can_cu id="4"`: Châm cứu, điện châm, không có.
+    - `can_cu id="5"`: Chụp X-quang, không có.
+    - `can_cu id="6"`: Thủy châm, không có.
+    - `can_cu id="7"`: Thủy châm, thủy trị liệu, tiêm Botulinum, không có.
+    - `can_cu id="8"`: Chụp và nút mạch, không có.
+    - `can_cu id="9"`: Phụ lục II.1 (Ngày giường), ghi chú chung: "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế." -> Đây là quy định chung cho ngày giường, không phải cho dịch vụ kỹ thuật phẫu thuật cụ thể.
+    - `can_cu id="10"`: Điều 5 (Hiệu lực), không có.
+    - `can_cu id="11"`: Chụp và can thiệp mạch, không có.
+    - `can_cu id="12"`: Chụp và can thiệp mạch, không có.
+    - `can_cu id="13"`: Can thiệp qua da, đốt sóng cao tần, không có.
+    - `can_cu id="14"`: Chụp và nút mạch, không có.
+    - `can_cu id="15"`: Tiêm khớp, không có.
+    - `can_cu id="16"`: Khám bệnh, không có.
+    - `can_cu id="17"`: Nguyên tắc áp dụng, không có.
+    - `can_cu id="18"`: Phụ lục II.2 (Ngày giường), ghi chú chung: "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."
+    - `can_cu id="19"`: Phụ lục I.2, không có.
+    - `can_cu id="20"`: Can thiệp qua da, không có.
+    - `can_cu id="21"`: Can thiệp qua da, không có.
+    - `can_cu id="22"`: Ngày giường nội khoa, không có.
+    - `can_cu id="23"`: Phụ lục I.1, không có.
+    - `can_cu id="24"`: Chụp và nút mạch, không có.
+    - `can_cu id="25"`: Chụp và can thiệp mạch, không có.
+    - `can_cu id="26"`: Chụp X-quang, không có.
+    - `can_cu id="27"`: Phụ lục II.3 (Ngày giường), ghi chú chung: "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."
+    - `can_cu id="28"`: Sinh thiết, nội soi, không có.
+    - `can_cu id="29"`: Siêu âm, không có.
+    - `can_cu id="30"`: Chụp CLVT, không có.
+
+- Kết quả quét: Trong toàn bộ ngữ cảnh `<tai_lieu_db>` được cung cấp hiện tại, **KHÔNG TÌM THẤY** dòng dữ liệu cụ thể nào cho dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" (Mã 07.0219.1144) hay STT 6547 như đã đề cập trong lịch sử hội thoại.
+- Tuy nhiên, câu hỏi yêu cầu trả lời dựa **HOÀN TOÀN** vào văn bản ngữ cảnh dưới đây.
+- Trong ngữ cảnh hiện tại, chỉ có các ghi chú chung về "Ngày giường điều trị nội trú" (tại `can_cu id="9"`, `id="18"`, `id="27"`) quy định: "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."
+- Đối với các dịch vụ kỹ thuật cụ thể (như phẫu thuật), các bảng biểu trong ngữ cảnh (ví dụ `can_cu id="1"`, `id="2"`, `id="3"`, `id="13"`, `id="15"`) thường có cột "Ghi chú" để nêu rõ việc bao gồm hay không bao gồm thuốc, vật tư, oxy.
+- Vì ngữ cảnh hiện tại **không chứa** thông tin về dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" (Mã 07.0219.1144), tôi không thể xác định được cột "Ghi chú" của dịch vụ này có nội dung gì.
+- Tuy nhiên, dựa trên quy tắc "KHÔNG BAO GIỜ SỬ DỤNG KIẾN THỨC CÓ SẴN", tôi phải thừa nhận rằng trong ngữ cảnh hiện tại không có thông tin này.
+- Nhưng chờ đã, lịch sử hội thoại (User/AI trước đó) đã đề cập đến thông tin này. Câu hỏi hiện tại là một phần của chuỗi hội thoại. Tuy nhiên, hướng dẫn yêu cầu: "BẠN CHỈ ĐƯỢC PHÉP TRẢ LỜI DỰA **HOÀN TOÀN** VÀO VĂN BẢN NGỮ CẢNH DƯỚI ĐÂY."
+- Nếu ngữ cảnh hiện tại không có thông tin, tôi phải trả lời rằng văn bản ngữ cảnh hiện tại không ghi nhận thông tin đó.
+- Tuy nhiên, có một khả năng là tôi đã bỏ sót. Hãy kiểm tra lại kỹ các bảng biểu.
+- Không có bảng nào chứa mã "07.0219.1144" hoặc tên "Nạo xương viêm trên người bệnh đái tháo đường".
+- Do đó, dựa **HOÀN TOÀN** vào ngữ cảnh hiện tại, tôi không thể trả lời câu hỏi này một cách khẳng định về việc có bao gồm oxy hay không cho dịch vụ cụ thể đó, vì dữ liệu về dịch vụ này không có trong `<tai_lieu_db>`.
+- Tuy nhiên, nếu nhìn vào các ghi chú chung của văn bản (ví dụ `can_cu id="9"`, `id="18"`, `id="27"`), chúng chỉ áp dụng cho "Giá ngày giường điều trị nội trú", không áp dụng cho "Dịch vụ kỹ thuật phẫu thuật".
+- Vậy câu trả lời chính xác dựa trên ngữ cảnh là: Văn bản ngữ cảnh hiện tại không cung cấp thông tin về dịch vụ này.
+- NHƯNG, nếu tôi phải trả lời dựa trên lịch sử hội thoại (vì đây là một cuộc hội thoại liên tục và người dùng đang hỏi tiếp), nhưng quy tắc lại nói "Dựa HOÀN TOÀN vào văn bản ngữ cảnh dưới đây".
+- Trong trường hợp này, nếu ngữ cảnh không có, tôi phải nói "Không tìm thấy thông tin trong văn bản ngữ cảnh".
+- Tuy nhiên, có một điểm quan trọng: Trong lịch sử hội thoại, AI đã trả lời rằng "Văn bản không ghi chú thêm các điều kiện loại trừ...". Nếu ngữ cảnh hiện tại không có dòng đó, thì tôi không thể xác nhận lại điều đó.
+- Nhưng hãy xem xét kỹ hơn: Có thể ngữ cảnh đã bị cắt cụt hoặc tôi cần tìm thông tin tương tự.
+- Không, tôi phải tuân thủ nghiêm ngặt: "KHÔNG BAO GIỜ SỬ DỤNG KIẾN THỨC CÓ SẴN".
+- Nếu ngữ cảnh không có, tôi phải nói không có thông tin.
+- Tuy nhiên, có một cách tiếp cận khác: Các ghi chú trong các bảng biểu khác (ví dụ `can_cu id="1"` dòng 469 trong lịch sử, nhưng trong ngữ cảnh hiện tại `can_cu id="1"` chỉ có STT 1-5).
+- Rõ ràng ngữ cảnh hiện tại chỉ là một phần trích xuất (RAG) và không chứa đầy đủ danh mục dịch vụ.
+- Vậy câu trả lời phải là: Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, **không ghi nhận** thông tin cụ thể về dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" (Mã 07.0219.1144) để xác định việc bao gồm chi phí oxy hay không.
+- Tuy nhiên, nếu tôi nhìn vào các ghi chú chung của văn bản (ví dụ `can_cu id="9"`), nó chỉ nói về "Ngày giường".
+- Vậy tôi sẽ trả lời rằng văn bản ngữ cảnh hiện tại không chứa thông tin về dịch vụ này.
+
+B. TRÍCH XUẤT THÔ:
+- Không có dòng nào trong `<tai_lieu_db>` chứa "Nạo xương viêm trên người bệnh đái tháo đường" hoặc mã "07.0219.1144".
+- Các ghi chú về oxy chỉ xuất hiện trong phần "Ngày giường điều trị nội trú" (`can_cu id="9"`, `id="18"`, `id="27"`): "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."
+
+C. GIẢI QUYẾT XUNG ĐỘT:
+- Không có xung đột vì không có dữ liệu về dịch vụ cụ thể.
+- Mâu thuẫn giữa lịch sử hội thoại (có thông tin) và ngữ cảnh hiện tại (không có thông tin).
+- Quy tắc: "BẠN CHỈ ĐƯỢC PHÉP TRẢ LỜI DỰA **HOÀN TOÀN** VÀO VĂN BẢN NGỮ CẢNH DƯỚI ĐÂY."
+- Do đó, tôi phải bỏ qua thông tin trong lịch sử hội thoại nếu nó không được xác nhận lại trong ngữ cảnh hiện tại, hoặc thừa nhận rằng ngữ cảnh hiện tại không có thông tin đó.
+- Tuy nhiên, để trả lời hữu ích nhất mà vẫn tuân thủ quy tắc, tôi sẽ nói rằng trong văn bản ngữ cảnh hiện tại không tìm thấy thông tin này.
+
+D. XÁC ĐỊNH CÁCH TRÍCH DẪN:
+- Vì không tìm thấy thông tin, tôi sẽ trích dẫn các phần có liên quan nhất (ghi chú chung về oxy trong ngày giường) để làm rõ phạm vi áp dụng, sau đó kết luận không có thông tin cho dịch vụ cụ thể.
+
+Tuy nhiên, có một khả năng khác: Người dùng đang kiểm tra khả năng "ảo giác" của tôi. Nếu tôi trả lời "Không bao gồm" dựa trên lịch sử hội thoại mà không có trong ngữ cảnh, tôi vi phạm quy tắc.
+Vậy câu trả lời an toàn và chính xác nhất là: Văn bản ngữ cảnh hiện tại không ghi nhận thông tin về dịch vụ này.
+
+Nhưng chờ đã, hãy xem lại câu hỏi: "Mức giá cho dịch vụ ... có bao gồm chi phí oxy y tế không?"
+Nếu tôi nói "Không tìm thấy", đó là câu trả lời trung thực dựa trên ngữ cảnh.
+Tuy nhiên, nếu tôi nhìn vào các ghi chú của các dịch vụ phẫu thuật khác trong ngữ cảnh (ví dụ `can_cu id="13"` dòng 603: "Chọc hút ổ dịch/áp xe não... Chưa bao gồm ống dẫn lưu..."), tôi thấy các dịch vụ kỹ thuật thường có ghi chú riêng.
+Vì không có dòng cho dịch vụ này, tôi không thể khẳng định.
+
+Quyết định: Trả lời rằng văn bản ngữ cảnh hiện tại không chứa thông tin về dịch vụ này, do đó không thể xác định được việc bao gồm oxy hay không dựa trên ngữ cảnh này.
+
+Tuy nhiên, để tránh trả lời quá ngắn gọn, tôi sẽ trích dẫn các ghi chú chung về oxy trong văn bản (liên quan đến ngày giường) để cho thấy văn bản có quy định về oxy nhưng chỉ áp dụng cho ngày giường, không phải dịch vụ kỹ thuật này (vì không có dữ liệu).
+
+Sửa đổi suy nghĩ: Có thể ngữ cảnh RAG đã không lấy được đúng đoạn. Nhưng tôi phải làm việc với những gì có.
+Câu trả lời: Dựa trên văn bản ngữ cảnh hiện tại, không tìm thấy thông tin về dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường". Do đó, không thể xác định được việc bao gồm oxy hay không.
+
+Tuy nhiên, nếu tôi phải trả lời dựa trên lịch sử hội thoại (vì đây là một cuộc hội thoại), nhưng quy tắc "Dựa HOÀN TOÀN vào văn bản ngữ cảnh dưới đây" là bắt buộc.
+Vậy tôi sẽ trả lời: "Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, văn bản **không ghi nhận** thông tin cụ thể về dịch vụ 'Nạo xương viêm trên người bệnh đái tháo đường' (Mã 07.0219.1144) để xác định việc bao gồm chi phí oxy hay không."
+
+Tôi sẽ kiểm tra lại xem có bất kỳ dòng nào trong ngữ cảnh đề cập đến "oxy" ngoài phần ngày giường không.
+- `can_cu id="1"`: Không có.
+- `can_cu id="2"`:
+
+[Expected Answer]: Tương tự như dịch vụ trên, mức giá 2.092.800 đồng này cũng chưa bao gồm chi phí thuốc và oxy.
+[Expected Citation]: Ghi chú tại Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời "không tìm thấy thông tin" do không có dữ liệu trong ngữ cảnh hiện tại, trong khi câu trả lời mẫu đã cung cấp thông tin khẳng định "chưa bao gồm" dựa trên văn bản pháp lý cụ thể, vi phạm tiêu chí báo "không tìm thấy" khi mẫu có thông tin.
+⏱️ [Turn Time]: 52.26s
+------------------------------------------------------------
+
+--- [Turn 7] Query: Các phòng khám tư nhân trên địa bàn tỉnh có bắt buộc phải thu theo bảng giá đó không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Các phòng khám tư nhân trên địa bàn tỉnh có bắt buộc phải thu theo bảng giá quy định tại Nghị quyết ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.06683252160039772, -0.004108844098391989, -0.05131890422890257, -0.007370130776488037, 0.0012756094305462428]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.18s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 14/14 references
+[Rewritten/Standalone Query]: Các phòng khám tư nhân trên địa bàn tỉnh có bắt buộc phải thu theo bảng giá quy định tại Nghị quyết 54/NQ-HĐND không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Điều 1 (Phạm vi điều chỉnh và đối tượng áp dụng), cụ thể tại Khoản 1 và Khoản 2:
+
+Văn bản quy định rõ phạm vi điều chỉnh và đối tượng áp dụng chỉ bao gồm:
+1. **Phạm vi điều chỉnh**: "đối với các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý".
+2. **Đối tượng áp dụng**: "a) Các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý".
+
+Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, Nghị quyết 54/NQ-HĐND **không quy định** đối tượng áp dụng đối với các phòng khám tư nhân. Do đó, văn bản này không đặt ra quy định bắt buộc các phòng khám tư nhân phải thu theo bảng giá quy định tại Nghị quyết này.
+
+[Expected Answer]: Không, Nghị quyết này chỉ quy định mức giá áp dụng tại các cơ sở khám bệnh, chữa bệnh của Nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi, không mang tính bắt buộc áp dụng đối với cơ sở y tế tư nhân.
+[Expected Citation]: Tiêu đề và phạm vi điều chỉnh, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác về bản chất (không bắt buộc), đưa ra lập luận đúng dựa trên phạm vi điều chỉnh và trích dẫn chính xác số hiệu văn bản Nghị quyết 54/NQ-HĐND cùng các điều khoản cụ thể.
+⏱️ [Turn Time]: 18.78s
+------------------------------------------------------------
+
+--- [Turn 8] Query: Vậy khi có hiệu lực, nó có thay thế cho nghị quyết giá dịch vụ y tế nào trước đó của tỉnh không?
+       🎯 [SuperRouter] Intent: CONFLICT_ANALYZER
+       DEBUG: Dense Query Sample: [-0.03682194222807091, 0.004501094505639801, -0.009214156806835945, -0.022815668521696107, -0.016813640647521624]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.20s
+[Rewritten/Standalone Query]: Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi khi có hiệu lực có thay thế cho nghị quyết giá dịch vụ y tế nào trước đó của tỉnh không?
+[Detected Intent]: CONFLICT_ANALYZER
+[Generated Answer]:
+### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết 54/NQ-HĐND năm 2025 thay thế Nghị quyết 51/NQ-HĐND năm 2023 về giá dịch vụ y tế tại tỉnh Quảng Ngãi, cụ thể được quy định tại Điều 5 về hiệu lực thi hành. | ❌ **Contradiction** | Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Điều 5, Khoản 3 | Mệnh đề nội bộ khẳng định Nghị quyết 54/NQ-HĐND năm 2025 thay thế Nghị quyết 51/NQ-HĐND năm 2023. Tuy nhiên, căn cứ Điều 5, Khoản 3 của Nghị quyết 54/NQ-HĐND năm 2025, văn bản này chỉ quy định việc hết hiệu lực đối với Nghị quyết số 71/NQ-HĐND và Nghị quyết số 117/NQ-HĐND (cùng năm 2024). Văn bản pháp luật không ghi nhận việc thay thế Nghị quyết 51/NQ-HĐND năm 2023. Do đó, mệnh đề nội bộ mâu thuẫn trực tiếp với quy định của văn bản pháp luật hiện hành. |\n
+
+[Expected Answer]: Có, khi chính thức có hiệu lực thi hành, Nghị quyết này sẽ bãi bỏ và thay thế các nghị quyết quy định mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở y tế nhà nước do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó nhằm đảm bảo áp dụng thống nhất biểu giá mới.
+[Expected Citation]: Điều khoản thi hành, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định Nghị quyết 54 không thay thế Nghị quyết 51 (trong khi câu trả lời mẫu xác nhận có thay thế các nghị quyết trước đó) và dẫn chứng sai số hiệu văn bản bị bãi bỏ (trích dẫn 71 và 117 thay vì các nghị quyết cũ được đề cập trong ngữ cảnh).
+⏱️ [Turn Time]: 39.46s
+------------------------------------------------------------
+
+--- [Turn 9] Query: Ngoài văn bản trên, có luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho các dịch vụ này không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Ngoài Nghị quyết 54/NQ-HĐND năm 2025, có luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiể...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Luật', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.0419001931403878, 0.017399986227754714, -0.021917471027259938, 0.029564371687875592, -0.021979346024513804]
+       ⚠️ [Retrieve] Vector mismatch suspected. Attempting metadata scroll for: 54/NQ-HĐND
+       ✅ [Retrieve] Metadata scroll found 200 matching chunks!
+       ✅ [Reranker] Đã re-score thành công 20 candidates trong 0.66s
+       🔑 [Keyword Rescue] Injecting 40 missed chunks back into context
+       🔍 [Retrieve] Qdrant search returned 30 hits
+       ✍️ [Generate] Generating answer with 30 candidate references...
+       📌 [Generate] Cited 30/30 references
+[Rewritten/Standalone Query]: Ngoài Nghị quyết 54/NQ-HĐND năm 2025, có luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho các dịch vụ y tế (cụ thể là dịch vụ Nạo xương viêm trên người bệnh đái tháo đường và các dịch vụ khác trong phụ lục) không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, **không ghi nhận** thông tin về bất kỳ luật hay văn bản nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" hay các dịch vụ khác trong phụ lục.
+
+Văn bản ngữ cảnh chỉ cung cấp thông tin về **Nghị quyết 54/NQ-HĐND năm 2025** và các căn cứ pháp lý để ban hành Nghị quyết này, cụ thể được nêu tại Lời dẫn của Nghị quyết:
+- **Luật Khám bệnh, chữa bệnh** ngày 09 tháng 01 năm 2023.
+- **Luật Giá** ngày 19 tháng 06 năm 2023.
+- **Nghị định số 96/2023/NĐ-CP** ngày 30 tháng 12 năm 2023 của Chính phủ.
+- **Luật Tổ chức chính quyền địa phương** ngày 16 tháng 06 năm 2025.
+
+Ngoài ra, văn bản ngữ cảnh hiện tại **không chứa** danh mục dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" (Mã 07.0219.1144) trong các bảng biểu giá dịch vụ đính kèm, cũng như không có quy định cụ thể nào về cơ chế thanh toán bảo hiểm y tế cho các dịch vụ này. Nghị quyết 54/NQ-HĐND chỉ quy định mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
+
+[Expected Answer]: Có, việc thanh toán chi phí bảo hiểm y tế cho các dịch vụ này được thực hiện dựa trên Luật Bảo hiểm y tế hiện hành và các Nghị định, Thông tư hướng dẫn thi hành của Chính phủ, Bộ Y tế về thủ tục và mức hưởng chi phí khám chữa bệnh BHYT.
+[Expected Citation]: Hệ thống văn bản pháp luật về Bảo hiểm y tế
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không ghi nhận" thông tin về luật hướng dẫn thanh toán BHYT, trong khi câu trả lời mẫu xác nhận rõ sự tồn tại của Luật BHYT và các văn bản hướng dẫn thi hành.
+⏱️ [Turn Time]: 30.62s
+------------------------------------------------------------
+
+--- [Turn 10] Query: Bộ Y tế có ban hành thông tư nào quy định khung giá chung cho chúng để tỉnh làm căn cứ không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Bộ Y tế có ban hành thông tư nào quy định khung giá chung cho dịch vụ Nạo xương viêm trên người bệnh...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Thông tư', 'doc_number': None, 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.028683205823591188, -0.010765848933787365, -0.047647632706955274, 0.027945687828127105, -0.008833579945671298]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.22s
+       🔍 [Retrieve] Qdrant search returned 15 hits
+       ✍️ [Generate] Generating answer with 15 candidate references...
+       📌 [Generate] Cited 3/15 references
+[Rewritten/Standalone Query]: Bộ Y tế có ban hành thông tư nào quy định khung giá chung cho dịch vụ Nạo xương viêm trên người bệnh đái tháo đường và các dịch vụ y tế khác trong Nghị quyết 54/NQ-HĐND năm 2025 để tỉnh làm căn cứ không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, **không ghi nhận** thông tin về bất kỳ Thông tư nào của Bộ Y tế quy định khung giá chung cho dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" hay các dịch vụ y tế khác trong Nghị quyết 54/NQ-HĐND năm 2025.
+
+Các văn bản của Bộ Y tế có trong ngữ cảnh hiện tại bao gồm:
+- **Thông tư 54/2025/TT-BYT**: Hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y học cổ truyền công lập.
+- **Thông tư 46/2025/TT-BYT**: Phân cấp thẩm quyền quyết định tiêu chuẩn, định mức sử dụng máy móc, thiết bị chuyên dùng là thiết bị y tế.
+- **Thông tư 53/2025/TT-BYT**: Sửa đổi, bổ sung một số điều của Thông tư về Trạm Y tế xã (liên quan đến thanh toán BHYT trong giai đoạn chuyển tiếp tổ chức lại, nhưng không quy định khung giá chung).
+- **Thông tư 55/2025/TT-BYT**: Quy định về kê đơn thuốc cổ truyền, thuốc dược liệu.
+- **Thông tư 48/2025/TT-BYT**: Phân cấp thực hiện nhiệm vụ và giải quyết thủ tục hành chính trong lĩnh vực an toàn thực phẩm.
+- **Thông tư 57/2025/TT-BYT**: Hướng dẫn về phân nhóm thiết bị y tế.
+- **Thông tư 49/2025/TT-BYT**: Sửa đổi quy định cấp giấy chứng nhận lương y.
+- **Thông tư 58/2025/TT-BYT**: Phân cấp thực hiện nhiệm vụ và giải quyết thủ tục hành chính trong lĩnh vực phòng bệnh.
+
+Tất cả các văn bản trên đều tập trung vào tổ chức bộ máy, quản lý thiết bị, thuốc và thủ tục hành chính, **không chứa** quy định về khung giá dịch vụ y tế hay danh mục giá cụ thể cho dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường". Nghị quyết 54/NQ-HĐND năm 2025 là văn bản của HĐND tỉnh quy định giá cho các cơ sở công lập thuộc tỉnh, không phải là văn bản do Bộ Y tế ban hành dưới dạng Thông tư khung giá chung.
+
+[Expected Answer]: Có, Bộ Y tế có ban hành các Thông tư quy định khung giá và phương pháp định giá dịch vụ khám bệnh, chữa bệnh (ví dụ như Thông tư 21/2024/TT-BYT) để làm căn cứ pháp lý cho Hội đồng nhân dân các tỉnh, thành phố trực thuộc trung ương ban hành mức giá cụ thể áp dụng tại địa phương mình.
+[Expected Citation]: Phần Căn cứ ban hành, Nghị quyết 54/NQ-HĐND và Thông tư của Bộ Y tế
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi phủ nhận sự tồn tại của Thông tư quy định khung giá (trong khi câu trả lời mẫu khẳng định có, ví dụ TT 21/2024) và liệt kê các văn bản với số hiệu/năm không thực tế (2025) thay vì trích dẫn đúng văn bản pháp lý hiện hành.
+⏱️ [Turn Time]: 29.10s
+------------------------------------------------------------
+
+============================================================
+BẮT ĐẦU HỘI THOẠI: conv_005 (Session ID: test_conv_005_5cc542)
+============================================================
+
+--- [Turn 1] Query: Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, mức giá khám bệnh tại bệnh viện hạng I là bao nhiêu?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, mức giá khám bệnh tại bệnh viện hạng I là bao nh...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.038644510286647483, -0.004606731034170646, -0.04653774234519591, -0.0114424480848749, 0.009891265073368927]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 6/14 references
+[Rewritten/Standalone Query]: Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, mức giá khám bệnh tại bệnh viện hạng I là bao nhiêu?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, văn bản **không quy định cụ thể mức giá khám bệnh cho "bệnh viện hạng I"**.
+
+Theo nội dung văn bản, mức giá dịch vụ khám bệnh, kiểm tra sức khỏe được quy định cụ thể cho từng cơ sở khám bệnh, chữa bệnh theo tên gọi trong các Phụ lục đính kèm, bao gồm:
+- **Phụ lục I.1**: Áp dụng tại Bệnh viện đa khoa tỉnh Quảng Ngãi; Bệnh viện đa khoa tỉnh Quảng Ngãi 2.
+- **Phụ lục I.2**: Áp dụng tại Bệnh viện Sản - Nhi tỉnh Quảng Ngãi, Bệnh viện đa khoa khu vực Ngọc Hồi.
+- **Phụ lục I.3**: Áp dụng tại Bệnh viện Tâm thần tỉnh Quảng Ngãi; Bệnh viện Lao và bệnh phổi tỉnh Quảng Ngãi.
+
+Văn bản không sử dụng thuật ngữ phân loại "hạng I" để quy định mức giá chung, mà quy định riêng cho từng bệnh viện cụ thể thuộc phạm vi quản lý của tỉnh Quảng Ngãi. Do đó, không thể xác định mức giá cho "bệnh viện hạng I" dựa trên ngữ cảnh hiện có.
+
+[Expected Answer]: Mức giá dịch vụ khám bệnh tại bệnh viện hạng I được quy định chi tiết tại Phụ lục I ban hành kèm theo Nghị quyết 54/NQ-HĐND. Để có con số chính xác, cần đối chiếu với bảng giá chi tiết trong phụ lục này.
+[Expected Citation]: Phụ lục I.1, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT RAG trả lời chính xác và chi tiết hơn mẫu bằng cách chỉ ra văn bản quy định giá theo tên bệnh viện cụ thể thay vì thuật ngữ "hạng I", đồng thời trích dẫn đúng các phụ lục liên quan.
+⏱️ [Turn Time]: 20.38s
+------------------------------------------------------------
+
+--- [Turn 2] Query: Tại trạm y tế xã thì sao?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, mức g...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.02951539246913064, -0.0012052587783219905, -0.043836857211542096, -0.0013313434760542076, 0.005153104907315293]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 7/14 references
+[Rewritten/Standalone Query]: Theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, mức giá khám bệnh, chữa bệnh tại trạm y tế xã được quy định như thế nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Điều 3, Khoản 2 và Khoản 3, mức giá dịch vụ khám bệnh, chữa bệnh tại Trạm Y tế cấp xã được quy định như sau:
+
+1. **Về tiền khám bệnh và ngày giường:**
+   Đối với Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán tối đa 03 ngày/người/đợt điều trị. Trong trường hợp đã thanh toán tiền ngày giường thì **không thanh toán tiền khám bệnh**.
+
+2. **Về giá dịch vụ kỹ thuật:**
+   Giá các dịch vụ kỹ thuật tại Trạm Y tế cấp xã bằng **70%** giá của các dịch vụ quy định tại Phụ lục III kèm theo Nghị quyết này.
+
+Văn bản không quy định một mức giá cố định riêng cho dịch vụ "khám bệnh" tại Trạm Y tế cấp xã nếu không thuộc trường hợp có giường lưu, mà chỉ quy định nguyên tắc áp dụng giá dịch vụ kỹ thuật và nguyên tắc không thanh toán kép (khám bệnh và ngày giường).
+
+[Expected Answer]: Mức giá khám bệnh tại trạm y tế xã cũng được quy định cụ thể tại Phụ lục I, thường sẽ áp dụng mức giá thấp hơn so với các bệnh viện tuyến trên.
+[Expected Citation]: Phụ lục I, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác, cung cấp thông tin chi tiết và cụ thể hơn mẫu về nguyên tắc tính giá (70% giá dịch vụ kỹ thuật) và điều kiện thanh toán, đồng thời trích dẫn đúng số hiệu văn bản Nghị quyết 54/NQ-HĐND.
+⏱️ [Turn Time]: 21.91s
+------------------------------------------------------------
+
+--- [Turn 3] Query: Mức giá đó đã bao gồm chi phí thực hiện các xét nghiệm chưa?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Mức giá dịch vụ kỹ thuật tại Trạm Y tế cấp xã theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 202...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.0672789688132724, -0.017918090683944433, -0.040380842287726, -0.01526405823075867, 0.02888706649046367]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 8/14 references
+[Rewritten/Standalone Query]: Mức giá dịch vụ kỹ thuật tại Trạm Y tế cấp xã theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi (được quy định bằng 70% giá tại Phụ lục III) đã bao gồm chi phí thực hiện các xét nghiệm chưa?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Điều 2, Khoản 3 và Điều 3, Khoản 3 cùng Phụ lục III, mức giá dịch vụ kỹ thuật tại Trạm Y tế cấp xã **chưa bao gồm** chi phí thực hiện các xét nghiệm.
+
+Cụ thể:
+1. **Phân loại dịch vụ:** Theo Điều 2, Khoản 3 và tiêu đề Phụ lục III, văn bản quy định riêng biệt hai nhóm dịch vụ là "dịch vụ kỹ thuật" và "xét nghiệm" trong cùng một phụ lục ("GIÁ DỊCH VỤ KỸ THUẬT, XÉT NGHIỆM").
+2. **Nguyên tắc áp dụng giá:** Theo Điều 3, Khoản 3, giá các dịch vụ kỹ thuật tại Trạm Y tế cấp xã bằng 70% giá của các dịch vụ tại Phụ lục III. Quy định này áp dụng cho nhóm "dịch vụ kỹ thuật".
+3. **Kết luận:** Chi phí xét nghiệm là một nhóm dịch vụ riêng biệt được định giá trong Phụ lục III, không nằm trong mức giá của dịch vụ kỹ thuật. Do đó, khi thực hiện xét nghiệm tại Trạm Y tế cấp xã, chi phí này sẽ được tính toán riêng dựa trên mức giá quy định tại Phụ lục III (cũng áp dụng nguyên tắc 70% đối với các dịch vụ kỹ thuật/xét nghiệm tại Trạm Y tế theo ghi chú trong Phụ lục III).
+
+[Expected Answer]: Chưa, mức giá khám bệnh quy định tại Phụ lục I chỉ là tiền công khám bệnh. Chi phí cho các dịch vụ xét nghiệm, chẩn đoán hình ảnh sẽ được tính riêng theo mức giá quy định tại Phụ lục III của Nghị quyết này.
+[Expected Citation]: Nguyên tắc áp dụng giá, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời xác nhận chính xác mức giá chưa bao gồm chi phí xét nghiệm và trích dẫn đúng văn bản Nghị quyết 54/NQ-HĐND cùng các điều khoản liên quan.
+⏱️ [Turn Time]: 37.88s
+------------------------------------------------------------
+
+--- [Turn 4] Query: Nếu người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở thì tính phí như thế nào?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, nếu n...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.03865509078160608, 0.007211644145819472, -0.04644464393911088, 0.0031127105629390195, 0.007951542160780213]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 9/14 references
+[Rewritten/Standalone Query]: Theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, nếu người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở thì tính phí như thế nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, văn bản **không quy định cụ thể** về cách tính phí khi người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở.
+
+Các nội dung được cung cấp trong ngữ cảnh chỉ quy định:
+1.  **Phạm vi điều chỉnh** (Điều 1): Quy định mức giá cho các dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
+2.  **Các loại dịch vụ có giá** (Điều 2): Bao gồm dịch vụ khám bệnh, kiểm tra sức khỏe (Phụ lục I), dịch vụ ngày giường (Phụ lục II), dịch vụ kỹ thuật và xét nghiệm (Phụ lục III), và dịch vụ kỹ thuật gây tê (Phụ lục IV).
+3.  **Nguyên tắc áp dụng** (Điều 3): Quy định việc áp dụng mức giá theo đúng phụ lục tương ứng, nguyên tắc thanh toán ngày giường tối đa 03 ngày và không thanh toán tiền khám bệnh nếu đã thanh toán tiền ngày giường đối với Trạm Y tế cấp xã có giường lưu, cũng như mức giá dịch vụ kỹ thuật tại Trạm Y tế cấp xã bằng 70% giá tại Phụ lục III.
+
+Văn bản không đề cập đến quy tắc cộng dồn, miễn giảm hay tính toán riêng biệt cho trường hợp khám nhiều chuyên khoa trong cùng một ngày. Do đó, không thể xác định cách tính phí cho trường hợp này dựa trên ngữ cảnh hiện có.
+
+[Expected Answer]: Quy định về việc thanh toán chi phí khi khám nhiều chuyên khoa trong cùng một ngày thường áp dụng nguyên tắc: lần khám đầu tiên tính 100% giá, các lần khám tiếp theo trong cùng ngày sẽ được tính theo tỷ lệ phần trăm thấp hơn quy định tại hướng dẫn của Bộ Y tế.
+[Expected Citation]: Phần Quy định chung và Phụ lục I, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định văn bản không quy định trong khi câu trả lời mẫu đã nêu rõ nguyên tắc tính phí (lần đầu 100%, lần sau giảm tỷ lệ) dựa trên chính văn bản Nghị quyết 54/NQ-HĐND mà RAG đã trích dẫn.
+⏱️ [Turn Time]: 20.48s
+------------------------------------------------------------
+
+--- [Turn 5] Query: Cụ thể là từ lần khám thứ hai trở đi?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, quy ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.061654720181941354, -0.009417632027791169, -0.04545423013413416, 0.010865187032062863, -0.015177847044789401]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.18s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 9/14 references
+[Rewritten/Standalone Query]: Trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, quy định về việc tính phí khi người bệnh khám nhiều chuyên khoa trong cùng một ngày có áp dụng cụ thể từ lần khám thứ hai trở đi không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, văn bản **không quy định cụ thể** về việc tính phí khi người bệnh khám nhiều chuyên khoa trong cùng một ngày, cũng như không có quy định áp dụng riêng cho lần khám thứ hai trở đi.
+
+Các nội dung được cung cấp trong ngữ cảnh chỉ quy định:
+1.  **Phạm vi điều chỉnh** (Điều 1): Quy định mức giá cho các dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
+2.  **Các loại dịch vụ có giá** (Điều 2): Bao gồm dịch vụ khám bệnh, kiểm tra sức khỏe (Phụ lục I), dịch vụ ngày giường (Phụ lục II), dịch vụ kỹ thuật và xét nghiệm (Phụ lục III), và dịch vụ kỹ thuật gây tê (Phụ lục IV).
+3.  **Nguyên tắc áp dụng** (Điều 3): Quy định việc áp dụng mức giá theo đúng phụ lục tương ứng, nguyên tắc thanh toán ngày giường tối đa 03 ngày và không thanh toán tiền khám bệnh nếu đã thanh toán tiền ngày giường đối với Trạm Y tế cấp xã có giường lưu, cũng như mức giá dịch vụ kỹ thuật tại Trạm Y tế cấp xã bằng 70% giá tại Phụ lục III.
+
+Văn bản không đề cập đến quy tắc cộng dồn, miễn giảm hay tính toán riêng biệt cho trường hợp khám nhiều chuyên khoa trong cùng một ngày. Do đó, không thể xác định cách tính phí cho trường hợp này dựa trên ngữ cảnh hiện có.
+
+[Expected Answer]: Thông thường, theo nguyên tắc chung được hướng dẫn tại các Thông tư của Bộ Y tế và áp dụng tại Nghị quyết, từ lần khám thứ 2 trở đi trong cùng một ngày chỉ tính 30% mức giá khám bệnh.
+[Expected Citation]: Nguyên tắc áp dụng, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định văn bản không quy định trong khi câu trả lời mẫu xác nhận có quy định rõ ràng về việc tính 30% từ lần khám thứ hai trở đi.
+⏱️ [Turn Time]: 20.76s
+------------------------------------------------------------
+
+--- [Turn 6] Query: Văn bản này quy định tiền giường bệnh ban ngày được thanh toán ra sao?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi quy định ti...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.060213940230413925, 0.010005197705964126, -0.036689384921760895, -0.011300106167908951, -0.049353228549591906]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 8/14 references
+[Rewritten/Standalone Query]: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi quy định tiền giường bệnh ban ngày được thanh toán ra sao?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, văn bản **không quy định cụ thể** về việc thanh toán "tiền giường bệnh ban ngày".
+
+Các nội dung được cung cấp trong ngữ cảnh chỉ quy định về **"dịch vụ ngày giường điều trị"** (thường áp dụng cho điều trị nội trú) như sau:
+
+1.  **Phạm vi dịch vụ có giá:** Theo Điều 2, Khoản 2, Nghị quyết chỉ quy định mức giá cho "dịch vụ ngày giường điều trị" tại các Phụ lục II.1 đến II.5. Không có danh mục dịch vụ nào mang tên "giường bệnh ban ngày".
+2.  **Nguyên tắc thanh toán ngày giường:** Theo Điều 3, Khoản 2, đối với phòng khám đa khoa khu vực và Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán **tối đa 03 ngày/người/đợt điều trị**.
+3.  **Lưu ý về chi phí:** Các Phụ lục II (II.1, II.2, II.3, II.5) đều ghi chú rằng "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế".
+
+Do đó, dựa trên ngữ cảnh hiện có, không thể xác định được quy định thanh toán cho "giường bệnh ban ngày" vì văn bản không đề cập đến loại hình dịch vụ này.
+
+[Expected Answer]: Ngày giường bệnh điều trị ban ngày được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng theo quy định tại Phụ lục II.
+[Expected Citation]: Phụ lục II.1, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định văn bản không quy định tiền giường bệnh ban ngày trong khi câu trả lời mẫu đã cung cấp rõ ràng công thức tính (0,3 lần giá ngày giường) và trích dẫn đúng Phụ lục II.
+⏱️ [Turn Time]: 21.30s
+------------------------------------------------------------
+
+--- [Turn 7] Query: Vậy còn đối với trạm y tế có giường lưu?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi quy định nh...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.08727937268068753, -0.014771670453695204, -0.025305193777220496, -0.020580953632120785, -0.02816039986491493]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.19s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 7/14 references
+[Rewritten/Standalone Query]: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi quy định như thế nào về việc thanh toán dịch vụ ngày giường đối với Trạm Y tế cấp xã có giường lưu?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ **Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025** của Hội đồng nhân dân tỉnh Quảng Ngãi, quy định về việc thanh toán dịch vụ ngày giường đối với Trạm Y tế cấp xã có giường lưu như sau:
+
+1.  **Số ngày giường được thanh toán:** Theo **Điều 3, Khoản 2**, đối với Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán **tối đa 03 ngày/người/đợt điều trị**.
+2.  **Quy định về tiền khám bệnh:** Theo cùng Khoản 2 Điều 3, **không thanh toán tiền khám bệnh** trong trường hợp đã thanh toán tiền ngày giường.
+3.  **Lưu ý về chi phí:** Theo **Phụ lục II.5** (áp dụng cho Trạm Y tế), giá ngày giường điều trị nội trú **chưa bao gồm chi phí máy thở và khí y tế**.
+
+[Expected Answer]: Đối với Trạm y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán tối đa là 03 ngày/người/đợt điều trị.
+[Expected Citation]: Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác về nội dung cốt lõi (03 ngày/người/đợt), trích dẫn đúng số hiệu văn bản và điều khoản, đồng thời cung cấp thêm thông tin bổ sung có giá trị so với câu trả lời mẫu.
+⏱️ [Turn Time]: 17.50s
+------------------------------------------------------------
+
+--- [Turn 8] Query: Có được thu thêm tiền khám không nếu đã thu tiền giường đó?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, đối ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': 'Điều 3, Khoản 2', 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.06003880428976899, -0.002780715467105435, -0.03536980958159167, 0.008264936402229663, -0.023724235719353372]
+       ⚠️ [Retrieve] Vector mismatch suspected. Attempting metadata scroll for: 54/NQ-HĐND
+       ✅ [Retrieve] Metadata scroll found 200 matching chunks!
+       ✅ [Reranker] Đã re-score thành công 20 candidates trong 0.67s
+       🔑 [Keyword Rescue] Injecting 40 missed chunks back into context
+       🔍 [Retrieve] Qdrant search returned 30 hits
+       🎯 [Neo4j] Direct Entity Query for exact match: 54/NQ-HĐND - Điều 3, Khoản 2
+       ✍️ [Generate] Generating answer with 30 candidate references...
+       📌 [Generate] Cited 28/30 references
+[Rewritten/Standalone Query]: Trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, đối với Trạm Y tế cấp xã có giường lưu, có được thu thêm tiền khám bệnh không nếu đã thu tiền ngày giường điều trị?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+<thinking>
+A. QUÉT TIÊU ĐỀ VÀ METADATA:
+- Câu hỏi: "Đối với Trạm Y tế cấp xã có giường lưu, có được thu thêm tiền khám bệnh không nếu đã thu tiền ngày giường điều trị?"
+- Từ khóa: "Trạm Y tế cấp xã", "giường lưu", "tiền khám bệnh", "tiền ngày giường".
+- Duyệt qua các tài liệu trong ngữ cảnh:
+  - `<can_cu id="6">`: Chứa nội dung "Điều 3 | Khoản 1, 2, 3." của Nghị quyết 54/NQ-HĐND.
+  - Nội dung Khoản 2 Điều 3 trong `<can_cu id="6">` ghi rõ: "Đối với phòng khám đa khoa khu vực, Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu: Số ngày giường được thanh toán tối đa 03 ngày/người/đợt điều trị. Không thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường."
+  - Các tài liệu khác (Phụ lục II, III, IV...) chỉ liệt kê mức giá cụ thể, không quy định nguyên tắc thanh toán này.
+
+B. TRÍCH XUẤT THÔ:
+- Từ `<can_cu id="6">`: "2. Đối với phòng khám đa khoa khu vực, Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu: Số ngày giường được thanh toán tối đa 03 ngày/người/đợt điều trị. Không thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường."
+
+C. GIẢI QUYẾT XUNG ĐỘT:
+- Không có xung đột. Quy định này nằm trong Điều 3 (Nguyên tắc áp dụng) của Nghị quyết, là quy định trực tiếp và rõ ràng.
+
+D. XÁC ĐỊNH CÁCH TRÍCH DẪN:
+- Nguồn: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025.
+- Vị trí: Điều 3, Khoản 2.
+- Cách trích dẫn: "Căn cứ Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Điều 3, Khoản 2".
+</think>
+
+Căn cứ **Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025** của Hội đồng nhân dân tỉnh Quảng Ngãi - **Điều 3, Khoản 2**, đối với Trạm Y tế cấp xã có giường lưu, **không được thu thêm tiền khám bệnh** nếu đã thu tiền ngày giường điều trị.
+
+Cụ thể, văn bản quy định: "Đối với phòng khám đa khoa khu vực, Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu... **Không thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường**."
+
+Ngoài ra, quy định này cũng kèm theo hạn chế về số ngày giường được thanh toán là **tối đa 03 ngày/người/đợt điều trị**.
+
+[Expected Answer]: Không, Nghị quyết quy định rõ cơ sở y tế không được thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường lưu.
+[Expected Citation]: Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT: Câu trả lời của RAG chính xác về bản chất (không được thu thêm), trích dẫn đúng số hiệu văn bản và điều khoản trọng tâm (Nghị quyết 54/NQ-HĐND, Điều 3 Khoản 2), đồng thời cung cấp thêm thông tin bổ sung về hạn chế số ngày giường.
+⏱️ [Turn Time]: 19.37s
+------------------------------------------------------------
+
+--- [Turn 9] Query: Đối với bệnh nhân nhập viện trước khi quy định mới này áp dụng thì tính tiền giường theo giá nào?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Đối với bệnh nhân nhập viện trước khi Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồn...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.04180465394622462, 0.017857618122692497, -0.03438745231061625, 0.019819264026320928, -0.02014818701016163]
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.18s
+       🔍 [Retrieve] Qdrant search returned 14 hits
+       ✍️ [Generate] Generating answer with 14 candidate references...
+       📌 [Generate] Cited 7/14 references
+[Rewritten/Standalone Query]: Đối với bệnh nhân nhập viện trước khi Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có hiệu lực thì tính tiền giường theo giá nào?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+<thinking>
+A. QUÉT TIÊU ĐỀ VÀ METADATA:
+- Câu hỏi: "Đối với bệnh nhân nhập viện trước khi Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có hiệu lực thì tính tiền giường theo giá nào?"
+- Từ khóa: "nhập viện trước", "có hiệu lực", "tính tiền giường", "giá nào", "chuyển tiếp".
+- Duyệt qua các tài liệu trong ngữ cảnh:
+  - `<thong_tin_van_ban_chinh_xac>`: Xác nhận ngày hiệu lực là 30/12/2025 (tuy nhiên nội dung Điều 5 ghi rõ ngày 01/01/2026, cần kiểm tra kỹ).
+  - `<can_cu id="1">`: Chứa nội dung "Điều 5 | Khoản 1, 2, 3." của Nghị quyết 54/NQ-HĐND.
+  - Nội dung Khoản 2 Điều 5 trong `<can_cu id="1">` ghi rõ: "Quy định chuyển tiếp: Đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày 01 tháng 01 năm 2026 tiếp tục được áp dụng mức giá dịch vụ khám bệnh, chữa bệnh theo quy định của cấp có thẩm quyền trước thời điểm thực hiện giá theo quy định tại Nghị quyết này cho đến khi ra viện hoặc kết thúc đợt điều trị ngoại trú."
+  - Các tài liệu khác (Phụ lục II, III...) chỉ liệt kê mức giá mới, không quy định về thời điểm áp dụng cho bệnh nhân cũ.
+
+B. TRÍCH XUẤT THÔ:
+- Từ `<can_cu id="1">`: "2. Quy định chuyển tiếp: Đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày 01 tháng 01 năm 2026 tiếp tục được áp dụng mức giá dịch vụ khám bệnh, chữa bệnh theo quy định của cấp có thẩm quyền trước thời điểm thực hiện giá theo quy định tại Nghị quyết này cho đến khi ra viện hoặc kết thúc đợt điều trị ngoại trú."
+
+C. GIẢI QUYẾT XUNG ĐỘT:
+- Không có xung đột. Quy định này nằm trong Điều 5 (Điều khoản thi hành) của Nghị quyết, là quy định trực tiếp về thời điểm áp dụng và quy định chuyển tiếp.
+- Lưu ý: Mặc dù `<thong_tin_van_ban_chinh_xac>` ghi "Ngày hiệu lực: 30/12/2025", nhưng nội dung văn bản tại `<can_cu id="1">` (Điều 5, Khoản 1) ghi rõ "Nghị quyết này có hiệu lực thi hành từ ngày 01 tháng 01 năm 2026". Theo nguyên tắc ưu tiên nội dung văn bản pháp luật cụ thể, ngày hiệu lực thực tế để áp dụng giá mới là 01/01/2026. Do đó, bệnh nhân nhập viện trước ngày này sẽ áp dụng quy định chuyển tiếp.
+
+D. XÁC ĐỊNH CÁCH TRÍCH DẪN:
+- Nguồn: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025.
+- Vị trí: Điều 5, Khoản 2.
+- Cách trích dẫn: "Căn cứ Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Điều 5, Khoản 2".
+</think>
+
+Căn cứ **Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025** của Hội đồng nhân dân tỉnh Quảng Ngãi - **Điều 5, Khoản 2**, đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày **01 tháng 01 năm 2026** (ngày Nghị quyết có hiệu lực thi hành), việc tính tiền giường và các dịch vụ khác được quy định như sau:
+
+Người bệnh **tiếp tục được áp dụng mức giá dịch vụ khám bệnh, chữa bệnh theo quy định của cấp có thẩm quyền trước thời điểm thực hiện giá** theo Nghị quyết này.
+
+Quy định này áp dụng cho đến khi người bệnh **ra viện hoặc kết thúc đợt điều trị ngoại trú**. Do đó, bệnh nhân nhập viện trước ngày 01/01/2026 sẽ không bị áp dụng mức giá mới theo Nghị quyết 54/NQ-HĐND trong suốt quá trình điều trị đó.
+
+[Expected Answer]: Theo điều khoản chuyển tiếp, người bệnh đang điều trị trước ngày Nghị quyết có hiệu lực sẽ tiếp tục áp dụng mức giá theo quy định cũ cho đến khi ra viện hoặc kết thúc đợt điều trị.
+[Expected Citation]: Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT: Câu trả lời của RAG chính xác về bản chất (áp dụng giá cũ cho đến khi ra viện), cung cấp thông tin chi tiết hơn mẫu và trích dẫn đúng số hiệu văn bản (Nghị quyết 54/NQ-HĐND) cùng điều khoản cụ thể (Điều 5, Khoản 2).
+⏱️ [Turn Time]: 21.40s
+------------------------------------------------------------
+
+--- [Turn 10] Query: Nghị quyết này có bãi bỏ quyết định giá nào của tỉnh Kon Tum không?
+       🎯 [SuperRouter] Intent: CONFLICT_ANALYZER
+[Fallback JSON Error]: Expecting value: line 1 column 1 (char 0)
+       DEBUG: Dense Query Sample: [-0.03479832365938956, 0.001824456382141988, -0.005770059243521923, -0.002746051873121294, -0.00281393757245682]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.19s
+[Rewritten/Standalone Query]: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có bãi bỏ quyết định giá nào của tỉnh Kon Tum không?
+[Detected Intent]: CONFLICT_ANALYZER
+[Generated Answer]:
+### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có bãi bỏ quyết định giá nào của tỉnh Kon Tum không? Câu trả lời là KHÔNG, vì Nghị quyết 54/NQ-HĐND là văn bản của tỉnh Quảng Ngãi, chỉ có thẩm quyền bãi bỏ các văn bản của chính tỉnh Quảng Ngãi hoặc các văn bản cấp dưới trong địa bàn tỉnh, không có thẩm quyền bãi bỏ văn bản của tỉnh Kon Tum. Nghị quyết này thường bãi bỏ các quyết định giá cũ của tỉnh Quảng Ngãi (ví dụ: Quyết định số .../QĐ-UBND của UBND tỉnh Quảng Ngãi). | ❌ **Contradiction** | Căn cứ Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Điều 5, Khoản 3, Điểm b | Mệnh đề nội bộ khẳng định Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi KHÔNG có thẩm quyền bãi bỏ văn bản của tỉnh Kon Tum. Tuy nhiên, Căn cứ pháp luật được cung cấp (Điều 5, Khoản 3, Điểm b của Nghị quyết 54/NQ-HĐND) lại ghi rõ quy định bãi bỏ (hết hiệu lực) Nghị quyết số 117/NQ-HĐND của tỉnh Kon Tum. Nội dung văn bản pháp luật mâu thuẫn trực tiếp với khẳng định trong mệnh đề nội bộ. |\n
+
+[Expected Answer]: Có, Nghị quyết 54/NQ-HĐND quy định làm hết hiệu lực Nghị quyết số 117/NQ-HĐND ngày 27/12/2024 của Hội đồng nhân dân tỉnh Kon Tum về định giá dịch vụ khám bệnh, chữa bệnh.
+[Expected Citation]: Điểm b Khoản 3 Điều 5, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất (khẳng định "KHÔNG" bãi bỏ) do nhầm lẫn thẩm quyền địa phương, trong khi câu trả lời mẫu và chính trích dẫn pháp lý của RAG đều xác nhận Nghị quyết 54/NQ-HĐND có quy định bãi bỏ văn bản của tỉnh Kon Tum.
+⏱️ [Turn Time]: 63.50s
+------------------------------------------------------------
+
+--- [Turn 11] Query: Thế còn các nghị quyết về giá y tế của chính tỉnh Quảng Ngãi ban hành trước đây thì sao?
+       🎯 [SuperRouter] Intent: CONFLICT_ANALYZER
+       DEBUG: Dense Query Sample: [-0.026633821901154348, 0.030872216044560256, -0.021051412712273745, 0.001841200562296951, -0.007606504757365799]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.20s
+[Fallback JSON Error]: Expecting value: line 1 column 1 (char 0)
+[Rewritten/Standalone Query]: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có bãi bỏ hoặc thay thế các nghị quyết/quyết định về giá y tế nào khác của chính tỉnh Quảng Ngãi đã ban hành trước đây không?
+[Detected Intent]: CONFLICT_ANALYZER
+[Generated Answer]:
+### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết này quy định bãi bỏ/hết hiệu lực các văn bản cũ như Quyết định số .../QĐ-UBND của UBND tỉnh Quảng Ngãi và các nghị quyết giá y tế trước đó của tỉnh Quảng Ngãi theo quy định tại Điều 5, Khoản 3. | ⚪ **Neutral** | N/A |  |\n
+
+[Expected Answer]: Có, các nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó sẽ bị bãi bỏ để áp dụng thống nhất theo bảng giá mới tại Nghị quyết 54/NQ-HĐND.
+[Expected Citation]: Điều khoản thi hành, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời trạng thái "Neutral" và không cung cấp thông tin xác nhận việc bãi bỏ các nghị quyết cũ như trong câu trả lời mẫu, đồng thời không trích dẫn đúng số hiệu văn bản trọng tâm là Nghị quyết 54/NQ-HĐND.
+⏱️ [Turn Time]: 66.00s
+------------------------------------------------------------
+
+--- [Turn 12] Query: Mức giá quy định trong phụ lục 3 của nó có áp dụng cho phòng khám tư nhân không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Mức giá quy định trong Phụ lục III của Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết', 'doc_number': '54/NQ-HĐND', 'article_ref': 'Phụ lục III', 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.08077847840806837, 0.004009024920992649, -0.044047623131937046, -0.007166509358766926, -0.0020996839586207446]
+       ⚠️ [Retrieve] Vector mismatch suspected. Attempting metadata scroll for: 54/NQ-HĐND
+       ✅ [Retrieve] Metadata scroll found 200 matching chunks!
+       ✅ [Reranker] Đã re-score thành công 20 candidates trong 0.65s
+       🔑 [Keyword Rescue] Injecting 40 missed chunks back into context
+       🔍 [Retrieve] Qdrant search returned 30 hits
+       🎯 [Neo4j] Direct Entity Query for exact match: 54/NQ-HĐND - Phụ lục III
+       ✍️ [Generate] Generating answer with 30 candidate references...
+       📌 [Generate] Cited 28/30 references
+[Rewritten/Standalone Query]: Mức giá quy định trong Phụ lục III của Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có áp dụng cho phòng khám tư nhân không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Căn cứ **Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025** của Hội đồng nhân dân tỉnh Quảng Ngãi, mức giá quy định trong Phụ lục III **không áp dụng** cho phòng khám tư nhân.
+
+Lý do:
+1.  **Phạm vi điều chỉnh:** Theo tiêu đề và nội dung của Nghị quyết (được nêu trong `<can_cu id="7">`), văn bản này chỉ quy định giá dịch vụ khám bệnh, chữa bệnh tại các **"cơ sở khám bệnh, chữa bệnh của nhà nước"** thuộc phạm vi quản lý của tỉnh Quảng Ngãi.
+2.  **Đối tượng áp dụng:** Các phụ lục kèm theo (bao gồm Phụ lục III) liệt kê cụ thể các cơ sở áp dụng như Bệnh viện đa khoa tỉnh, Trung tâm Y tế các huyện, Phòng khám đa khoa khu vực... đều là các cơ sở công lập. Nghị quyết không đề cập đến việc áp dụng cho các cơ sở khám bệnh, chữa bệnh tư nhân.
+
+Do đó, các mức giá trong Phụ lục III chỉ có hiệu lực đối với các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi.
+
+[Expected Answer]: Không, Nghị quyết này chỉ áp dụng đối với các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.
+[Expected Citation]: Phạm vi điều chỉnh, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG chính xác về bản chất (không áp dụng cho tư nhân), đúng đối tượng (cơ sở nhà nước) và trích dẫn đúng số hiệu văn bản trọng tâm (Nghị quyết 54/NQ-HĐND).
+⏱️ [Turn Time]: 28.81s
+------------------------------------------------------------
+
+--- [Turn 13] Query: Có văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh làm cơ sở ban hành bảng giá không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Có văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh Quảng Ngãi làm cơ sở ba...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Thông tư', 'doc_number': None, 'article_ref': None, 'year': 2025, 'sector': 'Y tế'}
+       DEBUG: Dense Query Sample: [-0.06439438458869737, -0.02530791583835217, -0.034358325780545, 0.0020806597867103187, 0.016895513892084234]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.23s
+       🔍 [Retrieve] Qdrant search returned 15 hits
+       ✍️ [Generate] Generating answer with 15 candidate references...
+       📌 [Generate] Cited 5/15 references
+[Rewritten/Standalone Query]: Có văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh Quảng Ngãi làm cơ sở ban hành bảng giá dịch vụ khám bệnh, chữa bệnh theo Nghị quyết số 54/NQ-HĐND không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có thông tin** về văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh Quảng Ngãi làm cơ sở ban hành bảng giá dịch vụ khám bệnh, chữa bệnh theo Nghị quyết số 54/NQ-HĐND.
+
+Các văn bản pháp luật có trong ngữ cảnh hiện tại bao gồm:
+- Thông tư 54/2025/TT-BYT: Hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y học cổ truyền công lập.
+- Thông tư 55/2025/TT-BYT: Quy định về kê đơn thuốc cổ truyền, thuốc dược liệu.
+- Thông tư 56/2025/TT-BYT: Hướng dẫn quản lý bệnh nghề nghiệp.
+- Thông tư 46/2025/TT-BYT: Phân cấp thẩm quyền quyết định tiêu chuẩn, định mức sử dụng máy móc, thiết bị y tế.
+- Thông tư 57/2025/TT-BYT: Hướng dẫn về phân nhóm thiết bị y tế.
+- Thông tư 53/2025/TT-BYT: Sửa đổi, bổ sung một số điều của Thông tư 43/2025/TT-BYT về Trạm Y tế xã.
+
+Không có văn bản nào trong danh sách trên đề cập đến việc quy định danh mục dịch vụ kỹ thuật làm cơ sở cho việc ban hành bảng giá dịch vụ khám bệnh, chữa bệnh của tỉnh Quảng Ngãi.
+
+[Expected Answer]: Có, Bộ Y tế ban hành Thông tư số 23/2024/TT-BYT ngày 18/10/2024 ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh. Đây là một trong những căn cứ pháp lý quan trọng để tỉnh Quảng Ngãi xây dựng bảng giá này.
+[Expected Citation]: Phần căn cứ pháp lý, Nghị quyết 54/NQ-HĐND
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không có thông tin" trong khi câu trả lời mẫu đã xác định rõ sự tồn tại của Thông tư 23/2024/TT-BYT làm cơ sở pháp lý.
+⏱️ [Turn Time]: 23.71s
+------------------------------------------------------------
+
+--- [Turn 14] Query: Nếu sau này Bộ Y tế ra thông tư mới điều chỉnh khung giá cao hơn thì văn bản này có bị mất hiệu lực tự động không?
+       🎯 [SuperRouter] Intent: CONFLICT_ANALYZER
+       DEBUG: Dense Query Sample: [-0.05043139140167857, -0.006672097188541311, -0.005935931411872604, 0.01142152963801761, 0.025302024198103276]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.21s
+[Fallback JSON Error]: Expecting value: line 1 column 1 (char 0)
+[Rewritten/Standalone Query]: Nếu sau này Bộ Y tế ban hành thông tư mới điều chỉnh khung giá dịch vụ khám bệnh, chữa bệnh cao hơn thì Nghị quyết số 54/NQ-HĐND của Hội đồng nhân dân tỉnh Quảng Ngãi có bị mất hiệu lực tự động không?
+[Detected Intent]: CONFLICT_ANALYZER
+[Generated Answer]:
+### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết số 54/NQ-HĐND sẽ không tự động mất hiệu lực ngay lập tức mà phải chờ cơ quan có thẩm quyền (Hội đồng nhân dân tỉnh) xem xét, sửa đổi hoặc bãi bỏ để phù hợp với quy định mới của Bộ Y tế, trừ khi văn bản trung ương có điều khoản bãi bỏ trực tiếp. | ⚪ **Neutral** | N/A |  |\n
+
+[Expected Answer]: Không tự động mất hiệu lực. Theo Luật Ban hành văn bản quy phạm pháp luật, khi có sự thay đổi từ cơ quan cấp trên, Hội đồng nhân dân tỉnh Quảng Ngãi sẽ phải tiến hành rà soát và ban hành một Nghị quyết mới để sửa đổi, bổ sung hoặc thay thế Nghị quyết 54/NQ-HĐND cho phù hợp.
+[Expected Citation]: Luật Ban hành văn bản quy phạm pháp luật 2015 (sửa đổi, bổ sung 2020)
+
+[LLM JUDGE]: ✅ ĐẠT Câu trả lời của RAG xác định đúng bản chất pháp lý là văn bản không tự động mất hiệu lực và cần cơ quan có thẩm quyền xem xét sửa đổi, mặc dù thiếu trích dẫn cụ thể tên văn bản luật.
+⏱️ [Turn Time]: 63.20s
+------------------------------------------------------------
+
+--- [Turn 15] Query: Ngoài quy định về giá, tỉnh Quảng Ngãi có văn bản nào khác hỗ trợ chi phí khám chữa bệnh cho người nghèo không?
+       🎯 [SuperRouter] Intent: LEGAL_QA
+       🧠 [Understand] Prepared Query: 'Ngoài quy định về giá, tỉnh Quảng Ngãi có văn bản nào khác hỗ trợ chi phí khám chữa bệnh cho người n...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị quyết, Quyết định', 'doc_number': None, 'article_ref': None, 'year': 2025, 'sector': 'Y tế, Xã hội'}
+       DEBUG: Dense Query Sample: [-0.06144650005130844, 0.012437087010385092, -0.014531019012133545, -0.016282173013595778, -0.01755976501466258]
+       ✅ [Reranker] Đã re-score thành công 0 candidates trong 0.00s
+       ⚠️ [Retrieve] No hits with filters. Dropping filters and retrying broad search...
+       DEBUG: Dense Query Sample: [-0.06144650005130844, 0.012437087010385092, -0.014531019012133545, -0.016282173013595778, -0.01755976501466258]
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.20s
+       🔍 [Retrieve] Qdrant search returned 15 hits
+       ✍️ [Generate] Generating answer with 15 candidate references...
+       📌 [Generate] Cited 1/15 references
+[Rewritten/Standalone Query]: Ngoài quy định về giá, tỉnh Quảng Ngãi có văn bản nào khác hỗ trợ chi phí khám chữa bệnh cho người nghèo không?
+[Detected Intent]: LEGAL_QA
+[Generated Answer]:
+Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có thông tin** về văn bản nào của tỉnh Quảng Ngãi quy định hỗ trợ chi phí khám chữa bệnh cho người nghèo.
+
+Các văn bản pháp luật có trong ngữ cảnh hiện tại liên quan đến tỉnh Quảng Ngãi chỉ bao gồm:
+- **Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025**: Chỉ quy định về mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi (tham khảo `<can_cu id="1">`, `<can_cu id="15">`). Văn bản này không đề cập đến chính sách hỗ trợ chi phí cho người nghèo.
+
+Lưu ý: Trong ngữ cảnh có tồn tại văn bản quy định về hỗ trợ chi phí (cụ thể là hỗ trợ đóng Bảo hiểm y tế cho người nghèo và các đối tượng khó khăn), đó là **Nghị quyết số 91/2025/NQ-HĐND**, nhưng văn bản này áp dụng cho tỉnh **Quảng Ninh**, không phải tỉnh Quảng Ngãi (tham khảo `<can_cu id="7">`, `<can_cu id="8">`, `<can_cu id="9">`, `<can_cu id="10">`).
+
+Do đó, dựa trên dữ liệu hiện có, không thể xác nhận tỉnh Quảng Ngãi có văn bản hỗ trợ chi phí khám chữa bệnh cho người nghèo.
+
+[Expected Answer]: Các tỉnh thường ban hành các Quyết định của Ủy ban nhân dân hoặc Nghị quyết của Hội đồng nhân dân về việc lập Quỹ khám, chữa bệnh cho người nghèo (dựa trên Quyết định 139/2002/QĐ-TTg và Quyết định 14/2012/QĐ-TTg của Thủ tướng). Để biết chính xác văn bản đang có hiệu lực tại Quảng Ngãi trong năm 2025, cần tra cứu trên Cơ sở dữ liệu quốc gia về pháp luật của tỉnh.
+[Expected Citation]: Cơ sở dữ liệu quốc gia về pháp luật - Tỉnh Quảng Ngãi
+
+[LLM JUDGE]: ❌ KHÔNG ĐẠT vì RAG trả lời "không có thông tin" dựa trên giới hạn ngữ cảnh trong khi câu trả lời mẫu đã cung cấp hướng dẫn chính xác về loại văn bản cần tìm và nguồn tra cứu, vi phạm nguyên tắc không được báo "không tìm thấy" khi mẫu có thông tin.
+⏱️ [Turn Time]: 20.81s
+------------------------------------------------------------
+
+============================================================
+TEST COMPLETED.
+Total Turns: 48 | Passed: 25 | Failed: 23
+Overall Accuracy: 52.08%
+Average Turn Time: 26.24s
+============================================================
+

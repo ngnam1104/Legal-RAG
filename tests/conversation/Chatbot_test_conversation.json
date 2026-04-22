@@ -1,0 +1,418 @@
+{
+    "conversations": [
+        {
+            "id": "conv_001",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 quy định về vấn đề gì?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 quy định về vấn đề gì?",
+                    "answer": "Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi quy định về mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.",
+                    "citation": "Tiêu đề, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Văn bản này do ai ký và ban hành vào ngày nào?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi do ai ký và ban hành vào ngày nào?",
+                    "answer": "Nghị quyết 54/NQ-HĐND được ký bởi ông Nguyễn Đức Tuy và ban hành vào ngày 30 tháng 12 năm 2025.",
+                    "citation": "Phần đầu văn bản, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Mức giá khám bệnh thông thường theo quy định đó là bao nhiêu?",
+                    "rewritten_query": "Mức giá dịch vụ khám bệnh thông thường theo quy định tại Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi là bao nhiêu?",
+                    "answer": "Mức giá dịch vụ khám bệnh thông thường được quy định chi tiết theo từng tuyến bệnh viện, trung tâm y tế và trạm y tế tại Phụ lục I ban hành kèm theo Nghị quyết.",
+                    "citation": "Phụ lục I, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 4,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Nó có bãi bỏ hay thay thế cho văn bản nào trước đây không?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có bãi bỏ hay thay thế cho văn bản quy định giá dịch vụ khám bệnh, chữa bệnh nào trước đây không?",
+                    "answer": "Có, Nghị quyết này thường sẽ bãi bỏ hoặc thay thế các Nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh của nhà nước trên địa bàn tỉnh Quảng Ngãi đã được ban hành trước đó để áp dụng mức giá mới từ ngày có hiệu lực.",
+                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "LEGAL_QA",
+                    "question": "Vậy chính thức áp dụng từ khi nào?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi chính thức có hiệu lực áp dụng từ ngày nào?",
+                    "answer": "Theo thông tin chung của các văn bản pháp luật ban hành cuối năm, Nghị quyết này có hiệu lực thi hành kể từ ngày 01 tháng 01 năm 2026.",
+                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 6,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Ngoài nghị quyết trên, có văn bản nào khác liên quan đến lĩnh vực y tế của Quảng Ngãi trong năm 2025 không?",
+                    "rewritten_query": "Ngoài Nghị quyết 54/NQ-HĐND, có văn bản pháp luật nào khác liên quan đến lĩnh vực y tế do tỉnh Quảng Ngãi ban hành trong năm 2025 không?",
+                    "answer": "Trong năm 2025, tỉnh Quảng Ngãi có thể ban hành các văn bản khác liên quan đến y tế như quy định về chính sách hỗ trợ nhân viên y tế, kế hoạch phòng chống dịch bệnh, hoặc phân bổ ngân sách cho cơ sở y tế. Để có danh sách chính xác, cần tra cứu thêm trên Cổng thông tin điện tử tỉnh Quảng Ngãi.",
+                    "citation": "Cơ sở dữ liệu pháp luật tỉnh Quảng Ngãi năm 2025"
+                }
+            ]
+        },
+        {
+            "id": "conv_002",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, chi phí ngày giường bệnh ban ngày được tính như thế nào?",
+                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi, chi phí ngày giường bệnh ban ngày được tính như thế nào?",
+                    "answer": "Theo Nghị quyết 54/NQ-HĐND, ngày giường bệnh ban ngày được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng.",
+                    "citation": "Phụ lục II.1, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Mức giá này đã bao gồm chi phí máy thở và khí y tế chưa?",
+                    "rewritten_query": "Mức giá ngày giường bệnh ban ngày theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi đã bao gồm chi phí máy thở và khí y tế chưa?",
+                    "answer": "Chưa, quy định có ghi rõ giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế.",
+                    "citation": "Ghi chú tại Phụ lục II.1, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Vậy đối với Trạm Y tế cấp xã có giường lưu thì thanh toán tiền giường ra sao?",
+                    "rewritten_query": "Đối với Trạm Y tế cấp xã có giường lưu thì việc thanh toán tiền giường được quy định ra sao tại Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi?",
+                    "answer": "Đối với Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán tối đa là 03 ngày/người/đợt điều trị.",
+                    "citation": "Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 4,
+                    "intent": "LEGAL_QA",
+                    "question": "Nếu đã thu tiền giường rồi thì có được tính tiền khám bệnh nữa không?",
+                    "rewritten_query": "Nếu cơ sở y tế đã thu tiền giường lưu đối với bệnh nhân thì có được tính thêm tiền khám bệnh theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi nữa không?",
+                    "answer": "Không, quy định nêu rõ cơ sở y tế không được thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường.",
+                    "citation": "Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Nghị quyết này có làm hết hiệu lực văn bản nào của tỉnh Kon Tum không?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có làm hết hiệu lực văn bản quy định giá dịch vụ y tế nào do tỉnh Kon Tum ban hành không?",
+                    "answer": "Có, Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi quy định làm hết hiệu lực Nghị quyết số 117/NQ-HĐND ngày 27 tháng 12 năm 2024 của Hội đồng nhân dân tỉnh Kon Tum về định giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước thuộc tỉnh Kon Tum.",
+                    "citation": "Điểm b Khoản 3 Điều 5, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 6,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Ngoài ra, có văn bản nào của Bộ Y tế được dùng làm căn cứ pháp lý để ban hành quy định đó không?",
+                    "rewritten_query": "Có văn bản pháp luật nào của Bộ Y tế được dùng làm căn cứ pháp lý để ban hành Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi không?",
+                    "answer": "Có, Nghị quyết này được ban hành dựa trên một số căn cứ của Bộ Y tế, bao gồm: Thông tư số 21/2024/TT-BYT ngày 17/10/2024 về quy định phương pháp định giá dịch vụ khám bệnh, chữa bệnh và Thông tư số 23/2024/TT-BYT ngày 18/10/2024 ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh.",
+                    "citation": "Phần Căn cứ ban hành, Nghị quyết 54/NQ-HĐND"
+                }
+            ]
+        },
+        {
+            "id": "conv_003",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá khám sức khỏe đi xuất khẩu lao động nằm ở phụ lục nào?",
+                    "rewritten_query": "Mức giá dịch vụ khám sức khỏe đi xuất khẩu lao động theo Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi được quy định tại phụ lục nào?",
+                    "answer": "Mức giá dịch vụ khám sức khỏe, bao gồm cả khám sức khỏe cho người đi xuất khẩu lao động, được quy định chi tiết tại Phụ lục I ban hành kèm theo Nghị quyết 54/NQ-HĐND.",
+                    "citation": "Phụ lục I, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Thế còn giá khám cấp giấy chứng thương thì sao?",
+                    "rewritten_query": "Mức giá dịch vụ khám cấp giấy chứng thương theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi được quy định như thế nào?",
+                    "answer": "Giá khám cấp giấy chứng thương cũng được quy định trong nhóm dịch vụ khám bệnh và kiểm tra sức khỏe tại Phụ lục I, mức giá cụ thể sẽ phụ thuộc vào tuyến bệnh viện hoặc cơ sở y tế thực hiện việc thăm khám.",
+                    "citation": "Phụ lục I, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Đối với bệnh nhân đang điều trị trước ngày văn bản này có hiệu lực thì tính tiền theo giá mới hay cũ?",
+                    "rewritten_query": "Đối với bệnh nhân đang điều trị tại cơ sở y tế trước ngày Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có hiệu lực thì áp dụng mức giá dịch vụ khám bệnh, chữa bệnh mới hay cũ?",
+                    "answer": "Theo điều khoản chuyển tiếp, đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày Nghị quyết này có hiệu lực thì tiếp tục áp dụng mức giá theo quy định cũ cho đến khi người bệnh ra viện hoặc kết thúc đợt điều trị.",
+                    "citation": "Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 4,
+                    "intent": "LEGAL_QA",
+                    "question": "Nếu họ chuyển tuyến điều trị thì quy định đó còn áp dụng không?",
+                    "rewritten_query": "Nếu bệnh nhân đang điều trị trước ngày Nghị quyết 54/NQ-HĐND có hiệu lực nhưng phải chuyển tuyến điều trị thì có được tiếp tục áp dụng mức giá cũ không?",
+                    "answer": "Trường hợp người bệnh chuyển tuyến điều trị sang một cơ sở y tế khác sau khi Nghị quyết đã có hiệu lực, thì cơ sở y tế tiếp nhận sẽ áp dụng mức giá mới theo quy định tại Nghị quyết 54/NQ-HĐND.",
+                    "citation": "Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Các nghị quyết quy định về giá y tế trước đây của tỉnh có bị bãi bỏ hoàn toàn không?",
+                    "rewritten_query": "Các Nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đây có bị bãi bỏ hoàn toàn bởi Nghị quyết 54/NQ-HĐND không?",
+                    "answer": "Có, khi Nghị quyết 54/NQ-HĐND có hiệu lực thi hành, các quy định và Nghị quyết trước đây của Hội đồng nhân dân tỉnh Quảng Ngãi về giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước sẽ bị bãi bỏ hoặc hết hiệu lực để thống nhất áp dụng biểu giá mới.",
+                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 6,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Liên quan đến việc xuất khẩu lao động, có văn bản nào của trung ương quy định chi tiết về tiêu chuẩn sức khỏe không?",
+                    "rewritten_query": "Có văn bản pháp luật nào của cơ quan trung ương quy định chi tiết về tiêu chuẩn sức khỏe đối với người lao động Việt Nam đi làm việc ở nước ngoài không?",
+                    "answer": "Có, tiêu chuẩn sức khỏe cho người đi làm việc ở nước ngoài thường được quy định trong các Thông tư liên tịch của Bộ Y tế và Bộ Lao động - Thương binh và Xã hội (ví dụ: Thông tư quy định về việc khám và chứng nhận sức khỏe cho người lao động Việt Nam đi làm việc ở nước ngoài).",
+                    "citation": "Hệ thống văn bản pháp luật của Bộ Y tế và Bộ LĐ-TB&XH"
+                }
+            ]
+        },
+        {
+            "id": "conv_004",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là bao nhiêu?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là bao nhiêu?",
+                    "answer": "Theo Phụ lục của Nghị quyết 54/NQ-HĐND, mức giá cho dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là 3.333.000 đồng.",
+                    "citation": "Số thứ tự 724, Phụ lục Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Mức giá đó đã bao gồm chi phí bộ kít tách và thuốc chưa?",
+                    "rewritten_query": "Mức giá 3.333.000 đồng cho dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi đã bao gồm chi phí bộ kít tách huyết tương và thuốc chưa?",
+                    "answer": "Chưa, quy định ghi rõ mức giá này chưa bao gồm chi phí cho bộ kít tách huyết tương, thuốc và oxy.",
+                    "citation": "Ghi chú tại Số thứ tự 724, Phụ lục Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Còn phẫu thuật nạo xương viêm trên người bệnh đái tháo đường thì sao?",
+                    "rewritten_query": "Giá dịch vụ phẫu thuật nạo xương viêm trên người bệnh đái tháo đường theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi là bao nhiêu?",
+                    "answer": "Mức giá cho dịch vụ nạo xương viêm trên người bệnh đái tháo đường là 2.092.800 đồng và cũng chưa bao gồm chi phí thuốc và oxy.",
+                    "citation": "Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 4,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Nếu trước đây tỉnh có quy định mức giá thấp hơn cho các kỹ thuật này thì quy định đó còn hiệu lực không?",
+                    "rewritten_query": "Nếu các nghị quyết trước đây của tỉnh Quảng Ngãi có quy định mức giá thấp hơn cho các dịch vụ kỹ thuật y tế này thì các quy định đó còn hiệu lực áp dụng sau khi Nghị quyết 54/NQ-HĐND có hiệu lực không?",
+                    "answer": "Không, khi Nghị quyết 54/NQ-HĐND chính thức có hiệu lực thi hành, các quy định về giá dịch vụ khám bệnh, chữa bệnh do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó sẽ bị bãi bỏ hoặc hết hiệu lực để áp dụng thống nhất theo bảng giá mới này.",
+                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Có văn bản nào của Bộ Y tế hướng dẫn chi tiết về danh mục các kỹ thuật này không?",
+                    "rewritten_query": "Có văn bản pháp luật nào của Bộ Y tế hướng dẫn chi tiết về danh mục các kỹ thuật trong khám bệnh, chữa bệnh liên quan đến các dịch vụ được nêu không?",
+                    "answer": "Có, danh mục kỹ thuật trong khám bệnh, chữa bệnh được Bộ Y tế quy định và hướng dẫn chi tiết tại các Thông tư chuyên ngành, ví dụ như Thông tư số 23/2024/TT-BYT ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh.",
+                    "citation": "Hệ thống văn bản pháp luật y tế (Thông tư 23/2024/TT-BYT)"
+                }
+            ]
+        },
+        {
+            "id": "conv_004",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Phạm vi điều chỉnh của Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 là gì?",
+                    "rewritten_query": "Phạm vi điều chỉnh của Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 là gì?",
+                    "answer": "Nghị quyết 54/NQ-HĐND quy định giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.",
+                    "citation": "Tiêu đề, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Áp dụng cho những đối tượng nào?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi áp dụng cho những đối tượng nào?",
+                    "answer": "Nghị quyết này áp dụng cho các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi, người bệnh sử dụng dịch vụ tại các cơ sở này và các cơ quan, tổ chức, cá nhân có liên quan.",
+                    "citation": "Phần quy định chung, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Trong văn bản này, giá phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu là bao nhiêu?",
+                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi, giá dịch vụ phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu là bao nhiêu?",
+                    "answer": "Theo phụ lục của Nghị quyết, giá phẫu thuật khoan đục xương, lấy bỏ xương chết trong điều trị bỏng sâu là 2.850.000 đồng.",
+                    "citation": "Số thứ tự 726, Phụ lục Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 4,
+                    "intent": "LEGAL_QA",
+                    "question": "Mức giá đó đã tính luôn tiền thuốc chưa?",
+                    "rewritten_query": "Mức giá 2.850.000 đồng cho phẫu thuật khoan đục xương điều trị bỏng sâu theo Nghị quyết 54/NQ-HĐND đã bao gồm chi phí tiền thuốc chưa?",
+                    "answer": "Chưa, quy định nêu rõ mức giá này chưa bao gồm chi phí thuốc và oxy.",
+                    "citation": "Ghi chú tại Số thứ tự 726, Phụ lục Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "LEGAL_QA",
+                    "question": "Thế còn nạo xương viêm cho người bị đái tháo đường thì quy định đó tính phí sao?",
+                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi, giá dịch vụ nạo xương viêm trên người bệnh đái tháo đường được tính phí như thế nào?",
+                    "answer": "Mức giá cho dịch vụ nạo xương viêm trên người bệnh đái tháo đường được quy định là 2.092.800 đồng.",
+                    "citation": "Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 6,
+                    "intent": "LEGAL_QA",
+                    "question": "Có bao gồm chi phí oxy y tế không?",
+                    "rewritten_query": "Mức giá dịch vụ nạo xương viêm trên người bệnh đái tháo đường theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có bao gồm chi phí oxy y tế không?",
+                    "answer": "Tương tự như dịch vụ trên, mức giá 2.092.800 đồng này cũng chưa bao gồm chi phí thuốc và oxy.",
+                    "citation": "Ghi chú tại Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 7,
+                    "intent": "LEGAL_QA",
+                    "question": "Các phòng khám tư nhân trên địa bàn tỉnh có bắt buộc phải thu theo bảng giá đó không?",
+                    "rewritten_query": "Các cơ sở y tế tư nhân trên địa bàn tỉnh Quảng Ngãi có bắt buộc phải thu phí dịch vụ theo bảng giá quy định tại Nghị quyết 54/NQ-HĐND không?",
+                    "answer": "Không, Nghị quyết này chỉ quy định mức giá áp dụng tại các cơ sở khám bệnh, chữa bệnh của Nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi, không mang tính bắt buộc áp dụng đối với cơ sở y tế tư nhân.",
+                    "citation": "Tiêu đề và phạm vi điều chỉnh, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 8,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Vậy khi có hiệu lực, nó có thay thế cho nghị quyết giá dịch vụ y tế nào trước đó của tỉnh không?",
+                    "rewritten_query": "Khi có hiệu lực, Nghị quyết 54/NQ-HĐND có thay thế cho nghị quyết quy định giá dịch vụ y tế nào do tỉnh Quảng Ngãi ban hành trước đó không?",
+                    "answer": "Có, khi chính thức có hiệu lực thi hành, Nghị quyết này sẽ bãi bỏ và thay thế các nghị quyết quy định mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở y tế nhà nước do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó nhằm đảm bảo áp dụng thống nhất biểu giá mới.",
+                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 9,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Ngoài văn bản trên, có luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho các dịch vụ này không?",
+                    "rewritten_query": "Ngoài Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi, có văn bản pháp luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho các dịch vụ khám bệnh, chữa bệnh không?",
+                    "answer": "Có, việc thanh toán chi phí bảo hiểm y tế cho các dịch vụ này được thực hiện dựa trên Luật Bảo hiểm y tế hiện hành và các Nghị định, Thông tư hướng dẫn thi hành của Chính phủ, Bộ Y tế về thủ tục và mức hưởng chi phí khám chữa bệnh BHYT.",
+                    "citation": "Hệ thống văn bản pháp luật về Bảo hiểm y tế"
+                },
+                {
+                    "turn": 10,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Bộ Y tế có ban hành thông tư nào quy định khung giá chung cho chúng để tỉnh làm căn cứ không?",
+                    "rewritten_query": "Bộ Y tế có ban hành Thông tư nào quy định khung giá chung cho các dịch vụ khám bệnh, chữa bệnh để tỉnh Quảng Ngãi làm căn cứ ban hành bảng giá tại Nghị quyết 54/NQ-HĐND không?",
+                    "answer": "Có, Bộ Y tế có ban hành các Thông tư quy định khung giá và phương pháp định giá dịch vụ khám bệnh, chữa bệnh (ví dụ như Thông tư 21/2024/TT-BYT) để làm căn cứ pháp lý cho Hội đồng nhân dân các tỉnh, thành phố trực thuộc trung ương ban hành mức giá cụ thể áp dụng tại địa phương mình.",
+                    "citation": "Phần Căn cứ ban hành, Nghị quyết 54/NQ-HĐND và Thông tư của Bộ Y tế"
+                }
+            ]
+        },
+        {
+            "id": "conv_005",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, mức giá khám bệnh tại bệnh viện hạng I là bao nhiêu?",
+                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi, mức giá dịch vụ khám bệnh tại bệnh viện hạng I được quy định là bao nhiêu?",
+                    "answer": "Mức giá dịch vụ khám bệnh tại bệnh viện hạng I được quy định chi tiết tại Phụ lục I ban hành kèm theo Nghị quyết 54/NQ-HĐND. Để có con số chính xác, cần đối chiếu với bảng giá chi tiết trong phụ lục này.",
+                    "citation": "Phụ lục I.1, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Tại trạm y tế xã thì sao?",
+                    "rewritten_query": "Mức giá dịch vụ khám bệnh tại trạm y tế cấp xã theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi là bao nhiêu?",
+                    "answer": "Mức giá khám bệnh tại trạm y tế xã cũng được quy định cụ thể tại Phụ lục I, thường sẽ áp dụng mức giá thấp hơn so với các bệnh viện tuyến trên.",
+                    "citation": "Phụ lục I, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Mức giá đó đã bao gồm chi phí thực hiện các xét nghiệm chưa?",
+                    "rewritten_query": "Mức giá dịch vụ khám bệnh theo quy định tại Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi đã bao gồm chi phí thực hiện các xét nghiệm y tế chưa?",
+                    "answer": "Chưa, mức giá khám bệnh quy định tại Phụ lục I chỉ là tiền công khám bệnh. Chi phí cho các dịch vụ xét nghiệm, chẩn đoán hình ảnh sẽ được tính riêng theo mức giá quy định tại Phụ lục III của Nghị quyết này.",
+                    "citation": "Nguyên tắc áp dụng giá, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 4,
+                    "intent": "LEGAL_QA",
+                    "question": "Nếu người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở thì tính phí như thế nào?",
+                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi, trường hợp người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở y tế thì chi phí khám bệnh được tính như thế nào?",
+                    "answer": "Quy định về việc thanh toán chi phí khi khám nhiều chuyên khoa trong cùng một ngày thường áp dụng nguyên tắc: lần khám đầu tiên tính 100% giá, các lần khám tiếp theo trong cùng ngày sẽ được tính theo tỷ lệ phần trăm thấp hơn quy định tại hướng dẫn của Bộ Y tế.",
+                    "citation": "Phần Quy định chung và Phụ lục I, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "LEGAL_QA",
+                    "question": "Cụ thể là từ lần khám thứ hai trở đi?",
+                    "rewritten_query": "Cụ thể từ lần khám chuyên khoa thứ hai trở đi trong cùng một ngày tại cùng một cơ sở y tế, chi phí khám được tính bằng bao nhiêu phần trăm theo Nghị quyết 54/NQ-HĐND của Quảng Ngãi?",
+                    "answer": "Thông thường, theo nguyên tắc chung được hướng dẫn tại các Thông tư của Bộ Y tế và áp dụng tại Nghị quyết, từ lần khám thứ 2 trở đi trong cùng một ngày chỉ tính 30% mức giá khám bệnh.",
+                    "citation": "Nguyên tắc áp dụng, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 6,
+                    "intent": "LEGAL_QA",
+                    "question": "Văn bản này quy định tiền giường bệnh ban ngày được thanh toán ra sao?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi quy định tiền giường bệnh điều trị ban ngày được tính toán và thanh toán như thế nào?",
+                    "answer": "Ngày giường bệnh điều trị ban ngày được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng theo quy định tại Phụ lục II.",
+                    "citation": "Phụ lục II.1, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 7,
+                    "intent": "LEGAL_QA",
+                    "question": "Vậy còn đối với trạm y tế có giường lưu?",
+                    "rewritten_query": "Đối với trạm y tế cấp xã có giường lưu thì tiền giường bệnh được quy định như thế nào theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi?",
+                    "answer": "Đối với Trạm y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán tối đa là 03 ngày/người/đợt điều trị.",
+                    "citation": "Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 8,
+                    "intent": "LEGAL_QA",
+                    "question": "Có được thu thêm tiền khám không nếu đã thu tiền giường đó?",
+                    "rewritten_query": "Cơ sở y tế có được thu thêm tiền khám bệnh đối với bệnh nhân không nếu đã thu tiền giường lưu tại trạm y tế theo Nghị quyết 54/NQ-HĐND của Quảng Ngãi?",
+                    "answer": "Không, Nghị quyết quy định rõ cơ sở y tế không được thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường lưu.",
+                    "citation": "Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 9,
+                    "intent": "LEGAL_QA",
+                    "question": "Đối với bệnh nhân nhập viện trước khi quy định mới này áp dụng thì tính tiền giường theo giá nào?",
+                    "rewritten_query": "Đối với bệnh nhân đã nhập viện điều trị trước ngày Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có hiệu lực thì tiền giường bệnh được tính theo bảng giá nào?",
+                    "answer": "Theo điều khoản chuyển tiếp, người bệnh đang điều trị trước ngày Nghị quyết có hiệu lực sẽ tiếp tục áp dụng mức giá theo quy định cũ cho đến khi ra viện hoặc kết thúc đợt điều trị.",
+                    "citation": "Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 10,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Nghị quyết này có bãi bỏ quyết định giá nào của tỉnh Kon Tum không?",
+                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có bãi bỏ hay làm hết hiệu lực văn bản quy định giá y tế nào của tỉnh Kon Tum không?",
+                    "answer": "Có, Nghị quyết 54/NQ-HĐND quy định làm hết hiệu lực Nghị quyết số 117/NQ-HĐND ngày 27/12/2024 của Hội đồng nhân dân tỉnh Kon Tum về định giá dịch vụ khám bệnh, chữa bệnh.",
+                    "citation": "Điểm b Khoản 3 Điều 5, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 11,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Thế còn các nghị quyết về giá y tế của chính tỉnh Quảng Ngãi ban hành trước đây thì sao?",
+                    "rewritten_query": "Các nghị quyết quy định về giá dịch vụ y tế do chính tỉnh Quảng Ngãi ban hành trước năm 2025 có bị bãi bỏ bởi Nghị quyết 54/NQ-HĐND không?",
+                    "answer": "Có, các nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó sẽ bị bãi bỏ để áp dụng thống nhất theo bảng giá mới tại Nghị quyết 54/NQ-HĐND.",
+                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 12,
+                    "intent": "LEGAL_QA",
+                    "question": "Mức giá quy định trong phụ lục 3 của nó có áp dụng cho phòng khám tư nhân không?",
+                    "rewritten_query": "Mức giá dịch vụ kỹ thuật quy định trong Phụ lục III của Nghị quyết 54/NQ-HĐND tỉnh Quảng Ngãi có bắt buộc áp dụng cho các phòng khám tư nhân không?",
+                    "answer": "Không, Nghị quyết này chỉ áp dụng đối với các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.",
+                    "citation": "Phạm vi điều chỉnh, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 13,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Có văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh làm cơ sở ban hành bảng giá không?",
+                    "rewritten_query": "Có văn bản pháp luật nào của cơ quan trung ương quy định về danh mục các dịch vụ kỹ thuật khám bệnh, chữa bệnh để tỉnh Quảng Ngãi làm cơ sở ban hành bảng giá tại Nghị quyết 54/NQ-HĐND không?",
+                    "answer": "Có, Bộ Y tế ban hành Thông tư số 23/2024/TT-BYT ngày 18/10/2024 ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh. Đây là một trong những căn cứ pháp lý quan trọng để tỉnh Quảng Ngãi xây dựng bảng giá này.",
+                    "citation": "Phần căn cứ pháp lý, Nghị quyết 54/NQ-HĐND"
+                },
+                {
+                    "turn": 14,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Nếu sau này Bộ Y tế ra thông tư mới điều chỉnh khung giá cao hơn thì văn bản này có bị mất hiệu lực tự động không?",
+                    "rewritten_query": "Nếu Bộ Y tế ban hành Thông tư mới điều chỉnh khung giá khám bệnh, chữa bệnh cao hơn thì Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có tự động mất hiệu lực không?",
+                    "answer": "Không tự động mất hiệu lực. Theo Luật Ban hành văn bản quy phạm pháp luật, khi có sự thay đổi từ cơ quan cấp trên, Hội đồng nhân dân tỉnh Quảng Ngãi sẽ phải tiến hành rà soát và ban hành một Nghị quyết mới để sửa đổi, bổ sung hoặc thay thế Nghị quyết 54/NQ-HĐND cho phù hợp.",
+                    "citation": "Luật Ban hành văn bản quy phạm pháp luật 2015 (sửa đổi, bổ sung 2020)"
+                },
+                {
+                    "turn": 15,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Ngoài quy định về giá, tỉnh Quảng Ngãi có văn bản nào khác hỗ trợ chi phí khám chữa bệnh cho người nghèo không?",
+                    "rewritten_query": "Ngoài Nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh, tỉnh Quảng Ngãi có văn bản pháp luật nào khác quy định về chính sách hỗ trợ chi phí khám chữa bệnh cho người nghèo không?",
+                    "answer": "Các tỉnh thường ban hành các Quyết định của Ủy ban nhân dân hoặc Nghị quyết của Hội đồng nhân dân về việc lập Quỹ khám, chữa bệnh cho người nghèo (dựa trên Quyết định 139/2002/QĐ-TTg và Quyết định 14/2012/QĐ-TTg của Thủ tướng). Để biết chính xác văn bản đang có hiệu lực tại Quảng Ngãi trong năm 2025, cần tra cứu trên Cơ sở dữ liệu quốc gia về pháp luật của tỉnh.",
+                    "citation": "Cơ sở dữ liệu quốc gia về pháp luật - Tỉnh Quảng Ngãi"
+                }
+            ]
+        }
+    ]
+}

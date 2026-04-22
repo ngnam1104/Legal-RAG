@@ -67,9 +67,34 @@ class AdvancedLegalChunker:
     def _extract_legal_basis_metadata(self, content: str) -> List[dict]:
         preamble = "\n".join((content or "").splitlines()[:80])
         all_refs = []
+        complex_basis_texts = []
+        
         for line in preamble.splitlines():
             if md.legal_basis_line_pattern.match(line):
-                all_refs.extend(self._parse_legal_basis_line(line))
+                parsed = self._parse_legal_basis_line(line)
+                if parsed:
+                    all_refs.extend(parsed)
+                else:
+                    # Lưới Regex bị rớt -> đẩy vào mũi khoan LLM
+                    complex_basis_texts.append(line)
+                    
+        # Chạy LLM fallback
+        if complex_basis_texts:
+            llm_results = rel.extract_references_via_llm(complex_basis_texts)
+            for item in llm_results:
+                raw_type = item.get("doc_type", "")
+                doc_type = md.canonical_doc_type(raw_type)
+                year = item.get("doc_year", "unknown")
+                doc_number = item.get("doc_number", "unknown")
+                full_ref = item.get("doc_title", raw_type + " " + doc_number)
+                
+                all_refs.append({
+                    "basis_line": item.get("basis_line", ""),
+                    "doc_type": doc_type, "doc_number": doc_number,
+                    "doc_year": year, "doc_title": full_ref,
+                    "parent_law_id": self._build_parent_law_id(doc_type, doc_number, year, full_ref),
+                })
+
         dedup = []
         seen = set()
         for r in all_refs:
@@ -106,38 +131,84 @@ class AdvancedLegalChunker:
     # TRÁI TIM HỆ THỐNG: HÀM CẮT CHUNK (PROCESS_DOCUMENT)
     # Đồng bộ 100% với Notebook Cell lK4NO3WiVgaJ
     # ==========================================
-    def process_document(self, content: str, metadata: Dict[str, Any], global_doc_lookup: dict = None) -> List[Dict[str, Any]]:
+    def process_document(self, content: str, metadata: Dict[str, Any], global_doc_lookup: dict = None, precomputed_rels: List[dict] = None) -> List[Dict[str, Any]]:
         # 1. Dọn dẹp nội dung thô
         content = str(content or "").replace("\r\n", "\n").strip()
+
+        # --- FIX 4: Loại bỏ text rác paywall/website ---
+        PAYWALL_PATTERNS = [
+            r"Hãy đăng nhập hoặc đăng ký.*?toàn bộ văn bản.*?\.",
+            r"Bạn cần.*?(?:Thành viên|đăng ký|đăng nhập).*?để xem.*?\.",
+            r"(?:Nội dung|Văn bản).*?(?:chỉ dành cho|yêu cầu).*?(?:thành viên|VIP|Pro).*?\.",
+            r"©.*?(?:Bản quyền|Copyright).*",
+            r"Quý khách.*?(?:đăng nhập|đăng ký).*?để.*?\.",
+        ]
+        for pattern in PAYWALL_PATTERNS:
+            content = re.sub(pattern, "", content, flags=re.IGNORECASE | re.DOTALL)
+
         lines = content.splitlines()
 
+
         # 2. Khởi tạo Metadata cơ bản
-        doc_id = str(metadata.get("id", uuid.uuid4()))
-        doc_number = metadata.get("document_number", "N/A")
-        doc_title = metadata.get("title", "N/A")
-        issuing_auth = metadata.get("issuing_authority", "N/A")
+        doc_id = str(metadata.get("id") or uuid.uuid4())
+        doc_number = str(metadata.get("document_number") or "")
+        if not doc_number or doc_number == "N/A":
+            # Auto-extract from top lines if missing
+            preamble = "\n".join(lines[:100])
+            doc_number = str(md.extract_doc_number(preamble) or "N/A")
+            
+        doc_title = str(metadata.get("title") or "N/A")
+        issuing_auth = str(metadata.get("issuing_authority") or "N/A")
+        legal_type_meta = str(metadata.get("legal_type") or "N/A")
+        url_meta = str(metadata.get("url") or "")
 
         signer_name, signer_id = md.parse_signer(metadata.get("signers", ""))
-        promulgation_date = metadata.get("promulgation_date", "")
-        year = md.extract_year(promulgation_date) or str(metadata.get("year", "N/A"))
+        
+        # Ưu tiên issuance_date từ Hugging Face
+        raw_promul = str(metadata.get("issuance_date") or metadata.get("promulgation_date") or "")
+        promulgation_date = raw_promul[:10] if len(raw_promul) >= 10 else raw_promul
+        
+        # Bóc 4 chữ số chuẩn từ issuance_date / promulgation_date
+        year = md.extract_year(raw_promul)
+        
+        if not year:
+             # Auto-extract from doc_number if missing
+             year = md.extract_year(doc_number) or "N/A"
 
         eff_date = self._extract_effective_date(content, promulgation_date)
-        final_effective_date = eff_date or metadata.get("effective_date", "") or promulgation_date
+        raw_eff = str(eff_date or metadata.get("effective_date") or promulgation_date)
+        final_effective_date = raw_eff[:10] if len(raw_eff) >= 10 else raw_eff
+        
         basis_refs = self._extract_legal_basis_metadata(content)
 
-        sectors_list = metadata.get("legal_sectors_list", [])
+        # Xử lý list an toàn
+        raw_sectors = metadata.get("legal_sectors") or metadata.get("legal_sectors_list") or []
+        if isinstance(raw_sectors, str):
+            sectors_list = [s.strip() for s in raw_sectors.split(",") if s.strip()]
+        elif isinstance(raw_sectors, list):
+            sectors_list = [str(s).strip() for s in raw_sectors if str(s).strip()]
+        else:
+            sectors_list = []
+            
         sectors_str = ", ".join(sectors_list) if sectors_list else "Chung"
 
-        rel_dict = rel.extract_relationship_metadata(content, global_doc_lookup=global_doc_lookup)
-        amended_refs = rel_dict.get('amended', [])
-        replaced_refs = rel_dict.get('replaced', [])
-        repealed_refs = rel_dict.get('repealed', [])
+        print(f"  [Chunker] Bắt đầu xử lý và bóc tách tài liệu: {doc_number}...")
+        # TỰ ĐỘNG BÓC TÁCH MỐI QUAN HỆ (Ontology 10 nhãn, mức độ Document-to-Document)
+        ontology_rels = precomputed_rels if precomputed_rels is not None else rel.extract_ontology_relationships(content, doc_number, global_doc_lookup)
 
+        # --- XÁC ĐỊNH DOC_STATUS (4 trạng thái chuẩn) ---
+        # Ưu tiên 1: Nếu VB bị thay thế/bãi bỏ toàn bộ bởi VB khác → Hết hiệu lực
         today_str = datetime.date.today().strftime("%Y-%m-%d")
-        if final_effective_date and final_effective_date > today_str:
+        if final_effective_date and len(final_effective_date) == 10 and final_effective_date > today_str:
             doc_status = "Chưa có hiệu lực"
         else:
-            doc_status = "Còn hiệu lực"
+            doc_status = "Đang có hiệu lực"
+        # Normalize bằng hàm chuẩn (đề phòng metadata HF có sẵn trường doc_status)
+        raw_doc_status = metadata.get("doc_status")
+        if raw_doc_status:
+            doc_status = md.normalize_doc_status(raw_doc_status)
+        else:
+            doc_status = md.normalize_doc_status(doc_status)
 
         # ==========================================
         # BƯỚC 1: TIỀN XỬ LÝ - RÚT TRÍCH MỤC LỤC (TOC) & LỜI DẪN
@@ -168,8 +239,8 @@ class AdvancedLegalChunker:
         # BƯỚC 2: KHỞI TẠO BIẾN TRẠNG THÁI (STATE)
         # ==========================================
         global_chunk_idx = 0
-        CHUNK_LIMIT = 1200
-        TEXT_LIMIT = 1500
+        CHUNK_LIMIT = 1800
+        TEXT_LIMIT = 2500
 
         # ==========================================
         # BƯỚC 3: HÀM ĐÓNG GÓI CHUNK (FLUSH_ARTICLE & FLUSH_TABLE)
@@ -186,6 +257,15 @@ class AdvancedLegalChunker:
                 nums = []
                 for r in refs:
                     m = re.match(r"(?i)khoản\s+(.+)", str(r).strip())
+                    nums.append(m.group(1) if m else str(r).strip())
+                return f"{prefix} {', '.join(nums)}"
+
+            m_diem = re.match(r"(?i)(điểm)\s+(.+)", first)
+            if m_diem:
+                prefix = m_diem.group(1).capitalize()
+                nums = []
+                for r in refs:
+                    m = re.match(r"(?i)điểm\s+(.+)", str(r).strip())
                     nums.append(m.group(1) if m else str(r).strip())
                 return f"{prefix} {', '.join(nums)}"
 
@@ -239,12 +319,12 @@ class AdvancedLegalChunker:
             text_content = "\n".join(parts).strip()
 
             # Bộ lọc rác
+            is_critical_section = article_ref in ["Lời dẫn", "Phần Nơi nhận và Chữ ký"]
+            
             letters_only = re.sub(r'[\W_0-9]', '', text_content)
-            if len(letters_only) < 30:
+            if len(letters_only) < 30 and not is_critical_section:
                 return
-            if not article_ref and not clauses_buffer and text_content.isupper():
-                return
-            if (not article_ref or article_ref == "Lời dẫn") and not clauses_buffer and len(text_content) < 500:
+            if not article_ref and not clauses_buffer and text_content.isupper() and not is_critical_section:
                 return
 
             global_chunk_idx += 1
@@ -303,7 +383,9 @@ class AdvancedLegalChunker:
                 f"{text_content}"
             )
 
-            text_to_embed = f"[{doc_number}] {breadcrumb}\n{text_content}"
+            # Thêm title ngắn vào text_to_embed để tăng semantic signal cho embedding model
+            short_embed_title = doc_title[:80] if doc_title else ""
+            text_to_embed = f"[{doc_number}] {short_embed_title}\n{breadcrumb}\n{text_content}"
 
             qdrant_payload = {
                 "chunk_id": chunk_id_val,
@@ -314,35 +396,43 @@ class AdvancedLegalChunker:
                 "is_table": False,
                 "breadcrumb": breadcrumb,
                 "chunk_text": chunk_text,
-                "title": doc_title
+                "title": doc_title,
+                # === FIX: 8 trường critical cho hybrid_search filter ===
+                "article_ref": art_ref or "",
+                "is_active": True,
+                "is_appendix": in_appendix,
+                "legal_type": legal_type_meta or "",
+                "effective_date": final_effective_date or "",
+                "url": url_meta or "",
+                "chunk_index": global_chunk_idx,
+                "reference_citation": doc_number + (" | " + breadcrumb.replace(' > ', ' | ') if breadcrumb else ""),
             }
 
             neo4j_payload = {
                 "document_id": doc_id,
                 "chunk_index": global_chunk_idx,
-                "document_number": doc_number,
-                "title": doc_title,
-                "legal_type": metadata.get("legal_type", "N/A"),
-                "legal_sectors": sectors_list,
-                "issuing_authority": issuing_auth,
-                "signer_name": signer_name,
+                "document_number": doc_number or "N/A",
+                "title": doc_title or "N/A",
+                "legal_type": legal_type_meta or "N/A",
+                "legal_sectors": sectors_list or [],
+                "issuing_authority": issuing_auth or "N/A",
+                "signer_name": signer_name or "",
                 "signer_id": signer_id,
-                "url": metadata.get("url", ""),
-                "promulgation_date": promulgation_date,
-                "effective_date": final_effective_date,
+                "url": url_meta or "",
+                "year": year or "N/A",
+                "promulgation_date": promulgation_date or "",
+                "effective_date": final_effective_date or "",
                 "doc_status": doc_status,
                 "is_active": True,
-                "chapter_ref": chapter,
-                "article_ref": art_ref,
-                "clause_ref": clause_ref_meta if clause_ref_meta else None,
+                "chapter_ref": chapter or "",
+                "article_ref": art_ref or "",
+                "clause_ref": clause_ref_meta or "",
                 "is_table": False,
                 "reference_citation": doc_number + (" | " + breadcrumb.replace(' > ', ' | ') if breadcrumb else ""),
-                "chunk_text": chunk_text,
+                "chunk_text": chunk_text or "",
                 "legal_basis_refs": basis_refs if global_chunk_idx == 1 else [],
-                "document_toc": document_toc,
-                "amended_refs": amended_refs if global_chunk_idx == 1 else [],
-                "replaced_refs": replaced_refs if global_chunk_idx == 1 else [],
-                "repealed_refs": repealed_refs if global_chunk_idx == 1 else []
+                "document_toc": document_toc or "",
+                "ontology_relations": ontology_rels if global_chunk_idx == 1 else []
             }
 
             chunks.append({
@@ -363,8 +453,9 @@ class AdvancedLegalChunker:
             parts = list(header_lines) + list(row_lines)
             text_content = "\n".join(parts).strip()
 
-            letters_only = re.sub(r'[\W_0-9]', '', "\n".join(row_lines))
-            if len(letters_only) < 30:
+            # Giữ lại cả số (Bảng biểu thường toàn số liệu thống kê/thời gian)
+            letters_and_nums = re.sub(r'[\W_]', '', "\n".join(row_lines))
+            if len(letters_and_nums) < 15:
                 return
 
             breadcrumb = "Dữ liệu Bảng biểu"
@@ -381,7 +472,8 @@ class AdvancedLegalChunker:
                 f"Nội dung:\n"
                 f"{text_content}"
             )
-            text_to_embed = f"[{doc_number}] {breadcrumb}\n{text_content}"
+            short_embed_title = doc_title[:80] if doc_title else ""
+            text_to_embed = f"[{doc_number}] {short_embed_title}\n{breadcrumb}\n{text_content}"
 
             qdrant_payload = {
                 "chunk_id": chunk_id_val,
@@ -392,35 +484,43 @@ class AdvancedLegalChunker:
                 "is_table": True,
                 "breadcrumb": breadcrumb,
                 "chunk_text": chunk_text,
-                "title": doc_title
+                "title": doc_title,
+                # === FIX: 8 trường critical cho hybrid_search filter ===
+                "article_ref": article_ref or "",
+                "is_active": True,
+                "is_appendix": in_appendix,
+                "legal_type": legal_type_meta or "",
+                "effective_date": final_effective_date or "",
+                "url": url_meta or "",
+                "chunk_index": global_chunk_idx,
+                "reference_citation": doc_number + (" | " + breadcrumb.replace(' > ', ' | ') if breadcrumb else ""),
             }
 
             neo4j_payload = {
                 "document_id": doc_id,
                 "chunk_index": global_chunk_idx,
-                "document_number": doc_number,
-                "title": doc_title,
-                "legal_type": metadata.get("legal_type", "N/A"),
-                "legal_sectors": sectors_list,
-                "issuing_authority": issuing_auth,
-                "signer_name": signer_name,
+                "document_number": doc_number or "N/A",
+                "title": doc_title or "N/A",
+                "legal_type": legal_type_meta or "N/A",
+                "legal_sectors": sectors_list or [],
+                "issuing_authority": issuing_auth or "N/A",
+                "signer_name": signer_name or "",
                 "signer_id": signer_id,
-                "url": metadata.get("url", ""),
-                "promulgation_date": promulgation_date,
-                "effective_date": final_effective_date,
+                "url": url_meta or "",
+                "year": year or "N/A",
+                "promulgation_date": promulgation_date or "",
+                "effective_date": final_effective_date or "",
                 "doc_status": doc_status,
                 "is_active": True,
-                "chapter_ref": current_chapter,
-                "article_ref": article_ref,
-                "clause_ref": None,
+                "chapter_ref": current_chapter or "",
+                "article_ref": article_ref or "",
+                "clause_ref": "",
                 "is_table": True,
                 "reference_citation": doc_number + (" | " + breadcrumb.replace(' > ', ' | ') if breadcrumb else ""),
-                "chunk_text": chunk_text,
+                "chunk_text": chunk_text or "",
                 "legal_basis_refs": basis_refs if global_chunk_idx == 1 else [],
-                "document_toc": document_toc,
-                "amended_refs": amended_refs if global_chunk_idx == 1 else [],
-                "replaced_refs": replaced_refs if global_chunk_idx == 1 else [],
-                "repealed_refs": repealed_refs if global_chunk_idx == 1 else []
+                "document_toc": document_toc or "",
+                "ontology_relations": ontology_rels if global_chunk_idx == 1 else []
             }
 
             chunks.append({
@@ -459,9 +559,17 @@ class AdvancedLegalChunker:
             if is_safe_zone and (line.isupper() and "ĐỘC LẬP" in line or "TỰ DO" in line):
                 continue
 
-            # Lọc bỏ hẳn các dòng Footer
+            # Lọc bỏ hẳn các dòng Footer -  HIỆN ĐÃ ĐƯỢC GIỮ LẠI LÀM CHUNK RIÊNG ĐỂ LLM CÓ THỂ ĐỌC ĐƯỢC "NƠI NHẬN" & "CHỮ KÝ"
             if md.footer_pattern.match(line):
-                continue
+                in_appendix = False
+                if current_article_ref != "Phần Nơi nhận và Chữ ký":
+                    flush_article(current_chapter, current_article_ref, current_article_preamble, current_clauses_buffer, current_active_clause)
+                    current_chapter = None
+                    current_article_ref = "Phần Nơi nhận và Chữ ký"
+                    current_article_preamble = []
+                    current_clauses_buffer = []
+                    current_active_clause = None
+                # Không `continue` để đoạn code bên dưới (Text Tự do) nhét line này vào preamble
 
             # --- XỬ LÝ BẢNG BIỂU ---
             if line.count('|') >= 2:
@@ -518,10 +626,8 @@ class AdvancedLegalChunker:
             # 3.2. NHẬN DIỆN ĐIỀU
             m_ar = md.article_pattern.match(line)
             if m_ar:
-                buffer_len = sum(len(p) for p in current_article_preamble) + sum(_get_clause_size(c) for c in current_clauses_buffer)
-                if not current_clauses_buffer and not current_active_clause and buffer_len < 150:
-                    pass
-                else:
+                # Bỏ qua check buffer_len < 150 để tránh nuốt mất Điều khoản ngắn (ví dụ: Điều 1)
+                if current_article_preamble or current_clauses_buffer or current_active_clause:
                     flush_article(current_chapter, current_article_ref, current_article_preamble, current_clauses_buffer, current_active_clause)
                     current_article_preamble = []
 
@@ -592,10 +698,14 @@ class AdvancedLegalChunker:
             # ==============================================================
             # BƯỚC 4: NHẬN DIỆN PHỤ LỤC & HƯỚNG DẪN CHUYÊN MÔN (KÈM THEO)
             # ==============================================================
-            m_appx_title = md.appendix_title_pattern.match(line) or md.substantive_title_pattern.match(line)
-            if m_appx_title and len(line) < 200:
+            m_appx_title = md.appendix_title_pattern.match(line)
+            m_sub_title = md.substantive_title_pattern.match(line)
+            
+            if (m_appx_title or m_sub_title) and len(line) < 200:
                 flush_article(current_chapter, current_article_ref, current_article_preamble, current_clauses_buffer, current_active_clause)
-                in_appendix = True
+                # Các Quy chuẩn (QCVN), Tiêu chuẩn (TCVN) đính kèm dùng hệ thống số La Mã nên cần xử lý như Phụ lục
+                is_standard = bool(m_sub_title and re.search(r"(QUY CHUẨN|QCVN|TIÊU CHUẨN|TCVN)", line, re.IGNORECASE))
+                in_appendix = bool(m_appx_title) or is_standard
                 current_chapter = _compact_whitespace(line)
                 current_article_ref, current_article_preamble, current_clauses_buffer, current_active_clause = None, [], [], None
                 continue
@@ -607,7 +717,7 @@ class AdvancedLegalChunker:
                 if m_part:
                     flush_article(current_chapter, current_article_ref, current_article_preamble, current_clauses_buffer, current_active_clause)
                     current_article_ref = f"{m_part.group(1)} {m_part.group(2)}"
-                    title_part = m_part.group(3).strip()
+                    title_part = m_part.group(3).strip() if m_part.group(3) else ""
                     current_article_preamble = [title_part] if title_part else []
                     current_clauses_buffer, current_active_clause = [], None
                     continue
@@ -689,9 +799,10 @@ class AdvancedLegalChunker:
             # BƯỚC 5: TEXT TỰ DO (ĐOẠN VĂN TIẾP NỐI)
             # ==============================================================
 
-            # Lọc rác mào đầu: Xóa "Căn cứ..." ở phần mở đầu
-            if not current_chapter and not current_article_ref and line.lower().startswith("căn cứ"):
-                continue
+            # FIX: Giữ lại phần "Căn cứ..." (Option A) — gom vào chunk đầu tiên
+            # Không skip nữa để chatbot có thể trả lời về căn cứ pháp lý
+            # if not current_chapter and not current_article_ref and line.lower().startswith("căn cứ"):
+            #     continue
 
             if current_active_clause:
                 preamble_size = sum(len(p) for p in current_article_preamble) if current_article_preamble else 0
@@ -739,6 +850,8 @@ class AdvancedLegalChunker:
                 else:
                     current_article_preamble.append(line)
             else:
+                if not current_article_ref:
+                    current_article_ref = "Lời dẫn"
                 if sum(len(p) for p in current_article_preamble) + len(line) > TEXT_LIMIT:
                     flush_article(current_chapter, current_article_ref, current_article_preamble, current_clauses_buffer, current_active_clause)
                     current_article_preamble = [line]
@@ -746,6 +859,7 @@ class AdvancedLegalChunker:
                     current_active_clause = None
                 else:
                     current_article_preamble.append(line)
+
 
         # --- KẾT THÚC VÒNG LẶP: FLUSH NỐT DỮ LIỆU CUỐI ---
         if in_table:

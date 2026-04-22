@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Script khởi động Backend & Frontend của hệ thống Legal-RAG (Local).
+Script khoi dong Backend & Frontend cua he thong Legal-RAG (Local).
 Dành cho test local với SQLite và Redis container.
 #>
 
@@ -13,17 +13,17 @@ Push-Location $PSScriptRoot
 # 1. Start Redis & Qdrant in Docker
 Write-Host "`n[1/6] Khoi dong DB Services (Redis & Qdrant) via Docker..." -ForegroundColor Cyan
 if (-Not (Get-Command docker -ErrorAction SilentlyContinue)) {
-    Write-Host "LỖI: Khong tim thay Docker CLI. Vui long cai dat Docker Desktop!" -ForegroundColor Red
+    Write-Host "LOI: Khong tim thay Docker CLI. Vui long cai dat Docker Desktop!" -ForegroundColor Red
     Exit
 }
 
 $runningContainers = docker ps --filter "status=running" --format "{{.Names}}"
-if ($runningContainers -notcontains "legal-rag-redis" -or $runningContainers -notcontains "legal-rag-qdrant") {
-    Write-Host "Phat hien thieu dich vu DB. Dang khoi chay qua Docker Compose..." -ForegroundColor Yellow
+if ($runningContainers -notcontains "legal-rag-redis" -or $runningContainers -notcontains "legal-rag-qdrant" -or $runningContainers -notcontains "legal-rag-neo4j") {
+    Write-Host "Phat hien thieu dich vu DB (Redis / Qdrant / Neo4j). Dang khoi chay qua Docker Compose..." -ForegroundColor Yellow
     docker-compose -f docker-compose.yml up -d
 }
 else {
-    Write-Host "Cac dich vu Redis & Qdrant da san sang (Up & Running)." -ForegroundColor Green
+    Write-Host "Cac dich vu Redis, Qdrant & Neo4j da san sang (Up & Running)." -ForegroundColor Green
 }
 
 # 2. Setup Python Venv
@@ -43,7 +43,7 @@ Write-Host "`n[4/6] Kiem tra file cau hinh (.env) va thu muc data (SQLite)..." -
 if (-Not (Test-Path ".env")) {
     if (Test-Path ".env.example") {
         Copy-Item ".env.example" -Destination ".env"
-        Write-Host "Da tao file .env tu .env.example. Vui long KIEM TRA LAI thong tin Cloud Qdrant ban nhe!" -ForegroundColor Yellow
+        Write-Host "Da tao file .env tu .env.example. Vui long KIEM TRA LAI thong tin DB & Neo4j ban nhe!" -ForegroundColor Yellow
     }
     else {
         Write-Host "Warning: Khong tim thay .env hay .env.example!" -ForegroundColor Red
@@ -61,50 +61,53 @@ if (-Not (Test-Path "backend/tmp_uploads")) {
     Write-Host "Da tao thu muc backend/tmp_uploads de luu tru file tam." -ForegroundColor Green
 }
 
-# 5. Dọn dẹp cổng cũ — tắt hết các tiến trình Next.js/FastAPI/Embedding còn sót
+# 5. Don dep cong cu — tat het cac tien trinh Next.js/FastAPI/Embedding con sot
 Write-Host "`n[5/6] Don dep cac cong cu (3000-3001, 8000, 8001)..." -ForegroundColor Cyan
 $portsToKill = @(3000, 3001, 8000, 8001)
 foreach ($port in $portsToKill) {
-    $pidsToRemove = (Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue).OwningProcess | Sort-Object -Unique
-    foreach ($p in $pidsToRemove) {
-        if ($p -and $p -ne 0 -and $p -ne $PID) {
-            $proc = Get-Process -Id $p -ErrorAction SilentlyContinue
-            if ($proc) {
-                Write-Host "  Kill PID $p ($($proc.ProcessName)) dang chiem port $port" -ForegroundColor Yellow
-                Stop-Process -Id $p -Force -ErrorAction SilentlyContinue
+    try {
+        $pidsToRemove = (Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue).OwningProcess | Sort-Object -Unique
+        foreach ($p in $pidsToRemove) {
+            if ($p -and $p -ne 0 -and $p -ne $PID) {
+                $proc = Get-Process -Id $p -ErrorAction SilentlyContinue
+                if ($proc) {
+                    Write-Host "  Kill PID $p ($($proc.ProcessName)) dang chiem port $port" -ForegroundColor Yellow
+                    Stop-Process -Id $p -Force -ErrorAction SilentlyContinue
+                }
             }
         }
-    }
+    } catch {}
 }
 Start-Sleep -Seconds 2
 
 # 6. Start Services
-Write-Host "`n[6/6] Khoi dong cac dich vu (Embedding, API, Next.js)..." -ForegroundColor Cyan
+Write-Host "`n[6/6] Khoi dong cac dich vu (FastAPI & Next.js)..." -ForegroundColor Cyan
 
-# Start Embedding Server
-Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'Embedding Server'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting Embedding Server (Port 8001)...'; python -m backend.retrieval.server"
-
-# Start FastAPI
-Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'FastAPI Backend'", "-Command", ". .\venv\Scripts\Activate.ps1; echo 'Starting FastAPI Backend (Port 8000)...'; uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir=backend"
+# Start FastAPI Backend
+# Su dung mot chuoi ArgumentList duy nhat de tranh loi parser
+$fastapiArgs = "-NoExit -Command `"`$Host.UI.RawUI.WindowTitle='FastAPI Backend'; . .\venv\Scripts\Activate.ps1; echo 'Starting FastAPI...'; uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir=backend`""
+Start-Process powershell -WorkingDirectory "$PSScriptRoot" -ArgumentList $fastapiArgs
 
 Write-Host "VUI LONG DOI: Backend dang thuc hien WARMUP (Nap model vao RAM)..." -ForegroundColor Yellow
 Write-Host "Thoi gian cho du kien: 20-30 giay de dam bao truy van 'Zero-Wait' ngay tu cau dau tien." -ForegroundColor Gray
 Start-Sleep -Seconds 20
 
-# Start Next.js Frontend — Cố định cổng 3000
-Start-Process powershell -WorkingDirectory "$PSScriptRoot/frontend" -ArgumentList "-NoExit", "-WindowStyle", "Normal", "-Title", "'Next.js Frontend'", "-Command", "`$env:PORT=3000; npm run dev -- --port 3000"
+# Start Next.js Frontend — Co dinh cong 3000
+$frontendArgs = "-NoExit -Command `"`$Host.UI.RawUI.WindowTitle='Next.js Frontend'; `$env:PORT=3000; npm run dev -- --port 3000`""
+Start-Process powershell -WorkingDirectory "$PSScriptRoot/frontend" -ArgumentList $frontendArgs
 
 Write-Host "`n============================================================" -ForegroundColor Green
 Write-Host " HOAN TAT! HE THONG LEGAL-RAG (LOCAL) DA SAN SANG" -ForegroundColor Green
 Write-Host "============================================================" -ForegroundColor Green
 Write-Host "  - Frontend: http://localhost:3000" -ForegroundColor Cyan
 Write-Host "  - Backend API: http://localhost:8000" -ForegroundColor Cyan
+Write-Host "  - Neo4j Graph DB: http://localhost:7474" -ForegroundColor Cyan
 Write-Host "------------------------------------------------------------" -ForegroundColor DarkGray
-Write-Host "🚀 TINH NANG MOI DA DUOC CAP NHAT:" -ForegroundColor Magenta
-Write-Host "  [+] Zero-Wait Warmup: Models da duoc nap vao RAM ngay khi khoi dong." -ForegroundColor White
-Write-Host "  [+] Smart Routing: Conflict Analyzer dung Llama 3.3-70B (Max Reasoning)." -ForegroundColor White
-Write-Host "  [+] Tiered RRF: Toi uu hoa truy xuat rieng cho Phu luc & Bang bieu." -ForegroundColor White
-Write-Host "  [+] Async Cancel: Ho tro FE huy request ngay lap tuc de tiet kiem TPM." -ForegroundColor White
+Write-Host "TINH NANG MOI DA DUOC CAP NHAT (DUAL RAG UPDATE):" -ForegroundColor Magenta
+Write-Host "  [+] Architecture: Dual Store DB (Neo4j Graph & Qdrant Vector) xu ly triet de 0 hits." -ForegroundColor White
+Write-Host "  [+] Intent Router: Auto-Routing thong minh (QA, Search, Conflict)." -ForegroundColor White
+Write-Host "  [+] Preamble Inheritance: Bao ton va di truyen can cu phap ly o header." -ForegroundColor White
+Write-Host "  [+] Lex Posterior Safe: Loc loai bo du lieu het hieu luc chinh xac." -ForegroundColor White
 Write-Host "------------------------------------------------------------" -ForegroundColor DarkGray
 Write-Host "Vui long kiem tra cac cua so Terminal de theo doi log chi tiet." -ForegroundColor Yellow
-Write-Host "Chuc ban co trai nghiem tra cuu phap luat tuyet voi!`n" -ForegroundColor Green
+Write-Host "Chuc ban co trai nghiem tra cuu phap luat tuyet voi!" -ForegroundColor Green

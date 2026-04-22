@@ -15,7 +15,7 @@ export default function SettingsHeader() {
 
       <div className="flex items-center gap-6 text-xs font-medium text-text-dim">
         <label className="flex items-center gap-2 cursor-pointer group">
-          <span className="uppercase tracking-tighter group-hover:text-emerald-accent transition-colors">Chế độ Reranker:</span>
+          <span className="uppercase tracking-tighter group-hover:text-emerald-accent transition-colors">CĐ Reranker:</span>
           <div className="relative inline-flex items-center cursor-pointer">
             <input 
               type="checkbox" 
@@ -33,14 +33,11 @@ export default function SettingsHeader() {
         <label className="flex items-center gap-2">
           <span className="uppercase tracking-tighter">AI Model:</span>
           <select 
-            value={settings.llm_preset}
-            onChange={(e) => setSettings({ llm_preset: e.target.value })}
-            className="bg-emerald-surface border border-emerald-primary/30 rounded-lg px-2 py-1 outline-none focus:border-emerald-accent text-text-main transition-all pointer-events-auto cursor-pointer"
+            value="internal"
+            onChange={() => {}}
+            className="bg-emerald-surface border border-emerald-primary/30 rounded-lg px-2 py-1 outline-none focus:border-emerald-accent text-text-main transition-all pointer-events-none opacity-80"
           >
-            <option value="groq_8b">Groq (Llama 8B-Fast)</option>
-            <option value="groq_70b">Groq (Llama 70B-Power)</option>
-            <option value="gemini">Gemini (Flash-3)</option>
-            <option value="ollama">Ollama (Local)</option>
+            <option value="internal">Llama 3.2 8B API</option>
           </select>
         </label>
       </div>

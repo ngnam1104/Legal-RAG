@@ -1,3 +1,15 @@
+# ==============================================================================
+# PHÂN BỔ KIẾN TRÚC - GIAI ĐOẠN TEST/DEV
+# - Qdrant (Vector DB): Chạy Docker Local (Cô lập dữ liệu, dễ build lại)
+# - Neo4j (Graph DB): Chạy Docker Local (Giới hạn RAM, truy cập qua Browser)
+# - Redis (Memory): Chạy Docker Local (Chạy ngầm nhẹ nhàng)
+#
+# CÁC THÀNH PHẦN HOẠT ĐỘNG BÊN NGOÀI DOCKER:
+# - Backend (FastAPI): Chạy trực tiếp từ IDE để debug LangGraph state.
+# - Frontend (Next.js): Chạy qua Terminal (npm run dev) để hot-reload.
+# - Internal APIs (LLM, Embedding, Reranker): Chạy trên Server 10.9.3.75
+# ==============================================================================
+
 services:
   redis:
     image: redis:7-alpine
@@ -5,7 +17,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./local_redis_data:/data
+      - local_redis_data:/data
     restart: always
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
@@ -41,18 +53,26 @@ services:
     image: neo4j:5.20.0
     container_name: legal-rag-neo4j
     ports:
-      - "7474:7474"
+      - "7474:7474" # Giao diện Neo4j Browser trên trình duyệt
       - "7687:7687"
     environment:
       # Khớp với mật khẩu trong .env để dễ quản lý
       - NEO4J_AUTH=neo4j/u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0
       - NEO4J_PLUGINS=["apoc"]
+      # Giới hạn RAM (tránh Java ngốn hết tài nguyên máy)
+      - NEO4J_server_memory_pagecache_size=1G
+      - NEO4J_server_memory_heap_initial__size=1G
+      - NEO4J_server_memory_heap_max__size=2G
     volumes:
       - neo4j_data:/data
       - neo4j_logs:/logs
       - neo4j_import:/var/lib/neo4j/import
       - neo4j_plugins:/plugins
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 4G
 
 volumes:
   local_redis_data:

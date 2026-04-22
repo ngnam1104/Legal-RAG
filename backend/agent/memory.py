@@ -3,11 +3,16 @@ import sqlite3
 import os
 import uuid
 import time
-from typing import List, Dict, Optional
+import logging
+from typing import List, Dict, Optional, Any
 from datetime import datetime
 import redis
 from backend.config import settings
 from backend.llm.factory import chat_completion
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("memory")
 
 TITLE_PROMPT = """
 Bạn là một trợ lý AI pháp luật chuyên nghiệp. Hãy tóm tắt câu hỏi của người dùng thành một tiêu đề ngắn gọn, chuyên nghiệp (tối đa 8 từ).
@@ -45,15 +50,16 @@ class ChatSessionManager:
         self.max_turns = max_turns
         self.use_redis = False
         self.local_sessions = {}
-        self.temp_chunks = {} # {session_id: [chunks]}
+        self.temp_chunks = {} # {(session_id, doc_id): {"chunks": [chunks], "expires_at": timestamp}}
 
         # Redis (short-term)
         try:
             self.redis_client = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
             self.redis_client.ping()
             self.use_redis = True
+            logger.info("✅ Redis connected for memory.")
         except Exception:
-            print("⚠️ Redis không khả dụng, dùng RAM cho short-term memory.")
+            logger.warning("⚠️ Redis không khả dụng, dùng RAM cho short-term memory.")
 
         # SQLite (long-term)
         self._init_sqlite()
@@ -78,6 +84,17 @@ class ChatSessionManager:
                 content TEXT NOT NULL,
                 references_json TEXT DEFAULT '[]',
                 created_at TEXT NOT NULL,
+                FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
+            )
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS conversation_state (
+                session_id TEXT PRIMARY KEY,
+                current_document TEXT,
+                entities_json TEXT,
+                last_intent TEXT,
+                last_rewritten_query TEXT,
+                updated_at TIMESTAMP,
                 FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
             )
         """)
@@ -163,6 +180,21 @@ class ChatSessionManager:
         # Xóa cache Redis
         if self.use_redis:
             self.redis_client.delete(f"session:{session_id}")
+        
+        # Xóa RAM cục bộ (Hotfix: chống memory leak)
+        if session_id in self.local_sessions:
+            del self.local_sessions[session_id]
+            
+        # Xóa chunks liên quan
+        to_delete = [k for k in self.temp_chunks.keys() if k[0] == session_id]
+        for k in to_delete:
+            del self.temp_chunks[k]
+        
+        # if using redis, delete all keys starting with temp_chunks:{session_id}:
+        if self.use_redis:
+            keys = self.redis_client.keys(f"temp_chunks:{session_id}:*")
+            if keys:
+                self.redis_client.delete(*keys)
 
     # =====================================================================
     # MESSAGE MANAGEMENT
@@ -274,7 +306,7 @@ class ChatSessionManager:
                         if not title or len(title) > 100: # Fallback if LLM fails or is too long
                             title = content[:40] + ("..." if len(content) > 40 else "")
                     except Exception as e:
-                        print(f"      ⚠️ Gợi ý tiêu đề thất bại: {e}. Dùng fallback.")
+                        logger.error(f"      ⚠️ Gợi ý tiêu đề thất bại: {e}. Dùng fallback.")
                         title = content[:40] + ("..." if len(content) > 40 else "")
                     
                     conn.execute("UPDATE sessions SET title = ? WHERE id = ?", (title, session_id))
@@ -306,7 +338,7 @@ class ChatSessionManager:
                 placeholders = ','.join(['?'] * len(ids))
                 conn.execute(f"DELETE FROM messages WHERE id IN ({placeholders})", ids)
                 conn.commit()
-                print(f"    → [Memory] Đã xóa {len(ids)} tin nhắn cuối của session {session_id}")
+                logger.debug(f"    → [Memory] Đã xóa {len(ids)} tin nhắn cuối của session {session_id}")
         finally:
             conn.close()
 
@@ -318,20 +350,117 @@ class ChatSessionManager:
             self.local_sessions[session_id] = updated_history
 
     # =====================================================================
-    # TEMPORARY CHUNKS (Session-local RAM)
+    # CONVERSATION STATE (Step 1)
     # =====================================================================
 
-    def set_temp_chunks(self, session_id: str, chunks: List[Dict]):
-        """Lưu trữ chunks tạm thời vào RAM cho phiên chat hiện tại."""
-        self.temp_chunks[session_id] = chunks
-        print(f"    → [Memory] Đã lưu {len(chunks)} chunks tạm thời cho session {session_id}")
+    def get_state(self, session_id: str) -> Dict[str, Any]:
+        """Lấy trạng thái hội thoại. Trả về dict trống nếu chưa có."""
+        conn = self._get_conn()
+        try:
+            row = conn.execute("SELECT * FROM conversation_state WHERE session_id = ?", (session_id,)).fetchone()
+            if row:
+                state = dict(row)
+                try:
+                    state["entities"] = json.loads(state["entities_json"])
+                except:
+                    state["entities"] = []
+                return state
+            else:
+                return {
+                    "session_id": session_id,
+                    "current_document": None,
+                    "entities": [],
+                    "last_intent": None,
+                    "last_rewritten_query": None
+                }
+        finally:
+            conn.close()
 
-    def get_temp_chunks(self, session_id: str) -> List[Dict]:
-        """Lấy chunks tạm thời của phiên chat."""
-        return self.temp_chunks.get(session_id, [])
+    def update_state(self, session_id: str, state_dict: Dict[str, Any]):
+        """Cập nhật trạng thái hội thoại. Đảm bảo session tồn tại trước."""
+        self.create_session(session_id=session_id)
+        
+        now = datetime.now().isoformat()
+        entities_json = json.dumps(state_dict.get("entities", []), ensure_ascii=False)
+        
+        conn = self._get_conn()
+        try:
+            conn.execute("""
+                INSERT INTO conversation_state (
+                    session_id, current_document, entities_json, last_intent, last_rewritten_query, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(session_id) DO UPDATE SET
+                    current_document = excluded.current_document,
+                    entities_json = excluded.entities_json,
+                    last_intent = excluded.last_intent,
+                    last_rewritten_query = excluded.last_rewritten_query,
+                    updated_at = excluded.updated_at
+            """, (
+                session_id, 
+                state_dict.get("current_document"),
+                entities_json,
+                state_dict.get("last_intent"),
+                state_dict.get("last_rewritten_query"),
+                now
+            ))
+            conn.commit()
+        finally:
+            conn.close()
 
-    def clear_temp_chunks(self, session_id: str):
-        """Xóa chunks tạm thời."""
-        if session_id in self.temp_chunks:
-            del self.temp_chunks[session_id]
-            print(f"    → [Memory] Đã xóa chunks tạm thời của session {session_id}")
+    # =====================================================================
+    # TEMPORARY CHUNKS (Session-local RAM with Scoping and TTL - Step 4)
+    # =====================================================================
+
+    def set_temp_chunks(self, session_id: str, chunks: List[Dict], document_id: str = "default"):
+        """Lưu trữ chunks tạm thời. Scoped by session + document, TTL 5m."""
+        # Clean old chunks for this session if document changed and it's not "default"
+        if document_id != "default":
+            self.clear_temp_chunks(session_id, exclude_doc_id=document_id)
+
+        if self.use_redis:
+            key = f"temp_chunks:{session_id}:{document_id}"
+            self.redis_client.set(key, json.dumps(chunks, ensure_ascii=False), ex=300) # 5 minutes
+        else:
+            self.temp_chunks[(session_id, document_id)] = {
+                "chunks": chunks,
+                "expires_at": time.time() + 300
+            }
+        logger.info(f"    → [Memory] Đã lưu {len(chunks)} chunks cho session {session_id}, doc {document_id}")
+
+    def get_temp_chunks(self, session_id: str, document_id: str = "default") -> List[Dict]:
+        """Lấy chunks tạm thời. Kiểm tra TTL."""
+        if self.use_redis:
+            key = f"temp_chunks:{session_id}:{document_id}"
+            val = self.redis_client.get(key)
+            return json.loads(val) if val else []
+        
+        entry = self.temp_chunks.get((session_id, document_id))
+        if entry:
+            if time.time() < entry["expires_at"]:
+                return entry["chunks"]
+            else:
+                del self.temp_chunks[(session_id, document_id)] # Expired
+        return []
+
+    def clear_temp_chunks(self, session_id: str, document_id: str = None, exclude_doc_id: str = None):
+        """Xóa chunks tạm thời. Có thể xóa cụ thể 1 doc hoặc toàn bộ session."""
+        if self.use_redis:
+            if document_id:
+                self.redis_client.delete(f"temp_chunks:{session_id}:{document_id}")
+            else:
+                keys = self.redis_client.keys(f"temp_chunks:{session_id}:*")
+                if exclude_doc_id:
+                    keys = [k for k in keys if not k.endswith(f":{exclude_doc_id}")]
+                if keys:
+                    self.redis_client.delete(*keys)
+        else:
+            if document_id:
+                self.temp_chunks.pop((session_id, document_id), None)
+            else:
+                to_del = [k for k in self.temp_chunks.keys() if k[0] == session_id]
+                if exclude_doc_id:
+                    to_del = [k for k in to_del if k[1] != exclude_doc_id]
+                for k in to_del:
+                    del self.temp_chunks[k]
+        
+        logger.debug(f"    → [Memory] Đã dọn dẹp chunks của session {session_id}")

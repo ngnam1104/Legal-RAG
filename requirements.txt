@@ -9,24 +9,12 @@ watchdog
 
 # --- VECTOR DB & SEARCH ---
 qdrant-client
-sentence-transformers
-FlagEmbedding==1.3.5
-transformers==4.48.3
-huggingface-hub<1.0
-tokenizers<0.22
-torch
-
-# --- LLM CLIENTS ---
-openai
-groq
-google-genai
-langchain-openai
-langchain-google-genai
-langchain-core
-langchain-community
+fastembed          # BM25 sparse vectors (Qdrant/bm25, chạy local CPU)
 
 # --- AGENTIC ORCHESTRATION ---
 langgraph
+langchain-core       # Core abstractions cho LangGraph
+langchain-community  # Các utility functions cơ bản
 
 # --- GRAPH DB ---
 neo4j
@@ -44,10 +32,9 @@ pandas
 requests
 httpx
 aiosqlite
+
+# --- Datasets ---
 tqdm
 datasets
-onnx
-onnxruntime
-optimum[onnxruntime]
-rich
-fpdf2
+ipywidgets
+
