@@ -63,8 +63,8 @@ mkdir -p backend/data backend/tmp_uploads
 echo -e "${GREEN}Thu muc backend/data va backend/tmp_uploads da san sang.${NC}"
 
 # 5. Kill old processes
-echo -e "\n${CYAN}[5/6] Don dep cac tien trinh cu (port 3000, 3001, 8000, 8001)...${NC}"
-for PORT in 3000 3001 8000 8001; do
+echo -e "\n${CYAN}[5/6] Don dep cac tien trinh cu (port 3005, 3006, 8005, 8006)...${NC}"
+for PORT in 3005 3006 8005 8006; do
     # Tìm tiến trình đang giữ port và kill nó
     PID=$(lsof -t -i:$PORT 2>/dev/null)
     if [ -n "$PID" ]; then
@@ -79,7 +79,7 @@ echo -e "\n${CYAN}[6/6] Khoi dong cac dich vu...${NC}"
 
 # Start Backend
 echo "Starting FastAPI Backend..."
-nohup uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir=backend > backend_log.txt 2>&1 &
+nohup uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend > backend_log.txt 2>&1 &
 
 echo -e "${YELLOW}VUI LONG DOI: Backend dang thuc hien WARMUP (nap model, cache) trong vong 20s...${NC}"
 sleep 20
@@ -87,16 +87,16 @@ sleep 20
 # Start Frontend
 echo "Starting Next.js Frontend..."
 cd frontend || exit
-export PORT=3000
-nohup npm run dev -- --port 3000 > frontend_log.txt 2>&1 &
+export PORT=3005
+nohup npm run dev -- --port 3005 > frontend_log.txt 2>&1 &
 cd ..
 
 echo -e "\n${GREEN}============================================================${NC}"
 echo -e "${GREEN} HOAN TAT! HE THONG LEGAL-RAG DA SAN SANG (RUNNING IN BACKGROUND)${NC}"
 echo -e "${GREEN}============================================================${NC}"
-echo -e "${CYAN}  - Frontend: http://IP_MAY_CHU:3000${NC}"
-echo -e "${CYAN}  - Backend API: http://IP_MAY_CHU:8000${NC}"
-echo -e "${CYAN}  - Neo4j Graph DB: http://IP_MAY_CHU:7474${NC}"
+echo -e "${CYAN}  - Frontend: http://IP_MAY_CHU:3005${NC}"
+echo -e "${CYAN}  - Backend API: http://IP_MAY_CHU:8005${NC}"
+echo -e "${CYAN}  - Neo4j Graph DB: http://IP_MAY_CHU:7475${NC}"
 echo -e "${YELLOW}------------------------------------------------------------${NC}"
 echo -e "Cac tien trinh da duoc day xuong chay ngam, ban co the an tam tat cua so Terminal."
 echo -e "De xem tien trinh dang chay (log):"

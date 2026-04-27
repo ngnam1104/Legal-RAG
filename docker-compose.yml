@@ -13,11 +13,11 @@
 services:
   redis:
     image: redis:7-alpine
-    container_name: legal-rag-redis
+    container_name: legal-rag-redis-nam
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
-      - local_redis_data:/data
+      - local_redis_data_nam:/data
     restart: always
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
@@ -27,13 +27,13 @@ services:
 
   qdrant:
     image: qdrant/qdrant:v1.17.0
-    container_name: legal-rag-qdrant
+    container_name: legal-rag-qdrant-nam
     ports:
-      - "6335:6333"
-      - "6336:6334"
+      - "6337:6333"
+      - "6338:6334"
     volumes:
-      - qdrant_local_storage:/qdrant/storage
-      - qdrant_local_snapshots:/qdrant/snapshots
+      - qdrant_local_storage_nam:/qdrant/storage
+      - qdrant_local_snapshots_nam:/qdrant/snapshots
     restart: always
     deploy:
       resources:
@@ -51,7 +51,7 @@ services:
 
   neo4j:
     image: neo4j:5.20.0
-    container_name: legal-rag-neo4j
+    container_name: legal-rag-neo4j-nam
     ports:
       - "7475:7474" # Giao diện Neo4j Browser trên trình duyệt
       - "7688:7687"
@@ -64,10 +64,10 @@ services:
       - NEO4J_server_memory_heap_initial__size=2G
       - NEO4J_server_memory_heap_max__size=4G
     volumes:
-      - neo4j_data:/data
-      - neo4j_logs:/logs
-      - neo4j_import:/var/lib/neo4j/import
-      - neo4j_plugins:/plugins
+      - neo4j_data_nam:/data
+      - neo4j_logs_nam:/logs
+      - neo4j_import_nam:/var/lib/neo4j/import
+      - neo4j_plugins_nam:/plugins
     restart: always
     deploy:
       resources:
@@ -75,13 +75,13 @@ services:
           memory: 6G
 
 volumes:
-  local_redis_data:
-  qdrant_local_storage:
-  qdrant_local_snapshots:
-  neo4j_data:
-  neo4j_logs:
-  neo4j_import:
-  neo4j_plugins:
+  local_redis_data_nam:
+  qdrant_local_storage_nam:
+  qdrant_local_snapshots_nam:
+  neo4j_data_nam:
+  neo4j_logs_nam:
+  neo4j_import_nam:
+  neo4j_plugins_nam:
 
     # NOTE: Khi chạy backend trong Docker, mount volume cho SQLite:
     # docker run -v ./backend/data:/app/backend/data ...
