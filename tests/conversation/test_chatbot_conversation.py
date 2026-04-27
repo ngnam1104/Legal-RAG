@@ -73,6 +73,7 @@ async def main():
     conversations = test_data.get("conversations", [])
     total_turns = 0
     passed_turns = 0
+    intent_hits = 0
     all_turn_times = []
     mode_stats = {} # Tracks total, passed, times per intent/mode
     all_step_times = {} # Tracks average step execution times across all turns
@@ -83,19 +84,23 @@ async def main():
         for conv in conversations:
             # Create a unique session ID for testing
             session_id = f"test_{conv['id']}_{uuid.uuid4().hex[:6]}"
-            print(f"\n" + "="*60)
-            print(f"BẮT ĐẦU HỘI THOẠI: {conv['id']} (Session ID: {session_id})")
-            print("="*60)
+            role = conv.get("role_description", "N/A")
+
+            print(f"\n" + "="*80)
+            print(f"📂 HỘI THOẠI: {conv['id']}")
+            print(f"👤 VAI TRÒ: {role}")
+            print("="*80)
             
             for msg in conv["messages"]:
                 total_turns += 1
                 turn = msg.get("turn", 0)
                 question = msg["question"]
                 expected_intent = msg.get("intent", "")
+                target_rewritten = msg.get("rewritten_query", "")
                 expected_answer = msg["answer"]
                 expected_citation = msg.get("citation", "")
                 
-                print(f"\n--- [Turn {turn}] Query: {question}")
+                print(f"\n🔹 [Turn {turn}] Query: {question}")
                 t0 = time.perf_counter()
                 
                 # Streaming execution via RAGEngine
@@ -133,9 +138,14 @@ async def main():
                 turn_time = time.perf_counter() - t0
                 all_turn_times.append(turn_time)
 
-                print(f"[Rewritten/Standalone Query]: {standalone_query}")
-                print(f"[Detected Intent]: {detected_mode}")
-                print(f"[Generated Answer]:\n{answer}")
+                # --- Intent & Rewrite check ---
+                intent_match = "✅ KHỚP" if (detected_mode and expected_intent and detected_mode.upper() == expected_intent.upper()) else "❌ SAI"
+                if intent_match == "✅ KHỚP": intent_hits += 1
+
+                print(f"   [Intent] Target: {expected_intent} | Detected: {detected_mode} -> {intent_match}")
+                print(f"   [Rewrite] Target: {target_rewritten}")
+                print(f"   [Rewrite] Actual: {standalone_query}")
+                print(f"   [Answer]: {answer}")
                 
                 # Update mode stats
                 mode_name = detected_mode if detected_mode else "UNKNOWN"
@@ -145,27 +155,27 @@ async def main():
                 mode_stats[mode_name]["times"].append(turn_time)
                 
                 # Đánh giá kết quả
-                print(f"\n[Expected Answer]: {expected_answer}")
-                print(f"[Expected Citation]: {expected_citation}")
                 judge_result = evaluate_answer(question, expected_answer, expected_citation, answer)
-                print(f"\n[LLM JUDGE]: {judge_result}")
-                print(f"⏱️ [Turn Time]: {turn_time:.2f}s")
+                print(f"   [JUDGE]: {judge_result}")
+                print(f"   ⏱️ [Time]: {turn_time:.2f}s")
                 
                 if "✅ ĐẠT" in judge_result:
                     passed_turns += 1
                     mode_stats[mode_name]["passed"] += 1
                 else:
-                    f_fail.write(f"--- FAILED: {conv['id']} | Turn {turn} ---\n")
+                    f_fail.write(f"--- FAILED: {conv['id']} | Turn {turn} (Role: {role}) ---\n")
                     f_fail.write(f"Query: {question}\n")
-                    f_fail.write(f"Rewritten: {standalone_query}\n")
+                    f_fail.write(f"Intent: {expected_intent} (Expected) vs {detected_mode} (Actual)\n")
+                    f_fail.write(f"Rewrite: {standalone_query}\n")
                     f_fail.write(f"Judge: {judge_result}\n")
                     f_fail.write(f"Answer: {answer}\n")
-                    f_fail.write("-" * 40 + "\n\n")
+                    f_fail.write("-" * 50 + "\n\n")
                     f_fail.flush()
                 
-                print("-" * 60)
+                print("-" * 40)
 
     accuracy = (passed_turns / total_turns * 100) if total_turns > 0 else 0
+    intent_accuracy = (intent_hits / total_turns * 100) if total_turns > 0 else 0
     avg_turn = (sum(all_turn_times) / len(all_turn_times)) if all_turn_times else 0
 
     # Viết file báo cáo
@@ -175,10 +185,11 @@ async def main():
     report_lines.append("==================================================")
     report_lines.append("\n1. Phương pháp Đánh giá:")
     report_lines.append("- Trọng tài: LLM Judge hỗ trợ đánh giá ngữ cảnh đa lượt hội thoại.")
-    report_lines.append("- Tiêu chí: Đánh giá nới lỏng (Tolerant). Nhận định dựa trên tính liền mạch, thông tin bao phủ và dẫn chứng (nếu có yêu cầu).")
+    report_lines.append("- Tiêu chí: Đánh giá nới lỏng (Tolerant). Kiểm tra độ khớp intent và hỗ trợ vai trò người dùng.")
     report_lines.append("\n2. Chỉ số Tổng quan (Overall Metrics):")
     report_lines.append(f"- Tổng số lượt hội thoại test (Total Turns): {total_turns}")
-    report_lines.append(f"- Tỷ lệ chính xác chung (Accuracy): {accuracy:.2f}% ({passed_turns}/{total_turns})")
+    report_lines.append(f"- Tỷ lệ chính xác nội dung (Content Acc): {accuracy:.2f}% ({passed_turns}/{total_turns})")
+    report_lines.append(f"- Tỷ lệ đúng Intent (Intent Acc): {intent_accuracy:.2f}% ({intent_hits}/{total_turns})")
     report_lines.append(f"- Thời gian phản hồi trung bình (Per turn): {avg_turn:.2f}s")
 
     report_lines.append("\n3. Chi tiết Hiệu suất theo Mode (Detected intent):")
@@ -191,9 +202,29 @@ async def main():
             report_lines.append(f"    + Tỷ lệ Đạt: {m_acc:.2f}% ({stats['passed']}/{stats['total']})")
             report_lines.append(f"    + Tốc độ sinh: {m_avg_t:.2f}s")
 
+
     if all_step_times:
         report_lines.append("\n4. Phân rã thời gian Pipeline (Step Breakdown/Turn):")
-        for step_name in sorted(all_step_times.keys()):
+
+        # Sắp xếp theo đúng trình tự pipeline thay vì Alphabetical
+        order = [
+            "Preprocess Memory/Files",
+            "Detect Mode Only", 
+            "Condense & Route",
+            "Understand",
+            "Retrieve + Graph Expand",
+            "Generate"
+        ]
+        
+        def get_order_index(x):
+            for i, prefix in enumerate(order):
+                if x.startswith(prefix):
+                    return i
+            return 999
+            
+        sorted_steps = sorted(all_step_times.keys(), key=get_order_index)
+
+        for step_name in sorted_steps:
             avg_step = sum(all_step_times[step_name]) / len(all_step_times[step_name])
             clean_name = step_name.replace("_time", "")
             report_lines.append(f"  ⚡ {clean_name:30}: {avg_step:.2f}s")

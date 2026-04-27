@@ -1,4 +1,4 @@
-﻿"""
+"""
 Neo4j Graph Database ingestion module.
 
 Kiến trúc Dynamic Tree:
@@ -375,6 +375,44 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
         SET r_edge.relation_phrase = COALESCE(rel.relation_phrase, ''), r_edge.context = COALESCE(rel.context, ''), r_edge.target_article = COALESCE(rel.target_article, ''), r_edge.target_clause = COALESCE(rel.target_clause, ''), r_edge.target_text = COALESCE(rel.target_text, '')
     )
 
+    // F4. CROSS-DOC RELATIONS — Passive Chain (nguồn là rel.source_doc ≠ d)
+    // 4.1 AMENDS
+    FOREACH (rel IN [r IN row.ontology_relations WHERE r.is_cross_doc = true AND r.edge_label = 'AMENDS'] |
+        MERGE (src:Document {document_number: rel.source_doc})
+        ON CREATE SET src.id = 'REF_' + rel.source_doc, src.is_full_text = false
+        MERGE (tgt:Document {document_number: rel.target_doc})
+        ON CREATE SET tgt.id = 'REF_' + rel.target_doc, tgt.is_full_text = false
+        MERGE (src)-[r_edge:AMENDS]->(tgt)
+        SET r_edge.relation_phrase = COALESCE(rel.relation_phrase, ''), r_edge.context = COALESCE(rel.context, ''), r_edge.source = 'passive_chain'
+    )
+    // 4.2 REPLACES
+    FOREACH (rel IN [r IN row.ontology_relations WHERE r.is_cross_doc = true AND r.edge_label = 'REPLACES'] |
+        MERGE (src:Document {document_number: rel.source_doc})
+        ON CREATE SET src.id = 'REF_' + rel.source_doc, src.is_full_text = false
+        MERGE (tgt:Document {document_number: rel.target_doc})
+        ON CREATE SET tgt.id = 'REF_' + rel.target_doc, tgt.is_full_text = false
+        MERGE (src)-[r_edge:REPLACES]->(tgt)
+        SET r_edge.relation_phrase = COALESCE(rel.relation_phrase, ''), r_edge.context = COALESCE(rel.context, ''), r_edge.source = 'passive_chain'
+    )
+    // 4.3 REPEALS
+    FOREACH (rel IN [r IN row.ontology_relations WHERE r.is_cross_doc = true AND r.edge_label = 'REPEALS'] |
+        MERGE (src:Document {document_number: rel.source_doc})
+        ON CREATE SET src.id = 'REF_' + rel.source_doc, src.is_full_text = false
+        MERGE (tgt:Document {document_number: rel.target_doc})
+        ON CREATE SET tgt.id = 'REF_' + rel.target_doc, tgt.is_full_text = false
+        MERGE (src)-[r_edge:REPEALS]->(tgt)
+        SET r_edge.relation_phrase = COALESCE(rel.relation_phrase, ''), r_edge.context = COALESCE(rel.context, ''), r_edge.source = 'passive_chain'
+    )
+    // 4.4 CORRECTS
+    FOREACH (rel IN [r IN row.ontology_relations WHERE r.is_cross_doc = true AND r.edge_label = 'CORRECTS'] |
+        MERGE (src:Document {document_number: rel.source_doc})
+        ON CREATE SET src.id = 'REF_' + rel.source_doc, src.is_full_text = false
+        MERGE (tgt:Document {document_number: rel.target_doc})
+        ON CREATE SET tgt.id = 'REF_' + rel.target_doc, tgt.is_full_text = false
+        MERGE (src)-[r_edge:CORRECTS]->(tgt)
+        SET r_edge.relation_phrase = COALESCE(rel.relation_phrase, ''), r_edge.context = COALESCE(rel.context, ''), r_edge.source = 'passive_chain'
+    )
+
     // G. CĂN CỨ PHÁP LÝ (BASED_ON) [MỨC ĐỘ CHUNK/GRANULAR CŨ - CHẠY SONG SONG]
     FOREACH (ref IN row.refs |
         FOREACH (_o IN CASE WHEN ref.doc_number IS NOT NULL AND ref.doc_number <> '' AND ref.doc_number <> 'unknown' THEN [1] ELSE [] END |
@@ -442,7 +480,7 @@ MATCH (d:Document)-[:HAS_SECTOR]->(s:Sector {name: $sector})
 OPTIONAL MATCH (d)-[:HAS_TYPE]->(lt:LegalType)
 RETURN lt.name AS Loai_VB, 
        count(DISTINCT d) AS So_Luong, 
-       collect(DISTINCT d.title)[..10] AS Danh_Sach
+       collect(DISTINCT d.title)[..15] AS Danh_Sach
 ORDER BY So_Luong DESC
 """
 
@@ -473,6 +511,39 @@ RETURN doc.title AS original_title,
        new_doc.title AS amending_doc_title,
        type(r) AS relation_type
 """
+
+# --- BLOCK 3: GRAPH CONFLICT DETECTION ---
+CONFLICT_DETECTION_QUERY = """
+MATCH (doc:Document)
+WHERE doc.document_number CONTAINS $doc_number
+MATCH (new_doc:Document)-[r:AMENDS|REPLACES|REPEALS]->(doc)
+WHERE toLower(r.target_article) CONTAINS toLower($article_ref) OR r.target_article = ''
+RETURN new_doc.document_number AS amending_doc,
+       new_doc.title AS title,
+       new_doc.doc_status AS doc_status,
+       type(r) AS relation_type,
+       r.target_article AS target_article,
+       r.context AS context
+"""
+
+def detect_conflicting_documents(doc_number: str, article_ref: str) -> list:
+    """
+    Tìm kiếm các văn bản (qua GraphDB) có sửa đổi/thay thế/bãi bỏ một điều khoản cụ thể.
+    """
+    if not doc_number or not article_ref:
+        return []
+    records = run_cypher(CONFLICT_DETECTION_QUERY, {"doc_number": doc_number, "article_ref": article_ref})
+    conflicts = []
+    for r in records:
+        conflicts.append({
+            "amending_doc": r.get("amending_doc"),
+            "title": r.get("title"),
+            "doc_status": r.get("doc_status"),
+            "relation_type": r.get("relation_type"),
+            "target_article": r.get("target_article"),
+            "context": r.get("context")
+        })
+    return conflicts
 
 
 # =====================================================================
@@ -543,10 +614,11 @@ def conflict_time_travel(chunk_ids):
     """
     YÊU CẦU 4: Time-Travel query cho Conflict Analyzer.
     Kiểm tra xem document có bị AMENDS hoặc REPLACES bởi văn bản mới không.
+    Sweep 8 chunk_ids để bao phủ rộng hơn.
     """
     results = []
     seen = set()
-    for cid in chunk_ids[:5]:
+    for cid in chunk_ids[:8]:
         records = run_cypher(CONFLICT_TIME_TRAVEL_QUERY, {"chunk_id": cid})
         for r in records:
             key = f"{r.get('original_doc_number')}::{r.get('amending_doc_number', '')}"
@@ -722,3 +794,88 @@ def fetch_document_administrative_metadata(doc_number: str) -> str:
     return " ".join(info)
 
 
+# --- 2-HOP CHAIN DETECTION (Conflict Analyzer Enhancement) ---
+CONFLICT_CHAIN_QUERY = """
+MATCH (doc:Document)
+WHERE doc.document_number CONTAINS $doc_number
+MATCH path = (newer:Document)-[:AMENDS|REPLACES|REPEALS*1..2]->(doc)
+RETURN newer.document_number AS chain_doc,
+       newer.title AS chain_title,
+       newer.doc_status AS chain_status,
+       [rel in relationships(path) | type(rel)] AS chain_types,
+       [rel in relationships(path) | rel.target_article] AS chain_articles,
+       [rel in relationships(path) | rel.context] AS chain_contexts,
+       length(path) AS depth
+ORDER BY depth ASC
+LIMIT 15
+"""
+
+def conflict_chain_detect(doc_number: str, article_ref: str = "") -> list:
+    """
+    2-Hop Chain Detection: Tìm chuỗi sửa đổi gián tiếp.
+    VD: NĐ-A sửa NĐ-B, NĐ-B sửa NĐ-C → A gián tiếp ảnh hưởng C.
+    """
+    if not doc_number:
+        return []
+    records = run_cypher(CONFLICT_CHAIN_QUERY, {"doc_number": doc_number})
+    chains = []
+    seen = set()
+    for r in records:
+        chain_doc = r.get("chain_doc", "")
+        if not chain_doc or chain_doc in seen:
+            continue
+        # Nếu có article_ref, lọc chỉ lấy chain liên quan đến điều khoản đó
+        if article_ref:
+            chain_arts = r.get("chain_articles") or []
+            if chain_arts and not any(article_ref.lower() in str(a).lower() for a in chain_arts if a):
+                continue
+        seen.add(chain_doc)
+        chains.append({
+            "chain_doc": chain_doc,
+            "chain_title": r.get("chain_title", ""),
+            "chain_status": r.get("chain_status", ""),
+            "chain_types": r.get("chain_types", []),
+            "chain_articles": r.get("chain_articles", []),
+            "chain_contexts": r.get("chain_contexts", []),
+            "depth": r.get("depth", 1)
+        })
+    return chains
+
+
+# --- BASED_ON REVERSE TRAVERSAL (Sector Search Enhancement) ---
+SECTOR_BASED_ON_REVERSE_QUERY = """
+MATCH (d:Document)-[:HAS_SECTOR]->(s:Sector {name: $sector})
+WITH collect(d) AS sector_docs
+UNWIND sector_docs AS base_doc
+MATCH (derived:Document)-[:BASED_ON]->(base_doc)
+WHERE NOT derived IN sector_docs
+RETURN DISTINCT derived.document_number AS derived_doc_number,
+       derived.title AS derived_title,
+       base_doc.document_number AS base_doc_number,
+       base_doc.title AS base_doc_title
+ORDER BY derived.document_number
+LIMIT 20
+"""
+
+def sector_based_on_reverse(sector_name: str) -> list:
+    """
+    Reverse BASED_ON: Tìm tất cả văn bản phái sinh được ban hành
+    DỰA TRÊN các văn bản thuộc sector này.
+    Giúp Sector Search liệt kê đầy đủ hệ thống văn bản liên quan.
+    """
+    if not sector_name:
+        return []
+    records = run_cypher(SECTOR_BASED_ON_REVERSE_QUERY, {"sector": sector_name})
+    results = []
+    seen = set()
+    for r in records:
+        dnum = r.get("derived_doc_number", "")
+        if dnum and dnum not in seen:
+            results.append({
+                "derived_doc_number": dnum,
+                "derived_title": r.get("derived_title", ""),
+                "base_doc_number": r.get("base_doc_number", ""),
+                "base_doc_title": r.get("base_doc_title", "")
+            })
+            seen.add(dnum)
+    return results

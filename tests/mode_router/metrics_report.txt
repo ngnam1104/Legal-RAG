@@ -1,0 +1,69 @@
+==================================================
+         BÁO CÁO ĐÁNH GIÁ CHẤT LƯỢNG RAG          
+==================================================
+
+1. Phương pháp Đánh giá:
+- Trọng tài: LLM Judge tự động so sánh Câu trả lời của RAG với Ground Truth.
+- Tiêu chí: Đánh giá nới lỏng (Tolerant). Hệ thống đạt điểm nếu bao hàm đủ ý chỉ đạo hoặc rộng hơn tài liệu gốc.
+
+2. Chỉ số Tổng quan (Overall Metrics):
+- Tổng số test cases: 60
+- Tỷ lệ chính xác chung (Accuracy): 85.00% (51/60)
+- Thời gian trung bình 1 chu kỳ: 16.89s
+
+3. Chi tiết Hiệu suất theo Mode (Intent):
+  [LỚP 1: SIÊU DỮ LIỆU & CĂN CỨ PHÁP LÝ]
+    + Số lượng: 8 queries
+    + Tỷ lệ Đạt: 100.00% (8/8)
+    + Tốc độ sinh: 13.82s
+  [LỚP 2: PHẠM VI & KHÔNG GIAN - THỜI GIAN]
+    + Số lượng: 10 queries
+    + Tỷ lệ Đạt: 100.00% (10/10)
+    + Tốc độ sinh: 17.80s
+  [LỚP 3: NỘI DUNG THỰC CHẤT - ĐỊNH MỨC]
+    + Số lượng: 16 queries
+    + Tỷ lệ Đạt: 100.00% (16/16)
+    + Tốc độ sinh: 17.81s
+  [LỚP 6: TÌM KIẾM & LIÊN KẾT VĂN BẢN (THEO CHỦ ĐỀ)]
+    + Số lượng: 3 queries
+    + Tỷ lệ Đạt: 66.67% (2/3)
+    + Tốc độ sinh: 12.82s
+  [LỚP 6: TÌM KIẾM & LIÊN KẾT VĂN BẢN (THEO ĐIỀU KHOẢN TƯƠNG TỰ)]
+    + Số lượng: 1 queries
+    + Tỷ lệ Đạt: 0.00% (0/1)
+    + Tốc độ sinh: 10.09s
+  [LỚP 6: TÌM KIẾM & LIÊN KẾT VĂN BẢN (THEO CĂN CỨ PHÁP LÝ CHUNG)]
+    + Số lượng: 1 queries
+    + Tỷ lệ Đạt: 0.00% (0/1)
+    + Tốc độ sinh: 16.51s
+  [LỚP 6: TÌM KIẾM & LIÊN KẾT VĂN BẢN (THEO NỘI DUNG CỤ THỂ)]
+    + Số lượng: 1 queries
+    + Tỷ lệ Đạt: 100.00% (1/1)
+    + Tốc độ sinh: 11.58s
+  [LỚP 6: TÌM KIẾM & LIÊN KẾT VĂN BẢN (THEO CHỦ ĐỀ/NỘI DUNG)]
+    + Số lượng: 1 queries
+    + Tỷ lệ Đạt: 0.00% (0/1)
+    + Tốc độ sinh: 12.33s
+  [LỚP 6: TÌM KIẾM & LIÊN KẾT VĂN BẢN (THEO CẤU TRÚC VĂN BẢN)]
+    + Số lượng: 1 queries
+    + Tỷ lệ Đạt: 0.00% (0/1)
+    + Tốc độ sinh: 11.50s
+  [LỚP 6: TÌM KIẾM & LIÊN KẾT VĂN BẢN (THEO CHỦ ĐỀ/TIÊU ĐỀ)]
+    + Số lượng: 1 queries
+    + Tỷ lệ Đạt: 100.00% (1/1)
+    + Tốc độ sinh: 12.08s
+  [LỚP 4: LOGIC XỬ LÝ XUNG ĐỘT & NGOẠI LỆ]
+    + Số lượng: 8 queries
+    + Tỷ lệ Đạt: 87.50% (7/8)
+    + Tốc độ sinh: 21.02s
+  [LỚP 5: TRÁCH NHIỆM & KINH PHÍ THỰC HIỆN]
+    + Số lượng: 8 queries
+    + Tỷ lệ Đạt: 75.00% (6/8)
+    + Tốc độ sinh: 17.78s
+
+4. Phân rã thời gian Pipeline (Step Breakdown):
+  ⚡ 1. Understand                 : 0.00s
+  ⚡ 2. Retrieve + Graph Expand    : 2.16s
+  ⚡ 4. Generate                   : 9.98s
+  ⚡ Detect Mode Only              : 3.89s
+  ⚡ Preprocess Memory/Files       : 0.00s

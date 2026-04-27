@@ -89,68 +89,76 @@ class RAGEngine:
                     if msg:
                         yield {"type": "step", "content": msg}
                 
+                elif kind == "on_llm_start":
+                    # Thông báo khi LLM bắt đầu sinh văn bản (thường mất thời gian nhất)
+                    yield {"type": "step", "content": "🤖 AI đang soạn thảo câu trả lời..."}
+                
                 elif kind == "on_chain_end":
                     output_data = event.get("data", {}).get("output")
-                    # Chụp lấy state cuối cùng (chứa answer) thay vì dựa vào tên node cứng 'LangGraph'
-                    if isinstance(output_data, dict) and "answer" in output_data:
-                        final_state = output_data
+                    if isinstance(output_data, dict):
+                        # Catch anything that looks like a final state from nodes or the graph itself
+                        if any(k in output_data for k in ["answer", "final_response", "thinking_content"]) or (name == "LangGraph"):
+                            final_state = output_data
 
             if not final_state:
-                 yield {"type": "error", "content": "Hệ thống không nhận được trạng thái cuối cùng."}
-                 return
+                logger.error(f"  [!] CRITICAL: No final_state captured for session {session_id}. Events finished.")
+                yield {"type": "error", "content": "Hệ thống không nhận được kết quả cuối cùng từ AI."}
+                return
+            
+            logger.info(f"🏁 [Engine] final_state captured. Preparing response.")
 
+            # 3. Finalize Response Content
             answer = final_state.get("answer", "Xin lỗi, đã có lỗi xảy ra.")
+            thinking = final_state.get("thinking_content", "")
+            
+            # Cố bóc tách thinking nếu còn sót trong answer (Unconditional safety filter)
+            from backend.utils.text_utils import extract_thinking_and_answer
+            t_extra, a_extra = extract_thinking_and_answer(answer)
+            if t_extra:
+                thinking = (thinking + "\n\n" + t_extra).strip()
+                answer = a_extra
+            
             references = final_state.get("references", [])
-            # standalone_query: câu hỏi viết lại thuần, không có HyDE — dùng cho entity extraction
             standalone_query = final_state.get("standalone_query") or final_state.get("condensed_query", query)
-            condensed_query = final_state.get("condensed_query", query)  # HyDE query, chỉ dùng cho retrieval
             detected_mode = final_state.get("detected_mode", mode)
             
             related_docs = []
             if "graph_context" in final_state and isinstance(final_state["graph_context"], dict):
                 related_docs = final_state["graph_context"].get("lateral_docs", [])
 
-            # 3. Post-Turn Processing (State Update & Entity Extraction)
-            logger.info(f"🧠 [Engine] Post-turn processing...")
-            
-            # Extract new state entities from standalone_query (clean, no HyDE)
-            new_info = extract_entities(standalone_query, answer)
-            
-            # Update state dict
-            updated_conv_state = {
-                "session_id": session_id,
-                "current_document": new_info.get("current_document") or conv_state.get("current_document"),
-                "entities": list(set(conv_state.get("entities", []) + new_info.get("entities", []))),
-                "last_intent": detected_mode,
-                "last_rewritten_query": standalone_query  # Lưu câu hỏi thuần, không có HyDE
-            }
-            self.memory.update_state(session_id, updated_conv_state)
-            
-            # 4. Store Memory
-            logger.info(f"💾 [Memory] Committing messages to SQLite...")
-            self.memory.add_message(session_id, "user", query, mode=mode)
-            self.memory.add_message(session_id, "assistant", answer, references=references, mode=mode)
-
+            # 4. YIELD FINAL RESPONSE IMMEDIATELY
             session_info = self.memory.get_session(session_id)
-            current_title = session_info.get("title", "Phiên chat mới") if session_info else "Phiên chat mới"
-            
-            logger.info(f"✅ Turn finished in {time.perf_counter() - t0:.2f}s")
+            initial_title = session_info.get("title", "Phiên chat mới") if session_info else "Phiên chat mới"
 
             yield {
                 "type": "final",
                 "content": {
                     "answer": answer,
+                    "thinking_content": thinking,
                     "mode": mode,
                     "detected_mode": detected_mode,
                     "session_id": session_id,
-                    "title": current_title,
-                    "standalone_query": standalone_query,  # Câu hỏi viết lại thuần (FE hiển thị)
+                    "title": initial_title,
+                    "standalone_query": standalone_query,
                     "original_query": query,
                     "references": references,
                     "related_docs": related_docs,
                     "metrics": final_state.get("metrics", {})
                 }
             }
+
+            # 5. Background Post-Turn Tasks (DO NOT BLOCK GENERATOR FINISH)
+            asyncio.create_task(self._background_post_turn(
+                session_id=session_id,
+                query=query,
+                answer=answer,
+                references=references,
+                standalone_query=standalone_query,
+                detected_mode=detected_mode,
+                mode=mode,
+                conv_state=conv_state,
+                t0=t0
+            ))
 
         except asyncio.CancelledError:
             logger.warning(f"  [!] LangGraph Execution CANCELLED BY USER.")
@@ -159,5 +167,28 @@ class RAGEngine:
             logger.error(f"  [!] LangGraph Streaming Error: {e}", exc_info=True)
             yield {"type": "error", "content": f"Lỗi hệ thống: {str(e)}"}
     
+    async def _background_post_turn(self, session_id, query, answer, references, standalone_query, detected_mode, mode, conv_state, t0):
+        """Tác vụ chạy nền sau khi đã trả kết quả cho người dùng."""
+        try:
+            logger.info(f"🧠 [Engine] Post-turn processing (background task) starting...")
+            # 1. Lưu message vào DB
+            self.memory.add_message(session_id, "user", query, mode=mode)
+            self.memory.add_message(session_id, "assistant", answer, references=references, mode=mode)
+            
+            # 2. Trích xuất thực thể (Slow)
+            new_info = extract_entities(standalone_query, answer)
+            updated_conv_state = {
+                "session_id": session_id,
+                "current_document": new_info.get("current_document") or conv_state.get("current_document"),
+                "entities": list(set(conv_state.get("entities", []) + new_info.get("entities", []))),
+                "last_intent": detected_mode,
+                "last_rewritten_query": standalone_query
+            }
+            self.memory.update_state(session_id, updated_conv_state)
+            
+            logger.info(f"✅ Turn totally finished in {time.perf_counter() - t0:.2f}s (background work done)")
+        except Exception as e:
+            logger.error(f"  [!] Error in background post-turn: {e}")
+
 rag_engine = RAGEngine()
 

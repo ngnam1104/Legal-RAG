@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 _EMBEDDING_ENDPOINT: str = "http://10.9.3.75:30010/api/v1/embedding"
 _VECTOR_DIM: int = 1024
-_REQUEST_TIMEOUT: int = 60  # seconds
+_REQUEST_TIMEOUT: int = 120  # seconds
 
 
 # ---------------------------------------------------------------------------
@@ -95,50 +95,47 @@ class InternalAPIEmbedder(BaseEmbedder):
 
         payload = {"texts": texts, "normalize": True}
 
-        try:
-            resp = self._session.post(
-                self.endpoint, json=payload, timeout=self.timeout,
-            )
-            resp.raise_for_status()
+        max_retries = 5
+        import time
 
-            data = resp.json()
-            embeddings: List[List[float]] = data.get("embeddings", [])
-
-            if len(embeddings) != len(texts):
-                logger.warning(
-                    "⚠️ [InternalAPIEmbedder] Số lượng embeddings trả về (%d) "
-                    "≠ số texts gửi đi (%d). Padding zero-vectors.",
-                    len(embeddings), len(texts),
+        for attempt in range(max_retries):
+            try:
+                resp = self._session.post(
+                    self.endpoint, json=payload, timeout=self.timeout,
                 )
-                while len(embeddings) < len(texts):
-                    embeddings.append([0.0] * _VECTOR_DIM)
+                resp.raise_for_status()
 
-            return embeddings
+                data = resp.json()
+                embeddings: List[List[float]] = data.get("embeddings", [])
 
-        except requests.exceptions.Timeout:
-            print(f"❌ [InternalAPIEmbedder] Timeout ({self.timeout}s) calling {self.endpoint}")
-            logger.error(
-                "❌ [InternalAPIEmbedder] Timeout (%ds) khi gọi %s — trả zero-vectors.",
-                self.timeout, self.endpoint,
-            )
-        except requests.exceptions.HTTPError as exc:
-            print(f"❌ [InternalAPIEmbedder] HTTP {exc.response.status_code if exc.response is not None else '???'} calling {self.endpoint}")
-            logger.error(
-                "❌ [InternalAPIEmbedder] HTTP %s khi gọi %s — trả zero-vectors.",
-                exc.response.status_code if exc.response is not None else "???",
-                self.endpoint,
-            )
-        except requests.exceptions.ConnectionError:
-            print(f"❌ [InternalAPIEmbedder] Connection Error calling {self.endpoint}")
-            logger.error(
-                "❌ [InternalAPIEmbedder] Không thể kết nối tới %s — trả zero-vectors.",
-                self.endpoint,
-            )
-        except Exception as e:
-            print(f"❌ [InternalAPIEmbedder] Unknown Error: {e}")
-            logger.exception("❌ [InternalAPIEmbedder] Lỗi không xác định — trả zero-vectors.")
+                if len(embeddings) != len(texts):
+                    logger.warning(
+                        "⚠️ [InternalAPIEmbedder] Số lượng embeddings trả về (%d) "
+                        "≠ số texts gửi đi (%d). Padding zero-vectors.",
+                        len(embeddings), len(texts),
+                    )
+                    while len(embeddings) < len(texts):
+                        embeddings.append([0.0] * _VECTOR_DIM)
 
-        # Fallback: zero-vectors
+                return embeddings
+
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError, requests.exceptions.HTTPError) as exc:
+                is_4xx = isinstance(exc, requests.exceptions.HTTPError) and exc.response is not None and exc.response.status_code < 500
+                if is_4xx:
+                    print(f"❌ [InternalAPIEmbedder] Lỗi {exc.response.status_code} từ API khi gọi {self.endpoint}. Dừng retry.")
+                    logger.error("❌ [InternalAPIEmbedder] HTTP %s — trả zero-vectors.", exc.response.status_code)
+                    break
+                
+                wait_time = (attempt + 1) * 5
+                print(f"⚠️ [InternalAPIEmbedder] Lỗi API (Thử {attempt+1}/{max_retries}): {type(exc).__name__}. Đợi {wait_time}s rồi retry...")
+                time.sleep(wait_time)
+            except Exception as e:
+                print(f"❌ [InternalAPIEmbedder] Unknown Error: {e}")
+                logger.exception("❌ [InternalAPIEmbedder] Lỗi không xác định — trả zero-vectors.")
+                break
+
+        # Fallback: zero-vectors nếu hết số lần retry hoặc lỗi không thể retry
+        print(f"❌ [InternalAPIEmbedder] Hết {max_retries} lần retry, API vẫn không phản hồi — fallback về zero-vectors.")
         return [[0.0] * _VECTOR_DIM for _ in texts]
 
     # ------------------------------------------------------------------

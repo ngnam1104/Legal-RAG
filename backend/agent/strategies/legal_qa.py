@@ -56,6 +56,9 @@ class LegalQAStrategy(BaseRAGStrategy):
 
     def retrieve(self, state: AgentState) -> Dict[str, Any]:
         """Truy xuất Qdrant + Neo4j Graph Expansion (Bottom-Up + Lateral)."""
+        from backend.agent.utils.sub_timer import SubTimer
+        timer = SubTimer("Retrieve")
+        
         rewritten_queries = state.get("rewritten_queries") or [state.get("condensed_query") or state["query"]]
         kw = rewritten_queries[0] or state.get("condensed_query") or state["query"]
         filters = state.get("metadata_filters", {})
@@ -71,40 +74,66 @@ class LegalQAStrategy(BaseRAGStrategy):
             is_appendix = None
             
         use_rerank = state.get("use_rerank", True)
+        session_id = state.get("session_id")
         
-        hits = retriever.search(
-            query=kw,
-            expand_context=True,
-            max_neighbors=5,
-            use_rerank=use_rerank,
-            legal_type=legal_type,
-            doc_number=doc_number,
-            is_appendix=is_appendix,
-            article_ref=article_ref,
-            limit=settings.MAX_RETRIEVAL_HITS
-        )
-        if (legal_type or doc_number or is_appendix is not None or article_ref) and not hits:
-            print(f"       ⚠️ [Retrieve] No hits with filters. Dropping filters and retrying broad search...")
+        if session_id and state.get("file_chunks"):
+            with timer.step("Session_Search"):
+                hits, source = retriever.search_by_session(
+                session_id=session_id,
+                query=kw,
+                top_k=settings.MAX_RETRIEVAL_HITS,
+                use_rerank=use_rerank,
+                legal_type=legal_type,
+                doc_number=doc_number,
+                is_appendix=is_appendix,
+                article_ref=article_ref
+            )
+            
+        with timer.step("Qdrant_Search"):
             hits = retriever.search(
+                query=kw,
+                expand_context=True,
+                max_neighbors=5,
+                use_rerank=use_rerank,
+                legal_type=legal_type,
+                doc_number=doc_number,
+                is_appendix=is_appendix,
+                article_ref=article_ref,
+                limit=settings.MAX_RETRIEVAL_HITS
+            )
+            
+        if legal_type or doc_number or is_appendix is not None or article_ref:
+            print(f"       ⚠️ [Retrieve] Filters used. Adding broad search to prevent over-filtering...")
+            with timer.step("Broad_Fallback"):
+                broad_hits = retriever.search(
                 query=kw, 
                 expand_context=True, 
                 max_neighbors=5, 
                 use_rerank=use_rerank,
                 limit=settings.MAX_RETRIEVAL_HITS
             )
+            # Combine keeping unqiue
+            seen = {h.get("chunk_id", h.get("id")) for h in hits}
+            for bh in broad_hits:
+                cid = bh.get("chunk_id", bh.get("id"))
+                if cid not in seen:
+                    hits.append(bh)
+                    seen.add(cid)
+            hits.sort(key=lambda x: x.get("score", 0), reverse=True)
+            hits = hits[:settings.MAX_RETRIEVAL_HITS + 5]
         
         print(f"       🔍 [Retrieve] Qdrant search returned {len(hits)} hits")
         
         # --- NEO4J GRAPH EXPANSION ---
-        graph_context = {"lateral_docs": [], "document_toc": "", "sibling_texts": [], "signer_info": "", "based_on_info": "", "year_info": ""}
-        chunk_ids = [h.get("chunk_id", "") for h in hits if h.get("chunk_id")]
-        
-        if doc_number:
-            main_query = state.get("condensed_query", state["query"])
-            query_lower = main_query.lower()
-            try:
-                from backend.retrieval.graph_db import run_cypher
+        with timer.step("Neo4j_Graph"):
+            graph_context = {"lateral_docs": [], "document_toc": "", "sibling_texts": [], "signer_info": "", "based_on_info": "", "year_info": ""}
+            chunk_ids = [h.get("chunk_id", "") for h in hits if h.get("chunk_id")]
+            
+            if doc_number:
+                main_query = state.get("condensed_query", state["query"])
+                query_lower = main_query.lower()
                 try:
+                    from backend.retrieval.graph_db import run_cypher
                     from backend.retrieval.graph_db import fetch_document_administrative_metadata
                     admin_meta = fetch_document_administrative_metadata(doc_number)
                     if admin_meta:
@@ -117,15 +146,16 @@ class LegalQAStrategy(BaseRAGStrategy):
                     MATCH (d:Document {document_number: $doc_num})-[r:BASED_ON]->(b) 
                     RETURN b.name AS basis_name, b.document_number AS basis_num, r.target_text AS basis_text
                     """
-                    res_based = run_cypher(based_on_cypher, {"doc_num": doc_number})
-                    if res_based:
-                        bases = []
-                        for r in res_based:
-                            bn = r.get("basis_name") or r.get("basis_num") or "Văn bản"
-                            bases.append(bn)
-                        graph_context["based_on_info"] = f"Văn bản {doc_number} được ban hành dựa trên các căn cứ: {'; '.join(bases)}."
-            except Exception as e:
-                print(f"       ⚠️ [Neo4j] Direct metadata query failed: {e}")
+                    try:
+                        res_based = run_cypher(based_on_cypher, {"doc_num": doc_number})
+                        if res_based:
+                            bases = []
+                            for r in res_based:
+                                bn = r.get("basis_name") or r.get("basis_num") or "Văn bản"
+                                bases.append(bn)
+                            graph_context["based_on_info"] = f"Văn bản {doc_number} được ban hành dựa trên các căn cứ: {'; '.join(bases)}."
+                    except:
+                        pass
 
         if doc_number:
             try:
@@ -153,48 +183,50 @@ class LegalQAStrategy(BaseRAGStrategy):
         
         if chunk_ids:
             try:
-                from backend.retrieval.graph_db import bottom_up_expand, lateral_expand
+                from backend.retrieval.graph_db import bottom_up_expand
                 bu_result = bottom_up_expand(chunk_ids)
                 graph_context["document_toc"] = bu_result.get("document_toc", "")
                 graph_context["sibling_texts"].extend(bu_result.get("sibling_texts", []))
-                graph_context["lateral_docs"] = lateral_expand(chunk_ids)
-                
             except Exception as e:
                 pass
             
-        return {"raw_hits": hits, "graph_context": graph_context}
+        return {"raw_hits": hits, "graph_context": graph_context, "metrics": timer.results()}
 
     def generate(self, state: AgentState) -> Dict[str, Any]:
         """Sinh câu trả lời từ context + lateral docs."""
+        from backend.agent.utils.sub_timer import SubTimer
+        timer = SubTimer("Generate")
+        
         hits = state.get("raw_hits", [])
         file_chunks = state.get("file_chunks", [])
         graph_ctx = state.get("graph_context", {})
         
-        # Build legal context (previously in grade)
-        context_text = build_legal_context(hits, file_chunks=file_chunks, graph_context=graph_ctx)
-        
-        # Dùng standalone_query (câu hỏi thuần, không có HyDE) để LLM tổng hợp.
-        # condensed_query (kèm HyDE) chỉ dành cho retrieval embedding.
-        query = state.get("standalone_query") or state.get("condensed_query") or state["query"]
-        
-        if not context_text:
-            return {"final_response": "Xin lỗi, tôi không tìm thấy quy định pháp luật nào liên quan đến câu hỏi của bạn."}
+        with timer.step("BuildContext"):
+            # Build legal context (previously in grade)
+            context_text = build_legal_context(hits, file_chunks=file_chunks, graph_context=graph_ctx)
             
-        # Thêm reference logic và đảm bảo được sort theo score
-        refs = []
-        combined_hits = state.get("raw_hits", [])
-        combined_hits.sort(key=lambda x: x.get("score", 0), reverse=True)
-        
-        for h in combined_hits:
-            refs.append({
-                "title": h.get("title", ""),
-                "article": h.get("article_ref", h.get("document_number", "")),
-                "score": h.get("score", 0),
-                "chunk_id": h.get("chunk_id", ""),
-                "text_preview": h.get("text", ""),
-                "document_number": h.get("document_number", ""),
-                "url": h.get("url", "")
-            })
+            # Dùng standalone_query (câu hỏi thuần, không có HyDE) để LLM tổng hợp.
+            # condensed_query (kèm HyDE) chỉ dành cho retrieval embedding.
+            query = state.get("standalone_query") or state.get("condensed_query") or state["query"]
+            
+            if not context_text:
+                return {"final_response": "Xin lỗi, tôi không tìm thấy quy định pháp luật nào liên quan đến câu hỏi của bạn.", "metrics": timer.results()}
+                
+            # Thêm reference logic và đảm bảo được sort theo score
+            refs = []
+            combined_hits = state.get("raw_hits", [])
+            combined_hits.sort(key=lambda x: x.get("score", 0), reverse=True)
+            
+            for h in combined_hits:
+                refs.append({
+                    "title": h.get("title", ""),
+                    "article": h.get("article_ref", h.get("document_number", "")),
+                    "score": h.get("score", 0),
+                    "chunk_id": h.get("chunk_id", ""),
+                    "text_preview": h.get("text", ""),
+                    "document_number": h.get("document_number", ""),
+                    "url": h.get("url", "")
+                })
             
         history_msgs = state.get("history", [])[-6:]
         history_str = "\n".join([f"{'User' if m['role']=='user' else 'AI'}: {m['content']}" for m in history_msgs]) if history_msgs else "(Không có lịch sử)"
@@ -208,18 +240,21 @@ class LegalQAStrategy(BaseRAGStrategy):
             supplemental_context=supplemental
         )
         print(f"       ✍️ [Generate] Generating answer with {len(refs)} candidate references...")
-        answer = strip_thinking_tags(chat_completion(
-            [{"role": "user", "content": prompt}], 
-            temperature=0.1, 
-            model=settings.LLM_CORE_MODEL, 
-            llm_preset=state.get("llm_preset")
-        ))
+        with timer.step("LLM_Call"):
+            answer = chat_completion(
+                [{"role": "user", "content": prompt}], 
+                temperature=0.1, 
+                model=settings.LLM_CORE_MODEL, 
+                llm_preset=state.get("llm_preset")
+            )
         
-        # Lọc chỉ giữ references thực sự được trích dẫn trong câu trả lời
-        cited_refs = filter_cited_references(answer, refs)
-        print(f"       📌 [Generate] Cited {len(cited_refs)}/{len(refs)} references")
+        with timer.step("FilterRefs"):
+            # Lọc chỉ giữ references thực sự được trích dẫn trong câu trả lời
+            cited_refs = filter_cited_references(answer, refs)
+            print(f"       📌 [Generate] Cited {len(cited_refs)}/{len(refs)} references")
             
         return {
             "final_response": answer,
-            "references": cited_refs
+            "references": cited_refs,
+            "metrics": timer.results()
         }

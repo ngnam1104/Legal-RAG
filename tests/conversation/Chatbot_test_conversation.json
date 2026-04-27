@@ -1,416 +1,632 @@
 {
     "conversations": [
         {
-            "id": "conv_001",
+            "id": "doc1_conv_001_citizen",
+            "role_description": "Người dân hỏi đáp tình huống khám chữa bệnh và tìm hiểu quy định",
             "messages": [
                 {
                     "turn": 1,
                     "intent": "LEGAL_QA",
-                    "question": "Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 quy định về vấn đề gì?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 quy định về vấn đề gì?",
-                    "answer": "Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi quy định về mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.",
-                    "citation": "Tiêu đề, Nghị quyết 54/NQ-HĐND"
+                    "question": "Điều 3 Thông tư 54/2025/TT-BYT quy định thế nào về việc bệnh viện y học cổ truyền tỉnh sử dụng máy móc y học hiện đại?",
+                    "rewritten_query": "Điều 3 Thông tư 54/2025/TT-BYT quy định thế nào về việc bệnh viện y học cổ truyền tuyến tỉnh sử dụng máy móc y học hiện đại để khám chữa bệnh?",
+                    "answer": "Bệnh viện y học cổ truyền tuyến tỉnh được phép sử dụng máy móc hiện đại. Cụ thể, bệnh viện có nhiệm vụ tiếp nhận cấp cứu, khám chữa bệnh bằng cả y học cổ truyền và y học hiện đại theo phạm vi chuyên môn được phê duyệt.",
+                    "citation": "Điểm b và điểm c, Khoản 1 Điều 3, Thông tư 54/2025/TT-BYT [cite: 18, 21]"
                 },
                 {
                     "turn": 2,
                     "intent": "LEGAL_QA",
-                    "question": "Văn bản này do ai ký và ban hành vào ngày nào?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi do ai ký và ban hành vào ngày nào?",
-                    "answer": "Nghị quyết 54/NQ-HĐND được ký bởi ông Nguyễn Đức Tuy và ban hành vào ngày 30 tháng 12 năm 2025.",
-                    "citation": "Phần đầu văn bản, Nghị quyết 54/NQ-HĐND"
+                    "question": "Thủ tục khám bệnh lưu động tại nhà được văn bản này nhắc đến ở khoản nào?",
+                    "rewritten_query": "Nhiệm vụ khám bệnh lưu động tại nhà của bệnh viện y học cổ truyền tuyến tỉnh được quy định tại khoản nào trong Thông tư 54/2025/TT-BYT?",
+                    "answer": "Nhiệm vụ thực hiện khám bệnh, chữa bệnh lưu động và khám bệnh, chữa bệnh từ xa được quy định rõ tại Điểm b Khoản 1 Điều 3 của Thông tư.",
+                    "citation": "Điểm b Khoản 1 Điều 3, Thông tư 54/2025/TT-BYT [cite: 19, 20]"
                 },
                 {
                     "turn": 3,
-                    "intent": "LEGAL_QA",
-                    "question": "Mức giá khám bệnh thông thường theo quy định đó là bao nhiêu?",
-                    "rewritten_query": "Mức giá dịch vụ khám bệnh thông thường theo quy định tại Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi là bao nhiêu?",
-                    "answer": "Mức giá dịch vụ khám bệnh thông thường được quy định chi tiết theo từng tuyến bệnh viện, trung tâm y tế và trạm y tế tại Phụ lục I ban hành kèm theo Nghị quyết.",
-                    "citation": "Phụ lục I, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 4,
-                    "intent": "CONFLICT_ANALYZER",
-                    "question": "Nó có bãi bỏ hay thay thế cho văn bản nào trước đây không?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có bãi bỏ hay thay thế cho văn bản quy định giá dịch vụ khám bệnh, chữa bệnh nào trước đây không?",
-                    "answer": "Có, Nghị quyết này thường sẽ bãi bỏ hoặc thay thế các Nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh của nhà nước trên địa bàn tỉnh Quảng Ngãi đã được ban hành trước đó để áp dụng mức giá mới từ ngày có hiệu lực.",
-                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 5,
-                    "intent": "LEGAL_QA",
-                    "question": "Vậy chính thức áp dụng từ khi nào?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi chính thức có hiệu lực áp dụng từ ngày nào?",
-                    "answer": "Theo thông tin chung của các văn bản pháp luật ban hành cuối năm, Nghị quyết này có hiệu lực thi hành kể từ ngày 01 tháng 01 năm 2026.",
-                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 6,
                     "intent": "SECTOR_SEARCH",
-                    "question": "Ngoài nghị quyết trên, có văn bản nào khác liên quan đến lĩnh vực y tế của Quảng Ngãi trong năm 2025 không?",
-                    "rewritten_query": "Ngoài Nghị quyết 54/NQ-HĐND, có văn bản pháp luật nào khác liên quan đến lĩnh vực y tế do tỉnh Quảng Ngãi ban hành trong năm 2025 không?",
-                    "answer": "Trong năm 2025, tỉnh Quảng Ngãi có thể ban hành các văn bản khác liên quan đến y tế như quy định về chính sách hỗ trợ nhân viên y tế, kế hoạch phòng chống dịch bệnh, hoặc phân bổ ngân sách cho cơ sở y tế. Để có danh sách chính xác, cần tra cứu thêm trên Cổng thông tin điện tử tỉnh Quảng Ngãi.",
-                    "citation": "Cơ sở dữ liệu pháp luật tỉnh Quảng Ngãi năm 2025"
-                }
-            ]
-        },
-        {
-            "id": "conv_002",
-            "messages": [
-                {
-                    "turn": 1,
-                    "intent": "LEGAL_QA",
-                    "question": "Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, chi phí ngày giường bệnh ban ngày được tính như thế nào?",
-                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi, chi phí ngày giường bệnh ban ngày được tính như thế nào?",
-                    "answer": "Theo Nghị quyết 54/NQ-HĐND, ngày giường bệnh ban ngày được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng.",
-                    "citation": "Phụ lục II.1, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 2,
-                    "intent": "LEGAL_QA",
-                    "question": "Mức giá này đã bao gồm chi phí máy thở và khí y tế chưa?",
-                    "rewritten_query": "Mức giá ngày giường bệnh ban ngày theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi đã bao gồm chi phí máy thở và khí y tế chưa?",
-                    "answer": "Chưa, quy định có ghi rõ giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế.",
-                    "citation": "Ghi chú tại Phụ lục II.1, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 3,
-                    "intent": "LEGAL_QA",
-                    "question": "Vậy đối với Trạm Y tế cấp xã có giường lưu thì thanh toán tiền giường ra sao?",
-                    "rewritten_query": "Đối với Trạm Y tế cấp xã có giường lưu thì việc thanh toán tiền giường được quy định ra sao tại Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi?",
-                    "answer": "Đối với Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán tối đa là 03 ngày/người/đợt điều trị.",
-                    "citation": "Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND"
+                    "question": "Liệt kê các văn bản pháp luật hiện hành quy định về việc bảo hiểm y tế chi trả cho hoạt động khám chữa bệnh lưu động.",
+                    "rewritten_query": "Liệt kê các văn bản quy phạm pháp luật hiện hành quy định về việc quỹ bảo hiểm y tế thanh toán chi phí cho hoạt động khám bệnh, chữa bệnh lưu động.",
+                    "answer": "Việc chi trả bảo hiểm y tế cho khám chữa bệnh lưu động được điều chỉnh bởi hệ thống văn bản về Bảo hiểm y tế. Bạn cần tham khảo Luật Bảo hiểm y tế, Nghị định 146/2018/NĐ-CP quy định chi tiết Luật BHYT và các Thông tư hướng dẫn thanh toán chi phí khám chữa bệnh BHYT của Bộ Y tế.",
+                    "citation": "Hệ thống văn bản Bảo hiểm y tế hiện hành"
                 },
                 {
                     "turn": 4,
                     "intent": "LEGAL_QA",
-                    "question": "Nếu đã thu tiền giường rồi thì có được tính tiền khám bệnh nữa không?",
-                    "rewritten_query": "Nếu cơ sở y tế đã thu tiền giường lưu đối với bệnh nhân thì có được tính thêm tiền khám bệnh theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi nữa không?",
-                    "answer": "Không, quy định nêu rõ cơ sở y tế không được thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường.",
-                    "citation": "Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND"
+                    "question": "Bệnh viện tỉnh có được tự bào chế thuốc đông y để bán không?",
+                    "rewritten_query": "Theo Thông tư 54/2025/TT-BYT, bệnh viện y học cổ truyền tuyến tỉnh có chức năng tự chế biến, bào chế thuốc đông y để cung cấp cho người bệnh không?",
+                    "answer": "Có. Bệnh viện có chức năng và nhiệm vụ chế biến, bào chế dược liệu, vị thuốc cổ truyền, thuốc cổ truyền để cung cấp cho người bệnh tại bệnh viện.",
+                    "citation": "Khoản 7 Điều 2 và Khoản 7 Điều 3, Thông tư 54/2025/TT-BYT [cite: 16, 44]"
                 },
                 {
                     "turn": 5,
                     "intent": "CONFLICT_ANALYZER",
-                    "question": "Nghị quyết này có làm hết hiệu lực văn bản nào của tỉnh Kon Tum không?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có làm hết hiệu lực văn bản quy định giá dịch vụ y tế nào do tỉnh Kon Tum ban hành không?",
-                    "answer": "Có, Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi quy định làm hết hiệu lực Nghị quyết số 117/NQ-HĐND ngày 27 tháng 12 năm 2024 của Hội đồng nhân dân tỉnh Kon Tum về định giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước thuộc tỉnh Kon Tum.",
-                    "citation": "Điểm b Khoản 3 Điều 5, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 6,
-                    "intent": "SECTOR_SEARCH",
-                    "question": "Ngoài ra, có văn bản nào của Bộ Y tế được dùng làm căn cứ pháp lý để ban hành quy định đó không?",
-                    "rewritten_query": "Có văn bản pháp luật nào của Bộ Y tế được dùng làm căn cứ pháp lý để ban hành Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi không?",
-                    "answer": "Có, Nghị quyết này được ban hành dựa trên một số căn cứ của Bộ Y tế, bao gồm: Thông tư số 21/2024/TT-BYT ngày 17/10/2024 về quy định phương pháp định giá dịch vụ khám bệnh, chữa bệnh và Thông tư số 23/2024/TT-BYT ngày 18/10/2024 ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh.",
-                    "citation": "Phần Căn cứ ban hành, Nghị quyết 54/NQ-HĐND"
-                }
-            ]
-        },
-        {
-            "id": "conv_003",
-            "messages": [
-                {
-                    "turn": 1,
-                    "intent": "LEGAL_QA",
-                    "question": "Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá khám sức khỏe đi xuất khẩu lao động nằm ở phụ lục nào?",
-                    "rewritten_query": "Mức giá dịch vụ khám sức khỏe đi xuất khẩu lao động theo Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi được quy định tại phụ lục nào?",
-                    "answer": "Mức giá dịch vụ khám sức khỏe, bao gồm cả khám sức khỏe cho người đi xuất khẩu lao động, được quy định chi tiết tại Phụ lục I ban hành kèm theo Nghị quyết 54/NQ-HĐND.",
-                    "citation": "Phụ lục I, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 2,
-                    "intent": "LEGAL_QA",
-                    "question": "Thế còn giá khám cấp giấy chứng thương thì sao?",
-                    "rewritten_query": "Mức giá dịch vụ khám cấp giấy chứng thương theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi được quy định như thế nào?",
-                    "answer": "Giá khám cấp giấy chứng thương cũng được quy định trong nhóm dịch vụ khám bệnh và kiểm tra sức khỏe tại Phụ lục I, mức giá cụ thể sẽ phụ thuộc vào tuyến bệnh viện hoặc cơ sở y tế thực hiện việc thăm khám.",
-                    "citation": "Phụ lục I, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 3,
-                    "intent": "LEGAL_QA",
-                    "question": "Đối với bệnh nhân đang điều trị trước ngày văn bản này có hiệu lực thì tính tiền theo giá mới hay cũ?",
-                    "rewritten_query": "Đối với bệnh nhân đang điều trị tại cơ sở y tế trước ngày Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có hiệu lực thì áp dụng mức giá dịch vụ khám bệnh, chữa bệnh mới hay cũ?",
-                    "answer": "Theo điều khoản chuyển tiếp, đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày Nghị quyết này có hiệu lực thì tiếp tục áp dụng mức giá theo quy định cũ cho đến khi người bệnh ra viện hoặc kết thúc đợt điều trị.",
-                    "citation": "Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 4,
-                    "intent": "LEGAL_QA",
-                    "question": "Nếu họ chuyển tuyến điều trị thì quy định đó còn áp dụng không?",
-                    "rewritten_query": "Nếu bệnh nhân đang điều trị trước ngày Nghị quyết 54/NQ-HĐND có hiệu lực nhưng phải chuyển tuyến điều trị thì có được tiếp tục áp dụng mức giá cũ không?",
-                    "answer": "Trường hợp người bệnh chuyển tuyến điều trị sang một cơ sở y tế khác sau khi Nghị quyết đã có hiệu lực, thì cơ sở y tế tiếp nhận sẽ áp dụng mức giá mới theo quy định tại Nghị quyết 54/NQ-HĐND.",
-                    "citation": "Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 5,
-                    "intent": "CONFLICT_ANALYZER",
-                    "question": "Các nghị quyết quy định về giá y tế trước đây của tỉnh có bị bãi bỏ hoàn toàn không?",
-                    "rewritten_query": "Các Nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đây có bị bãi bỏ hoàn toàn bởi Nghị quyết 54/NQ-HĐND không?",
-                    "answer": "Có, khi Nghị quyết 54/NQ-HĐND có hiệu lực thi hành, các quy định và Nghị quyết trước đây của Hội đồng nhân dân tỉnh Quảng Ngãi về giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước sẽ bị bãi bỏ hoặc hết hiệu lực để thống nhất áp dụng biểu giá mới.",
-                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 6,
-                    "intent": "SECTOR_SEARCH",
-                    "question": "Liên quan đến việc xuất khẩu lao động, có văn bản nào của trung ương quy định chi tiết về tiêu chuẩn sức khỏe không?",
-                    "rewritten_query": "Có văn bản pháp luật nào của cơ quan trung ương quy định chi tiết về tiêu chuẩn sức khỏe đối với người lao động Việt Nam đi làm việc ở nước ngoài không?",
-                    "answer": "Có, tiêu chuẩn sức khỏe cho người đi làm việc ở nước ngoài thường được quy định trong các Thông tư liên tịch của Bộ Y tế và Bộ Lao động - Thương binh và Xã hội (ví dụ: Thông tư quy định về việc khám và chứng nhận sức khỏe cho người lao động Việt Nam đi làm việc ở nước ngoài).",
-                    "citation": "Hệ thống văn bản pháp luật của Bộ Y tế và Bộ LĐ-TB&XH"
-                }
-            ]
-        },
-        {
-            "id": "conv_004",
-            "messages": [
-                {
-                    "turn": 1,
-                    "intent": "LEGAL_QA",
-                    "question": "Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là bao nhiêu?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là bao nhiêu?",
-                    "answer": "Theo Phụ lục của Nghị quyết 54/NQ-HĐND, mức giá cho dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là 3.333.000 đồng.",
-                    "citation": "Số thứ tự 724, Phụ lục Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 2,
-                    "intent": "LEGAL_QA",
-                    "question": "Mức giá đó đã bao gồm chi phí bộ kít tách và thuốc chưa?",
-                    "rewritten_query": "Mức giá 3.333.000 đồng cho dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi đã bao gồm chi phí bộ kít tách huyết tương và thuốc chưa?",
-                    "answer": "Chưa, quy định ghi rõ mức giá này chưa bao gồm chi phí cho bộ kít tách huyết tương, thuốc và oxy.",
-                    "citation": "Ghi chú tại Số thứ tự 724, Phụ lục Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 3,
-                    "intent": "LEGAL_QA",
-                    "question": "Còn phẫu thuật nạo xương viêm trên người bệnh đái tháo đường thì sao?",
-                    "rewritten_query": "Giá dịch vụ phẫu thuật nạo xương viêm trên người bệnh đái tháo đường theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi là bao nhiêu?",
-                    "answer": "Mức giá cho dịch vụ nạo xương viêm trên người bệnh đái tháo đường là 2.092.800 đồng và cũng chưa bao gồm chi phí thuốc và oxy.",
-                    "citation": "Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 4,
-                    "intent": "CONFLICT_ANALYZER",
-                    "question": "Nếu trước đây tỉnh có quy định mức giá thấp hơn cho các kỹ thuật này thì quy định đó còn hiệu lực không?",
-                    "rewritten_query": "Nếu các nghị quyết trước đây của tỉnh Quảng Ngãi có quy định mức giá thấp hơn cho các dịch vụ kỹ thuật y tế này thì các quy định đó còn hiệu lực áp dụng sau khi Nghị quyết 54/NQ-HĐND có hiệu lực không?",
-                    "answer": "Không, khi Nghị quyết 54/NQ-HĐND chính thức có hiệu lực thi hành, các quy định về giá dịch vụ khám bệnh, chữa bệnh do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó sẽ bị bãi bỏ hoặc hết hiệu lực để áp dụng thống nhất theo bảng giá mới này.",
-                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 5,
-                    "intent": "SECTOR_SEARCH",
-                    "question": "Có văn bản nào của Bộ Y tế hướng dẫn chi tiết về danh mục các kỹ thuật này không?",
-                    "rewritten_query": "Có văn bản pháp luật nào của Bộ Y tế hướng dẫn chi tiết về danh mục các kỹ thuật trong khám bệnh, chữa bệnh liên quan đến các dịch vụ được nêu không?",
-                    "answer": "Có, danh mục kỹ thuật trong khám bệnh, chữa bệnh được Bộ Y tế quy định và hướng dẫn chi tiết tại các Thông tư chuyên ngành, ví dụ như Thông tư số 23/2024/TT-BYT ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh.",
-                    "citation": "Hệ thống văn bản pháp luật y tế (Thông tư 23/2024/TT-BYT)"
-                }
-            ]
-        },
-        {
-            "id": "conv_004",
-            "messages": [
-                {
-                    "turn": 1,
-                    "intent": "LEGAL_QA",
-                    "question": "Phạm vi điều chỉnh của Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 là gì?",
-                    "rewritten_query": "Phạm vi điều chỉnh của Nghị quyết 54/NQ-HĐND do tỉnh Quảng Ngãi ban hành năm 2025 là gì?",
-                    "answer": "Nghị quyết 54/NQ-HĐND quy định giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.",
-                    "citation": "Tiêu đề, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 2,
-                    "intent": "LEGAL_QA",
-                    "question": "Áp dụng cho những đối tượng nào?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi áp dụng cho những đối tượng nào?",
-                    "answer": "Nghị quyết này áp dụng cho các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi, người bệnh sử dụng dịch vụ tại các cơ sở này và các cơ quan, tổ chức, cá nhân có liên quan.",
-                    "citation": "Phần quy định chung, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 3,
-                    "intent": "LEGAL_QA",
-                    "question": "Trong văn bản này, giá phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu là bao nhiêu?",
-                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi, giá dịch vụ phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu là bao nhiêu?",
-                    "answer": "Theo phụ lục của Nghị quyết, giá phẫu thuật khoan đục xương, lấy bỏ xương chết trong điều trị bỏng sâu là 2.850.000 đồng.",
-                    "citation": "Số thứ tự 726, Phụ lục Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 4,
-                    "intent": "LEGAL_QA",
-                    "question": "Mức giá đó đã tính luôn tiền thuốc chưa?",
-                    "rewritten_query": "Mức giá 2.850.000 đồng cho phẫu thuật khoan đục xương điều trị bỏng sâu theo Nghị quyết 54/NQ-HĐND đã bao gồm chi phí tiền thuốc chưa?",
-                    "answer": "Chưa, quy định nêu rõ mức giá này chưa bao gồm chi phí thuốc và oxy.",
-                    "citation": "Ghi chú tại Số thứ tự 726, Phụ lục Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 5,
-                    "intent": "LEGAL_QA",
-                    "question": "Thế còn nạo xương viêm cho người bị đái tháo đường thì quy định đó tính phí sao?",
-                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi, giá dịch vụ nạo xương viêm trên người bệnh đái tháo đường được tính phí như thế nào?",
-                    "answer": "Mức giá cho dịch vụ nạo xương viêm trên người bệnh đái tháo đường được quy định là 2.092.800 đồng.",
-                    "citation": "Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND"
+                    "question": "Việc bệnh viện tự bào chế và cung cấp thuốc cổ truyền cho cơ sở khác có vi phạm quy định cấm kinh doanh thuốc của Luật Dược không?",
+                    "rewritten_query": "Việc bệnh viện y học cổ truyền tự bào chế thuốc và cung cấp cho cơ sở y tế khác theo Thông tư 54/2025/TT-BYT có vi phạm hoặc mâu thuẫn với quy định cấm cơ sở khám chữa bệnh kinh doanh thuốc tại Luật Dược không?",
+                    "answer": "Không vi phạm. Thông tư 54/2025/TT-BYT quy định rõ: Bệnh viện chỉ được cung cấp thuốc cổ truyền cho các tổ chức, cá nhân khác khi 'đáp ứng đủ điều kiện theo quy định tại khoản 1 và khoản 2 Điều 70 Luật Dược'. Do đó, quy định này hoàn toàn thống nhất và tuân thủ chặt chẽ Luật Dược.",
+                    "citation": "Khoản 7 Điều 3, Thông tư 54/2025/TT-BYT [cite: 44]"
                 },
                 {
                     "turn": 6,
                     "intent": "LEGAL_QA",
-                    "question": "Có bao gồm chi phí oxy y tế không?",
-                    "rewritten_query": "Mức giá dịch vụ nạo xương viêm trên người bệnh đái tháo đường theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có bao gồm chi phí oxy y tế không?",
-                    "answer": "Tương tự như dịch vụ trên, mức giá 2.092.800 đồng này cũng chưa bao gồm chi phí thuốc và oxy.",
-                    "citation": "Ghi chú tại Số thứ tự 728, Phụ lục Nghị quyết 54/NQ-HĐND"
+                    "question": "Nhiệm vụ hỗ trợ trạm y tế xã trồng vườn thuốc nam được quy định cụ thể ra sao?",
+                    "rewritten_query": "Nhiệm vụ của bệnh viện y học cổ truyền tuyến tỉnh trong việc hỗ trợ trạm y tế cấp xã trồng vườn thuốc nam được quy định như thế nào tại Thông tư 54/2025/TT-BYT?",
+                    "answer": "Thông tư quy định bệnh viện có nhiệm vụ phối hợp với các đơn vị có liên quan chỉ đạo xây dựng vườn thuốc nam trong các cơ sở y tế (bao gồm trạm y tế) và thực hiện công tác chăm sóc sức khỏe cộng đồng bằng y học cổ truyền.",
+                    "citation": "Điểm e Khoản 4 Điều 3, Thông tư 54/2025/TT-BYT [cite: 39]"
                 },
                 {
                     "turn": 7,
-                    "intent": "LEGAL_QA",
-                    "question": "Các phòng khám tư nhân trên địa bàn tỉnh có bắt buộc phải thu theo bảng giá đó không?",
-                    "rewritten_query": "Các cơ sở y tế tư nhân trên địa bàn tỉnh Quảng Ngãi có bắt buộc phải thu phí dịch vụ theo bảng giá quy định tại Nghị quyết 54/NQ-HĐND không?",
-                    "answer": "Không, Nghị quyết này chỉ quy định mức giá áp dụng tại các cơ sở khám bệnh, chữa bệnh của Nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi, không mang tính bắt buộc áp dụng đối với cơ sở y tế tư nhân.",
-                    "citation": "Tiêu đề và phạm vi điều chỉnh, Nghị quyết 54/NQ-HĐND"
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tìm các tài liệu và văn bản liên quan hướng dẫn phạm vi chuyên môn khám đông y tại Trạm y tế cấp xã.",
+                    "rewritten_query": "Tìm kiếm và tổng hợp các văn bản quy phạm pháp luật hướng dẫn chi tiết về phạm vi hoạt động chuyên môn khám bệnh, chữa bệnh bằng y học cổ truyền tại Trạm y tế cấp xã.",
+                    "answer": "Phạm vi chuyên môn tại y tế tuyến xã được quy định chủ yếu trong các văn bản: Thông tư quy định về chức năng, nhiệm vụ của Trạm Y tế xã, phường, thị trấn do Bộ Y tế ban hành; Thông tư ban hành danh mục kỹ thuật trong khám bệnh, chữa bệnh áp dụng cho tuyến cơ sở; và các quyết định phân tuyến chuyên môn kỹ thuật của Sở Y tế địa phương.",
+                    "citation": "Hệ thống văn bản quản lý Y tế cơ sở"
                 },
                 {
                     "turn": 8,
                     "intent": "CONFLICT_ANALYZER",
-                    "question": "Vậy khi có hiệu lực, nó có thay thế cho nghị quyết giá dịch vụ y tế nào trước đó của tỉnh không?",
-                    "rewritten_query": "Khi có hiệu lực, Nghị quyết 54/NQ-HĐND có thay thế cho nghị quyết quy định giá dịch vụ y tế nào do tỉnh Quảng Ngãi ban hành trước đó không?",
-                    "answer": "Có, khi chính thức có hiệu lực thi hành, Nghị quyết này sẽ bãi bỏ và thay thế các nghị quyết quy định mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở y tế nhà nước do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó nhằm đảm bảo áp dụng thống nhất biểu giá mới.",
-                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 9,
-                    "intent": "SECTOR_SEARCH",
-                    "question": "Ngoài văn bản trên, có luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho các dịch vụ này không?",
-                    "rewritten_query": "Ngoài Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi, có văn bản pháp luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho các dịch vụ khám bệnh, chữa bệnh không?",
-                    "answer": "Có, việc thanh toán chi phí bảo hiểm y tế cho các dịch vụ này được thực hiện dựa trên Luật Bảo hiểm y tế hiện hành và các Nghị định, Thông tư hướng dẫn thi hành của Chính phủ, Bộ Y tế về thủ tục và mức hưởng chi phí khám chữa bệnh BHYT.",
-                    "citation": "Hệ thống văn bản pháp luật về Bảo hiểm y tế"
-                },
-                {
-                    "turn": 10,
-                    "intent": "SECTOR_SEARCH",
-                    "question": "Bộ Y tế có ban hành thông tư nào quy định khung giá chung cho chúng để tỉnh làm căn cứ không?",
-                    "rewritten_query": "Bộ Y tế có ban hành Thông tư nào quy định khung giá chung cho các dịch vụ khám bệnh, chữa bệnh để tỉnh Quảng Ngãi làm căn cứ ban hành bảng giá tại Nghị quyết 54/NQ-HĐND không?",
-                    "answer": "Có, Bộ Y tế có ban hành các Thông tư quy định khung giá và phương pháp định giá dịch vụ khám bệnh, chữa bệnh (ví dụ như Thông tư 21/2024/TT-BYT) để làm căn cứ pháp lý cho Hội đồng nhân dân các tỉnh, thành phố trực thuộc trung ương ban hành mức giá cụ thể áp dụng tại địa phương mình.",
-                    "citation": "Phần Căn cứ ban hành, Nghị quyết 54/NQ-HĐND và Thông tư của Bộ Y tế"
+                    "question": "Thông tư 54/2025 này có bãi bỏ quyết định nào trước đó của Ủy ban nhân dân tỉnh về bệnh viện y học cổ truyền không?",
+                    "rewritten_query": "Khi có hiệu lực, Thông tư 54/2025/TT-BYT có tự động bãi bỏ hay làm mất hiệu lực các Quyết định quy định chức năng, nhiệm vụ bệnh viện y học cổ truyền do Ủy ban nhân dân tỉnh ban hành trước đây không?",
+                    "answer": "Không tự động bãi bỏ. Theo Điều 7 (Điều khoản chuyển tiếp), các bệnh viện tiếp tục thực hiện theo văn bản đã được cấp có thẩm quyền (UBND tỉnh) phê duyệt trước đó, cho đến khi UBND tỉnh ban hành văn bản phê duyệt cơ cấu tổ chức mới. Nghĩa là quyết định cũ vẫn tạm thời có hiệu lực áp dụng.",
+                    "citation": "Điều 7, Thông tư 54/2025/TT-BYT [cite: 57]"
                 }
             ]
         },
         {
-            "id": "conv_005",
+            "id": "doc1_conv_002_legal_prep",
+            "role_description": "Chuyên viên pháp lý Sở Y tế chuẩn bị hồ sơ tổ chức lại cơ cấu bệnh viện",
             "messages": [
                 {
                     "turn": 1,
-                    "intent": "LEGAL_QA",
-                    "question": "Theo Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi, mức giá khám bệnh tại bệnh viện hạng I là bao nhiêu?",
-                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Quảng Ngãi, mức giá dịch vụ khám bệnh tại bệnh viện hạng I được quy định là bao nhiêu?",
-                    "answer": "Mức giá dịch vụ khám bệnh tại bệnh viện hạng I được quy định chi tiết tại Phụ lục I ban hành kèm theo Nghị quyết 54/NQ-HĐND. Để có con số chính xác, cần đối chiếu với bảng giá chi tiết trong phụ lục này.",
-                    "citation": "Phụ lục I.1, Nghị quyết 54/NQ-HĐND"
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tổng hợp danh sách các văn bản pháp lý được sử dụng làm căn cứ ban hành Thông tư 54/2025/TT-BYT.",
+                    "rewritten_query": "Tổng hợp và liệt kê danh sách các văn bản quy phạm pháp luật được Bộ Y tế sử dụng làm căn cứ pháp lý để ban hành Thông tư 54/2025/TT-BYT.",
+                    "answer": "Thông tư 54/2025/TT-BYT được ban hành dựa trên các căn cứ chính sau: Luật Khám bệnh, chữa bệnh số 15/2023/QH15; Nghị định 42/2025/NĐ-CP (quy định chức năng Bộ Y tế); Nghị định 96/2023/NĐ-CP (hướng dẫn Luật Khám chữa bệnh); Nghị định 150/2025/NĐ-CP (cơ quan chuyên môn thuộc UBND); và Nghị định 120/2020/NĐ-CP sửa đổi bởi 283/2025/NĐ-CP (tổ chức đơn vị sự nghiệp).",
+                    "citation": "Phần Căn cứ ban hành, Thông tư 54/2025/TT-BYT [cite: 1, 2, 3, 4, 5]"
                 },
                 {
                     "turn": 2,
                     "intent": "LEGAL_QA",
-                    "question": "Tại trạm y tế xã thì sao?",
-                    "rewritten_query": "Mức giá dịch vụ khám bệnh tại trạm y tế cấp xã theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi là bao nhiêu?",
-                    "answer": "Mức giá khám bệnh tại trạm y tế xã cũng được quy định cụ thể tại Phụ lục I, thường sẽ áp dụng mức giá thấp hơn so với các bệnh viện tuyến trên.",
-                    "citation": "Phụ lục I, Nghị quyết 54/NQ-HĐND"
+                    "question": "Cơ cấu tổ chức các bộ phận hành chính của bệnh viện theo quy định mới bao gồm những phòng ban nào?",
+                    "rewritten_query": "Theo Thông tư 54/2025/TT-BYT, cơ cấu tổ chức các bộ phận hành chính của bệnh viện y học cổ truyền tuyến tỉnh bao gồm những bộ phận nào?",
+                    "answer": "Bệnh viện có các bộ phận hành chính để thực hiện các chức năng về: kế hoạch tổng hợp, tổ chức nhân sự, quản lý chất lượng, điều dưỡng, tài chính kế toán, công nghệ thông tin, thiết bị y tế, công tác xã hội và các chức năng cần thiết khác.",
+                    "citation": "Khoản 2 Điều 5, Thông tư 54/2025/TT-BYT [cite: 54]"
                 },
                 {
                     "turn": 3,
                     "intent": "LEGAL_QA",
-                    "question": "Mức giá đó đã bao gồm chi phí thực hiện các xét nghiệm chưa?",
-                    "rewritten_query": "Mức giá dịch vụ khám bệnh theo quy định tại Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi đã bao gồm chi phí thực hiện các xét nghiệm y tế chưa?",
-                    "answer": "Chưa, mức giá khám bệnh quy định tại Phụ lục I chỉ là tiền công khám bệnh. Chi phí cho các dịch vụ xét nghiệm, chẩn đoán hình ảnh sẽ được tính riêng theo mức giá quy định tại Phụ lục III của Nghị quyết này.",
-                    "citation": "Nguyên tắc áp dụng giá, Nghị quyết 54/NQ-HĐND"
+                    "question": "Bệnh viện y học cổ truyền tư nhân có bắt buộc phải tuân thủ đúng cơ cấu tổ chức này không?",
+                    "rewritten_query": "Bệnh viện y học cổ truyền tư nhân có bắt buộc phải áp dụng quy định về cơ cấu tổ chức theo Thông tư 54/2025/TT-BYT không?",
+                    "answer": "Không bắt buộc. Quy định tại Điều 1 nêu rõ Thông tư này chỉ hướng dẫn cho bệnh viện y học cổ truyền công lập thuộc tỉnh, thành phố. Đối với bệnh viện tư nhân chỉ là 'có thể tham khảo áp dụng'.",
+                    "citation": "Khoản 1 và Khoản 2 Điều 1, Thông tư 54/2025/TT-BYT [cite: 8, 9]"
                 },
                 {
                     "turn": 4,
-                    "intent": "LEGAL_QA",
-                    "question": "Nếu người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở thì tính phí như thế nào?",
-                    "rewritten_query": "Theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi, trường hợp người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở y tế thì chi phí khám bệnh được tính như thế nào?",
-                    "answer": "Quy định về việc thanh toán chi phí khi khám nhiều chuyên khoa trong cùng một ngày thường áp dụng nguyên tắc: lần khám đầu tiên tính 100% giá, các lần khám tiếp theo trong cùng ngày sẽ được tính theo tỷ lệ phần trăm thấp hơn quy định tại hướng dẫn của Bộ Y tế.",
-                    "citation": "Phần Quy định chung và Phụ lục I, Nghị quyết 54/NQ-HĐND"
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Đối chiếu với quy định mới, cơ cấu các phòng khám chuyên môn theo điểm b khoản 4 Điều 41 Nghị định 96/2023 có gì mâu thuẫn với Nghị định 120/2020 về số lượng người làm việc tối thiểu không?",
+                    "rewritten_query": "Việc tổ chức các bộ phận chuyên môn theo điểm b khoản 4 Điều 41 Nghị định 96/2023/NĐ-CP được nêu tại Thông tư 54/2025/TT-BYT có mâu thuẫn hay chồng chéo với điều kiện về số lượng người làm việc tối thiểu để thành lập khoa, phòng theo Nghị định 120/2020/NĐ-CP không?",
+                    "answer": "Không mâu thuẫn. Thông tư 54/2025/TT-BYT đã giải quyết sự chồng chéo này bằng cách quy định rõ tại khoản 2 Điều 5: Việc thành lập các bộ phận chuyên môn (theo Nghị định 96) BẮT BUỘC phải tuân thủ các điều kiện thành lập tổ chức (như số lượng người tối thiểu) quy định tại Điều 6 Nghị định 120/2020/NĐ-CP (đã sửa đổi bởi 283/2025). Như vậy, hai hệ thống văn bản được móc nối thống nhất.",
+                    "citation": "Khoản 2 Điều 5, Thông tư 54/2025/TT-BYT [cite: 55]"
                 },
                 {
                     "turn": 5,
                     "intent": "LEGAL_QA",
-                    "question": "Cụ thể là từ lần khám thứ hai trở đi?",
-                    "rewritten_query": "Cụ thể từ lần khám chuyên khoa thứ hai trở đi trong cùng một ngày tại cùng một cơ sở y tế, chi phí khám được tính bằng bao nhiêu phần trăm theo Nghị quyết 54/NQ-HĐND của Quảng Ngãi?",
-                    "answer": "Thông thường, theo nguyên tắc chung được hướng dẫn tại các Thông tư của Bộ Y tế và áp dụng tại Nghị quyết, từ lần khám thứ 2 trở đi trong cùng một ngày chỉ tính 30% mức giá khám bệnh.",
-                    "citation": "Nguyên tắc áp dụng, Nghị quyết 54/NQ-HĐND"
+                    "question": "Trong trường hợp muốn thay đổi chức năng nhiệm vụ, cơ quan nào có thẩm quyền ban hành quyết định?",
+                    "rewritten_query": "Theo Thông tư 54/2025/TT-BYT, cơ quan nào có thẩm quyền quy định hoặc thay đổi chức năng nhiệm vụ, cơ cấu tổ chức của bệnh viện y học cổ truyền tuyến tỉnh?",
+                    "answer": "Thẩm quyền này thuộc về Ủy ban nhân dân cấp tỉnh. UBND cấp tỉnh có trách nhiệm căn cứ vào quy định pháp luật, phân cấp quản lý để quy định chức năng nhiệm vụ, quyền hạn và cơ cấu tổ chức cho bệnh viện.",
+                    "citation": "Điểm b Khoản 1 Điều 9, Thông tư 54/2025/TT-BYT [cite: 60]"
                 },
                 {
                     "turn": 6,
-                    "intent": "LEGAL_QA",
-                    "question": "Văn bản này quy định tiền giường bệnh ban ngày được thanh toán ra sao?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi quy định tiền giường bệnh điều trị ban ngày được tính toán và thanh toán như thế nào?",
-                    "answer": "Ngày giường bệnh điều trị ban ngày được tính bằng 0,3 lần giá ngày giường của các khoa và loại phòng tương ứng theo quy định tại Phụ lục II.",
-                    "citation": "Phụ lục II.1, Nghị quyết 54/NQ-HĐND"
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Quy định giao bệnh viện tỉnh đi chuyển giao kỹ thuật cho cơ sở khác có chồng chéo với chức năng chỉ đạo tuyến của Bộ Y tế không?",
+                    "rewritten_query": "Nhiệm vụ chuyển giao kỹ thuật của bệnh viện y học cổ truyền tuyến tỉnh theo Thông tư 54/2025/TT-BYT có chồng chéo với chức năng chỉ đạo tuyến thuộc thẩm quyền của Bộ Y tế không?",
+                    "answer": "Không chồng chéo. Chức năng chuyển giao kỹ thuật này được thực hiện ở quy mô địa phương. Cụ thể, Sở Y tế tỉnh sẽ căn cứ vào nhu cầu của cơ sở y tế 'trên địa bàn quản lý' để phân công bệnh viện y học cổ truyền tuyến tỉnh đi chuyển giao. Nó đóng vai trò là tuyến hỗ trợ trực tiếp tại cơ sở, phân tách rõ với chức năng chỉ đạo tuyến vĩ mô của Bộ Y tế.",
+                    "citation": "Điểm b Khoản 3 Điều 9 và Điểm đ Khoản 4 Điều 3, Thông tư 54/2025/TT-BYT [cite: 38, 63]"
                 },
                 {
                     "turn": 7,
-                    "intent": "LEGAL_QA",
-                    "question": "Vậy còn đối với trạm y tế có giường lưu?",
-                    "rewritten_query": "Đối với trạm y tế cấp xã có giường lưu thì tiền giường bệnh được quy định như thế nào theo Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi?",
-                    "answer": "Đối với Trạm y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán tối đa là 03 ngày/người/đợt điều trị.",
-                    "citation": "Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND"
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Văn bản nào quy định về việc ký kết hợp đồng chuyển giao công nghệ y học cổ truyền giữa các cơ sở khám chữa bệnh?",
+                    "rewritten_query": "Tìm kiếm và liệt kê các văn bản pháp luật quy định chi tiết về việc ký kết hợp đồng chuyển giao công nghệ, kỹ thuật chuyên môn y học cổ truyền giữa các cơ sở khám bệnh, chữa bệnh.",
+                    "answer": "Việc ký kết hợp đồng chuyển giao kỹ thuật, công nghệ y tế được điều chỉnh bởi: Luật Chuyển giao công nghệ; Nghị định hướng dẫn Luật Chuyển giao công nghệ; và các Thông tư của Bộ Y tế hướng dẫn về hoạt động chỉ đạo tuyến, luân phiên cán bộ, hợp đồng hỗ trợ chuyên môn kỹ thuật giữa các cơ sở y tế.",
+                    "citation": "Hệ thống văn bản về Chuyển giao công nghệ y tế"
                 },
                 {
                     "turn": 8,
                     "intent": "LEGAL_QA",
-                    "question": "Có được thu thêm tiền khám không nếu đã thu tiền giường đó?",
-                    "rewritten_query": "Cơ sở y tế có được thu thêm tiền khám bệnh đối với bệnh nhân không nếu đã thu tiền giường lưu tại trạm y tế theo Nghị quyết 54/NQ-HĐND của Quảng Ngãi?",
-                    "answer": "Không, Nghị quyết quy định rõ cơ sở y tế không được thanh toán tiền khám bệnh trong trường hợp đã thanh toán tiền ngày giường lưu.",
-                    "citation": "Khoản 2 Điều 3, Nghị quyết 54/NQ-HĐND"
+                    "question": "Sở y tế gặp vướng mắc trong quá trình phân công tuyến thì phải làm gì?",
+                    "rewritten_query": "Theo Thông tư 54/2025/TT-BYT, trường hợp Sở Y tế có khó khăn, vướng mắc trong quá trình thực hiện phân công tuyến, hỗ trợ chuyên môn thì phải báo cáo cơ quan nào?",
+                    "answer": "Trong quá trình thực hiện, nếu có khó khăn, vướng mắc, Sở Y tế phải thông tin về Bộ Y tế, cụ thể là gửi về Cục Quản lý Y, Dược cổ truyền để xem xét, giải quyết theo thẩm quyền.",
+                    "citation": "Khoản 3 Điều 9, Thông tư 54/2025/TT-BYT [cite: 64]"
+                }
+            ]
+        },
+        {
+            "id": "doc1_conv_003_academic",
+            "role_description": "Học giả phân tích xung đột pháp lý, bãi bỏ văn bản và luật học",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Thông tư 54/2025/TT-BYT có bãi bỏ Thông tư 37/2011/TT-BYT không?",
+                    "rewritten_query": "Thông tư 54/2025/TT-BYT có quy định bãi bỏ và làm hết hiệu lực Thông tư số 37/2011/TT-BYT quy định về Bệnh viện Y học cổ truyền tuyến tỉnh không?",
+                    "answer": "Có. Thông tư 54/2025/TT-BYT quy định rõ: Thông tư số 37/2011/TT-BYT ngày 26 tháng 10 năm 2011 của Bộ trưởng Bộ Y tế sẽ chính thức hết hiệu lực kể từ ngày Thông tư 54 này có hiệu lực (01/3/2026).",
+                    "citation": "Khoản 1 và Khoản 2 Điều 6, Thông tư 54/2025/TT-BYT [cite: 56]"
                 },
                 {
-                    "turn": 9,
+                    "turn": 2,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "So sánh chức năng của bệnh viện y học cổ truyền tại văn bản mới so với văn bản cũ, có nhiệm vụ nào bị thay thế hay bổ sung mới hoàn toàn không?",
+                    "rewritten_query": "So sánh đối chiếu chức năng, nhiệm vụ của bệnh viện y học cổ truyền quy định tại Thông tư 54/2025/TT-BYT với văn bản cũ (Thông tư 37/2011/TT-BYT), có những chức năng nào bị thay thế, loại bỏ hoặc bổ sung mới hoàn toàn không?",
+                    "answer": "Dù cần đối chiếu trực tiếp bản text của Thông tư 37/2011, nhưng dựa trên nguyên tắc lập pháp, Thông tư 54/2025 đã bổ sung mạnh mẽ chức năng 'triển khai ứng dụng khoa học, công nghệ, kỹ thuật hiện đại' và 'tham gia phòng, chống dịch bệnh, thiên tai, thảm họa'. Đồng thời, khung pháp lý cho phép 'tự chủ tổ chức hoạt động' cũng thay thế hoàn toàn tư duy quản lý theo định biên cứng của các quy định cũ.",
+                    "citation": "Điều 2 và Điều 4, Thông tư 54/2025/TT-BYT [cite: 10, 11, 12, 13, 14, 15, 16, 47]"
+                },
+                {
+                    "turn": 3,
                     "intent": "LEGAL_QA",
-                    "question": "Đối với bệnh nhân nhập viện trước khi quy định mới này áp dụng thì tính tiền giường theo giá nào?",
-                    "rewritten_query": "Đối với bệnh nhân đã nhập viện điều trị trước ngày Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có hiệu lực thì tiền giường bệnh được tính theo bảng giá nào?",
-                    "answer": "Theo điều khoản chuyển tiếp, người bệnh đang điều trị trước ngày Nghị quyết có hiệu lực sẽ tiếp tục áp dụng mức giá theo quy định cũ cho đến khi ra viện hoặc kết thúc đợt điều trị.",
-                    "citation": "Điều khoản chuyển tiếp, Nghị quyết 54/NQ-HĐND"
+                    "question": "Quy định về việc tiếp nhận người nước ngoài đến học tập, nghiên cứu nằm ở điểm nào?",
+                    "rewritten_query": "Nhiệm vụ mời chuyên gia và tiếp nhận người nước ngoài đến nghiên cứu, học tập tại bệnh viện y học cổ truyền tỉnh được quy định tại điều khoản nào của Thông tư 54/2025/TT-BYT?",
+                    "answer": "Nhiệm vụ này được quy định cụ thể tại điểm c khoản 3 Điều 3 thuộc nhóm nhiệm vụ Nghiên cứu khoa học, triển khai ứng dụng khoa học, công nghệ, kỹ thuật hiện đại.",
+                    "citation": "Điểm c Khoản 3 Điều 3, Thông tư 54/2025/TT-BYT [cite: 30]"
                 },
                 {
-                    "turn": 10,
-                    "intent": "CONFLICT_ANALYZER",
-                    "question": "Nghị quyết này có bãi bỏ quyết định giá nào của tỉnh Kon Tum không?",
-                    "rewritten_query": "Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có bãi bỏ hay làm hết hiệu lực văn bản quy định giá y tế nào của tỉnh Kon Tum không?",
-                    "answer": "Có, Nghị quyết 54/NQ-HĐND quy định làm hết hiệu lực Nghị quyết số 117/NQ-HĐND ngày 27/12/2024 của Hội đồng nhân dân tỉnh Kon Tum về định giá dịch vụ khám bệnh, chữa bệnh.",
-                    "citation": "Điểm b Khoản 3 Điều 5, Nghị quyết 54/NQ-HĐND"
+                    "turn": 4,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Liệt kê các Nghị định, Thông tư quy định về việc cấp giấy phép hành nghề cho người nước ngoài tại cơ sở y tế Việt Nam.",
+                    "rewritten_query": "Tìm kiếm và liệt kê các Nghị định, Thông tư hiện hành quy định chi tiết về thủ tục, điều kiện cấp giấy phép hành nghề khám bệnh, chữa bệnh cho chuyên gia, bác sĩ là người nước ngoài tại Việt Nam.",
+                    "answer": "Để chuyên gia nước ngoài hành nghề tại Việt Nam, cần tuân thủ các quy định tại: Luật Khám bệnh, chữa bệnh 2023; Nghị định 96/2023/NĐ-CP quy định chi tiết Luật Khám chữa bệnh (các chương về cấp giấy phép hành nghề cho người nước ngoài, đánh giá năng lực tiếng Việt, chuyên môn); và các Thông tư liên quan của Bộ Y tế về thủ tục hành chính.",
+                    "citation": "Hệ thống văn bản pháp luật Khám bệnh, chữa bệnh 2023"
                 },
                 {
-                    "turn": 11,
-                    "intent": "CONFLICT_ANALYZER",
-                    "question": "Thế còn các nghị quyết về giá y tế của chính tỉnh Quảng Ngãi ban hành trước đây thì sao?",
-                    "rewritten_query": "Các nghị quyết quy định về giá dịch vụ y tế do chính tỉnh Quảng Ngãi ban hành trước năm 2025 có bị bãi bỏ bởi Nghị quyết 54/NQ-HĐND không?",
-                    "answer": "Có, các nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở nhà nước do Hội đồng nhân dân tỉnh Quảng Ngãi ban hành trước đó sẽ bị bãi bỏ để áp dụng thống nhất theo bảng giá mới tại Nghị quyết 54/NQ-HĐND.",
-                    "citation": "Điều khoản thi hành, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 12,
+                    "turn": 5,
                     "intent": "LEGAL_QA",
-                    "question": "Mức giá quy định trong phụ lục 3 của nó có áp dụng cho phòng khám tư nhân không?",
-                    "rewritten_query": "Mức giá dịch vụ kỹ thuật quy định trong Phụ lục III của Nghị quyết 54/NQ-HĐND tỉnh Quảng Ngãi có bắt buộc áp dụng cho các phòng khám tư nhân không?",
-                    "answer": "Không, Nghị quyết này chỉ áp dụng đối với các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc phạm vi quản lý của tỉnh Quảng Ngãi.",
-                    "citation": "Phạm vi điều chỉnh, Nghị quyết 54/NQ-HĐND"
+                    "question": "Bệnh viện có được quyền đưa ra kết luận khoa học làm cơ sở pháp lý không?",
+                    "rewritten_query": "Theo quy định tại Thông tư 54/2025/TT-BYT, bệnh viện y học cổ truyền tuyến tỉnh có thẩm quyền đưa ra các kết luận khoa học để làm cơ sở pháp lý cho các cơ quan chức năng không?",
+                    "answer": "Được phép. Bệnh viện được quyền đưa ra những kết luận khoa học làm cơ sở pháp lý cho các cơ quan chức năng xem xét, xử lý và ứng dụng thực tiễn.",
+                    "citation": "Khoản 4 Điều 4, Thông tư 54/2025/TT-BYT [cite: 50]"
                 },
                 {
-                    "turn": 13,
-                    "intent": "SECTOR_SEARCH",
-                    "question": "Có văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh làm cơ sở ban hành bảng giá không?",
-                    "rewritten_query": "Có văn bản pháp luật nào của cơ quan trung ương quy định về danh mục các dịch vụ kỹ thuật khám bệnh, chữa bệnh để tỉnh Quảng Ngãi làm cơ sở ban hành bảng giá tại Nghị quyết 54/NQ-HĐND không?",
-                    "answer": "Có, Bộ Y tế ban hành Thông tư số 23/2024/TT-BYT ngày 18/10/2024 ban hành Danh mục kỹ thuật trong khám bệnh, chữa bệnh. Đây là một trong những căn cứ pháp lý quan trọng để tỉnh Quảng Ngãi xây dựng bảng giá này.",
-                    "citation": "Phần căn cứ pháp lý, Nghị quyết 54/NQ-HĐND"
-                },
-                {
-                    "turn": 14,
+                    "turn": 6,
                     "intent": "CONFLICT_ANALYZER",
-                    "question": "Nếu sau này Bộ Y tế ra thông tư mới điều chỉnh khung giá cao hơn thì văn bản này có bị mất hiệu lực tự động không?",
-                    "rewritten_query": "Nếu Bộ Y tế ban hành Thông tư mới điều chỉnh khung giá khám bệnh, chữa bệnh cao hơn thì Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi có tự động mất hiệu lực không?",
-                    "answer": "Không tự động mất hiệu lực. Theo Luật Ban hành văn bản quy phạm pháp luật, khi có sự thay đổi từ cơ quan cấp trên, Hội đồng nhân dân tỉnh Quảng Ngãi sẽ phải tiến hành rà soát và ban hành một Nghị quyết mới để sửa đổi, bổ sung hoặc thay thế Nghị quyết 54/NQ-HĐND cho phù hợp.",
-                    "citation": "Luật Ban hành văn bản quy phạm pháp luật 2015 (sửa đổi, bổ sung 2020)"
+                    "question": "Việc xếp hạng 'cấp chuyên sâu' cho bệnh viện tỉnh có mâu thuẫn hay vi phạm nguyên tắc phân tuyến kỹ thuật của Luật Khám bệnh chữa bệnh không?",
+                    "rewritten_query": "Quy định yêu cầu bệnh viện y học cổ truyền tuyến tỉnh phải thực hiện nhiệm vụ của cấp chuyên sâu tại Khoản 8 Điều 3 Thông tư 54/2025/TT-BYT có mâu thuẫn hay vi phạm nguyên tắc phân tuyến kỹ thuật theo Luật Khám bệnh, chữa bệnh 2023 không?",
+                    "answer": "Không mâu thuẫn. Thông tư 54 quy định điều này hoàn toàn tuân thủ Luật Khám bệnh, chữa bệnh mới. Luật KBCB 2023 đã bãi bỏ hệ thống phân hạng 1, 2, 3 tuyến hành chính cứng nhắc, thay vào đó phân thành cấp ban đầu, cấp cơ bản và cấp chuyên sâu dựa trên năng lực. Việc một bệnh viện tỉnh đạt đủ năng lực chuyên môn để xếp 'cấp chuyên sâu' là hợp pháp.",
+                    "citation": "Khoản 8 Điều 3, Thông tư 54/2025/TT-BYT đối chiếu Luật KBCB 2023 [cite: 45]"
                 },
                 {
-                    "turn": 15,
+                    "turn": 7,
                     "intent": "SECTOR_SEARCH",
-                    "question": "Ngoài quy định về giá, tỉnh Quảng Ngãi có văn bản nào khác hỗ trợ chi phí khám chữa bệnh cho người nghèo không?",
-                    "rewritten_query": "Ngoài Nghị quyết quy định về giá dịch vụ khám bệnh, chữa bệnh, tỉnh Quảng Ngãi có văn bản pháp luật nào khác quy định về chính sách hỗ trợ chi phí khám chữa bệnh cho người nghèo không?",
-                    "answer": "Các tỉnh thường ban hành các Quyết định của Ủy ban nhân dân hoặc Nghị quyết của Hội đồng nhân dân về việc lập Quỹ khám, chữa bệnh cho người nghèo (dựa trên Quyết định 139/2002/QĐ-TTg và Quyết định 14/2012/QĐ-TTg của Thủ tướng). Để biết chính xác văn bản đang có hiệu lực tại Quảng Ngãi trong năm 2025, cần tra cứu trên Cơ sở dữ liệu quốc gia về pháp luật của tỉnh.",
-                    "citation": "Cơ sở dữ liệu quốc gia về pháp luật - Tỉnh Quảng Ngãi"
+                    "question": "Tổng hợp các văn bản và điều khoản luật quy định cụ thể về quyền lợi và trách nhiệm của cơ sở y tế xếp cấp chuyên sâu.",
+                    "rewritten_query": "Tổng hợp các văn bản pháp luật và trích dẫn các điều khoản quy định cụ thể về quyền lợi, trách nhiệm và phạm vi chuyên môn của cơ sở khám bệnh, chữa bệnh được xếp hạng cấp chuyên sâu.",
+                    "answer": "Các quy định cốt lõi về 'cấp chuyên sâu' nằm tại: Điều 104 Luật Khám bệnh, chữa bệnh số 15/2023/QH15 quy định hệ thống cơ sở khám chữa bệnh; Nghị định 96/2023/NĐ-CP quy định tiêu chí xếp cấp chuyên môn kỹ thuật; và các Thông tư của Bộ Y tế về tiêu chuẩn cơ sở vật chất, nhân sự đối với bệnh viện cấp chuyên sâu.",
+                    "citation": "Hệ thống văn bản Luật Khám bệnh, chữa bệnh 2023"
+                },
+                {
+                    "turn": 8,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Trường hợp Luật Dược bị sửa đổi vào năm sau, việc Thông tư 54 chiếu chuẩn vào đó có dẫn đến xung đột pháp luật không?",
+                    "rewritten_query": "Nếu Luật Dược (được viện dẫn tại Thông tư 54/2025/TT-BYT) bị Quốc hội sửa đổi trong tương lai, thì việc áp dụng Thông tư 54 có dẫn đến mâu thuẫn, xung đột pháp luật không?",
+                    "answer": "Sẽ không xảy ra xung đột. Thông tư 54 đã dự trù tình huống này bằng Điều khoản tham chiếu: Trường hợp các văn bản dẫn chiếu trong Thông tư này được thay thế, sửa đổi, bổ sung thì áp dụng tự động theo các văn bản thay thế, sửa đổi, bổ sung mới. Nhờ đó, tính thống nhất của pháp luật được bảo đảm.",
+                    "citation": "Điều 8, Thông tư 54/2025/TT-BYT [cite: 58]"
+                }
+            ]
+        },
+        {
+            "id": "doc2_conv_001_business",
+            "role_description": "Đại diện doanh nghiệp hỏi đáp về quy trình nhập khẩu và công bố sản phẩm",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Quyết định 1835/QĐ-TTPVHCC của Hà Nội quy định tái cấu trúc thủ tục cho những loại sản phẩm nào?",
+                    "rewritten_query": "Quyết định 1835/QĐ-TTPVHCC của Hà Nội quy định phương án tái cấu trúc thủ tục hành chính đăng ký bản công bố sản phẩm nhập khẩu cho những nhóm sản phẩm nào?",
+                    "answer": "Quyết định này áp dụng cho thủ tục đăng ký bản công bố sản phẩm nhập khẩu đối với: thực phẩm dinh dưỡng y học, thực phẩm dùng cho chế độ ăn đặc biệt, và sản phẩm dinh dưỡng dùng cho trẻ đến 36 tháng tuổi thuộc phạm vi quản lý của UBND thành phố Hà Nội[cite: 92].",
+                    "citation": "Điều 1, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Phí thẩm định đăng ký cho một sản phẩm nhập khẩu là bao nhiêu?",
+                    "rewritten_query": "Theo Quyết định 1835/QĐ-TTPVHCC, phí thẩm định thủ tục đăng ký bản công bố sản phẩm nhập khẩu là bao nhiêu tiền cho một sản phẩm?",
+                    "answer": "Phí thẩm định được quy định là 1.500.000 đồng/lần/1 sản phẩm[cite: 121].",
+                    "citation": "Mục 4 phần B, Phụ lục Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 3,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Liệt kê các văn bản quy phạm pháp luật quy định về mức thu và quản lý phí an toàn thực phẩm được nhắc đến trong quyết định này.",
+                    "rewritten_query": "Tìm kiếm và liệt kê các văn bản quy phạm pháp luật quy định về chế độ thu nộp, quản lý và sử dụng phí công tác an toàn thực phẩm được làm căn cứ trong Quyết định 1835/QĐ-TTPVHCC.",
+                    "answer": "Quyết định căn cứ vào Thông tư số 67/2021/TT-BTC ngày 05/08/2021 của Bộ Tài chính quy định về chế độ thu nộp quản lý và sử dụng phí công tác an toàn thực phẩm[cite: 121]. (Hệ thống có thể tham chiếu chéo thêm Luật Phí và lệ phí nếu cần).",
+                    "citation": "Mục 4 phần B, Phụ lục Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 4,
+                    "intent": "LEGAL_QA",
+                    "question": "Giấy chứng nhận lưu hành tự do (CFS) của nước ngoài cấp có yêu cầu thủ tục pháp lý gì thêm không?",
+                    "rewritten_query": "Giấy chứng nhận lưu hành tự do (CFS) do cơ quan có thẩm quyền của nước xuất khẩu cấp có bắt buộc phải hợp pháp hóa lãnh sự theo quy định tại Quyết định 1835/QĐ-TTPVHCC không?",
+                    "answer": "Có. Giấy chứng nhận lưu hành tự do (CFS), Giấy chứng nhận xuất khẩu, hoặc Giấy chứng nhận y tế của cơ quan có thẩm quyền nước xuất khẩu cấp phải được hợp pháp hóa lãnh sự[cite: 122, 123, 161].",
+                    "citation": "Mục 5.2 Phần B và Mục 4 Phần C, Phụ lục Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 5,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Việc yêu cầu nộp bản chính giấy chứng nhận lưu hành tự do có mâu thuẫn với việc triển khai dịch vụ công trực tuyến toàn trình không?",
+                    "rewritten_query": "Việc yêu cầu tổ chức cung cấp bản chính giấy chứng nhận lưu hành tự do (CFS) có mâu thuẫn với định hướng cung cấp dịch vụ công trực tuyến toàn trình tại Quyết định 1835/QĐ-TTPVHCC không?",
+                    "answer": "Quyết định đã nhận diện và giải quyết sự mâu thuẫn này. Hiện trạng trước đây yêu cầu bản chính hoặc sao y chứng thực gây khó khăn[cite: 105]. Phương án tái cấu trúc mới cho phép sử dụng bản sao điện tử hoặc bản điện tử được tái sử dụng từ Kho quản lý dữ liệu của tổ chức/cá nhân trên hệ thống/VNeID/iHanoi, phù hợp với dịch vụ công toàn trình[cite: 122, 123].",
+                    "citation": "Phần A Mục I và Phần B Mục 5.2, Phụ lục Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 6,
+                    "intent": "LEGAL_QA",
+                    "question": "Phiếu kết quả kiểm nghiệm của sản phẩm có hiệu lực tối đa bao lâu tính đến ngày nộp hồ sơ?",
+                    "rewritten_query": "Theo Quyết định 1835/QĐ-TTPVHCC, Phiếu kết quả kiểm nghiệm an toàn thực phẩm của sản phẩm có thời hạn hiệu lực tối đa là bao lâu tính đến ngày nộp hồ sơ?",
+                    "answer": "Phiếu kết quả kiểm nghiệm an toàn thực phẩm phải nằm trong thời hạn 12 tháng tính đến ngày nộp hồ sơ[cite: 123, 124, 161].",
+                    "citation": "Mục 5.3 Phần B, Phụ lục Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 7,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tìm các văn bản pháp luật hiện hành quy định chi tiết về quy chuẩn, tiêu chuẩn kỹ thuật an toàn đối với thực phẩm dành cho trẻ em.",
+                    "rewritten_query": "Tìm kiếm và tổng hợp các văn bản quy phạm pháp luật (Quy chuẩn quốc gia, Thông tư của Bộ Y tế) quy định về chỉ tiêu an toàn thực phẩm đối với sản phẩm dinh dưỡng dùng cho trẻ đến 36 tháng tuổi.",
+                    "answer": "Các chỉ tiêu này do Bộ Y tế ban hành hoặc áp dụng theo quy chuẩn, tiêu chuẩn tương ứng do tổ chức tự công bố trong trường hợp chưa có quy định của Bộ Y tế[cite: 124, 161, 162]. (Để có danh sách chi tiết, cần tham chiếu hệ thống Thông tư và QCVN của Bộ Y tế trên đồ thị tri thức).",
+                    "citation": "Mục 5.3 Phần B, Phụ lục Quyết định 1835/QĐ-TTPVHCC và Hệ thống QCVN y tế"
+                },
+                {
+                    "turn": 8,
+                    "intent": "LEGAL_QA",
+                    "question": "Quyết định tái cấu trúc thủ tục hành chính này khi nào mới bắt đầu có hiệu lực?",
+                    "rewritten_query": "Quyết định 1835/QĐ-TTPVHCC về tái cấu trúc thủ tục đăng ký bản công bố sản phẩm nhập khẩu chính thức có hiệu lực thi hành từ ngày nào?",
+                    "answer": "Quyết định 1835/QĐ-TTPVHCC có hiệu lực thi hành kể từ ngày 01/01/2026[cite: 95].",
+                    "citation": "Điều 3, Quyết định 1835/QĐ-TTPVHCC"
+                }
+            ]
+        },
+        {
+            "id": "doc2_conv_002_legal_prep",
+            "role_description": "Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tổng hợp các Nghị định của Chính phủ được làm căn cứ pháp lý để ban hành quyết định này.",
+                    "rewritten_query": "Tìm kiếm và tổng hợp danh sách các Nghị định của Chính phủ về kiểm soát thủ tục hành chính và dịch vụ công trực tuyến được sử dụng làm căn cứ ban hành Quyết định 1835/QĐ-TTPVHCC.",
+                    "answer": "Các Nghị định căn cứ bao gồm: Nghị định 63/2010/NĐ-CP, Nghị định 48/2013/NĐ-CP, Nghị định 92/2017/NĐ-CP (về kiểm soát thủ tục hành chính)[cite: 80, 81, 82]; Nghị định 118/2025/NĐ-CP (cơ chế một cửa)[cite: 83]; Nghị định 45/2020/NĐ-CP (TTHC môi trường điện tử) [cite: 84]; và Nghị định 42/2022/NĐ-CP (cung cấp dịch vụ công trực tuyến)[cite: 85].",
+                    "citation": "Phần Căn cứ ban hành, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Đơn vị nào chịu trách nhiệm thiết kế, điện tử hóa mẫu đơn tờ khai lên hệ thống?",
+                    "rewritten_query": "Theo Quyết định 1835/QĐ-TTPVHCC, cơ quan, đơn vị nào có trách nhiệm chủ trì việc điện tử hóa mẫu đơn, mẫu tờ khai lên Hệ thống thông tin giải quyết thủ tục hành chính?",
+                    "answer": "Trung tâm Phục vụ hành chính công Thành phố chủ trì, phối hợp với Sở Y tế và Tổng Công ty Viễn thông Mobifone thực hiện việc điện tử hóa mẫu đơn, mẫu tờ khai lên hệ thống[cite: 93, 167].",
+                    "citation": "Khoản 1 Điều 2 và Mục D.2.a Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Trong quy trình mới, hệ thống tự động điền thông tin người dân bằng cách nào?",
+                    "rewritten_query": "Theo mô tả quy trình thực hiện tại Quyết định 1835/QĐ-TTPVHCC, Hệ thống thông tin giải quyết thủ tục hành chính tự động điền thông tin cá nhân/doanh nghiệp bằng phương thức nào?",
+                    "answer": "Khi công dân đăng nhập bằng tài khoản VNeID, Hệ thống tự động kết nối, chia sẻ dữ liệu với cơ sở dữ liệu dân cư và điền các thông tin đã được xác thực vào E-form điện tử[cite: 132, 133].",
+                    "citation": "Bước 2 phần 7.2 Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 4,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Việc giao Sở Khoa học và Công nghệ chủ trì kết nối dữ liệu có chồng chéo thẩm quyền với Sở Thông tin và Truyền thông không?",
+                    "rewritten_query": "Việc Quyết định 1835/QĐ-TTPVHCC giao Sở Khoa học và Công nghệ chủ trì kết nối cơ sở dữ liệu chuyên ngành có chồng chéo hoặc mâu thuẫn với chức năng quản lý nhà nước về công nghệ thông tin của Sở Thông tin và Truyền thông không?",
+                    "answer": "Trong khuôn khổ văn bản này, không có sự chồng chéo do Quyết định đã quy định thẩm quyền đích danh: Sở Khoa học và Công nghệ được giao chủ trì, phối hợp với Trung tâm PVHCC, Sở Y tế và Mobifone để hoàn thành việc tích hợp, kết nối, chia sẻ dữ liệu với các cơ sở dữ liệu chuyên ngành[cite: 94, 171]. (Việc phân công này áp dụng riêng cho nhiệm vụ cụ thể của quyết định).",
+                    "citation": "Khoản 2 Điều 2 và Mục D.2.b Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 5,
+                    "intent": "LEGAL_QA",
+                    "question": "Mã định danh của thủ tục hành chính này trên hệ thống là gì?",
+                    "rewritten_query": "Mã thủ tục hành chính của quy trình đăng ký bản công bố sản phẩm nhập khẩu quy định tại Quyết định 1835/QĐ-TTPVHCC là gì?",
+                    "answer": "Mã thủ tục hành chính là 1.013858.H26[cite: 117].",
+                    "citation": "Mục 1 Phần B Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 6,
+                    "intent": "LEGAL_QA",
+                    "question": "Việc triển khai phương án tái cấu trúc này giúp tiết kiệm được bao nhiêu phần trăm chi phí?",
+                    "rewritten_query": "Theo phần đánh giá tác động tại Quyết định 1835/QĐ-TTPVHCC, việc tái cấu trúc thủ tục hành chính giúp tiết kiệm được bao nhiêu phần trăm tổng chi phí thực hiện trong 1 năm?",
+                    "answer": "Việc tái cấu trúc giúp tiết kiệm 24,61% chi phí tuân thủ thủ tục hành chính (tương đương tiết kiệm 60.144.000 đồng/năm so với tổng chi phí cũ)[cite: 165].",
+                    "citation": "Mục 4 Phần C Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 7,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tổng hợp các Nghị quyết của Chính phủ về chuyển đổi số liên thông, cắt giảm thủ tục dựa trên dữ liệu năm 2025.",
+                    "rewritten_query": "Tìm kiếm và liệt kê các Nghị quyết, kế hoạch của Trung ương và Chính phủ ban hành năm 2025 liên quan đến chuyển đổi số liên thông và cắt giảm thủ tục hành chính dựa trên dữ liệu.",
+                    "answer": "Quyết định viện dẫn hai văn bản quan trọng trong năm 2025: Kế hoạch số 02-KH/BCĐTW ngày 19/6/2025 của Ban Chỉ đạo Trung ương về thúc đẩy chuyển đổi số liên thông, đồng bộ; và Nghị quyết số 66.7/2025/NQ-CP ngày 15/11/2025 của Chính phủ về Quy định cắt giảm, đơn giản hóa thủ tục hành chính dựa trên dữ liệu[cite: 112, 113].",
+                    "citation": "Mục II Phần A Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 8,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Nếu Sở Y tế bắt người dân mang hồ sơ giấy lên nộp đối chiếu sau khi nộp online thì có vi phạm quyết định này không?",
+                    "rewritten_query": "Trường hợp cán bộ Sở Y tế yêu cầu công dân phải nộp thêm hồ sơ giấy để đối chiếu sau khi đã nộp hồ sơ trực tuyến toàn trình thì hành vi này có vi phạm quy định tại Quyết định 1835/QĐ-TTPVHCC không?",
+                    "answer": "Hành vi đó vi phạm chỉ đạo của Quyết định này. Quyết định quy định rõ trách nhiệm của Sở Y tế là phải thụ lý hồ sơ trực tuyến mà 'không đặt ra bất kỳ yêu cầu khác biệt nào so với hồ sơ giấy' [cite: 172], và tổ chức tiếp nhận trực tuyến toàn trình 'không đặt ra yêu cầu khác đối với Công dân'[cite: 168].",
+                    "citation": "Mục D.2.a và D.2.c Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                }
+            ]
+        },
+        {
+            "id": "doc2_conv_003_academic",
+            "role_description": "Chuyên gia phân tích chính sách và rà soát bãi bỏ văn bản",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Quyết định 1835 này có thay thế hay bãi bỏ Quyết định ủy quyền số 1716/QĐ-UBND của Chủ tịch Hà Nội không?",
+                    "rewritten_query": "Quyết định 1835/QĐ-TTPVHCC có hiệu lực thay thế hay bãi bỏ Quyết định ủy quyền số 1716/QĐ-UBND ngày 25/3/2025 của Chủ tịch UBND Thành phố Hà Nội không?",
+                    "answer": "Không bãi bỏ và không thay thế. Ngược lại, Quyết định 1716/QĐ-UBND chính là căn cứ pháp lý để ban hành Quyết định 1835. Theo đó, Chủ tịch UBND Thành phố đã ủy quyền cho Giám đốc Trung tâm PVHCC thực hiện phê duyệt phương án tái cấu trúc quy trình[cite: 87, 89].",
+                    "citation": "Phần Căn cứ ban hành, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Định hướng quản lý rủi ro mới nào của Thành phố được đề cập để không phải dùng tài liệu chứng thực?",
+                    "rewritten_query": "Theo phân tích tại Quyết định 1835/QĐ-TTPVHCC, định hướng quản lý nào của Thành phố được áp dụng để hạn chế việc nộp tài liệu chứng thực và tối ưu hóa thủ tục?",
+                    "answer": "Thành phố định hướng chuyển tận dụng triệt để nguyên tắc chuyển từ hình thức 'tiền kiểm' sang 'hậu kiểm', kết hợp khai thác dữ liệu qua Cơ sở dữ liệu quốc gia về dân cư và CSDL chuyên ngành[cite: 106].",
+                    "citation": "Mục I Phần A Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 3,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tìm danh mục các thủ tục hành chính trực tuyến của Hà Nội được ban hành trong tháng 8/2025.",
+                    "rewritten_query": "Tìm kiếm và xác định văn bản Quyết định của UBND thành phố Hà Nội ban hành tháng 8/2025 phê duyệt danh mục thủ tục hành chính thực hiện trực tuyến.",
+                    "answer": "Đó là Quyết định số 4445/QĐ-UBND ngày 17/8/2025 của UBND Thành phố Hà Nội về việc phê duyệt danh mục thủ tục hành chính thực hiện trực tuyến thuộc phạm vi quản lý của UBND thành phố Hà Nội[cite: 114].",
+                    "citation": "Mục II Phần A Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 4,
+                    "intent": "LEGAL_QA",
+                    "question": "Khi chứng minh công dụng bằng tài liệu khoa học, tỷ lệ liều dùng so với tài liệu được quy định tối thiểu là bao nhiêu?",
+                    "rewritten_query": "Theo Quyết định 1835/QĐ-TTPVHCC, khi sử dụng bằng chứng khoa học để chứng minh công dụng thành phần sản phẩm, liều sử dụng hàng ngày của sản phẩm phải đạt tỷ lệ tối thiểu là bao nhiêu so với tài liệu?",
+                    "answer": "Liều sử dụng hàng ngày của sản phẩm tối thiểu phải lớn hơn hoặc bằng 15% lượng sử dụng thành phần đó đã nêu trong tài liệu khoa học[cite: 125, 126, 163].",
+                    "citation": "Mục 5.4 Phần B và Mục 4 Phần C Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 5,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Việc nộp hồ sơ qua mạng rồi thì có được miễn dịch công chứng các tài liệu tiếng nước ngoài không?",
+                    "rewritten_query": "Với quy trình trực tuyến tại Quyết định 1835/QĐ-TTPVHCC, tài liệu bằng tiếng nước ngoài nộp dưới dạng bản điện tử có được miễn thủ tục dịch sang tiếng Việt và công chứng không?",
+                    "answer": "Không được miễn. Dù nộp qua môi trường điện tử, quy định vẫn yêu cầu rõ: trường hợp có tài liệu bằng tiếng nước ngoài thì phải được dịch sang tiếng Việt và được công chứng[cite: 164].",
+                    "citation": "Bảng chi phí tuân thủ Mục 4 Phần C Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 6,
+                    "intent": "LEGAL_QA",
+                    "question": "Cán bộ thụ lý tại Sở Y tế sẽ phê duyệt kết quả theo phương thức nào?",
+                    "rewritten_query": "Theo Bước 5 của quy trình, Lãnh đạo cơ quan chuyên môn (Sở Y tế) sẽ thực hiện phê duyệt hồ sơ và trả kết quả theo phương thức nào?",
+                    "answer": "Lãnh đạo cơ quan, đơn vị sẽ ký số trực tiếp trên Hệ thống thông tin giải quyết thủ tục hành chính. Hệ thống tự động chuyển kết quả đã ký số đến Bộ phận Văn thư điện tử để lấy số, vào sổ và đóng dấu điện tử[cite: 143, 144].",
+                    "citation": "Bước 5 Phần 7.2 Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 7,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Văn bản nào của Văn phòng Chính phủ hướng dẫn việc đánh giá chất lượng dịch vụ công trực tuyến?",
+                    "rewritten_query": "Tìm kiếm và liệt kê văn bản Thông tư của Văn phòng Chính phủ quy định chi tiết về việc đánh giá, cải thiện chất lượng phục vụ người dân trong thực hiện dịch vụ công trực tuyến.",
+                    "answer": "Đó là Thông tư số 01/2023/TT-VPCP ngày 05/4/2023 của Văn phòng Chính phủ. Cụ thể, Điều 29 của Thông tư này được Quyết định 1835 sử dụng làm căn cứ yêu cầu đánh giá cải thiện chất lượng dịch vụ công[cite: 169].",
+                    "citation": "Mục D.2.a Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                },
+                {
+                    "turn": 8,
+                    "intent": "LEGAL_QA",
+                    "question": "Người dân sẽ nhận được bản kết quả ở đâu?",
+                    "rewritten_query": "Sau khi quy trình giải quyết hoàn tất, kết quả giải quyết bản điện tử sẽ được trả về nền tảng nào cho tổ chức, cá nhân theo Quyết định 1835/QĐ-TTPVHCC?",
+                    "answer": "Hệ thống tự động chuyển Kết quả giải quyết bản điện tử đến Kho cơ sở dữ liệu điện tử của tổ chức/cá nhân trên Hệ thống thông tin giải quyết TTHC, ví iHaNoi, hoặc ví VNeID[cite: 146]. Trường hợp bắt buộc hoặc có yêu cầu, bản giấy sẽ được chuyển phát miễn phí qua bưu chính[cite: 149].",
+                    "citation": "Bước 6 Phần 7.2 Phụ lục, Quyết định 1835/QĐ-TTPVHCC"
+                }
+            ]
+        },
+        {
+            "id": "doc3_conv_001_citizen",
+            "role_description": "Người dân hỏi đáp tình huống làm giấy tờ y tế không phụ thuộc địa giới hành chính",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Tôi có hộ khẩu ở Xuân Lộc nhưng đang mở tiệm thuốc đông y trên Biên Hòa, giờ tôi muốn xin cấp giấy phép hành nghề lương y thì nộp trên này luôn được không hay bắt buộc về quê?",
+                    "rewritten_query": "Theo Quyết định 3164/QĐ-UBND của tỉnh Đồng Nai, thủ tục cấp mới giấy phép hành nghề đối với chức danh chuyên môn là lương y có được thực hiện không phụ thuộc vào địa giới hành chính không?",
+                    "answer": "Theo danh mục công bố, thủ tục cấp mới giấy phép hành nghề đối với chức danh lương y nằm trong số 100% thủ tục ngành y tế được thực hiện không phụ thuộc vào địa giới hành chính. Do đó, bạn hoàn toàn có thể nộp hồ sơ mà không bị bắt buộc phải về nơi đăng ký hộ khẩu.",
+                    "citation": "Điều 1 và Số TT 2 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "LEGAL_QA",
+                    "question": "Vậy tôi cầm hồ sơ giấy ra thẳng Trung tâm hành chính công ở Biên Hòa nộp trực tiếp luôn nhé?",
+                    "rewritten_query": "Theo Phụ lục đính kèm Quyết định 3164/QĐ-UBND, thủ tục cấp mới giấy phép hành nghề lương y có tiếp nhận hồ sơ giấy trực tiếp tại cơ quan hành chính không hay phải nộp qua mạng?",
+                    "answer": "Bạn không nên mang hồ sơ giấy ra nộp trực tiếp. Theo bảng phụ lục của quyết định này, hình thức thực hiện được đánh dấu (X) duy nhất để áp dụng cơ chế không phụ thuộc địa giới là nộp 'Trực tuyến'. Cột nộp 'Trực tiếp' không được áp dụng.",
+                    "citation": "Bảng Phụ lục danh mục TTHC, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tìm giúp tôi xem có những văn bản luật nào quy định cụ thể về điều kiện để được cấp cái giấy phép đó không.",
+                    "rewritten_query": "Tìm kiếm và tổng hợp các văn bản quy phạm pháp luật hiện hành quy định chi tiết về điều kiện và tiêu chuẩn để được cấp giấy phép hành nghề đối với chức danh chuyên môn là lương y.",
+                    "answer": "Để được cấp giấy phép hành nghề lương y, bạn cần tham chiếu: Luật Khám bệnh, chữa bệnh số 15/2023/QH15; Nghị định 96/2023/NĐ-CP; và Thông tư số 02/2024/TT-BYT của Bộ Y tế quy định về việc cấp giấy chứng nhận lương y, người có bài thuốc gia truyền.",
+                    "citation": "Hệ thống văn bản pháp luật Y dược cổ truyền"
+                },
+                {
+                    "turn": 4,
+                    "intent": "LEGAL_QA",
+                    "question": "Tôi hỏi thêm chút, ông tôi bị tai biến nằm liệt giường, muốn xin giấy xác nhận khuyết tật thì ra trạm y tế phường chỗ tôi đang thuê trọ làm được không?",
+                    "rewritten_query": "Theo Phụ lục Quyết định 3164/QĐ-UBND, thủ tục xác định, xác định lại mức độ khuyết tật và cấp Giấy xác nhận khuyết tật có được thực hiện không phụ thuộc địa giới hành chính không và do cấp nào giải quyết?",
+                    "answer": "Được phép. Thủ tục cấp Giấy xác nhận khuyết tật thuộc lĩnh vực Bảo trợ xã hội, nằm trong danh mục áp dụng cơ chế không phụ thuộc địa giới hành chính. Tuy nhiên, thủ tục này thuộc phân cấp do cơ quan 'Cấp xã' thực hiện, vì vậy bạn có thể nộp hồ sơ trực tuyến đến UBND cấp xã/phường nơi bạn đang tạm trú để được giải quyết.",
+                    "citation": "Số TT 143 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Hôm qua chủ tịch phường bảo tôi cái này phải về đúng xã nơi thường trú mới làm được, thế là ông ấy làm sai quy định mới này à?",
+                    "rewritten_query": "Việc Chủ tịch Ủy ban nhân dân cấp xã yêu cầu người dân phải về đúng xã nơi đăng ký thường trú để làm thủ tục cấp Giấy xác nhận khuyết tật có trái với quy định tại Quyết định 3164/QĐ-UBND của tỉnh Đồng Nai không?",
+                    "answer": "Đúng vậy, yêu cầu đó là sai và trái với quy định mới. Theo Điều 3 của Quyết định 3164/QĐ-UBND, Chủ tịch UBND cấp xã phải có trách nhiệm thi hành danh mục TTHC không phụ thuộc địa giới. Việc từ chối tiếp nhận và bắt công dân về nơi thường trú là đi ngược lại tinh thần của văn bản này.",
+                    "citation": "Điều 1 và Điều 3, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 6,
+                    "intent": "LEGAL_QA",
+                    "question": "Tiện thể cho hỏi, vợ tôi sắp sinh con thứ 2, tôi nghe nói có thủ tục hỗ trợ tiền đẻ đúng chính sách, cái này ai nhận giải quyết?",
+                    "rewritten_query": "Theo Phụ lục Quyết định 3164/QĐ-UBND, thủ tục xét hưởng chính sách hỗ trợ cho đối tượng sinh con đúng chính sách dân số thuộc thẩm quyền giải quyết của cơ quan nào?",
+                    "answer": "Thủ tục xét hưởng chính sách hỗ trợ cho đối tượng sinh con đúng chính sách dân số (Mã 2.001088) thuộc thẩm quyền giải quyết của 'Cấp xã'.",
+                    "citation": "Số TT 123 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 7,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Có văn bản nào của tỉnh hay Bộ Y tế liệt kê chính xác các mức hỗ trợ sinh đẻ này cho tôi xem không?",
+                    "rewritten_query": "Tìm kiếm và liệt kê các Nghị quyết của Hội đồng nhân dân tỉnh Đồng Nai hoặc văn bản quy phạm pháp luật liên quan quy định chi tiết về mức hỗ trợ tài chính cho đối tượng sinh con đúng chính sách dân số.",
+                    "answer": "Mức hỗ trợ cụ thể thường không nằm trong quyết định thủ tục hành chính mà được quy định tại các Nghị quyết của Hội đồng nhân dân tỉnh Đồng Nai về chính sách khen thưởng, hỗ trợ đối với tập thể, cá nhân thực hiện tốt công tác dân số (thực hiện theo Thông tư 01/2021/TT-BYT của Bộ Y tế). Bạn cần tra cứu đúng Nghị quyết hiện hành của HĐND tỉnh về Dân số.",
+                    "citation": "Hệ thống văn bản pháp luật về Dân số, Bà mẹ - Trẻ em"
+                },
+                {
+                    "turn": 8,
+                    "intent": "LEGAL_QA",
+                    "question": "Mấy cái quy định cho phép làm online vượt tuyến này áp dụng ngay chưa hay phải đợi sang năm?",
+                    "rewritten_query": "Quyết định 3164/QĐ-UBND của tỉnh Đồng Nai về việc thực hiện thủ tục hành chính trực tuyến không phụ thuộc địa giới chính thức có hiệu lực áp dụng từ thời điểm nào?",
+                    "answer": "Quyết định này áp dụng ngay lập tức. Theo Điều 2, văn bản có hiệu lực thi hành kể từ ngày ký (17 tháng 12 năm 2025).",
+                    "citation": "Điều 2, Quyết định 3164/QĐ-UBND"
+                }
+            ]
+        },
+        {
+            "id": "doc3_conv_002_legal_prep",
+            "role_description": "Chuyên viên hành chính công tỉnh Đồng Nai chuẩn bị áp dụng danh mục TTHC mới",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "LEGAL_QA",
+                    "question": "Theo Điều 3 Quyết định 3164/QĐ-UBND, những cơ quan và cá nhân nào chịu trách nhiệm thi hành văn bản?",
+                    "rewritten_query": "Theo quy định tại Điều 3 Quyết định 3164/QĐ-UBND của tỉnh Đồng Nai, những cơ quan, chức danh và cá nhân nào chịu trách nhiệm thi hành văn bản này?",
+                    "answer": "Các cá nhân, tổ chức chịu trách nhiệm thi hành bao gồm: Chánh Văn phòng UBND tỉnh; Giám đốc Sở Y tế; Chủ tịch UBND cấp xã; Giám đốc Trung tâm Phục vụ hành chính công tỉnh; Giám đốc Trung tâm Phục vụ hành chính công cấp xã và các tổ chức, cá nhân có liên quan.",
+                    "citation": "Điều 3, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Văn bản này có bãi bỏ hay thay thế cho danh mục thủ tục hành chính nào của tỉnh ban hành trước đây không?",
+                    "rewritten_query": "Quyết định 3164/QĐ-UBND có bãi bỏ hay thay thế cho Quyết định quy định danh mục thủ tục hành chính ngành Y tế nào do tỉnh Đồng Nai ban hành trước đó không?",
+                    "answer": "Có. Quyết định 3164/QĐ-UBND quy định thay thế Quyết định số 621/QĐ-UBND ngày 01/8/2025 của Chủ tịch Ủy ban nhân dân tỉnh Đồng Nai về việc công bố danh mục thủ tục hành chính Ngành Y tế thực hiện không phụ thuộc vào địa giới hành chính.",
+                    "citation": "Điều 2, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Tờ trình đề nghị ban hành danh mục TTHC đó do ai ký và gửi vào ngày tháng năm nào?",
+                    "rewritten_query": "Tờ trình đề nghị ban hành danh mục TTHC tại Quyết định 3164/QĐ-UBND do cơ quan nào ký và được gửi vào ngày tháng năm nào?",
+                    "answer": "Quyết định được ban hành theo đề nghị của Giám đốc Sở Y tế tại Tờ trình số 5573/TTr-SYT, ký ngày 14 tháng 12 năm 2025.",
+                    "citation": "Phần Căn cứ ban hành, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 4,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Liệt kê tất cả các thủ tục thuộc lĩnh vực Y dược cổ truyền được quy định trong phụ lục.",
+                    "rewritten_query": "Tổng hợp và liệt kê tất cả các thủ tục hành chính thuộc lĩnh vực 'Y dược cổ truyền' được công bố trong Phụ lục của Quyết định 3164/QĐ-UBND.",
+                    "answer": "Các thủ tục lĩnh vực Y dược cổ truyền (Cấp tỉnh) bao gồm: 1. Cấp giấy chứng nhận lương y theo khoản 1,2,3 Điều 1; 2. Cấp lại giấy chứng nhận lương y; 3. Cấp GCN lương y theo khoản 4,5,6 Điều 1; 4. Cấp GCN người có bài thuốc/phương pháp chữa bệnh gia truyền; 5. Cấp lại GCN bài thuốc/phương pháp gia truyền; 6. Công bố đáp ứng tiêu chuẩn chế biến, bào chế thuốc cổ truyền.",
+                    "citation": "Số TT 105 đến 110 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "LEGAL_QA",
+                    "question": "Trong đó, thủ tục cấp giấy phép hoạt động đối với trạm sơ cấp cứu chữ thập đỏ có mã số là bao nhiêu?",
+                    "rewritten_query": "Theo Phụ lục Quyết định 3164/QĐ-UBND, thủ tục cấp giấy phép hoạt động đối với trạm sơ cấp cứu chữ thập đỏ có mã thủ tục hành chính (Mã TTHC) là bao nhiêu?",
+                    "answer": "Thủ tục cấp giấy phép hoạt động đối với trạm sơ cấp cứu chữ thập đỏ có Mã TTHC là 1.001138 (thuộc lĩnh vực Khám bệnh, chữa bệnh).",
+                    "citation": "Số TT 20 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 6,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Nếu UBND cấp huyện tự ý tiếp nhận thủ tục 'Hỗ trợ chi phí mai táng cho đối tượng bảo trợ xã hội' thì có mâu thuẫn với sự phân cấp trong danh mục này không?",
+                    "rewritten_query": "Việc Ủy ban nhân dân cấp huyện tiếp nhận và giải quyết thủ tục 'Hỗ trợ chi phí mai táng cho đối tượng bảo trợ xã hội' có mâu thuẫn hay vi phạm sự phân cấp thẩm quyền quy định tại Quyết định 3164/QĐ-UBND không?",
+                    "answer": "Có mâu thuẫn. Theo số thứ tự 141 của Phụ lục, thủ tục 'Hỗ trợ chi phí mai táng cho đối tượng bảo trợ xã hội' được phân cấp thực hiện rõ ràng cho 'Cấp xã'. Do đó, việc cấp huyện tự tiếp nhận sẽ sai với phân cấp hiện tại của danh mục.",
+                    "citation": "Số TT 141 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 7,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tìm và tổng hợp các thủ tục liên quan đến việc thành lập, giải thể cơ sở trợ giúp xã hội thuộc cấp tỉnh.",
+                    "rewritten_query": "Tìm kiếm, tổng hợp các thủ tục hành chính liên quan đến việc thành lập, đăng ký, tổ chức lại và giải thể cơ sở trợ giúp xã hội thuộc thẩm quyền giải quyết của Cấp tỉnh tại Quyết định 3164/QĐ-UBND.",
+                    "answer": "Các thủ tục gồm: 1. Đăng ký thành lập, thay đổi, cấp lại GCN đăng ký thành lập và giải thể cơ sở trợ giúp xã hội ngoài công lập (Mã 1.013814); 2. Cấp, cấp lại, điều chỉnh giấy phép hoạt động đối với cơ sở trợ giúp xã hội (Mã 1.013815); 3. Thành lập, tổ chức lại, giải thể cơ sở công lập thuộc UBND cấp tỉnh (Mã 1.013820).",
+                    "citation": "Số TT 131, 132, 134 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 8,
+                    "intent": "LEGAL_QA",
+                    "question": "Ai là người đã ký thay Chủ tịch Ủy ban nhân dân tỉnh để ban hành văn bản trên?",
+                    "rewritten_query": "Phó Chủ tịch nào đã ký thay Chủ tịch Ủy ban nhân dân tỉnh Đồng Nai để ban hành Quyết định 3164/QĐ-UBND?",
+                    "answer": "Phó Chủ tịch Lê Trường Sơn là người đã ký thay (KT. Chủ tịch) văn bản Quyết định này.",
+                    "citation": "Phần chữ ký, Quyết định 3164/QĐ-UBND"
+                }
+            ]
+        },
+        {
+            "id": "doc3_conv_003_academic",
+            "role_description": "Chuyên gia rà soát thủ tục hành chính và quản lý nhà nước",
+            "messages": [
+                {
+                    "turn": 1,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tìm kiếm các văn bản quy phạm pháp luật được chính quyền tỉnh Đồng Nai sử dụng làm căn cứ pháp lý để phê duyệt danh mục này.",
+                    "rewritten_query": "Tổng hợp danh sách các văn bản quy phạm pháp luật của Trung ương được chính quyền tỉnh Đồng Nai sử dụng làm căn cứ pháp lý để phê duyệt danh mục TTHC tại Quyết định 3164/QĐ-UBND.",
+                    "answer": "Quyết định dựa trên: Luật Tổ chức chính quyền địa phương ngày 19 tháng 6 năm 2025; và Nghị định số 118/NĐ-CP ngày 09 tháng 6 năm 2025 của Chính phủ quy định về thực hiện TTHC theo cơ chế một cửa, một cửa liên thông tại Bộ phận Một cửa và Cổng Dịch vụ công quốc gia.",
+                    "citation": "Phần Căn cứ, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 2,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Việc ban hành Quyết định mới này có làm vô hiệu hóa Quyết định số 621/QĐ-UBND ngày 01/8/2025 không?",
+                    "rewritten_query": "Việc ban hành Quyết định 3164/QĐ-UBND có làm bãi bỏ hoặc vô hiệu hóa hiệu lực thi hành của Quyết định số 621/QĐ-UBND ngày 01/8/2025 của tỉnh Đồng Nai không?",
+                    "answer": "Có. Quyết định mới này quy định thay thế hoàn toàn Quyết định số 621/QĐ-UBND ngày 01/8/2025 của Chủ tịch Ủy ban nhân dân tỉnh Đồng Nai.",
+                    "citation": "Điều 2, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 3,
+                    "intent": "LEGAL_QA",
+                    "question": "Theo văn bản, có bao nhiêu phần trăm thủ tục ngành y tế được áp dụng cơ chế không phụ thuộc địa giới?",
+                    "rewritten_query": "Theo Điều 1 Quyết định 3164/QĐ-UBND, tỷ lệ phần trăm các thủ tục hành chính ngành Y tế của tỉnh Đồng Nai được áp dụng cơ chế thực hiện không phụ thuộc vào địa giới hành chính là bao nhiêu?",
+                    "answer": "Quyết định ban hành 100% thủ tục hành chính ngành Y tế thực hiện không phụ thuộc vào địa giới hành chính trong phạm vi tỉnh.",
+                    "citation": "Điều 1, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 4,
+                    "intent": "SECTOR_SEARCH",
+                    "question": "Tổng hợp các thủ tục liên quan đến quản lý HIV/AIDS thuộc lĩnh vực Phòng bệnh theo danh mục đính kèm.",
+                    "rewritten_query": "Tìm kiếm và tổng hợp các thủ tục hành chính liên quan đến quản lý và xét nghiệm HIV/AIDS thuộc lĩnh vực 'Phòng bệnh' trong Phụ lục Quyết định 3164/QĐ-UBND.",
+                    "answer": "Các thủ tục liên quan đến HIV thuộc lĩnh vực Phòng bệnh (Cấp tỉnh) bao gồm: Cấp mới/Cấp lại/Điều chỉnh GCN cơ sở đủ điều kiện xét nghiệm khẳng định HIV dương tính (STT 63-65 và 80-82); Cấp GCN bị phơi nhiễm với HIV do tai nạn rủi ro nghề nghiệp (STT 74); và Cấp GCN bị nhiễm HIV do tai nạn rủi ro nghề nghiệp (STT 75).",
+                    "citation": "Các STT 63, 64, 65, 74, 75, 80, 81, 82 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 5,
+                    "intent": "LEGAL_QA",
+                    "question": "Thủ tục cấp phép nhập khẩu thuốc thuộc hành lý cá nhân để điều trị bệnh cho người nhập cảnh thuộc lĩnh vực nào?",
+                    "rewritten_query": "Theo Phụ lục Quyết định 3164/QĐ-UBND, thủ tục cấp phép nhập khẩu thuốc thuộc hành lý cá nhân của tổ chức, cá nhân nhập cảnh để điều trị bệnh cho bản thân thuộc lĩnh vực nào và do cấp nào giải quyết?",
+                    "answer": "Thủ tục này (mã 1.014090) thuộc lĩnh vực 'Dược phẩm' và thuộc thẩm quyền giải quyết của 'Cấp tỉnh'.",
+                    "citation": "Số TT 30 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 6,
+                    "intent": "CONFLICT_ANALYZER",
+                    "question": "Cơ chế chỉ cho phép nộp trực tuyến 100% các thủ tục này có mâu thuẫn với Nghị định 118/2025 về bộ phận một cửa không?",
+                    "rewritten_query": "Việc Quyết định 3164/QĐ-UBND chỉ tích chọn hình thức thực hiện 'Trực tuyến' cho 100% thủ tục có mâu thuẫn hay vi phạm Nghị định số 118/NĐ-CP của Chính phủ về cơ chế một cửa không?",
+                    "answer": "Không mâu thuẫn. Trên thực tế, Nghị định 118/NĐ-CP (về thực hiện thủ tục hành chính theo cơ chế một cửa, một cửa liên thông tại Bộ phận Một cửa và Cổng Dịch vụ công quốc gia) chính là căn cứ pháp lý để Đồng Nai ban hành quyết định này. Việc đẩy mạnh trực tuyến giúp hiện thực hóa việc không phụ thuộc vào địa giới hành chính thông qua Cổng Dịch vụ công.",
+                    "citation": "Phần Căn cứ ban hành và Bảng Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 7,
+                    "intent": "LEGAL_QA",
+                    "question": "Thủ tục đăng ký hành nghề công tác xã hội tại Việt Nam cho người nước ngoài có mã số định danh là gì?",
+                    "rewritten_query": "Theo Phụ lục Quyết định 3164/QĐ-UBND, thủ tục 'Đăng ký hành nghề công tác xã hội tại Việt Nam đối với người nước ngoài, người Việt Nam định cư ở nước ngoài' có mã TTHC là gì?",
+                    "answer": "Thủ tục này thuộc lĩnh vực Bảo trợ xã hội và có Mã TTHC là 1.012993.",
+                    "citation": "Số TT 135 Phụ lục, Quyết định 3164/QĐ-UBND"
+                },
+                {
+                    "turn": 8,
+                    "intent": "LEGAL_QA",
+                    "question": "Bản sao của quyết định này có được gửi báo cáo cho Bộ Y tế không?",
+                    "rewritten_query": "Theo nơi nhận được ghi ở phần cuối Quyết định 3164/QĐ-UBND, văn bản này có được gửi báo cáo lên Bộ Y tế không?",
+                    "answer": "Có. Ở phần 'Nơi nhận', văn bản được gửi lên các cơ quan Trung ương bao gồm Cục KSTTHC (Văn phòng Chính phủ) và Bộ Y tế.",
+                    "citation": "Phần Nơi nhận, Quyết định 3164/QĐ-UBND"
                 }
             ]
         }

@@ -19,6 +19,9 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
         1. Lần đầu: Lấy file, trích claims Deontic, cho vào Queue (pending_tasks).
         2. Mỗi vòng lặp: Rút 2 claims từ Queue tạo thành mẻ Batch.
         """
+        from backend.agent.utils.sub_timer import SubTimer
+        timer = SubTimer("Understand")
+        
         pending = state.get("pending_tasks")
         metadata = state.get("metadata_filters", {})
 
@@ -31,12 +34,14 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
             if not file_chunks:
                 intent = "NO_FILE"
             else:
-                intent = route_conflict_intent(query, llm_preset=state.get("llm_preset"))
+                with timer.step("Conflict_Intent"):
+                    intent = route_conflict_intent(query, llm_preset=state.get("llm_preset"))
                 
                 from backend.retrieval.reranker import reranker as api_reranker
                 if query and file_chunks:
                     try:
-                        file_chunks = api_reranker.rerank_candidates(query=query, candidates=file_chunks, top_k=len(file_chunks))
+                        with timer.step("Rerank_Files"):
+                            file_chunks = api_reranker.rerank_candidates(query=query, candidates=file_chunks, top_k=len(file_chunks))
                     except Exception as e:
                         pass
                 
@@ -50,34 +55,37 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
                 if doc_nums_in_query:
                     metadata["compare_doc_numbers"] = doc_nums_in_query[:2]
                 
-                ie_data = extract_claims_from_text(query, llm_preset=state.get("llm_preset"))
-                if not ie_data.get("claims"):
-                    all_claims.append({"chu_the": "Người dùng", "hanh_vi": query, "dieu_kien": "", "he_qua": "", "raw_text": query})
-                else:
-                    for claim in ie_data.get("claims", []):
-                        if claim.get("raw_text"): all_claims.append(claim)
-                        
-            elif intent == "VS_FILE" or intent == "VS_DB":
-                if intent == "VS_FILE":
+                with timer.step("ClaimExtraction"):
                     ie_data = extract_claims_from_text(query, llm_preset=state.get("llm_preset"))
                     if not ie_data.get("claims"):
                         all_claims.append({"chu_the": "Người dùng", "hanh_vi": query, "dieu_kien": "", "he_qua": "", "raw_text": query})
                     else:
                         for claim in ie_data.get("claims", []):
                             if claim.get("raw_text"): all_claims.append(claim)
+                        
+            elif intent == "VS_FILE" or intent == "VS_DB":
+                if intent == "VS_FILE":
+                    with timer.step("ClaimExtraction"):
+                        ie_data = extract_claims_from_text(query, llm_preset=state.get("llm_preset"))
+                        if not ie_data.get("claims"):
+                            all_claims.append({"chu_the": "Người dùng", "hanh_vi": query, "dieu_kien": "", "he_qua": "", "raw_text": query})
+                        else:
+                            for claim in ie_data.get("claims", []):
+                                if claim.get("raw_text"): all_claims.append(claim)
                     metadata["file_sources"] = file_chunks
                 else:
                     sample_chunks = file_chunks[:3]
-                    for c in sample_chunks:
-                        chunk_text = c.get("text_to_embed", c.get("unit_text", ""))
-                        ie_data = extract_claims_from_text(chunk_text, llm_preset=state.get("llm_preset"))
-                        
-                        if not metadata.get("co_quan_ban_hanh") and ie_data.get("metadata"):
-                            metadata.update(ie_data.get("metadata"))
+                    with timer.step("ClaimExtraction_File"):
+                        for c in sample_chunks:
+                            chunk_text = c.get("text_to_embed", c.get("unit_text", ""))
+                            ie_data = extract_claims_from_text(chunk_text, llm_preset=state.get("llm_preset"))
                             
-                        for claim in ie_data.get("claims", []):
-                            if claim.get("raw_text"):
-                                all_claims.append(claim)
+                            if not metadata.get("co_quan_ban_hanh") and ie_data.get("metadata"):
+                                metadata.update(ie_data.get("metadata"))
+                                
+                            for claim in ie_data.get("claims", []):
+                                if claim.get("raw_text"):
+                                    all_claims.append(claim)
                         
             pending = all_claims
             
@@ -102,7 +110,8 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
         return {
             "rewritten_queries": current_batch,
             "metadata_filters": metadata,
-            "pending_tasks": remaining
+            "pending_tasks": remaining,
+            "metrics": timer.results()
         }
 
     def retrieve(self, state: AgentState) -> Dict[str, Any]:
@@ -110,6 +119,9 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
         Conflict Hunting:
         Chạy vòng lặp (For) dùng HyDE và truy vấn Qdrant cho mỗi claim trong Batch.
         """
+        from backend.agent.utils.sub_timer import SubTimer
+        timer = SubTimer("Retrieve")
+        
         current_batch = state.get("rewritten_queries", [])
         if not current_batch:
             return {"raw_hits": []}
@@ -130,12 +142,13 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
                     "document_number": "FILE",
                     "is_active": True
                 })
-            for claim in current_batch:
-                batch_hits.append({
-                    "claim": claim,
-                    "raw_qdrant_hits": file_hits
-                })
-            return {"raw_hits": batch_hits}
+            with timer.step("Session_Search"):
+                for claim in current_batch:
+                    batch_hits.append({
+                        "claim": claim,
+                        "raw_qdrant_hits": file_hits
+                    })
+            return {"raw_hits": batch_hits, "metrics": timer.results()}
 
         use_rerank = state.get("use_rerank", True)
         
@@ -144,97 +157,160 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
             graph_hits = []
             try:
                 from backend.retrieval.graph_db import fetch_full_document_articles
-                for doc_num in compare_doc_numbers:
-                    articles = fetch_full_document_articles(doc_num)
-                    for a in articles:
-                        if not a.get("article_text") and not a.get("clauses"):
-                            continue
-                        text_content = a.get("article_text", "")
-                        for cl in a.get("clauses", []):
-                            text_content += f"\n{cl.get('name')}: {cl.get('text')}"
-                        
-                        fake_hit = {
-                            "id": f"compare_{doc_num}_{a.get('article_ref')}",
-                            "score": 1.0,
-                            "document_number": a.get("document_number"),
-                            "title": a.get("title"),
-                            "text": text_content,
-                            "article_ref": a.get("article_ref"),
-                            "is_active": True,
-                            "chunk_id": f"compare_{doc_num}_{a.get('article_ref')}"
-                        }
-                        graph_hits.append(fake_hit)
+                with timer.step("Graph_Compare_Fetch"):
+                    for doc_num in compare_doc_numbers:
+                        articles = fetch_full_document_articles(doc_num)
+                        for a in articles:
+                            if not a.get("article_text") and not a.get("clauses"):
+                                continue
+                            text_content = a.get("article_text", "")
+                            for cl in a.get("clauses", []):
+                                text_content += f"\n{cl.get('name')}: {cl.get('text')}"
+                            
+                            fake_hit = {
+                                "id": f"compare_{doc_num}_{a.get('article_ref')}",
+                                "score": 1.0,
+                                "document_number": a.get("document_number"),
+                                "title": a.get("title"),
+                                "text": text_content,
+                                "article_ref": a.get("article_ref"),
+                                "is_active": True,
+                                "chunk_id": f"compare_{doc_num}_{a.get('article_ref')}"
+                            }
+                            graph_hits.append(fake_hit)
             except Exception as e:
                 print(f"Error fetching compare docs: {e}")
                 pass
                 
-            if graph_hits:
-                for claim in current_batch:
-                    batch_hits.append({
-                        "claim": claim,
-                        "raw_qdrant_hits": graph_hits
-                    })
-            else:
-                for claim in current_batch:
+            for claim in current_batch:
+                with timer.step("HyDE_Retrieve"):
                     hits = hyde_retrieve(claim, use_rerank=use_rerank, llm_preset=state.get("llm_preset"))
-                    batch_hits.append({
-                        "claim": claim,
-                        "raw_qdrant_hits": hits
-                    })
+                if graph_hits:
+                    # Combine graph_hits and hits, preferring graph_hits if same document
+                    seen_docs = {h.get("document_number") for h in graph_hits if h.get("document_number")}
+                    filtered_hits = [h for h in hits if h.get("document_number") not in seen_docs]
+                    combined = graph_hits + filtered_hits
+                else:
+                    combined = hits
+                batch_hits.append({
+                    "claim": claim,
+                    "raw_qdrant_hits": combined
+                })
         else:
             for claim in current_batch:
-                hits = hyde_retrieve(claim, use_rerank=use_rerank, llm_preset=state.get("llm_preset"))
+                with timer.step("HyDE_Retrieve"):
+                    hits = hyde_retrieve(claim, use_rerank=use_rerank, llm_preset=state.get("llm_preset"))
                 batch_hits.append({
                     "claim": claim,
                     "raw_qdrant_hits": hits
                 })
         
         graph_context = state.get("graph_context", {})
-        graph_context.update({"time_travel": [], "lateral_docs": []})
+        graph_context.update({"time_travel": []})
         all_chunk_ids = []
         for item in batch_hits:
             chunk_ids = [h.get("chunk_id", "") for h in item["raw_qdrant_hits"] if h.get("chunk_id")]
             if chunk_ids:
                 all_chunk_ids.extend(chunk_ids)
                 try:
-                    from backend.retrieval.graph_db import conflict_time_travel
+                    from backend.retrieval.graph_db import conflict_time_travel, detect_conflicting_documents, conflict_chain_detect
+                    from backend.retrieval.ingestion import fetch_old_text_from_qdrant
+                    
                     tt_results = conflict_time_travel(chunk_ids)
                     if tt_results:
+                        for tt in tt_results:
+                            # Fetch chunk text cho văn bản sửa đổi (new_text) nếu có
+                            amending_doc = tt.get("amending_doc_number")
+                            target_art = tt.get("target_article")
+                            if amending_doc and target_art:
+                                text_found = fetch_old_text_from_qdrant(amending_doc, target_art)
+                                if text_found:
+                                    tt["new_text"] = text_found
+                            # Gán old_text = target_text từ Graph
+                            tt["old_text"] = tt.get("target_text", "")
+                        
                         graph_context["time_travel"].extend(tt_results)
+                        
+                    # Yêu cầu 3: Graph Conflict Detection (Traverse AMENDS/REPLACES)
+                    for h in item["raw_qdrant_hits"]:
+                        dnum = h.get("document_number")
+                        aref = h.get("article_ref")
+                        if dnum and aref:
+                            graph_conflicts = detect_conflicting_documents(dnum, aref)
+                            for gc in graph_conflicts:
+                                amending_doc = gc.get("amending_doc")
+                                target_art = gc.get("target_article")
+                                new_text = ""
+                                if amending_doc and target_art:
+                                    new_text = fetch_old_text_from_qdrant(amending_doc, target_art)
+                                    
+                                # Chuyển format để tương thích với tt_results
+                                graph_context["time_travel"].append({
+                                    "original_doc_number": dnum,
+                                    "original_title": h.get("title", ""),
+                                    "amending_doc_number": amending_doc,
+                                    "amending_doc_title": gc.get("title"),
+                                    "relation_type": gc.get("relation_type"),
+                                    "target_article": target_art,
+                                    "context": gc.get("context"),
+                                    "new_text": new_text
+                                })
+                    # 2-Hop Chain Detection: tìm chuỗi sửa đổi gián tiếp
+                    for h in item["raw_qdrant_hits"]:
+                        dnum = h.get("document_number")
+                        aref = h.get("article_ref", "")
+                        if dnum:
+                            chains = conflict_chain_detect(dnum, aref)
+                            for chain in chains:
+                                if chain.get("depth", 1) > 1:  # Chỉ lấy chuỗi gián tiếp (depth > 1)
+                                    graph_context["time_travel"].append({
+                                        "original_doc_number": dnum,
+                                        "original_title": h.get("title", ""),
+                                        "amending_doc_number": chain["chain_doc"],
+                                        "amending_doc_title": chain.get("chain_title", ""),
+                                        "relation_type": " → ".join(chain.get("chain_types", [])),
+                                        "target_article": ", ".join([a for a in (chain.get("chain_articles") or []) if a]),
+                                        "context": "; ".join([c for c in (chain.get("chain_contexts") or []) if c])[:500],
+                                        "is_indirect_chain": True,
+                                        "chain_depth": chain.get("depth", 2)
+                                    })
+                                    
                 except Exception as e:
+                    print(f"Lỗi Graph Conflict Retrieve: {e}")
                     pass
-                    
-        if all_chunk_ids:
-            try:
-                from backend.retrieval.graph_db import lateral_expand
-                graph_context["lateral_docs"] = lateral_expand(list(set(all_chunk_ids)))
-            except Exception:
-                pass
             
-        return {"raw_hits": batch_hits, "graph_context": graph_context}
+        return {"raw_hits": batch_hits, "graph_context": graph_context, "metrics": timer.results()}
 
     def generate(self, state: AgentState) -> Dict[str, Any]:
         """
         Judge Agent:
         Xử lý từng Claim. Đưa thẳng bối cảnh Time-Travel vào Prompt.
         """
+        from backend.agent.utils.sub_timer import SubTimer
+        timer = SubTimer("Generate")
+        
         batch_hits = state.get("raw_hits", [])
         if not batch_hits:
             no_results_msg = "Hệ thống không tìm thấy văn bản pháp luật liên quan nào trong CSDL để đối chiếu với các mệnh đề này."
-            return {"final_response": no_results_msg, "conflict_draft": []}
+            return {"final_response": no_results_msg, "conflict_draft": [], "metrics": timer.results()}
 
-        # Bypass Grade Logic: Prune to top 3 manually instead of running cross-encoder node
+        # Bypass Grade Logic: Prune to top 8 manually, boost target document
         pruned_batch = []
         is_best_effort = state.get("is_best_effort", False)
-        for item in batch_hits:
-            claim_obj = item["claim"]
-            claim_text = claim_obj.get("raw_text", f"{claim_obj.get('chu_the')} {claim_obj.get('hanh_vi')}")
-            top_3_hits = item["raw_qdrant_hits"][:3]
-            pruned_batch.append({
-                "claim": claim_obj,
-                "claim_text": claim_text,
-                "top_hits": top_3_hits
-            })
+        
+        with timer.step("BuildContext"):
+            for item in batch_hits:
+                claim_obj = item["claim"]
+                claim_text = claim_obj.get("raw_text", f"{claim_obj.get('chu_the')} {claim_obj.get('hanh_vi')}")
+                
+                top_hits = item["raw_qdrant_hits"]
+                top_hits = sorted(top_hits, key=lambda x: x.get("score", 0.0), reverse=True)[:20]
+                
+                pruned_batch.append({
+                    "claim": claim_obj,
+                    "claim_text": claim_text,
+                    "top_hits": top_hits
+                })
             
         metadata = state.get("metadata_filters", {})
         graph_ctx = state.get("graph_context", {})
@@ -252,32 +328,42 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
                     tt_map[key] = []
                 tt_map[key].append(tt)
         
+        from backend.agent.utils.utils_conflict_analyzer import score_contradiction_by_embedding
+        
         for item in pruned_batch:
             claim_obj = item["claim"]
             top_hits = item["top_hits"]
-            
             deontic_context = ""
             for h in top_hits:
                 doc_num = h.get("document_number", "")
                 if doc_num in tt_map:
                     for tt in tt_map[doc_num]:
                         deontic_context += (
-                            f"\\n[CẢNH BÁO HIỆU LỰC] Văn bản {doc_num} đã bị tác động bởi {tt.get('amending_doc_number', 'N/A')} "
-                            f"(Quan hệ: {tt.get('relation_type', 'N/A')}).\\n"
+                            f"\n[CẢNH BÁO HIỆU LỰC] Văn bản {doc_num} đã bị tác động bởi {tt.get('amending_doc_number', 'N/A')} "
+                            f"(Quan hệ: {tt.get('relation_type', 'N/A')}).\n"
                         )
                         if tt.get("old_text"):
-                            deontic_context += f"Nội dung cũ: {tt['old_text']}\\n"
+                            deontic_context += f"Nội dung cũ: {tt['old_text']}\n"
                         if tt.get("new_text"):
-                            deontic_context += f"Nội dung hiện hành: {tt['new_text']}\\n"
+                            deontic_context += f"Nội dung hiện hành: {tt['new_text']}\n"
+                            
+                # Semantic contradiction score computation
+                hit_text = h.get("text", "")
+                if hit_text and len(hit_text) > 20:
+                    with timer.step("Semantic_Score"):
+                        div_score = score_contradiction_by_embedding(item.get("claim_text", ""), hit_text)
+                    if div_score > 0.6:
+                         deontic_context += f"\n[CẢNH BÁO SEMANTIC]: Mức độ xung đột ngữ nghĩa (Divergence Score) với {doc_num} là {div_score:.2f} (rất cao).\n"
             
             admin_meta = state.get("graph_context", {}).get("admin_metadata", "")
             if admin_meta:
-                 deontic_context += f"\\n[THÔNG TIN HÀNH CHÍNH]: {admin_meta}\\n"
+                 deontic_context += f"\n[THÔNG TIN HÀNH CHÍNH]: {admin_meta}\n"
                  
             if deontic_context:
                 metadata["deontic_context"] = deontic_context
             
-            dec = judge_claim(item["claim"], item["top_hits"], metadata, history_str=history_str, llm_preset=state.get("llm_preset"))
+            with timer.step("LLM_Judge"):
+                dec = judge_claim(item["claim"], item["top_hits"], metadata, history_str=history_str, llm_preset=state.get("llm_preset"))
             judge_results.append({
                 "claim": item["claim_text"],
                 "label": dec.get("label", "Neutral"),
@@ -293,38 +379,41 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
         if pending:
             return {"completed_results": completed}
             
-        # --- Build Master Report ---
-        query = state.get("query", "").lower()
-        wh_words = ["làm thế nào", "cơ quan nào", "có văn bản nào", "ai ", "khi nào", "tại sao", "ở đâu", "văn bản nào", "thế nào"]
-        is_wh_query = any(word in query for word in wh_words)
+        # --- Build Master Report: ALWAYS output BOTH prose + table ---
+        md_table = ""
+        if is_best_effort:
+             md_table += "> [!NOTE]\n> **Thông báo:** Hệ thống không tìm thấy quy định trực tiếp, tuy nhiên dựa trên nội dung liên quan nhất tìm thấy, tôi xin cung cấp thông tin tham khảo như sau:\n\n"
 
-        if len(completed) == 1 and is_wh_query:
-            r = completed[0]
+        # PHẦN 1: Prose Reasoning (Giải thích tổng quan bằng văn bản)
+        md_table += "### 💡 Kết Luận Phân Tích\n\n"
+        for r in completed:
+            label_str = str(r['label']).lower()
+            icon = "❌" if "contradiction" in label_str else ("✅" if "entailment" in label_str else "⚪")
+            clean_claim = str(r['claim']).replace('\n', ' ').strip()
+            
+            md_table += f"**{icon} Mệnh đề:** {clean_claim}\n\n"
+            md_table += f"**Phán quyết:** {r['label']}\n\n"
+            md_table += f"{r['conflict_reasoning']}\n\n"
+            if r.get('reference_law') and r['reference_law'] != 'N/A':
+                md_table += f"📌 *Căn cứ: {r['reference_law']}*\n\n"
+            md_table += "---\n\n"
+
+        # PHẦN 2: Bảng tổng hợp (Table)
+        md_table += "### 📊 Bảng Tổng Hợp Kết Quả\n\n"
+        md_table += "| STT | Mệnh đề (Claim) | Phán quyết | Căn cứ | Tóm tắt |\n"
+        md_table += "| :---: | :--- | :---: | :--- | :--- |\n"
+        
+        for idx, r in enumerate(completed, 1):
             label_str = str(r['label']).lower()
             icon = "❌" if "contradiction" in label_str else ("✅" if "entailment" in label_str else "⚪")
             
-            final_ans = f"### 💡 Kết Luận Phân Tích\\n\\n"
-            final_ans += f"**{icon} Phán quyết:** {r['label']}\\n\\n"
-            final_ans += f"**Giải thích chi tiết:** {r['conflict_reasoning']}\\n"
+            clean_claim = str(r['claim']).replace('\n', ' ').replace('|', '&#124;').strip()
+            clean_reason = str(r['conflict_reasoning']).replace('\n', ' ').replace('|', '&#124;').strip()
+            ref_law = str(r.get('reference_law', 'N/A')).replace('|', '&#124;').strip()
+            # Cắt ngắn reasoning cho bảng, giữ đầy đủ ở phần prose
+            short_reason = clean_reason[:200] + "..." if len(clean_reason) > 200 else clean_reason
             
-            md_table = final_ans
-        else:
-            md_table = ""
-            if is_best_effort:
-                 md_table += "> [!NOTE]\\n> **Thông báo:** Hệ thống không tìm thấy quy định trực tiếp, tuy nhiên dựa trên nội dung liên quan nhất tìm thấy, tôi xin cung cấp thông tin tham khảo như sau:\\n\\n"
-                 
-            md_table += "### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\\n\\n"
-            md_table += "| Mệnh đề Nội quy (Claim) | Phán quyết | Giải thích chi tiết |\\n"
-            md_table += "| :--- | :---: | :--- |\\n"
-            
-            for r in completed:
-                label_str = str(r['label']).lower()
-                icon = "❌" if "contradiction" in label_str else ("✅" if "entailment" in label_str else "⚪")
-                
-                clean_claim = str(r['claim']).replace('\\n', ' ').replace('|', '&#124;').strip()
-                clean_reason = str(r['conflict_reasoning']).replace('\\n', ' ').replace('|', '&#124;').strip()
-                
-                md_table += f"| {clean_claim} | {icon} **{r['label']}** | {clean_reason} |\\n"
+            md_table += f"| {idx} | {clean_claim} | {icon} **{r['label']}** | {ref_law} | {short_reason} |\n"
         
         references = []
         seen = set()
@@ -352,7 +441,8 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
                     seen.add(cid)
         
         references.sort(key=lambda x: x.get("score", 0), reverse=True)
-        cited_refs = filter_cited_references(md_table, references)
+        with timer.step("FilterRefs"):
+            cited_refs = filter_cited_references(md_table, references)
                     
         if has_db_update_proposal:
             import json
@@ -376,13 +466,13 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
                 import os
                 new_filename = os.path.basename(file_path)
                 new_file_id = os.path.splitext(new_filename)[0]
-
+ 
             update_payload = {
                 "document_numbers_to_disable": old_nums,
                 "new_file_id": new_file_id,
                 "new_filename": new_filename
             }
-            md_table += f"\\n\\n<!-- DB_UPDATE_PROPOSAL: {json.dumps(update_payload)} -->\\n"
+            md_table += f"\n\n<!-- DB_UPDATE_PROPOSAL: {json.dumps(update_payload)} -->\n"
             
             # Hiển thị thông tin sạch sẽ cho người dùng
             new_num_display = new_num if new_num and new_num.upper() != "N/A" else "mới tải lên"
@@ -390,8 +480,11 @@ class ConflictAnalyzerStrategy(BaseRAGStrategy):
             
             md_table += f"> **⚠️ Đề Xuất Cập Nhật Cơ Sở Dữ Liệu:** Hệ thống phát hiện văn bản {new_num_display} có tính chất thay thế {old_nums_display}. Vui lòng xác nhận để đồng bộ cập nhật dữ liệu Qdrant."
                     
+        combined_thinking = "\n\n---\n\n".join([r.get("thinking_content", "").strip() for r in completed if r.get("thinking_content", "").strip()])
         return {
             "completed_results": completed,
             "final_response": md_table,
-            "references": cited_refs
+            "thinking_content": combined_thinking,
+            "references": cited_refs,
+            "metrics": timer.results()
         }

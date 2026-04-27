@@ -35,11 +35,12 @@ def extract_entities(query: str, answer: str) -> Dict[str, Any]:
             temperature=0.0,
             model=settings.LLM_ROUTING_MODEL
         )
-        # Tìm block JSON
-        start = resp.find("{")
-        end = resp.rfind("}") + 1
-        if start != -1 and end != -1:
-            data = json.loads(resp[start:end])
+        
+        from backend.utils.text_utils import extract_json_from_text
+        json_str = extract_json_from_text(resp)
+        
+        if json_str:
+            data = json.loads(json_str)
             return {
                 "current_document": data.get("current_document"),
                 "entities": data.get("entities", [])

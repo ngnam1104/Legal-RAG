@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 export interface Message {
   role: 'user' | 'assistant';
   content: string;
+  thinking_content?: string;
   attached_file?: { id: string; name: string };
   references?: Array<{
     title: string;
@@ -301,6 +302,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
                 setMessages(prev => [...prev, {
                   role: 'assistant',
                   content: final.answer,
+                  thinking_content: final.thinking_content,
                   references: final.references || [],
                   related_docs: final.related_docs || []
                 }]);

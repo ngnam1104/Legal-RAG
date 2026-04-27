@@ -100,3 +100,4 @@ legal_docs/
 *.pdf
 *.docx
 todo.md
+logs/

@@ -64,7 +64,7 @@ class AdvancedLegalChunker:
             })
         return refs
 
-    def _extract_legal_basis_metadata(self, content: str) -> List[dict]:
+    def _extract_legal_basis_metadata(self, content: str, skip_llm: bool = False) -> List[dict]:
         preamble = "\n".join((content or "").splitlines()[:80])
         all_refs = []
         complex_basis_texts = []
@@ -78,8 +78,8 @@ class AdvancedLegalChunker:
                     # Lưới Regex bị rớt -> đẩy vào mũi khoan LLM
                     complex_basis_texts.append(line)
                     
-        # Chạy LLM fallback
-        if complex_basis_texts:
+        # Chạy LLM fallback (Chỉ chạy nếu không skip_llm)
+        if complex_basis_texts and not skip_llm:
             llm_results = rel.extract_references_via_llm(complex_basis_texts)
             for item in llm_results:
                 raw_type = item.get("doc_type", "")
@@ -131,20 +131,9 @@ class AdvancedLegalChunker:
     # TRÁI TIM HỆ THỐNG: HÀM CẮT CHUNK (PROCESS_DOCUMENT)
     # Đồng bộ 100% với Notebook Cell lK4NO3WiVgaJ
     # ==========================================
-    def process_document(self, content: str, metadata: Dict[str, Any], global_doc_lookup: dict = None, precomputed_rels: List[dict] = None) -> List[Dict[str, Any]]:
+    def process_document(self, content: str, metadata: Dict[str, Any], global_doc_lookup: dict = None, precomputed_rels: List[dict] = None, skip_llm: bool = False) -> List[Dict[str, Any]]:
         # 1. Dọn dẹp nội dung thô
         content = str(content or "").replace("\r\n", "\n").strip()
-
-        # --- FIX 4: Loại bỏ text rác paywall/website ---
-        PAYWALL_PATTERNS = [
-            r"Hãy đăng nhập hoặc đăng ký.*?toàn bộ văn bản.*?\.",
-            r"Bạn cần.*?(?:Thành viên|đăng ký|đăng nhập).*?để xem.*?\.",
-            r"(?:Nội dung|Văn bản).*?(?:chỉ dành cho|yêu cầu).*?(?:thành viên|VIP|Pro).*?\.",
-            r"©.*?(?:Bản quyền|Copyright).*",
-            r"Quý khách.*?(?:đăng nhập|đăng ký).*?để.*?\.",
-        ]
-        for pattern in PAYWALL_PATTERNS:
-            content = re.sub(pattern, "", content, flags=re.IGNORECASE | re.DOTALL)
 
         lines = content.splitlines()
 
@@ -179,7 +168,7 @@ class AdvancedLegalChunker:
         raw_eff = str(eff_date or metadata.get("effective_date") or promulgation_date)
         final_effective_date = raw_eff[:10] if len(raw_eff) >= 10 else raw_eff
         
-        basis_refs = self._extract_legal_basis_metadata(content)
+        basis_refs = self._extract_legal_basis_metadata(content, skip_llm=skip_llm)
 
         # Xử lý list an toàn
         raw_sectors = metadata.get("legal_sectors") or metadata.get("legal_sectors_list") or []
@@ -192,9 +181,13 @@ class AdvancedLegalChunker:
             
         sectors_str = ", ".join(sectors_list) if sectors_list else "Chung"
 
-        print(f"  [Chunker] Bắt đầu xử lý và bóc tách tài liệu: {doc_number}...")
+        # print(f"  [Chunker] Bắt đầu xử lý và bóc tách tài liệu: {doc_number}...")
         # TỰ ĐỘNG BÓC TÁCH MỐI QUAN HỆ (Ontology 10 nhãn, mức độ Document-to-Document)
-        ontology_rels = precomputed_rels if precomputed_rels is not None else rel.extract_ontology_relationships(content, doc_number, global_doc_lookup)
+        ontology_rels = []
+        if precomputed_rels is not None:
+            ontology_rels = precomputed_rels
+        else:
+            ontology_rels = rel.extract_ontology_relationships(content, doc_number, global_doc_lookup, skip_llm=skip_llm)
 
         # --- XÁC ĐỊNH DOC_STATUS (4 trạng thái chuẩn) ---
         # Ưu tiên 1: Nếu VB bị thay thế/bãi bỏ toàn bộ bởi VB khác → Hết hiệu lực
@@ -239,8 +232,8 @@ class AdvancedLegalChunker:
         # BƯỚC 2: KHỞI TẠO BIẾN TRẠNG THÁI (STATE)
         # ==========================================
         global_chunk_idx = 0
-        CHUNK_LIMIT = 1800
-        TEXT_LIMIT = 2500
+        CHUNK_LIMIT = 1500
+        TEXT_LIMIT = 2000
 
         # ==========================================
         # BƯỚC 3: HÀM ĐÓNG GÓI CHUNK (FLUSH_ARTICLE & FLUSH_TABLE)
@@ -593,13 +586,13 @@ class AdvancedLegalChunker:
 
                     if table_rows:
                         current_table_len = sum(len(r) for r in table_header) + sum(len(r) for r in table_rows)
-                        if len(table_rows) >= 20 or (current_table_len + len(line)) > 3000:
+                        if len(table_rows) >= 15 or (current_table_len + len(line)) > 2500:
                             flush_table(current_article_ref, table_header, table_rows)
                             table_rows = []
 
                     table_rows.append(line)
 
-                    if len(table_rows) == 1 and len(line) > 3000:
+                    if len(table_rows) == 1 and len(line) > 2500:
                         flush_table(current_article_ref, table_header, table_rows)
                         table_rows = []
                 continue

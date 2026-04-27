@@ -6,9 +6,7 @@ from backend.llm.factory import chat_completion
 from backend.retrieval.hybrid_search import retriever
 from backend.config import settings
 
-def strip_thinking_tags(text: str) -> str:
-    """Loại bỏ thẻ <thinking>...</thinking> khỏi output LLM trước khi hiển thị hoặc parse JSON."""
-    return re.sub(r'<thinking>.*?</thinking>', '', text, flags=re.DOTALL).strip()
+from backend.utils.text_utils import extract_thinking_and_answer, strip_thinking_tags
 
 # --- PROMPTS ---
 ANSWER_PROMPT = """

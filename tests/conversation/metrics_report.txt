@@ -1,0 +1,35 @@
+==================================================
+   BÁO CÁO ĐÁNH GIÁ ĐA LƯỢT (CONVERSATION RAG)    
+==================================================
+
+1. Phương pháp Đánh giá:
+- Trọng tài: LLM Judge hỗ trợ đánh giá ngữ cảnh đa lượt hội thoại.
+- Tiêu chí: Đánh giá nới lỏng (Tolerant). Kiểm tra độ khớp intent và hỗ trợ vai trò người dùng.
+
+2. Chỉ số Tổng quan (Overall Metrics):
+- Tổng số lượt hội thoại test (Total Turns): 72
+- Tỷ lệ chính xác nội dung (Content Acc): 37.50% (27/72)
+- Tỷ lệ đúng Intent (Intent Acc): 94.44% (68/72)
+- Thời gian phản hồi trung bình (Per turn): 21.42s
+
+3. Chi tiết Hiệu suất theo Mode (Detected intent):
+  [LEGAL_QA]
+    + Số lượt kích hoạt: 36 lượt
+    + Tỷ lệ Đạt: 50.00% (18/36)
+    + Tốc độ sinh: 17.54s
+  [SECTOR_SEARCH]
+    + Số lượt kích hoạt: 18 lượt
+    + Tỷ lệ Đạt: 22.22% (4/18)
+    + Tốc độ sinh: 11.61s
+  [CONFLICT_ANALYZER]
+    + Số lượt kích hoạt: 18 lượt
+    + Tỷ lệ Đạt: 27.78% (5/18)
+    + Tốc độ sinh: 38.99s
+
+4. Phân rã thời gian Pipeline (Step Breakdown/Turn):
+  ⚡ 1. Understand                 : 2.54s
+  ⚡ 2. Retrieve + Graph Expand    : 1.45s
+  ⚡ 4. Generate                   : 11.20s
+  ⚡ Condense & Route              : 4.18s
+  ⚡ Detect Mode Only              : 3.65s
+  ⚡ Preprocess Memory/Files       : 0.00s

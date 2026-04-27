@@ -70,8 +70,9 @@ Câu trả lời từ RAG (bao gồm cả trích dẫn): {generated_answer}
 """
     try:
         from backend.config import settings
+        from backend.agent.utils.utils_legal_qa import strip_thinking_tags
         res = chat_completion([{"role": "user", "content": prompt}], temperature=0.0, model=settings.LLM_ROUTING_MODEL)
-        return str(res).strip()
+        return strip_thinking_tags(str(res)).strip()
     except Exception as e:
         return f"❌ LỖI ĐÁNH GIÁ LLM: {str(e)}"
 
@@ -179,10 +180,43 @@ for mode, stats in mode_stats.items():
 
 if all_step_times:
     report_lines.append("\n4. Phân rã thời gian Pipeline (Step Breakdown):")
-    for step_name in sorted(all_step_times.keys()):
+    
+    # Sắp xếp theo đúng trình tự pipeline thay vì Alphabetical
+    order = [
+        "Preprocess Memory/Files",
+        "Detect Mode Only", 
+        "Condense & Route",
+        "Understand",
+        "Retrieve + Graph Expand",
+        "Generate"
+    ]
+    
+    def get_order_index(x):
+        for i, prefix in enumerate(order):
+            if x.startswith(prefix):
+                return i
+        return 999
+        
+    sorted_steps = sorted(all_step_times.keys(), key=get_order_index)
+
+    for step_name in sorted_steps:
         avg_step = sum(all_step_times[step_name]) / len(all_step_times[step_name])
         clean_name = step_name.replace("_time", "")
-        report_lines.append(f"  ⚡ {clean_name:30}: {avg_step:.2f}s")
+        
+        # Logic hiển thị sub-steps với cấu trúc cây
+        if "." in clean_name:
+            parent, sub = clean_name.split(".", 1)
+            # Tìm xem đây có phải là sub-step cuối cùng của parent này không
+            is_last = True
+            current_idx = sorted_steps.index(step_name)
+            for subsequent in sorted_steps[current_idx + 1:]:
+                if subsequent.startswith(parent + "."):
+                    is_last = False
+                    break
+            prefix = "    └─ " if is_last else "    ├─ "
+            report_lines.append(f"{prefix}{sub:26}: {avg_step:.2f}s")
+        else:
+            report_lines.append(f"  ⚡ {clean_name:30}: {avg_step:.2f}s")
 
 report_text = "\n".join(report_lines)
 report_file = os.path.join(os.path.dirname(__file__), "metrics_report.txt")

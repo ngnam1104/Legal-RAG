@@ -77,32 +77,178 @@ BẠN PHẢI THỰC HIỆN SUY LUẬN TRONG THẺ <thinking> TRƯỚC KHI VIẾT
 Sau khi suy luận xong, chỉ viết đoạn văn Tổng quan (tối đa 150 từ). KHÔNG liệt kê lại bảng."""
 
 
-TOC_DRILL_DOWN_PROMPT = """
-QUERY = {query}
-TITLE = {title}
-TOC = {toc}
-
-Bạn là Chuyên gia Điều hướng Văn bản Pháp luật.
-Nhiệm vụ của bạn là đọc Mục lục (TOC) của văn bản TITLE và xác định các ĐIỀU (Article) hoặc MỤC (Section) có khả năng cao nhất chứa câu trả lời cho QUERY.
-
-YÊU CẦU:
-1. Trả về tối đa 3 tọa độ (ví dụ: "Điều 5", "Điều 10", "Mục 2").
-2. Chỉ trả về mảng JSON trong markdown code block.
-
-```json
-["Điều X", "Điều Y"]
-```
-"""
-
 
 # =============================================================================
 # 1. UNDERSTAND — Sector Query Planner
 # =============================================================================
 
+# --- BLOCK 2: 3 SPECIALIZED RETRIEVAL FUNCTIONS ---
 
+def retrieve_by_sector(sector_name: str) -> List[Dict]:
+    """Hàm 1 (Tìm theo Ngành): Chỉ dùng Metadata Filtering, không dùng Vector similarity."""
+    from backend.retrieval.hybrid_search import retriever
+    from qdrant_client import models
+    import logging
+    logger = logging.getLogger("sector_search")
+    
+    logger.info(f"  [Sector Mode 1] Retrieving purely by Sector Filter: {sector_name}")
+    try:
+        # Sử dụng Qdrant scroll với filter để không dùng vector search
+        must_conditions = [
+            models.FieldCondition(key="legal_sectors", match=models.MatchValue(value=sector_name)),
+            models.FieldCondition(key="is_active", match=models.MatchValue(value=True)),
+            models.FieldCondition(key="is_appendix", match=models.MatchValue(value=False))
+        ]
+        scroll_filter = models.Filter(must=must_conditions)
+        
+        points, _ = retriever.client.scroll(
+            collection_name=retriever.collection_name,
+            scroll_filter=scroll_filter,
+            limit=50,
+            with_payload=True
+        )
+        
+        hits = []
+        for p in points:
+            payload = p.payload or {}
+            hits.append({
+                "id": p.id,
+                "score": 1.0,  # Exact match score
+                "payload": payload,
+                "document_number": payload.get("document_number", ""),
+                "article_ref": payload.get("article_ref", ""),
+                "title": payload.get("title", ""),
+                "text": payload.get("expanded_context_text") or payload.get("chunk_text") or payload.get("text", ""),
+                "chunk_id": payload.get("chunk_id", ""),
+                "is_appendix": payload.get("is_appendix", False),
+                "url": payload.get("url", "")
+            })
+        
+        # Deduplication để trả về danh sách văn bản đại diện
+        from backend.agent.utils.utils_sector_search import deduplicate_by_document
+        return deduplicate_by_document(hits)
+    except Exception as e:
+        logger.error(f"  [Sector Mode 1] Error: {e}")
+        return []
 
+def retrieve_by_topic_hybrid(query: str, top_k: int = 15) -> List[Dict]:
+    """
+    Hàm 2 (Tìm theo Chủ đề - Hybrid): Kết hợp BM25 (Sparse) và Dense Vector.
+    Đặc biệt chỉ target vào Tiêu đề (và summary) văn bản (thường là chunk đầu tiên - is_appendix=False).
+    """
+    from backend.retrieval.hybrid_search import retriever
+    from qdrant_client import models
+    import logging
+    logger = logging.getLogger("sector_search")
+    
+    logger.info(f"  [Sector Mode 2] Hybrid Topic Search targetting Document Titles: {query}")
+    try:
+        dense_query = retriever.hybrid_encoder.encode_query_dense(query)
+        sparse_query = retriever.hybrid_encoder.encode_query_sparse(query)
+        
+        # Chỉ tìm trong các chunk nội dung chính (is_appendix=False) để bắt Title/Summary chuẩn xác
+        topic_filter = models.Filter(
+            must=[
+                models.FieldCondition(key="is_active", match=models.MatchValue(value=True)),
+                models.FieldCondition(key="is_appendix", match=models.MatchValue(value=False))
+            ]
+        )
+        
+        prefetch_limit = top_k * 2
+        raw_hits = retriever.client.query_points(
+            collection_name=retriever.collection_name,
+            prefetch=[
+                models.Prefetch(query=dense_query, using="dense", limit=prefetch_limit, filter=topic_filter),
+                models.Prefetch(query=sparse_query, using="sparse", limit=prefetch_limit, filter=topic_filter),
+            ],
+            query=models.FusionQuery(fusion=models.Fusion.RRF),
+            limit=top_k,
+            with_payload=True,
+        ).points
+        
+        # Format results
+        hits = []
+        for p in raw_hits:
+            payload = p.payload or {}
+            # Tăng điểm nếu query khớp chính xác một phần Tiêu đề văn bản (BM25 mạnh ở đây)
+            boost = 0.0
+            if payload.get("title") and any(word.lower() in payload.get("title", "").lower() for word in query.split() if len(word) > 3):
+                boost = 0.1
+                
+            hits.append({
+                "id": p.id,
+                "score": float(p.score) + boost,
+                "payload": payload,
+                "document_number": payload.get("document_number", ""),
+                "article_ref": payload.get("article_ref", ""),
+                "title": payload.get("title", ""),
+                "text": payload.get("expanded_context_text") or payload.get("chunk_text") or payload.get("text", ""),
+                "chunk_id": payload.get("chunk_id", ""),
+                "is_appendix": payload.get("is_appendix", False),
+                "url": payload.get("url", "")
+            })
+            
+        hits.sort(key=lambda x: x["score"], reverse=True)
+        return hits
+    except Exception as e:
+        logger.error(f"  [Sector Mode 2] Error: {e}")
+        return []
 
-# =============================================================================
+def retrieve_by_article_clause(query: str, top_k: int = 20) -> List[Dict]:
+    """
+    Hàm 3 (Tìm theo Điều khoản): Quét Text Embedding (Dense Vector) tìm nội dung chi tiết.
+    Dùng toàn bộ kho (không dùng sparse để tránh bias từ khóa lên thẻ tiêu đề).
+    """
+    from backend.retrieval.hybrid_search import retriever
+    from qdrant_client import models
+    import logging
+    logger = logging.getLogger("sector_search")
+    
+    logger.info(f"  [Sector Mode 3] Deep Vector Search for precise clauses: {query}")
+    try:
+        dense_query = retriever.hybrid_encoder.encode_query_dense(query)
+        
+        # Tìm rộng điều khoản (bao gồm cả phụ lục biểu mẫu nếu có)
+        broad_filter = models.Filter(
+            must=[models.FieldCondition(key="is_active", match=models.MatchValue(value=True))]
+        )
+        
+        raw_hits = retriever.client.query_points(
+            collection_name=retriever.collection_name,
+            query=dense_query,
+            using="dense",
+            query_filter=broad_filter,
+            limit=top_k,
+            with_payload=True,
+        ).points
+        
+        hits = []
+        for p in raw_hits:
+            payload = p.payload or {}
+            hits.append({
+                "id": p.id,
+                "score": float(p.score),
+                "payload": payload,
+                "document_number": payload.get("document_number", ""),
+                "article_ref": payload.get("article_ref", ""),
+                "title": payload.get("title", ""),
+                "text": payload.get("expanded_context_text") or payload.get("chunk_text") or payload.get("text", ""),
+                "chunk_id": payload.get("chunk_id", ""),
+                "is_appendix": payload.get("is_appendix", False),
+                "url": payload.get("url", "")
+            })
+            
+        # Áp dụng reranker cho kết quả mode 3 vì cần độ chính xác ngữ nghĩa cao nhất ở mức clause
+        if hasattr(retriever, "reranker") and retriever.reranker:
+            enriched = retriever.reranker.rerank_candidates(query, hits, top_k=top_k)
+            for item in enriched:
+                item["score"] = item.get("rerank_score", item.get("score"))
+            return enriched
+        
+        return hits
+    except Exception as e:
+        logger.error(f"  [Sector Mode 3] Error: {e}")
+        return []
 # 2. GRADE — Deduplication + Relevance Filter
 # =============================================================================
 
@@ -119,6 +265,37 @@ def deduplicate_by_document(hits: List[Dict]) -> List[Dict]:
         existing = doc_map.get(doc_num)
         if existing is None or h.get("score", 0) > existing.get("score", 0):
             doc_map[doc_num] = h
+    return list(doc_map.values())
+
+
+def group_by_document(hits: List[Dict]) -> List[Dict]:
+    """
+    Thay thế deduplicate_by_document giúp giữ lại TẤT CẢ các điều khoản (article_ref)
+    đã được tìm thấy cho cùng một văn bản thay vì chỉ giữ 1 chunk.
+    """
+    doc_map: Dict[str, Dict] = {}
+    for h in hits:
+        doc_num = h.get("document_number", "")
+        if not doc_num:
+            continue
+            
+        if doc_num not in doc_map:
+            # Tạo entry mới, copy hit và khởi tạo list điều khoản
+            doc_map[doc_num] = dict(h)
+            doc_map[doc_num]["all_articles"] = []
+            
+        # Thu thập article_ref nếu có
+        art = h.get("article_ref", "")
+        if art and art not in doc_map[doc_num]["all_articles"]:
+            doc_map[doc_num]["all_articles"].append(art)
+            
+        # Cập nhật nội dung chunk có score cao nhất để làm đại diện (summary/preview)
+        if h.get("score", 0) > doc_map[doc_num].get("score", 0):
+            # Lưu lại all_articles đã thu thập được
+            current_articles = doc_map[doc_num]["all_articles"]
+            doc_map[doc_num].update(h)
+            doc_map[doc_num]["all_articles"] = current_articles
+            
     return list(doc_map.values())
 
 
@@ -267,7 +444,7 @@ def map_reduce_aggregate(hits: List[Dict]) -> str:
 # 4. GENERATE — Executive Summary (1 LLM call, ~100 tokens output)
 # =============================================================================
 
-def generate_executive_summary(query: str, table_markdown: str, file_chunks: List[Dict[str, Any]] = None, file_analysis: str = "", history_str: str = "", llm_preset: str = None) -> str:
+def generate_executive_summary(query: str, table_markdown: str, file_chunks: List[Dict[str, Any]] = None, file_analysis: str = "", history_str: str = "", llm_preset: str = None) -> tuple[str, str]:
     """Sinh đoạn Executive Summary lồng ghép phân tích file."""
     if not file_analysis and file_chunks:
         file_analysis = "Người dùng có tải lên tài liệu liên quan đến chủ đề này."
@@ -282,10 +459,11 @@ def generate_executive_summary(query: str, table_markdown: str, file_chunks: Lis
     messages = [{"role": "user", "content": prompt}]
     try:
         resp = chat_completion(messages, temperature=0.1, model=settings.LLM_CORE_MODEL, llm_preset=llm_preset)
-        return strip_thinking_tags(resp)
+        from backend.utils.text_utils import extract_thinking_and_answer
+        return extract_thinking_and_answer(resp)
     except Exception as e:
         print(f"       ⚠️ Executive Summary generation failed: {e}")
-        return f"Tổng quan về các văn bản pháp luật liên quan đến \"{query}\"."
+        return "", f"Tổng quan về các văn bản pháp luật liên quan đến \"{query}\"."
 
 def analyze_document_focus(file_chunks: List[Dict[str, Any]], llm_preset: str = None) -> dict:
     """LLM 'nắm bắt' nội dung file để định hướng tìm kiếm."""
@@ -311,105 +489,4 @@ def analyze_document_focus(file_chunks: List[Dict[str, Any]], llm_preset: str = 
         return {}
 
 
-# =============================================================================
-# 5. REFLECT — Coverage Check & Supplemental Search
-# =============================================================================
 
-def check_coverage_bias(hits: List[Dict]) -> Dict[str, Any]:
-    """
-    Phân tích phân bố legal_type trong kết quả.
-    Phát hiện thiên lệch: ví dụ chỉ toàn Luật mà thiếu Nghị định hướng dẫn.
-    Returns: {"biased": bool, "dominant_type": str, "missing_types": [...], "basis_doc_numbers": [...]}
-    """
-    if len(hits) < 3:
-        return {"biased": False, "dominant_type": "", "missing_types": [], "basis_doc_numbers": []}
-    
-    type_counts = Counter(h.get("legal_type", "N/A") for h in hits)
-    total = sum(type_counts.values())
-    
-    # Check if one type dominates > 80%
-    dominant_type, dominant_count = type_counts.most_common(1)[0]
-    ratio = dominant_count / total if total > 0 else 0
-    
-    # Hierarchy: Luật thường đi kèm Nghị định, Nghị định đi kèm Thông tư
-    EXPECTED_COMPANIONS = {
-        "Luật": ["Nghị định", "Thông tư"],
-        "Nghị định": ["Thông tư", "Luật"],
-        "Thông tư": ["Nghị định"],
-        "Nghị quyết": ["Nghị định", "Luật"],
-    }
-    
-    missing_types = []
-    if ratio > 0.8 and dominant_type in EXPECTED_COMPANIONS:
-        companions = EXPECTED_COMPANIONS[dominant_type]
-        present_types = set(type_counts.keys())
-        missing_types = [t for t in companions if t not in present_types]
-    
-    # Extract doc_numbers from legal_basis_refs for supplemental search
-    basis_doc_numbers = []
-    if missing_types:
-        seen = set()
-        for h in hits:
-            for ref in h.get("legal_basis_refs", []):
-                dn = ref.get("doc_number", "")
-                if dn and dn not in seen:
-                    basis_doc_numbers.append(dn)
-                    seen.add(dn)
-    
-    return {
-        "biased": bool(missing_types),
-        "dominant_type": dominant_type,
-        "missing_types": missing_types,
-        "basis_doc_numbers": basis_doc_numbers[:5],  # Limit to 5 supplemental searches
-        "type_distribution": dict(type_counts)
-    }
-
-
-def supplemental_search_by_basis(basis_doc_numbers: List[str], existing_doc_nums: set) -> List[Dict]:
-    """
-    Tìm kiếm bổ sung dựa trên legal_basis_refs của các văn bản đã tìm được.
-    Dùng Qdrant filter chính xác theo document_number.
-    """
-    supplemental_hits = []
-    
-    for doc_num in basis_doc_numbers:
-        if doc_num in existing_doc_nums:
-            continue  # Đã có rồi, bỏ qua
-        try:
-            hits = retriever.search(
-                query=doc_num,
-                expand_context=False,
-                use_rerank=False,
-                doc_number=doc_num,
-                limit=1  # Chỉ cần 1 chunk đại diện
-            )
-            if hits:
-                supplemental_hits.append(hits[0])
-                existing_doc_nums.add(doc_num)
-        except Exception as e:
-            print(f"       ⚠️ Supplemental search for {doc_num} failed: {e}")
-    
-    return supplemental_hits
-
-
-def drill_down_toc_with_llm(query: str, title: str, toc: str, llm_preset: str = None) -> List[str]:
-    """Sử dụng LLM để tìm các Điều/Mục trong TOC liên quan đến Query."""
-    if not toc or not query:
-        return []
-        
-    messages = [{"role": "user", "content": TOC_DRILL_DOWN_PROMPT.format(
-        query=query, title=title, toc=toc # Đã tăng giới hạn ngữ cảnh cho LLM
-    )}]
-    
-    try:
-        resp = chat_completion(messages, temperature=0.1, model=settings.LLM_ROUTING_MODEL, llm_preset=llm_preset)
-        resp = resp or ""
-        if "```json" in resp:
-            resp = resp.split("```json")[1].split("```")[0].strip()
-        elif "```" in resp:
-            resp = resp.split("```")[1].strip()
-        coords = json.loads(resp)
-        return coords if isinstance(coords, list) else []
-    except Exception as e:
-        print(f"       ⚠️ TOC Drill-down failed for '{title}': {e}")
-        return []

@@ -17,9 +17,12 @@ def run_script(script_path):
 
 def main():
     start_time = time.perf_counter()
+    print("BẮT ĐẦU KIỂM TRA test_chatbot")
     
     # 1. Chạy test_chatbot.py (Single-turn / 3-mode)
     code1 = run_script("tests/mode_router/test_chatbot.py")
+
+    print("BẮT ĐẦU KIỂM TRA test_chatbot_conversation")
     
     # 2. Chạy test_chatbot_conversation.py (Multi-turn)
     code2 = run_script("tests/conversation/test_chatbot_conversation.py")

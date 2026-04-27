@@ -9,13 +9,13 @@ Hệ thống **Advanced Agentic RAG** mã nguồn mở chuyên biệt cho văn b
 - **🧠 Universal 5-Stage Agentic Pipeline**: Hệ thống được điều phối đồng nhất qua LangGraph qua các bước: `Understand` → `Retrieve` → `Resolve References` → `Grade` → `Generate` → `Reflect`.
 - **🛡️ CRAG & Self-RAG (Anti-Hallucination)**: Đánh giá độ tin cậy của tài liệu truy xuất (Grade) với cơ chế Retry/Rewrite. Tự động kiểm tra chéo trích dẫn và tính xác thực (Fact Check) trước khi trả câu trả lời cho người dùng.
 - **🔍 HyDE & Hybrid Search**: Sinh "câu trả lời giả định" (HyDE) kết hợp với tìm kiếm lai (Dense `BGE-M3` + Sparse) và Cross-Encoder Rerank để xử lý các thuật ngữ pháp lý phức tạp.
-- **⚖️ Chain-of-Thought (CoT) Legal Reasoning**: Ép buộc LLM tuân thủ logic suy luận pháp lý chuẩn xác (Lex Superior, Lex Posterior) thông qua các the `<thinking>` ẩn bảo vệ quy tắc đóng-domain.
-- **📋 4 Chế độ Hoạt động Chuyên biệt (Strategy Pattern)**:
-    1. **Legal QA**: Giải đáp tình huống.
-    2. **Sector Search**: Tổng hợp, liệt kê văn bản.
-    3. **Conflict Analyzer**: Đối soát pháp lý tự động cho file nội quy/hợp đồng (Batch processing).
-    4. **General Chat**: Trò chuyện tự do.
-- **💾 Smart Memory & Tiered LLM**: Quản lý hội thoại đa tầng (Redis + SQLite). Tự động phân luồng Model rẻ cho định tuyến/đánh giá (`llama-3.1-8b`) và Model nặng cho suy luận (`llama-3.3-70b`).
+- **🕸️ Graph RAG (Neo4j)**: Sử dụng Knowledge Graph để mở rộng ngữ cảnh (Bottom-Up & Lateral Expansion), giúp AI hiểu mối quan hệ phân cấp giữa các văn bản pháp luật.
+- **⚖️ Chain-of-Thought (CoT) Legal Reasoning**: Ép buộc LLM tuân thủ logic suy luận pháp lý chuẩn xác (Lex Superior, Lex Posterior).
+- **📋 3 Chế độ Hoạt động Chuyên biệt (Strategy Pattern)**:
+    1. **Legal QA**: Giải đáp tình huống pháp lý.
+    2. **Sector Search**: Tổng hợp, tra cứu văn bản theo lĩnh vực.
+    3. **Conflict Analyzer**: Đối soát xung đột giữa nội quy và pháp luật hiện hành.
+- **💾 Smart Memory & Tiered LLM**: Quản lý hội thoại đa tầng (Redis + SQLite). Tự động phân luồng Model phù hợp (Ollama/Internal cho định tuyến, Gemini/Llama cho suy luận).
 
 ---
 
@@ -40,9 +40,7 @@ graph LR
     S2 -->|Search| QD
     S3 -->|Search| QD
     LG -->|Completion| LLM[LLMFactory]
-    LLM --> GROQ[Groq]
-    LLM --> GEMINI[Gemini]
-    LLM --> OLLAMA[Ollama]
+    LLM --> Llama3.1 API
 ```
 
 ### Luồng Xử lý RAG Tổng quát (End-to-End Pipeline)
@@ -82,18 +80,18 @@ graph TB
 ```text
 Legal-RAG/
 ├── backend/
-│   ├── agent/                             # LÕI HỆ THỐNG: LangGraph, 4 Chiến lược (QA, Sector, Conflict, General)
+│   ├── agent/                             # LÕI HỆ THỐNG: LangGraph, 3 Chiến lược (QA, Sector, Conflict)
 │   ├── api/                               # FastAPI endpoints & Session Management
-│   ├── llm/                               # Multi-Provider LLM Factory (Groq, Gemini, Ollama)
-│   ├── retrieval/                         # BGE-M3 Embedder, Hybrid Search, Qdrant Client, Ingestion
-│   ├── utils/                             # Document parser (PDF/DOCX)
+│   ├── llm/                               # Multi-Provider LLM Factory (Internal, Gemini, Ollama)
+│   ├── retrieval/                         # BGE-M3 Embedder, Hybrid Search, Qdrant & Neo4j Clients
+│   ├── utils/                             # Document parser & Prompt templates
 │   └── data/                              # SQLite persistent storage
 ├── frontend/                              # Giao diện Next.js Web App
-├── scripts/                               # Công cụ nạp dữ liệu (Ingest) & Crawl
+├── legal_docs/                            # Thư mục chứa văn bản pháp luật mẫu
+├── notebook/                              # Notebooks cho Ingestion & Ontology Mining
 ├── qdrant_snapshots/                      # Nơi chứa file backup CSDL (.snapshot)
-├── qdrant_storage/                        # Dữ liệu Vector DB thực tế (Docker mount)
 ├── quick_start.ps1                        # Script khởi động 1-click (Windows)
-└── docker-compose.yml                     # Triển khai Redis & Qdrant Containers
+└── docker-compose.yml                     # Triển khai Redis, Qdrant & Neo4j Containers
 ```
 
 ---
@@ -101,7 +99,7 @@ Legal-RAG/
 ## 🚀 Hướng dẫn Cài đặt từ đầu (Zero to Hero)
 
 ### 1. Yêu cầu Hệ thống
-- **Docker Desktop**: Chạy Redis và Qdrant.
+- **Docker Desktop**: Chạy Redis và Qdrant, Neo4J
 - **Python 3.10+**: Cho Backend.
 - **Node.js 18+**: Cho Frontend.
 - **Dung lượng ổ đĩa**: Khoảng 5-10GB (để chứa Model Embedding bge-m3 và Vector DB).
@@ -110,7 +108,7 @@ Legal-RAG/
 
 **Bước 1: Clone Repository**
 ```bash
-git clone https://github.com/ngnam1104/Legal-RAG.git
+git clone https://git.icomm.vn/nam.nguyen3/Legal-RAG.git
 cd Legal-RAG
 ```
 
@@ -131,14 +129,10 @@ docker-compose up -d
 Nếu bạn có file snapshot (.snapshot) của CSDL Luật Việt Nam:
 1. Copy file snapshot vào thư mục `./qdrant_snapshots/`.
 2. Truy cập Dashboard Qdrant tại: `http://localhost:6335/dashboard`.
-3. Chọn **Collections** -> Tạo collection mới (nếu chưa có) -> **Snapshots** -> **Restore from snapshot**.
-4. (Hoặc dùng script nạp dữ liệu từ đầu):
+3. Chọn **Collections** -> Tạo collection mới -> **Snapshots** -> **Restore**.
+4. (Hoặc dùng Notebook nạp dữ liệu):
    ```bash
-   # Tạo venv và cài dependencies trước khi chạy script
-   python -m venv venv
-   .\venv\Scripts\Activate.ps1
-   pip install -r requirements.txt
-   python scripts/ingest_local.py
+   # Sử dụng notebook/chunking_embedding.ipynb để nạp dữ liệu mới
    ```
 
 **Bước 5: Khởi động toàn bộ Hệ thống**
@@ -165,8 +159,9 @@ Script sẽ tự động:
 
 | Biến | Mô tả |
 | :--- | :--- |
-| `LLM_PROVIDER` | `groq` \| `gemini` \| `ollama` |
+| `LLM_PROVIDER` | `internal` \| `gemini` \| `ollama` |
 | `QDRANT_URL` | Địa chỉ Qdrant (mặc định localhost:6335) |
+| `NEO4J_URI` | Địa chỉ Neo4j (mặc định bolt://localhost:7687) |
 | `REDIS_URL` | Địa chỉ Redis cho memory |
 | `LEGAL_DENSE_MODEL`| Model embedding (mặc định `BAAI/bge-m3`) |
 
@@ -174,8 +169,9 @@ Script sẽ tự động:
 
 ## 🛠️ Công nghệ Sử dụng
 
-- **Models**: BGE-M3 (Embedding), Llama-3 (LLM), Gemini (Fallback).
+- **Models**: BGE-M3 (Embedding), Llama-3 (LLM), Gemini (Pro).
 - **Backend**: FastAPI, Redis, LangGraph.
 - **Frontend**: Next.js 15, TailwindCSS (Premium UI).
 - **Vector DB**: Qdrant.
+- **Graph DB**: Neo4j.
 - **ORM/Storage**: SQLite (History), Redis (Cache).

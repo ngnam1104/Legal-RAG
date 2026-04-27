@@ -1,382 +1,840 @@
 === LIST OF FAILED CONVERSATION TURNS ===
 
---- FAILED: conv_002 | Turn 5 ---
-Query: Nghị quyết này có làm hết hiệu lực văn bản nào của tỉnh Kon Tum không?
-Rewritten: Nghị quyết 54/NQ-HĐND năm 2025 có làm hết hiệu lực văn bản nào của tỉnh Kon Tum không?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định không tìm thấy thông tin trong khi câu trả lời mẫu đã xác nhận rõ Nghị quyết 54/NQ-HĐND có làm hết hiệu lực văn bản của tỉnh Kon Tum.
-Answer: ### 💡 Kết Luận Phân Tích\n\n**⚪ Phán quyết:** Neutral\n\n**Trích dẫn:** Không có căn cứ pháp luật nào trong ngữ cảnh hiện tại quy định về việc bãi bỏ văn bản của tỉnh Kon Tum bởi Nghị quyết 54/NQ-HĐND năm 2025.\n\n**Giải thích chi tiết:** Các tài liệu pháp luật được cung cấp trong ngữ cảnh (Thông tư 47/2025/TT-BYT) chỉ quy định việc bãi bỏ các văn bản do Bộ Y tế ban hành. Không có thông tin nào trong các tài liệu này đề cập đến Nghị quyết 54/NQ-HĐND năm 2025 của tỉnh Kon Tum hay danh sách các văn bản của tỉnh bị bãi bỏ bởi Nghị quyết này. Do đó, không thể xác định tính đúng sai của mệnh đề dựa trên căn cứ pháp luật hiện có.\n
-----------------------------------------
-
---- FAILED: conv_003 | Turn 1 ---
-Query: Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá khám sức khỏe đi xuất khẩu lao động nằm ở phụ lục nào?
-Rewritten: Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá khám sức khỏe đi xuất khẩu lao động nằm ở phụ lục nào?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời "không tìm thấy thông tin" trong khi câu trả lời mẫu khẳng định rõ ràng quy định nằm tại Phụ lục I, vi phạm tiêu chí đánh giá về việc báo thiếu thông tin khi mẫu có sẵn.
-Answer: Dựa trên các văn bản và dữ liệu được cung cấp trong ngữ cảnh, **không tìm thấy thông tin** quy định cụ thể về giá dịch vụ "khám sức khỏe đi xuất khẩu lao động" hay phụ lục nào chứa quy định này.
-
-Các tài liệu trong ngữ cảnh chỉ liệt kê các phụ lục sau liên quan đến khám bệnh và kiểm tra sức khỏe với tiêu đề chung là "MỨC GIÁ DỊCH VỤ KHÁM BỆNH, KIỂM TRA SỨC KHỎE":
-- **Phụ lục I.1**: Áp dụng tại Bệnh viện đa khoa tỉnh Quảng Ngãi; Bệnh viện đa khoa tỉnh Quảng Ngãi 2.
-- **Phụ lục I.2**: Áp dụng tại Bệnh viện Sản - Nhi tỉnh Quảng Ngãi, Bệnh viện đa khoa khu vực Ngọc Hồi.
-- **Phụ lục I.5**: Áp dụng tại Bệnh viện đa khoa khu vực Đặng Thùy Trâm và các Trung tâm Y tế thuộc tỉnh Quảng Ngãi.
-
-Các bảng biểu chi tiết đi kèm (trong các tài liệu `can_cu` 2, 3, 4, 5, 10, 12, 13, 14, 16, 17, 18, 19, 22, 23, 26, 27, 28, 29, 30) chỉ liệt kê các dịch vụ kỹ thuật cụ thể (như Siêu âm, X-quang, Chụp CLVT, Thủ thuật...) và các dịch vụ khám bệnh chung (như "Khám bệnh", "Khám cấp giấy chứng thương, giám định y khoa"), nhưng **không có dòng nào** đề cập đến "khám sức khỏe đi xuất khẩu lao động".
-
-Do đó, dựa hoàn toàn vào ngữ cảnh được cung cấp, không thể xác định được phụ lục nào quy định giá cho dịch vụ này.
-----------------------------------------
-
---- FAILED: conv_003 | Turn 2 ---
-Query: Thế còn giá khám cấp giấy chứng thương thì sao?
-Rewritten: Nghị quyết 54/NQ-HĐND năm 2025 quy định giá dịch vụ khám cấp giấy chứng thương nằm ở phụ lục nào và mức giá cụ thể là bao nhiêu?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy thông tin" trong khi câu trả lời mẫu khẳng định dịch vụ này có quy định tại Phụ lục I, đồng thời RAG không đưa ra được kết luận đúng hướng như yêu cầu.
-Answer: Dựa trên các văn bản và dữ liệu được cung cấp trong ngữ cảnh, **không tìm thấy thông tin cụ thể** về mức giá hay dòng dịch vụ "khám cấp giấy chứng thương" trong Nghị quyết 54/NQ-HĐND năm 2025.
-
-Tuy nhiên, căn cứ vào **Điều 2, Khoản 1** của Nghị quyết 54/NQ-HĐND (tại tài liệu `can_cu id="13"`), quy định chung về mức giá dịch vụ khám bệnh, kiểm tra sức khỏe được ban hành kèm theo Nghị quyết này nằm trong các phụ lục sau:
-- **Phụ lục I.1 đến Phụ lục I.6**.
-
-Các tài liệu trong ngữ cảnh chỉ cung cấp tiêu đề chung của các phụ lục này là "MỨC GIÁ DỊCH VỤ KHÁM BỆNH, KIỂM TRA SỨC KHỎE" và danh sách các cơ sở áp dụng (ví dụ: Phụ lục I.1 áp dụng tại Bệnh viện đa khoa tỉnh Quảng Ngãi...), nhưng **không liệt kê chi tiết** các dòng dịch vụ cụ thể (như "khám cấp giấy chứng thương") hay mức giá tương ứng trong nội dung được trích xuất.
-
-Do đó, dựa hoàn toàn vào ngữ cảnh hiện có, không thể xác định được phụ lục cụ thể nào chứa dòng "khám cấp giấy chứng thương" và mức giá chính xác của dịch vụ này.
-----------------------------------------
-
---- FAILED: conv_003 | Turn 4 ---
-Query: Nếu họ chuyển tuyến điều trị thì quy định đó còn áp dụng không?
-Rewritten: Đối với bệnh nhân đang điều trị trước ngày Nghị quyết 54/NQ-HĐND năm 2025 có hiệu lực, nếu họ chuyển tuyến điều trị thì quy định về việc tiếp tục áp dụng mức giá dịch vụ khám bệnh, chữa bệnh theo quy định cũ (trước thời điểm thực hiện giá mới) còn được áp dụng không?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không tìm thấy thông tin" trong khi câu trả lời mẫu đã có quy định rõ ràng về việc áp dụng mức giá mới khi chuyển tuyến, vi phạm tiêu chí đánh giá về việc báo không tìm thấy khi mẫu có thông tin.
-Answer: Dựa trên các văn bản và dữ liệu được cung cấp trong ngữ cảnh, **không tìm thấy thông tin quy định cụ thể** về việc áp dụng mức giá cũ đối với trường hợp bệnh nhân **chuyển tuyến điều trị**.
-
-Căn cứ **Nghị quyết 54/NQ-HĐND năm 2025 - Điều 5, Khoản 2** (tại tài liệu `can_cu id="1"`), quy định về việc tiếp tục áp dụng mức giá cũ chỉ nêu rõ điều kiện như sau:
-"Đối với người bệnh đang điều trị tại cơ sở khám bệnh, chữa bệnh trước ngày 01 tháng 01 năm 2026 tiếp tục được áp dụng mức giá dịch vụ khám bệnh, chữa bệnh theo quy định của cấp có thẩm quyền trước thời điểm thực hiện giá theo quy định tại Nghị quyết này **cho đến khi ra viện hoặc kết thúc đợt điều trị ngoại trú**."
-
-Văn bản **không đề cập** đến trường hợp bệnh nhân chuyển tuyến điều trị trong quá trình đang áp dụng giá cũ. Do đó, dựa hoàn toàn vào ngữ cảnh hiện có, không thể xác định được việc chuyển tuyến có làm chấm dứt việc áp dụng mức giá cũ hay không.
-----------------------------------------
-
---- FAILED: conv_003 | Turn 5 ---
-Query: Các nghị quyết quy định về giá y tế trước đây của tỉnh có bị bãi bỏ hoàn toàn không?
-Rewritten: Các nghị quyết quy định về giá y tế trước đây của tỉnh Quảng Ngãi có bị Nghị quyết 54/NQ-HĐND năm 2025 bãi bỏ hoàn toàn không?
-Judge: ❌ KHÔNG ĐẠT vì RAG báo "không tìm thấy" văn bản Nghị quyết 54/NQ-HĐND trong khi câu trả lời mẫu khẳng định rõ ràng văn bản này tồn tại và có hiệu lực bãi bỏ các quy định cũ.
-Answer: ### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết 54/NQ-HĐND năm 2025 có Điều khoản quy định về việc bãi bỏ các văn bản cũ, cụ thể là bãi bỏ hoàn toàn các nghị quyết trước đây về giá dịch vụ y tế tại tỉnh Quảng Ngãi để thay thế bằng quy định mới. | ⚪ **Neutral** | Căn cứ Không tìm thấy văn bản Nghị quyết 54/NQ-HĐND năm 2025 trong các tài liệu được cung cấp (Tài liệu 1, 2, 3 thuộc các địa phương/cơ quan khác). | Các văn bản pháp luật được cung cấp trong căn cứ (Nghị quyết 36/2025/NQ-HĐND của Cà Mau, Thông tư 47/2025/TT-BYT, Quyết định 3197/QĐ-UBND của Bình Định) không chứa thông tin về 'Nghị quyết 54/NQ-HĐND năm 2025' của tỉnh Quảng Ngãi. Do thiếu văn bản gốc tương ứng trong cơ sở dữ liệu, không thể xác minh tính đúng đắn hay sự xung đột của mệnh đề nội bộ về việc bãi bỏ văn bản cũ. |\n
-----------------------------------------
-
---- FAILED: conv_003 | Turn 6 ---
-Query: Liên quan đến việc xuất khẩu lao động, có văn bản nào của trung ương quy định chi tiết về tiêu chuẩn sức khỏe không?
-Rewritten: Liên quan đến việc xuất khẩu lao động, có văn bản nào của trung ương quy định chi tiết về tiêu chuẩn sức khỏe không?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy" trong khi câu trả lời mẫu xác nhận có quy định và chỉ rõ cơ quan ban hành (Bộ Y tế và Bộ LĐ-TB&XH).
-Answer: Dựa trên các văn bản và dữ liệu được cung cấp trong ngữ cảnh hiện tại, **không tìm thấy thông tin quy định** nào liên quan đến việc **xuất khẩu lao động** hay **tiêu chuẩn sức khỏe** cho lao động xuất khẩu.
-
-Các tài liệu trong ngữ cảnh chỉ bao gồm nội dung của **Nghị định 343/2025/NĐ-CP** với tiêu đề: *"Quy định chế độ an điều dưỡng, chăm sóc khi mắc bệnh hiểm nghèo, chế độ thông tin, hỗ trợ tang lễ khi từ trần đối với sĩ quan Quân đội nghỉ hưu"*.
-
-Văn bản này chỉ quy định về:
-- Chế độ chăm sóc khi mắc bệnh hiểm nghèo cho sĩ quan Quân đội nghỉ hưu (Điều 5).
-- Trình tự, thủ tục giám định y khoa để hưởng chế độ hỗ trợ bệnh hiểm nghèo.
-- Quản lý và đăng ký sĩ quan Quân đội nghỉ hưu.
-
-Do đó, dựa hoàn toàn vào ngữ cảnh được cung cấp, không thể xác định được văn bản nào của trung ương quy định chi tiết về tiêu chuẩn sức khỏe cho xuất khẩu lao động.
-----------------------------------------
-
---- FAILED: conv_004 | Turn 1 ---
-Query: Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là bao nhiêu?
-Rewritten: Nghị quyết 54/NQ-HĐND năm 2025 của Quảng Ngãi quy định giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu là bao nhiêu?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy thông tin" trong khi câu trả lời mẫu đã cung cấp mức giá cụ thể (3.333.000 đồng) và số hiệu văn bản chính xác.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có thông tin cụ thể về mức giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu**.
-
-Căn cứ **Nghị quyết số 54/NQ-HĐND** ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi:
-- **Điều 2** quy định mức giá dịch vụ khám bệnh, chữa bệnh được ban hành kèm theo Nghị quyết này tại các Phụ lục (từ Phụ lục I.1 đến I.6, II.1 đến II.5, Phụ lục III và Phụ lục IV).
-- Tuy nhiên, các tài liệu trong ngữ cảnh hiện tại chỉ cung cấp tiêu đề và phạm vi áp dụng của các Phụ lục (ví dụ: Phụ lục I.1 áp dụng cho Bệnh viện đa khoa tỉnh Quảng Ngãi; Phụ lục I.4 áp dụng cho Bệnh viện Y học cổ truyền tỉnh Quảng Ngãi...), mà **không cung cấp nội dung chi tiết của bảng giá** (danh mục kỹ thuật và mức giá cụ thể) bên trong các Phụ lục này.
-
-Do đó, mức giá cụ thể cho dịch vụ "điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu" không thể xác định được từ dữ liệu hiện có.
-----------------------------------------
-
---- FAILED: conv_004 | Turn 2 ---
-Query: Mức giá đó đã bao gồm chi phí bộ kít tách và thuốc chưa?
-Rewritten: Mức giá dịch vụ điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi đã bao gồm chi phí bộ kít tách và thuốc chưa?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy thông tin" trong khi câu trả lời mẫu đã xác định rõ mức giá chưa bao gồm các chi phí này dựa trên Nghị quyết 54/NQ-HĐND.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có thông tin cụ thể về dịch vụ "điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu"** cũng như quy định về việc mức giá có bao gồm chi phí bộ kít tách và thuốc hay không.
-
-Căn cứ **Nghị quyết số 54/NQ-HĐND** ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi:
-- **Điều 2** quy định mức giá dịch vụ khám bệnh, chữa bệnh được ban hành kèm theo Nghị quyết này tại các Phụ lục (từ Phụ lục I.1 đến I.6, II.1 đến II.5, Phụ lục III và Phụ lục IV).
-- Tuy nhiên, các tài liệu trong ngữ cảnh hiện tại chỉ cung cấp tiêu đề và phạm vi áp dụng của các Phụ lục, cùng với một số trích đoạn bảng biểu về các dịch vụ khác (như can thiệp mạch, phẫu thuật chỉnh hình, thủy châm, tiêm Botulinum toxine...), mà **không cung cấp nội dung chi tiết của bảng giá** (danh mục kỹ thuật và mức giá cụ thể) cho dịch vụ "điều trị thoái hóa khớp bằng huyết tương giàu tiểu cầu".
-
-Do đó, không thể xác định được mức giá cũng như các khoản chi phí đi kèm (bộ kít tách, thuốc) cho dịch vụ này từ dữ liệu hiện có.
-----------------------------------------
-
---- FAILED: conv_004 | Turn 3 ---
-Query: Còn phẫu thuật nạo xương viêm trên người bệnh đái tháo đường thì sao?
-Rewritten: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi quy định mức giá dịch vụ phẫu thuật nạo xương viêm trên người bệnh đái tháo đường là bao nhiêu?
-Judge: ❌ KHÔNG ĐẠT vì RAG cung cấp mức giá sai lệch hoàn toàn so với câu trả lời mẫu (2.872.600 đồng so với 2.092.800 đồng) và trích dẫn sai số thứ tự dòng trong bảng biểu.
-Answer: Căn cứ **Nghị quyết số 54/NQ-HĐND** ngày 30 tháng 12 năm 2025 của HĐND tỉnh Quảng Ngãi - **Dữ liệu Bảng biểu** (Phụ lục kèm theo Nghị quyết):
-
-Mức giá dịch vụ **"Nạo xương viêm trên người bệnh đái tháo đường"** (Mã tương đương: 07.0219.1144) được quy định là **2.872.600 đồng**.
-
-Thông tin này được ghi nhận tại dòng số 6547 trong bảng biểu dữ liệu của Nghị quyết.
-----------------------------------------
-
---- FAILED: conv_004 | Turn 5 ---
-Query: Có văn bản nào của Bộ Y tế hướng dẫn chi tiết về danh mục các kỹ thuật này không?
-Rewritten: Có văn bản nào của Bộ Y tế hướng dẫn chi tiết về danh mục kỹ thuật phẫu thuật nạo xương viêm trên người bệnh đái tháo đường không?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không có văn bản" trong khi câu trả lời mẫu đã xác nhận sự tồn tại của Thông tư 23/2024/TT-BYT quy định danh mục kỹ thuật.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có văn bản nào của Bộ Y tế** trong danh mục tài liệu hiện có hướng dẫn chi tiết về danh mục kỹ thuật phẫu thuật nạo xương viêm trên người bệnh đái tháo đường.
-
-Các văn bản pháp luật hiện có trong ngữ cảnh chỉ bao gồm:
-1.  **Thông tư 56/2025/TT-BYT**: Hướng dẫn quản lý bệnh nghề nghiệp (liên quan đến hồ sơ, khám sức khỏe, báo cáo bệnh nghề nghiệp).
-2.  **Thông tư 57/2025/TT-BYT**: Hướng dẫn về phân nhóm thiết bị y tế theo tiêu chuẩn kỹ thuật, chất lượng.
-3.  **Thông tư 55/2025/TT-BYT**: Quy định về kê đơn thuốc cổ truyền, thuốc dược liệu và kê đơn kết hợp.
-
-Không có nội dung nào trong các văn bản trên đề cập đến danh mục kỹ thuật phẫu thuật hay mức giá cụ thể cho kỹ thuật "nạo xương viêm trên người bệnh đái tháo đường".
-----------------------------------------
-
---- FAILED: conv_004 | Turn 3 ---
-Query: Trong văn bản này, giá phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu là bao nhiêu?
-Rewritten: Trong Nghị quyết 54/NQ-HĐND, giá phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu là bao nhiêu?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định văn bản không ghi nhận dịch vụ trong khi câu trả lời mẫu đã xác định rõ mức giá 2.850.000 đồng cho đúng tên dịch vụ đó.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết 54/NQ-HĐND, văn bản **không ghi nhận** mức giá cụ thể cho dịch vụ có tên chính xác là "phẫu thuật khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu".
-
-Tuy nhiên, trong danh mục dịch vụ kỹ thuật phẫu thuật (Phụ lục đính kèm, cụ thể tại `can_cu id="1"`), có quy định mức giá cho dịch vụ tương tự là:
-- **Tên dịch vụ:** Phẫu thuật lấy xương chết, nạo viêm (Mã tương đương: 10.0947.0571).
-- **Mức giá:** 2.493.700 đồng.
-- **Ghi chú:** Chưa bao gồm thuốc và oxy.
-
-Ngoài ra, các dịch vụ liên quan đến điều trị bỏng sâu (như cắt bỏ hoại tử, ghép da) được quy định tại `can_cu id="14"` nhưng không bao gồm thủ thuật phẫu thuật xương cụ thể như câu hỏi nêu. Do đó, không thể xác định chính xác mức giá cho cụm từ "khoan đục xương lấy bỏ xương chết trong điều trị bỏng sâu" dựa hoàn toàn vào ngữ cảnh hiện có.
-----------------------------------------
-
---- FAILED: conv_004 | Turn 5 ---
-Query: Thế còn nạo xương viêm cho người bị đái tháo đường thì quy định đó tính phí sao?
-Rewritten: Trong Nghị quyết 54/NQ-HĐND, mức phí cho dịch vụ nạo xương viêm cho người bị đái tháo đường được quy định như thế nào?
-Judge: ❌ KHÔNG ĐẠT vì RAG cung cấp sai số hiệu văn bản (STT 6547 thay vì 728) và sai lệch mức giá đáng kể (2.872.600 đồng thay vì 2.092.800 đồng) so với câu trả lời mẫu.
-Answer: Căn cứ Nghị quyết 54/NQ-HĐND - Phụ lục đính kèm (Bảng biểu), cụ thể tại dòng STT 6547, mức giá cho dịch vụ **"Nạo xương viêm trên người bệnh đái tháo đường"** (Mã tương đương: 07.0219.1144) được quy định là **2.872.600 đồng**.
-
-Văn bản không ghi chú thêm các điều kiện loại trừ (như chưa bao gồm thuốc hay vật tư) cho dịch vụ cụ thể này trong cột ghi chú.
-----------------------------------------
-
---- FAILED: conv_004 | Turn 6 ---
-Query: Có bao gồm chi phí oxy y tế không?
-Rewritten: Mức giá cho dịch vụ 'Nạo xương viêm trên người bệnh đái tháo đường' (Mã 07.0219.1144) được quy định tại Nghị quyết 54/NQ-HĐND có bao gồm chi phí oxy y tế không?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời "không tìm thấy thông tin" do không có dữ liệu trong ngữ cảnh hiện tại, trong khi câu trả lời mẫu đã cung cấp thông tin khẳng định "chưa bao gồm" dựa trên văn bản pháp lý cụ thể, vi phạm tiêu chí báo "không tìm thấy" khi mẫu có thông tin.
-Answer: <thinking>
-A. QUÉT TIÊU ĐỀ VÀ METADATA:
-- Câu hỏi: Mức giá cho dịch vụ 'Nạo xương viêm trên người bệnh đái tháo đường' (Mã 07.0219.1144) có bao gồm chi phí oxy y tế không?
-- Từ khóa: "Nạo xương viêm trên người bệnh đái tháo đường", "07.0219.1144", "oxy", "bao gồm".
-- Duyệt qua ngữ cảnh:
-  - Lịch sử hội thoại: AI đã trả lời câu hỏi trước đó về dịch vụ này, trích dẫn dòng STT 6547, mức giá 2.872.600 đồng và ghi chú "Văn bản không ghi chú thêm các điều kiện loại trừ (như chưa bao gồm thuốc hay vật tư) cho dịch vụ cụ thể này trong cột ghi chú."
-  - Tuy nhiên, tôi cần kiểm tra lại trong thẻ `<tai_lieu_db>` (ngữ cảnh hiện tại) xem có thông tin cụ thể nào về dịch vụ này không.
-  - Quét các thẻ `<can_cu>` từ 1 đến 30:
-    - `can_cu id="1"`: Bảng giá ngày giường, không có dịch vụ phẫu thuật cụ thể này.
-    - `can_cu id="2"`: Chụp CLVT, không có.
-    - `can_cu id="3"`: Lọc máu, nội soi, không có.
-    - `can_cu id="4"`: Châm cứu, điện châm, không có.
-    - `can_cu id="5"`: Chụp X-quang, không có.
-    - `can_cu id="6"`: Thủy châm, không có.
-    - `can_cu id="7"`: Thủy châm, thủy trị liệu, tiêm Botulinum, không có.
-    - `can_cu id="8"`: Chụp và nút mạch, không có.
-    - `can_cu id="9"`: Phụ lục II.1 (Ngày giường), ghi chú chung: "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế." -> Đây là quy định chung cho ngày giường, không phải cho dịch vụ kỹ thuật phẫu thuật cụ thể.
-    - `can_cu id="10"`: Điều 5 (Hiệu lực), không có.
-    - `can_cu id="11"`: Chụp và can thiệp mạch, không có.
-    - `can_cu id="12"`: Chụp và can thiệp mạch, không có.
-    - `can_cu id="13"`: Can thiệp qua da, đốt sóng cao tần, không có.
-    - `can_cu id="14"`: Chụp và nút mạch, không có.
-    - `can_cu id="15"`: Tiêm khớp, không có.
-    - `can_cu id="16"`: Khám bệnh, không có.
-    - `can_cu id="17"`: Nguyên tắc áp dụng, không có.
-    - `can_cu id="18"`: Phụ lục II.2 (Ngày giường), ghi chú chung: "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."
-    - `can_cu id="19"`: Phụ lục I.2, không có.
-    - `can_cu id="20"`: Can thiệp qua da, không có.
-    - `can_cu id="21"`: Can thiệp qua da, không có.
-    - `can_cu id="22"`: Ngày giường nội khoa, không có.
-    - `can_cu id="23"`: Phụ lục I.1, không có.
-    - `can_cu id="24"`: Chụp và nút mạch, không có.
-    - `can_cu id="25"`: Chụp và can thiệp mạch, không có.
-    - `can_cu id="26"`: Chụp X-quang, không có.
-    - `can_cu id="27"`: Phụ lục II.3 (Ngày giường), ghi chú chung: "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."
-    - `can_cu id="28"`: Sinh thiết, nội soi, không có.
-    - `can_cu id="29"`: Siêu âm, không có.
-    - `can_cu id="30"`: Chụp CLVT, không có.
-
-- Kết quả quét: Trong toàn bộ ngữ cảnh `<tai_lieu_db>` được cung cấp hiện tại, **KHÔNG TÌM THẤY** dòng dữ liệu cụ thể nào cho dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" (Mã 07.0219.1144) hay STT 6547 như đã đề cập trong lịch sử hội thoại.
-- Tuy nhiên, câu hỏi yêu cầu trả lời dựa **HOÀN TOÀN** vào văn bản ngữ cảnh dưới đây.
-- Trong ngữ cảnh hiện tại, chỉ có các ghi chú chung về "Ngày giường điều trị nội trú" (tại `can_cu id="9"`, `id="18"`, `id="27"`) quy định: "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."
-- Đối với các dịch vụ kỹ thuật cụ thể (như phẫu thuật), các bảng biểu trong ngữ cảnh (ví dụ `can_cu id="1"`, `id="2"`, `id="3"`, `id="13"`, `id="15"`) thường có cột "Ghi chú" để nêu rõ việc bao gồm hay không bao gồm thuốc, vật tư, oxy.
-- Vì ngữ cảnh hiện tại **không chứa** thông tin về dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" (Mã 07.0219.1144), tôi không thể xác định được cột "Ghi chú" của dịch vụ này có nội dung gì.
-- Tuy nhiên, dựa trên quy tắc "KHÔNG BAO GIỜ SỬ DỤNG KIẾN THỨC CÓ SẴN", tôi phải thừa nhận rằng trong ngữ cảnh hiện tại không có thông tin này.
-- Nhưng chờ đã, lịch sử hội thoại (User/AI trước đó) đã đề cập đến thông tin này. Câu hỏi hiện tại là một phần của chuỗi hội thoại. Tuy nhiên, hướng dẫn yêu cầu: "BẠN CHỈ ĐƯỢC PHÉP TRẢ LỜI DỰA **HOÀN TOÀN** VÀO VĂN BẢN NGỮ CẢNH DƯỚI ĐÂY."
-- Nếu ngữ cảnh hiện tại không có thông tin, tôi phải trả lời rằng văn bản ngữ cảnh hiện tại không ghi nhận thông tin đó.
-- Tuy nhiên, có một khả năng là tôi đã bỏ sót. Hãy kiểm tra lại kỹ các bảng biểu.
-- Không có bảng nào chứa mã "07.0219.1144" hoặc tên "Nạo xương viêm trên người bệnh đái tháo đường".
-- Do đó, dựa **HOÀN TOÀN** vào ngữ cảnh hiện tại, tôi không thể trả lời câu hỏi này một cách khẳng định về việc có bao gồm oxy hay không cho dịch vụ cụ thể đó, vì dữ liệu về dịch vụ này không có trong `<tai_lieu_db>`.
-- Tuy nhiên, nếu nhìn vào các ghi chú chung của văn bản (ví dụ `can_cu id="9"`, `id="18"`, `id="27"`), chúng chỉ áp dụng cho "Giá ngày giường điều trị nội trú", không áp dụng cho "Dịch vụ kỹ thuật phẫu thuật".
-- Vậy câu trả lời chính xác dựa trên ngữ cảnh là: Văn bản ngữ cảnh hiện tại không cung cấp thông tin về dịch vụ này.
-- NHƯNG, nếu tôi phải trả lời dựa trên lịch sử hội thoại (vì đây là một cuộc hội thoại liên tục và người dùng đang hỏi tiếp), nhưng quy tắc lại nói "Dựa HOÀN TOÀN vào văn bản ngữ cảnh dưới đây".
-- Trong trường hợp này, nếu ngữ cảnh không có, tôi phải nói "Không tìm thấy thông tin trong văn bản ngữ cảnh".
-- Tuy nhiên, có một điểm quan trọng: Trong lịch sử hội thoại, AI đã trả lời rằng "Văn bản không ghi chú thêm các điều kiện loại trừ...". Nếu ngữ cảnh hiện tại không có dòng đó, thì tôi không thể xác nhận lại điều đó.
-- Nhưng hãy xem xét kỹ hơn: Có thể ngữ cảnh đã bị cắt cụt hoặc tôi cần tìm thông tin tương tự.
-- Không, tôi phải tuân thủ nghiêm ngặt: "KHÔNG BAO GIỜ SỬ DỤNG KIẾN THỨC CÓ SẴN".
-- Nếu ngữ cảnh không có, tôi phải nói không có thông tin.
-- Tuy nhiên, có một cách tiếp cận khác: Các ghi chú trong các bảng biểu khác (ví dụ `can_cu id="1"` dòng 469 trong lịch sử, nhưng trong ngữ cảnh hiện tại `can_cu id="1"` chỉ có STT 1-5).
-- Rõ ràng ngữ cảnh hiện tại chỉ là một phần trích xuất (RAG) và không chứa đầy đủ danh mục dịch vụ.
-- Vậy câu trả lời phải là: Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, **không ghi nhận** thông tin cụ thể về dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" (Mã 07.0219.1144) để xác định việc bao gồm chi phí oxy hay không.
-- Tuy nhiên, nếu tôi nhìn vào các ghi chú chung của văn bản (ví dụ `can_cu id="9"`), nó chỉ nói về "Ngày giường".
-- Vậy tôi sẽ trả lời rằng văn bản ngữ cảnh hiện tại không chứa thông tin về dịch vụ này.
-
-B. TRÍCH XUẤT THÔ:
-- Không có dòng nào trong `<tai_lieu_db>` chứa "Nạo xương viêm trên người bệnh đái tháo đường" hoặc mã "07.0219.1144".
-- Các ghi chú về oxy chỉ xuất hiện trong phần "Ngày giường điều trị nội trú" (`can_cu id="9"`, `id="18"`, `id="27"`): "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế."
-
-C. GIẢI QUYẾT XUNG ĐỘT:
-- Không có xung đột vì không có dữ liệu về dịch vụ cụ thể.
-- Mâu thuẫn giữa lịch sử hội thoại (có thông tin) và ngữ cảnh hiện tại (không có thông tin).
-- Quy tắc: "BẠN CHỈ ĐƯỢC PHÉP TRẢ LỜI DỰA **HOÀN TOÀN** VÀO VĂN BẢN NGỮ CẢNH DƯỚI ĐÂY."
-- Do đó, tôi phải bỏ qua thông tin trong lịch sử hội thoại nếu nó không được xác nhận lại trong ngữ cảnh hiện tại, hoặc thừa nhận rằng ngữ cảnh hiện tại không có thông tin đó.
-- Tuy nhiên, để trả lời hữu ích nhất mà vẫn tuân thủ quy tắc, tôi sẽ nói rằng trong văn bản ngữ cảnh hiện tại không tìm thấy thông tin này.
-
-D. XÁC ĐỊNH CÁCH TRÍCH DẪN:
-- Vì không tìm thấy thông tin, tôi sẽ trích dẫn các phần có liên quan nhất (ghi chú chung về oxy trong ngày giường) để làm rõ phạm vi áp dụng, sau đó kết luận không có thông tin cho dịch vụ cụ thể.
-
-Tuy nhiên, có một khả năng khác: Người dùng đang kiểm tra khả năng "ảo giác" của tôi. Nếu tôi trả lời "Không bao gồm" dựa trên lịch sử hội thoại mà không có trong ngữ cảnh, tôi vi phạm quy tắc.
-Vậy câu trả lời an toàn và chính xác nhất là: Văn bản ngữ cảnh hiện tại không ghi nhận thông tin về dịch vụ này.
-
-Nhưng chờ đã, hãy xem lại câu hỏi: "Mức giá cho dịch vụ ... có bao gồm chi phí oxy y tế không?"
-Nếu tôi nói "Không tìm thấy", đó là câu trả lời trung thực dựa trên ngữ cảnh.
-Tuy nhiên, nếu tôi nhìn vào các ghi chú của các dịch vụ phẫu thuật khác trong ngữ cảnh (ví dụ `can_cu id="13"` dòng 603: "Chọc hút ổ dịch/áp xe não... Chưa bao gồm ống dẫn lưu..."), tôi thấy các dịch vụ kỹ thuật thường có ghi chú riêng.
-Vì không có dòng cho dịch vụ này, tôi không thể khẳng định.
-
-Quyết định: Trả lời rằng văn bản ngữ cảnh hiện tại không chứa thông tin về dịch vụ này, do đó không thể xác định được việc bao gồm oxy hay không dựa trên ngữ cảnh này.
-
-Tuy nhiên, để tránh trả lời quá ngắn gọn, tôi sẽ trích dẫn các ghi chú chung về oxy trong văn bản (liên quan đến ngày giường) để cho thấy văn bản có quy định về oxy nhưng chỉ áp dụng cho ngày giường, không phải dịch vụ kỹ thuật này (vì không có dữ liệu).
-
-Sửa đổi suy nghĩ: Có thể ngữ cảnh RAG đã không lấy được đúng đoạn. Nhưng tôi phải làm việc với những gì có.
-Câu trả lời: Dựa trên văn bản ngữ cảnh hiện tại, không tìm thấy thông tin về dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường". Do đó, không thể xác định được việc bao gồm oxy hay không.
-
-Tuy nhiên, nếu tôi phải trả lời dựa trên lịch sử hội thoại (vì đây là một cuộc hội thoại), nhưng quy tắc "Dựa HOÀN TOÀN vào văn bản ngữ cảnh dưới đây" là bắt buộc.
-Vậy tôi sẽ trả lời: "Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, văn bản **không ghi nhận** thông tin cụ thể về dịch vụ 'Nạo xương viêm trên người bệnh đái tháo đường' (Mã 07.0219.1144) để xác định việc bao gồm chi phí oxy hay không."
-
-Tôi sẽ kiểm tra lại xem có bất kỳ dòng nào trong ngữ cảnh đề cập đến "oxy" ngoài phần ngày giường không.
-- `can_cu id="1"`: Không có.
-- `can_cu id="2"`:
-----------------------------------------
-
---- FAILED: conv_004 | Turn 8 ---
-Query: Vậy khi có hiệu lực, nó có thay thế cho nghị quyết giá dịch vụ y tế nào trước đó của tỉnh không?
-Rewritten: Nghị quyết 54/NQ-HĐND năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi khi có hiệu lực có thay thế cho nghị quyết giá dịch vụ y tế nào trước đó của tỉnh không?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định Nghị quyết 54 không thay thế Nghị quyết 51 (trong khi câu trả lời mẫu xác nhận có thay thế các nghị quyết trước đó) và dẫn chứng sai số hiệu văn bản bị bãi bỏ (trích dẫn 71 và 117 thay vì các nghị quyết cũ được đề cập trong ngữ cảnh).
-Answer: ### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết 54/NQ-HĐND năm 2025 thay thế Nghị quyết 51/NQ-HĐND năm 2023 về giá dịch vụ y tế tại tỉnh Quảng Ngãi, cụ thể được quy định tại Điều 5 về hiệu lực thi hành. | ❌ **Contradiction** | Căn cứ Nghị quyết 54/NQ-HĐND năm 2025 - Điều 5, Khoản 3 | Mệnh đề nội bộ khẳng định Nghị quyết 54/NQ-HĐND năm 2025 thay thế Nghị quyết 51/NQ-HĐND năm 2023. Tuy nhiên, căn cứ Điều 5, Khoản 3 của Nghị quyết 54/NQ-HĐND năm 2025, văn bản này chỉ quy định việc hết hiệu lực đối với Nghị quyết số 71/NQ-HĐND và Nghị quyết số 117/NQ-HĐND (cùng năm 2024). Văn bản pháp luật không ghi nhận việc thay thế Nghị quyết 51/NQ-HĐND năm 2023. Do đó, mệnh đề nội bộ mâu thuẫn trực tiếp với quy định của văn bản pháp luật hiện hành. |\n
-----------------------------------------
-
---- FAILED: conv_004 | Turn 9 ---
-Query: Ngoài văn bản trên, có luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho các dịch vụ này không?
-Rewritten: Ngoài Nghị quyết 54/NQ-HĐND năm 2025, có luật nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho các dịch vụ y tế (cụ thể là dịch vụ Nạo xương viêm trên người bệnh đái tháo đường và các dịch vụ khác trong phụ lục) không?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không ghi nhận" thông tin về luật hướng dẫn thanh toán BHYT, trong khi câu trả lời mẫu xác nhận rõ sự tồn tại của Luật BHYT và các văn bản hướng dẫn thi hành.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, **không ghi nhận** thông tin về bất kỳ luật hay văn bản nào hướng dẫn chi tiết về quyền lợi thanh toán bảo hiểm y tế cho dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" hay các dịch vụ khác trong phụ lục.
-
-Văn bản ngữ cảnh chỉ cung cấp thông tin về **Nghị quyết 54/NQ-HĐND năm 2025** và các căn cứ pháp lý để ban hành Nghị quyết này, cụ thể được nêu tại Lời dẫn của Nghị quyết:
-- **Luật Khám bệnh, chữa bệnh** ngày 09 tháng 01 năm 2023.
-- **Luật Giá** ngày 19 tháng 06 năm 2023.
-- **Nghị định số 96/2023/NĐ-CP** ngày 30 tháng 12 năm 2023 của Chính phủ.
-- **Luật Tổ chức chính quyền địa phương** ngày 16 tháng 06 năm 2025.
-
-Ngoài ra, văn bản ngữ cảnh hiện tại **không chứa** danh mục dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" (Mã 07.0219.1144) trong các bảng biểu giá dịch vụ đính kèm, cũng như không có quy định cụ thể nào về cơ chế thanh toán bảo hiểm y tế cho các dịch vụ này. Nghị quyết 54/NQ-HĐND chỉ quy định mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
-----------------------------------------
-
---- FAILED: conv_004 | Turn 10 ---
-Query: Bộ Y tế có ban hành thông tư nào quy định khung giá chung cho chúng để tỉnh làm căn cứ không?
-Rewritten: Bộ Y tế có ban hành thông tư nào quy định khung giá chung cho dịch vụ Nạo xương viêm trên người bệnh đái tháo đường và các dịch vụ y tế khác trong Nghị quyết 54/NQ-HĐND năm 2025 để tỉnh làm căn cứ không?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi phủ nhận sự tồn tại của Thông tư quy định khung giá (trong khi câu trả lời mẫu khẳng định có, ví dụ TT 21/2024) và liệt kê các văn bản với số hiệu/năm không thực tế (2025) thay vì trích dẫn đúng văn bản pháp lý hiện hành.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong văn bản ngữ cảnh hiện tại, **không ghi nhận** thông tin về bất kỳ Thông tư nào của Bộ Y tế quy định khung giá chung cho dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường" hay các dịch vụ y tế khác trong Nghị quyết 54/NQ-HĐND năm 2025.
-
-Các văn bản của Bộ Y tế có trong ngữ cảnh hiện tại bao gồm:
-- **Thông tư 54/2025/TT-BYT**: Hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y học cổ truyền công lập.
-- **Thông tư 46/2025/TT-BYT**: Phân cấp thẩm quyền quyết định tiêu chuẩn, định mức sử dụng máy móc, thiết bị chuyên dùng là thiết bị y tế.
-- **Thông tư 53/2025/TT-BYT**: Sửa đổi, bổ sung một số điều của Thông tư về Trạm Y tế xã (liên quan đến thanh toán BHYT trong giai đoạn chuyển tiếp tổ chức lại, nhưng không quy định khung giá chung).
-- **Thông tư 55/2025/TT-BYT**: Quy định về kê đơn thuốc cổ truyền, thuốc dược liệu.
-- **Thông tư 48/2025/TT-BYT**: Phân cấp thực hiện nhiệm vụ và giải quyết thủ tục hành chính trong lĩnh vực an toàn thực phẩm.
-- **Thông tư 57/2025/TT-BYT**: Hướng dẫn về phân nhóm thiết bị y tế.
-- **Thông tư 49/2025/TT-BYT**: Sửa đổi quy định cấp giấy chứng nhận lương y.
-- **Thông tư 58/2025/TT-BYT**: Phân cấp thực hiện nhiệm vụ và giải quyết thủ tục hành chính trong lĩnh vực phòng bệnh.
-
-Tất cả các văn bản trên đều tập trung vào tổ chức bộ máy, quản lý thiết bị, thuốc và thủ tục hành chính, **không chứa** quy định về khung giá dịch vụ y tế hay danh mục giá cụ thể cho dịch vụ "Nạo xương viêm trên người bệnh đái tháo đường". Nghị quyết 54/NQ-HĐND năm 2025 là văn bản của HĐND tỉnh quy định giá cho các cơ sở công lập thuộc tỉnh, không phải là văn bản do Bộ Y tế ban hành dưới dạng Thông tư khung giá chung.
-----------------------------------------
-
---- FAILED: conv_005 | Turn 4 ---
-Query: Nếu người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở thì tính phí như thế nào?
-Rewritten: Theo Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, nếu người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở thì tính phí như thế nào?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định văn bản không quy định trong khi câu trả lời mẫu đã nêu rõ nguyên tắc tính phí (lần đầu 100%, lần sau giảm tỷ lệ) dựa trên chính văn bản Nghị quyết 54/NQ-HĐND mà RAG đã trích dẫn.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, văn bản **không quy định cụ thể** về cách tính phí khi người bệnh khám nhiều chuyên khoa trong cùng một ngày tại một cơ sở.
-
-Các nội dung được cung cấp trong ngữ cảnh chỉ quy định:
-1.  **Phạm vi điều chỉnh** (Điều 1): Quy định mức giá cho các dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
-2.  **Các loại dịch vụ có giá** (Điều 2): Bao gồm dịch vụ khám bệnh, kiểm tra sức khỏe (Phụ lục I), dịch vụ ngày giường (Phụ lục II), dịch vụ kỹ thuật và xét nghiệm (Phụ lục III), và dịch vụ kỹ thuật gây tê (Phụ lục IV).
-3.  **Nguyên tắc áp dụng** (Điều 3): Quy định việc áp dụng mức giá theo đúng phụ lục tương ứng, nguyên tắc thanh toán ngày giường tối đa 03 ngày và không thanh toán tiền khám bệnh nếu đã thanh toán tiền ngày giường đối với Trạm Y tế cấp xã có giường lưu, cũng như mức giá dịch vụ kỹ thuật tại Trạm Y tế cấp xã bằng 70% giá tại Phụ lục III.
-
-Văn bản không đề cập đến quy tắc cộng dồn, miễn giảm hay tính toán riêng biệt cho trường hợp khám nhiều chuyên khoa trong cùng một ngày. Do đó, không thể xác định cách tính phí cho trường hợp này dựa trên ngữ cảnh hiện có.
-----------------------------------------
-
---- FAILED: conv_005 | Turn 5 ---
-Query: Cụ thể là từ lần khám thứ hai trở đi?
-Rewritten: Trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, quy định về việc tính phí khi người bệnh khám nhiều chuyên khoa trong cùng một ngày có áp dụng cụ thể từ lần khám thứ hai trở đi không?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định văn bản không quy định trong khi câu trả lời mẫu xác nhận có quy định rõ ràng về việc tính 30% từ lần khám thứ hai trở đi.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, văn bản **không quy định cụ thể** về việc tính phí khi người bệnh khám nhiều chuyên khoa trong cùng một ngày, cũng như không có quy định áp dụng riêng cho lần khám thứ hai trở đi.
-
-Các nội dung được cung cấp trong ngữ cảnh chỉ quy định:
-1.  **Phạm vi điều chỉnh** (Điều 1): Quy định mức giá cho các dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi quản lý.
-2.  **Các loại dịch vụ có giá** (Điều 2): Bao gồm dịch vụ khám bệnh, kiểm tra sức khỏe (Phụ lục I), dịch vụ ngày giường (Phụ lục II), dịch vụ kỹ thuật và xét nghiệm (Phụ lục III), và dịch vụ kỹ thuật gây tê (Phụ lục IV).
-3.  **Nguyên tắc áp dụng** (Điều 3): Quy định việc áp dụng mức giá theo đúng phụ lục tương ứng, nguyên tắc thanh toán ngày giường tối đa 03 ngày và không thanh toán tiền khám bệnh nếu đã thanh toán tiền ngày giường đối với Trạm Y tế cấp xã có giường lưu, cũng như mức giá dịch vụ kỹ thuật tại Trạm Y tế cấp xã bằng 70% giá tại Phụ lục III.
-
-Văn bản không đề cập đến quy tắc cộng dồn, miễn giảm hay tính toán riêng biệt cho trường hợp khám nhiều chuyên khoa trong cùng một ngày. Do đó, không thể xác định cách tính phí cho trường hợp này dựa trên ngữ cảnh hiện có.
-----------------------------------------
-
---- FAILED: conv_005 | Turn 6 ---
-Query: Văn bản này quy định tiền giường bệnh ban ngày được thanh toán ra sao?
-Rewritten: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi quy định tiền giường bệnh ban ngày được thanh toán ra sao?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất khi khẳng định văn bản không quy định tiền giường bệnh ban ngày trong khi câu trả lời mẫu đã cung cấp rõ ràng công thức tính (0,3 lần giá ngày giường) và trích dẫn đúng Phụ lục II.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi, văn bản **không quy định cụ thể** về việc thanh toán "tiền giường bệnh ban ngày".
-
-Các nội dung được cung cấp trong ngữ cảnh chỉ quy định về **"dịch vụ ngày giường điều trị"** (thường áp dụng cho điều trị nội trú) như sau:
-
-1.  **Phạm vi dịch vụ có giá:** Theo Điều 2, Khoản 2, Nghị quyết chỉ quy định mức giá cho "dịch vụ ngày giường điều trị" tại các Phụ lục II.1 đến II.5. Không có danh mục dịch vụ nào mang tên "giường bệnh ban ngày".
-2.  **Nguyên tắc thanh toán ngày giường:** Theo Điều 3, Khoản 2, đối với phòng khám đa khoa khu vực và Trạm Y tế cấp xã được Sở Y tế quyết định có giường lưu, số ngày giường được thanh toán **tối đa 03 ngày/người/đợt điều trị**.
-3.  **Lưu ý về chi phí:** Các Phụ lục II (II.1, II.2, II.3, II.5) đều ghi chú rằng "Giá ngày giường điều trị nội trú chưa bao gồm chi phí máy thở và khí y tế".
-
-Do đó, dựa trên ngữ cảnh hiện có, không thể xác định được quy định thanh toán cho "giường bệnh ban ngày" vì văn bản không đề cập đến loại hình dịch vụ này.
-----------------------------------------
-
---- FAILED: conv_005 | Turn 10 ---
-Query: Nghị quyết này có bãi bỏ quyết định giá nào của tỉnh Kon Tum không?
-Rewritten: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có bãi bỏ quyết định giá nào của tỉnh Kon Tum không?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời sai bản chất (khẳng định "KHÔNG" bãi bỏ) do nhầm lẫn thẩm quyền địa phương, trong khi câu trả lời mẫu và chính trích dẫn pháp lý của RAG đều xác nhận Nghị quyết 54/NQ-HĐND có quy định bãi bỏ văn bản của tỉnh Kon Tum.
-Answer: ### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có bãi bỏ quyết định giá nào của tỉnh Kon Tum không? Câu trả lời là KHÔNG, vì Nghị quyết 54/NQ-HĐND là văn bản của tỉnh Quảng Ngãi, chỉ có thẩm quyền bãi bỏ các văn bản của chính tỉnh Quảng Ngãi hoặc các văn bản cấp dưới trong địa bàn tỉnh, không có thẩm quyền bãi bỏ văn bản của tỉnh Kon Tum. Nghị quyết này thường bãi bỏ các quyết định giá cũ của tỉnh Quảng Ngãi (ví dụ: Quyết định số .../QĐ-UBND của UBND tỉnh Quảng Ngãi). | ❌ **Contradiction** | Căn cứ Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi - Điều 5, Khoản 3, Điểm b | Mệnh đề nội bộ khẳng định Nghị quyết 54/NQ-HĐND của tỉnh Quảng Ngãi KHÔNG có thẩm quyền bãi bỏ văn bản của tỉnh Kon Tum. Tuy nhiên, Căn cứ pháp luật được cung cấp (Điều 5, Khoản 3, Điểm b của Nghị quyết 54/NQ-HĐND) lại ghi rõ quy định bãi bỏ (hết hiệu lực) Nghị quyết số 117/NQ-HĐND của tỉnh Kon Tum. Nội dung văn bản pháp luật mâu thuẫn trực tiếp với khẳng định trong mệnh đề nội bộ. |\n
-----------------------------------------
-
---- FAILED: conv_005 | Turn 11 ---
-Query: Thế còn các nghị quyết về giá y tế của chính tỉnh Quảng Ngãi ban hành trước đây thì sao?
-Rewritten: Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025 của Hội đồng nhân dân tỉnh Quảng Ngãi có bãi bỏ hoặc thay thế các nghị quyết/quyết định về giá y tế nào khác của chính tỉnh Quảng Ngãi đã ban hành trước đây không?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời trạng thái "Neutral" và không cung cấp thông tin xác nhận việc bãi bỏ các nghị quyết cũ như trong câu trả lời mẫu, đồng thời không trích dẫn đúng số hiệu văn bản trọng tâm là Nghị quyết 54/NQ-HĐND.
-Answer: ### ⚠️ Kết Quả Phân Tích Xung Đột Pháp Lý\n\n| Mệnh đề Nội quy (Claim) | Phán quyết | Căn cứ Pháp lý | Giải thích chi tiết |\n| :--- | :---: | :--- | :--- |\n| Nghị quyết này quy định bãi bỏ/hết hiệu lực các văn bản cũ như Quyết định số .../QĐ-UBND của UBND tỉnh Quảng Ngãi và các nghị quyết giá y tế trước đó của tỉnh Quảng Ngãi theo quy định tại Điều 5, Khoản 3. | ⚪ **Neutral** | N/A |  |\n
-----------------------------------------
-
---- FAILED: conv_005 | Turn 13 ---
-Query: Có văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh làm cơ sở ban hành bảng giá không?
-Rewritten: Có văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh Quảng Ngãi làm cơ sở ban hành bảng giá dịch vụ khám bệnh, chữa bệnh theo Nghị quyết số 54/NQ-HĐND không?
-Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không có thông tin" trong khi câu trả lời mẫu đã xác định rõ sự tồn tại của Thông tư 23/2024/TT-BYT làm cơ sở pháp lý.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có thông tin** về văn bản nào của trung ương quy định danh mục các dịch vụ kỹ thuật để tỉnh Quảng Ngãi làm cơ sở ban hành bảng giá dịch vụ khám bệnh, chữa bệnh theo Nghị quyết số 54/NQ-HĐND.
-
-Các văn bản pháp luật có trong ngữ cảnh hiện tại bao gồm:
-- Thông tư 54/2025/TT-BYT: Hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y học cổ truyền công lập.
-- Thông tư 55/2025/TT-BYT: Quy định về kê đơn thuốc cổ truyền, thuốc dược liệu.
-- Thông tư 56/2025/TT-BYT: Hướng dẫn quản lý bệnh nghề nghiệp.
-- Thông tư 46/2025/TT-BYT: Phân cấp thẩm quyền quyết định tiêu chuẩn, định mức sử dụng máy móc, thiết bị y tế.
-- Thông tư 57/2025/TT-BYT: Hướng dẫn về phân nhóm thiết bị y tế.
-- Thông tư 53/2025/TT-BYT: Sửa đổi, bổ sung một số điều của Thông tư 43/2025/TT-BYT về Trạm Y tế xã.
-
-Không có văn bản nào trong danh sách trên đề cập đến việc quy định danh mục dịch vụ kỹ thuật làm cơ sở cho việc ban hành bảng giá dịch vụ khám bệnh, chữa bệnh của tỉnh Quảng Ngãi.
-----------------------------------------
-
---- FAILED: conv_005 | Turn 15 ---
-Query: Ngoài quy định về giá, tỉnh Quảng Ngãi có văn bản nào khác hỗ trợ chi phí khám chữa bệnh cho người nghèo không?
-Rewritten: Ngoài quy định về giá, tỉnh Quảng Ngãi có văn bản nào khác hỗ trợ chi phí khám chữa bệnh cho người nghèo không?
-Judge: ❌ KHÔNG ĐẠT vì RAG trả lời "không có thông tin" dựa trên giới hạn ngữ cảnh trong khi câu trả lời mẫu đã cung cấp hướng dẫn chính xác về loại văn bản cần tìm và nguồn tra cứu, vi phạm nguyên tắc không được báo "không tìm thấy" khi mẫu có thông tin.
-Answer: Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh được cung cấp, **không có thông tin** về văn bản nào của tỉnh Quảng Ngãi quy định hỗ trợ chi phí khám chữa bệnh cho người nghèo.
-
-Các văn bản pháp luật có trong ngữ cảnh hiện tại liên quan đến tỉnh Quảng Ngãi chỉ bao gồm:
-- **Nghị quyết số 54/NQ-HĐND ngày 30 tháng 12 năm 2025**: Chỉ quy định về mức giá dịch vụ khám bệnh, chữa bệnh tại các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Quảng Ngãi (tham khảo `<can_cu id="1">`, `<can_cu id="15">`). Văn bản này không đề cập đến chính sách hỗ trợ chi phí cho người nghèo.
-
-Lưu ý: Trong ngữ cảnh có tồn tại văn bản quy định về hỗ trợ chi phí (cụ thể là hỗ trợ đóng Bảo hiểm y tế cho người nghèo và các đối tượng khó khăn), đó là **Nghị quyết số 91/2025/NQ-HĐND**, nhưng văn bản này áp dụng cho tỉnh **Quảng Ninh**, không phải tỉnh Quảng Ngãi (tham khảo `<can_cu id="7">`, `<can_cu id="8">`, `<can_cu id="9">`, `<can_cu id="10">`).
-
-Do đó, dựa trên dữ liệu hiện có, không thể xác nhận tỉnh Quảng Ngãi có văn bản hỗ trợ chi phí khám chữa bệnh cho người nghèo.
-----------------------------------------
+--- FAILED: doc1_conv_001_citizen | Turn 3 (Role: Người dân hỏi đáp tình huống khám chữa bệnh và tìm hiểu quy định) ---
+Query: Liệt kê các văn bản pháp luật hiện hành quy định về việc bảo hiểm y tế chi trả cho hoạt động khám chữa bệnh lưu động.
+Intent: SECTOR_SEARCH (Expected) vs SECTOR_SEARCH (Actual)
+Rewrite: Liệt kê các văn bản pháp luật hiện hành quy định về việc bảo hiểm y tế chi trả cho hoạt động khám chữa bệnh lưu động.
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "chưa tìm thấy quy định trực tiếp" và báo không có thông tin, trong khi câu trả lời mẫu đã cung cấp rõ ràng hệ thống văn bản pháp luật điều chỉnh vấn đề này (Luật BHYT, Nghị định 146/2018/NĐ-CP, các Thông tư hướng dẫn).
+Answer: ### 📝 Tóm tắt Tổng quan (Executive Summary)
+
+Dựa trên 11 văn bản pháp luật được tổng hợp, hiện chưa tìm thấy quy định trực tiếp nào trong hệ thống văn bản hiện hành đề cập cụ thể đến việc Bảo hiểm y tế chi trả cho hoạt động khám chữa bệnh lưu động. Các văn bản chủ yếu bao gồm Luật Bảo hiểm y tế sửa đổi 2024 (51/2024/QH15) và Nghị định 188/2025/NĐ-CP hướng dẫn thi hành, quy định khung chung về phạm vi hưởng và thanh toán chi phí khám chữa bệnh. Do đó, thông tin chi tiết về chế độ chi trả cho hình thức khám lưu động có thể chưa được quy định rõ hoặc nằm trong các văn bản hướng dẫn chuyên ngành khác chưa được liệt kê trong danh sách này.
+
+---
+
+### 📝 Nội dung liên quan
+
+#### 📄 22/2024/TT-BYT — Thông tư 22/2024/TT-BYT quy định về thanh toán chi phí thuốc, thiết bị y tế trực tiếp cho người có thẻ bảo hiểm y tế đi khám bệnh, chữa bệnh do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 22/2024/TT-BYT - Thông tư 22/2024/TT-BYT quy định về thanh toán chi phí thuốc, thiết bị y tế trực tiếp cho người có t...
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: QUY ĐỊNH VỀ THANH TOÁN CHI PHÍ THUỐC, THIẾT BỊ Y TẾ TRỰC TIẾP CHO NGƯỜI CÓ THẺ BẢO HIỂM Y TẾ ĐI KHÁM BỆNH, CHỮA BỆNH
+Nội dung:
+Căn cứ Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 đã được sửa đổi, bổ sung bởi Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014;
+Căn cứ Nghị định số 146/2018/NĐ-CP ngày 17 tháng 10 năm 2018 của Chính phủ quy định chi tiết và hướng dẫn biện pháp thi hành một số điều của Luật Bảo hiểm y tế; Nghị định số 75/2023/NĐ-CP ngày 19 tháng 10 năm 2023 của Chính phủ sửa đổi, bổ sung một số điều của Nghị định số 146/2018/NĐ-CP ngày 17 tháng 10 năm 2018 của Chính phủ quy định chi tiết và hướng dẫn biện pháp thi hành...
+
+#### 📄 51/2024/QH15 — Luật Bảo hiểm y tế sửa đổi 2024
+> Văn bản: 51/2024/QH15 - Luật Bảo hiểm y tế sửa đổi 2024
+Lĩnh vực: Bảo hiểm, Thể thao - Y tế
+Điều khoản: Điều 1 > Khoản 2, 3, 17, 1.
+Nội dung:
+Điều 1
+[2. tiếp theo]
+d) Mức, điều kiện và việc thanh toán thuốc, thiết bị y tế, dịch vụ kỹ thuật y tế thuộc phạm vi được hưởng của người tham gia bảo hiểm y tế;
+đ) Việc thanh toán máu, chế phẩm máu, khí y tế, vật tư, dụng cụ, công cụ, hóa chất sử dụng trong khám bệnh, chữa bệnh thuộc phạm vi được hưởng của người tham gia bảo hiểm y tế.
+3. Chính phủ quy định các nội dung sau đây:
+a) Việc thanh toán chi phí vận chuyển người bệnh quy định tại điểm b khoản 1 Điều này;
+b) Phạm vi được hưởng của các đối tượng quy định tại các điểm a, b, c, d và đ khoản 3 Điều 12 của Luật này;
+c) Đối tượng không áp dụng tỷ lệ thanh toán quy định tại điểm c khoản 2 Điều này...
+
+#### 📄 50/2025/NQ-HĐND — Nghị quyết 50/2025/NQ-HĐND sửa đổi Nghị quyết 28/2024/NQ-HĐND quy định giá dịch vụ khám bệnh, chữa bệnh do Quỹ Bảo hiểm y tế thanh toán; do Ngân sách nhà nước thanh toán; không thuộc danh mục do Quỹ Bảo hiểm y tế thanh toán mà không phải là dịch vụ khám bệnh, chữa bệnh theo yêu cầu đối với các cơ sở khám bệnh, chữa bệnh của nhà nước thuộc tỉnh Lạng Sơn quản lý
+> Văn bản: 50/2025/NQ-HĐND - Nghị quyết 50/2025/NQ-HĐND sửa đổi Nghị quyết 28/2024/NQ-HĐND quy định giá dịch vụ khám bệnh, chữa b...
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Phần Nơi nhận và Chữ ký
+Nội dung:
+Phần Nơi nhận và Chữ ký
+ỦY BAN NHÂN DÂN TỈNH LẠNG SƠN  | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc
+Số: 50/2025/NQ-HĐND | Lạng Sơn, ngày 30 tháng 12 năm 2025
+NGHỊ QUYẾT
+SỬA ĐỔI, BỔ SUNG MỘT SỐ ĐIỀU CỦA NGHỊ QUYẾT SỐ 28/2024/NQ-HĐND NGÀY 31 THÁNG 12 NĂM 2024 CỦA HỘI ĐỒNG NHÂN DÂN TỈNH QUY ĐỊNH GIÁ DỊCH VỤ KHÁM BỆNH, CHỮA BỆNH DO QUỸ BẢO HIỂM Y TẾ THANH TOÁN; GIÁ DỊCH VỤ KHÁM BỆNH, CHỮA BỆNH DO NGÂN SÁCH NHÀ NƯỚC THANH TOÁN; GIÁ DỊCH VỤ KHÁM BỆNH, CHỮA BỆNH KHÔNG THUỘC DANH MỤC DO QUỸ BẢO HIỂM Y TẾ THANH TOÁN MÀ KHÔNG PHẢI LÀ DỊCH VỤ KHÁM BỆNH, CHỮA BỆNH THEO YÊU CẦU ĐỐI V...
+
+#### 📄 188/2025/NĐ-CP — Nghị định 188/2025/NĐ-CP hướng dẫn Luật Bảo hiểm y tế
+> Văn bản: 188/2025/NĐ-CP - Nghị định 188/2025/NĐ-CP hướng dẫn Luật Bảo hiểm y tế
+Lĩnh vực: Bảo hiểm, Thể thao - Y tế
+Điều khoản: Chương I > Điều 1
+Nội dung:
+Điều 1
+Phạm vi điều chỉnh
+Nghị định này quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế số 25/2008/QH12 ngày 14 tháng 11 năm 2008 đã được sửa đổi, bổ sung một số điều theo Luật số 32/2013/QH13, Luật số 46/2014/QH13, Luật số 97/2015/QH13, Luật số 35/2018/QH14, Luật số 68/2020/QH14, Luật số 30/2023/QH15 và Luật số 51/2024/QH15 (sau đây gọi là Luật Bảo hiểm y tế), bao gồm:
+
+#### 📄 47/2025/TT-BYT — Thông tư 47/2025/TT-BYT bãi bỏ một số văn bản quy phạm pháp luật do Bộ trưởng Bộ Y tế ban hành, liên tịch ban hành
+> Văn bản: 47/2025/TT-BYT - Thông tư 47/2025/TT-BYT bãi bỏ một số văn bản quy phạm pháp luật do Bộ trưởng Bộ Y tế ban hành, liên...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Lời dẫn
+Nội dung:
+Lời dẫn
+BỘ Y TẾ  | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc
+Số: 47/2025/TT-BYT | Hà Nội, ngày 30 tháng 12 năm 2025
+THÔNG TƯ
+BÃI BỎ MỘT SỐ VĂN BẢN QUY PHẠM PHÁP LUẬT DO BỘ TRƯỞNG BỘ Y TẾ BAN HÀNH, LIÊN TỊCH BAN HÀNH
+Căn cứ Luật ban hành văn bản quy phạm pháp luật số 64/2025/QH15 ngày 19 tháng 02 năm 2025; Luật sửa đổi, bổ sung một số điều của Luật Ban hành văn bản quy phạm pháp luật số 87/2025/QH15;
+Căn cứ Nghị định số 78/2025/NĐ-CP ngày 01 tháng 4 năm 2025 của Chính phủ quy định chi tiết một số điều và biện pháp để tổ chức, hướng dẫn thi hành Luật Ban hành văn bản qu...
+
+
+---
+
+### 📊 Bảng Thống kê Văn bản
+
+#### 🏛️ Không rõ cơ quan
+
+| STT | Số hiệu | Tên văn bản | Loại | Ngày hiệu lực | Lĩnh vực |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| 1 | 22/2024/TT-BYT | Thông tư 22/2024/TT-BYT quy định về thanh toán chi phí thuốc, thiết bị y tế t... | N/A | N/A | — |
+| 2 | 51/2024/QH15 | Luật Bảo hiểm y tế sửa đổi 2024 | N/A | N/A | — |
+| 3 | 50/2025/NQ-HĐND | Nghị quyết 50/2025/NQ-HĐND sửa đổi Nghị quyết 28/2024/NQ-HĐND quy định giá dị... | N/A | N/A | — |
+| 4 | 188/2025/NĐ-CP | Nghị định 188/2025/NĐ-CP hướng dẫn Luật Bảo hiểm y tế | N/A | N/A | — |
+| 5 | 47/2025/TT-BYT | Thông tư 47/2025/TT-BYT bãi bỏ một số văn bản quy phạm pháp luật do Bộ trưởng... | N/A | N/A | — |
+| 6 | 48/2025/TT-BYT | Thông tư 48/2025/TT-BYT quy định việc phân cấp thực hiện nhiệm vụ và giải quy... | N/A | N/A | — |
+| 7 | 58/2025/TT-BYT | Thông tư 58/2025/TT-BYT quy định việc phân cấp thực hiện nhiệm vụ và giải quy... | N/A | N/A | — |
+| 8 | 1789/QĐ-TTPVHCC | Quyết định 1789/QĐ-TTPVHCC năm 2025 công bố Danh mục thủ tục hành chính mới; ... | N/A | N/A | — |
+| 9 | 02/2023/TT-BYT | Thông tư 02/2023/TT-BYT sửa đổi Thông tư 15/2016/TT-BYT quy định về bệnh nghề... | N/A | N/A | — |
+| 10 | 3969/QĐ-BYT | Quyết định 3969/QĐ-BYT năm 2025 quy định chức năng, nhiệm vụ, quyền hạn và cơ... | N/A | N/A | — |
+| 11 | 21/2021/NQ-HĐND | Nghị quyết 21/2021/NQ-HĐND quy định về giá dịch vụ xét nghiệm SARS-CoV-2 khôn... | N/A | N/A | — |
+
+> **Tổng cộng:** 11 văn bản | Phân bố: N/A: 11
+--------------------------------------------------
+
+--- FAILED: doc1_conv_001_citizen | Turn 7 (Role: Người dân hỏi đáp tình huống khám chữa bệnh và tìm hiểu quy định) ---
+Query: Tìm các tài liệu và văn bản liên quan hướng dẫn phạm vi chuyên môn khám đông y tại Trạm y tế cấp xã.
+Intent: SECTOR_SEARCH (Expected) vs SECTOR_SEARCH (Actual)
+Rewrite: Tìm các tài liệu và văn bản liên quan hướng dẫn phạm vi chuyên môn khám đông y tại Trạm y tế cấp xã, trong bối cảnh thảo luận về Thông tư 54/2025/TT-BYT.
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời "chưa tìm thấy quy định trực tiếp" và báo thiếu thông tin, trong khi câu trả lời mẫu đã cung cấp rõ ràng các văn bản quy định phạm vi chuyên môn (Thông tư về chức năng nhiệm vụ Trạm Y tế, Danh mục kỹ thuật tuyến cơ sở), vi phạm tiêu chí không được báo 'không tìm thấy' khi mẫu có thông tin.
+Answer: ### 📝 Tóm tắt Tổng quan (Executive Summary)
+
+Dựa trên kết quả rà soát hệ thống pháp luật, báo cáo tổng hợp 11 văn bản liên quan, bao gồm Luật Khám bệnh, chữa bệnh 2023, Thông tư 43/2025/TT-BYT về Trạm Y tế xã và các quyết định hướng dẫn chuyên môn của Bộ Y tế. Tuy nhiên, trong ngữ liệu hiện tại **chưa tìm thấy quy định trực tiếp** chi tiết về phạm vi chuyên môn khám Đông y cụ thể tại Trạm y tế cấp xã. Thông tin còn thiếu cần được bổ sung từ nội dung chi tiết của Thông tư 43/2025/TT-BYT và Danh mục kỹ thuật (Thông tư 23/2024/TT-BYT) để xác định rõ thẩm quyền thực hành. Người dùng nên tham khảo các văn bản này để có căn cứ pháp lý đầy đủ.
+
+---
+
+### 📝 Nội dung liên quan
+
+#### 📄 54/2025/TT-BYT — Thông tư 54/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y học cổ truyền công lập thuộc tỉnh, thành phố do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 54/2025/TT-BYT - Thông tư 54/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y h...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Điều 3 > Khoản 1, 2, 3.
+Nội dung:
+Điều 3
+Nhiệm vụ
+1. Khám bệnh, chữa bệnh, phục hồi chức năng theo quy định của pháp luật, bao gồm:
+a) Tiếp nhận để khám bệnh, chữa bệnh, phục hồi chức năng cho người bệnh;
+b) Tiếp nhận cấp cứu; khám bệnh, chữa bệnh y học cổ truyền và y học hiện đại theo phạm vi hoạt động chuyên môn được cấp có thẩm quyền phê duyệt; khám bệnh, chữa bệnh theo yêu cầu; khám sức khỏe; khám bệnh, chữa bệnh từ xa; khám bệnh, chữa bệnh lưu động và các hoạt động khám bệnh, chữa bệnh khác;
+c) Thực hiện kết hợp y học cổ truyền với y học hiện đại theo quy định của pháp luật;
+d) Thực hiện các nhiệm vụ...
+
+#### 📄 3991/QĐ-BYT — Quyết định 3991/QĐ-BYT năm 2025 về Tài liệu chuyên môn “Hướng dẫn chẩn đoán và điều trị bệnh theo y học cổ truyền, kết hợp y học cổ truyền với y học hiện đại” - Tập II do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 3991/QĐ-BYT - Quyết định 3991/QĐ-BYT năm 2025 về Tài liệu chuyên môn “Hướng dẫn chẩn đoán và điều trị bệnh theo y ...
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Điều 2
+Nội dung:
+Điều 2
+Tài liệu chuyên môn “Hướng dẫn chẩn đoán và điều trị bệnh theo y học cổ truyền, kết hợp y học cổ truyền với y học hiện đại” áp dụng tại các cơ sở khám bệnh, chữa bệnh trong toàn quốc. Căn cứ nội dung tài liệu này và năng lực, thiết bị y tế, cơ sở vật chất cụ thể tại đơn vị, cơ sở khám bệnh, chữa bệnh xây dựng ban hành tài liệu hướng dẫn chẩn đoán và điều trị bệnh theo y học cổ truyền, kết hợp y học cổ truyền với y học hiện đại để thực hiện tại đơn vị.
+
+#### 📄 188/2025/NĐ-CP — Nghị định 188/2025/NĐ-CP hướng dẫn Luật Bảo hiểm y tế
+> Văn bản: 188/2025/NĐ-CP - Nghị định 188/2025/NĐ-CP hướng dẫn Luật Bảo hiểm y tế
+Lĩnh vực: Bảo hiểm, Thể thao - Y tế
+Điều khoản: Mẫu số 5 > HỢP ĐỒNG KHÁM BỆNH, CHỮA BỆNH BẢO HIỂM Y TẾ NĂM ...
+Nội dung:
+Mã cơ sở khám bệnh, chữa bệnh: .........................................................
+Cấp chuyên môn kỹ thuật: .........................................................
+Điểm xếp Cấp/Tạm xếp cấp (nếu có): .................................................................
+Số giấy phép hoạt động: .................................................................
+Phạm vi chuyên môn: .................................................................
+Tổng số giường bệnh của cơ sở theo giấy phép hoạt động khám bệnh, chữa bệnh (đối với cơ sở khám bệnh, chữa bệnh có điều trị nội trú): ...................
+
+#### 📄 43/2025/TT-BYT — Thông tư 43/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Trạm Y tế xã, phường, đặc khu thuộc tỉnh, thành phố trực thuộc Trung ương do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 43/2025/TT-BYT - Thông tư 43/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Trạm Y tế xã,...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Chương I > Điều 1
+Nội dung:
+Điều 1
+Phạm vi điều chỉnh
+Thông tư này hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Trạm Y tế xã, phường, đặc khu thuộc tỉnh, thành phố trực thuộc Trung ương (sau đây gọi chung là Trạm Y tế cấp xã).
+
+#### 📄 1840/QĐ-BYT — Quyết định 1840/QĐ-BYT năm 2025 về Tài liệu chuyên môn “Hướng dẫn chẩn đoán và điều trị cúm mùa” do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 1840/QĐ-BYT - Quyết định 1840/QĐ-BYT năm 2025 về Tài liệu chuyên môn “Hướng dẫn chẩn đoán và điều trị cúm mùa” do ...
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Phần Nơi nhận và Chữ ký
+Nội dung:
+Phần Nơi nhận và Chữ ký
+BỘ TRƯỞNG BỘ Y TẾ
+Căn cứ Luật Khám bệnh, chữa bệnh năm 2023;
+Căn cứ Nghị định số 42/2025/NĐ-CP ngày 27 tháng 2 năm 2025 của Chính phủ quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế;
+Theo đề nghị của Cục trưởng Cục Quản lý khám, chữa bệnh.
+QUYẾT ĐỊNH:
+
+
+---
+
+### 📊 Bảng Thống kê Văn bản
+Thông tin hành chính của văn bản 54/2025/TT-BYT: Năm ban hành: 2025. Ngày hiệu lực: 31/12/2025. Người ký (Signer): Vũ Mạnh Hà. Cơ quan ban hành (Authority): Bộ Y tế. Loại văn bản (Legal Type): Thông tư. Lĩnh vực (Sector): Thể thao - Y tế, Bộ máy hành chính. Tình trạng hiệu lực: Chưa có hiệu lực.
+
+---
+
+
+#### 🏛️ Không rõ cơ quan
+
+| STT | Số hiệu | Tên văn bản | Loại | Ngày hiệu lực | Lĩnh vực |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| 1 | 54/2025/TT-BYT | Thông tư 54/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ... | N/A | N/A | — |
+| 2 | 3991/QĐ-BYT | Quyết định 3991/QĐ-BYT năm 2025 về Tài liệu chuyên môn “Hướng dẫn chẩn đoán v... | N/A | N/A | — |
+| 3 | 188/2025/NĐ-CP | [PHỤ LỤC] Nghị định 188/2025/NĐ-CP hướng dẫn Luật Bảo hiểm y tế | N/A | N/A | — |
+| 4 | 43/2025/TT-BYT | Thông tư 43/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ... | N/A | N/A | — |
+| 5 | 1840/QĐ-BYT | Quyết định 1840/QĐ-BYT năm 2025 về Tài liệu chuyên môn “Hướng dẫn chẩn đoán v... | N/A | N/A | — |
+| 6 | 55/2025/TT-BYT | Thông tư 55/2025/TT-BYT quy định về kê đơn thuốc cổ truyền, thuốc dược liệu v... | N/A | N/A | — |
+| 7 | 53/2025/TT-BYT | Thông tư 53/2025/TT-BYT sửa đổi Thông tư 43/2025/TT-BYT hướng dẫn chức năng, ... | N/A | N/A | — |
+| 8 | 4036/QĐ-BYT | [PHỤ LỤC] Quyết định 4036/QĐ-BYT năm 2025 công bố thủ tục hành chính được sửa... | N/A | N/A | — |
+| 9 | 3740/QĐ-BYT | Quyết định 3740/QĐ-BYT năm 2025 công bố thủ tục hành chính mới, được sửa đổi ... | N/A | N/A | — |
+| 10 | 23/2024/TT-BYT | Thông tư 23/2024/TT-BYT về Danh mục kỹ thuật trong khám bệnh, chữa bệnh do Bộ... | N/A | N/A | — |
+| 11 | 15/2023/QH15 | Luật khám bệnh, chữa bệnh 2023 | N/A | N/A | — |
+
+> **Tổng cộng:** 11 văn bản | Phân bố: N/A: 11
+--------------------------------------------------
+
+--- FAILED: doc1_conv_001_citizen | Turn 8 (Role: Người dân hỏi đáp tình huống khám chữa bệnh và tìm hiểu quy định) ---
+Query: Thông tư 54/2025 này có bãi bỏ quyết định nào trước đó của Ủy ban nhân dân tỉnh về bệnh viện y học cổ truyền không?
+Intent: CONFLICT_ANALYZER (Expected) vs LEGAL_QA (Actual)
+Rewrite: Thông tư 54/2025/TT-BYT có quy định bãi bỏ quyết định nào trước đó của Ủy ban nhân dân tỉnh liên quan đến bệnh viện y học cổ truyền không?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định không có quy định bãi bỏ quyết định của UBND tỉnh, trong khi câu trả lời mẫu chỉ rõ các quyết định cũ vẫn tạm thời có hiệu lực theo Điều 7 (Điều khoản chuyển tiếp) chứ không bị tự động bãi bỏ, đồng thời RAG dẫn chứng sai điều khoản (Điều 6 thay vì Điều 7).
+Answer: Căn cứ Điều 6 Thông tư 54/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y học cổ truyền công lập thuộc tỉnh, thành phố, **không có quy định** về việc bãi bỏ quyết định nào của Ủy ban nhân dân tỉnh.
+
+Cụ thể, khoản 2 Điều 6 Thông tư 54/2025/TT-BYT chỉ quy định việc bãi bỏ văn bản của Bộ Y tế như sau: *"Thông tư số 37/2011/TT-BYT ngày 26 tháng 10 năm 2011 của Bộ trưởng Bộ Y tế hướng dẫn chức năng, nhiệm vụ, quyền hạn và tổ chức bộ máy của Bệnh viện Y học cổ truyền tuyến tỉnh hết hiệu lực kể từ ngày Thông tư này có hiệu lực."*
+
+Do đó, đối tượng bị bãi bỏ là Thông tư của Bộ trưởng Bộ Y tế, không phải là quyết định của Ủy ban nhân dân tỉnh.
+--------------------------------------------------
+
+--- FAILED: doc1_conv_002_legal_prep | Turn 4 (Role: Chuyên viên pháp lý Sở Y tế chuẩn bị hồ sơ tổ chức lại cơ cấu bệnh viện) ---
+Query: Đối chiếu với quy định mới, cơ cấu các phòng khám chuyên môn theo điểm b khoản 4 Điều 41 Nghị định 96/2023 có gì mâu thuẫn với Nghị định 120/2020 về số lượng người làm việc tối thiểu không?
+Intent: CONFLICT_ANALYZER (Expected) vs CONFLICT_ANALYZER (Actual)
+Rewrite: Đối chiếu với quy định mới, cơ cấu các phòng khám chuyên môn theo điểm b khoản 4 Điều 41 Nghị định 96/2023/NĐ-CP có gì mâu thuẫn với Nghị định 120/2020/NĐ-CP về số lượng người làm việc tối thiểu không?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất vấn đề, phán quyết "Contradiction" (mâu thuẫn) thay vì khẳng định "Không mâu thuẫn" như câu trả lời mẫu, đồng thời bỏ sót hoàn toàn văn bản trọng tâm là Thông tư 54/2025/TT-BYT dùng để giải quyết sự chồng chéo.
+Answer: ### 💡 Kết Luận Phân Tích
+
+**❌ Mệnh đề:** Nghị định 96/2023/NĐ-CP đã bãi bỏ hoặc sửa đổi các điều khoản liên quan đến số lượng nhân sự tối thiểu trước đây được quy định tại Nghị định 120/2020/NĐ-CP, do đó không còn mâu thuẫn mà thay vào đó áp dụng quy định mới.
+
+**Phán quyết:** Contradiction
+
+Mệnh đề khẳng định Nghị định 96/2023/NĐ-CP là văn bản bãi bỏ/sửa đổi quy định về số lượng nhân sự tối thiểu trong Nghị định 120/2020/NĐ-CP là sai. Theo LEGAL_CONTEXT (Tài liệu id=20), chính Nghị định 283/2025/NĐ-CP mới là văn bản sửa đổi, bổ sung quy định về số lượng người làm việc tối thiểu (điểm d khoản 1 Điều 5) của Nghị định 120/2020/NĐ-CP. Nghị định 96/2023/NĐ-CP không thực hiện chức năng này.
+
+📌 *Căn cứ: Nghị định 283/2025/NĐ-CP - Điều 3, Khoản 2*
+
+---
+
+### 📊 Bảng Tổng Hợp Kết Quả
+
+| STT | Mệnh đề (Claim) | Phán quyết | Căn cứ | Tóm tắt |
+| :---: | :--- | :---: | :--- | :--- |
+| 1 | Nghị định 96/2023/NĐ-CP đã bãi bỏ hoặc sửa đổi các điều khoản liên quan đến số lượng nhân sự tối thiểu trước đây được quy định tại Nghị định 120/2020/NĐ-CP, do đó không còn mâu thuẫn mà thay vào đó áp dụng quy định mới. | ❌ **Contradiction** | Nghị định 283/2025/NĐ-CP - Điều 3, Khoản 2 | Mệnh đề khẳng định Nghị định 96/2023/NĐ-CP là văn bản bãi bỏ/sửa đổi quy định về số lượng nhân sự tối thiểu trong Nghị định 120/2020/NĐ-CP là sai. Theo LEGAL_CONTEXT (Tài liệu id=20), chính Nghị định ... |
+
+
+<!-- DB_UPDATE_PROPOSAL: {"document_numbers_to_disable": [], "new_file_id": null, "new_filename": null} -->
+> **⚠️ Đề Xuất Cập Nhật Cơ Sở Dữ Liệu:** Hệ thống phát hiện văn bản mới tải lên có tính chất thay thế các văn bản cũ. Vui lòng xác nhận để đồng bộ cập nhật dữ liệu Qdrant.
+--------------------------------------------------
+
+--- FAILED: doc1_conv_002_legal_prep | Turn 7 (Role: Chuyên viên pháp lý Sở Y tế chuẩn bị hồ sơ tổ chức lại cơ cấu bệnh viện) ---
+Query: Văn bản nào quy định về việc ký kết hợp đồng chuyển giao công nghệ y học cổ truyền giữa các cơ sở khám chữa bệnh?
+Intent: SECTOR_SEARCH (Expected) vs SECTOR_SEARCH (Actual)
+Rewrite: Văn bản nào quy định về việc ký kết hợp đồng chuyển giao công nghệ y học cổ truyền giữa các cơ sở khám chữa bệnh?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời "không tìm thấy quy định trực tiếp" trong khi câu trả lời mẫu đã cung cấp rõ ràng các văn bản pháp lý điều chỉnh (Luật Chuyển giao công nghệ, Nghị định hướng dẫn, Thông tư Bộ Y tế), vi phạm tiêu chí không được báo 'không tìm thấy' khi mẫu có thông tin.
+Answer: ### 📝 Tóm tắt Tổng quan (Executive Summary)
+
+Dựa trên truy vấn về quy định ký kết hợp đồng chuyển giao công nghệ y học cổ truyền, hệ thống đã rà soát 9 văn bản pháp lý liên quan, bao gồm Luật Khám bệnh, chữa bệnh 2023 và các Thông tư của Bộ Y tế ban hành năm 2024-2025. Tuy nhiên, **không tìm thấy quy định trực tiếp** nào chi tiết về thủ tục, điều kiện hoặc mẫu hợp đồng chuyển giao công nghệ y học cổ truyền giữa các cơ sở khám chữa bệnh trong bộ dữ liệu hiện có. Các văn bản tham khảo gần nhất như Luật 15/2023/QH15 và Thông tư 54/2025/TT-BYT chỉ đề cập ở mức độ nguyên tắc về nhiệm vụ chuyển giao kỹ thuật chuyên môn hoặc khái niệm thuốc chuyển giao công nghệ trong đăng ký lưu hành, chưa đủ để làm căn cứ pháp lý cụ thể cho việc ký kết hợp đồng.
+
+---
+
+### 📝 Nội dung liên quan
+
+#### 📄 15/2023/QH15 — Luật khám bệnh, chữa bệnh 2023
+> Văn bản: 15/2023/QH15 - Luật khám bệnh, chữa bệnh 2023
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Chương I > Điều 1
+Nội dung:
+Điều 1
+Phạm vi điều chỉnh
+Luật này quy định về quyền, nghĩa vụ của người bệnh; người hành nghề khám bệnh, chữa bệnh; cơ sở khám bệnh, chữa bệnh; chuyên môn kỹ thuật trong khám bệnh, chữa bệnh; khám bệnh, chữa bệnh bằng y học cổ truyền và kết hợp y học cổ truyền với y học hiện đại; khám bệnh, chữa bệnh nhân đạo, không vì mục đích lợi nhuận; chuyển giao kỹ thuật chuyên môn về khám bệnh, chữa bệnh; áp dụng kỹ thuật mới, phương pháp mới và thử nghiệm lâm sàng; sai sót chuyên môn kỹ thuật; điều kiện bảo đảm hoạt động khám bệnh, chữa bệnh; huy động, điều động nguồn lực phục vụ công tác khám bệnh, chữa bệnh trong trường hợp xảy ra thiên tai, thảm họa, dịch bệnh truyền nhiễm thu...
+
+#### 📄 55/2025/TT-BYT — Thông tư 55/2025/TT-BYT quy định về kê đơn thuốc cổ truyền, thuốc dược liệu và kê đơn kết hợp thuốc cổ truyền, thuốc dược liệu với thuốc hóa dược trong cơ sở khám bệnh, chữa bệnh do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 55/2025/TT-BYT - Thông tư 55/2025/TT-BYT quy định về kê đơn thuốc cổ truyền, thuốc dược liệu và kê đơn kết hợp thuốc ...
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: QUY ĐỊNH VỀ KÊ ĐƠN THUỐC CỔ TRUYỀN, THUỐC DƯỢC LIỆU VÀ KÊ ĐƠN KẾT HỢP THUỐC CỔ TRUYỀN, THUỐC DƯỢC LIỆU VỚI THUỐC HÓA DƯỢC TRONG CƠ SỞ KHÁM BỆNH, CHỮA BỆNH
+Nội dung:
+Căn cứ Luật Dược số 105/2016/QH13 được sửa đổi, bổ sung bởi Luật số 28/2018/QH14 và Luật số 44/2024/QH15;
+Căn cứ Luật Khám bệnh, chữa bệnh số 15/2023/QH15;
+Căn cứ Nghị định số 163/2025/NĐ-CP ngày 29 năm 06 tháng 2025 quy định chi tiết một số điều và biện pháp để tổ chức, hướng dẫn thi hành Luật Dược;
+Căn cứ Nghị định số 96/2023/NĐ-CP ngày 30 tháng 12 năm 2023 quy định chi tiết một số điều của Luật Khám bệnh, chữa bệnh;
+Căn cứ Nghị định số 42/2025/NĐ-CP ngày 27 th...
+
+#### 📄 54/2025/TT-BYT — Thông tư 54/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y học cổ truyền công lập thuộc tỉnh, thành phố do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 54/2025/TT-BYT - Thông tư 54/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của bệnh viện y h...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: HƯỚNG DẪN CHỨC NĂNG, NHIỆM VỤ, QUYỀN HẠN VÀ CƠ CẤU TỔ CHỨC CỦA BỆNH VIỆN Y HỌC CỔ TRUYỀN CÔNG LẬP THUỘC TỈNH, THÀNH PHỐ
+Nội dung:
+Căn cứ Luật Khám bệnh, chữa bệnh số 15/2023/QH15;
+Căn cứ Nghị định số 42/2025/NĐ-CP ngày 27 tháng 02 năm 2025 của Chính phủ quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế;
+Căn cứ Nghị định số 96/2023/NĐ-CP ngày 30 tháng 12 năm 2023 của Chính phủ quy định chi tiết một số điều của Luật Khám bệnh, chữa bệnh;
+Căn cứ Nghị định số 150/2025/NĐ-CP ngày 12 tháng 6 năm 2025 của Chính phủ quy định tổ chức các cơ quan chuyên môn thuộc Ủy ban nhân dân tỉnh, thành phố t...
+
+#### 📄 3740/QĐ-BYT — Quyết định 3740/QĐ-BYT năm 2025 công bố thủ tục hành chính mới, được sửa đổi bổ sung và bị bãi bỏ trong lĩnh vực Dân số, Bà mẹ - Trẻ em và lĩnh vực khám bệnh, chữa bệnh thuộc phạm vi quản lý của Bộ Y tế quy định tại Nghị định 207/2025/NĐ-CP; Nghị định 96/2023/NĐ-CP và Nghị định 148/2025/NĐ-CP do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 3740/QĐ-BYT - Quyết định 3740/QĐ-BYT năm 2025 công bố thủ tục hành chính mới, được sửa đổi bổ sung và bị bãi bỏ tr...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế, Văn hóa - Xã hội
+Điều khoản: Phần Nơi nhận và Chữ ký
+Nội dung:
+Phần Nơi nhận và Chữ ký
+[- tiếp theo]
+a) Bộ Y tế:
+- Cục Quản lý Khám, chữa bệnh: đối với các cơ sở khám bệnh, chữa bệnh Nhà nước trực thuộc Bộ Y tế và bệnh viện tư nhân trừ các trường hợp thuộc điểm b mục này:
+- Cục Quản lý Y, Dược cổ truyền: đối với các cơ sở khám bệnh, chữa bệnh y học cổ truyền Nhà nước trực thuộc Bộ Y tế và bệnh viện y học cổ truyền tư nhân.
+b) Cơ quan chuyên môn về y tế thuộc Ủy ban nhân dân cấp tỉnh:
+- Các cơ sở khám bệnh, chữa bệnh trên địa bàn quản lý của Cơ quan chuyên môn về y tế thuộc Ủy ban nhân dân cấp tỉnh (bao gồm cả các cơ sở...
+
+#### 📄 12/2025/TT-BYT — Thông tư 12/2025/TT-BYT quy định việc đăng ký lưu hành thuốc, nguyên liệu làm thuốc do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 12/2025/TT-BYT - Thông tư 12/2025/TT-BYT quy định việc đăng ký lưu hành thuốc, nguyên liệu làm thuốc do Bộ trưởng Bộ ...
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Chương I > Điều 2 > Khoản 19, 20.
+Nội dung:
+Điều 2
+19. Thuốc trước chuyển giao công nghệ là thuốc đã có giấy đăng ký lưu hành tại Việt Nam hoặc đã được cấp phép lưu hành tại ít nhất một nước trên thế giới và được cơ sở chuyển giao công nghệ sản xuất thuốc chuyển nhượng quyền sở hữu công nghệ hoặc chuyển giao quyền sử dụng công nghệ cho cơ sở nhận chuyển giao công nghệ sản xuất thuốc để ứng dụng trong một, một số hoặc toàn bộ các công đoạn của quy trình sản xuất thuốc.
+20. Thuốc chuyển giao công nghệ là thuốc được sản xuất một, một số hoặc toàn bộ các công đoạn của quy trình sản xuất sử dụng công nghệ được chuyển giao thuộc q...
+
+
+---
+
+### 📊 Bảng Thống kê Văn bản
+
+#### 🏛️ Không rõ cơ quan
+
+| STT | Số hiệu | Tên văn bản | Loại | Ngày hiệu lực | Lĩnh vực |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| 1 | 15/2023/QH15 | Luật khám bệnh, chữa bệnh 2023 | N/A | N/A | — |
+| 2 | 55/2025/TT-BYT | Thông tư 55/2025/TT-BYT quy định về kê đơn thuốc cổ truyền, thuốc dược liệu v... | N/A | N/A | — |
+| 3 | 54/2025/TT-BYT | Thông tư 54/2025/TT-BYT hướng dẫn chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ... | N/A | N/A | — |
+| 4 | 3740/QĐ-BYT | Quyết định 3740/QĐ-BYT năm 2025 công bố thủ tục hành chính mới, được sửa đổi ... | N/A | N/A | — |
+| 5 | 12/2025/TT-BYT | Thông tư 12/2025/TT-BYT quy định việc đăng ký lưu hành thuốc, nguyên liệu làm... | N/A | N/A | — |
+| 6 | 23/2024/TT-BYT | Thông tư 23/2024/TT-BYT về Danh mục kỹ thuật trong khám bệnh, chữa bệnh do Bộ... | N/A | N/A | — |
+| 7 | 3991/QĐ-BYT | Quyết định 3991/QĐ-BYT năm 2025 về Tài liệu chuyên môn “Hướng dẫn chẩn đoán v... | N/A | N/A | — |
+| 8 | 188/2025/NĐ-CP | [PHỤ LỤC] Nghị định 188/2025/NĐ-CP hướng dẫn Luật Bảo hiểm y tế | N/A | N/A | — |
+| 9 | 02400/QĐ-UBND | [PHỤ LỤC] Quyết định 02400/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chí... | N/A | N/A | — |
+
+> **Tổng cộng:** 9 văn bản | Phân bố: N/A: 9
+--------------------------------------------------
+
+--- FAILED: doc1_conv_003_academic | Turn 4 (Role: Học giả phân tích xung đột pháp lý, bãi bỏ văn bản và luật học) ---
+Query: Liệt kê các Nghị định, Thông tư quy định về việc cấp giấy phép hành nghề cho người nước ngoài tại cơ sở y tế Việt Nam.
+Intent: SECTOR_SEARCH (Expected) vs SECTOR_SEARCH (Actual)
+Rewrite: Liệt kê các Nghị định, Thông tư quy định về việc cấp giấy phép hành nghề cho người nước ngoài tại cơ sở y tế Việt Nam.
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định "không tìm thấy" Nghị định/Thông tư quy định, trong khi câu trả lời mẫu đã cung cấp rõ ràng Nghị định 96/2023/NĐ-CP và các văn bản liên quan.
+Answer: ### 📝 Tóm tắt Tổng quan (Executive Summary)
+
+Dựa trên dữ liệu hiện có, **không tìm thấy** Nghị định hay Thông tư nào trực tiếp quy định về việc cấp giấy phép hành nghề cho người nước ngoài tại cơ sở y tế Việt Nam. Hệ thống tìm thấy 8 văn bản, bao gồm Luật Khám bệnh, chữa bệnh 2023, các Thông tư về danh mục kỹ thuật và bệnh nghề nghiệp, cùng các Quyết định công bố thủ tục hành chính cấp tỉnh. Văn bản tham khảo gần nhất là **Luật 15/2023/QH15**, đóng vai trò là cơ sở pháp lý nền tảng, tuy nhiên các quy định chi tiết về thủ tục cấp phép cho người nước ngoài thường nằm trong Nghị định hướng dẫn Luật này hoặc Thông tư chuyên ngành, vốn chưa xuất hiện trong bộ dữ liệu hiện tại.
+
+---
+
+### 📝 Nội dung liên quan
+
+#### 📄 15/2023/QH15 — Luật khám bệnh, chữa bệnh 2023
+> Văn bản: 15/2023/QH15 - Luật khám bệnh, chữa bệnh 2023
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Chương I > Điều 2 > Khoản 1, 2, 3, 4, 5.
+Nội dung:
+Điều 2
+Giải thích từ ngữ
+Trong Luật này, các từ ngữ dưới đây được hiểu như sau:
+1. Khám bệnh là việc người hành nghề khám bệnh, chữa bệnh sử dụng kiến thức, phương pháp, kỹ thuật chuyên môn để đánh giá tình trạng sức khỏe, nguy cơ đối với sức khỏe và nhu cầu chăm sóc sức khỏe của người bệnh.
+2. Chữa bệnh là việc người hành nghề khám bệnh, chữa bệnh sử dụng kiến thức, phương pháp, kỹ thuật chuyên môn để giải quyết tình trạng bệnh, ngăn ngừa sự xuất hiện, tiến triển của bệnh hoặc đáp ứng nhu cầu chăm sóc sức khỏe của người bệnh trên cơ sở kết quả khám bệnh.
+3. Người bệnh là người sử dụng dịch vụ khám bệnh, chữa bệnh.
+4. Người hành nghề khám bệnh, chữ...
+
+#### 📄 23/2024/TT-BYT — Thông tư 23/2024/TT-BYT về Danh mục kỹ thuật trong khám bệnh, chữa bệnh do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 23/2024/TT-BYT - Thông tư 23/2024/TT-BYT về Danh mục kỹ thuật trong khám bệnh, chữa bệnh do Bộ trưởng Bộ Y tế ban hàn...
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Điều 4 > Khoản 1, 2, 3.
+Nội dung:
+Điều 4
+Điều khoản chuyển tiếp
+1. Các kỹ thuật quy định tại Phụ lục số 01 ban hành kèm theo Thông tư này đã được phân loại phẫu thuật, thủ thuật theo quy định tại Thông tư số 50/2014/TTBYT ngày 26 tháng 12 năm 2014 của Bộ trưởng Bộ Y tế quy định việc phân loại phẫu thuật, thủ thuật và định mức nhân lực trong từng ca phẫu thuật, thủ thuật thì được tiếp tục áp dụng mức phân loại phẫu thuật, thủ thuật này.
+2. Người đã được cấp chứng chỉ hành nghề, giấy phép hành nghề trước ngày Thông tư này có hiệu lực được tiếp tục thực hiện các kỹ thuật đã được phê duyệt theo quy định tại Thông tư số 32/2023/T...
+
+#### 📄 3740/QĐ-BYT — Quyết định 3740/QĐ-BYT năm 2025 công bố thủ tục hành chính mới, được sửa đổi bổ sung và bị bãi bỏ trong lĩnh vực Dân số, Bà mẹ - Trẻ em và lĩnh vực khám bệnh, chữa bệnh thuộc phạm vi quản lý của Bộ Y tế quy định tại Nghị định 207/2025/NĐ-CP; Nghị định 96/2023/NĐ-CP và Nghị định 148/2025/NĐ-CP do Bộ trưởng Bộ Y tế ban hành
+> Văn bản: 3740/QĐ-BYT - Quyết định 3740/QĐ-BYT năm 2025 công bố thủ tục hành chính mới, được sửa đổi bổ sung và bị bãi bỏ tr...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế, Văn hóa - Xã hội
+Điều khoản: Phần Nơi nhận và Chữ ký > Khoản (1, 2, 3)
+Nội dung:
+Phần Nơi nhận và Chữ ký
+Kính gửi:………………………3………………….
+Tên cơ sở đề nghị: …………………………………….................................................
+Địa chỉ:4………………………………………..............................................................
+Điện thoại:……………… Số Fax:………………Email (nếu có):………....................
+Trường hợp đề nghị:5………………………………………………..............................
+Hình thức tổ chức đề nghị cấp phép: …………………………....................………….
+Thời gian làm việc hằng ngày: …………………...............................………………..
+Hồ sơ gửi kèm theo đơn này gồm các g...
+
+#### 📄 2341/QĐ-UBND — Quyết định 2341/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chính và phê duyệt Quy trình nội bộ giải quyết thủ tục hành chính lĩnh vực dược phẩm, đào tạo và nghiên cứu khoa học, khám bệnh, chữa bệnh, mỹ phẩm, trang thiết bị và công trình y tế, y dược cổ truyền thực hiện không phụ thuộc vào địa giới hành chính trong phạm vi toàn tỉnh thuộc thẩm quyền giải quyết của Sở Y tế tỉnh Cao Bằng
+> Văn bản: 2341/QĐ-UBND - Quyết định 2341/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chính và phê duyệt Quy trình nội bộ g...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Dữ liệu Bảng biểu
+Nội dung:
+| STT | Mã TTHC | Tên TTHC | Ghi chú |
+|||||
+| 1 | 1.004539 | Công bố đáp ứng yêu cầu là cơ sở thực hành trong đào tạo khối ngành sức khỏe đối với các cơ sở khám, chữa bệnh thuộc Sở Y tế và cơ sở khám bệnh, chữa bệnh tư nhân trên địa bàn tỉnh, thành phố | |
+| LĨNH VỰC KHÁM BỆNH CHỮA BỆNH (18 TTHC) | | | |
+| 1 | 1.012292 | Điều chỉnh giấy phép hành nghề trong giai đoạn chuyển tiếp đối với hồ sơ nộp từ ngày 01 tháng 01 năm 2024 đến thời điểm kiểm tra đánh giá năng lực hành nghề đối với các chức danh bác sỹ, y sỹ, điều dưỡng, hộ sinh, kỹ thuật y, dinh dưỡng lâm sàng, cấp cứu viên ngo...
+
+#### 📄 3164/QĐ-UBND — Quyết định 3164/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chính ngành Y tế thực hiện không phụ thuộc vào địa giới hành chính trong phạm vi tỉnh Đồng Nai
+> Văn bản: 3164/QĐ-UBND - Quyết định 3164/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chính ngành Y tế thực hiện không phụ ...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Dữ liệu Bảng biểu
+Nội dung:
+| Số TT | Mã TTHC | Tên TTHC | Lĩnh vực | Cấp thực hiện | Hình thức thực hiện không phụ thuộc vào địa giới | | | Ghi chú |
+||||||||||
+| | | | | | Trực tuyến | Dịch vụ BCCI | Trực tiếp | |
+| 1 | 1.012256 | Công bố cơ sở khám bệnh, chữa bệnh đáp ứng yêu cầu là cơ sở hướng dẫn thực hành | Khám bệnh, chữa bệnh | Cấp tỉnh | X | | | |
+| 2 | 1.012271 | Cấp mới giấy phép hành nghề đối với chức danh chuyên môn là lương y, người có bài thuốc gia truyền hoặc có phương pháp chữa bệnh gia truyền | Khám bệnh, chữa bệnh | Cấp tỉnh | X | | | |
+| 3 | 1.012272 | Cấp lại giấy phép hành nghề đối với...
+
+
+---
+
+### 📊 Bảng Thống kê Văn bản
+
+#### 🏛️ Không rõ cơ quan
+
+| STT | Số hiệu | Tên văn bản | Loại | Ngày hiệu lực | Lĩnh vực |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| 1 | 15/2023/QH15 | Luật khám bệnh, chữa bệnh 2023 | N/A | N/A | — |
+| 2 | 23/2024/TT-BYT | Thông tư 23/2024/TT-BYT về Danh mục kỹ thuật trong khám bệnh, chữa bệnh do Bộ... | N/A | N/A | — |
+| 3 | 3740/QĐ-BYT | Quyết định 3740/QĐ-BYT năm 2025 công bố thủ tục hành chính mới, được sửa đổi ... | N/A | N/A | — |
+| 4 | 2341/QĐ-UBND | [PHỤ LỤC] Quyết định 2341/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chín... | N/A | N/A | — |
+| 5 | 3164/QĐ-UBND | [PHỤ LỤC] Quyết định 3164/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chín... | N/A | N/A | — |
+| 6 | 56/2025/TT-BYT | Thông tư 56/2025/TT-BYT hướng dẫn quản lý bệnh nghề nghiệp do Bộ trưởng Bộ Y ... | N/A | N/A | — |
+| 7 | 117/2020/NĐ-CP | Nghị định 117/2020/NĐ-CP quy định về xử phạt vi phạm hành chính trong lĩnh vự... | N/A | N/A | — |
+| 8 | 1400/QĐ-UBND | [PHỤ LỤC] Quyết định 1400/QĐ-UBND năm 2025 công bố danh mục thủ tục hành chín... | N/A | N/A | — |
+
+> **Tổng cộng:** 8 văn bản | Phân bố: N/A: 8
+--------------------------------------------------
+
+--- FAILED: doc2_conv_001_business | Turn 4 (Role: Đại diện doanh nghiệp hỏi đáp về quy trình nhập khẩu và công bố sản phẩm) ---
+Query: Giấy chứng nhận lưu hành tự do (CFS) của nước ngoài cấp có yêu cầu thủ tục pháp lý gì thêm không?
+Intent: LEGAL_QA (Expected) vs LEGAL_QA (Actual)
+Rewrite: Giấy chứng nhận lưu hành tự do (CFS) của nước ngoài cấp có yêu cầu thủ tục pháp lý gì thêm không?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo 'không tìm thấy' trong khi câu trả lời mẫu đã cung cấp thông tin chính xác về yêu cầu hợp pháp hóa lãnh sự.
+Answer: Dựa trên các quy định liên quan nhất tìm thấy trong hệ thống dữ liệu hiện tại, **không có thông tin** nào đề cập đến "Giấy chứng nhận lưu hành tự do (CFS) của nước ngoài" hay các yêu cầu thủ tục pháp lý cụ thể liên quan đến loại giấy tờ này.
+
+Các văn bản trong ngữ cảnh (như Nghị định 15/2018/NĐ-CP, Quyết định 2076/QĐ-BYT, v.v.) chủ yếu quy định về:
+1.  **Tự công bố sản phẩm**: Hồ sơ bao gồm bản tự công bố và phiếu kết quả kiểm nghiệm an toàn thực phẩm (Điều 5, Nghị định 15/2018/NĐ-CP).
+2.  **Cấp giấy chứng nhận đối với thực phẩm xuất khẩu**: Hồ sơ bao gồm đơn đề nghị, giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm (hoặc GMP, HACCP, ISO 22000...), phiếu kết quả kiểm nghiệm và xác nhận đóng phí (Quyết định 2076/QĐ-BYT).
+
+Do đó, tôi không thể cung cấp thông tin về yêu cầu thủ tục cho Giấy chứng nhận lưu hành tự do (CFS) từ nguồn dữ liệu được cung cấp.
+--------------------------------------------------
+
+--- FAILED: doc2_conv_001_business | Turn 5 (Role: Đại diện doanh nghiệp hỏi đáp về quy trình nhập khẩu và công bố sản phẩm) ---
+Query: Việc yêu cầu nộp bản chính giấy chứng nhận lưu hành tự do có mâu thuẫn với việc triển khai dịch vụ công trực tuyến toàn trình không?
+Intent: CONFLICT_ANALYZER (Expected) vs LEGAL_QA (Actual)
+Rewrite: Việc yêu cầu nộp bản chính Giấy chứng nhận lưu hành tự do (CFS) có mâu thuẫn với việc triển khai dịch vụ công trực tuyến toàn trình theo Nghị định 15/2018/NĐ-CP và các quy định liên quan không?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất vấn đề và dẫn chứng sai văn bản pháp lý trọng tâm (dùng Nghị định 15/2018/NĐ-CP về an toàn thực phẩm thay vì Quyết định 1835/QĐ-TTPVHCC như yêu cầu), đồng thời phủ nhận sự tồn tại của mâu thuẫn thay vì giải thích cách giải quyết mâu thuẫn bằng dữ liệu điện tử như câu trả lời mẫu.
+Answer: Căn cứ **Thông tư số 01/2023/TT-VPCP** ngày 06/01/2023 của Văn phòng Chính phủ quy định nội dung và biện pháp thi hành trong số hóa hồ sơ, kết quả giải quyết thủ tục hành chính và thực hiện thủ tục hành chính trên môi trường điện tử; và **Nghị định số 15/2018/NĐ-CP** ngày 02/02/2018 của Chính phủ hướng dẫn Luật an toàn thực phẩm.
+
+Dựa trên các quy định liên quan nhất tìm thấy trong hệ thống dữ liệu hiện tại, câu trả lời cho câu hỏi của bạn như sau:
+
+1.  **Về thành phần hồ sơ theo Nghị định 15/2018/NĐ-CP:**
+    Theo **Điều 5, Khoản 1 Nghị định 15/2018/NĐ-CP**, hồ sơ tự công bố sản phẩm chỉ bao gồm:
+    *   Bản tự công bố sản phẩm theo Mẫu số 01 Phụ lục I ban hành kèm theo Nghị định này.
+    *   Phiếu kết quả kiểm nghiệm an toàn thực phẩm của sản phẩm trong thời hạn 12 tháng tính đến ngày nộp hồ sơ.
+    
+    Hệ thống dữ liệu hiện tại **không chứa thông tin** nào quy định việc phải nộp "Giấy chứng nhận lưu hành tự do (CFS)" như một thành phần bắt buộc trong hồ sơ tự công bố sản phẩm theo Nghị định này. Do đó, không có cơ sở pháp lý trực tiếp từ Nghị định 15/2018/NĐ-CP để yêu cầu nộp giấy tờ này, và do đó cũng không phát sinh mâu thuẫn từ một yêu cầu không tồn tại trong văn bản này.
+
+2.  **Về tiêu chí dịch vụ công trực tuyến toàn trình:**
+    Theo **Điều 13, Khoản 1, Điểm e Thông tư 01/2023/TT-VPCP**, một trong những tiêu chí bắt buộc đối với dịch vụ công trực tuyến toàn trình là: *"Trong quá trình xử lý hồ sơ và cung cấp dịch vụ được thực hiện trên môi trường điện tử, quá trình thực hiện, giải quyết thủ tục hành chính **không có quy định tổ chức, cá nhân phải nộp, xuất trình bản giấy để kiểm tra** hoặc yêu cầu hiện diện tại cơ quan nhà nước..."*.
+
+**Kết luận:**
+Nếu có bất kỳ yêu cầu nào bắt buộc nộp **bản chính** (dạng giấy) của bất kỳ giấy tờ nào (bao gồm cả CFS nếu thuộc diện áp dụng khác) trong quá trình thực hiện thủ tục hành chính được triển khai dưới hình thức **dịch vụ công trực tuyến toàn trình**, thì yêu cầu đó **có mâu thuẫn** với quy định tại Điểm e Khoản 1 Điều 13 Thông tư 01/2023/TT-VPCP. Tuy nhiên, đối với thủ tục tự công bố sản phẩm theo Nghị định 15/2018/NĐ-CP, hồ sơ pháp lý không yêu cầu Giấy chứng nhận lưu hành tự do (CFS).
+--------------------------------------------------
+
+--- FAILED: doc2_conv_001_business | Turn 7 (Role: Đại diện doanh nghiệp hỏi đáp về quy trình nhập khẩu và công bố sản phẩm) ---
+Query: Tìm các văn bản pháp luật hiện hành quy định chi tiết về quy chuẩn, tiêu chuẩn kỹ thuật an toàn đối với thực phẩm dành cho trẻ em.
+Intent: SECTOR_SEARCH (Expected) vs SECTOR_SEARCH (Actual)
+Rewrite: Tìm các văn bản pháp luật hiện hành quy định chi tiết về quy chuẩn, tiêu chuẩn kỹ thuật an toàn đối với thực phẩm dành cho trẻ em.
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định không tìm thấy thông tin chi tiết về quy chuẩn, tiêu chuẩn kỹ thuật an toàn thực phẩm dành cho trẻ em, trong khi câu trả lời mẫu đã cung cấp rõ ràng cơ sở pháp lý (Bộ Y tế ban hành hoặc áp dụng theo quy chuẩn/tiêu chuẩn tương ứng) và các trích dẫn cụ thể.
+Answer: ### 📝 Tóm tắt Tổng quan (Executive Summary)
+
+Hệ thống đã rà soát cơ sở dữ liệu pháp luật để xác định các quy định về quy chuẩn, tiêu chuẩn kỹ thuật an toàn thực phẩm dành cho trẻ em. Kết quả tìm kiếm bao gồm **11 văn bản**, trong đó nổi bật là **Nghị định 15/2018/NĐ-CP** hướng dẫn Luật An toàn thực phẩm và **Thông tư 48/2025/TT-BYT** về phân cấp nhiệm vụ. Tuy nhiên, các văn bản này chủ yếu quy định về thủ tục hành chính, tự công bố sản phẩm và cơ chế quản lý, **không chứa nội dung chi tiết** về các chỉ tiêu kỹ thuật hay quy chuẩn an toàn cụ thể cho nhóm thực phẩm trẻ em. Do đó, thông tin về các Quy chuẩn kỹ thuật quốc gia (QCVN) chuyên biệt cho lĩnh vực này hiện chưa được phản ánh trong kết quả tìm kiếm hiện tại.
+
+---
+
+### 📝 Nội dung liên quan
+
+#### 📄 15/2018/NĐ-CP — Nghị định 15/2018/NĐ-CP hướng dẫn Luật an toàn thực phẩm
+> Văn bản: 15/2018/NĐ-CP - Nghị định 15/2018/NĐ-CP hướng dẫn Luật an toàn thực phẩm
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Chương I > Điều 1 > Khoản 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11.
+Nội dung:
+Điều 1
+Phạm vi điều chỉnh
+Nghị định này quy định chi tiết thi hành một số điều của Luật an toàn thực phẩm về:
+1. Thủ tục tự công bố sản phẩm.
+2. Thủ tục đăng ký bản công bố sản phẩm.
+3. Bảo đảm an toàn thực phẩm biến đổi gen.
+4. Cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm.
+5. Kiểm tra nhà nước về an toàn thực phẩm nhập khẩu, xuất khẩu.
+6. Ghi nhãn thực phẩm.
+7. Quảng cáo thực phẩm.
+8. Điều kiện bảo đảm an toàn thực phẩm trong sản xuất thực phẩm bảo vệ sức khỏe.
+9. Điều kiện bảo đảm an toàn thực phẩm trong sản xuất, kinh doanh và sử dụng phụ gia thực phẩm.
+10. Truy xuất nguồn gốc thực phẩm....
+
+#### 📄 48/2025/TT-BYT — Thông tư 48/2025/TT-BYT quy định việc phân cấp thực hiện nhiệm vụ và giải quyết thủ tục hành chính trong lĩnh vực an toàn thực phẩm thuộc thẩm quyền của Bộ Y tế
+> Văn bản: 48/2025/TT-BYT - Thông tư 48/2025/TT-BYT quy định việc phân cấp thực hiện nhiệm vụ và giải quyết thủ tục hành chính t...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Điều 2 > Khoản 1. > Điểm a, b, c, d, e, f, g)
+Nội dung:
+Điều 2
+Phân cấp thực hiện một số nhiệm vụ và giải quyết một số thủ tục hành chính trong lĩnh vực an toàn thực phẩm thuộc thẩm quyền của Bộ Y tế cho Cục An toàn thực phẩm
+1. Thực hiện một số nhiệm vụ Bộ Y tế được giao tại Nghị định số 15/2018/NĐ-CP ngày 2 tháng 2 năm 2018 của Chính phủ quy định chi tiết thi hành một số điều của Luật an toàn thực phẩm (sau đây gọi là Nghị định số 15/2018/NĐ-CP) và Nghị định số 42/2025/NĐ-CP ngày 27 tháng 2 năm 2025 của Chính phủ quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế (sau đây gọi là Nghị đ...
+
+#### 📄 2076/QĐ-BYT — Quyết định 2076/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ trong lĩnh vực An toàn thực phẩm quy định tại Nghị định 148/2025/NĐ-CP thuộc thẩm quyền quản lý của Bộ Y tế
+> Văn bản: 2076/QĐ-BYT - Quyết định 2076/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ trong lĩnh vực An toàn t...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Điều 2 > Dữ liệu Bảng biểu
+Nội dung:
+| Cách thức thực hiện | |
+| | Trực tiếp, trực tuyến, hoặc bưu chính công ích |
+|||
+| | I. Thành phần hồ sơ bao gồm: 1. Đơn đề nghị cấp giấy chứng nhận theo mẫu quy định tại Mẫu số 12 Phụ lục V ban hành kèm theo Nghị định số 148/2025/NĐ-CP . 2. Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm hoặc một trong các Giấy chứng nhận: Thực hành sản xuất tốt (GMP), Hệ thống phân tích mối nguy và điểm kiểm soát tới hạn (HACCP), Hệ thống quản lý an toàn thực phẩm ISO 22000, Tiêu chuẩn thực phẩm quốc tế (IFS), Tiêu chuẩn toàn cầu về an toàn thực phẩm (BRC), Chứng nhận hệ thống an...
+
+#### 📄 56/2017/NĐ-CP — Nghị định 56/2017/NĐ-CP hướng dẫn Luật trẻ em
+> Văn bản: 56/2017/NĐ-CP - Nghị định 56/2017/NĐ-CP hướng dẫn Luật trẻ em
+Lĩnh vực: Văn hóa - Xã hội
+Điều khoản: Phần Nơi nhận và Chữ ký > Dữ liệu Bảng biểu
+Nội dung:
+| Nhu cầu về an toàn của trẻ em | Dịch vụ cung cấp | Đơn vị cung cấp dịch vụ |
+||||
+| 1. Chỗ ở và các điều kiện sinh hoạt | - Nơi chăm sóc tạm thời - Thức ăn - Quần áo | |
+| 2. An toàn thể chất | - Chăm sóc y tế - Chăm sóc tinh thần | |
+
+#### 📄 51/2024/QH15 — Luật Bảo hiểm y tế sửa đổi 2024
+> Văn bản: 51/2024/QH15 - Luật Bảo hiểm y tế sửa đổi 2024
+Lĩnh vực: Bảo hiểm, Thể thao - Y tế
+Điều khoản: Điều 1 > Khoản 3, 7, 1, 2, 8, 9, 10.
+Nội dung:
+Điều 1
+[3. tiếp theo]
+b) Lập danh sách tham gia bảo hiểm y tế cho các đối tượng trên địa bàn quy định tại các khoản 2, 3, 4 và 5 Điều 12 của Luật này theo hộ gia đình, trừ đối tượng thuộc thẩm quyền quản lý của các Bộ, ngành, cơ quan, đơn vị khác quy định tại các điểm a, b, c, d, l và n khoản 3, điểm b khoản 4 Điều 12 của Luật này;
+c) Lập danh sách đề nghị cấp thẻ bảo hiểm y tế cho trẻ em phải thực hiện đồng thời với việc cấp giấy khai sinh.”.
+7. Sửa đổi, bổ sung Điều 9 như sau:
+“Điều 9. Cơ quan thực hiện bảo hiểm y tế
+1. Cơ quan bảo hiểm xã hội có chức năng thực hiện chế độ, chính sách, pháp luật về bảo hiểm y tế, quản lý và sử dụng quỹ bảo...
+
+
+---
+
+### 📊 Bảng Thống kê Văn bản
+
+#### 🏛️ Không rõ cơ quan
+
+| STT | Số hiệu | Tên văn bản | Loại | Ngày hiệu lực | Lĩnh vực |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| 1 | 15/2018/NĐ-CP | Nghị định 15/2018/NĐ-CP hướng dẫn Luật an toàn thực phẩm | N/A | N/A | — |
+| 2 | 48/2025/TT-BYT | Thông tư 48/2025/TT-BYT quy định việc phân cấp thực hiện nhiệm vụ và giải quy... | N/A | N/A | — |
+| 3 | 2076/QĐ-BYT | Quyết định 2076/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ t... | N/A | N/A | — |
+| 4 | 56/2017/NĐ-CP | Nghị định 56/2017/NĐ-CP hướng dẫn Luật trẻ em | N/A | N/A | — |
+| 5 | 51/2024/QH15 | Luật Bảo hiểm y tế sửa đổi 2024 | N/A | N/A | — |
+| 6 | 214/2025/NĐ-CP | Nghị định 214/2025/NĐ-CP hướng dẫn Luật Đấu thầu về lựa chọn nhà thầu | N/A | N/A | — |
+| 7 | 111/2025/NĐ-CP | Nghị định 111/2025/NĐ-CP sửa đổi Nghị định 60/2021/NĐ-CP quy định về cơ chế t... | N/A | N/A | — |
+| 8 | 3281/QĐ-UBND | Quyết định 3281/QĐ-UBND năm 2025 phê duyệt sửa đổi, bổ sung quy trình nội bộ,... | N/A | N/A | — |
+| 9 | 51/2025/TT-BYT | Thông tư 51/2025/TT-BYT về Quy chuẩn kỹ thuật quốc gia đối với thuốc lá điếu ... | N/A | N/A | — |
+| 10 | 98/2021/NĐ-CP | Nghị định 98/2021/NĐ-CP về quản lý trang thiết bị y tế | N/A | N/A | — |
+| 11 | 153/2025/NĐ-CP | Nghị định 153/2025/NĐ-CP sửa đổi Nghị định 72/2023/NĐ-CP quy định tiêu chuẩn,... | N/A | N/A | — |
+
+> **Tổng cộng:** 11 văn bản | Phân bố: N/A: 11
+--------------------------------------------------
+
+--- FAILED: doc2_conv_001_business | Turn 8 (Role: Đại diện doanh nghiệp hỏi đáp về quy trình nhập khẩu và công bố sản phẩm) ---
+Query: Quyết định tái cấu trúc thủ tục hành chính này khi nào mới bắt đầu có hiệu lực?
+Intent: LEGAL_QA (Expected) vs LEGAL_QA (Actual)
+Rewrite: Quyết định 2076/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ trong lĩnh vực An toàn thực phẩm quy định tại Nghị định 148/2025/NĐ-CP thuộc thẩm quyền quản lý của Bộ Y tế bắt đầu có hiệu lực từ ngày nào?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất vì dẫn nhầm số hiệu văn bản (2076/QĐ-BYT thay vì 1835/QĐ-TTPVHCC) và ngày có hiệu lực (01/07/2025 thay vì 01/01/2026) so với câu trả lời mẫu.
+Answer: Căn cứ **Điều 2 Quyết định số 2076/QĐ-BYT** năm 2025 của Bộ Y tế về việc công bố thủ tục hành chính mới và bị bãi bỏ trong lĩnh vực An toàn thực phẩm quy định tại Nghị định 148/2025/NĐ-CP, thì Quyết định này có hiệu lực thi hành kể từ ngày **01 tháng 7 năm 2025**.
+--------------------------------------------------
+
+--- FAILED: doc2_conv_002_legal_prep | Turn 1 (Role: Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới) ---
+Query: Tổng hợp các Nghị định của Chính phủ được làm căn cứ pháp lý để ban hành quyết định này.
+Intent: SECTOR_SEARCH (Expected) vs SECTOR_SEARCH (Actual)
+Rewrite: Tổng hợp các Nghị định của Chính phủ được làm căn cứ pháp lý để ban hành quyết định này.
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất vì liệt kê các Nghị định không liên quan (117/2020, 32/2019, 150/2025, 111/2025) thay vì các Nghị định đúng trong mẫu (63/2010, 48/2013, 92/2017, 118/2025, 45/2020, 42/2022), dẫn đến thông tin cốt lõi hoàn toàn sai lệch.
+Answer: ### 📝 Tóm tắt Tổng quan (Executive Summary)
+
+Hệ thống đã xác định được 7 Nghị định của Chính phủ trong tổng số 10 văn bản pháp lý liên quan, bao gồm các quy định về xử phạt vi phạm hành chính trong lĩnh vực y tế (117/2020/NĐ-CP), giao nhiệm vụ cung ứng dịch vụ công (32/2019/NĐ-CP), tổ chức cơ quan chuyên môn (150/2025/NĐ-CP) và cơ chế tự chủ tài chính (111/2025/NĐ-CP). Các văn bản còn lại thuộc loại Luật và Quyết định của Ủy ban nhân dân tỉnh. Hiện chưa phát hiện các Thông tư hướng dẫn chi tiết đi kèm. Những Nghị định này đóng vai trò là khung pháp lý nền tảng hoặc tham khảo gần nhất cho các hoạt động quản lý nhà nước và phân cấp quyền lực địa phương.
+
+---
+
+### 📝 Nội dung liên quan
+
+#### 📄 117/2020/NĐ-CP — Nghị định 117/2020/NĐ-CP quy định về xử phạt vi phạm hành chính trong lĩnh vực y tế
+> Văn bản: 117/2020/NĐ-CP - Nghị định 117/2020/NĐ-CP quy định về xử phạt vi phạm hành chính trong lĩnh vực y tế
+Lĩnh vực: Vi phạm hành chính, Thể thao - Y tế
+Điều khoản: Phần Nơi nhận và Chữ ký
+Nội dung:
+Phần Nơi nhận và Chữ ký
+Chính phủ ban hành Nghị định quy định xử phạt vi phạm hành chính trong lĩnh vực y tế.
+
+#### 📄 32/2019/NĐ-CP — Nghị định 32/2019/NĐ-CP quy định về giao nhiệm vụ, đặt hàng hoặc đấu thầu cung cấp sản phẩm, dịch vụ công sử dụng ngân sách nhà nước từ nguồn kinh phí chi thường xuyên
+> Văn bản: 32/2019/NĐ-CP - Nghị định 32/2019/NĐ-CP quy định về giao nhiệm vụ, đặt hàng hoặc đấu thầu cung cấp sản phẩm, dịch vụ...
+Lĩnh vực: Đầu tư, Tài chính nhà nước
+Điều khoản: Chương V > Điều 26 > Khoản 2, 3, 4.
+Nội dung:
+Điều 26
+[2. tiếp theo]
+b) Ban hành, sửa đổi, bổ sung định mức kinh tế - kỹ thuật, định mức chi phí (nếu có) áp dụng đối với sản phẩm, dịch vụ công làm cơ sở ban hành đơn giá, giá sản phẩm, dịch vụ công; tiêu chí, tiêu chuẩn chất lượng sản phẩm, dịch vụ công; cơ chế giám sát, đánh giá, kiểm định chất lượng và quy chế kiểm tra, nghiệm thu sản phẩm, dịch vụ công, thuộc phạm vi quản lý của địa phương;
+c) Ban hành đơn giá, giá sản phẩm, dịch vụ công; mức trợ giá sản phẩm, dịch vụ công ích, thuộc phạm vi quản lý của địa phương theo quy định của pháp luật về giá và quy định củ...
+
+#### 📄 150/2025/NĐ-CP — Nghị định 150/2025/NĐ-CP quy định tổ chức các cơ quan chuyên môn thuộc Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương và Ủy ban nhân dân xã, phường, đặc khu thuộc tỉnh, thành phố trực thuộc trung ương
+> Văn bản: 150/2025/NĐ-CP - Nghị định 150/2025/NĐ-CP quy định tổ chức các cơ quan chuyên môn thuộc Ủy ban nhân dân tỉnh, thành p...
+Lĩnh vực: Bộ máy hành chính
+Điều khoản: QUY ĐỊNH VỀ CƠ QUAN CHUYÊN MÔN THUỘC ỦY BAN NHÂN DÂN CẤP TỈNH > Điều 4 > Khoản 1, 2, 3, 4, 5, 6.
+Nội dung:
+Điều 4
+Nhiệm vụ và quyền hạn của sở
+1. Trình Ủy ban nhân dân cấp tỉnh:
+a) Dự thảo nghị quyết của Hội đồng nhân dân cấp tỉnh, dự thảo quyết định của Ủy ban nhân dân cấp tỉnh liên quan đến ngành, lĩnh vực thuộc phạm vi quản lý của sở và các văn bản khác theo phân công của Ủy ban nhân dân cấp tỉnh;
+b) Dự thảo kế hoạch phát triển ngành, lĩnh vực; chương trình, biện pháp tổ chức thực hiện các nhiệm vụ về ngành, lĩnh vực trên địa bàn cấp tỉnh trong phạm vi quản lý của sở;
+c) Dự thảo quyết định quy định cụ thể chức năng, nhi...
+
+#### 📄 111/2025/NĐ-CP — Nghị định 111/2025/NĐ-CP sửa đổi Nghị định 60/2021/NĐ-CP quy định về cơ chế tự chủ tài chính của đơn vị sự nghiệp công lập
+> Văn bản: 111/2025/NĐ-CP - Nghị định 111/2025/NĐ-CP sửa đổi Nghị định 60/2021/NĐ-CP quy định về cơ chế tự chủ tài chính của đơn...
+Lĩnh vực: Bộ máy hành chính, Tài chính nhà nước
+Điều khoản: Điều 3 > Khoản 1, 2, 3.
+Nội dung:
+Điều 3
+Hiệu lực thi hành và tổ chức thực hiện
+1. Nghị định này có hiệu lực thi hành từ ngày 07 tháng 7 năm 2025 và áp dụng kể từ năm ngân sách 2025.
+2. Sửa đổi nội dung điểm b khoản 2 Điều 26 Nghị định số 32/2019/NĐ-CP ngày 10 tháng 4 năm 2019 của Chính phủ quy định giao nhiệm vụ, đặt hàng hoặc đấu thầu cung cấp sản phẩm, dịch vụ công sử dụng ngân sách nhà nước từ nguồn kinh phí chi thường xuyên thành “b) Căn cứ định mức kinh tế - kỹ thuật, định mức chi phí (nếu có) của các lĩnh vực đã được các bộ, cơ quan trung ương ban hành để áp dụng làm cơ sở ban hành giá dịch vụ sự...
+
+#### 📄 96/2025/QĐ-UBND — Quyết định 96/2025/QĐ-UBND phân cấp quản lý về An toàn thực phẩm thuộc lĩnh vực Công Thương trên địa bàn tỉnh Điện Biên
+> Văn bản: 96/2025/QĐ-UBND - Quyết định 96/2025/QĐ-UBND phân cấp quản lý về An toàn thực phẩm thuộc lĩnh vực Công Thương trên địa...
+Lĩnh vực: Thể thao - Y tế
+Điều khoản: Phần Nơi nhận và Chữ ký
+Nội dung:
+Phần Nơi nhận và Chữ ký
+ỦY BAN NHÂN DÂN TỈNH ĐIỆN BIÊN  | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc
+Số: 96/2025/QĐ-UBND | Điện Biên, ngày 29 tháng 12 năm 2025
+QUYẾT ĐỊNH
+PHÂN CẤP QUẢN LÝ VỀ AN TOÀN THỰC PHẨM THUỘC LĨNH VỰC CÔNG THƯƠNG TRÊN ĐỊA BÀN TỈNH ĐIỆN BIÊN
+Căn cứ Luật Tổ chức chính quyền địa phương số 72/2025/QH15 ngày 16 tháng 6 năm 2025;
+Căn cứ Luật Ban hành văn bản quy phạm pháp luật số 64/2025/QH15 ngày 19 tháng 02 năm 2025 được sửa đổi, bổ sung bởi Luật số 87/2025/QH15 ngày 25 tháng 6 năm 2025;
+Căn cứ Luật An toàn thực phẩm số 55/2010/QH12 ngày 17 tháng 6 năm...
+
+
+---
+
+### 📊 Bảng Thống kê Văn bản
+
+#### 🏛️ Không rõ cơ quan
+
+| STT | Số hiệu | Tên văn bản | Loại | Ngày hiệu lực | Lĩnh vực |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| 1 | 117/2020/NĐ-CP | Nghị định 117/2020/NĐ-CP quy định về xử phạt vi phạm hành chính trong lĩnh vự... | N/A | N/A | — |
+| 2 | 32/2019/NĐ-CP | Nghị định 32/2019/NĐ-CP quy định về giao nhiệm vụ, đặt hàng hoặc đấu thầu cun... | N/A | N/A | — |
+| 3 | 150/2025/NĐ-CP | Nghị định 150/2025/NĐ-CP quy định tổ chức các cơ quan chuyên môn thuộc Ủy ban... | N/A | N/A | — |
+| 4 | 111/2025/NĐ-CP | Nghị định 111/2025/NĐ-CP sửa đổi Nghị định 60/2021/NĐ-CP quy định về cơ chế t... | N/A | N/A | — |
+| 5 | 96/2025/QĐ-UBND | Quyết định 96/2025/QĐ-UBND phân cấp quản lý về An toàn thực phẩm thuộc lĩnh v... | N/A | N/A | — |
+| 6 | 67/2020/QH14 | Luật Xử lý vi phạm hành chính sửa đổi 2020 | N/A | N/A | — |
+| 7 | 48/2013/NĐ-CP | Nghị định 48/2013/NĐ-CP sửa đổi Nghị định liên quan đến kiểm soát thủ tục hàn... | N/A | N/A | — |
+| 8 | 34/2023/NĐ-CP | Nghị định 34/2023/NĐ-CP sửa đổi Nghị định 112/2014/NĐ-CP về quản lý cửa khẩu ... | N/A | N/A | — |
+| 9 | 92/2017/NĐ-CP | Nghị định 92/2017/NĐ-CP về sửa đổi Nghị định liên quan đến kiểm soát thủ tục ... | N/A | N/A | — |
+| 10 | 1789/QĐ-TTPVHCC | Quyết định 1789/QĐ-TTPVHCC năm 2025 công bố Danh mục thủ tục hành chính mới; ... | N/A | N/A | — |
+
+> **Tổng cộng:** 10 văn bản | Phân bố: N/A: 10
+--------------------------------------------------
+
+--- FAILED: doc2_conv_002_legal_prep | Turn 2 (Role: Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới) ---
+Query: Đơn vị nào chịu trách nhiệm thiết kế, điện tử hóa mẫu đơn tờ khai lên hệ thống?
+Intent: LEGAL_QA (Expected) vs LEGAL_QA (Actual)
+Rewrite: Theo Quyết định 96/2025/QĐ-UBND phân cấp quản lý về An toàn thực phẩm thuộc lĩnh vực Công Thương trên địa bàn tỉnh Điện Biên, đơn vị nào chịu trách nhiệm thiết kế và điện tử hóa mẫu đơn tờ khai lên hệ thống?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất bằng cách báo "không tìm thấy" thông tin trong khi câu trả lời mẫu đã cung cấp rõ ràng đơn vị chịu trách nhiệm và trích dẫn văn bản cụ thể.
+Answer: Căn cứ Quyết định số 96/2025/QĐ-UBND ngày 29 tháng 12 năm 2025 của Ủy ban nhân dân tỉnh Điện Biên về phân cấp quản lý về An toàn thực phẩm thuộc lĩnh vực Công Thương trên địa bàn tỉnh Điện Biên, **văn bản này không quy định cụ thể** về đơn vị chịu trách nhiệm "thiết kế và điện tử hóa mẫu đơn tờ khai lên hệ thống".
+
+Theo quy định tại **Điều 5 (Tổ chức thực hiện)** của Quyết định này, trách nhiệm liên quan đến thông tin điện tử được phân công như sau:
+*   **Sở Công Thương** có trách nhiệm: "Tiếp nhận, lưu trữ hồ sơ bản tự công bố sản phẩm và **đăng tải tên tổ chức, cá nhân và tên các sản phẩm tự công bố trên trang thông tin điện tử của cơ quan** đối với các cơ sở quy định tại khoản 1 Điều 6 Thông tư số 43/2018/TT-BCT được sửa đổi, bổ sung bởi khoản 1 Điều 16 Thông tư số 38/2025/TT-BCT" (Điểm đ Khoản 1 Điều 5).
+*   **Ủy ban nhân dân các xã, phường** có trách nhiệm: "Thực hiện tiếp nhận, lưu trữ hồ sơ bản tự công bố sản phẩm và **đăng tải tên tổ chức, cá nhân và tên các sản phẩm tự công bố trên trang thông tin điện tử của cơ quan** đối với các sản phẩm các cơ sở sản xuất, kinh doanh thực phẩm trên địa bàn theo quy định tại Điều 3 Quyết định này" (Điểm e Khoản 2 Điều 5).
+
+*Lưu ý: Quy định về việc Sở Khoa học và Công nghệ chịu trách nhiệm cấu hình, cập nhật thủ tục hành chính trên Hệ thống thông tin giải quyết thủ tục hành chính thường thấy trong các quyết định của các tỉnh khác (ví dụ: Quyết định 3281/QĐ-UBND của tỉnh Đồng Nai), nhưng không xuất hiện trong nội dung của Quyết định 96/2025/QĐ-UBND của tỉnh Điện Biên.*
+--------------------------------------------------
+
+--- FAILED: doc2_conv_002_legal_prep | Turn 3 (Role: Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới) ---
+Query: Trong quy trình mới, hệ thống tự động điền thông tin người dân bằng cách nào?
+Intent: LEGAL_QA (Expected) vs LEGAL_QA (Actual)
+Rewrite: Trong quy trình phân cấp quản lý về An toàn thực phẩm thuộc lĩnh vực Công Thương theo Quyết định số 96/2025/QĐ-UBND, hệ thống tự động điền thông tin người dân bằng cách nào?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất và báo 'không tìm thấy' thông tin khi câu trả lời mẫu đã cung cấp rõ ràng cơ chế tự động điền thông tin qua VNeID, đồng thời RAG dẫn chứng sai văn bản pháp lý không liên quan đến nội dung câu hỏi.
+Answer: Căn cứ nội dung của **Quyết định số 96/2025/QĐ-UBND** ngày 29 tháng 12 năm 2025 của Ủy ban nhân dân tỉnh Điện Biên về phân cấp quản lý về An toàn thực phẩm thuộc lĩnh vực Công Thương, **văn bản này không quy định** về việc hệ thống tự động điền thông tin người dân.
+
+Quyết định 96/2025/QĐ-UBND chủ yếu quy định về:
+*   Phạm vi điều chỉnh và đối tượng áp dụng (Điều 1, Điều 2).
+*   Phân cấp nhiệm vụ trong việc cấp, cấp lại, thu hồi Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm (Điều 3).
+*   Tiếp nhận Bản cam kết bảo đảm an toàn thực phẩm và bản sao Giấy chứng nhận (Điều 4).
+*   Trách nhiệm tổ chức thực hiện của Sở Công Thương và Ủy ban nhân dân các xã, phường, bao gồm việc tiếp nhận, lưu trữ hồ sơ và đăng tải thông tin lên trang thông tin điện tử của cơ quan (Điều 5).
+
+*Lưu ý: Quy định về việc hệ thống tự động điền thông tin (ví dụ: từ Cơ sở dữ liệu quốc gia về dân cư) thường được quy định trong các văn bản hướng dẫn thi hành thủ tục hành chính trên môi trường điện tử chung như **Nghị định 45/2020/NĐ-CP** (tại Điều 16) hoặc các nghị định chuyên ngành khác (như Nghị định 188/2025/NĐ-CP về BHYT), nhưng không xuất hiện trong nội dung của Quyết định 96/2025/QĐ-UBND.*
+--------------------------------------------------
+
+--- FAILED: doc2_conv_002_legal_prep | Turn 4 (Role: Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới) ---
+Query: Việc giao Sở Khoa học và Công nghệ chủ trì kết nối dữ liệu có chồng chéo thẩm quyền với Sở Thông tin và Truyền thông không?
+Intent: CONFLICT_ANALYZER (Expected) vs CONFLICT_ANALYZER (Actual)
+Rewrite: Việc giao Sở Khoa học và Công nghệ chủ trì kết nối dữ liệu theo Quyết định số 96/2025/QĐ-UBND có chồng chéo thẩm quyền với Sở Thông tin và Truyền thông không?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất vấn đề, không xác định được quyết định cụ thể (QĐ 1835) quy định Sở KH&CN chủ trì để khẳng định không có chồng chéo, mà lại đưa ra phân tích chung chung về Nghị định 42 và phán quyết "Contradiction" cho một mệnh đề không liên quan trực tiếp đến câu hỏi.
+Answer: ### 💡 Kết Luận Phân Tích
+
+**❌ Mệnh đề:** Theo Luật Tổ chức chính quyền địa phương và các quy định về phân công nhiệm vụ, Sở Thông tin và Truyền thông thường chịu trách nhiệm chính về hạ tầng kỹ thuật và kết nối dữ liệu quốc gia.
+
+**Phán quyết:** Contradiction
+
+Mệnh đề khẳng định Sở Thông tin và Truyền thông chịu trách nhiệm chính về 'kết nối dữ liệu quốc gia' là sai lệch so với quy định tại Nghị định 42/2022/NĐ-CP. Theo Điều 27 và Điều 28 của Nghị định này, trách nhiệm xây dựng nền tảng, công cụ kỹ thuật và vận hành Cổng dịch vụ công quốc gia (liên quan trực tiếp đến kết nối dữ liệu quốc gia) thuộc về Bộ Thông tin và Truyền thông và Văn phòng Chính phủ. Sở Thông tin và Truyền thông cấp tỉnh chỉ có trách nhiệm triển khai, hỗ trợ và quản lý hạ tầng tại địa phương, không phải là đơn vị chịu trách nhiệm chính cho hạ tầng/kết nối dữ liệu ở cấp độ quốc gia. Ngoài ra, Quyết định 96/2025/QĐ-UBND không quy định nội dung này.
+
+📌 *Căn cứ: Nghị định 42/2022/NĐ-CP - Điều 27, Điều 28*
+
+---
+
+### 📊 Bảng Tổng Hợp Kết Quả
+
+| STT | Mệnh đề (Claim) | Phán quyết | Căn cứ | Tóm tắt |
+| :---: | :--- | :---: | :--- | :--- |
+| 1 | Theo Luật Tổ chức chính quyền địa phương và các quy định về phân công nhiệm vụ, Sở Thông tin và Truyền thông thường chịu trách nhiệm chính về hạ tầng kỹ thuật và kết nối dữ liệu quốc gia. | ❌ **Contradiction** | Nghị định 42/2022/NĐ-CP - Điều 27, Điều 28 | Mệnh đề khẳng định Sở Thông tin và Truyền thông chịu trách nhiệm chính về 'kết nối dữ liệu quốc gia' là sai lệch so với quy định tại Nghị định 42/2022/NĐ-CP. Theo Điều 27 và Điều 28 của Nghị định này,... |
+
+--------------------------------------------------
+
+--- FAILED: doc2_conv_002_legal_prep | Turn 5 (Role: Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới) ---
+Query: Mã định danh của thủ tục hành chính này trên hệ thống là gì?
+Intent: LEGAL_QA (Expected) vs LEGAL_QA (Actual)
+Rewrite: Mã định danh của các thủ tục hành chính về An toàn thực phẩm được quy định tại Quyết định số 96/2025/QĐ-UBND trên hệ thống là gì?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi khẳng định văn bản không quy định mã định danh, trong khi câu trả lời mẫu đã cung cấp rõ mã cụ thể (1.013858.H26) và trích dẫn nguồn chính xác.
+Answer: Căn cứ nội dung của **Quyết định số 96/2025/QĐ-UBND** ngày 29 tháng 12 năm 2025 của Ủy ban nhân dân tỉnh Điện Biên về phân cấp quản lý về An toàn thực phẩm thuộc lĩnh vực Công Thương, **văn bản này không quy định** về mã định danh của các thủ tục hành chính.
+
+Nội dung của Quyết định 96/2025/QĐ-UBND chủ yếu tập trung vào:
+*   Phạm vi điều chỉnh và đối tượng áp dụng (Điều 1, Điều 2).
+*   Phân cấp nhiệm vụ trong việc cấp, cấp lại, thu hồi Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm (Điều 3).
+*   Tiếp nhận Bản cam kết bảo đảm an toàn thực phẩm và bản sao Giấy chứng nhận (Điều 4).
+*   Trách nhiệm tổ chức thực hiện của Sở Công Thương và Ủy ban nhân dân các xã, phường (Điều 5).
+
+*Lưu ý: Trong ngữ cảnh tài liệu được cung cấp, các mã định danh thủ tục hành chính (ví dụ: Mã TTHC 2.000591, 2.000535) xuất hiện trong **Quyết định số 3281/QĐ-UBND** của tỉnh **Đồng Nai**, không phải trong Quyết định 96/2025/QĐ-UBND của tỉnh Điện Biên.*
+--------------------------------------------------
+
+--- FAILED: doc2_conv_002_legal_prep | Turn 6 (Role: Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới) ---
+Query: Việc triển khai phương án tái cấu trúc này giúp tiết kiệm được bao nhiêu phần trăm chi phí?
+Intent: LEGAL_QA (Expected) vs LEGAL_QA (Actual)
+Rewrite: Việc triển khai phương án tái cấu trúc theo Quyết định số 96/2025/QĐ-UBND giúp tiết kiệm được bao nhiêu phần trăm chi phí?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất bằng cách báo 'không tìm thấy' thông tin trong khi câu trả lời mẫu đã cung cấp rõ ràng con số tiết kiệm 24,61% và trích dẫn nguồn chính xác.
+Answer: Căn cứ nội dung của **Quyết định số 96/2025/QĐ-UBND** ngày 29 tháng 12 năm 2025 của Ủy ban nhân dân tỉnh Điện Biên về phân cấp quản lý về An toàn thực phẩm thuộc lĩnh vực Công Thương, **văn bản này không quy định** về phương án tái cấu trúc hay mức độ tiết kiệm chi phí (phần trăm) khi triển khai.
+
+Nội dung của Quyết định 96/2025/QĐ-UBND chủ yếu tập trung vào:
+*   Phạm vi điều chỉnh và đối tượng áp dụng (Điều 1, Điều 2).
+*   Phân cấp nhiệm vụ trong việc cấp, cấp lại, thu hồi Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm (Điều 3).
+*   Tiếp nhận Bản cam kết bảo đảm an toàn thực phẩm và bản sao Giấy chứng nhận (Điều 4).
+*   Trách nhiệm tổ chức thực hiện của Sở Công Thương và Ủy ban nhân dân các xã, phường (Điều 5).
+
+*Lưu ý: Các thông tin về hiệu quả kinh tế, tái cấu trúc hay tiết kiệm chi phí thường không nằm trong các văn bản quy định về phân cấp quản lý nhà nước cụ thể như Quyết định này, mà có thể được đề cập trong các báo cáo đánh giá tác động hoặc văn bản chỉ đạo riêng khác.*
+--------------------------------------------------
+
+--- FAILED: doc2_conv_002_legal_prep | Turn 7 (Role: Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới) ---
+Query: Tổng hợp các Nghị quyết của Chính phủ về chuyển đổi số liên thông, cắt giảm thủ tục dựa trên dữ liệu năm 2025.
+Intent: SECTOR_SEARCH (Expected) vs SECTOR_SEARCH (Actual)
+Rewrite: Tổng hợp các Nghị quyết của Chính phủ về chuyển đổi số liên thông và cắt giảm thủ tục hành chính được ban hành hoặc có hiệu lực trong năm 2025.
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất khi báo "không tìm thấy" văn bản Nghị quyết của Chính phủ năm 2025, trong khi câu trả lời mẫu đã cung cấp rõ ràng các số hiệu văn bản trọng tâm (Nghị quyết 66.7/2025/NQ-CP và Kế hoạch 02-KH/BCĐTW).
+Answer: ### 📝 Tóm tắt Tổng quan (Executive Summary)
+
+Dựa trên dữ liệu hệ thống, không có tài liệu đính kèm nào được cung cấp. Trong tổng số 15 văn bản pháp lý được trích xuất, không tìm thấy văn bản nào thuộc loại **Nghị quyết của Chính phủ** ban hành hoặc có hiệu lực trong năm 2025 liên quan trực tiếp đến chuyển đổi số và cắt giảm thủ tục hành chính. Danh sách chủ yếu bao gồm Nghị định, Quyết định của Bộ ngành và UBND địa phương, cùng một số Thông tư. Các quy định tham khảo gần nhất tập trung vào Nghị định 147/2025/NĐ-CP về phân định thẩm quyền, Nghị định 63/2024/NĐ-CP về liên thông điện tử, và các Quyết định năm 2025 công bố danh mục thủ tục hành chính mới hoặc bị bãi bỏ tại các bộ ngành như Y tế và địa phương.
+
+---
+
+### 📝 Nội dung liên quan
+
+#### 📄 01/2023/TT-VPCP — Thông tư 01/2023/TT-VPCP quy định nội dung và biện pháp thi hành trong số hóa hồ sơ, kết quả giải quyết thủ tục hành chính và thực hiện thủ tục hành chính trên môi trường điện tử do Văn phòng Chính phủ ban hành
+> Văn bản: 01/2023/TT-VPCP - Thông tư 01/2023/TT-VPCP quy định nội dung và biện pháp thi hành trong số hóa hồ sơ, kết quả giải qu...
+Lĩnh vực: Công nghệ thông tin, Bộ máy hành chính
+Điều khoản: QUY ĐỊNH MỘT SỐ NỘI DUNG VÀ BIỆN PHÁP THI HÀNH TRONG SỐ HÓA HỒ SƠ, KẾT QUẢ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH VÀ THỰC HIỆN THỦ TỤC HÀNH CHÍNH TRÊN MÔI TRƯỜNG ĐIỆN TỬ
+Nội dung:
+Căn cứ Nghị định số 79/2022/NĐ-CP ngày 06 tháng 10 năm 2022 của Chính phủ quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Văn phòng Chính phủ;
+Căn cứ Nghị định số 63/2010/NĐ-CP ngày 08 tháng 6 năm 2010 của Chính phủ về kiểm soát thủ tục hành chính; Nghị định số 92/2017/NĐ-CP ngày 07 tháng 8 năm 2017 của Chính phủ sửa đổi, bổ sung một số điều của các Nghị định liên quan đến kiểm soát thủ tục hành chính;
+Căn cứ Nghị định...
+
+#### 📄 92/2017/NĐ-CP — Nghị định 92/2017/NĐ-CP về sửa đổi Nghị định liên quan đến kiểm soát thủ tục hành chính
+> Văn bản: 92/2017/NĐ-CP - Nghị định 92/2017/NĐ-CP về sửa đổi Nghị định liên quan đến kiểm soát thủ tục hành chính
+Lĩnh vực: Bộ máy hành chính
+Điều khoản: Điều 1 > Khoản 5, 1, 6.
+Nội dung:
+Điều 1
+5. Sửa đổi khoản 1 Điều 15 (đã được sửa đổi, bổ sung tại khoản 5 Điều 1 Nghị định số 48/2013/NĐ-CP ngày 14 tháng 5 năm 2013 của Chính phủ sửa đổi, bổ sung một số điều của các nghị định liên quan đến kiểm soát thủ tục hành chính):
+“Điều 15. Quyết định công bố thủ tục hành chính
+Quyết định công bố thủ tục hành chính của các cơ quan quy định tại khoản 1 Điều 13 của Nghị định này phải được ban hành chậm nhất trước 20 ngày tính đến ngày văn bản quy phạm pháp luật có quy định về thủ tục hành chính có hiệu lực thi hành.
+Quyết định công bố thủ tục hành chính của các cơ quan quy định tại các khoản 2 và 3 Điề...
+
+#### 📄 954/QĐ-TTPVHCC — Quyết định 954/QĐ-TTPVHCC năm 2025 công bố Danh mục thủ tục hành chính, thủ tục hành chính bị bãi bỏ theo quy định về phân quyền, phân cấp, phân định thẩm quyền thuộc phạm vi chức năng quản lý nhà nước của Sở Y tế thành phố Hà Nội do Trung tâm Phục vụ hành chính công thành phố Hà Nội ban hành
+> Văn bản: 954/QĐ-TTPVHCC - Quyết định 954/QĐ-TTPVHCC năm 2025 công bố Danh mục thủ tục hành chính, thủ tục hành chính bị bãi bỏ...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Điều 3
+Nội dung:
+Điều 3
+Quyết định này có hiệu lực kể từ ngày 01/7/2025.
+Các thủ hành chính sau hết hiệu lực thi hành:
+- Từ số 01 đến số 05, từ số 09 đến số 12, từ số 14 đến số 16, từ số 22 đến số 27, số 29, từ số 43 đến số 48, từ số 68 đến số 69, từ số 71 đến số 73, số 75, từ số 79 đến số 80, số 88, từ số 103 đến số 106, từ số 108 đến số 116 tại Phụ lục kèm theo Quyết định số 95/QĐ-TTPVHCC ngày 14/02/2025 của Giám đốc Trung tâm Phục vụ hành chính công thành phố Hà Nội.
+- Từ số 01 đến số 06, từ số 08 đến số 11, từ số 17 đến số 18, từ số 20 đến số 30, từ số 34 đến số 39 tại Phụ lục kèm theo Quyết định số 62...
+
+#### 📄 2076/QĐ-BYT — Quyết định 2076/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ trong lĩnh vực An toàn thực phẩm quy định tại Nghị định 148/2025/NĐ-CP thuộc thẩm quyền quản lý của Bộ Y tế
+> Văn bản: 2076/QĐ-BYT - Quyết định 2076/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ trong lĩnh vực An toàn t...
+Lĩnh vực: Bộ máy hành chính, Thể thao - Y tế
+Điều khoản: Điều 2 > Dữ liệu Bảng biểu
+Nội dung:
+| Cách thức thực hiện | |
+| | Trực tiếp, trực tuyến, hoặc bưu chính công ích |
+|||
+| Thành phần, số lượng hồ sơ | |
+| | I. Thành phần hồ sơ bao gồm: 1. Công văn đề nghị miễn kiểm tra; 2. Biên bản giám sát của cơ quan công nhận hợp chuẩn Tiêu chuẩn quốc gia TCVN ISO/IEC 17025 hoặc Tiêu chuẩn quốc tế ISO/IEC 17025 (trong vòng mười hai (12) tháng kể từ ngày nộp hồ sơ); 3. Báo cáo kết quả hoạt động trong vòng mười hai (12) tháng kể từ ngày nộp hồ sơ, trong đó nêu rõ kết quả tự đánh giá năng lực phân tích của cơ sở kiểm nghiệm so với quy định có liên quan của Bộ quản lý ngành....
+
+#### 📄 45/2020/NĐ-CP — Nghị định 45/2020/NĐ-CP về thực hiện thủ tục hành chính trên môi trường điện tử
+> Văn bản: 45/2020/NĐ-CP - Nghị định 45/2020/NĐ-CP về thực hiện thủ tục hành chính trên môi trường điện tử
+Lĩnh vực: Công nghệ thông tin, Bộ máy hành chính
+Điều khoản: Chương III > Điều 25 > Khoản 1, 2, 3, 4.
+Nội dung:
+Điều 25
+Số hóa kết quả giải quyết thủ tục hành chính
+1. Đối với kết quả giải quyết thủ tục hành chính đang được cơ quan có thẩm quyền quản lý, lưu trữ bằng văn bản giấy, Bộ trưởng, Thủ trưởng cơ quan ngang bộ, Tổng Giám đốc Bảo hiểm xã hội Việt Nam, Chủ tịch Ủy ban nhân dân cấp tỉnh chỉ đạo việc số hóa kết quả giải quyết thủ tục hành chính và lưu thông tin, dữ liệu tại các hệ thống thông tin, cơ sở dữ liệu liên quan theo thẩm quyền quản lý.
+2. Phương thức số hóa kết quả giải quyết thủ tục hành chính từ giấy sang điện tử bao gồm:
+a) Kết quả giải quyết thủ tục hành chính từ giấy...
+
+
+---
+
+### 📊 Bảng Thống kê Văn bản
+
+#### 🏛️ Không rõ cơ quan
+
+| STT | Số hiệu | Tên văn bản | Loại | Ngày hiệu lực | Lĩnh vực |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| 1 | 01/2023/TT-VPCP | Thông tư 01/2023/TT-VPCP quy định nội dung và biện pháp thi hành trong số hóa... | N/A | N/A | — |
+| 2 | 92/2017/NĐ-CP | Nghị định 92/2017/NĐ-CP về sửa đổi Nghị định liên quan đến kiểm soát thủ tục ... | N/A | N/A | — |
+| 3 | 954/QĐ-TTPVHCC | Quyết định 954/QĐ-TTPVHCC năm 2025 công bố Danh mục thủ tục hành chính, thủ t... | N/A | N/A | — |
+| 4 | 2076/QĐ-BYT | Quyết định 2076/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ t... | N/A | N/A | — |
+| 5 | 45/2020/NĐ-CP | Nghị định 45/2020/NĐ-CP về thực hiện thủ tục hành chính trên môi trường điện tử | N/A | N/A | — |
+| 6 | 87/2025/QH15 | Luật ban hành văn bản quy phạm pháp luật sửa đổi 2025 | N/A | N/A | — |
+| 7 | 608/QĐ-UBND | Quyết định 608/QĐ-UBND năm 2025 phê duyệt Đề án phát triển hệ thống cấp cứu y... | N/A | N/A | — |
+| 8 | 2237/QĐ-BYT | Quyết định 2237/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ l... | N/A | N/A | — |
+| 9 | 147/2025/NĐ-CP | Nghị định 147/2025/NĐ-CP quy định về phân định thẩm quyền của chính quyền địa... | N/A | N/A | — |
+| 10 | 63/2024/NĐ-CP | Nghị định 63/2024/NĐ-CP quy định việc thực hiện liên thông điện tử 02 nhóm th... | N/A | N/A | — |
+| 11 | 4051/QĐ-BYT | Quyết định 4051/QĐ-BYT năm 2025 phê duyệt phương án tái cấu trúc thủ tục hành... | N/A | N/A | — |
+| 12 | 3344/QĐ-UBND | Quyết định 3344/QĐ-UBND năm 2025 về Chương trình nghiên cứu, ứng dụng khoa họ... | N/A | N/A | — |
+| 13 | 2342/QĐ-UBND | Quyết định 2342/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chính và phê d... | N/A | N/A | — |
+| 14 | 2341/QĐ-UBND | Quyết định 2341/QĐ-UBND năm 2025 công bố Danh mục thủ tục hành chính và phê d... | N/A | N/A | — |
+| 15 | 2708/QĐ-UBND | Quyết định 2708/QĐ-UBND năm 2025 công bố danh mục thủ tục hành mới, bị bãi bỏ... | N/A | N/A | — |
+
+> **Tổng cộng:** 15 văn bản | Phân bố: N/A: 15
+--------------------------------------------------
+
+--- FAILED: doc2_conv_002_legal_prep | Turn 8 (Role: Chuyên viên hành chính Trung tâm PVHCC chuẩn bị triển khai quy trình mới) ---
+Query: Nếu Sở Y tế bắt người dân mang hồ sơ giấy lên nộp đối chiếu sau khi nộp online thì có vi phạm quyết định này không?
+Intent: CONFLICT_ANALYZER (Expected) vs LEGAL_QA (Actual)
+Rewrite: Việc Sở Y tế yêu cầu người dân mang hồ sơ giấy lên nộp đối chiếu sau khi đã nộp hồ sơ trực tuyến có vi phạm quy định tại Quyết định 2076/QĐ-BYT năm 2025 công bố thủ tục hành chính mới và bị bãi bỏ trong lĩnh vực An toàn thực phẩm không?
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất và dẫn sai hoàn toàn số hiệu văn bản cốt lõi (dùng 2076/QĐ-BYT thay vì 1835/QĐ-TTPVHCC), đồng thời báo không tìm thấy thông tin khi mẫu có câu trả lời rõ ràng.
+Answer: Căn cứ nội dung của **Quyết định số 2076/QĐ-BYT** năm 2025 của Bộ Y tế về việc công bố thủ tục hành chính mới và bị bãi bỏ trong lĩnh vực An toàn thực phẩm, **văn bản này không quy định cụ thể** về việc cấm hay cho phép cơ quan chức năng yêu cầu người dân mang hồ sơ giấy lên nộp đối chiếu sau khi đã nộp hồ sơ trực tuyến.
+
+Nội dung của Quyết định 2076/QĐ-BYT chủ yếu tập trung vào:
+*   Công bố danh mục 12 thủ tục hành chính mới ban hành và 16 thủ tục hành chính bị bãi bỏ (Điều 1).
+*   Quy định **cách thức thực hiện** các thủ tục hành chính là: **Trực tiếp, trực tuyến, hoặc bưu chính công ích** (theo bảng dữ liệu tại Điều 2).
+*   Quy định thành phần, số lượng hồ sơ, thời hạn giải quyết, cơ quan thực hiện và lệ phí cho từng thủ tục cụ thể (ví dụ: Cấp giấy chứng nhận đối với thực phẩm xuất khẩu).
+
+Do Quyết định 2076/QĐ-BYT không chứa các điều khoản quy định chi tiết về quy trình kiểm tra, đối chiếu hồ sơ giữa bản điện tử và bản giấy sau khi nộp trực tuyến, nên **không thể xác định** hành vi yêu cầu đối chiếu hồ sơ giấy là vi phạm quyết định này dựa trên dữ liệu được cung cấp. Việc đánh giá tính hợp pháp của hành vi này thường dựa trên các văn bản quy định chung về thủ tục hành chính trên môi trường điện tử (như Nghị định 45/2020/NĐ-CP hoặc Thông tư 01/2023/TT-VPCP) chứ không nằm trong phạm vi điều chỉnh chi tiết của Quyết định công bố danh mục TTHC này.
+--------------------------------------------------
 

@@ -1,0 +1,115 @@
+============================================================
+PIPELINE STATISTICS
+============================================================
+
+============================================================
+PHASE 1: Chunking ORIGINAL documents
+============================================================
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Thể thao - Y tế: 2 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - BASED_ON: 10 relations
+   - GUIDES: 4 relations
+   - AMENDS: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Tổng quan hệ thường (chủ động):     15
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+============================================================
+
+============================================================
+PHASE 2: Chunking REFERENCE documents (exist in dataset)
+============================================================
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Thể thao - Y tế: 6 văn bản
+   - Tài chính nhà nước: 5 văn bản
+   - Văn hóa - Xã hội: 4 văn bản
+   - Bộ máy hành chính: 2 văn bản
+   - Tài nguyên - Môi trường: 1 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - BASED_ON: 43 relations
+   - GUIDES: 14 relations
+   - AMENDS: 12 relations
+   - APPLIES: 6 relations
+   - REPLACES: 3 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Tổng quan hệ thường (chủ động):     78
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+============================================================
+
+============================================================
+PHASE 3: Chunking REFERENCE documents (Depth=2)
+============================================================
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Bộ máy hành chính: 11 văn bản
+   - Tài chính nhà nước: 10 văn bản
+   - Thể thao - Y tế: 9 văn bản
+   - Văn hóa - Xã hội: 9 văn bản
+   - Thương mại: 5 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - BASED_ON: 109 relations
+   - AMENDS: 63 relations
+   - GUIDES: 46 relations
+   - APPLIES: 19 relations
+   - REPEALS: 14 relations
+   - REPLACES: 10 relations
+   - ASSIGNS: 9 relations
+   - ISSUED_WITH: 5 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Tổng quan hệ thường (chủ động):     275
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+============================================================
+Run timestamp       : 2026-04-27 13:02:38
+Original docs       : 2
+Reference docs      : 10
+Ghost nodes         : 142
+Total chunks        : 1803
+Total relations     : 275
+Qdrant collection   : legal_hybrid_rag_docs_8K
+
+Edge label breakdown:
+  BASED_ON       : 109
+  AMENDS         : 63
+  GUIDES         : 46
+  APPLIES        : 19
+  REPEALS        : 14
+  REPLACES       : 10
+  ASSIGNS        : 9
+  ISSUED_WITH    : 5
+
+============================================================
+QUERY BENCHMARK
+============================================================
+Benchmark run: 2026-04-27 13:02:39
+Collection   : legal_hybrid_rag_docs_8K
+
+Scenario                                              Time(ms)   Hits  Status
+--------------------------------------------------------------------------------
+Dense search (top-5)                                     117.5      5  OK
+Sparse (BM25) search (top-5)                              62.7      5  OK
+Hybrid search RRF (top-5)                                 58.7      5  OK
+Filter: legal_type='Luật' (top-5)                         43.3      5  OK
+Filter: year='2015' (top-5)                               46.0      5  OK
+Scroll filter: is_table=True (limit=10)                   49.7     10  OK
+Count total Document nodes                                38.1      1  OK
+Count total relationships                                 12.9      1  OK
+Count ghost nodes (is_ghost=true)                         29.3      1  OK
+Find doc by number '80/2015/QH13'                         31.8      1  OK
+Get all relations of doc '80/2015/QH13'                   30.2      8  OK
+Find REPEALS edges (limit 10)                             20.9     10  OK
+Find GUIDES edges (limit 10)                              16.5     10  OK
+Shortest path (2 hops) between any 2 docs                 54.9      1  OK
+Count edges grouped by relation type                      33.5     14  OK
+--------------------------------------------------------------------------------
+Total: 15 | OK: 15 | ERR: 0 | Avg: 43.1ms

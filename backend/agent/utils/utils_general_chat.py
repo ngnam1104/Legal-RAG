@@ -1,6 +1,7 @@
 import time
 from typing import List, Dict, Any
 from backend.llm.factory import chat_completion
+from backend.config import settings
 
 # --- PROMPT ---
 GENERAL_SYSTEM_PROMPT = """
@@ -29,8 +30,8 @@ def execute_general_chat(query: str, history: List[Dict[str, str]] = None, file_
             messages.append({"role": msg["role"], "content": msg["content"]})
             
     messages.append({"role": "user", "content": f"QUERY =\n{query}"})
-    from backend.config import settings
-    return chat_completion(messages, temperature=0.1, model=settings.LLM_CORE_MODEL, llm_preset=llm_preset)
+    raw = chat_completion(messages, temperature=0.7, model=settings.LLM_CORE_MODEL, llm_preset=llm_preset)
+    return raw if raw else ""
 
 # --- COMPATIBILITY CLASS ---
 
@@ -43,7 +44,9 @@ class GeneralChatFlow:
     def execute(self, query: str) -> str:
         print(f"    → [General Chat] Gọi LLM trực tiếp (không RAG)...")
         t0 = time.perf_counter()
-        answer = execute_general_chat(query)
+        raw_answer = execute_general_chat(query)
+        from backend.utils.text_utils import extract_thinking_and_answer
+        _, answer = extract_thinking_and_answer(raw_answer)
         print(f"    → [General Chat] ✅ LLM trả lời ({time.perf_counter()-t0:.1f}s)")
         return answer
 

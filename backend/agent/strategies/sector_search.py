@@ -5,6 +5,7 @@ from backend.agent.state import AgentState
 from backend.agent.strategies.base import BaseRAGStrategy
 from backend.agent.utils.utils_sector_search import (
     deduplicate_by_document,
+    group_by_document,
     _heuristic_date_filter,
     map_reduce_aggregate,
     generate_executive_summary
@@ -67,7 +68,11 @@ class SectorSearchStrategy(BaseRAGStrategy):
         }
 
     def retrieve(self, state: AgentState) -> Dict[str, Any]:
-        """Hierarchical Search: Sector -> Title Groups (Neo4j) -> TOC Drill-down -> Targeted Vector Search."""
+        """Truy xuất tài liệu từ Qdrant theo 3 class Sector Search."""
+        from backend.retrieval.hybrid_search import retriever
+        from backend.agent.utils.sub_timer import SubTimer
+        timer = SubTimer("Retrieve")
+        
         rewritten_queries = state.get("rewritten_queries") or [state.get("condensed_query") or state["query"]]
         query = state.get("condensed_query") or state["query"]
         kw = rewritten_queries[0]
@@ -77,59 +82,62 @@ class SectorSearchStrategy(BaseRAGStrategy):
         llm_preset = state.get("llm_preset")
         
         all_hierarchical_hits = []
-        doc_ids_searched = set()
         
-        if sectors:
-            from backend.retrieval.graph_db import find_docs_in_sector_by_title
-            from backend.agent.utils.utils_sector_search import drill_down_toc_with_llm
-            
-            for sector_name in sectors[:2]:
-                candidate_docs = find_docs_in_sector_by_title(sector_name, kw)
-                if not candidate_docs:
-                    continue
+        # ====== BLOCK 1: UPLOAD PRIORITY ======
+        session_id = state.get("session_id")
+        if session_id and state.get("file_chunks"):
+            with timer.step("Session_Search"):
+                session_hits, source = retriever.search_by_session(
+                    session_id=session_id,
+                    query=kw,
+                    top_k=settings.MAX_RETRIEVAL_HITS,
+                    use_rerank=use_rerank
+                )
+            if session_hits:
+                all_hierarchical_hits = session_hits
+                print(f"       🔍 [Retrieve-Sector] Using {len(all_hierarchical_hits)} hits from upload session.")
                 
-                for doc in candidate_docs[:3]:
-                    doc_id = doc['id']
-                    if doc_id in doc_ids_searched: continue
-                    doc_ids_searched.add(doc_id)
+        # ====== BLOCK 2: 3 SPECIALIZED RETRIEVAL FUNCTIONS ======
+        if not all_hierarchical_hits:
+            from backend.agent.utils.utils_sector_search import (
+                retrieve_by_sector,
+                retrieve_by_topic_hybrid,
+                retrieve_by_article_clause
+            )
+            
+            mode = state.get("sector_search_class")
+            if not mode:
+                # Heuristic fallback
+                if sectors and len(kw.split()) < 4:
+                    mode = "sector"
+                elif "điều" in kw.lower() or "khoản" in kw.lower():
+                    mode = "article"
+                else:
+                    mode = "topic"
                     
-                    doc_title = doc['title']
-                    doc_num = doc['document_number']
-                    doc_toc = doc.get('document_toc', '')
-                    
-                    article_coords = drill_down_toc_with_llm(query, doc_title, doc_toc, llm_preset=llm_preset)
-                    
-                    if article_coords:
-                        for coord in article_coords[:2]:
-                            targeted_hits = retriever.search(
-                                query=kw,
-                                doc_number=doc_num,
-                                article_ref=coord,
-                                expand_context=False,
-                                limit=5
-                            )
-                            all_hierarchical_hits.extend(targeted_hits)
-                    else:
-                        doc_hits = retriever.search(
-                            query=kw,
-                            doc_number=doc_num,
-                            expand_context=False,
-                            limit=settings.MAX_RETRIEVAL_HITS // 2
-                        )
-                        all_hierarchical_hits.extend(doc_hits)
-
-        broad_hits = retriever.search(
-            query=kw,
-            expand_context=True,
-            use_rerank=use_rerank,
-            legal_type=filters.get("legal_type"),
-            doc_number=filters.get("doc_number"),
-            limit=settings.MAX_RETRIEVAL_HITS
-        )
+            print(f"       🔍 [Retrieve-Sector] Mode: {mode.upper()}")
+            
+            with timer.step("Qdrant_Search"):
+                if mode == "sector" and sectors:
+                    all_hierarchical_hits = retrieve_by_sector(sectors[0])
+                elif mode == "article":
+                    all_hierarchical_hits = retrieve_by_article_clause(kw, top_k=settings.MAX_RETRIEVAL_HITS)
+                else: # topic
+                    all_hierarchical_hits = retrieve_by_topic_hybrid(kw, top_k=settings.MAX_RETRIEVAL_HITS)
+                    if sectors:
+                        sector_hits = retrieve_by_sector(sectors[0])
+                        hits_ids = {h["id"] for h in all_hierarchical_hits}
+                        for sh in sector_hits[:5]:
+                            if sh["id"] not in hits_ids:
+                                sh["score"] = float(sh.get("score", 0.0)) * 0.8
+                                all_hierarchical_hits.append(sh)
+                                hits_ids.add(sh["id"])
+                            
+        broad_hits = []
         
         try:
-            from backend.retrieval.graph_db import search_docs_by_keyword
-            graph_keyword_hits = search_docs_by_keyword(query, limit=5)
+            from backend.retrieval.graph_db import search_docs_by_keyword, sector_based_on_reverse
+            graph_keyword_hits = search_docs_by_keyword(query, limit=8)
             for h in graph_keyword_hits:
                 payload = getattr(h, "payload", {}) or {}
                 fake_hit = {
@@ -163,8 +171,8 @@ class SectorSearchStrategy(BaseRAGStrategy):
                 if "căn cứ" in query_lower or "dựa trên" in query_lower:
                     based_cypher = """
                     MATCH (d:Document)-[r:BASED_ON]->(b:Document) 
-                    WHERE b.document_number CONTAINS $doc_num OR toLower(b.title) CONTAINS toLower($doc_num)
-                    RETURN d.id AS id, d.title AS title, d.document_number AS document_number
+                    WHERE d.document_number CONTAINS $doc_num OR toLower(d.title) CONTAINS toLower($doc_num)
+                    RETURN b.id AS id, b.title AS title, b.document_number AS document_number
                     LIMIT 20
                     """
                     res_based = run_cypher(based_cypher, {"doc_num": doc_number})
@@ -212,31 +220,46 @@ class SectorSearchStrategy(BaseRAGStrategy):
                 seen_chunks.add(cid)
                 dedup_hits.append(h)
         
-        graph_context = state.get("graph_context", {})
-        graph_context.update({"sector_mapreduce": [], "lateral_docs": []})
-        
-        chunk_ids = [h.get("chunk_id", "") for h in dedup_hits if h.get("chunk_id")]
-        if chunk_ids:
-            try:
-                from backend.retrieval.graph_db import lateral_expand
-                graph_context["lateral_docs"] = lateral_expand(chunk_ids)
-            except Exception:
-                pass
-
-        if sectors:
-            try:
-                from backend.retrieval.graph_db import sector_mapreduce
-                for sector_name in sectors[:3]:
-                    mr_result = sector_mapreduce(sector_name)
-                    if mr_result:
-                        graph_context["sector_mapreduce"].extend(mr_result)
-            except Exception as e:
-                pass
-        
-        return {"raw_hits": dedup_hits[:20], "graph_context": graph_context}
+        with timer.step("Neo4j_Graph"):
+            graph_context = state.get("graph_context", {})
+            graph_context.update({"sector_mapreduce": [], "sector_derivatives": []})
+            
+            chunk_ids = [h.get("chunk_id", "") for h in dedup_hits if h.get("chunk_id")]
+    
+            if sectors:
+                try:
+                    from backend.retrieval.graph_db import sector_mapreduce
+                    for sector_name in sectors[:3]:
+                        mr_result = sector_mapreduce(sector_name)
+                        if mr_result:
+                            graph_context["sector_mapreduce"].extend(mr_result)
+                        
+                        # Reverse BASED_ON query
+                        derived = sector_based_on_reverse(sector_name)
+                        if derived:
+                            graph_context["sector_derivatives"].extend(derived)
+                            # Inject fake hits for some derivatives to increase awareness
+                            for drv in derived[:5]:
+                                fake_hit = {
+                                    "id": f"neo4j_deriv_{drv.get('derived_doc_number')}",
+                                    "score": 0.85, # Lower score than direct matches
+                                    "document_number": drv.get("derived_doc_number"),
+                                    "title": drv.get("derived_title"),
+                                    "text": f"Văn bản phái sinh liên quan: {drv.get('derived_doc_number')} ({drv.get('derived_title')}), căn cứ vào {drv.get('base_doc_number')}",
+                                    "legal_type": "Document",
+                                    "chunk_id": f"neo4j_deriv_{drv.get('derived_doc_number')}"
+                                }
+                                dedup_hits.append(fake_hit)
+                except Exception as e:
+                    pass
+            
+        return {"raw_hits": dedup_hits[:25], "graph_context": graph_context, "metrics": timer.results()}
 
     def generate(self, state: AgentState) -> Dict[str, Any]:
         """Executive Summary + Bảng thống kê + Tóm tắt nội dung từng văn bản."""
+        from backend.agent.utils.sub_timer import SubTimer
+        timer = SubTimer("Generate")
+        
         query = state.get("standalone_query") or state.get("condensed_query") or state["query"]
         hits = state.get("raw_hits", [])
         filters = state.get("metadata_filters", {})
@@ -244,47 +267,52 @@ class SectorSearchStrategy(BaseRAGStrategy):
         if not hits:
             return {"final_response": "Không tìm thấy văn bản pháp luật nào phù hợp với truy vấn."}
             
-        unique_docs = deduplicate_by_document(hits)
+        unique_docs = group_by_document(hits)
         date_range = filters.get("effective_date_range", {})
         relevant_docs = _heuristic_date_filter(unique_docs, date_range)
         
-        # Bảng thống kê MapReduce (giữ lại cho câu hỏi đếm)
-        table_markdown = map_reduce_aggregate(relevant_docs)
+        with timer.step("BuildContext"):
+            # Bảng thống kê MapReduce (giữ lại cho câu hỏi đếm)
+            table_markdown = map_reduce_aggregate(relevant_docs)
+            
+            graph_context = state.get("graph_context", {})
+            if graph_context and graph_context.get("admin_metadata"):
+                table_markdown = f"{graph_context['admin_metadata']}\n\n---\n\n{table_markdown}"
+            
+            file_chunks = state.get("file_chunks", [])
+            
+            if not table_markdown and not file_chunks:
+                return {"final_response": "Không tìm thấy văn bản pháp luật nào phù hợp với truy vấn.", "metrics": timer.results()}
+            
+            # Tạo tóm tắt nội dung liên quan cho từng văn bản (top 5)
+            doc_summaries = []
+            for doc in relevant_docs[:5]:
+                doc_num = doc.get("document_number", "N/A")
+                title = doc.get("title", "N/A")
+                text_snippet = doc.get("text", "")
+                if text_snippet:
+                    # Cắt ngắn và format snippet
+                    snippet = text_snippet[:800].strip()
+                    if len(text_snippet) > 800:
+                        snippet += "..."
+                    doc_summaries.append(
+                        f"#### 📄 {doc_num} — {title}\n> {snippet}\n"
+                    )
+            
+            content_section = ""
+            if doc_summaries:
+                content_section = "### 📝 Nội dung liên quan\n\n" + "\n".join(doc_summaries)
+            
+            history_msgs = state.get("history", [])[-6:]
+            history_str = "\n".join([f"{'User' if m['role']=='user' else 'AI'}: {m['content']}" for m in history_msgs]) if history_msgs else "(Không có lịch sử)"
+            
+            # Thêm content_section vào table_markdown để LLM tóm tắt có thể đọc được nội dung chi tiết
+            enhanced_context_for_summary = f"{table_markdown}\n\n{content_section}"
         
-        graph_context = state.get("graph_context", {})
-        if graph_context and graph_context.get("admin_metadata"):
-            table_markdown = f"{graph_context['admin_metadata']}\n\n---\n\n{table_markdown}"
-        
-        file_chunks = state.get("file_chunks", [])
-        
-        if not table_markdown and not file_chunks:
-            return {"final_response": "Không tìm thấy văn bản pháp luật nào phù hợp với truy vấn."}
-        
-        # Tạo tóm tắt nội dung liên quan cho từng văn bản (top 5)
-        doc_summaries = []
-        for doc in relevant_docs[:5]:
-            doc_num = doc.get("document_number", "N/A")
-            title = doc.get("title", "N/A")
-            text_snippet = doc.get("text", "")
-            if text_snippet:
-                # Cắt ngắn và format snippet
-                snippet = text_snippet[:500].strip()
-                if len(text_snippet) > 500:
-                    snippet += "..."
-                doc_summaries.append(
-                    f"#### 📄 {doc_num} — {title}\n> {snippet}\n"
-                )
-        
-        content_section = ""
-        if doc_summaries:
-            content_section = "### 📝 Nội dung liên quan\n\n" + "\n".join(doc_summaries)
-        
-        history_msgs = state.get("history", [])[-6:]
-        history_str = "\n".join([f"{'User' if m['role']=='user' else 'AI'}: {m['content']}" for m in history_msgs]) if history_msgs else "(Không có lịch sử)"
-        
-        summary = generate_executive_summary(
+        with timer.step("LLM_Call"):
+            summary_thinking, summary = generate_executive_summary(
             query, 
-            table_markdown, 
+            enhanced_context_for_summary, 
             file_chunks, 
             file_analysis=state.get("file_analysis", ""),
             history_str=history_str,
@@ -296,29 +324,49 @@ class SectorSearchStrategy(BaseRAGStrategy):
             file_insight = state.get("file_analysis", "Tài liệu tải lên chứa các nội dung liên quan đến lĩnh vực này.")
             report += f"### 💡 Phân tích từ Tài liệu tải lên\n> {file_insight}\n\n---\n\n"
             
-        report += f"### 📊 Tổng quan\n\n{summary}\n\n---\n\n"
+        report += f"### 📝 Tóm tắt Tổng quan (Executive Summary)\n\n{summary}\n\n---\n\n"
         
         if content_section:
             report += f"{content_section}\n\n---\n\n"
-        
-        report += f"### 📚 Danh sách văn bản pháp luật\n{table_markdown}"
-        
-        refs = []
-        sorted_hits = sorted(relevant_docs, key=lambda x: x.get("score", 0), reverse=True)
-        for h in sorted_hits:
-            refs.append({
-                "title": h.get("title", ""),
-                "article": h.get("article_ref", h.get("document_number", "")),
-                "score": h.get("score", 0),
-                "chunk_id": h.get("chunk_id", ""),
-                "text_preview": h.get("text", ""),
-                "document_number": h.get("document_number", ""),
-                "url": h.get("url", "")
-            })
             
-        cited_refs = filter_cited_references(report, refs)
+        # Thêm thông tin phái sinh nếu có
+        derivatives = graph_context.get("sector_derivatives", [])
+        if derivatives:
+            report += "### 🔗 Văn bản phái sinh liện quan\n"
+            report += "Các văn bản sau được ban hành dựa trên các văn bản chính yếu trong lĩnh vực:\n"
+            added = set()
+            for d in derivatives:
+                dnum = d.get('derived_doc_number')
+                if dnum and dnum not in added:
+                    report += f"- **{dnum}** ({d.get('derived_title')}) - Căn cứ: {d.get('base_doc_number')}\n"
+                    added.add(dnum)
+                    if len(added) >= 5: break
+            report += "\n---\n\n"
+        
+        report += f"### 📊 Bảng Thống kê Văn bản\n{table_markdown}"
+        
+        with timer.step("FilterRefs"):
+            refs = []
+            sorted_hits = sorted(relevant_docs, key=lambda x: x.get("score", 0), reverse=True)
+            for h in sorted_hits:
+                # Emit TẤT CẢ các điều khoản được tìm thấy thay vì chỉ 1
+                all_arts = h.get("all_articles") or [h.get("article_ref", h.get("document_number", ""))]
+                for art in all_arts:
+                    refs.append({
+                        "title": h.get("title", ""),
+                        "article": art,
+                        "score": h.get("score", 0),
+                        "chunk_id": f"{h.get('chunk_id', '')}_{art}",
+                        "text_preview": h.get("text", ""),
+                        "document_number": h.get("document_number", ""),
+                        "url": h.get("url", "")
+                    })
+                
+            cited_refs = filter_cited_references(report, refs)
             
         return {
             "final_response": report,
-            "references": cited_refs
+            "thinking_content": summary_thinking,
+            "references": cited_refs,
+            "metrics": timer.results()
         }

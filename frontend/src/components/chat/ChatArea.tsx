@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message, useChat } from "@/contexts/ChatContext";
 import LegalReference from "./LegalReference";
-import { Edit2, X, Check, Send, Paperclip } from "lucide-react";
+import { Edit2, X, Check, Send, Paperclip, ChevronDown } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 
 export function MessageItem({ message, index, isLastUserMessage }: { 
@@ -17,6 +17,16 @@ export function MessageItem({ message, index, isLastUserMessage }: {
   const [editValue, setEditValue] = useState(message.content);
   const [syncStatus, setSyncStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const isEditing = editingIndex === index;
+
+  // FE Safety Filter for thinking tags
+  const stripThinkingTags = (text: string) => {
+    if (!text) return "";
+    return text
+      .replace(/<(thinking|think|thought)>[\s\S]*?<\/\1>/gi, "") // Cặp thẻ
+      .replace(/<(thinking|think|thought)>[\s\S]*/gi, "")        // Thẻ mở mồ côi
+      .replace(/<\/(thinking|think|thought)>/gi, "")             // Thẻ đóng mồ côi
+      .trim();
+  };
 
   const handleUpdate = () => {
     if (!editValue.trim() || editValue.trim() === message.content.trim() || isSending) return;
@@ -98,9 +108,20 @@ export function MessageItem({ message, index, isLastUserMessage }: {
           )
         ) : (
           <div className="text-text-main text-[15.5px] leading-relaxed">
+            {message.thinking_content && (
+              <details className="mb-4 bg-emerald-primary/5 rounded-xl border border-emerald-primary/10 overflow-hidden cursor-pointer group">
+                <summary className="px-4 py-2 flex items-center transition-colors hover:bg-emerald-primary/10">
+                  <span className="flex-1 text-[13px] font-semibold text-text-disabled group-hover:text-emerald-accent">🔍 Quá trình suy luận</span>
+                  <ChevronDown className="w-4 h-4 opacity-70 group-open:rotate-180 transition-transform text-text-disabled" />
+                </summary>
+                <div className="px-4 pb-3 pt-1 text-[13px] text-text-disabled/80 whitespace-pre-wrap border-t border-emerald-primary/5 markdown-body-small">
+                  {message.thinking_content}
+                </div>
+              </details>
+            )}
             <div className="markdown-body">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {message.content.replace(/<!-- DB_UPDATE_PROPOSAL: [\s\S]*? -->/g, "").trim()}
+                {stripThinkingTags(message.content.replace(/<!-- DB_UPDATE_PROPOSAL: [\s\S]*? -->/g, ""))}
               </ReactMarkdown>
             </div>
             

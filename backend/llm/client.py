@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-_LLM_ENDPOINT: str = "http://10.9.3.75:30028/api/llama3/8b"
+_LLM_ENDPOINT: str = "http://10.9.3.75:30031/api/llama3/8b"
 _REQUEST_TIMEOUT: int = 120  # seconds — LLM inference có thể lâu
 
 _JSON_ENFORCEMENT_PROMPT: str = (
@@ -200,70 +200,86 @@ class InternalLLMClient(BaseLLMClient):
         if not messages_list:
             return []
 
-        questions = []
-        for messages in messages_list:
-            system_parts: List[str] = []
-            conversation: List[str] = []
-            for msg in messages:
-                role = msg.get("role", "").lower()
-                content = msg.get("content", "")
-                if role == "system":
-                    system_parts.append(content)
-                elif role == "user":
-                    conversation.append(f"User: {content}")
-                elif role == "assistant":
-                    conversation.append(f"AI: {content}")
-                else:
-                    conversation.append(f"{role}: {content}")
-
-            system_prompt_text = "\n".join(system_parts)
-            if response_format and response_format.get("type") == "json_object":
-                system_prompt_text += _JSON_ENFORCEMENT_PROMPT
-
-            final_q = ""
-            if system_prompt_text.strip():
-                final_q += f"[SYSTEM PROMPT]\n{system_prompt_text}\n\n[CONVERSATION]\n"
-            
-            if conversation:
-                final_q += "\n".join(conversation)
-                if not final_q.endswith("AI:"):
-                    final_q += "\nAI: "
-            else:
-                final_q += "User: Hello\nAI: "
-            
-            questions.append(final_q)
-
-        payload = {
-            "questions": questions,
-            "contexts": [""] * len(questions),
-            "lang": "vi",
-            "use_en_model": False,
-            "batch_size": 8,
-            "max_decoding_length": max_tokens,
-            "max_input_length": max_input_length,
-            "repetition_penalty": 0,
-            "temperature": temperature,
-            "do_sample": True,
-            "no_repeat_ngram_size": 0,
-            "add_generation_prompt": True,
-            "tokenize": False,
-            "histories": []
-        }
-
-        max_retries = 2 # Giảm retry cho batch để tránh treo quá lâu
-        for attempt in range(1, max_retries + 1):
-            try:
-                resp = self._session.post(self.endpoint, json=payload, timeout=600) # Tăng timeout lên 600s cho mẻ Batch mẻ lớn
-                resp.raise_for_status()
-                data = resp.json()
-                results = data.get("result", [])
-                return [r.strip() for r in results]
-            except Exception as e:
-                logger.error("❌ [InternalLLMClient] Batch failed (Attempt %d/%d): %s", attempt, max_retries, e)
-                if attempt < max_retries:
-                    time.sleep(5)
+        from backend.config import settings
+        micro_batch_size = getattr(settings, "LLM_MICRO_BATCH_SIZE", 4)
+        inter_batch_sleep = getattr(settings, "LLM_INTER_BATCH_SLEEP", 3.0)
         
-        return [""] * len(questions)
+        all_results = []
+        
+        for batch_idx in range(0, len(messages_list), micro_batch_size):
+            batch_slice = messages_list[batch_idx : batch_idx + micro_batch_size]
+            questions = []
+            
+            for messages in batch_slice:
+                system_parts: List[str] = []
+                conversation: List[str] = []
+                for msg in messages:
+                    role = msg.get("role", "").lower()
+                    content = msg.get("content", "")
+                    if role == "system":
+                        system_parts.append(content)
+                    elif role == "user":
+                        conversation.append(f"User: {content}")
+                    elif role == "assistant":
+                        conversation.append(f"AI: {content}")
+                    else:
+                        conversation.append(f"{role}: {content}")
+
+                system_prompt_text = "\n".join(system_parts)
+                if response_format and response_format.get("type") == "json_object":
+                    system_prompt_text += _JSON_ENFORCEMENT_PROMPT
+
+                final_q = ""
+                if system_prompt_text.strip():
+                    final_q += f"[SYSTEM PROMPT]\n{system_prompt_text}\n\n[CONVERSATION]\n"
+                
+                if conversation:
+                    final_q += "\n".join(conversation)
+                    if not final_q.endswith("AI:"):
+                        final_q += "\nAI: "
+                else:
+                    final_q += "User: Hello\nAI: "
+                
+                questions.append(final_q)
+
+            payload = {
+                "questions": questions,
+                "contexts": [""] * len(questions),
+                "lang": "vi",
+                "use_en_model": False,
+                "batch_size": len(questions),
+                "max_decoding_length": max_tokens,
+                "max_input_length": max_input_length,
+                "repetition_penalty": 0,
+                "temperature": temperature,
+                "do_sample": True,
+                "no_repeat_ngram_size": 0,
+                "add_generation_prompt": True,
+                "tokenize": False,
+                "histories": []
+            }
+
+            batch_results = [""] * len(questions)
+            max_retries = 2
+            for attempt in range(1, max_retries + 1):
+                try:
+                    resp = self._session.post(self.endpoint, json=payload, timeout=600)
+                    resp.raise_for_status()
+                    data = resp.json()
+                    results = data.get("result", [])
+                    batch_results = [r.strip() for r in results]
+                    break
+                except Exception as e:
+                    logger.error("❌ [InternalLLMClient] Micro-batch failed (Attempt %d/%d): %s", attempt, max_retries, e)
+                    if attempt < max_retries:
+                        time.sleep(5)
+            
+            all_results.extend(batch_results)
+            
+            if batch_idx + micro_batch_size < len(messages_list):
+                time.sleep(inter_batch_sleep)
+        
+        return all_results
 
     def __repr__(self) -> str:
         return f"<InternalLLMClient endpoint={self.endpoint!r}>"

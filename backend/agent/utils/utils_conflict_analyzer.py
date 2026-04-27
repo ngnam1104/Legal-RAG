@@ -83,69 +83,6 @@ Mệnh đề được xác định từ các biến trên.
 Chỉ trả về đoạn văn giả định, không giải thích.
 """
 
-JUDGE_PROMPT = """
-HISTORY = {history}
-FILE_CONTEXT = {file_context}
-LEGAL_CONTEXT = {legal_context}
-
-Bạn là JUDGE AGENT (Trọng tài Sơ thẩm).
-Hãy đánh giá mệnh đề nội bộ (Internal Claim) của công ty trong FILE_CONTEXT so với Căn cứ pháp luật trong LEGAL_CONTEXT.
-
-BẠN PHẢI THỰC HIỆN SUY LUẬN TRONG THẺ <thinking> TRƯỚC KHI TRẢ VỀ KẾT QUẢ.
-
-NHÃN PHÁN QUYẾT: 
-- Contradiction (Xung đột trái luật) 
-- Entailment (Hoàn toàn hợp pháp)
-- Neutral (Pháp luật không quy định / Được phép theo thỏa thuận tự do)
-
-LUẬT CŨ VS LUẬT MỚI: 
-Nếu bạn phát hiện văn bản tải lên MỚI HƠN văn bản trong CSDL và có sự mâu thuẫn → Đề xuất vô hiệu hoá văn bản cũ trên DB.
-
-Dữ liệu Mệnh đề Kiểm tra (Từ File/Tình huống của người dùng):
-+ Phân rã mệnh đề: Chu_the: {chu_the} | Hanh_vi: {hanh_vi} | He_qua: {he_qua}
-+ Trích xuất từ FILE_CONTEXT: nguồn {org} ngày {date}
-
-═══════════════════════════════════════════════════
-BƯỚC 1: SUY LUẬN BẮT BUỘC (viết trong thẻ <thinking>)
-═══════════════════════════════════════════════════
-<thinking>
-A. Lex Superior (Thứ bậc): Dựa vào cơ quan ban hành, đối chiếu luật (nếu có base_laws: {base_laws}). Công ty đưa ra quy định so với văn bản pháp luật như thế nào? Luật cao hơn trói luật thấp hơn.
-
-B. Lex Posterior (Thời gian): Nếu có thông tin ngày tháng, quy định mới thay thế cũ. Mệnh đề nội bộ có vi phạm luật đang hiện hành hay áp dụng sai luật CŨ (is_active=False) không?
-
-C. Deontic Logic (Nghĩa vụ so với Phép tuỳ nghi): Quy định nội bộ BẮT BUỘC có vi phạm Lệnh CẤM của Luật không? Hay Luật KHÔNG CẤM/GIAO QUYỀN nên tính là CẤP PHÉP?
-
-D. XÁC ĐỊNH CĂN CỨ TRÍCH DẪN:
-   - Nếu nguồn là Điều/Khoản → Trích dẫn: "Căn cứ [Loại VB] [Số hiệu] [Tên VB] - Điều X, Khoản Y"
-   - Nếu nguồn là Phụ lục → Trích dẫn: "Căn cứ [Loại VB] [Số hiệu] [Tên VB] - Phụ lục số/tên"
-   - Nếu nguồn là Nội dung chung → Trích dẫn: "Căn cứ phần nội dung chung của [Loại VB] [Số hiệu] [Tên VB]"
-
-E. XỬ LÝ TRUY VẤN LỊCH SỬ: Nếu query của người dùng (trong mệnh đề gốc) không phải là kiểm tra nội bộ mà là HỎI XIN METADATA ĐIỀU LUẬT vừa được nhắc tới: Hãy lấy Metadata đó từ Lịch Sử Hội Thoại và ghi vào phần kết luận (Entailment).
-
-F. Kết luận: Dựa trên A, B, C → Nhãn nào phù hợp nhất?
-   - Nếu có xung đột trực tiếp → Contradiction
-   - Nếu hoàn toàn phù hợp → Entailment  
-   - Nếu luật không quy định → Neutral
-</thinking>
-
-═══════════════════════════════════════════════════
-BƯỚC 2: PHÁN QUYẾT (trả về JSON trong markdown code block)
-═══════════════════════════════════════════════════
-```json
-{{
-    "label": "Contradiction | Entailment | Neutral",
-    "reasoning": "Tóm tắt ngắn gọn kết luận từ bước suy luận...",
-    "reference_law": "Ghi rõ: 'Căn cứ [Loại VB] [Số hiệu] - [Điều/Khoản]'. Thông tin này dùng để UI hiển thị tham chiếu.",
-    "proposed_db_update": {{
-        "is_needed": true/false,
-        "old_document_number": "Số hiệu văn bản cũ cần vô hiệu hoá (nếu có)",
-        "new_document_number": "Số hiệu văn bản mới tải lên thay thế (nếu có)",
-        "reason": "Lý do thay thế"
-    }}
-}}
-```
-"""
-
 REVIEWER_PROMPT = """
 LEGAL_CONTEXT = {legal_context}
 JUDGE_DECISION = {judge_decision}
@@ -187,6 +124,64 @@ BƯỚC 2: PHÁN QUYẾT (trả về JSON trong markdown code block)
 }}
 ```
 """
+
+STRICT_JUDGE_PROMPT = """
+HISTORY = {history}
+FILE_CONTEXT = {file_context}
+LEGAL_CONTEXT = {legal_context}
+
+Bạn là STRICT JUDGE AGENT (Thẩm phán Khó tính).
+Nhiệm vụ: Đánh giá mệnh đề phân rã (Internal Claim) của công ty trong FILE_CONTEXT so với Căn cứ pháp luật trong LEGAL_CONTEXT. Mọi sự khác biệt hoặc nới lỏng quy định từ công ty đều bị coi là Contradiction.
+
+BẠN PHẢI THỰC HIỆN SUY LUẬN TRONG THẺ <thinking> TRƯỚC KHI TRẢ VỀ KẾT QUẢ.
+
+NHÃN PHÁN QUYẾT: 
+- Contradiction (Xung đột trái luật): Bất kỳ vi phạm hoặc sai lệch nào, dù là nhỏ nhất.
+- Entailment (Hoàn toàn hợp pháp): Đáp ứng CHÍNH XÁC và TOÀN BỘ tiêu chuẩn luật pháp đưa ra. 
+- Neutral (Pháp luật không quy định / Được phép theo thỏa thuận tự do): Thực sự chưa có luật nào cover.
+
+Dữ liệu Mệnh đề Kiểm tra (Từ File/Tình huống của người dùng):
++ Phân rã mệnh đề: Chu_the: {chu_the} | Hanh_vi: {hanh_vi} | He_qua: {he_qua}
++ Trích xuất từ FILE_CONTEXT: nguồn {org} ngày {date}
+
+═══════════════════════════════════════════════════
+BƯỚC 1: SUY LUẬN BẮT BUỘC (viết trong thẻ <thinking>)
+═══════════════════════════════════════════════════
+<thinking>
+A. Soi lỗi khắt khe: Luật yêu cầu A, công ty yêu cầu A và B -> có phải công ty đang tự ý thêm điều kiện làm khó người lao động? Nếu có -> Contradiction!
+B. XÁC ĐỊNH CĂN CỨ TRÍCH DẪN: Bắt buộc chỉ đích danh Điều/Khoản vi phạm.
+C. Kết luận: Đưa ra phán quyết tàn nhẫn.
+</thinking>
+
+═══════════════════════════════════════════════════
+BƯỚC 2: PHÁN QUYẾT (trả về JSON trong markdown code block)
+═══════════════════════════════════════════════════
+```json
+{{
+    "label": "Contradiction | Entailment | Neutral",
+    "reasoning": "Tóm tắt ngắn gọn lập luận khắt khe...",
+    "reference_law": "Căn cứ [Loại VB] [Số hiệu] - [Điều/Khoản]",
+    "proposed_db_update": {{
+        "is_needed": false
+    }}
+}}
+```
+"""
+
+def score_contradiction_by_embedding(claim_text: str, hit_text: str) -> float:
+    """
+    So sánh Semantic Contradiction qua API Reranker (Inverse Score).
+    Điểm Rerank càng thấp (cosine distance/similarity thấp), mức độ Contradiction (sai khác ngữ nghĩa) càng cao.
+    Returns: divergence score (0.0 đến 1.0).
+    """
+    try:
+        res = api_reranker.rerank(claim_text, [hit_text], top_k=1)
+        if res:
+            sim_score = res[0].get("score", 0.0)
+            return 1.0 - sim_score  # Invert: similarity thấp => divergence cao
+    except Exception as e:
+        print(f"Lỗi score_contradiction_by_embedding: {e}")
+    return 0.5
 
 # --- UTILS FOR CONFLICT ---
 
@@ -330,7 +325,7 @@ def judge_claim(claim: dict, hits: List[Dict[str, Any]], metadata: dict, history
     base_laws = hits[0].get("base_laws", []) if hits else []
     
     judge_resp = chat_completion(
-        [{"role": "user", "content": JUDGE_PROMPT.format(
+        [{"role": "user", "content": STRICT_JUDGE_PROMPT.format(
             history=history_str,
             file_context=claim.get("raw_text", "N/A"),
             chu_the=claim.get("chu_the", ""), hanh_vi=claim.get("hanh_vi", ""), he_qua=claim.get("he_qua", ""),
@@ -341,8 +336,12 @@ def judge_claim(claim: dict, hits: List[Dict[str, Any]], metadata: dict, history
         model=settings.LLM_CORE_MODEL,
         llm_preset=llm_preset
     )
+    from backend.utils.text_utils import extract_thinking_and_answer
+    thinking, answer_json = extract_thinking_and_answer(judge_resp)
     
-    return extract_json_conflict(judge_resp)
+    res = extract_json_conflict(answer_json)
+    res["thinking_content"] = thinking
+    return res
 
 def review_claim(claim: dict, judge_dec: dict, hits: List[Dict[str, Any]], llm_preset: str = None) -> dict:
     """(Reflect) Chạy Reviewer Agent để chốt phán quyết chống Hallucination."""
@@ -360,16 +359,20 @@ def review_claim(claim: dict, judge_dec: dict, hits: List[Dict[str, Any]], llm_p
         model=settings.LLM_ROUTING_MODEL,
         llm_preset=llm_preset
     )
+    from backend.utils.text_utils import extract_thinking_and_answer
+    thinking, answer_json = extract_thinking_and_answer(review_resp)
     
-    review_dec = extract_json_conflict(review_resp)
+    review_dec = extract_json_conflict(answer_json)
     
     # Merge findings
     if review_dec.get("is_approved", True):
+        judge_dec["thinking_content"] = judge_dec.get("thinking_content", "").strip() + "\n\n" + thinking.strip()
         return judge_dec
     else:
         return {
             "label": review_dec.get("corrected_label", judge_dec.get("label", "Neutral")),
             "reasoning": review_dec.get("final_reasoning", judge_dec.get("reasoning", "")),
             "reference_law": judge_dec.get("reference_law", "N/A"),
-            "proposed_db_update": review_dec.get("proposed_db_update", judge_dec.get("proposed_db_update"))
+            "proposed_db_update": review_dec.get("proposed_db_update", judge_dec.get("proposed_db_update")),
+            "thinking_content": judge_dec.get("thinking_content", "").strip() + "\n\n" + thinking.strip()
         }

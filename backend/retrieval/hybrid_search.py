@@ -44,6 +44,127 @@ class HybridRetriever:
         self.reranker = reranker
         self.hot_sectors = []
 
+    # =========================================================================
+    # BLOCK 1: SESSION-PRIORITY RETRIEVAL (Ưu tiên File Upload)
+    # Beat 1: Truy vấn Qdrant filter session_id → nếu score > threshold → dùng
+    # Beat 2: Fallback mở rộng toàn bộ kho Vector DB
+    # =========================================================================
+    def search_by_session(
+        self,
+        session_id: str,
+        query: str,
+        threshold_upload: float = 0.45,
+        top_k: int = 10,
+        use_rerank: bool = True,
+        **kwargs
+    ) -> list:
+        """
+        Định tuyến Tra cứu ưu tiên File Upload (2-Beat Routing).
+
+        Beat 1: Truy vấn Qdrant với bộ lọc session_id.
+                 Nếu điểm số score vượt ngưỡng threshold_upload → return ngay.
+        Beat 2: Nếu không chunk nào qua ngưỡng → Fallback mở rộng toàn kho.
+
+        Returns:
+            tuple: (hits: List[Dict], source: str)
+                   source = "upload" nếu Beat 1 thành công, "global" nếu Fallback.
+        """
+        import logging
+        logger = logging.getLogger("hybrid_search")
+
+        if not session_id or not query:
+            logger.warning("  [Session Search] Missing session_id or query. Skipping.")
+            return [], "global"
+
+        try:
+            # --- BEAT 1: Truy vấn chỉ trong session upload ---
+            session_filter = models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="session_id",
+                        match=models.MatchValue(value=session_id)
+                    )
+                ]
+            )
+
+            dense_query = self.hybrid_encoder.encode_query_dense(query)
+
+            session_hits = self.client.query_points(
+                collection_name=self.collection_name,
+                query=dense_query,
+                using="dense",
+                query_filter=session_filter,
+                limit=top_k,
+                with_payload=True,
+            ).points
+
+            if session_hits:
+                # Kiểm tra điểm số cao nhất
+                best_score = max(float(h.score) for h in session_hits)
+                logger.info(
+                    f"  [Session Search] Beat 1: Found {len(session_hits)} chunks "
+                    f"in session '{session_id}', best_score={best_score:.4f}, "
+                    f"threshold={threshold_upload}"
+                )
+
+                if best_score >= threshold_upload:
+                    # Trích xuất kết quả đạt ngưỡng
+                    qualified = []
+                    for hit in session_hits:
+                        if float(hit.score) >= threshold_upload * 0.7:  # Lấy cả chunk gần ngưỡng
+                            payload = hit.payload or {}
+                            qualified.append({
+                                "id": hit.id,
+                                "score": float(hit.score),
+                                "payload": payload,
+                                "document_number": payload.get("document_number", ""),
+                                "article_ref": payload.get("article_ref", ""),
+                                "title": payload.get("title", ""),
+                                "text": payload.get("expanded_context_text")
+                                        or payload.get("chunk_text")
+                                        or payload.get("text", ""),
+                                "chunk_id": payload.get("chunk_id", ""),
+                                "is_appendix": payload.get("is_appendix", False),
+                                "url": payload.get("url", ""),
+                                "source": "upload",
+                            })
+                    logger.info(
+                        f"  [Session Search] ✅ Beat 1 SUCCESS: {len(qualified)} chunks qualified."
+                    )
+                    return qualified, "upload"
+
+                logger.info(
+                    f"  [Session Search] Beat 1 below threshold ({best_score:.4f} < {threshold_upload}). "
+                    f"Falling back to global search..."
+                )
+
+            else:
+                logger.info(
+                    f"  [Session Search] Beat 1: No chunks found for session '{session_id}'. "
+                    f"Falling back to global search..."
+                )
+
+        except Exception as e:
+            logger.error(f"  [Session Search] Beat 1 error: {e}. Falling back to global search...")
+
+        # --- BEAT 2: Fallback toàn kho Vector DB ---
+        try:
+            global_hits = self.search(
+                query=query,
+                limit=top_k,
+                expand_context=True,
+                use_rerank=use_rerank,
+                **kwargs
+            )
+            logger.info(
+                f"  [Session Search] Beat 2 (Global Fallback): {len(global_hits)} hits."
+            )
+            return global_hits, "global"
+
+        except Exception as e:
+            logger.error(f"  [Session Search] Beat 2 error: {e}. Returning empty.")
+            return [], "global"
+
     def _build_base_conditions(
         self,
         query: str,
@@ -59,8 +180,13 @@ class HybridRetriever:
         if legal_type:
             must_conditions.append(models.FieldCondition(key="legal_type", match=models.MatchValue(value=legal_type)))
         if doc_number:
-            # Dùng MatchText để linh hoạt hơn (VD: 51/2025 khớp 51/2025/TT-BYT)
-            must_conditions.append(models.FieldCondition(key="document_number", match=models.MatchText(text=doc_number)))
+            condition = models.Filter(
+                should=[
+                    models.FieldCondition(key="document_number", match=models.MatchText(text=doc_number)),
+                    models.FieldCondition(key="title", match=models.MatchText(text=doc_number))
+                ]
+            )
+            must_conditions.append(condition)
         # Removed article_ref hard filter, it should be a should condition
         return must_conditions
 
@@ -176,6 +302,8 @@ class HybridRetriever:
                 print(f"       ⚠️ [Retrieve] Vector mismatch suspected. Attempting metadata scroll for: {doc_number}")
                 # Dùng MatchText để linh hoạt với hậu tố /TT-BYT...
                 must_cond = [models.FieldCondition(key="document_number", match=models.MatchText(text=doc_number))]
+                if not include_inactive:
+                    must_cond.append(models.FieldCondition(key="is_active", match=models.MatchValue(value=True)))
                 # KHÔNG filter thêm article_ref hay is_appendix ở đây để lấy TOÀN BỘ document
                 # Kể cả phụ lục cuối văn bản (vd: 168 trạm y tế = hàng chục chunks cuối)
                 

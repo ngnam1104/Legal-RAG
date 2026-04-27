@@ -6,8 +6,8 @@ _clients = {}
 
 def get_client():
     if "internal" not in _clients:
-        from backend.llm.client import InternalLLMClient
-        _clients["internal"] = InternalLLMClient()
+        from backend.llm.icllm_client import ICLLMClient
+        _clients["internal"] = ICLLMClient()
     return _clients["internal"]
 
 def chat_completion(messages: List[Dict[str, str]], temperature: float = 0.1, provider: str = None, model: str = None, llm_preset: str = None) -> str:

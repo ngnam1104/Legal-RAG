@@ -4,13 +4,25 @@ import sys
 import requests
 import json
 
+# Fix ModuleNotFoundError
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 # Đảm bảo encoding chuẩn cho terminal
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 # ==========================================
 # THÔNG TIN CÁC ENDPOINT API NỘI BỘ
 # ==========================================
-LLM_URL = "http://10.9.3.75:30028/api/llama3/8b"
+from backend.llm.factory import get_client
+from backend.retrieval.reranker import reranker as internal_reranker
+from backend.retrieval.embedder import embedder as internal_embedder
+from backend.config import settings
+
+# ICLLM Client
+llm_client = get_client()
+
+# Raw Endpoints for legacy tests
+LLM_URL = "http://10.9.3.75:30031/api/llama3/8b"
 RERANK_URL = "http://10.9.3.75:30546/api/v1/reranking"
 EMBEDDING_URL = "http://10.9.3.75:30010/api/v1/embedding"
 
@@ -67,18 +79,26 @@ def print_result(api_name, response):
 # 1. TEST API EMBEDDING
 # ------------------------------------------
 def test_embedding():
-    print("\n⏳ Đang gọi API Embedding...")
-    payload = {
-        "texts": [
-            "Tài liệu 1: Hướng dẫn an toàn lao động.",
-            "Tài liệu 2: Quy định về bảo mật thông tin."
-        ],
-        "normalize": False
-    }
+    print("\n⏳ Đang gọi API Embedding qua InternalAPIEmbedder (backend)...")
+    texts = [
+        "Tài liệu 1: Hướng dẫn an toàn lao động.",
+        "Tài liệu 2: Quy định về bảo mật thông tin."
+    ]
     
     try:
-        response = requests.post(EMBEDDING_URL, json=payload, timeout=30)
-        print_result("API EMBEDDING", response)
+        start_t = time.time()
+        vectors = internal_embedder.encode_dense(texts)
+        end_t = time.time()
+        
+        print(f"\n{'='*60}")
+        print(f"🚀 KẾT QUẢ TEST: API EMBEDDING")
+        print(f"{'='*60}")
+        print(f"Thời gian: {end_t - start_t:.2f}s")
+        print(f"✅ Đã nhận được {len(vectors)} vectors.")
+        if vectors:
+            print(f"Kích thước vector đầu tiên: {len(vectors[0])} chiều.")
+            print(f"Giá trị mẫu (5 phần tử đầu): {vectors[0][:5]}")
+            
     except Exception as e:
         print(f"❌ Lỗi kết nối Embedding API: {e}")
 
@@ -86,24 +106,30 @@ def test_embedding():
 # 2. TEST API RERANKING
 # ------------------------------------------
 def test_reranking():
-    print("\n⏳ Đang gọi API Reranking...")
-    payload = {
-        "query": "An toàn lao động là gì?",
-        "docs": [
-            "Công ty yêu cầu mọi người phải đội mũ bảo hiểm khi vào công trường.",
-            "Hướng dẫn nướng bánh mì bằng nồi chiên không dầu.",
-            "Quy định số 10 về các biện pháp đảm bảo an toàn, vệ sinh lao động năm 2024."
-        ]
-    }
+    print("\n⏳ Đang gọi API Reranking qua InternalAPIReranker (backend)...")
+    query = "An toàn lao động là gì?"
+    docs = [
+        "Công ty yêu cầu mọi người phải đội mũ bảo hiểm khi vào công trường.",
+        "Hướng dẫn nướng bánh mì bằng nồi chiên không dầu.",
+        "Quy định số 10 về các biện pháp đảm bảo an toàn, vệ sinh lao động năm 2024."
+    ]
     
     try:
-        response = requests.post(RERANK_URL, json=payload, timeout=30)
-        print_result("API RERANKING", response)
+        start_t = time.time()
+        results = internal_reranker.rerank(query, docs, top_k=3)
+        end_t = time.time()
+        
+        print(f"\n{'='*60}")
+        print(f"🚀 KẾT QUẢ TEST: API RERANKING (ICLLM Wrapper)")
+        print(f"{'='*60}")
+        print(f"Thời gian: {end_t - start_t:.2f}s")
+        print(json.dumps(results, ensure_ascii=False, indent=2))
+        
     except Exception as e:
         print(f"❌ Lỗi kết nối Reranking API: {e}")
 
 def test_llm_stress_test():
-    print("⏳ Đang chuẩn bị dữ liệu Stress Test...")
+    print("⏳ Đang chuẩn bị dữ liệu Stress Test qua ICLLMClient...")
     
     # 1. Tạo một đoạn text gốc
     base_text = "Theo Điều 15 Nghị định 100/2019/NĐ-CP, người điều khiển phương tiện phải tuân thủ tốc độ. "
@@ -112,51 +138,35 @@ def test_llm_stress_test():
     massive_context = base_text * 500 
     
     print(f"📏 Độ dài chuỗi Context giả lập: {len(massive_context):,} ký tự.")
-    print("⏳ Đang gửi request ép giới hạn max_input_length lên 8000...")
+    print("⏳ Đang gửi request qua ICLLMClient với max_input_length=8000...")
     
-    payload = {
-        "questions": ["Hãy tóm tắt ngắn gọn quy định trong đoạn văn bản trên."],
-        "contexts": [massive_context],
-        "lang": "vi",
-        "use_en_model": False,
-        "batch_size": 1,
-        "max_decoding_length": 1024,
-        "max_input_length": 8000,   # Cố tình set vượt mức 4000 mặc định
-        "repetition_penalty": 0,
-        "temperature": 0.1,
-        "do_sample": True,
-        "no_repeat_ngram_size": 0,
-        "add_generation_prompt": True,
-        "tokenize": False,
-        "histories": []
-    }
+    messages = [
+        {"role": "user", "content": f"Hãy tóm tắt ngắn gọn quy định trong đoạn văn bản sau đây:\n\n{massive_context}"}
+    ]
     
     start_time = time.time()
     try:
-        response = requests.post(LLM_URL, json=payload, timeout=120)
+        # ICLLMClient.chat_completion
+        response_text = llm_client.chat_completion(
+            messages=messages,
+            temperature=0.1,
+            max_tokens=1024,
+            max_input_length=8000
+        )
         end_time = time.time()
         
         print(f"\n{'='*50}")
-        print(f"HTTP Status: {response.status_code}")
         print(f"Thời gian phản hồi: {end_time - start_time:.2f} giây")
         
-        if response.status_code == 200:
-            data = response.json()
-            usage = data.get("usage", {})
-            print(f"✅ THÀNH CÔNG! API đã chấp nhận Context dài.")
-            print(f"📊 Token Usage: {usage}")
-            print(f"🤖 Output: {data.get('result', [''])[0][:200]}...") # In một đoạn nhỏ của kết quả
-        elif response.status_code == 422:
-            print("❌ THẤT BẠI (HTTP 422 Validation Error).")
-            print("Phân tích: FastAPI Gateway đã chặn request vì Pydantic schema bắt buộc max_input_length <= 4000.")
-            print("Chi tiết lỗi:", json.dumps(response.json(), ensure_ascii=False, indent=2))
+        if response_text:
+            print(f"✅ THÀNH CÔNG! ICLLM đã trả về kết quả.")
+            print(f"🤖 Output: {response_text[:300]}... <TRUNCATED>")
+            print(f"📝 Xem chi tiết log tại: logs/llm_logs/")
         else:
-            print(f"❌ THẤT BẠI (HTTP {response.status_code}).")
-            print("Phân tích: Có thể Model bị tràn VRAM (OOM) hoặc Inference Engine từ chối độ dài này.")
-            print("Chi tiết:", response.text[:500])
+            print(f"❌ THẤT BẠI. ICLLM trả về chuỗi rỗng. Hãy kiểm tra console/log.")
             
     except Exception as e:
-        print(f"❌ Lỗi kết nối hoặc Timeout: {e}")
+        print(f"❌ Lỗi khi gọi ICLLM: {e}")
 
 # ==========================================
 # CHẠY TEST

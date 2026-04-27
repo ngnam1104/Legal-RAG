@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     # Retry strategy cho hệ thống mạng nội bộ
     LLM_RETRY_DELAY: int = 3  # Seconds
     LLM_MAX_RETRIES: int = 3
+    
+    # Micro-batching để bảo vệ LLM Memory
+    LLM_MICRO_BATCH_SIZE: int = 4
+    LLM_INTER_BATCH_SLEEP: float = 3.0
 
     # RAG Retrieval limits
     MAX_CONTEXT_CHARS: int = 50000  # Soft safety limit, no longer a hard cut-off

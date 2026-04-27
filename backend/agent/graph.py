@@ -59,6 +59,12 @@ def node_timer(name: str):
             if result is None: result = {}
             if "metrics" not in result:
                 result["metrics"] = {}
+                
+            # Copy all nested metrics from the strategy result
+            for k, v in result.get("metrics", {}).items():
+                if k != f"{name}_time":
+                    result["metrics"][k] = v
+                    
             result["metrics"][f"{name}_time"] = duration
             return result
         return wrapper
@@ -98,7 +104,7 @@ def node_condense(state: AgentState):
     query = state["query"]
     
     # 1 Lần gọi LLM duy nhất giải quyết 3 tác vụ
-    detected_mode, standalone_query, hypo_query, router_filters = router.super_route_query(
+    detected_mode, standalone_query, hypo_query, router_filters, router_metrics = router.super_route_query(
         query, 
         history=history, 
         conv_state=state.get("conversation_state"),
@@ -114,7 +120,8 @@ def node_condense(state: AgentState):
         "standalone_query": standalone_query,
         "condensed_query": hypo_query, 
         "detected_mode": detected_mode, 
-        "router_filters": router_filters
+        "router_filters": router_filters,
+        "metrics": router_metrics
     }
 
 
@@ -124,7 +131,7 @@ def node_detect_mode_only(state: AgentState):
     query = state["query"]
     
     # Kể cả không lịch sử, SuperRouter vẫn rất tốt để sinh HyDE và Filters
-    detected_mode, standalone_query, hypo_query, router_filters = router.super_route_query(
+    detected_mode, standalone_query, hypo_query, router_filters, router_metrics = router.super_route_query(
         query, 
         history=[], 
         conv_state=state.get("conversation_state"),
@@ -140,14 +147,17 @@ def node_detect_mode_only(state: AgentState):
         "standalone_query": standalone_query,
         "condensed_query": hypo_query, 
         "detected_mode": detected_mode, 
-        "router_filters": router_filters
+        "router_filters": router_filters,
+        "metrics": router_metrics
     }
 
 @node_timer("General Chat")
 def node_general_chat(state: AgentState):
     """Bypass pipeline cho câu hỏi thường."""
-    answer = execute_general_chat(state["query"], history=state.get("history", []), file_chunks=state.get("file_chunks", []), llm_preset=state.get("llm_preset"))
-    return {"answer": answer, "draft_response": answer, "final_response": answer}
+    raw_answer = execute_general_chat(state["query"], history=state.get("history", []), file_chunks=state.get("file_chunks", []), llm_preset=state.get("llm_preset"))
+    from backend.utils.text_utils import extract_thinking_and_answer
+    thinking, answer = extract_thinking_and_answer(raw_answer)
+    return {"answer": answer, "thinking_content": thinking, "draft_response": answer, "final_response": answer}
 
 
 # --- UNIVERSAL 5-STAGE RAG NODES (Vector-to-Graph) ---
@@ -182,9 +192,23 @@ def node_generate(state: AgentState):
     
     # Backward compatibility mapping
     answer = result.get("final_response", result.get("draft_response", ""))
+    thinking = result.get("thinking_content", "")
+    
+    # Format and clean up the answer
+    if not thinking:
+        from backend.utils.text_utils import extract_thinking_and_answer
+        thinking, answer = extract_thinking_and_answer(answer)
+    else:
+        # Nếu đã có thinking (vd từ model hỗ trợ native reasoning), 
+        # ta vẫn nên quét xem trong answer có bị leak thêm thinking tag không
+        from backend.utils.text_utils import extract_thinking_and_answer
+        extra_thinking, answer = extract_thinking_and_answer(answer)
+        if extra_thinking:
+            thinking = thinking + "\n\n" + extra_thinking
     
     # Update for current state
     result["answer"] = answer
+    result["thinking_content"] = thinking
     return result
 
 
