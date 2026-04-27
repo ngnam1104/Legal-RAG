@@ -25,13 +25,13 @@ os.environ["NEO4J_USERNAME"] = "neo4j"
 os.environ["NEO4J_PASSWORD"] = "u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0"
 
 if TEST_MODE:
-    os.environ["QDRANT_COLLECTION"] = ""
+    os.environ["QDRANT_COLLECTION"] = "legal_rag_docs_nam"
     NEO4J_LABEL_PREFIX = "TEST_"
     SAMPLE_LIMIT = 8000
     SKIP_LLM = True
-    print(f"--- TEST MODE: {SAMPLE_LIMIT} samples | SKIP_LLM={SKIP_LLM} | Collection:  ---")
+    print(f"--- TEST MODE: {SAMPLE_LIMIT} samples | SKIP_LLM={SKIP_LLM} | Collection: legal_rag_docs_nam             ---")
 else:
-    os.environ["QDRANT_COLLECTION"] = "legal_hybrid_rag_docs"
+    os.environ["QDRANT_COLLECTION"] = "legal_rag_docs_nam"
     NEO4J_LABEL_PREFIX = ""
     SAMPLE_LIMIT = None
     SKIP_LLM = False
@@ -343,7 +343,7 @@ for ref_key in all_referenced_target_keys:
 print(f"PHASE 4 complete: {len(ghost_nodes)} ghost nodes to create in Neo4j.")
 
 # --- FLUSH DATABASE ---
-collection_name = os.environ.get("QDRANT_COLLECTION", "legal_hybrid_rag_docs")
+collection_name = os.environ.get("QDRANT_COLLECTION", "legal_rag_docs_nam")
 print("\n-> Flushing old database...")
 if qdrant.collection_exists(collection_name):
     qdrant.delete_collection(collection_name=collection_name)
