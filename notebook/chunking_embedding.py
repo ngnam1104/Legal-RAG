@@ -18,16 +18,16 @@ sys.path.append(".")
 TEST_MODE = True
 # ===================================================================
 
-os.environ["QDRANT_URL"] = "http://localhost:6335"
+os.environ["QDRANT_URL"] = "http://localhost:6337"
 os.environ["QDRANT_API_KEY"] = ""
-os.environ["NEO4J_URI"] = "bolt://localhost:7687"
+os.environ["NEO4J_URI"] = "bolt://localhost:7688"
 os.environ["NEO4J_USERNAME"] = "neo4j"
 os.environ["NEO4J_PASSWORD"] = "u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0"
 
 if TEST_MODE:
     os.environ["QDRANT_COLLECTION"] = "legal_hybrid_rag_docs_8K"
     NEO4J_LABEL_PREFIX = "TEST_"
-    SAMPLE_LIMIT = 2
+    SAMPLE_LIMIT = 8000
     SKIP_LLM = True
     print(f"--- TEST MODE: {SAMPLE_LIMIT} samples | SKIP_LLM={SKIP_LLM} | Collection: legal_hybrid_rag_docs_8K ---")
 else:
