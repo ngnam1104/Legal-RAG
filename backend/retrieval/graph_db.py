@@ -113,7 +113,9 @@ def enrich_reference_nodes(driver, batch_chunks, meta_by_docnum_lookup=None):
         p.is_full_text = false
     """
     with driver.session() as session:
-        session.run(query, batch=enrich_payloads)
+        batch_size = 2000
+        for i in range(0, len(enrich_payloads), batch_size):
+            session.run(query, batch=enrich_payloads[i:i+batch_size])
 
 
 def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
@@ -426,7 +428,13 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
     """
 
     with driver.session() as session:
-        session.run(query, batch=params)
+        batch_size = 2000
+        for i in range(0, len(params), batch_size):
+            chunk_batch = params[i:i+batch_size]
+            try:
+                session.run(query, batch=chunk_batch)
+            except Exception as e:
+                print(f"Lỗi khi push lô {i} tới Neo4j: {e}")
 
 
 # =====================================================================

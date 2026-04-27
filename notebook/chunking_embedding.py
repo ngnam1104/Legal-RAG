@@ -25,11 +25,11 @@ os.environ["NEO4J_USERNAME"] = "neo4j"
 os.environ["NEO4J_PASSWORD"] = "u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0"
 
 if TEST_MODE:
-    os.environ["QDRANT_COLLECTION"] = "legal_hybrid_rag_docs_8K"
+    os.environ["QDRANT_COLLECTION"] = ""
     NEO4J_LABEL_PREFIX = "TEST_"
     SAMPLE_LIMIT = 8000
     SKIP_LLM = True
-    print(f"--- TEST MODE: {SAMPLE_LIMIT} samples | SKIP_LLM={SKIP_LLM} | Collection: legal_hybrid_rag_docs_8K ---")
+    print(f"--- TEST MODE: {SAMPLE_LIMIT} samples | SKIP_LLM={SKIP_LLM} | Collection:  ---")
 else:
     os.environ["QDRANT_COLLECTION"] = "legal_hybrid_rag_docs"
     NEO4J_LABEL_PREFIX = ""
@@ -409,7 +409,13 @@ print("=" * 60)
 driver = get_neo4j_driver()
 if driver:
     # 5a. Tạo nodes/edges đầy đủ từ all_chunks
-    build_neo4j(driver, all_chunks, meta_by_docnum_lookup=meta_by_docnum_lookup)
+    graph_batch_size = 5000
+    pbar6 = tqdm(total=len(all_chunks), desc="PHASE 6: Graph Nodes", unit="chunk")
+    for i in range(0, len(all_chunks), graph_batch_size):
+        chunk_batch = all_chunks[i:i+graph_batch_size]
+        build_neo4j(driver, chunk_batch, meta_by_docnum_lookup=meta_by_docnum_lookup)
+        pbar6.update(len(chunk_batch))
+    pbar6.close()
 
     # 5b. Tạo ghost nodes (MERGE để không trùng nếu đã tồn tại)
     if ghost_nodes:
