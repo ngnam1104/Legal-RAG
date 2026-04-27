@@ -53,8 +53,8 @@ services:
     image: neo4j:5.20.0
     container_name: legal-rag-neo4j
     ports:
-      - "7474:7474" # Giao diện Neo4j Browser trên trình duyệt
-      - "7687:7687"
+      - "7475:7474" # Giao diện Neo4j Browser trên trình duyệt
+      - "7688:7687"
     environment:
       # Khớp với mật khẩu trong .env để dễ quản lý
       - NEO4J_AUTH=neo4j/u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0
