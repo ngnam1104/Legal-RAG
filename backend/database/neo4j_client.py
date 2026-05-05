@@ -365,7 +365,7 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
         )
 
         FOREACH (_a IN CASE WHEN row.base_cl_ref IS NULL AND row.art_ref IS NOT NULL AND row.art_ref <> '' THEN [1] ELSE [] END |
-            MERGE (art:Article {{id: row.doc_id + '_' + row.art_ref}})
+            MERGE (art:LegalArticle {{id: row.doc_id + '_' + row.art_ref}})
             MERGE (c)-[:PART_OF]->(art)
         )
 
@@ -380,7 +380,7 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
         ON CREATE SET p.id = 'REF_' + rel.target_doc, p.is_full_text = false
         
         FOREACH (_art IN CASE WHEN rel.target_article IS NOT NULL AND rel.target_article <> '' THEN [1] ELSE [] END |
-            MERGE (art:Article {{id: COALESCE(p.id, 'REF_' + rel.target_doc) + '_' + rel.target_article}})
+            MERGE (art:LegalArticle {{id: COALESCE(p.id, 'REF_' + rel.target_doc) + '_' + rel.target_article}})
             ON CREATE SET art.name = rel.target_article
             // Always set target_text if present to overwrite ghost node dummy texts
             SET art.text = CASE WHEN rel.target_text <> '' THEN rel.target_text ELSE COALESCE(art.text, '') END
@@ -488,7 +488,7 @@ LIMIT 3
 
 # --- YÊU CẦU 2: Bottom-Up Expansion (Legal QA) ---
 BOTTOM_UP_EXPANSION_QUERY = """
-MATCH (c)-[:PART_OF|BELONGS_TO*1..2]->(art:Article)-[:BELONGS_TO]->(d:Document)
+MATCH (c)-[:PART_OF|BELONGS_TO*1..2]->(art:LegalArticle)-[:BELONGS_TO]->(d:Document)
 WHERE c.qdrant_id = $chunk_id OR c.id = $chunk_id
 OPTIONAL MATCH (art)<-[:PART_OF]-(sibling)
 WHERE sibling.qdrant_id IS NOT NULL AND (sibling.qdrant_id <> $chunk_id AND sibling.id <> $chunk_id)
@@ -744,14 +744,14 @@ def search_docs_by_keyword(query: str, limit: int = 5):
       
       UNION
       
-      MATCH (a:Article)-[:BELONGS_TO]->(d:Document)
+      MATCH (a:LegalArticle)-[:BELONGS_TO]->(d:Document)
       WHERE toLower(a.name) CONTAINS toLower($query) 
          OR toLower(a.text) CONTAINS toLower($query)
       RETURN a.id AS id, d.title AS title, d.document_number AS doc_number, a.text AS text, "Article" AS type
       
       UNION
       
-      MATCH (c:Clause)-[:PART_OF]->(a:Article)-[:BELONGS_TO]->(d:Document)
+      MATCH (c:Clause)-[:PART_OF]->(a:LegalArticle)-[:BELONGS_TO]->(d:Document)
       WHERE toLower(c.name) CONTAINS toLower($query) 
          OR toLower(c.text) CONTAINS toLower($query)
       RETURN c.id AS id, d.title AS title, d.document_number AS doc_number, c.text AS text, "Clause" AS type
