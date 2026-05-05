@@ -285,36 +285,29 @@ def print_top_sectors(doc_ids, label_phase, meta_id_to_idx, all_meta_records):
     stats_lines.append(sep)
 
 def process_doc_batch(doc_ids, pbar, discovered_set=None, newly_processed_list=None):
-    """Chunk một batch văn bản, cập nhật pbar và trả về các doc_id tham chiếu mới."""
+    """Chunk một batch văn bản bằng đa luồng, cập nhật pbar."""
     global total_rels, global_cross_rel_count, global_overlap_skipped, total_entities, total_node_rels
-    new_refs = set()
-    for doc_id in doc_ids:
-        if doc_id in processed_ids:
-            continue
+    import concurrent.futures
+
+    def process_single_doc(doc_id):
+        if doc_id in processed_ids: return doc_id, None, None
         idx_content = content_id_to_idx.get(doc_id)
         idx_meta    = meta_id_to_idx.get(doc_id)
-        if idx_content is None or idx_meta is None:
-            continue
+        if idx_content is None or idx_meta is None: return doc_id, None, None
 
         content = ds_content_all[idx_content].get("content", "")
         meta    = all_meta_records[idx_meta]
         doc_num = str(meta.get("document_number", ""))
         key = normalize_doc_key(doc_num)
-        if key:
-            meta_by_docnum_lookup[key] = meta
 
         doc_chunks = None
         checkpoint_file = os.path.join(CHECKPOINT_DIR, f"doc_{doc_id}.pkl") if USE_CHECKPOINT else None
         
-        # 1. Tải checkpoint
         if USE_CHECKPOINT and os.path.exists(checkpoint_file):
             try:
-                with open(checkpoint_file, "rb") as f:
-                    doc_chunks = pickle.load(f)
-            except Exception as e:
-                doc_chunks = None
+                with open(checkpoint_file, "rb") as f: doc_chunks = pickle.load(f)
+            except Exception: pass
                 
-        # 2. Xử lý chunk (nếu không có checkpoint hoặc lỗi)
         if doc_chunks is None:
             doc_chunks = chunker.process_document(
                 content=content,
@@ -322,67 +315,71 @@ def process_doc_batch(doc_ids, pbar, discovered_set=None, newly_processed_list=N
                 global_doc_lookup=global_doc_lookup,
                 skip_llm=SKIP_LLM
             )
-            
-            # --- SINGLE-PASS: Entities + node_relations đã được xử lý bên trong
-            # extract_ontology_relationships_batch() (unified LLM call).
-            # Kết quả được gắn vào chunk["neo4j_metadata"]["entities"] và ["node_relations"]
-            # bởi relations.py. enrich_chunk_entities() sẽ đoảm nhận đẩy lên Neo4j ở Phase 6d.
-
-            # Lưu checkpoint từng văn bản
             if USE_CHECKPOINT and checkpoint_file:
-                with open(checkpoint_file, "wb") as f:
-                    pickle.dump(doc_chunks, f)
+                with open(checkpoint_file, "wb") as f: pickle.dump(doc_chunks, f)
+                    
+        return doc_id, doc_chunks, key
 
-        all_chunks.extend(doc_chunks)
-        processed_ids.add(doc_id)
+    # Chạy đa luồng song song các văn bản (max 8 luồng đồng thời)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(doc_ids)) as executor:
+        futures = {executor.submit(process_single_doc, doc_id): doc_id for doc_id in doc_ids}
+        
+        for future in concurrent.futures.as_completed(futures):
+            doc_id, doc_chunks, key = future.result()
+            
+            if doc_id in processed_ids:
+                continue
+                
+            if key:
+                idx_meta = meta_id_to_idx.get(doc_id)
+                if idx_meta is not None:
+                    meta_by_docnum_lookup[key] = all_meta_records[idx_meta]
 
-        if doc_chunks:
-            first_meta = doc_chunks[0].get("neo4j_metadata", doc_chunks[0].get("metadata", {}))
-            rels = first_meta.get("ontology_relations", [])
-            total_rels += len(rels)
+            if doc_chunks:
+                all_chunks.extend(doc_chunks)
+                
+                first_meta = doc_chunks[0].get("neo4j_metadata", doc_chunks[0].get("metadata", {}))
+                rels = first_meta.get("ontology_relations", [])
+                total_rels += len(rels)
 
-            ents = first_meta.get("entities", {})
-            for k, v in ents.items():
-                if isinstance(v, list):
-                    cnt = len(v)
-                    global_entity_counts[k] += cnt
-                    total_entities += cnt
+                ents = first_meta.get("entities", {})
+                for k, v in ents.items():
+                    if isinstance(v, list):
+                        cnt = len(v)
+                        global_entity_counts[k] += cnt
+                        total_entities += cnt
 
-            nrels = first_meta.get("node_relations", [])
-            total_node_rels += len(nrels)
-            for nr in nrels:
-                lbl = nr.get("relationship", "UNKNOWN")
-                global_node_rel_counts[lbl] += 1
+                nrels = first_meta.get("node_relations", [])
+                total_node_rels += len(nrels)
+                for nr in nrels:
+                    lbl = nr.get("relationship", "UNKNOWN")
+                    global_node_rel_counts[lbl] += 1
 
-            # Theo dõi từng loại quan hệ: thường vs cross-doc
-            seen_pairs = set()  # phát hiện chồng chéo nội bộ trong chunk này
-            for r in rels:
-                lbl = str(r.get("edge_label", r.get("label", "UNKNOWN"))).strip()
-                is_cross = r.get("is_cross_doc", False)
-                if is_cross:
-                    global_cross_rel_count += 1
-                if lbl:
-                    global_rel_counts[lbl] += 1
+                seen_pairs = set()
+                for r in rels:
+                    lbl = str(r.get("edge_label", r.get("label", "UNKNOWN"))).strip()
+                    is_cross = r.get("is_cross_doc", False)
+                    if is_cross: global_cross_rel_count += 1
+                    if lbl: global_rel_counts[lbl] += 1
 
-                # Kiểm tra chồng chéo: cùng (source, target, label) xuất hiện >1 lần
-                pair_key = (r.get("source_doc", ""), r.get("target_doc", ""), lbl)
-                if pair_key in seen_pairs:
-                    global_overlap_skipped += 1
-                else:
-                    seen_pairs.add(pair_key)
+                    pair_key = (r.get("source_doc", ""), r.get("target_doc", ""), lbl)
+                    if pair_key in seen_pairs: global_overlap_skipped += 1
+                    else: seen_pairs.add(pair_key)
 
-                t_key = normalize_doc_key(r.get("target_doc", ""))
-                if t_key:
-                    all_referenced_target_keys.add(t_key)  # gom cho Pha 3
-                    t_id = meta_docnum_to_id.get(t_key)
-                    if t_id and t_id not in processed_ids and discovered_set is not None:
-                        discovered_set.add(t_id)
+                    t_key = normalize_doc_key(r.get("target_doc", ""))
+                    if t_key:
+                        all_referenced_target_keys.add(t_key)
+                        t_id = meta_docnum_to_id.get(t_key)
+                        if t_id and t_id not in processed_ids and discovered_set is not None:
+                            discovered_set.add(t_id)
 
-        pbar.update(1)
-        if discovered_set is not None:
-            pbar.set_postfix({"Chunks": len(all_chunks), "Rels": total_rels, "CrossRels": global_cross_rel_count, "RefDocsAdded": len(discovered_set)})
-        else:
-            pbar.set_postfix({"Chunks": len(all_chunks), "Rels": total_rels, "CrossRels": global_cross_rel_count, "RefDocsAdded": len(all_referenced_target_keys)})
+            processed_ids.add(doc_id)
+            pbar.update(1)
+            
+            if discovered_set is not None:
+                pbar.set_postfix({"Chunks": len(all_chunks), "Rels": total_rels, "CrossRels": global_cross_rel_count, "RefDocsAdded": len(discovered_set)})
+            else:
+                pbar.set_postfix({"Chunks": len(all_chunks), "Rels": total_rels, "CrossRels": global_cross_rel_count, "RefDocsAdded": len(all_referenced_target_keys)})
 
 # ============================================================
 # PHASE 1: Chunk + Embed ORIGINAL documents (8000)
