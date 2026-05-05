@@ -118,7 +118,9 @@ class ICLLMClient(BaseLLMClient):
                 params={
                     "thinking_mode": "off",
                     "max_new_tokens": str(max_tokens),
-                    "max_tokens": str(max_tokens)
+                    "max_tokens": str(max_tokens),
+                    "do_sample": False,
+                    "repetition_penalty": 1.0
                 },
                 prompt=final_question,
                 temperature=temperature,
