@@ -5,7 +5,7 @@ import asyncio
 from backend.agent.graph import app as legal_graph_app
 from backend.agent.memory import ChatSessionManager
 from backend.agent.query_router import RouteIntent
-from backend.agent.utils.utils_conversation import extract_entities
+from backend.agent.utils_general import extract_entities
 
 logger = logging.getLogger("chat_engine")
 
@@ -29,17 +29,22 @@ class RAGEngine:
             "reset_for_batch": "📦 Đang xử lý tập dữ liệu tiếp theo..."
         }
 
-    async def chat(self, session_id: str, query: str, mode: str = "LEGAL_QA", file_path: str = None, llm_preset: str = "groq_8b", top_k: int = 5, use_reflection: bool = None, use_grading: bool = None, use_rerank: bool = None):
+    async def chat(self, session_id: str, query: str, mode: str = "LEGAL_CHAT", file_path: str = None, llm_preset: str = "groq_8b", top_k: int = 5, use_reflection: bool = None, use_grading: bool = None, use_rerank: bool = None):
         """Streaming flow bằng LangGraph Orchestration."""
-        from backend.config import settings
+        import os
         import time
         import asyncio
         
         # Merge input params with global ablation config
         # Nếu truyền None (từ API) -> ưu tiên dùng config "mã nguồn" như user yêu cầu
-        final_use_reflection = use_reflection if use_reflection is not None else settings.ENABLE_REFLECTION
-        final_use_rerank = use_rerank if use_rerank is not None else settings.ENABLE_RERANK
-        final_use_grading = use_grading if use_grading is not None else settings.ENABLE_GRADING
+        # Determine defaults from env variables
+        default_reflection = os.environ.get("ENABLE_REFLECTION", "false").lower() == "true"
+        default_rerank = os.environ.get("ENABLE_RERANK", "false").lower() == "true"
+        default_grading = os.environ.get("ENABLE_GRADING", "false").lower() == "true"
+
+        final_use_reflection = use_reflection if use_reflection is not None else default_reflection
+        final_use_rerank = use_rerank if use_rerank is not None else default_rerank
+        final_use_grading = use_grading if use_grading is not None else default_grading
 
         t0 = time.perf_counter()
         logger.info("\n" + "="*80)

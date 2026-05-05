@@ -1,11 +1,9 @@
 # 🧠 Kiến Trúc Agent Framework (Legal-RAG)
 
 **Đường dẫn:** `backend/agent/`
-**Cập nhật lần cuối:** 2026-04-22
+**Cập nhật lần cuối:** 2026-04-29
 
-Thư mục `backend/agent/` đóng vai trò là "bộ não" của hệ thống Legal-RAG. Hệ thống này được xây dựng trên **LangGraph**, áp dụng kiến trúc **Stateful Multi-turn Routing** kết hợp với mẫu thiết kế **Strategy Pattern** để linh hoạt xử lý nhiều loại câu hỏi pháp lý phức tạp khác nhau.
-
-Dưới đây là sơ đồ luồng dữ liệu (Data Flow) và giải phẫu chi tiết từng thành phần, nhằm mục đích giúp bạn dễ dàng nắm bắt và debug.
+Thư mục `backend/agent/` đóng vai trò là "bộ não" của hệ thống Legal-RAG. Hệ thống này được xây dựng trên **LangGraph**, áp dụng kiến trúc **Unified GraphRAG** với **một chiến lược duy nhất** (`LegalChatStrategy`) xử lý tất cả câu hỏi pháp lý, và **chỉ 2 mode phân loại**: `LEGAL_CHAT` và `GENERAL_CHAT`.
 
 ---
 
@@ -15,199 +13,268 @@ Dưới đây là sơ đồ luồng dữ liệu (Data Flow) và giải phẫu ch
 backend/agent/
 ├── state.py                 # Định nghĩa Data Schema (AgentState)
 ├── memory.py                # Quản lý bộ nhớ hội thoại / ChatSessionManager
-├── query_router.py          # LLM SuperRouter (Classify intent, Rewrite, Extract)
-├── graph.py                 # Khởi tạo và thiết lập Topology của LangGraph
-├── chat_engine.py           # Vòng lặp chính, xử lý streaming cho Frontend
-├── strategies/              # Cài đặt cụ thể cho từng Intent (Strategy Pattern)
-│   ├── base.py              # Interface BaseRAGStrategy
-│   ├── legal_qa.py          # Chiến lược trả lời câu hỏi trực tiếp
-│   ├── sector_search.py     # Chiến lược tìm kiếm danh sách/thống kê
-│   └── conflict_analyzer.py # Chiến lược phân tích mâu thuẫn/hiệu lực
-└── utils/                   # Các hàm prompt/helper chuyên biệt cho từng chiến lược
+├── query_router.py          # SuperRouter: phân loại 2 mode + HyDE + Metadata Filter
+├── graph.py                 # LangGraph Topology — 10 Nodes, 3 Conditional Routers
+├── chat_engine.py           # Vòng lặp chính, xử lý streaming SSE cho Frontend
+├── legal_chat.py            # LegalChatStrategy duy nhất (Unified GraphRAG)
+├── utils_legal.py           # fetch_related_graph, format_graph_context, build_legal_context
+└── utils_general.py         # execute_general_chat, SubTimer
 ```
 
----
-
-## 2. Giải Phẫu Chi Tiết Từng Thành Phần
-
-### 2.1 State Management (`state.py`)
-
-Toàn bộ quá trình chạy của Agent chia sẻ một trạng thái chung có kiểu `AgentState` (dựa trên `TypedDict`). State này mô hình hóa luồng RAG 5 bước thực tế (hiện tại chạy 3 bước cốt lõi thay vì 5 để tối ưu):
-
-- **Inputs:** `query`, `session_id`, `mode`, `llm_preset`...
-- **Truy vết:** `history`, `standalone_query`, `condensed_query` (HyDE query), `detected_mode`, `router_filters`.
-- **RAG States:**
-  - `rewritten_queries` / `metadata_filters` (Stage 1: Understand)
-  - `raw_hits` / `graph_context` (Stage 2: Retrieve)
-  - `draft_response` / `final_response` / `references` (Stage 4: Generate)
-- **Stateful lưu trữ:** `conversation_state` (Tình trạng lưu vết ngữ cảnh như `current_document` và `entities`).
-
-### 2.2 SuperRouter (`query_router.py`)
-
-Thay vì dùng nhiều prompt riêng lẻ vừa tốn thời gian vừa rời rạc, hệ thống gộp vào một class `QueryRouter` "Super Prompt" xử lý **3 việc trong 1 lần gọi LLM duy nhất**:
-1. **Phân loại Intent:** Trả về một trong `LEGAL_QA`, `SECTOR_SEARCH`, `CONFLICT_ANALYZER`, `GENERAL_CHAT`.
-2. **Viết lại câu hỏi (Contextualization & HyDE):** Thay thế đại từ (dựa trên lịch sử/context) thành `standalone_query`, và đồng thời bổ sung giả định kết quả thành `condensed_query` để dùng cho Vector Search.
-3. **Trích xuất Metadata Filters:** Trích xuất `legal_type`, `doc_number`, `article_ref`... thành JSON dict chuẩn hóa.
-
-### 2.3 Quản Lý LangGraph (`graph.py`)
-
-Chứa topology cốt lõi của LangGraph. Gồm các node:
-1. `preprocess`: Đọc cache hoặc parse file upload (trước lúc tính toán RAG).
-2. `condense`: Gọi `SuperRouter` để có được query rewrite và intent. Bị điều kiện lọc bỏ (nhảy sang `detect_only`) nếu không có History. 
-3. **Dispatcher (Conditional Edge):** Nhánh sang `general` (bỏ qua RAG) hoặc nhánh sang `understand` (tiến vào RAG).
-4. `understand` → `retrieve` → `generate`: Bộ 3 Node RAG Pipeline.
-   - Nhờ **mẫu thiết kế Delegate**, các node này dùng chung mã nhưng sẽ linh động gọi logic tùy vào `detected_mode`:
-     ```python
-     strategy = get_strategy(state["detected_mode"])
-     result = strategy.understand(state) # Hoặc retrieve, generate
-     ```
-
-### 2.4 Chiến Lược Theo Tình Huống (`strategies/`)
-
-Mẫu thiết kế (Design Pattern) sử dụng là **Strategy**. Lớp trừu tượng `BaseRAGStrategy` yêu cầu các lớp con cài đặt 3 node `understand`, `retrieve`, `generate`.
-
-- **`LegalQAStrategy` (`legal_qa.py`):**
-  - **Retrieve:** Trỏ filter Qdrant truyền thống + Mở rộng Neo4j (tìm căn cứ `BASED_ON`, lấy text của Điều/Khoản trực tiếp, mở rộng ngang dọc Bottom-Up/Lateral).
-  - **Generate:** Dùng `standalone_query` để sinh câu trả lời bằng prompt `ANSWER_PROMPT`, map references có thật dùng trong text trả lời.
-  
-- **`SectorSearchStrategy` (`sector_search.py`):** Dành cho các câu hỏi mang tính chất báo cáo, liệt kê ban hành, lọc số lượng, phân loại. Ưu tiên các bảng biểu trong generate.
-- **`ConflictAnalyzerStrategy` (`conflict_analyzer.py`):** Phổ biến cho câu hỏi tìm sửa đổi, bổ sung, hết hiệu lực, hoặc người dùng muốn đối chiếu một tình huống.
-
-### 2.5 Lõi Streaming (`chat_engine.py`)
-
-Lớp `RAGEngine` chuyên quản lý I/O luồng người dùng để đẩy ra FastAPI/Frontend bằng SSE (Server-Sent Events).
-- Lấy `session_id`, khởi tạo `initial_state`.
-- Chạy LangGraph ngầm qua `astream_events(initial_state, version="v2")`.
-- Map tên node thành tiến trình UI ví dụ: `node_messages["retrieve"]` = *"📚 Đang tìm kiếm cơ sở dữ liệu pháp luật..."*.
-- Khi kết thúc, lấy `answer` ra từ `final_state`, cập nhật trạng thái Context Entity (`conversation_state`) để chuẩn bị cho turn sau, và lưu trữ vào SQL.
+> [!IMPORTANT]
+> Kiến trúc hiện tại đã hợp nhất toàn bộ 3 mode cũ (LegalQA, SectorSearch, ConflictAnalyzer) thành **`LegalChatStrategy` duy nhất**. Router cũng đã giảm từ 4 intent xuống còn **2 mode**: `LEGAL_CHAT` và `GENERAL_CHAT`.
 
 ---
 
-## 3. Bản Đồ Di Chuyển Khi Debug (Troubleshooting Map)
+## 2. Topology LangGraph — Các Node & Edge
 
-Để dễ dàng fix bug, hãy tra cứu theo quy tắc sau:
+### 2.1 Sơ đồ luồng thực tế
 
-| Hiện tượng lỗi | Nơi kiểm tra / File cần xem |
+```mermaid
+graph TB
+    START --> preprocess
+
+    preprocess -->|has history| condense
+    preprocess -->|no history| detect_only
+
+    condense -->|GENERAL_CHAT| general
+    condense -->|LEGAL_CHAT| understand
+
+    detect_only -->|GENERAL_CHAT| general
+    detect_only -->|LEGAL_CHAT| understand
+
+    general --> END1[END]
+
+    understand --> retrieve
+    retrieve --> generate
+
+    generate -->|use_reflection=True| reflect
+    generate -->|pending_tasks| reset_for_batch
+    generate -->|done| END2[END]
+
+    reflect -->|pass + done| END3[END]
+    reflect -->|pass + pending| reset_for_batch
+    reflect -->|fail, retry_count < 1| bump_retry
+
+    bump_retry --> generate
+    reset_for_batch --> understand
+```
+
+### 2.2 Danh sách Node
+
+| Node | Mục đích |
 |---|---|
-| AI nhận diện sai câu hỏi (Vào sai chế độ, ví dụ hỏi thủ tục lại trả về bảng biểu so sánh). | Kiểm tra `backend/agent/query_router.py`, xem xét `super_system_prompt`. |
-| AI báo lỗi parse đại từ "nó", "điều khoản này" nhưng không biết tên văn bản ở luồng trước. | Kiểm tra `backend/agent/chat_engine.py` (phần lưu `conv_state`) hoặc phần prompt lưu tiểu sử trong `query_router.py`. |
-| Rút trích sai tên cơ quan hoặc số quyết định, sai metadata `filters = {}` | Kiểm tra **Rules** giải thích trong `backend/agent/query_router.py`. |
-| Legal QA trả lời đúng nhưng bị sai Citation (Không trích nguồn). | Kiểm tra `backend/agent/utils/utils_legal_qa.py` (`filter_cited_references`). Nơi này chặn nếu LLM ko in đậm tham chiếu. |
-| Graph Expansion gọi Neo4j bị lỗi nhưng search Vector vẫn chạy. | Kiểm tra khối `try...except` ở mục `retrieve` trong `backend/agent/strategies/legal_qa.py` (hoặc strategy tương đương). |
-| LangGraph bị loop vô tận hoặc bị crash state Schema. | Kiểm tra `AgentState` (`state.py`) và Edge/Node Dispatcher tại `graph.py`. |
-| Stream API (Frontend) không trả text, đứng im. | Kiểm tra `astream_events` trong `backend/agent/chat_engine.py` có catch được event `on_chain_end` hay không. |
+| `preprocess` | Load file upload từ cache hoặc disk trước khi xử lý |
+| `condense` | Gọi SuperRouter khi **có** history: viết lại query + phân loại intent |
+| `detect_only` | Gọi SuperRouter khi **không** có history (lần hỏi đầu tiên) |
+| `general` | Trả lời thông thường — bypass toàn bộ RAG pipeline |
+| `understand` | Chuẩn bị hypothetical query + metadata filters từ SuperRouter output |
+| `retrieve` | QdrantNeo4jRetriever → 2-hop subgraph expansion |
+| `generate` | GraphRAG Prompt (Nodes + Edges + Vector Context → LLM) |
+| `reflect` | Reviewer agent: kiểm tra hallucination (optional, `use_reflection=True`) |
+| `bump_retry` | Tăng `retry_count`, nới lỏng filters trước khi retry `generate` |
+| `reset_for_batch` | Reset `retry_count` + `is_sufficient` khi bắt đầu batch mới |
+
+### 2.3 Các Router (Conditional Edge)
+
+| Router | Đầu vào | Các nhánh |
+|---|---|---|
+| `router_preprocess` | `history` có hay không | `condense` / `detect_only` |
+| `router_dispatcher` | `detected_mode` | `general` / `understand` |
+| `router_after_generate` | `use_reflection`, `pending_tasks` | `reflect` / `loop_next_batch` / `end` |
+| `router_after_reflect` | `pass_flag`, `retry_count`, `pending_tasks` | `end` / `retry_generate` / `loop_next_batch` |
 
 ---
 
-## 4. Chi Tiết Cơ Chế Khai Thác Song Song 2 CSDL (Qdrant & Neo4j)
+## 3. Giải Phẫu Chi Tiết Từng Thành Phần
 
-Điểm phức tạp nhưng mạnh mẽ nhất của kiến trúc là khả năng **Graph-Vector Orchestration** (phối hợp Đồ thị và Vector) khác nhau tùy theo Intent. Cơ chế này được định nghĩa tại hàm `retrieve(self, state)` của từng class trong `strategies/`.
+### 3.1 State Management (`state.py`)
 
-### 4.1 Luồng LEGAL_QA (Vector đi trước, Graph bù đắp)
+Toàn bộ quá trình chạy của Agent chia sẻ một trạng thái chung có kiểu `AgentState` (dựa trên `TypedDict`):
 
-Chiến lược này dùng cho các câu hỏi tra cứu nội dung thông thường cơ bản. Do nội dung nằm rải rác, hệ thống dùng **Qdrant làm chủ đạo** để tìm kiếm nội dung, rồi dùng **Neo4j rọi sáng bối cảnh**.
+- **Inputs:** `query`, `session_id`, `mode`, `file_path`, `use_reflection`, `llm_preset`...
+- **Truy vết Router:** `history`, `standalone_query`, `condensed_query` (HyDE query), `detected_mode`, `router_filters`.
+- **RAG States:**
+  - `rewritten_queries` / `metadata_filters` (Stage: Understand)
+  - `raw_hits` / `graph_context` (Stage: Retrieve)
+  - `final_response` / `references` (Stage: Generate)
+  - `pass_flag` / `feedback` (Stage: Reflect)
+- **Batching:** `pending_tasks` (hàng đợi), `completed_results` (kết quả tích lũy)
+- **Stateful conversation:** `conversation_state` (`current_document`, `entities`)
+
+### 3.2 SuperRouter — Chỉ 2 Mode (`query_router.py`)
+
+`QueryRouter.super_route_query()` xử lý **3 việc trong 1 lần gọi LLM duy nhất**:
+1. **Phân loại Intent** — chỉ trả về `LEGAL_CHAT` hoặc `GENERAL_CHAT`.
+2. **Viết lại câu hỏi (HyDE)** — sinh `standalone_query` (khử đại từ) và `hypothetical_query` (câu trả lời giả định cho vector search).
+3. **Trích xuất Metadata Filters** — `legal_type`, `doc_number`, `article_ref`...
+
+> [!NOTE]
+> **Heuristic Fast Path**: Câu hỏi ngắn (chào hỏi, cảm ơn...) được nhận diện ngay bằng blocklist từ khóa, bypass hoàn toàn LLM call → `GENERAL_CHAT` tức thì, không tốn thời gian.
+
+```python
+class RouteIntent(str):
+    LEGAL_CHAT   = "LEGAL_CHAT"    # Tất cả câu hỏi pháp lý
+    GENERAL_CHAT = "GENERAL_CHAT"  # Hỏi thăm, ngoài chủ đề
+```
+
+### 3.3 Quản Lý LangGraph (`graph.py`)
+
+File này khởi tạo class `LegalRAGWorkflow` và compile đồ thị. Tất cả 10 node và 4 conditional router được đăng ký trong `_add_nodes()` / `_add_edges()`. Instance global `app` được export để `chat_engine.py` sử dụng.
+
+**Factory pattern đơn giản hóa:**
+```python
+def get_strategy(mode: str) -> BaseRAGStrategy:
+    """Tất cả mọi mode pháp lý đều sử dụng LegalChatStrategy."""
+    return LegalChatStrategy()
+```
+
+### 3.4 Chiến Lược Duy Nhất — GraphRAG (`legal_chat.py`)
+
+`LegalChatStrategy` kế thừa `BaseRAGStrategy` và cài đặt 4 phương thức:
+
+#### Understand
+- Lấy `condensed_query` (HyDE) và `router_filters` từ SuperRouter output.
+- Nếu có file upload: tự động detect `doc_number` và enrichment query với tọa độ Điều/Khoản.
+
+#### Retrieve (2-Phase)
+**Phase 1 — QdrantNeo4jRetriever** (thư viện `neo4j-graphrag`):
+```
+query → encode_query_dense() → QdrantNeo4jRetriever.search()
+    → Qdrant vector search (top_k hits)
+    → Auto-fetch Neo4j node data (MATCH node WHERE qdrant_id = $id)
+    → OPTIONAL MATCH BELONGS_TO/PART_OF (lấy parent metadata)
+```
+
+**Phase 2 — 2-hop Subgraph Expansion:**
+```
+entity_ids → fetch_related_graph() → subgraph (nodes[], edges[])
+    → format_graph_context() → graph_ctx {nodes, edges}
+```
+
+**Fallback**: Nếu `QdrantNeo4jRetriever` thất bại → `_fallback_vector_search()` dùng `HybridRetriever` cũ (Dense+Sparse+Rerank).
+
+#### Generate
+- Nếu có `graph_ctx.nodes` → dùng `GRAPHRAG_PROMPT` (Nodes + Edges + Vector Context).
+- Nếu không có graph data → fallback sang `ANSWER_PROMPT` (traditional context).
+- Sau khi sinh câu trả lời: `filter_cited_references()` chỉ giữ lại references thực sự được trích dẫn.
+
+#### Reflect (Optional)
+- Chỉ chạy khi `use_reflection=True` trong state.
+- Gọi `REFLECT_PROMPT` → LLM trả về JSON `{pass, issues, corrected_answer}`.
+- Nếu `pass=False` và `retry_count < 1` → trigger `bump_retry` → `generate` lại với filters được nới lỏng.
+
+### 3.5 Lõi Streaming (`chat_engine.py`)
+
+Lớp `RAGEngine` quản lý I/O luồng người dùng qua SSE (Server-Sent Events):
+- Lấy `session_id`, khởi tạo `initial_state`.
+- Chạy LangGraph qua `astream_events(initial_state, version="v2")`.
+- Map tên node thành thông báo tiến trình UI: `"retrieve"` → *"📚 Đang tìm kiếm..."*
+- Sau khi kết thúc: cập nhật `conversation_state` (lưu `current_document`, `entities`) → ghi history vào SQLite.
+
+---
+
+## 4. Bản Đồ Debug (Troubleshooting Map)
+
+| Hiện tượng lỗi | File cần xem |
+|---|---|
+| AI nhận diện sai mode (LEGAL vs GENERAL). | `backend/agent/query_router.py` → xem `ROUTER_PROMPT` và blocklist `greetings`. |
+| AI không biết tên văn bản ở turn trước ("nó", "điều khoản đó"). | `backend/agent/chat_engine.py` → phần update `conv_state` sau mỗi turn. |
+| Sai metadata filter (legal_type, doc_number rỗng). | `backend/agent/query_router.py` → xem phần `filters` trong JSON output. |
+| Citation bị thiếu/sai (trả lời đúng nhưng không có nguồn). | `backend/agent/utils_legal.py` → `filter_cited_references()`. |
+| `QdrantNeo4jRetriever` lỗi, fallback sang vector-only. | `backend/agent/legal_chat.py` → `_qdrant_neo4j_search()` và `_fallback_vector_search()`. |
+| Subgraph expansion trả về rỗng (0 nodes, 0 edges). | `backend/agent/utils_legal.py` → `fetch_related_graph()` — kiểm tra Neo4j connection và `entity_ids`. |
+| LangGraph vòng lặp vô tận (bump_retry loop). | `backend/agent/graph.py` → `router_after_reflect()` — điều kiện `retry_count < 1`. |
+| Stream API (Frontend) không trả text. | `backend/agent/chat_engine.py` → `astream_events` catch `on_chain_end`. |
+| File upload không được phân tích đúng. | `backend/agent/graph.py` → `node_preprocess()` và `backend/utils/document_parser.py`. |
+
+---
+
+## 5. Chi Tiết Luồng Retrieve — QdrantNeo4jRetriever + Subgraph
 
 ```mermaid
 sequenceDiagram
-    participant State
-    participant LegalQA
-    participant Qdrant (Vector)
-    participant Neo4j (Graph)
-    
-    State->>LegalQA: trigger retrieve()
-    LegalQA->>Qdrant: Hybrid Search (Tiered Prefetch + Rerank)
-    Qdrant-->>LegalQA: Trả về Top 15 raw_hits (Chunks)
-    
-    Note over LegalQA, Neo4j: Neo4j Graph Expansion (Bù đắp)
-    
-    opt Nếu có doc_number
-        LegalQA->>Neo4j: fetch_administrative_metadata()
-    end
-    opt Nếu query hỏi về "Căn cứ"
-        LegalQA->>Neo4j: MATCH (d)-[:BASED_ON]->(b)
-    end
-    opt Có article_ref rõ ràng (VD: "Điều 5")
-        LegalQA->>Neo4j: fetch_specific_article(doc_num, ref)
-    end
-    
-    Note over LegalQA, Neo4j: Các chunk_ids lọt top được rọi phẳng qua đồ thị
-    LegalQA->>Neo4j: bottom_up_expand(chunk_ids) -> Lấy TOC & Điều Khoản Cha-Con
-    LegalQA->>Neo4j: lateral_expand(chunk_ids) -> Lấy VB Liên Quan ngang hàng
-    
-    LegalQA-->>State: Trả về {raw_hits: [], graph_context: {}}
+    participant Strategy as LegalChatStrategy
+    participant QNR as QdrantNeo4jRetriever
+    participant Qdrant
+    participant Neo4j
+
+    Strategy->>QNR: search(query_vector, top_k)
+    QNR->>Qdrant: vector search (dense BGE-M3)
+    Qdrant-->>QNR: top-k point ids + scores
+    QNR->>Neo4j: MATCH node WHERE qdrant_id IN [ids]
+    Neo4j-->>QNR: node data + parent metadata
+    QNR-->>Strategy: hits[] + entity_ids[]
+
+    Note over Strategy, Neo4j: Phase 2 — 2-hop Subgraph
+    Strategy->>Neo4j: fetch_related_graph(entity_ids)
+    Neo4j-->>Strategy: subgraph {nodes, edges}
+    Strategy->>Strategy: format_graph_context(subgraph)
 ```
 
-**Tóm lược:** Qdrant tìm các điểm chạm nhỏ nhất (point matches). Neo4j xây lại cấu trúc hoàn chỉnh (Document TOC, Sibling Texts) và tạo quan hệ ngang (liên kết văn bản bổ sung).
-
-### 4.2 Luồng SECTOR_SEARCH (Graph đi trước, TOC Drill-down kéo Vector)
-
-Chiến lược này xử lý câu hỏi gom nhóm diện rộng "Xin danh sách luật về Y_Tế". Vector DB sẽ bị "mù" khi search diện rộng, do đó **Neo4j đi trước** để chốt danh sách văn bản, sau đó điều khiển Qdrant qua LLM.
-
-```mermaid
-sequenceDiagram
-    participant State
-    participant SectorSearch
-    participant Neo4j (Graph)
-    participant LLM
-    participant Qdrant (Vector)
-    
-    State->>SectorSearch: trigger retrieve()
-    
-    Note over SectorSearch, Neo4j: Cắt phễu từ Đồ Thị
-    SectorSearch->>Neo4j: find_docs_in_sector_by_title(Sector, Query)
-    Neo4j-->>SectorSearch: Trả về 3 Văn bản tiềm năng nhất + Document_TOC
-    
-    Note over SectorSearch, LLM: TOC Drill-down
-    SectorSearch->>LLM: Gửi Document_TOC để tìm tọa độ Điều/Khoản phù hợp
-    LLM-->>SectorSearch: Trả về Tọa độ Article (VD: "Điều 7", "Phụ lục II")
-    
-    Note over SectorSearch, Qdrant: Vector Targeted Strike
-    SectorSearch->>Qdrant: Search có Metadata Filter (Target: doc_id + article_id)
-    Qdrant-->>SectorSearch: Trả về chunks mục tiêu
-    
-    SectorSearch->>Qdrant: Broad Search (Dành cho câu hỏi ngầm)
-    
-    LegalQA->>Neo4j: sector_mapreduce() (Optional kéo số liệu lớn)
-    
-    SectorSearch-->>State: Trả gộp mảng Hits & MapReduce Data
+**Cypher query auto-fetch của `QdrantNeo4jRetriever`:**
+```cypher
+MATCH (node)
+WHERE node.qdrant_id = $id OR node.id = $id
+OPTIONAL MATCH (node)-[:BELONGS_TO|PART_OF*1..2]->(parent)
+RETURN node {
+    .*,
+    parent_title: parent.title,
+    parent_doc_number: parent.document_number,
+    parent_url: parent.url
+} AS metadata
 ```
 
-**Tóm lược:** Hạn chế nhược điểm search Vector bằng cách dùng Đồ thị đếm/lấy danh sách chuẩn, và dùng mục lục (TOC) làm bản đồ khoanh vùng cho Vector bắn độ chính xác tuyệt đối.
+---
 
-### 4.3 Luồng CONFLICT_ANALYZER (Vector bóc tách mệnh đề, Graph cảnh báo Hiệu lực gốc - Time Travel)
+## 6. Pipeline Ingestion (Offline — `backend/ingestion/`)
 
-Đối phó với các mệnh đề "chồng chéo" hay kiểm duyệt văn bản người dùng tải lên, chế độ này chặt nhỏ câu hỏi/tài liệu thành nhiều Claims. Phối hợp tinh vi DB để báo trước rủi ro luật chết.
+Phần nạp dữ liệu vào Qdrant + Neo4j chạy tách rời khỏi Agent, được điều phối bởi `backend/ingestion/chunking_embedding.py`.
 
-```mermaid
-sequenceDiagram
-    participant Router
-    participant ConflictAnalyzer
-    participant Qdrant (Vector)
-    participant Neo4j (Graph)
-    
-    Router->>ConflictAnalyzer: Extract 5 Claims nội quy người dùng đang dùng
-    
-    Note over ConflictAnalyzer: Chia Batch Queue (Size=2)
-    loop Quét qua từng Claim (VD: "Đi làm trễ phạt 500k")
-        ConflictAnalyzer->>Qdrant: hyde_retrieve(claim_text)
-        Qdrant-->>ConflictAnalyzer: Trả top_hits (Vector similarity)
-    end
-    
-    Note over ConflictAnalyzer, Neo4j: Time-Travel Analysis (Cảnh báo Hiệu lực)
-    ConflictAnalyzer->>Neo4j: conflict_time_travel(batch_chunk_ids)
-    Neo4j-->>ConflictAnalyzer: Phát hiện: Văn bản bị REPLACED / AMENDED
-    
-    Note over ConflictAnalyzer: LLM Judge Prompt Injection
-    ConflictAnalyzer->>ConflictAnalyzer: Nhồi cảnh báo [VB đã bị thay thế] vào Prompt trước khi đưa cho LLM chấm điểm
-    ConflictAnalyzer-->>Router: Kết quả Final Report Table (Xung đột từng điều kiện)
+### 6.1 Cấu trúc Module Ingestion
+
+```text
+backend/ingestion/
+├── chunking_embedding.py        # 🚀 Script chạy chính — 6-Phase Pipeline
+├── pipeline.py                  # Orchestration helpers
+├── chunker/                     # FSM Chunking Engine (modular)
+│   ├── core.py                  #   AdvancedLegalChunker (orchestrator)
+│   ├── fsm.py                   #   Finite State Machine duyệt dòng
+│   ├── metadata.py              #   Regex Patterns & normalize_doc_key
+│   ├── heuristics.py            #   Phát hiện hint quan hệ (relation_hints)
+│   ├── payload.py               #   Đóng gói payload Qdrant & Neo4j
+│   └── toc.py                   #   Trích xuất Table-of-Contents
+└── extractor/                   # Trích xuất quan hệ & thực thể
+    ├── relations.py             #   Ontology Relation Extraction (10 nhãn + Passive Chain)
+    └── entities.py              #   Unified LLM prompt: entities + node_relations
 ```
 
-**Tóm lược:** Lôi hết các điều luật đối chiếu ra bằng vector, sau đó quăng toàn bộ list ID vào graph Neo4j hỏi "*Trong đám này có anh nào bị khai tử, chỉnh sửa chưa?*". Nếu có, báo lại cho LLM Judge biết trước khi đưa ra phán quyết.
+### 6.2 6-Phase Pipeline
 
+| Phase | Mục đích |
+|---|---|
+| **Phase 1** | Chunking 8000 văn bản gốc (từ CSV Y tế) |
+| **Phase 2** | Chunking văn bản tham chiếu (discovered depth=1) |
+| **Phase 3** | Chunking tham chiếu depth=2 |
+| **Phase 4** | Tạo Ghost Nodes (VB được tham chiếu nhưng không có trong dataset) |
+| **Phase 5** | Embedding BGE-M3 Dense + fastembed BM25 Sparse → Upsert Qdrant |
+| **Phase 6** | Build Neo4j: Document Tree + Ghost Nodes + Graph Triplets + Entity Enrichment |
+
+### 6.3 Unified LLM Extraction (Single-Pass)
+
+Một batch đoạn văn → 1 prompt → 1 response LLM chứa đồng thời:
+- `doc_relations`: 10 nhãn ontology (BASED_ON, AMENDS, REPLACES, REPEALS, GUIDES, APPLIES, ISSUED_WITH, ASSIGNS, CORRECTS, REFERENCES)
+- `entities`: Thực thể tự do động (Organization, Person, Fee, Condition...)
+- `node_relations`: Graph Triplets giữa các thực thể
+
+### 6.4 Debug & Checkpoint
+
+| Thư mục | Nội dung |
+|---|---|
+| `.debug/` | Log debug từ Extractor (auto-generated, ngoài root) |
+| `.checkpoints/` | Checkpoint pickle từng VB — cho phép resume khi bị crash |
+| `.reports/` | Báo cáo thống kê + benchmark sau mỗi lần chạy pipeline |
 
 > [!TIP]
 > **Điểm Nhấn Kiến Trúc (Architecture Highlight):**
-> Nhờ mẫu thiết kế Strategy (OOP), nếu tương lai bạn quyết định tạo một chế độ Chatbot hoàn toàn mới (Ví dụ: `DRAFT_CREATOR_MODE` chuyên hỗ trợ viết mới văn bản), bạn chỉ cần:
-> 1. Thêm `DRAFT_CREATOR` vào lớp `RouteIntent` ở `query_router.py`.
-> 2. Kế thừa `BaseRAGStrategy` thành `draft_creator.py` trong `strategies/`.
-> 3. Khai báo nó trong factory function ở `graph.py`. Toàn bộ Graph Pipeline hiện có không hề bị suy suyển (Open/Closed Principle)!
+> Nhờ `get_strategy()` trả về `LegalChatStrategy()` cho mọi mode pháp lý, toàn bộ logic retrieve và generate nằm ở một chỗ duy nhất. Nếu muốn thêm hành vi đặc biệt (ví dụ xử lý batch conflict claims), chỉ cần mở rộng `LegalChatStrategy` hoặc thêm node mới vào LangGraph mà không cần tạo strategy riêng.

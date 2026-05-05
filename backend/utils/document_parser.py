@@ -11,7 +11,7 @@ try:
 except ImportError:
     docx2txt = None
 
-from backend.retrieval.chunker import chunker
+from backend.ingestion.chunker.core import chunker
 
 class DocumentParser:
     def __init__(self):
@@ -129,7 +129,7 @@ class DocumentParser:
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-        from backend.retrieval.chunker import metadata as md
+        from backend.ingestion.chunker import metadata as md
         
         # Lấy 100 dòng đầu tiên để tìm số hiệu
         preamble = "\n".join(content.splitlines()[:100])

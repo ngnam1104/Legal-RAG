@@ -1,0 +1,201 @@
+📝 Logging tức thời vào file: d:\iCOMM\Legal-RAG\backend\ingestion\..\..\.debug/ingestion_log_20260429_162742.txt
+--- TEST MODE: 2 samples | SKIP_LLM=False | Collection: legal_rag_docs_nam             ---
+Environment setup complete (Project Root: d:\iCOMM\Legal-RAG)
+-> Đã đọc 8000 IDs văn bản từ CSV.
+-> Đang tải dataset từ HuggingFace (offline cache)...
+Loaded and mapped 518255 metadata records.
+-> KHÔNG sử dụng Checkpoint (sẽ chạy lại từ đầu).
+
+============================================================
+PHASE 1: Chunking ORIGINAL documents
+============================================================
+      [Pha 1] 🚀 Tìm thấy 5 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 23/2019/QĐ-UBND --[BASED_ON]--> 77/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 23/2019/QĐ-UBND --[BASED_ON]--> Luật ban hành văn bản quy phạm pháp luật ngày 22/6/2015
+      [DEBUG] ✓ Đã LƯU: 23/2019/QĐ-UBND --[BASED_ON]--> 139/2002/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 23/2019/QĐ-UBND --[BASED_ON]--> 14/2012/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 23/2019/QĐ-UBND --[BASED_ON]--> 33/2013/TTLT-BYT-BTC
+      [DEBUG] ✓ Đã LƯU: 23/2019/QĐ-UBND --[AMENDS]--> 33/2014/QĐ-UBND
+      [ENTITY] 📦 (23/2019/QĐ-UBND): Organization=[Ủy ban nhân dân tỉnh Trà Vinh, Sở Y tế, Ban Quản lý Quỹ khám, chữa bệnh cho người nghèo tỉnh Trà Vinh...]; Person=[Đồng Văn Lâm]; Location=[Tỉnh Trà Vinh, Bến Tre]; Fee=[20.000 đồng, 30.000 đồng, 0,2 lít xăng/km]; Timeframe=[ngày 14 tháng 10 năm 2019, ngày 15/01 năm sau, dưới 4 km...]; Role=[Chủ tịch, Giám đốc, Chánh Văn phòng...]; Concept=[Bảo hiểm y tế, Quỹ khám, chữa bệnh cho người nghèo]
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh Trà Vinh --[ISSUED_BY]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Person)Đồng Văn Lâm --[SIGNED_BY]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Person)Đồng Văn Lâm --[HOLDS_ROLE]--> (Role)Chủ tịch
+      [NODE REL] 🔗 (Organization)Sở Y tế --[PROPOSED_FOR]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Ban Quản lý Quỹ khám, chữa bệnh cho người nghèo tỉnh Trà Vinh --[PROPOSED_FOR]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Role)Chánh Văn phòng Ủy ban nhân dân tỉnh --[ASSIGNS_TO]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Role)Thường trực Ban Quản lý Quỹ khám, chữa bệnh cho người nghèo tỉnh Trà Vinh --[ASSIGNS_TO]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Role)Giám đốc Sở Tài chính --[ASSIGNS_TO]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Role)Giám đốc Sở Y tế --[ASSIGNS_TO]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Role)Giám đốc Kho bạc Nhà nước Trà Vinh --[ASSIGNS_TO]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân các huyện, thị xã và thành phố --[ASSIGNS_TO]--> (Document)23/2019/QĐ-UBND
+      [NODE REL] 🔗 (Role)Giám đốc các bệnh viện công lập trên địa bàn tỉnh --[ASSIGNS_TO]--> (Document)23/2019/QĐ-UBND
+      [Pha 1] 🚀 Tìm thấy 55 đoạn văn quan trọng. Đang xử lý 5 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 4677/QĐ-BYT --[ISSUED_WITH]--> 29/2015/TT-BYT
+      [DEBUG] ✓ Đã LƯU: 4677/QĐ-BYT --[BASED_ON]--> 40/2009/QH12
+      [DEBUG] ✓ Đã LƯU: 4677/QĐ-BYT --[BASED_ON]--> 03/2013/TT-BTC
+      [ENTITY] 📦 (4677/QĐ-BYT): Organization=[Bộ Y tế, Cục Quản lý Y, dược cổ truyền, Trung ương Hội Đông y Việt Nam...]; Procedure=[Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 3, Điều 1, Thông tư số 29/2015/TT-BYT, Cấp lại giấy chứng nhận là lương y thuộc thẩm quyền của Bộ Y tế]; Condition=[Có Giấy chứng nhận đạt trình độ y sỹ cấp 2 trở lên do Ban Trị sự Trung ương Tịnh độ cư sỹ Phật hội Việt Nam cấp trước ngày 30 tháng 6 năm 2004, Có thời gian thực tập khám bệnh, chữa bệnh bằng y học cổ truyền từ đủ 36 tháng trở lên tại các cơ sở khám bệnh, chữa bệnh bằng y học cổ truyền hợp pháp, Được Trung ương Hội Đông y Việt Nam xác nhận bằng văn bản về phạm vi hoạt động chuyên môn và đạo đức nghề nghiệp]; Fee=[2.500.000 đồng]; Timeframe=[10 ngày làm việc, 15 ngày, 35 ngày kể từ ngày có kết quả kỳ kiểm tra sát hạch...]; Role=[Lương y, Phụ trách cơ sở khám bệnh, chữa bệnh, Người đứng đầu cơ sở]; Concept=[Y học cổ truyền, Đạo đức nghề nghiệp, Phạm vi hoạt động chuyên môn]
+      [NODE REL] 🔗 (Organization)Cục Quản lý Y, dược cổ truyền --[MANAGED_BY]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 3, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Organization)Cục Quản lý Y, dược cổ truyền --[MANAGED_BY]--> (Procedure)Cấp lại giấy chứng nhận là lương y thuộc thẩm quyền của Bộ Y tế
+      [NODE REL] 🔗 (Document)Giấy chứng nhận là lương y --[RESULT_OF]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 3, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Document)Giấy xác nhận quá trình thực tập khám bệnh, chữa bệnh bằng y học cổ truyền --[REQUIRED_FOR]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 3, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Fee)2.500.000 đồng --[APPLIES_TO]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 3, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Timeframe)35 ngày kể từ ngày có kết quả kỳ kiểm tra sát hạch --[APPLIES_TO]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 3, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Timeframe)07 ngày làm việc --[APPLIES_TO]--> (Procedure)Cấp lại giấy chứng nhận là lương y thuộc thẩm quyền của Bộ Y tế
+      [NODE REL] 🔗 (Organization)Trung ương Hội Đông y Việt Nam --[CERTIFIES]--> (Condition)Có thời gian thực tập khám bệnh, chữa bệnh bằng y học cổ truyền từ đủ 36 tháng trở lên tại các cơ sở khám bệnh, chữa bệnh bằng y học cổ truyền hợp pháp
+      [DEBUG] ✓ Đã LƯU: 4677/QĐ-BYT --[BASED_ON]--> 29/2015/TT-BYT
+      [DEBUG] ✓ Đã LƯU: 4677/QĐ-BYT --[BASED_ON]--> 13/1999/TT-BYT
+      [DEBUG] ✓ Đã LƯU: 4677/QĐ-BYT --[BASED_ON]--> 07/2007/TT-BYT
+      [ENTITY] 📦 (4677/QĐ-BYT): Organization=[Sở Y tế tỉnh, thành phố trực thuộc Trung ương, Hội đồng kiểm tra sát hạch, Tổ thư ký của Hội đồng kiểm tra sát hạch...]; Procedure=[Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 1, Điều 1, Thông tư số 29/2015/TT-BYT, Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 4, Điều 1, Thông tư số 29/2015/TT-BYT]; Fee=[2.500.000 đồng]; Timeframe=[05 ngày làm việc, 10 ngày làm việc, 10 ngày...]; Condition=[Có đủ các chứng chỉ học phần do cơ sở đào tạo y, dược, Trung ương Hội Đông y Việt Nam hoặc các cơ sở Y học cổ truyền tổ chức bồi dưỡng chuẩn hóa, Có thời gian thực tập khám bệnh, chữa bệnh bằng y học cổ truyền từ đủ 36 tháng trở lên, Người sinh trước ngày 01 tháng 01 năm 1960 và dân tộc ít người phải đọc thông viết thạo chữ Quốc ngữ...]; Role=[Lương y, Bác sỹ y học cổ truyền, Y sỹ y học cổ truyền...]; Concept=[Y học cổ truyền, Đạo đức nghề nghiệp, Phạm vi hoạt động chuyên môn]
+      [NODE REL] 🔗 (Organization)Sở Y tế tỉnh, thành phố trực thuộc Trung ương --[MANAGED_BY]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 1, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Organization)Sở Y tế tỉnh, thành phố trực thuộc Trung ương --[MANAGED_BY]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 4, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Fee)2.500.000 đồng --[REQUIRED_FOR]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 1, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Fee)2.500.000 đồng --[REQUIRED_FOR]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 4, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Document)Đơn đề nghị cấp Giấy chứng nhận là lương y --[REQUIRED_FOR]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 1, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Document)Giấy xác nhận quá trình thực tập khám bệnh, chữa bệnh bằng y học cổ truyền --[REQUIRED_FOR]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 1, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Organization)Hội Đông y tỉnh --[APPLIES_TO]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 1, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Organization)Hội Đông y tỉnh --[APPLIES_TO]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 4, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Timeframe)35 ngày --[REGULATED_BY]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 1, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Timeframe)20 ngày --[REGULATED_BY]--> (Procedure)Cấp Giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 4, Điều 1, Thông tư số 29/2015/TT-BYT
+      [ENTITY] 📦 (4677/QĐ-BYT): Organization=[Sở Y tế tỉnh, thành phố trực thuộc Trung ương, Hội đồng kiểm tra sát hạch, Tổ thư ký của Hội đồng kiểm tra sát hạch...]; Procedure=[Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 5, Điều 1, Thông tư số 29/2015/TT-BYT, Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 6, Điều 1, Thông tư số 29/2015/TT-BYT]; Condition=[Có giấy xác nhận đã tham dự lớp bồi dưỡng về y học cổ truyền với tổng thời gian từ đủ 6 tháng trở lên, Tham gia khám bệnh, chữa bệnh bằng y học cổ truyền từ đủ 30 năm trở lên, không có sai sót về chuyên môn và được người bệnh tín nhiệm, Có tuổi đời từ đủ 55 tuổi trở lên tính đến ngày Thông tư này có hiệu lực...]; Fee=[2.500.000 đồng]; Timeframe=[05 ngày làm việc, 10 ngày làm việc, 20 ngày...]; Role=[Lương y, Người hành nghề, Trưởng Trạm y tế xã...]
+      [NODE REL] 🔗 (Organization)Sở Y tế tỉnh, thành phố trực thuộc Trung ương --[MANAGED_BY]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 5, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Organization)Sở Y tế tỉnh, thành phố trực thuộc Trung ương --[MANAGED_BY]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 6, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Role)Giám đốc Sở Y tế tỉnh --[ISSUED_BY]--> (Document)Giấy chứng nhận là lương y
+      [NODE REL] 🔗 (Organization)Hội Đông y tỉnh --[CERTIFIES]--> (Role)Lương y
+      [NODE REL] 🔗 (Organization)Trạm y tế xã --[VERIFIES]--> (Concept)Quá trình hành nghề khám bệnh, chữa bệnh bằng y học cổ truyền
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ORGANIZES]--> (Concept)Kỳ kiểm tra sát hạch cuối khóa chuẩn hóa lương y
+      [NODE REL] 🔗 (Fee)2.500.000 đồng --[REQUIRED_FOR]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 5, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Fee)2.500.000 đồng --[REQUIRED_FOR]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 6, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Timeframe)20 ngày --[TIMEFRAME_OF]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 5, Điều 1, Thông tư số 29/2015/TT-BYT
+      [NODE REL] 🔗 (Timeframe)20 ngày --[TIMEFRAME_OF]--> (Procedure)Cấp giấy chứng nhận là lương y cho các đối tượng quy định tại Khoản 6, Điều 1, Thông tư số 29/2015/TT-BYT
+      [ENTITY] 📦 (4677/QĐ-BYT): Organization=[Bộ Y tế, Sở Y tế tỉnh, thành phố trực thuộc Trung ương]; Procedure=[Cấp lại Giấy chứng nhận là lương y]; Timeframe=[07 ngày làm việc, 07 ngày, 06 tháng]; Role=[Lương y, Người đứng đầu cơ sở KCB bằng YHCT hợp pháp, Phụ trách cơ sở khám bệnh, chữa bệnh]
+      [NODE REL] 🔗 (Procedure)Cấp lại Giấy chứng nhận là lương y --[MANAGED_BY]--> (Organization)Sở Y tế tỉnh, thành phố trực thuộc Trung ương
+      [NODE REL] 🔗 (Procedure)Cấp lại Giấy chứng nhận là lương y --[HAS_TIMEFRAME]--> (Timeframe)07 ngày
+      [NODE REL] 🔗 (Procedure)Cấp lại Giấy chứng nhận là lương y --[RESULTS_IN]--> (Document)Giấy chứng nhận là lương y
+      [NODE REL] 🔗 (Document)Giấy xác nhận quá trình thực tập khám bệnh, chữa bệnh bằng y học cổ truyền --[SIGNED_BY]--> (Role)Phụ trách cơ sở khám bệnh, chữa bệnh
+      [NODE REL] 🔗 (Document)Giấy xác nhận quá trình thực tập khám bệnh, chữa bệnh bằng y học cổ truyền --[SIGNED_BY]--> (Role)Người đứng đầu cơ sở KCB bằng YHCT hợp pháp
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Thể thao - Y tế: 2 văn bản
+   - Tài chính nhà nước: 1 văn bản
+   - Bộ máy hành chính: 1 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - BASED_ON: 14 relations
+   - ISSUED_WITH: 3 relations
+   - AMENDS: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Tổng quan hệ thường (chủ động):     18
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+============================================================
+PHASE 1 complete: 92 chunks | 15 reference docs to process.
+
+============================================================
+PHASE 2: Chunking REFERENCE documents (exist in dataset)
+============================================================
+      [Pha 1] 🚀 Tìm thấy 9 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 33/2014/QĐ-UBND --[BASED_ON]--> Luật Tổ chức HĐND và UBND
+      [DEBUG] ✓ Đã LƯU: 33/2014/QĐ-UBND --[BASED_ON]--> Luật Quản lý thuế
+      [DEBUG] ✓ Đã LƯU: 33/2014/QĐ-UBND --[BASED_ON]--> 34/2013/TT-BTC
+      [DEBUG] ✓ Đã LƯU: 33/2014/QĐ-UBND --[AMENDS]--> 10/2014/QĐ-UBND
+      [ENTITY] 📦 (33/2014/QĐ-UBND): Organization=[Ủy ban nhân dân tỉnh Quảng Ngãi, Cục Thuế tỉnh Quảng Ngãi, Sở Tài chính tỉnh Quảng Ngãi...]; Person=[Lê Quang Thích]; Role=[Chủ tịch Ủy ban nhân dân tỉnh, Chánh Văn phòng Ủy ban nhân dân tỉnh, Giám đốc Sở...]; Location=[Tỉnh Quảng Ngãi]; Timeframe=[10 ngày]; Concept=[Lệ phí trước bạ, Thuế, Xe gắn máy]
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh Quảng Ngãi --[ISSUED_BY]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Person)Lê Quang Thích --[SIGNED_BY]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Person)Lê Quang Thích --[HOLDS_ROLE]--> (Role)Chủ tịch Ủy ban nhân dân tỉnh
+      [NODE REL] 🔗 (Role)Chánh Văn phòng Ủy ban nhân dân tỉnh --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Giám đốc Sở Tài chính tỉnh Quảng Ngãi --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Giám đốc Sở Tài nguyên và Môi trường tỉnh Quảng Ngãi --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Giám đốc Sở Xây dựng tỉnh Quảng Ngãi --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Giám đốc Sở Nông nghiệp và Phát triển nông thôn tỉnh Quảng Ngãi --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Giám đốc Sở Giao thông vận tải tỉnh Quảng Ngãi --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Giám đốc Sở Tư pháp tỉnh Quảng Ngãi --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Cục trưởng Cục Thuế tỉnh Quảng Ngãi --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân huyện --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân thành phố --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan, đơn vị --[ASSIGNS_TO]--> (Document)33/2014/QĐ-UBND
+      [NODE REL] 🔗 (Document)33/2014/QĐ-UBND --[EFFECTIVE_AFTER]--> (Timeframe)10 ngày
+      [Pha 1] 🚀 Tìm thấy 58 đoạn văn quan trọng. Đang xử lý 5 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 07/2007/TT-BYT --[BASED_ON]--> 1895/BYT-QĐ
+      [ENTITY] 📦 (07/2007/TT-BYT): Organization=[Bộ Y tế, Sở Khoa học và Công nghệ, Sở Y tế...]; Role=[Người đứng đầu, bác sỹ, Cử nhân X. Quang...]; Concept=[chứng chỉ hành nghề khám, chữa bệnh, giấy chứng nhận bồi dưỡng chuyên môn nghiệp vụ, giấy xác nhận đã qua thực hành về chuyên khoa...]; Location=[Thành phố Hồ Chí Minh]; Timeframe=[2 năm, 06 tuần, 36 ngày đến 42 ngày...]; Condition=[diện tích ít nhất là 10m2, chiều cao không thấp hơn 3,1m, tường được ốp gạch men hoặc vật liệu chống thấm...]
+      [NODE REL] 🔗 (Organization)Sở Khoa học và Công nghệ --[ISSUES]--> (Concept)giấy phép sử dụng máy
+      [NODE REL] 🔗 (Organization)Giám đốc Sở Y tế --[DECIDES]--> (Concept)phạm vi chuyên môn hành nghề
+      [NODE REL] 🔗 (Organization)Sở Y tế thành phố Hồ Chí Minh --[ISSUES]--> (Concept)Giấy chứng nhận kiểm tra tay nghề
+      [NODE REL] 🔗 (Organization)cơ quan Công an --[ISSUES]--> (Concept)Chứng minh nhân dân
+      [DEBUG] ✓ Đã LƯU: 07/2007/TT-BYT --[BASED_ON]--> Pháp lệnh hành nghề y, dược tư nhân ngày 25/02/2003
+      [DEBUG] ✓ Đã LƯU: 07/2007/TT-BYT --[BASED_ON]--> 103/2003/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 07/2007/TT-BYT --[BASED_ON]--> 49/2003/CĐ-CP
+      [ENTITY] 📦 (07/2007/TT-BYT): Organization=[Bộ Y tế, Sở Y tế]; Concept=[Hành nghề y tư nhân, Hành nghề y học cổ truyền tư nhân, Trang thiết bị y tế tư nhân]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)Chứng chỉ hành nghề y, y học cổ truyền tư nhân
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUED_BY]--> (Document)Chứng chỉ hành nghề y, y học cổ truyền tư nhân
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)Giấy chứng nhận đủ điều kiện hành nghề y, y học cổ truyền, trang thiết bị y tế tư nhân
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUED_BY]--> (Document)Giấy chứng nhận đủ điều kiện hành nghề y, y học cổ truyền, trang thiết bị y tế tư nhân
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUED_BY]--> (Document)Giấy phép cho người nước ngoài làm công việc chuyên môn trong cơ sở y, y học cổ truyền tư nhân
+      [Pha 1] 🚀 Tìm thấy 15 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 48/2013/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 48/2013/NĐ-CP --[BASED_ON]--> 80/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 48/2013/NĐ-CP --[AMENDS]--> 63/2010/NĐ-CP tại Điều 5, Điều 9, Điều 10, Điều 11, Điều 15, Điều 22, Điều 24, Điều 26, Điều 27, Điều 29, Điều 30, Điều 35, Điều 36
+      [DEBUG] ✓ Đã LƯU: 48/2013/NĐ-CP --[AMENDS]--> 20/2008/NĐ-CP tại Điều 8, Điều 13, Điều 17, Điều 20, Điều 22, Điều 26
+      [DEBUG] ✓ Đã LƯU: 48/2013/NĐ-CP --[AMENDS]--> 36/2012/NĐ-CP tại Khoản 1 Điều 17
+      [DEBUG] ✓ Đã LƯU: 48/2013/NĐ-CP --[AMENDS]--> 55/2011/NĐ-CP
+      [ENTITY] 📦 (48/2013/NĐ-CP): Organization=[Chính phủ, Bộ Tư pháp, Cục Kiểm soát thủ tục hành chính...]; Timeframe=[20 ngày làm việc, 05 ngày làm việc, 6 tháng...]; Concept=[kiểm soát thủ tục hành chính, quản lý nhà nước về công tác kiểm soát thủ tục hành chính, đánh giá tác động của thủ tục hành chính...]
+      [NODE REL] 🔗 (Organization)Bộ Tư pháp --[MANAGED_BY]--> (Concept)kiểm soát thủ tục hành chính
+      [NODE REL] 🔗 (Organization)Cục Kiểm soát thủ tục hành chính --[PART_OF]--> (Organization)Bộ Tư pháp
+      [NODE REL] 🔗 (Organization)Tổ chức pháp chế ở Bộ, cơ quan ngang Bộ --[MANAGED_BY]--> (Concept)kiểm soát thủ tục hành chính
+      [NODE REL] 🔗 (Organization)Sở Tư pháp --[MANAGED_BY]--> (Concept)kiểm soát thủ tục hành chính
+      [NODE REL] 🔗 (Organization)Bộ Tư pháp --[MANAGED_BY]--> (Organization)Cơ sở dữ liệu quốc gia về thủ tục hành chính
+      [NODE REL] 🔗 (Organization)Bộ Tư pháp --[MANAGED_BY]--> (Organization)Trang tin thủ tục hành chính của Bộ Tư pháp
+      [NODE REL] 🔗 (Organization)Văn phòng Bộ --[PART_OF]--> (Organization)Bộ
+      [NODE REL] 🔗 (Organization)Bộ Tư pháp --[REPLACES]--> (Document)63/2010/NĐ-CP
+      [NODE REL] 🔗 (Organization)Cục Kiểm soát thủ tục hành chính --[REPLACES]--> (Document)63/2010/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tư pháp --[REPLACES]--> (Document)20/2008/NĐ-CP
+      [NODE REL] 🔗 (Organization)Tổ chức pháp chế của Bộ, cơ quan ngang Bộ --[REPLACES]--> (Document)20/2008/NĐ-CP
+      [NODE REL] 🔗 (Organization)Sở Tư pháp --[REPLACES]--> (Document)20/2008/NĐ-CP
+      [ENTITY] 📦 (48/2013/NĐ-CP): Organization=[Bộ, Cơ quan ngang Bộ, Tổng cục...]; Person=[Nguyễn Tấn Dũng]; Role=[Bộ trưởng, Thủ trưởng cơ quan ngang Bộ, Tổng cục trưởng...]; Timeframe=[01 tháng 7 năm 2013, 04 tháng 7 năm 2011]
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)48/2013/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [NODE REL] 🔗 (Organization)Bộ Giáo dục và Đào tạo --[ASSIGNS_TO]--> (Document)48/2013/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 38 đoạn văn quan trọng. Đang xử lý 4 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 13/1999/TT-BYT --[BASED_ON]--> Pháp lệnh hành nghề y dược tư nhân ngày 13/10/1993
+      [DEBUG] ✓ Đã LƯU: 13/1999/TT-BYT --[BASED_ON]--> 06/CP
+      [DEBUG] ✓ Đã LƯU: 13/1999/TT-BYT --[BASED_ON]--> 02/CP
+      [DEBUG] ✓ Đã LƯU: 13/1999/TT-BYT --[REPLACES]--> 11/BYT-TT
+      [DEBUG] ✓ Đã LƯU: 13/1999/TT-BYT --[REPLACES]--> 05/BYT-TT
+      [DEBUG] ✓ Đã LƯU: 13/1999/TT-BYT --[REPLACES]--> 08/BYT-TT
+      [ENTITY] 📦 (13/1999/TT-BYT): Organization=[Bộ Y tế, Chính phủ, Sở Y tế...]; Role=[Lương y đa khoa, Lương y chuyên khoa, Người hành nghề bằng bài thuốc gia truyền...]; Concept=[Y học cổ truyền, Thuốc phiến, Thuốc sống...]; Procedure=[Kỳ thi sát hạch, Thi viết, Thi thực hành...]; Timeframe=[3 tháng, 1 đến 2 lần mỗi năm]; Condition=[Tốt nghiệp phổ thông cơ sở, Tốt nghiệp phổ thông trung học hoặc tương đương]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)13/1999/TT-BYT
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Concept)Giấy chứng nhận lương y đa khoa
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Concept)Giấy chứng nhận lương y chuyên khoa
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Concept)Giấy chứng nhận lương dược
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUES]--> (Concept)Giấy chứng nhận Người hành nghề khám chữa bệnh bằng bài thuốc gia truyền
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUES]--> (Concept)Giấy chứng nhận đủ trình độ kinh doanh và bào chế thuốc phiến
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUES]--> (Concept)Giấy chứng nhận đủ trình độ kinh doanh thuốc sống
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUES]--> (Concept)Giấy chứng nhận đủ trình độ mở đại lý thuốc y học cổ truyền
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUES]--> (Concept)Giấy chứng nhận Người giúp việc
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ORGANIZES]--> (Procedure)Kỳ thi sát hạch
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ORGANIZES]--> (Procedure)Kỳ thi sát hạch
+      [NODE REL] 🔗 (Role)Lương y đa khoa --[REQUIRES]--> (Condition)Tốt nghiệp phổ thông trung học hoặc tương đương
+      [NODE REL] 🔗 (Role)Người mua bán thuốc sống --[REQUIRES]--> (Condition)Tốt nghiệp phổ thông cơ sở
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[COLLABORATES_WITH]--> (Organization)Trung ương Hội Y học cổ truyền Việt Nam
+      [ENTITY] 📦 (13/1999/TT-BYT): Organization=[Bộ Y tế, Sở Y tế, Hội Y học cổ truyền...]; Role=[Giám đốc Sở y tế, Phó Giám đốc Sở y tế, Chủ tịch Hội đồng...]; Location=[Xã miền núi, Hải đảo, Việt Nam]; Concept=[Y học cổ truyền, Y học hiện đại, Thuốc độc bảng A...]; Timeframe=[3 năm, 6 tháng, 5 năm...]; Procedure=[Đăng ký kinh doanh, Xin thẩm định, Cấp giấy chứng nhận tiếp...]
+      [NODE REL] 🔗 (Role)Giám đốc Sở y tế --[ISSUES]--> (Document)Giấy chứng nhận đủ tiêu chuẩn và điều kiện hành nghề
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ESTABLISHES]--> (Organization)Hội đồng tư vấn
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REVOKES]--> (Document)Giấy chứng nhận đủ tiêu chuẩn và điều kiện hành nghề
+      [NODE REL] 🔗 (Role)Chủ cơ sở --[PERFORMS]--> (Procedure)Đăng ký kinh doanh
+      [NODE REL] 🔗 (Role)Chủ cơ sở --[INITIATES]--> (Procedure)Xin thẩm định
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUES]--> (Document)Giấy chứng nhận đủ tiêu chuẩn và điều kiện thành lập cơ sở hành nghề khám chữa bệnh bằng Y học cổ truyền
+      [NODE REL] 🔗 (Organization)Bệnh viện Y học cổ truyền tư nhân --[HIRING]--> (Person)Chuyên gia nước ngoài
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[APPROVES_PRACTICE]--> (Person)Chuyên gia nước ngoài
+      [NODE REL] 🔗 (Role)Người hành nghề khám chữa bệnh bằng Y học cổ truyền tư nhân --[COMPLIES_WITH]--> (Concept)Quy chế chuyên môn
+      [NODE REL] 🔗 (Role)Người hành nghề khám chữa bệnh bằng Y học cổ truyền tư nhân --[COMPLIES_WITH]--> (Concept)Quy chế vô khuẩn
+      [NODE REL] 🔗 (Organization)Các cơ sở hành nghề y dược cổ truyền tư nhân --[REGULATED_BY]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Các cơ sở hành nghề y dược cổ truyền tư nhân --[REGULATED_BY]--> (Organization)Sở Y tế
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Organization)Sở Y tế
+      [NODE REL] 🔗 (Organization)Các cơ quan quản lý, thanh tra nhà nước về y tế --[INSPECTS]--> (Organization)Các cơ sở hành nghề y, dược cổ truyền tư nhân
+      [NODE REL] 🔗 (Organization)Các cơ sở hành nghề y, dược cổ truyền tư nhân --[COOPERATES_WITH]--> (Organization)Các cơ quan quản lý, thanh tra, kiểm tra
+      [ENTITY] 📦 (13/1999/TT-BYT): Organization=[Bộ Y tế, Vụ Y học cổ truyền, Sở y tế]; Role=[Vụ trưởng Vụ Y học cổ truyền, Giám đốc Sở y tế, Thủ trưởng các đơn vị trực thuộc]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)13/1999/TT-BYT
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Organization)Vụ Y học cổ truyền
+      [NODE REL] 🔗 (Role)Giám đốc Sở y tế --[ASSIGNS_TO]--> (Document)13/1999/TT-BYT
+      [NODE REL] 🔗 (Role)Thủ trưởng các đơn vị trực thuộc --[ASSIGNS_TO]--> (Document)13/1999/TT-BYT
+      [Pha 1] 🚀 Tìm thấy 222 đoạn văn quan trọng. Đang xử lý 19 mẻ (12 đoạn/prompt)...

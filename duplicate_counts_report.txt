@@ -1,0 +1,38 @@
+=== BÁO CÁO THỐNG KÊ SỐ LƯỢNG MÃ VĂN BẢN (DOCUMENT_NUMBER) ===
+Tổng số bản ghi có document_number: 8000
+Tổng số document_number duy nhất (unique): 6166
+
+Phân bố số lần xuất hiện (trùng lặp):
+--------------------------------------------------
+Số lần xuất hiện (Tần suất)    | Số lượng mã (Số lượng document_number)
+--------------------------------------------------
+Xuất hiện 1 lần                    | 4852 mã
+Xuất hiện 2 lần                    | 932 mã
+Xuất hiện 3 lần                    | 276 mã
+Xuất hiện 4 lần                    | 85 mã
+Xuất hiện 5 lần                    | 14 mã
+Xuất hiện 6 lần                    | 5 mã
+Xuất hiện 8 lần                    | 2 mã
+
+
+=== CHI TIẾT CÁC MÃ TRÙNG LẶP NHIỀU NHẤT (Top 20) ===
+Mã '32/QĐ-UBND': xuất hiện 8 lần
+Mã '269/QĐ-UBND': xuất hiện 8 lần
+Mã '20/QĐ-UBND': xuất hiện 6 lần
+Mã '1197/QĐ-UBND': xuất hiện 6 lần
+Mã '05/QĐ-UBND': xuất hiện 6 lần
+Mã '29/2023/QĐ-UBND': xuất hiện 6 lần
+Mã '454/QĐ-UBND': xuất hiện 6 lần
+Mã '1350/QĐ-UBND': xuất hiện 5 lần
+Mã '2180/QĐ-UBND': xuất hiện 5 lần
+Mã '766/QĐ-UBND': xuất hiện 5 lần
+Mã '748/QĐ-UBND': xuất hiện 5 lần
+Mã '284/QĐ-UBND': xuất hiện 5 lần
+Mã '951/QĐ-UBND': xuất hiện 5 lần
+Mã '02/QĐ-UBND': xuất hiện 5 lần
+Mã '03/QĐ-UBND': xuất hiện 5 lần
+Mã '1627/QĐ-UBND': xuất hiện 5 lần
+Mã '657/QĐ-UBND': xuất hiện 5 lần
+Mã '699/QĐ-UBND': xuất hiện 5 lần
+Mã '653/QĐ-UBND': xuất hiện 5 lần
+Mã '2580/QĐ-UBND': xuất hiện 5 lần

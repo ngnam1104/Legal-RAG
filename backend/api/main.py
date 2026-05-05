@@ -3,6 +3,9 @@ import uuid
 import shutil
 import asyncio
 from contextlib import asynccontextmanager
+from dotenv import load_dotenv
+load_dotenv(override=True)
+
 from fastapi import FastAPI, UploadFile, File, HTTPException, Form, Request
 from pydantic import BaseModel
 from typing import Optional, List, Dict
@@ -16,9 +19,8 @@ from fastapi.responses import StreamingResponse
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 from backend.agent.chat_engine import rag_engine
-from backend.config import settings
-from backend.retrieval.embedder import embedder
-from backend.retrieval.reranker import reranker
+from backend.models.embedder import embedder
+from backend.models.reranker import reranker
 from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
@@ -26,8 +28,8 @@ async def lifespan(app: FastAPI):
     # --- WARMUP STRATEGY ---
     print("\n🔥 [Startup] Warming up local models (Embedder & Reranker)...")
     try:
-        from backend.retrieval.embedder import get_embedder
-        from backend.retrieval.reranker import reranker
+        from backend.models.embedder import get_embedder
+        from backend.models.reranker import reranker
         get_embedder()
         reranker._lazy_load()
         print(f"✅ [Startup] Local models are ready.")
@@ -63,7 +65,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 class ChatRequest(BaseModel):
     session_id: str = None  # Nếu None, tự tạo session mới
     query: str
-    mode: str = "LEGAL_QA"  # Mặc định: Hỏi đáp Pháp luật
+    mode: str = "LEGAL_CHAT"  # Mặc định: Trợ lý Pháp luật (GraphRAG)
     file_path: Optional[str] = None  # Đường dẫn file tạm nếu cần context riêng
     provider: Optional[str] = None
     model: Optional[str] = None
@@ -241,7 +243,7 @@ async def sync_conflict_database(request: SyncConflictRequest):
             file_path = os.path.join(UPLOAD_DIR, f"{request.new_file_id}{ext}")
             
             if os.path.exists(file_path):
-                from backend.retrieval.ingestion import process_document_task
+                from backend.ingestion.pipeline import process_document_task
                 result = process_document_task(file_path)
                 print(f"    -> [API] Synchronous Ingestion Completed: {result.get('status')}")
             
@@ -259,7 +261,7 @@ async def upload_document(
     file: UploadFile = File(...), 
     session_id: Optional[str] = Form(None)
 ):
-    if settings.QDRANT_READ_ONLY:
+    if os.environ.get("QDRANT_READ_ONLY", "false").lower() == "true":
         raise HTTPException(status_code=403, detail="Qdrant configured as read-only. Ingestion disabled.")
 
     if not file.filename.lower().endswith(('.pdf', '.docx', '.doc')):
@@ -309,7 +311,7 @@ async def ingest_document(request: IngestRequest):
     # 1. Trích xuất metadata để kiểm tra trùng lặp
     try:
         from backend.utils.document_parser import parser
-        from backend.retrieval.vector_db import client as qdrant
+        from backend.database.qdrant_client import client as qdrant
         
         print(f"--- [API] Ingest Request for {request.filename} ---")
         # Chỉ parse metadata (thường là ở đầu file)
@@ -319,7 +321,7 @@ async def ingest_document(request: IngestRequest):
         if doc_number:
             print(f"    -> Checking duplicate for: {doc_number}")
             search_result = qdrant.scroll(
-                collection_name=settings.QDRANT_COLLECTION,
+                collection_name=os.environ.get("QDRANT_COLLECTION", "legal_hybrid_rag_docs"),
                 scroll_filter=models.Filter(
                     must=[
                         models.FieldCondition(
@@ -341,7 +343,7 @@ async def ingest_document(request: IngestRequest):
                 }
 
         # 2. Execute Task Synchronously
-        from backend.retrieval.ingestion import process_document_task
+        from backend.ingestion.pipeline import process_document_task
         print(f"    -> Running Ingestion synchronously...")
         result = process_document_task(file_path)
 

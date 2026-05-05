@@ -56,10 +56,8 @@ services:
       - "7475:7474" # Giao diện Neo4j Browser trên trình duyệt
       - "7688:7687"
     environment:
-      # Khớp với mật khẩu trong .env để dễ quản lý
       - NEO4J_AUTH=neo4j/u7aGQYEWeFJD-jyeHB4ATtoAud73PptW35M1RzFlT-0
       - NEO4J_PLUGINS=["apoc"]
-      # Giới hạn RAM phù hợp với server 18GB (Tránh đụng RAM của Qdrant)
       - NEO4J_server_memory_pagecache_size=2G
       - NEO4J_server_memory_heap_initial__size=2G
       - NEO4J_server_memory_heap_max__size=4G
@@ -74,6 +72,53 @@ services:
         limits:
           memory: 6G
 
+  # --- TEST ONLY: Neo4j riêng cho test pipeline (500 VB y tế) ---
+  # Browser: http://IP:7476 | Bolt: bolt://localhost:7689
+  # Dữ liệu cô lập hoàn toàn, không đụng production
+  neo4j-test:
+    image: neo4j:5.20.0
+    container_name: legal-rag-neo4j-test
+    ports:
+      - "7476:7474" # Browser: http://IP:7476
+      - "7689:7687" # Bolt:    bolt://localhost:7689
+    environment:
+      - NEO4J_AUTH=neo4j/test_neo4j_pass
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_server_memory_pagecache_size=512M
+      - NEO4J_server_memory_heap_initial__size=512M
+      - NEO4J_server_memory_heap_max__size=1G
+    volumes:
+      - neo4j_test_data:/data
+      - neo4j_test_logs:/logs
+      - neo4j_test_plugins:/plugins
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: legal-rag-postgres-nam
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: legal_rag
+      POSTGRES_PASSWORD: legal_rag_secret
+      POSTGRES_DB: legal_chat_history
+    volumes:
+      - postgres_data_nam:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legal_rag -d legal_chat_history"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
 volumes:
   local_redis_data_nam:
   qdrant_local_storage_nam:
@@ -82,9 +127,7 @@ volumes:
   neo4j_logs_nam:
   neo4j_import_nam:
   neo4j_plugins_nam:
-
-    # NOTE: Khi chạy backend trong Docker, mount volume cho SQLite:
-    # docker run -v ./backend/data:/app/backend/data ...
-    # Hoặc thêm volume vào service backend nếu có:
-    #   volumes:
-
+  neo4j_test_data:
+  neo4j_test_logs:
+  neo4j_test_plugins:
+  postgres_data_nam:

@@ -11,11 +11,12 @@ Hệ thống **Advanced Agentic RAG** mã nguồn mở chuyên biệt cho văn b
 - **🔍 HyDE & Hybrid Search**: Sinh "câu trả lời giả định" (HyDE) kết hợp với tìm kiếm lai (Dense `BGE-M3` + Sparse) và Cross-Encoder Rerank để xử lý các thuật ngữ pháp lý phức tạp.
 - **🕸️ Graph RAG (Neo4j)**: Sử dụng Knowledge Graph để mở rộng ngữ cảnh (Bottom-Up & Lateral Expansion), giúp AI hiểu mối quan hệ phân cấp giữa các văn bản pháp luật.
 - **⚖️ Chain-of-Thought (CoT) Legal Reasoning**: Ép buộc LLM tuân thủ logic suy luận pháp lý chuẩn xác (Lex Superior, Lex Posterior).
-- **📋 3 Chế độ Hoạt động Chuyên biệt (Strategy Pattern)**:
-    1. **Legal QA**: Giải đáp tình huống pháp lý.
-    2. **Sector Search**: Tổng hợp, tra cứu văn bản theo lĩnh vực.
-    3. **Conflict Analyzer**: Đối soát xung đột giữa nội quy và pháp luật hiện hành.
+- **🧩 Unified GraphRAG Architecture (Single Strategy)**: Mọi query pháp lý đều đi qua `LegalChatStrategy` duy nhất: QdrantNeo4jRetriever (vector search + Neo4j auto-fetch) → 2-hop subgraph expansion → GraphRAG Prompt.
+- **💬 2 Chế độ Hoạt động**:
+    1. **Legal Chat** (`LEGAL_CHAT`): Giải đáp tất cả câu hỏi pháp lý (tra cứu, tổng hợp, đối chiếu, phân tích) thông qua GraphRAG pipeline.
+    2. **General Chat** (`GENERAL_CHAT`): Trả lời thông thường, bỏ qua toàn bộ RAG pipeline.
 - **💾 Smart Memory & Tiered LLM**: Quản lý hội thoại đa tầng (Redis + SQLite). Tự động phân luồng Model phù hợp (Ollama/Internal cho định tuyến, Gemini/Llama cho suy luận).
+- **🧩 Unified LLM Extraction (Single-Pass)**: Trích xuất quan hệ văn bản, thực thể tự do và quan hệ node đồ thị trong một lần gọi LLM duy nhất, loại bỏ các bước quét thừa.
 
 ---
 
@@ -28,49 +29,51 @@ graph LR
     FE[Frontend] -->|SSE| API[FastAPI]
     API -->|Stream| CE[RAGEngine]
     CE -->|Events| LG[LangGraph]
-    LG -->|Route| R[Router]
-    LG -->|Strategy| STR[Strategy]
-    STR --> S1[LegalQA]
-    STR --> S2[SectorSearch]
-    STR --> S3[Conflict]
+    LG -->|SuperRouter| R["LEGAL_CHAT / GENERAL_CHAT"]
+    R -->|LEGAL_CHAT| QNR["QdrantNeo4jRetriever\n+ Subgraph Expand"]
+    R -->|GENERAL_CHAT| GC[General Chat]
+    QNR --> GEN[Generate GraphRAG]
+    GEN --> REFL["Reflect (optional)"]
     CE -->|Memory| MEM[Manager]
     MEM -->|ShortTerm| REDIS[Redis]
     MEM -->|LongTerm| SQL[SQLite]
-    S1 -->|Search| QD[Qdrant]
-    S2 -->|Search| QD
-    S3 -->|Search| QD
-    LG -->|Completion| LLM[LLMFactory]
-    LLM --> Llama3.1 API
+    GEN -->|LLM| LLM[LLMFactory]
 ```
 
 ### Luồng Xử lý RAG Tổng quát (End-to-End Pipeline)
 ```mermaid
 graph TB
-    subgraph INGESTION [Ingestion Pipeline]
-        DS[Sources] --> PARSE[Parser]
-        PARSE --> CHUNK[Chunker]
-        CHUNK --> EMB[Encoder]
-        EMB --> VDB[VectorDB]
+    subgraph INGESTION ["Ingestion Pipeline (backend/ingestion/)"]
+        DS[HuggingFace Dataset] --> CHUNK[Chunker FSM]
+        CHUNK --> EXT[Extractor]
+        EXT -->|Unified LLM| REL[Relations + Entities]
+        CHUNK --> EMB[Encoder BGE-M3 + BM25]
+        EMB --> VDB[Qdrant]
+        REL --> GDB[Neo4j]
     end
 
-    subgraph QUERY [Query Pipeline]
+    subgraph QUERY ["Query Pipeline (backend/agent/)"]
         USER[User] --> API[FastAPI]
         API --> ENG[Engine]
-        ENG --> PRE[Preprocess]
-        ENG --> COND[Condense]
-        COND -->|General| GCHAT[GeneralChat]
-        COND -->|RAG| UND[Understand]
-        UND --> RET[Retrieve]
-        RET --> REF[ResolveRefs]
-        REF --> GRD[Grade]
-        GRD -->|Retry| UND
-        GRD -->|Pass| GEN[Generate]
-        GEN --> REFL[Reflect]
-        REFL -->|Pass| ANS[Answer]
-        REFL -->|Fail| GEN
+        ENG --> PRE[preprocess]
+        PRE -->|has history| COND[condense]
+        PRE -->|no history| DET[detect\_only]
+        COND -->|GENERAL_CHAT| GC[general]
+        COND -->|LEGAL_CHAT| UND[understand]
+        DET -->|GENERAL_CHAT| GC
+        DET -->|LEGAL_CHAT| UND
+        GC --> END1[END]
+        UND --> RET["retrieve\nQdrantNeo4jRetriever\n+ 2-hop Subgraph"]
+        RET --> GEN[generate\nGraphRAG Prompt]
+        GEN -->|use_reflection=True| REFL[reflect]
+        GEN -->|END| END2[END]
+        REFL -->|pass| END3[END]
+        REFL -->|fail| BUMP[bump\_retry]
+        BUMP --> GEN
     end
 
     VDB -.-> RET
+    GDB -.-> RET
 ```
 
 ---
@@ -80,17 +83,58 @@ graph TB
 ```text
 Legal-RAG/
 ├── backend/
-│   ├── agent/                             # LÕI HỆ THỐNG: LangGraph, 3 Chiến lược (QA, Sector, Conflict)
+│   ├── agent/                             # LÕI HỆ THỐNG: LangGraph Agent Framework
+│   │   ├── state.py                       #   Data Schema (AgentState)
+│   │   ├── memory.py                      #   Bộ nhớ hội thoại (Redis + SQLite)
+│   │   ├── query_router.py                #   SuperRouter: phân loại 2 mode + HyDE + Filters
+│   │   ├── graph.py                       #   LangGraph Topology & 10 Nodes
+│   │   ├── chat_engine.py                 #   Vòng lặp streaming SSE cho Frontend
+│   │   ├── legal_chat.py                  #   LegalChatStrategy duy nhất (Unified GraphRAG)
+│   │   ├── utils_legal.py                 #   fetch_related_graph, format_graph_context, build_legal_context
+│   │   └── utils_general.py               #   execute_general_chat, SubTimer
 │   ├── api/                               # FastAPI endpoints & Session Management
-│   ├── llm/                               # Multi-Provider LLM Factory (Internal, Gemini, Ollama)
-│   ├── retrieval/                         # BGE-M3 Embedder, Hybrid Search, Qdrant & Neo4j Clients
-│   ├── utils/                             # Document parser & Prompt templates
-│   └── data/                              # SQLite persistent storage
-├── frontend/                              # Giao diện Next.js Web App
-├── legal_docs/                            # Thư mục chứa văn bản pháp luật mẫu
-├── notebook/                              # Notebooks cho Ingestion & Ontology Mining
-├── qdrant_snapshots/                      # Nơi chứa file backup CSDL (.snapshot)
+│   │   ├── main.py                        #   Khởi tạo app, CORS, lifespan
+│   │   └── routes/                        #   Route handlers
+│   ├── database/                          # Clients kết nối CSDL
+│   │   ├── qdrant_client.py               #   Qdrant connection & collection setup
+│   │   └── neo4j_client.py                #   Neo4j Graph Build, Constraints & Entity Enrichment
+│   ├── ingestion/                         # PIPELINE NẠP DỮ LIỆU (Offline)
+│   │   ├── chunking_embedding.py          #   🚀 SCRIPT CHẠY CHÍNH: 6-Phase Pipeline
+│   │   ├── pipeline.py                    #   Orchestration helpers
+│   │   ├── chunker/                       #   FSM Chunking Engine
+│   │   │   ├── core.py                    #     Orchestrator: AdvancedLegalChunker
+│   │   │   ├── fsm.py                     #     Finite State Machine duyệt dòng
+│   │   │   ├── metadata.py                #     Regex Patterns & doc_key normalization
+│   │   │   ├── heuristics.py              #     Relation hint detection
+│   │   │   ├── payload.py                 #     Đóng gói Qdrant/Neo4j payload
+│   │   │   └── toc.py                     #     Table-of-Contents extraction
+│   │   └── extractor/                     #   Trích xuất quan hệ & thực thể
+│   │       ├── relations.py               #     Ontology Relation Extraction (10 nhãn)
+│   │       └── entities.py                #     Unified LLM Entity Extraction
+│   ├── models/                            # Model AI (Embedding, LLM, Reranker)
+│   │   ├── embedder.py                    #   BGE-M3 Dense + fastembed BM25 Sparse
+│   │   ├── reranker.py                    #   Cross-Encoder Reranker (REST API)
+│   │   ├── llm_client.py                  #   Multi-provider LLM Client
+│   │   ├── llm_factory.py                 #   Factory Pattern cho LLM providers
+│   │   └── interfaces.py                  #   Abstract interfaces
+│   ├── retrieval/                         # Runtime Search Engine
+│   │   ├── hybrid_search.py               #   Tiered Prefetch + Rerank + Context Expansion
+│   │   └── graph_search.py                #   Neo4j Graph Traversal queries
+│   ├── utils/                             # Tiện ích chung
+│   │   ├── document_parser.py             #   Parser file upload (DOC, PDF)
+│   │   └── text_utils.py                  #   Chuỗi, JSON extraction helpers
+│   └── prompt.py                          # Tổng hợp System Prompts
+├── frontend/                              # Giao diện Next.js 15 Web App (TailwindCSS)
+├── docs/                                  # Tài liệu kỹ thuật chi tiết
+│   ├── agent_architecture.md              #   Kiến trúc Agent Framework
+│   ├── chunking_embedding_report.md       #   Báo cáo kỹ thuật Ingestion Pipeline
+│   └── neo4j_query.md                     #   Tham khảo Cypher queries
+├── tests/                                 # Bộ kiểm thử tự động
+├── .debug/                                # (Auto-generated) Log debug từ Extractor
+├── .checkpoints/                          # (Auto-generated) Checkpoint resume cho Ingestion
+├── .reports/                              # (Auto-generated) Báo cáo pipeline
 ├── quick_start.ps1                        # Script khởi động 1-click (Windows)
+├── quick_start.sh                         # Script khởi động 1-click (Linux/Mac)
 └── docker-compose.yml                     # Triển khai Redis, Qdrant & Neo4j Containers
 ```
 
@@ -125,15 +169,16 @@ Mở Docker Desktop, sau đó chạy:
 docker-compose up -d
 ```
 
-**Bước 4: Khôi phục Dữ liệu (Qdrant Snapshot)**
-Nếu bạn có file snapshot (.snapshot) của CSDL Luật Việt Nam:
-1. Copy file snapshot vào thư mục `./qdrant_snapshots/`.
-2. Truy cập Dashboard Qdrant tại: `http://localhost:6335/dashboard`.
-3. Chọn **Collections** -> Tạo collection mới -> **Snapshots** -> **Restore**.
-4. (Hoặc dùng Notebook nạp dữ liệu):
-   ```bash
-   # Sử dụng notebook/chunking_embedding.ipynb để nạp dữ liệu mới
-   ```
+**Bước 4: Nạp Dữ liệu (Ingestion Pipeline)**
+Chạy pipeline nạp dữ liệu từ HuggingFace Dataset vào Qdrant + Neo4j:
+```bash
+python backend/ingestion/chunking_embedding.py
+```
+Pipeline sẽ tự động thực hiện 6 pha:
+1. **Phase 1-3**: Chunking văn bản gốc + văn bản tham chiếu (depth=2)
+2. **Phase 4**: Tạo Ghost Nodes cho VB được nhắc đến nhưng không có trong dataset
+3. **Phase 5**: Embedding (BGE-M3 + BM25) & Upsert Qdrant
+4. **Phase 6**: Build Neo4j Graph (Document Tree + Entity Enrichment)
 
 **Bước 5: Khởi động toàn bộ Hệ thống**
 Sử dụng script tự động (tốt nhất trên Windows):

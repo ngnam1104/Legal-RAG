@@ -1,0 +1,1820 @@
+📝 Logging tức thời vào file: d:\iCOMM\Legal-RAG\backend\ingestion\..\..\.debug/ingestion_log_20260429_163531.txt
+--- TEST MODE: 2 samples | SKIP_LLM=False | Collection: legal_rag_docs_nam             ---
+Environment setup complete (Project Root: d:\iCOMM\Legal-RAG)
+-> Đã đọc 8000 IDs văn bản từ CSV.
+-> Đang tải dataset từ HuggingFace (offline cache)...
+Loaded and mapped 518255 metadata records.
+-> KHÔNG sử dụng Checkpoint (sẽ chạy lại từ đầu).
+
+============================================================
+PHASE 1: Chunking ORIGINAL documents
+============================================================
+      [Pha 1] 🚀 Tìm thấy 13 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 89/2012/NĐ-CP --[AMENDS]--> 79/2006/NĐ-CP tại Điều 14, Điều 16, Điều 17, Điều 18, Điều 28, Điều 29, Điều 30
+      [DEBUG] ✓ Đã LƯU: 89/2012/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 89/2012/NĐ-CP --[BASED_ON]--> 105/2016/QH13
+      [DEBUG] ✓ Đã LƯU: 89/2012/NĐ-CP --[REPEALS]--> 79/2006/NĐ-CP tại Khoản 2 (Điều 14), Khoản 1, Khoản 2 (Điều 30) Điều 14, Điều 16, Điều 17, Điều 18, Điều 28, Điều 29, Điều 30
+      [ENTITY] 📦 (89/2012/NĐ-CP): Organization=[Chính phủ, Bộ Y tế, Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương]; Timeframe=[12 tháng, sáu (06) tháng, 03 ngày làm việc...]; Role=[người quản lý chuyên môn về dược, Bộ trưởng Bộ Y tế, Bộ trưởng...]; Condition=[Thực hành tốt, hợp pháp hóa lãnh sự]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)89/2012/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)89/2012/NĐ-CP
+      [NODE REL] 🔗 (Document)Chứng chỉ hành nghề dược --[REGULATED_BY]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Document)Giấy chứng nhận đủ điều kiện kinh doanh thuốc --[REGULATED_BY]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Role)người quản lý chuyên môn về dược --[REQUIRED_FOR]--> (Document)Chứng chỉ hành nghề dược
+      [ENTITY] 📦 (89/2012/NĐ-CP): Organization=[Ban Bí thư Trung ương Đảng, Chính phủ, Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ...]; Person=[Nguyễn Tấn Dũng]; Role=[Thủ tướng]
+      [NODE REL] 🔗 (Document)89/2012/NĐ-CP --[SIGNED_BY]--> (Person)Nguyễn Tấn Dũng
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [Pha 1] 🚀 Tìm thấy 14 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 1470/QĐ-UBND --[BASED_ON]--> Luật Tổ Chức Hội Đồng Nhân Dân Uỷ Ban Nhân Dân Ngày 26 Tháng 11 năm 2003
+      [DEBUG] ✓ Đã LƯU: 1470/QĐ-UBND --[BASED_ON]--> 92/2006/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 1470/QĐ-UBND --[BASED_ON]--> 04/2008/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 1470/QĐ-UBND --[BASED_ON]--> 35/2001/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 1470/QĐ-UBND --[BASED_ON]--> 153/2006/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 1470/QĐ-UBND --[BASED_ON]--> 30/2008/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 1470/QĐ-UBND --[BASED_ON]--> 1581/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 1470/QĐ-UBND --[BASED_ON]--> 195/QĐ-TTG
+      [ENTITY] 📦 (1470/QĐ-UBND): Organization=[Ủy ban nhân dân tỉnh Vĩnh Long, Sở Y tế, Sở Kế hoạch và Đầu tư...]; Location=[Tỉnh Vĩnh Long, Đồng bằng sông Cửu Long, Việt Nam]; Timeframe=[Giai đoạn 2011 - 2020, Năm 2030, Năm 2020...]; Concept=[Quy hoạch phát triển ngành y tế, Bảo hiểm y tế toàn dân, Y tế dự phòng...]; Fee=[5.849,4 tỷ đồng, 3.703,7 tỷ đồng, 2.145,7 tỷ đồng...]
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh Vĩnh Long --[ISSUED_BY]--> (Document)1470/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ASSIGNS_TO]--> (Document)1470/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Sở Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)1470/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Sở Tài chính --[ASSIGNS_TO]--> (Document)1470/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Sở Xây dựng --[ASSIGNS_TO]--> (Document)1470/QĐ-UBND
+      [NODE REL] 🔗 (Organization)Sở Tài nguyên và Môi trường --[ASSIGNS_TO]--> (Document)1470/QĐ-UBND
+      [NODE REL] 🔗 (Location)Tỉnh Vĩnh Long --[APPLIES_TO]--> (Document)1470/QĐ-UBND
+      [ENTITY] 📦 (1470/QĐ-UBND): Organization=[Sở Nội vụ, Sở Y tế, Ủy ban nhân dân tỉnh...]
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Organization)Sở Nội vụ
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Organization)Sở Y tế
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Organization)Ủy ban nhân dân các huyện, thị xã, thành phố
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Person)Chánh Văn phòng Ủy ban nhân dân tỉnh
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Person)Giám đốc Sở Y tế
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Person)Giám đốc Sở Kế hoạch và Đầu tư
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Person)Giám đốc Sở Tài chính
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Person)Giám đốc Sở Nội vụ
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Person)Giám đốc Sở Tài nguyên và Môi trường
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Person)Giám đốc Sở Xây dựng
+      [NODE REL] 🔗 (Document)1470/QĐ-UBND --[ASSIGNS_TO]--> (Person)Chủ tịch Ủy ban nhân dân các huyện, thị xã, thành phố
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Thể thao - Y tế: 2 văn bản
+   - Bộ máy hành chính: 1 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - BASED_ON: 11 relations
+   - AMENDS: 1 relations
+   - REPEALS: 1 relations
+   - GUIDES: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Tổng quan hệ thường (chủ động):     14
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Organization: 45 entities
+   - Timeframe: 16 entities
+   - Concept: 11 entities
+   - Role: 7 entities
+   - Fee: 5 entities
+   - Location: 3 entities
+   - Condition: 2 entities
+   - Person: 1 entities
+
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - ASSIGNS_TO: 94 node relations
+   - ISSUED_BY: 24 node relations
+   - REGULATED_BY: 24 node relations
+   - REQUIRED_FOR: 12 node relations
+   - APPLIES_TO: 12 node relations
+   - SIGNED_BY: 1 node relations
+   - HOLDS_ROLE: 1 node relations
+============================================================
+PHASE 1 complete: 28 chunks | 11 reference docs to process.
+
+============================================================
+PHASE 2: Chunking REFERENCE documents (exist in dataset)
+============================================================
+      [Pha 1] 🚀 Tìm thấy 24 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [Pha 1] 🚀 Tìm thấy 148 đoạn văn quan trọng. Đang xử lý 13 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 105/2016/QH13 --[BASED_ON]--> Hiến Pháp
+      [DEBUG] ✓ Đã LƯU: 105/2016/QH13 --[BASED_ON]--> Luật về dự trữ quốc gia
+      [DEBUG] ✓ Đã LƯU: 105/2016/QH13 --[BASED_ON]--> Luật về hội
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Quốc hội, Chính phủ, Bộ Y tế...]; Concept=[Thuốc cổ truyền, Vị thuốc cổ truyền, Sinh phẩm...]; Role=[Bộ trưởng Bộ Y tế]
+      [NODE REL] 🔗 (Organization)Quốc hội --[ISSUED_BY]--> (Document)105/2016/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Document)105/2016/QH13
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)105/2016/QH13
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Document)105/2016/QH13
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[REGULATED_BY]--> (Document)105/2016/QH13
+      [NODE REL] 🔗 (Role)Bộ trưởng Bộ Y tế --[ISSUES]--> (Concept)Danh mục dược chất gây nghiện
+      [NODE REL] 🔗 (Role)Bộ trưởng Bộ Y tế --[ISSUES]--> (Concept)Danh mục dược chất hướng thần
+      [NODE REL] 🔗 (Role)Bộ trưởng Bộ Y tế --[ISSUES]--> (Concept)Danh mục tiền chất dùng làm thuốc
+      [NODE REL] 🔗 (Role)Bộ trưởng Bộ Y tế --[ISSUES]--> (Concept)Danh mục thuốc không kê đơn
+      [NODE REL] 🔗 (Role)Bộ trưởng Bộ Y tế --[ISSUES]--> (Concept)Danh mục thuốc thiết yếu
+      [NODE REL] 🔗 (Concept)Hội về dược --[DEFINED_IN]--> (Document)105/2016/QH13
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Bộ Giáo dục và Đào tạo, Bộ Tài nguyên và Môi trường...]; Role=[Người chịu trách nhiệm chuyên môn về dược, Người phụ trách về bảo đảm chất lượng, Người phụ trách công tác dược lâm sàng...]; Concept=[Thuốc generic, Sinh phẩm tương tự, Thuốc dược liệu...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 1
+      [NODE REL] 🔗 (Organization)Bộ Giáo dục và Đào tạo --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 1
+      [NODE REL] 🔗 (Organization)Bộ Tài nguyên và Môi trường --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 1
+      [NODE REL] 🔗 (Organization)Bộ Nông nghiệp và Phát triển nông thôn --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 1
+      [NODE REL] 🔗 (Organization)Bộ Công thương --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 2
+      [NODE REL] 🔗 (Organization)Bộ Nông nghiệp và Phát triển nông thôn --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 3
+      [NODE REL] 🔗 (Organization)Bộ Tài nguyên và Môi trường --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 4
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 5
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 6
+      [NODE REL] 🔗 (Organization)Bộ Khoa học và Công nghệ --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 7
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp tỉnh --[ASSIGNS_TO]--> (LegalArticle)Điều 10 Khoản 8
+      [NODE REL] 🔗 (Role)Người chịu trách nhiệm chuyên môn về dược --[REQUIRED_FOR]--> (Concept)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Role)Người phụ trách về bảo đảm chất lượng --[REQUIRED_FOR]--> (Concept)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Role)Người phụ trách công tác dược lâm sàng --[REQUIRED_FOR]--> (Concept)Chứng chỉ hành nghề dược
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Chính phủ]; Role=[Người chịu trách nhiệm chuyên môn về dược, Người phụ trách về bảo đảm chất lượng, Dược lâm sàng]; Condition=[Có văn bằng, chứng chỉ, giấy chứng nhận chuyên môn phù hợp với vị trí công việc và cơ sở kinh doanh dược, Có thời gian thực hành tại cơ sở dược phù hợp với chuyên môn, Có giấy chứng nhận đủ sức khỏe để hành nghề dược...]; Timeframe=[12 tháng, 05 năm, 03 năm...]; Concept=[Chứng chỉ hành nghề dược, Bằng dược sỹ, Bằng tốt nghiệp đại học ngành y đa khoa...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Condition)Việc áp dụng điều kiện về văn bằng, chứng chỉ, giấy chứng nhận quy định tại điểm l khoản 1 Điều 13
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Condition)Yêu cầu về sử dụng ngôn ngữ trong hành nghề dược
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Condition)Giảm thời gian thực hành đối với người có trình độ chuyên khoa sau đại học
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Condition)Thời gian thực hành đối với người có văn bằng chuyên môn quy định tại điểm l khoản 1 Điều 13
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Sở Y tế, Bộ Y tế, Tòa án...]; Role=[Giám đốc Sở Y tế, Người phụ trách công tác dược lâm sàng, Người chịu trách nhiệm chuyên môn về dược...]; Timeframe=[02 năm, 06 tháng, 03 năm]; Concept=[Y học cổ truyền, Vắc xin, Sinh phẩm...]; Procedure=[Xét duyệt, Thi]
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUED_BY]--> (Document)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Organization)Sở Y tế --[MANAGED_BY]--> (Organization)Hội đồng tư vấn cấp Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Concept)Hồ sơ; thủ tục cấp, cấp lại, điều chỉnh nội dung, thu hồi và mẫu Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Role)Người phụ trách công tác dược lâm sàng --[REQUIRED_FOR]--> (Timeframe)02 năm
+      [NODE REL] 🔗 (Role)Người chịu trách nhiệm chuyên môn về dược --[REQUIRED_FOR]--> (Timeframe)02 năm
+      [NODE REL] 🔗 (Role)Người hành nghề dược --[REQUIRED_FOR]--> (Timeframe)03 năm
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Chính phủ, Sở Y tế]; Timeframe=[03 năm, 30 ngày, 20 ngày...]; Condition=[Thực hành tốt phòng thí nghiệm đối với kiểm tra chất lượng thuốc, Thực hành tốt thử thuốc trên lâm sàng, Thực hành tốt nuôi trồng, thu hái dược liệu...]; Role=[Người chịu trách nhiệm chuyên môn về dược, người chịu trách nhiệm chuyên môn]; Concept=[thuốc phải kiểm soát đặc biệt, thuốc thuộc danh mục hạn chế bán lẻ, thuốc phóng xạ...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)Giấy chứng nhận đủ điều kiện kinh doanh dược
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUED_BY]--> (Document)Giấy chứng nhận đủ điều kiện kinh doanh dược
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Procedure)trình tự, thủ tục cho phép kinh doanh thuốc phải kiểm soát đặc biệt
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)Danh mục thuốc được bán tại kệ thuốc
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)Danh mục thuốc hạn chế bán lẻ
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Sở Y tế, Chính phủ]; Role=[Cơ sở kinh doanh dược, Cơ sở sản xuất thuốc, nguyên liệu làm thuốc, Cơ sở xuất khẩu, nhập khẩu thuốc, nguyên liệu làm thuốc...]; Concept=[Giấy chứng nhận đủ điều kiện kinh doanh dược, Chứng chỉ hành nghề dược, Danh mục thuốc hạn chế bán lẻ...]; Timeframe=[06 tháng, 01 năm]
+      [NODE REL] 🔗 (Role)Cơ sở kinh doanh dược --[REPORTS_TO]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Role)Cơ sở kinh doanh dược --[REPORTS_TO]--> (Organization)Sở Y tế
+      [NODE REL] 🔗 (Role)Cơ sở kinh doanh dược --[REGULATED_BY]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Cơ sở sản xuất thuốc, nguyên liệu làm thuốc --[REPORTS_TO]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Role)Cơ sở xuất khẩu, nhập khẩu thuốc, nguyên liệu làm thuốc --[REPORTS_TO]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Role)Cơ sở bán lẻ là nhà thuốc --[REGULATED_BY]--> (Organization)Bộ Y tế
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Chính phủ, Tổ chức Y tế Thế giới]; Timeframe=[12 tháng, 03 tháng, 05 năm...]; Concept=[thử tương đương sinh học, Thực hành tốt thử thuốc trên lâm sàng, Thực hành tốt sản xuất...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Concept)giấy đăng ký lưu hành
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REVOKES]--> (Concept)giấy đăng ký lưu hành
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)đăng ký lưu hành đối với dược liệu, tá dược, vỏ nang
+      [NODE REL] 🔗 (Organization)Tổ chức Y tế Thế giới --[RECOMMENDS_SAFETY_STATUS]--> (Concept)dược chất, dược liệu hoặc thuốc
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Chính phủ, Đài truyền hình Việt Nam...]; Concept=[Thuốc, Nguyên liệu làm thuốc, Dược liệu...]; Timeframe=[03 ngày, 15 ngày, 30 ngày...]; Procedure=[Cấp phép xuất khẩu, nhập khẩu, Công bố thông tin, Tiêu hủy...]; Condition=[Không vì mục đích thương mại, Thuốc phải kiểm soát đặc biệt, Dược chất hướng thần...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Procedure)Công bố thông tin liên quan đến thuốc được cấp phép nhập khẩu
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Procedure)Quy định chi tiết tiêu chí, hồ sơ, thủ tục cấp phép xuất khẩu, nhập khẩu
+      [NODE REL] 🔗 (Organization)Bộ trưởng Bộ Y tế --[ASSIGNS_TO]--> (Procedure)Quy định chi tiết việc ghi nhãn thuốc, nguyên liệu làm thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở đăng ký thuốc --[ASSIGNS_TO]--> (Procedure)Ngừng kinh doanh thuốc bị thu hồi
+      [NODE REL] 🔗 (Organization)Cơ sở sản xuất thuốc trong nước --[ASSIGNS_TO]--> (Procedure)Chủ trì, phối hợp tổ chức thu hồi, tiếp nhận thuốc bị thu hồi
+      [NODE REL] 🔗 (Organization)Cơ sở nhập khẩu --[ASSIGNS_TO]--> (Procedure)Xử lý thuốc bị thu hồi
+      [NODE REL] 🔗 (Organization)Cơ sở bán buôn, bán lẻ thuốc --[ASSIGNS_TO]--> (Procedure)Ngừng kinh doanh, cấp phát thuốc bị thu hồi
+      [NODE REL] 🔗 (Organization)Cơ sở khám bệnh, chữa bệnh --[ASSIGNS_TO]--> (Procedure)Ngừng việc kê đơn, bán, cấp phát và sử dụng thuốc bị thu hồi
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Procedure)Quyết định việc thu hồi, xử lý thuốc thu hồi trên phạm vi toàn quốc
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Procedure)Kiểm tra, giám sát việc tổ chức và thực hiện thu hồi thuốc
+      [NODE REL] 🔗 (Organization)Đài truyền hình Việt Nam --[ASSIGNS_TO]--> (Procedure)Công bố thông tin về thu hồi thuốc vi phạm ở mức độ 1
+      [NODE REL] 🔗 (Organization)Đài tiếng nói Việt Nam --[ASSIGNS_TO]--> (Procedure)Công bố thông tin về thu hồi thuốc vi phạm ở mức độ 1
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Procedure)Ra quyết định thu hồi thuốc
+      [NODE REL] 🔗 (Person)Người đứng đầu cơ sở đăng ký thuốc --[ASSIGNS_TO]--> (Procedure)Ra quyết định thu hồi thuốc trong trường hợp thu hồi tự nguyện mức độ 3
+      [NODE REL] 🔗 (Organization)Bộ trưởng Bộ Y tế --[ASSIGNS_TO]--> (Procedure)Quy định lộ trình áp dụng Thực hành tốt nuôi trồng, thu hái dược liệu
+      [NODE REL] 🔗 (Organization)Tổ chức, cá nhân sản xuất, nhập khẩu, chế biến, cung ứng dược liệu --[ASSIGNS_TO]--> (Procedure)Công bố tiêu chuẩn dược liệu
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Chính phủ, Bộ Khoa học và Công nghệ]; Role=[Cơ sở kinh doanh dược, Cơ sở khám bệnh, chữa bệnh, Người đứng đầu cơ sở khám bệnh, chữa bệnh...]; Concept=[Thông tin thuốc và cảnh giác dược, Quảng cáo thuốc, Dược lâm sàng...]; Timeframe=[15 ngày]
+      [NODE REL] 🔗 (Role)Cơ sở kinh doanh dược --[ASSIGNS_TO]--> (Concept)Thông tin thuốc và cảnh giác dược
+      [NODE REL] 🔗 (Role)Cơ sở khám bệnh, chữa bệnh --[ASSIGNS_TO]--> (Concept)Thông tin thuốc và cảnh giác dược
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGES]--> (Concept)Thông tin thuốc và cảnh giác dược
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)Thông tin thuốc và cảnh giác dược
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[APPROVES]--> (Concept)Quảng cáo thuốc
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)Quảng cáo thuốc
+      [NODE REL] 🔗 (Role)Người đứng đầu cơ sở khám bệnh, chữa bệnh --[ORGANIZES]--> (Concept)Dược lâm sàng
+      [NODE REL] 🔗 (Role)Người chịu trách nhiệm chuyên môn của nhà thuốc --[IMPLEMENTS]--> (Concept)Dược lâm sàng
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)Dược lâm sàng
+      [NODE REL] 🔗 (Organization)Nhà nước --[FUNDS]--> (Concept)Dược lâm sàng
+      [NODE REL] 🔗 (Role)Người đứng đầu cơ sở khám bệnh, chữa bệnh --[ASSIGNS_TO]--> (Concept)Cung ứng, bảo quản, cấp phát và sử dụng thuốc
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)Tỷ lệ hao hụt thuốc
+      [NODE REL] 🔗 (Role)Người đứng đầu cơ sở khám bệnh, chữa bệnh --[ASSIGNS_TO]--> (Concept)Sản xuất, pha chế thuốc trong cơ sở khám bệnh, chữa bệnh
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)Sản xuất, pha chế thuốc trong cơ sở khám bệnh, chữa bệnh
+      [NODE REL] 🔗 (Organization)Bộ Khoa học và Công nghệ --[LICENSES]--> (Concept)Thuốc phóng xạ
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)Thử thuốc trên lâm sàng
+      [DEBUG] ✓ Đã LƯU: 105/2016/QH13 --[BASED_ON]--> Luật tiêu chuẩn và quy chuẩn kỹ thuật
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Hội đồng đạo đức trong nghiên cứu y sinh học cấp quốc gia, Hội đồng đạo đức trong nghiên cứu y sinh học cấp cơ sở...]; Role=[Bộ trưởng Bộ Y tế, người chịu trách nhiệm chuyên môn của cơ sở nhận thử tương đương sinh học của thuốc, nghiên cứu viên...]; Concept=[thuốc thử lâm sàng, thử thuốc trên lâm sàng, thử tương đương sinh học của thuốc...]; Procedure=[đăng ký nghiên cứu thử thuốc trên lâm sàng, phê duyệt nghiên cứu thử thuốc trên lâm sàng, tổ chức thực hiện thử thuốc trên lâm sàng...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGED_BY]--> (Organization)Hội đồng đạo đức trong nghiên cứu y sinh học
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Concept)Dược điển Việt Nam
+      [NODE REL] 🔗 (Organization)Bộ Khoa học và Công nghệ --[REGULATED_BY]--> (Concept)tiêu chuẩn quốc gia
+      [NODE REL] 🔗 (Organization)Hội đồng đạo đức trong nghiên cứu y sinh học cấp quốc gia --[APPLIES_TO]--> (Concept)thử thuốc trên lâm sàng
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Concept)thử thuốc trên lâm sàng
+      [NODE REL] 🔗 (Organization)Hội đồng đạo đức trong nghiên cứu y sinh học cấp cơ sở --[APPLIES_TO]--> (Concept)thử tương đương sinh học của thuốc
+      [NODE REL] 🔗 (Role)người chịu trách nhiệm chuyên môn của cơ sở nhận thử tương đương sinh học của thuốc --[REGULATED_BY]--> (Concept)thử tương đương sinh học của thuốc
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Bộ Y tế, Chính phủ, Thủ tướng Chính phủ...]; Concept=[Kiểm nghiệm thuốc, nguyên liệu làm thuốc, bao bì tiếp xúc trực tiếp với thuốc, Quản lý nhà nước về giá thuốc, Cơ chế thị trường...]; Procedure=[Đấu thầu thuốc dự trữ quốc gia, Kê khai giá thuốc, Niêm yết giá bán buôn, bán lẻ thuốc...]; Timeframe=[05 ngày]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (LegalArticle)Điều 103
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[REGULATED_BY]--> (LegalArticle)Điều 104
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (LegalArticle)Điều 105
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (LegalArticle)Điều 108
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (LegalArticle)Điều 108
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp tỉnh --[REGULATED_BY]--> (LegalArticle)Điều 108
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (LegalArticle)Điều 109
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[REGULATED_BY]--> (LegalArticle)Điều 110
+      [NODE REL] 🔗 (Organization)Bộ Công Thương --[REGULATED_BY]--> (LegalArticle)Điều 111
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp tỉnh --[REGULATED_BY]--> (LegalArticle)Điều 112
+      [NODE REL] 🔗 (Organization)Bảo hiểm xã hội Việt Nam --[REGULATED_BY]--> (LegalArticle)Điều 113
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[COLLABORATES_WITH]--> (Organization)Bộ Tài chính
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[COLLABORATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Công Thương --[COLLABORATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bảo hiểm xã hội Việt Nam --[PROVIDES_INFO_TO]--> (Organization)Bộ Y tế
+      [DEBUG] ✓ Đã LƯU: 105/2016/QH13 --[REPEALS]--> 34/2005/QH11
+      [DEBUG] ✓ Đã LƯU: 105/2016/QH13 --[BASED_ON]--> 34/2005/QH11
+      [ENTITY] 📦 (105/2016/QH13): Organization=[Ủy ban nhân dân cấp tỉnh, Sở Y tế, Bảo hiểm xã hội cấp tỉnh...]; Person=[Nguyễn Thị Kim Ngân]; Role=[Chủ tịch Quốc hội]; Timeframe=[10 ngày, 01 tháng 01 năm 2017, 01 tháng 01 năm 2021...]; Concept=[đấu thầu thuốc, Thực hành tốt sản xuất thuốc, dược lâm sàng]
+      [NODE REL] 🔗 (Person)Nguyễn Thị Kim Ngân --[HOLDS_ROLE]--> (Role)Chủ tịch Quốc hội
+      [NODE REL] 🔗 (Person)Nguyễn Thị Kim Ngân --[SIGNED_BY]--> (Document)105/2016/QH13
+      [NODE REL] 🔗 (Document)105/2016/QH13 --[ISSUED_BY]--> (Organization)Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam
+      [NODE REL] 🔗 (Organization)Chính phủ --[GUIDES]--> (Document)105/2016/QH13
+      [NODE REL] 🔗 (Organization)Sở Y tế --[REPORTS_TO]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Sở Y tế --[REPORTS_TO]--> (Organization)Bảo hiểm xã hội Việt Nam
+      [Pha 1] 🚀 Tìm thấy 57 đoạn văn quan trọng. Đang xử lý 5 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[BASED_ON]--> 105/2016/QH13
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[GUIDES]--> Luật Dược
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[BASED_ON]--> Luật Dược tại Khoản 1 Điều 3
+      [ENTITY] 📦 (79/2006/NĐ-CP): Organization=[Chính phủ, Bộ Y tế, Bộ Lao động - Thương binh và Xã hội...]; Location=[Việt Nam, Hà Nội]; Timeframe=[ngày 09 tháng 8 năm 2006, ngày 25 tháng 12 năm 2001, ngày 14 tháng 6 năm 2005]; Concept=[Cơ sở dược hợp pháp, Niêm yết giá thuốc, Giá nhập khẩu...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[PROPOSED]--> (Document)79/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[DEVELOPS]--> (Concept)Quy hoạch mạng lưới lưu thông, phân phối và cung ứng thuốc
+      [NODE REL] 🔗 (Person)Thủ tướng Chính phủ --[DECIDES]--> (Concept)Quy hoạch mạng lưới lưu thông, phân phối và cung ứng thuốc
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)Việc kê đơn, hướng dẫn sử dụng thuốc an toàn
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[MANAGES]--> (Concept)Thông tin, quảng cáo thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở sản xuất thuốc --[DECLARES]--> (Concept)Giá bán buôn, giá bán lẻ dự kiến, giá nhập khẩu
+      [NODE REL] 🔗 (Organization)Cơ sở nhập khẩu thuốc --[DECLARES]--> (Concept)Giá nhập khẩu, giá bán buôn, giá bán lẻ dự kiến
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[BASED_ON]--> Luật Đấu thầu
+      [ENTITY] 📦 (79/2006/NĐ-CP): Organization=[Bộ Y tế, Bộ Thương mại, Bộ Tài chính...]; Role=[người quản lý chuyên môn về dược, chủ nhà thuốc, chủ quầy thuốc...]; Timeframe=[06 tháng, 05 năm, 02 năm...]; Concept=[giá tối đa, giá bán buôn, giá bán lẻ...]
+      [NODE REL] 🔗 (Organization)Cục Quản lý dược Việt Nam --[PART_OF]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGED_BY]--> (Organization)Cục Quản lý dược Việt Nam
+      [NODE REL] 🔗 (Role)người quản lý chuyên môn về dược --[REQUIRED_FOR]--> (Document)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Role)người quản lý chuyên môn về dược --[REQUIRED_FOR]--> (Document)Bằng tốt nghiệp đại học dược
+      [NODE REL] 🔗 (Role)người quản lý chuyên môn về dược --[REQUIRED_FOR]--> (Timeframe)05 năm
+      [NODE REL] 🔗 (Role)người quản lý chuyên môn về dược --[REQUIRED_FOR]--> (Timeframe)03 năm
+      [NODE REL] 🔗 (Role)người quản lý chuyên môn về dược --[REQUIRED_FOR]--> (Timeframe)02 năm
+      [NODE REL] 🔗 (Role)chủ nhà thuốc --[REQUIRED_FOR]--> (Document)Bằng tốt nghiệp đại học dược
+      [NODE REL] 🔗 (Role)chủ quầy thuốc --[REQUIRED_FOR]--> (Document)Bằng tốt nghiệp trung học dược
+      [NODE REL] 🔗 (Person)người nước ngoài --[REQUIRED_FOR]--> (Document)Lý lịch tư pháp
+      [NODE REL] 🔗 (Person)người nước ngoài --[REQUIRED_FOR]--> (Document)Giấy phép lao động
+      [ENTITY] 📦 (79/2006/NĐ-CP): Organization=[Bộ Y tế, Sở Y tế]; Timeframe=[05 năm, 03 tháng, 30 ngày...]; Role=[Người quản lý chuyên môn về dược, Chủ cơ sở bán lẻ thuốc]; Condition=[Thực hành tốt sản xuất thuốc, Thực hành tốt phân phối thuốc, Thực hành tốt nhà thuốc...]; Location=[tỉnh, thành phố trực thuộc Trung ương]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Document)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ISSUES]--> (Document)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES_FORMAT]--> (Document)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Role)Người quản lý chuyên môn về dược --[REQUIRED_FOR]--> (Document)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Role)Chủ cơ sở bán lẻ thuốc --[REQUIRED_FOR]--> (Document)Chứng chỉ hành nghề dược
+      [NODE REL] 🔗 (Organization)Cơ sở sản xuất thuốc --[MUST_COMPLY_WITH]--> (Condition)Thực hành tốt sản xuất thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở bán buôn thuốc --[MUST_COMPLY_WITH]--> (Condition)Thực hành tốt phân phối thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở bán lẻ thuốc --[MUST_COMPLY_WITH]--> (Condition)Thực hành tốt nhà thuốc
+      [NODE REL] 🔗 (Organization)Doanh nghiệp làm dịch vụ bảo quản thuốc --[MUST_COMPLY_WITH]--> (Condition)Thực hành tốt bảo quản thuốc
+      [NODE REL] 🔗 (Organization)Doanh nghiệp làm dịch vụ kiểm nghiệm thuốc --[MUST_COMPLY_WITH]--> (Condition)Thực hành tốt kiểm nghiệm thuốc
+      [NODE REL] 🔗 (Organization)Sở Y tế --[REVOKES]--> (Document)Chứng chỉ hành nghề dược
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[BASED_ON]--> 80/2001/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[BASED_ON]--> 58/2003/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[BASED_ON]--> Luật Tiêu chuẩn và Quy chuẩn kỹ thuật
+      [ENTITY] 📦 (79/2006/NĐ-CP): Organization=[Bộ Y tế, cơ quan công an cấp xã, phường, cơ quan cấp đăng ký kinh doanh...]; Timeframe=[05 năm, 03 tháng, 30 ngày...]; Role=[người quản lý chuyên môn về dược, người phụ trách an toàn bức xạ, cán bộ kiểm nghiệm]; Concept=[thuốc gây nghiện, thuốc hướng tâm thần, tiền chất dùng làm thuốc...]; Procedure=[cấp Giấy chứng nhận đủ điều kiện kinh doanh thuốc, bổ sung phạm vi kinh doanh, gia hạn Giấy chứng nhận đủ điều kiện kinh doanh thuốc...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Document)Giấy chứng nhận đủ điều kiện kinh doanh thuốc
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Document)Dược điển Việt Nam
+      [NODE REL] 🔗 (Organization)Hội đồng Dược điển --[COMPILES]--> (Document)Dược điển Việt Nam
+      [NODE REL] 🔗 (Organization)Bộ Khoa học và Công nghệ --[ISSUES]--> (Document)giấy phép về bảo đảm an toàn bức xạ
+      [NODE REL] 🔗 (Organization)cơ sở được Bộ Khoa học và Công nghệ cho phép đào tạo --[ISSUES]--> (Document)chứng chỉ đào tạo về an toàn bức xạ
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[APPROVES]--> (Document)bảng dự trù
+      [NODE REL] 🔗 (Organization)Cục Kiểm soát và an toàn bức xạ hạt nhân --[MONITORS]--> (Concept)sử dụng thuốc phóng xạ
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REVOKES]--> (Document)Giấy chứng nhận đủ điều kiện kinh doanh thuốc
+      [NODE REL] 🔗 (Organization)Sở Y tế --[REVOKES]--> (Document)Giấy chứng nhận đủ điều kiện kinh doanh thuốc
+      [NODE REL] 🔗 (Organization)Viện kiểm nghiệm thuốc Trung ương --[PERFORMS]--> (Procedure)kiểm nghiệm thuốc
+      [NODE REL] 🔗 (Organization)Trung tâm kiểm nghiệm thuốc tỉnh, thành phố trực thuộc Trung ương --[PERFORMS]--> (Procedure)kiểm nghiệm thuốc
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[REPEALS]--> 23-HĐBT
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[REPEALS]--> 103/2003/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 79/2006/NĐ-CP --[REPEALS]--> 120/2004/NĐ-CP
+      [ENTITY] 📦 (79/2006/NĐ-CP): Organization=[Bộ Y tế, Cục Quản lý dược Việt Nam, Chính phủ...]; Person=[Nguyễn Tấn Dũng]; Role=[Bộ trưởng Bộ Y tế, Giám đốc Sở Y tế, Chủ tịch ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương...]; Timeframe=[15 ngày, 03 tháng, 01 tháng 10 năm 2005]; Concept=[thuốc Trung ương, thuốc địa phương, thuốc giả...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)79/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Cục Quản lý dược Việt Nam --[ASSISTS]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Sở Y tế --[ASSISTS]--> (Organization)Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Thương mại --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Giáo dục và Đào tạo --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Lao động - Thương binh và Xã hội --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Khoa học và Công nghệ --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Văn hóa - Thông tin --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Nông nghiệp và Phát triển nông thôn --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Công an --[COOPERATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)79/2006/NĐ-CP
+      [NODE REL] 🔗 (Role)Bộ trưởng Bộ Y tế --[ASSIGNS_TO]--> (Document)79/2006/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 62 đoạn văn quan trọng. Đang xử lý 6 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 76/2015/QH13 --[BASED_ON]--> Hiến Pháp
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Quốc hội, Chính phủ, Ủy ban thường vụ Quốc hội]; Role=[Thủ tướng Chính phủ, Phó Thủ tướng Chính phủ, Bộ trưởng...]; Concept=[quyền hành pháp, tập trung dân chủ, bình đẳng giới...]
+      [NODE REL] 🔗 (Organization)Quốc hội --[ISSUED_BY]--> (Document)Luật tổ chức Chính phủ
+      [NODE REL] 🔗 (Organization)Chính phủ --[EXERCISES]--> (Concept)quyền hành pháp
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Role)Chủ tịch nước
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[HEADS]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[HEADS]--> (Concept)hệ thống hành chính nhà nước
+      [NODE REL] 🔗 (Organization)Quốc hội --[ELECTS]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGES]--> (Concept)kinh tế thị trường định hướng xã hội chủ nghĩa
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGES]--> (Concept)tài nguyên, môi trường
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGES]--> (Concept)khoa học và công nghệ
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Chính phủ, Quốc hội, Ủy ban thường vụ Quốc hội...]; Concept=[giáo dục và đào tạo, văn hóa, thể thao và du lịch, thông tin và truyền thông...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)giáo dục và đào tạo
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)văn hóa, thể thao và du lịch
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)thông tin và truyền thông
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)y tế, chăm sóc sức khỏe của Nhân dân và dân số
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)chính sách xã hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)quốc phòng
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)cơ yếu
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)an ninh quốc gia, trật tự, an toàn xã hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)đối ngoại và hội nhập quốc tế
+      [NODE REL] 🔗 (Organization)Chính phủ --[SUBORDINATE_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[SUBORDINATE_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[SUBORDINATE_TO]--> (Organization)Quốc hội
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Quốc hội, Chính phủ, Ủy ban thường vụ Quốc hội...]; Role=[Thủ tướng Chính phủ, Phó Thủ tướng Chính phủ, Bộ trưởng...]; Concept=[Tổ chức bộ máy hành chính nhà nước, Chế độ công vụ, Cải cách hành chính...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Chủ tịch nước
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[LEADS]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[MANAGES]--> (Concept)Hệ thống hành chính nhà nước
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[SUBMITS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[SUBMITS_TO]--> (Organization)Chủ tịch nước
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[SUBMITS_TO]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[COORDINATES_WITH]--> (Organization)Ủy ban trung ương Mặt trận Tổ quốc Việt Nam
+      [NODE REL] 🔗 (Organization)Chính phủ --[GUIDES]--> (Organization)Hội đồng nhân dân
+      [NODE REL] 🔗 (Organization)Chính phủ --[LEADS]--> (Organization)Ủy ban nhân dân
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Quốc hội, Chính phủ, Ủy ban thường vụ Quốc hội...]; Role=[Thủ tướng Chính phủ, Phó Thủ tướng Chính phủ, Bộ trưởng...]; Concept=[Hệ thống hành chính nhà nước, Văn bản pháp luật, Quyết định...]
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[MANAGED_BY]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[LEADS]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[ISSUES]--> (Concept)Văn bản pháp luật
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[REPRESENTS]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Phó Thủ tướng Chính phủ --[ASSISTS]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Phó Thủ tướng Chính phủ --[MANAGED_BY]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[MEMBER_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[HEADS]--> (Organization)Bộ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[MANAGES]--> (Concept)Ngành, lĩnh vực được phân công
+      [NODE REL] 🔗 (Role)Bộ trưởng --[MANAGED_BY]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[MANAGED_BY]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Role)Bộ trưởng --[MANAGED_BY]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[ISSUES]--> (Concept)Văn bản quy phạm pháp luật
+      [NODE REL] 🔗 (Role)Bộ trưởng --[PROPOSES_APPOINTMENT_FOR]--> (Role)Thứ trưởng
+      [NODE REL] 🔗 (Role)Bộ trưởng --[DIRECTS]--> (Organization)Ủy ban nhân dân
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Chính phủ, Bộ Quốc phòng, Bộ Công an...]; Role=[Thứ trưởng, Phó Thủ trưởng cơ quan ngang bộ, Bộ trưởng...]; Concept=[Cơ quan ngang bộ, Bộ, Cơ quan thuộc Chính phủ...]
+      [NODE REL] 🔗 (Organization)Bộ Quốc phòng --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Công an --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Ngoại giao --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Văn phòng Chính phủ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Concept)Kinh phí hoạt động của Chính phủ --[REGULATED_BY]--> (Organization)Quốc hội
+      [DEBUG] ✓ Đã LƯU: 76/2015/QH13 --[REPEALS]--> 32/2001/QH10
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Chính phủ, Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam]; Person=[Nguyễn Sinh Hùng]; Role=[Chủ tịch Quốc hội]; Timeframe=[01 tháng 01 năm 2016, 19 tháng 6 năm 2015]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNED_TO]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Person)Nguyễn Sinh Hùng --[SIGNED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Person)Nguyễn Sinh Hùng --[HOLDS_ROLE]--> (Role)Chủ tịch Quốc hội
+      [NODE REL] 🔗 (Document)76/2015/QH13 --[ISSUED_BY]--> (Organization)Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam
+      [Pha 1] 🚀 Tìm thấy 13 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 35/2001/QĐ-TTG --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 35/2001/QĐ-TTG --[BASED_ON]--> Luật Bảo Vệ Sức Khoẻ Nhân Dân Ban Hành Ngày 30 Tháng 6 năm 1989
+      [DEBUG] ✓ Đã LƯU: 35/2001/QĐ-TTG --[BASED_ON]--> 25/1999/CT-TTG
+      [DEBUG] ✓ Đã LƯU: 35/2001/QĐ-TTG --[BASED_ON]--> 90/CP
+      [ENTITY] 📦 (35/2001/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Bộ Y tế, Chính phủ...]; Timeframe=[giai đoạn 2001-2010, năm 2010, năm 2005...]; Concept=[Chiến lược chăm sóc và bảo vệ sức khoẻ nhân dân giai đoạn 2001 - 2010, bảo hiểm y tế tự nguyện, bảo hiểm y tế bắt buộc...]; Location=[Việt Nam, Hà Nội, Thành phố Hồ Chí Minh...]
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ISSUED_BY]--> (Document)35/2001/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[PROPOSED_BY]--> (Document)35/2001/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGED_BY]--> (Concept)Chiến lược chăm sóc và bảo vệ sức khoẻ nhân dân giai đoạn 2001 - 2010
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[COORDINATES_WITH]--> (Organization)Bộ Tài chính
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[COORDINATES_WITH]--> (Organization)Bộ Kế hoạch và Đầu tư
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[FUNDS]--> (Concept)Chiến lược chăm sóc và bảo vệ sức khoẻ nhân dân giai đoạn 2001 - 2010
+      [ENTITY] 📦 (35/2001/QĐ-TTg): Organization=[Bộ trưởng các Bộ, Cơ quan ngang Bộ, Thủ trưởng cơ quan có liên quan...]; Person=[Phan Văn Khải]
+      [NODE REL] 🔗 (Document)35/2001/QĐ-TTg --[ASSIGNS_TO]--> (Organization)Bộ trưởng các Bộ
+      [NODE REL] 🔗 (Document)35/2001/QĐ-TTg --[ASSIGNS_TO]--> (Organization)Cơ quan ngang Bộ
+      [NODE REL] 🔗 (Document)35/2001/QĐ-TTg --[ASSIGNS_TO]--> (Organization)Thủ trưởng cơ quan có liên quan
+      [NODE REL] 🔗 (Document)35/2001/QĐ-TTg --[ASSIGNS_TO]--> (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương
+      [NODE REL] 🔗 (Document)35/2001/QĐ-TTg --[SIGNED_BY]--> (Person)Phan Văn Khải
+      [Pha 1] 🚀 Tìm thấy 64 đoạn văn quan trọng. Đang xử lý 6 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 195/QĐ-TTG --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 195/QĐ-TTG --[BASED_ON]--> 65/2013/QH13
+      [DEBUG] ✓ Đã LƯU: 195/QĐ-TTG --[BASED_ON]--> 135/2009/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 195/QĐ-TTG --[BASED_ON]--> 2405/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 195/QĐ-TTG --[BASED_ON]--> 539/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 195/QĐ-TTG --[BASED_ON]--> 2008/NQ-CP
+      [ENTITY] 📦 (195/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Bộ Nông nghiệp và Phát triển nông thôn, Bộ Kế hoạch và Đầu tư...]; Person=[Nguyễn Tấn Dũng]; Location=[Việt Nam, Hà Nội, Tây Nguyên...]; Timeframe=[năm 2014, giai đoạn 2014-2016, ngày 25 tháng 01 năm 2014...]; Concept=[vốn trái phiếu Chính phủ, xây dựng nông thôn mới, cơ sở hạ tầng...]
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ISSUED_BY]--> (Document)195/QĐ-TTg
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)195/QĐ-TTg
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Organization)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Document)195/QĐ-TTg --[ASSIGNS_TO]--> (Location)Các tỉnh, thành phố trực thuộc Trung ương
+      [NODE REL] 🔗 (Document)195/QĐ-TTg --[ASSIGNS_TO]--> (Organization)Bộ Kế hoạch và Đầu tư
+      [NODE REL] 🔗 (Document)195/QĐ-TTg --[ASSIGNS_TO]--> (Organization)Bộ Nông nghiệp và Phát triển nông thôn
+      [NODE REL] 🔗 (Document)195/QĐ-TTg --[ASSIGNS_TO]--> (Organization)Bộ Tài chính
+      [NODE REL] 🔗 (Document)195/QĐ-TTg --[ASSIGNS_TO]--> (Organization)Ủy ban nhân dân cấp tỉnh
+      [NODE REL] 🔗 (Document)195/QĐ-TTg --[REGULATED_BY]--> (Concept)Chương trình mục tiêu quốc gia về xây dựng nông thôn mới
+      [ENTITY] 📦 (195/QĐ-TTg): Location=[Gia Lai, Kon Tum, Lâm Đồng...]; Concept=[Chương trình mục tiêu quốc gia Xây dựng nông thôn mới]; Timeframe=[năm 2014]
+      [ENTITY] 📦 (195/QĐ-TTg): Location=[Thành phố Hải Phòng]; Concept=[Chương trình mục tiêu quốc gia Xây dựng nông thôn mới]; Timeframe=[Năm 2014]
+      [ENTITY] 📦 (195/QĐ-TTg): Location=[Tỉnh Thừa Thiên Huế]; Concept=[Chương trình mục tiêu quốc gia Xây dựng nông thôn mới, Kế hoạch vốn trái phiếu chính phủ năm 2014]; Timeframe=[Năm 2014]
+      [NODE REL] 🔗 (Concept)Kế hoạch vốn trái phiếu chính phủ năm 2014 --[DEFINED_IN]--> (Document)195/QĐ-TTg
+      [NODE REL] 🔗 (Location)Tỉnh Thừa Thiên Huế --[APPLIES_TO]--> (Concept)Kế hoạch vốn trái phiếu chính phủ năm 2014
+      [ENTITY] 📦 (195/QĐ-TTg): Concept=[Chương trình mục tiêu quốc gia Xây dựng nông thôn mới]; Timeframe=[2014]
+      [ENTITY] 📦 (195/QĐ-TTg): Concept=[Chương trình mục tiêu quốc gia Xây dựng nông thôn mới]; Timeframe=[2014]
+      [Pha 1] 🚀 Tìm thấy 11 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 30/2008/QĐ-TTG --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 30/2008/QĐ-TTG --[BASED_ON]--> 188/2007/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 30/2008/QĐ-TTG --[BASED_ON]--> 92/2006/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 30/2008/QĐ-TTG --[BASED_ON]--> 04/2008/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 30/2008/QĐ-TTG --[BASED_ON]--> 153/2006/QĐ-TTG
+      [ENTITY] 📦 (30/2008/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Chính phủ, Bộ Y tế...]; Person=[Nguyễn Tấn Dũng]; Location=[Việt Nam, Hà Nội, Huế...]; Timeframe=[Năm 2010, Năm 2020, Năm 2015...]; Concept=[Quy hoạch phát triển mạng lưới khám, chữa bệnh đến năm 2010 và tầm nhìn đến năm 2020, Quy hoạch tổng thể phát triển hệ thống y tế Việt Nam đến năm 2010 và tầm nhìn đến năm 2020, Bệnh viện đa khoa...]
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ISSUED_BY]--> (Document)30/2008/QĐ-TTg
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)30/2008/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)30/2008/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)30/2008/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Document)30/2008/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)30/2008/QĐ-TTg
+      [NODE REL] 🔗 (Document)30/2008/QĐ-TTg --[EXEMPTS]--> (Organization)Bộ Quốc phòng
+      [NODE REL] 🔗 (Document)30/2008/QĐ-TTg --[EXEMPTS]--> (Organization)Bộ Công an
+      [NODE REL] 🔗 (Concept)Trung tâm y tế chuyên sâu --[LOCATED_IN]--> (Location)Hà Nội
+      [NODE REL] 🔗 (Concept)Trung tâm y tế chuyên sâu --[LOCATED_IN]--> (Location)Huế
+      [NODE REL] 🔗 (Concept)Trung tâm y tế chuyên sâu --[LOCATED_IN]--> (Location)Đà Nẵng
+      [NODE REL] 🔗 (Concept)Trung tâm y tế chuyên sâu --[LOCATED_IN]--> (Location)Thành phố Hồ Chí Minh
+      [NODE REL] 🔗 (Concept)Trung tâm y tế chuyên sâu --[LOCATED_IN]--> (Location)Cần Thơ
+      [Pha 1] 🚀 Tìm thấy 3 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 1581/QĐ-TTG --[BASED_ON]--> 76/2015/QH13 tại Điều 20
+      [DEBUG] ✓ Đã LƯU: 1581/QĐ-TTG --[BASED_ON]--> Luật Tổ chức Hội đồng nhân dân và Ủy ban nhân dân (sửa đổi) ngày 26 tháng 11 năm 2003 tại Điều 122
+      [DEBUG] ✓ Đã LƯU: 1581/QĐ-TTG --[BASED_ON]--> 25/2008/QH12
+      [DEBUG] ✓ Đã LƯU: 1581/QĐ-TTG --[BASED_ON]--> 107/2004/NĐ-CP
+      [ENTITY] 📦 (1581/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Ủy ban nhân dân tỉnh Cà Mau, Sở Nội vụ tỉnh Cà Mau...]; Person=[Lê Hoàng Bé, Lâm Văn Bi, Nguyễn Tấn Dũng]; Role=[Tỉnh ủy viên, Giám đốc Sở Nội vụ, Chánh Văn phòng Ủy ban nhân dân...]; Timeframe=[nhiệm kỳ 2004 - 2011]
+      [NODE REL] 🔗 (Document)1581/QĐ-TTg --[SIGNED_BY]--> (Person)Nguyễn Tấn Dũng
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [NODE REL] 🔗 (Person)Lê Hoàng Bé --[HOLDS_ROLE]--> (Role)Tỉnh ủy viên
+      [NODE REL] 🔗 (Person)Lê Hoàng Bé --[HOLDS_ROLE]--> (Role)Giám đốc Sở Nội vụ
+      [NODE REL] 🔗 (Person)Lê Hoàng Bé --[WORKS_FOR]--> (Organization)Sở Nội vụ tỉnh Cà Mau
+      [NODE REL] 🔗 (Person)Lâm Văn Bi --[HOLDS_ROLE]--> (Role)Chánh Văn phòng Ủy ban nhân dân
+      [NODE REL] 🔗 (Person)Lâm Văn Bi --[WORKS_FOR]--> (Organization)Văn phòng Ủy ban nhân dân tỉnh Cà Mau
+      [NODE REL] 🔗 (Document)1581/QĐ-TTg --[APPLIES_TO]--> (Organization)Ủy ban nhân dân tỉnh Cà Mau
+      [Pha 1] 🚀 Tìm thấy 6 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 25/2008/QH12 --[BASED_ON]--> Hiến pháp 2013
+      [DEBUG] ✓ Đã LƯU: 25/2008/QH12 --[BASED_ON]--> 51/2001/QH10
+      [ENTITY] 📦 (25/2008/QH12): Organization=[Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam, Chính phủ, Ủy ban thường vụ Quốc hội...]; Person=[Nguyễn Phú Trọng]; Role=[Chủ tịch Quốc hội, Đại biểu Quốc hội]; Timeframe=[2004 – 2009, năm 2011, ngày 01 tháng 4 năm 2009...]
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ISSUED_BY]--> (Organization)Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[SIGNED_BY]--> (Person)Nguyễn Phú Trọng
+      [NODE REL] 🔗 (Person)Nguyễn Phú Trọng --[HOLDS_ROLE]--> (Role)Chủ tịch Quốc hội
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)Tòa án nhân dân tối cao
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)Viện kiểm sát nhân dân tối cao
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)Ủy ban Trung ương Mặt trận Tổ quốc Việt Nam
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)Hội đồng dân tộc
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)các Ủy ban của Quốc hội
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)Đoàn đại biểu Quốc hội
+      [NODE REL] 🔗 (Document)25/2008/QH12 --[ASSIGNS_TO]--> (Organization)các đại biểu Quốc hội
+      [Pha 1] 🚀 Tìm thấy 13 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 04/2008/NĐ-CP --[AMENDS]--> 92/2006/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 04/2008/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [ENTITY] 📦 (04/2008/NĐ-CP): Organization=[Chính phủ, Bộ Kế hoạch và Đầu tư, Ủy ban nhân dân cấp huyện...]; Location=[Hà Nội, Hải Phòng, Quảng Ninh...]; Concept=[Quy hoạch tổng thể phát triển kinh tế - xã hội, Quy hoạch phát triển ngành, Quy hoạch phát triển lĩnh vực...]; Timeframe=[15 ngày, 5 năm, Hàng năm]
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[MANAGED_BY]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội các vùng kinh tế - xã hội
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh --[MANAGED_BY]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội cấp tỉnh
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp huyện --[MANAGED_BY]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội cấp huyện
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[APPROVES]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội các vùng kinh tế - xã hội
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[APPROVES]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội cấp tỉnh
+      [NODE REL] 🔗 (Organization)Chủ tịch Ủy ban nhân dân cấp tỉnh --[APPROVES]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội cấp huyện
+      [NODE REL] 🔗 (Organization)Bộ Quốc phòng --[MANAGED_BY]--> (Concept)Quy hoạch các khu kinh tế quốc phòng
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)04/2008/NĐ-CP
+      [ENTITY] 📦 (04/2008/NĐ-CP): Organization=[Chính phủ, Thủ tướng Chính phủ]; Person=[Nguyễn Tấn Dũng]; Role=[Thủ tướng]
+      [NODE REL] 🔗 (Document)04/2008/NĐ-CP --[SIGNED_BY]--> (Person)Nguyễn Tấn Dũng
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [Pha 1] 🚀 Tìm thấy 56 đoạn văn quan trọng. Đang xử lý 5 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 92/2006/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 92/2006/NĐ-CP --[BASED_ON]--> 484/UBTVQH11
+      [ENTITY] 📦 (92/2006/NĐ-CP): Organization=[Chính phủ, Ủy ban Thường vụ Quốc hội, Bộ Kế hoạch và Đầu tư...]; Location=[Hà Nội, Việt Nam]; Timeframe=[10 năm, 15 - 20 năm, 5 năm...]; Concept=[Quy hoạch tổng thể phát triển kinh tế - xã hội, Bản đồ quy hoạch tổng thể phát triển kinh tế - xã hội, Vùng kinh tế - xã hội...]
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ISSUES]--> (Concept)Định mức đơn giá chi phí cho lập, thẩm định dự án quy hoạch
+      [NODE REL] 🔗 (Organization)Nhà nước --[FUNDS]--> (Concept)Kinh phí lập quy hoạch tổng thể phát triển kinh tế - xã hội
+      [ENTITY] 📦 (92/2006/NĐ-CP): Organization=[Chính phủ, Quốc hội, Ủy ban nhân dân...]; Location=[Vùng trung du và miền núi phía Bắc, Lai Châu, Điện Biên...]; Concept=[Quy hoạch tổng thể phát triển kinh tế - xã hội, Chiến lược phát triển kinh tế - xã hội, Quy hoạch ngành, lĩnh vực...]; Timeframe=[30 ngày, hàng năm, giai đoạn 5 năm đầu]
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Concept)Quy hoạch vùng kinh tế - xã hội
+      [NODE REL] 🔗 (Organization)Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ --[ASSIGNS_TO]--> (Concept)Quy hoạch ngành, lĩnh vực
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[ASSIGNS_TO]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[SUBMITS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[SUBMITS_TO]--> (Organization)Hội đồng nhân dân
+      [NODE REL] 🔗 (Location)Vùng trung du và miền núi phía Bắc --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Location)Vùng đồng bằng sông Hồng --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Location)Vùng Bắc Trung Bộ và Duyên hải miền Trung --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Location)Vùng Tây Nguyên --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Location)Vùng Đông Nam Bộ --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Location)Vùng đồng bằng sông Cửu Long --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Location)Vùng kinh tế trọng điểm Bắc Bộ --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Location)Vùng kinh tế trọng điểm miền Trung --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [NODE REL] 🔗 (Location)Vùng kinh tế trọng điểm phía Nam --[REQUIRED_FOR]--> (Concept)Quy hoạch tổng thể phát triển kinh tế - xã hội
+      [ENTITY] 📦 (92/2006/NĐ-CP): Organization=[Thủ tướng Chính phủ, Đảng, Quốc hội...]; Location=[vùng, cả nước, tỉnh...]; Concept=[quy hoạch tổng thể phát triển kinh tế - xã hội vùng, quy hoạch tổng thể phát triển kinh tế - xã hội tỉnh, quy hoạch tổng thể phát triển kinh tế - xã hội huyện...]; Timeframe=[giai đoạn 5 năm đầu, thời kỳ quy hoạch, 30 ngày...]; Procedure=[Xử lý các kết quả điều tra cơ bản đã có và tổ chức điều tra bổ sung, khảo sát thực tế, thu thập tư liệu, số liệu...]
+      [NODE REL] 🔗 (Document)92/2006/NĐ-CP --[REGULATED_BY]--> (Concept)quy hoạch tổng thể phát triển kinh tế - xã hội vùng
+      [NODE REL] 🔗 (Document)92/2006/NĐ-CP --[REGULATED_BY]--> (Concept)quy hoạch tổng thể phát triển kinh tế - xã hội tỉnh
+      [NODE REL] 🔗 (Document)92/2006/NĐ-CP --[REGULATED_BY]--> (Concept)quy hoạch tổng thể phát triển kinh tế - xã hội huyện
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[APPROVES]--> (Document)báo cáo quy hoạch tổng thể phát triển kinh tế - xã hội các vùng
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[APPROVES]--> (Document)báo cáo quy hoạch tổng thể phát triển kinh tế - xã hội tỉnh
+      [NODE REL] 🔗 (Document)Chiến lược phát triển kinh tế - xã hội của cả nước --[BASED_ON]--> (Concept)quy hoạch tổng thể phát triển kinh tế - xã hội vùng
+      [NODE REL] 🔗 (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội cả nước --[BASED_ON]--> (Concept)quy hoạch tổng thể phát triển kinh tế - xã hội vùng
+      [NODE REL] 🔗 (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội của vùng --[BASED_ON]--> (Concept)quy hoạch tổng thể phát triển kinh tế - xã hội tỉnh
+      [NODE REL] 🔗 (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội của tỉnh --[BASED_ON]--> (Concept)quy hoạch tổng thể phát triển kinh tế - xã hội huyện
+      [ENTITY] 📦 (92/2006/NĐ-CP): Organization=[Ủy ban nhân dân tỉnh, Sở, ngành, Bộ, ngành liên quan...]; Location=[huyện, tỉnh, vùng...]; Procedure=[Trình tự lập quy hoạch tổng thể phát triển kinh tế - xã hội huyện, Trình tự lập quy hoạch phát triển ngành, lĩnh vực, Hồ sơ thẩm định quy hoạch tổng thể phát triển kinh tế - xã hội...]; Concept=[quy hoạch tổng thể phát triển kinh tế - xã hội huyện, quy hoạch phát triển ngành, lĩnh vực, quy hoạch sản phẩm chủ yếu...]; Timeframe=[30 ngày, 5 năm đầu, thời kỳ quy hoạch...]
+      [NODE REL] 🔗 (Document)Báo cáo quy hoạch tổng thể phát triển kinh tế - xã hội huyện --[SUBMITTED_TO]--> (Organization)Ủy ban nhân dân tỉnh
+      [NODE REL] 🔗 (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội của huyện --[NOTIFIED_TO]--> (Organization)Sở, ngành
+      [NODE REL] 🔗 (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội của huyện --[NOTIFIED_TO]--> (Organization)các xã
+      [NODE REL] 🔗 (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội của huyện --[NOTIFIED_TO]--> (Organization)các doanh nghiệp
+      [NODE REL] 🔗 (Document)Báo cáo quy hoạch ngành --[SUBMITTED_TO]--> (Organization)cấp có thẩm quyền
+      [NODE REL] 🔗 (Document)Quy hoạch ngành --[NOTIFIED_TO]--> (Organization)Bộ, ngành liên quan
+      [NODE REL] 🔗 (Document)Quy hoạch ngành --[NOTIFIED_TO]--> (Organization)tỉnh, thành phố trực thuộc Trung ương
+      [NODE REL] 🔗 (Document)Quy hoạch ngành --[NOTIFIED_TO]--> (Organization)các doanh nghiệp
+      [NODE REL] 🔗 (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội huyện --[BASED_ON]--> (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội của vùng
+      [NODE REL] 🔗 (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội huyện --[BASED_ON]--> (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội của tỉnh
+      [NODE REL] 🔗 (Document)Quy hoạch phát triển ngành, lĩnh vực --[BASED_ON]--> (Document)Chiến lược phát triển kinh tế - xã hội của cả nước
+      [NODE REL] 🔗 (Document)Quy hoạch phát triển ngành, lĩnh vực --[BASED_ON]--> (Document)Quy hoạch tổng thể phát triển kinh tế - xã hội của cả nước
+      [ENTITY] 📦 (92/2006/NĐ-CP): Organization=[Thủ tướng Chính phủ, Bộ Kế hoạch và Đầu tư, Bộ Quốc phòng...]; Person=[Nguyễn Tấn Dũng]; Role=[Thủ tướng, Phó Thủ tướng Chính phủ, Bộ trưởng...]; Concept=[quy hoạch tổng thể phát triển kinh tế - xã hội, quy hoạch phát triển ngành, quy hoạch sản phẩm chủ lực...]
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [NODE REL] 🔗 (Organization)Hội đồng thẩm định cấp Nhà nước --[DEFINED_IN]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Quốc phòng --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công an --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Sở Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Chủ tịch Ủy ban nhân dân cấp tỉnh --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)92/2006/NĐ-CP
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Thể thao - Y tế: 7 văn bản
+   - Bộ máy hành chính: 5 văn bản
+   - Tài chính nhà nước: 1 văn bản
+   - Xây dựng - Đô thị: 1 văn bản
+   - Lĩnh vực khác: 1 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - BASED_ON: 57 relations
+   - REPEALS: 6 relations
+   - AMENDS: 2 relations
+   - GUIDES: 2 relations
+   - ASSIGNS: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Tổng quan hệ thường (chủ động):     68
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Concept: 442 entities
+   - Organization: 243 entities
+   - Location: 197 entities
+   - Role: 115 entities
+   - Timeframe: 96 entities
+   - Procedure: 50 entities
+   - Condition: 28 entities
+   - Person: 13 entities
+   - Fee: 5 entities
+
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - ASSIGNS_TO: 812 node relations
+   - REGULATED_BY: 516 node relations
+   - REQUIRED_FOR: 324 node relations
+   - MANAGED_BY: 288 node relations
+   - ISSUES: 180 node relations
+   - ISSUED_BY: 179 node relations
+   - REPORTS_TO: 128 node relations
+   - COOPERATES_WITH: 99 node relations
+   - REGULATES: 96 node relations
+   - BASED_ON: 96 node relations
+   - MANAGES: 84 node relations
+   - APPROVES: 84 node relations
+   - NOTIFIED_TO: 72 node relations
+   - PART_OF: 60 node relations
+   - MUST_COMPLY_WITH: 60 node relations
+   - SUBMITS_TO: 60 node relations
+   - SIGNED_BY: 58 node relations
+   - HOLDS_ROLE: 55 node relations
+   - LOCATED_IN: 55 node relations
+   - APPLIES_TO: 51 node relations
+   - REVOKES: 48 node relations
+   - FUNDS: 36 node relations
+   - COLLABORATES_WITH: 36 node relations
+   - HEADS: 36 node relations
+   - SUBORDINATE_TO: 36 node relations
+   - LEADS: 36 node relations
+   - COORDINATES_WITH: 36 node relations
+   - DEFINED_IN: 32 node relations
+   - ASSISTS: 30 node relations
+   - DECLARES: 24 node relations
+   - PERFORMS: 24 node relations
+   - SUBMITTED_TO: 24 node relations
+   - EXEMPTS: 22 node relations
+   - GUIDES: 16 node relations
+   - RECOMMENDS_SAFETY_STATUS: 12 node relations
+   - ORGANIZES: 12 node relations
+   - IMPLEMENTS: 12 node relations
+   - LICENSES: 12 node relations
+   - PROVIDES_INFO_TO: 12 node relations
+   - PROPOSED: 12 node relations
+   - DEVELOPS: 12 node relations
+   - DECIDES: 12 node relations
+   - REGULATES_FORMAT: 12 node relations
+   - COMPILES: 12 node relations
+   - MONITORS: 12 node relations
+   - EXERCISES: 12 node relations
+   - ELECTS: 12 node relations
+   - REPRESENTS: 12 node relations
+   - MEMBER_OF: 12 node relations
+   - PROPOSES_APPOINTMENT_FOR: 12 node relations
+   - DIRECTS: 12 node relations
+   - PROPOSED_BY: 12 node relations
+   - WORKS_FOR: 6 node relations
+   - ASSIGNED_TO: 2 node relations
+============================================================
+PHASE 2 complete: 11 reference docs -> 497 additional chunks.
+SUMMARY: 13 documents total -> 525 chunks.
+
+============================================================
+PHASE 3: Chunking REFERENCE documents (Depth=2)
+============================================================
+      [Pha 1] 🚀 Tìm thấy 5 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 23-HĐBT --[BASED_ON]--> Luật tổ chức Hội đồng Bộ trưởng ngày 4-7-1981
+      [DEBUG] ✓ Đã LƯU: 23-HĐBT --[BASED_ON]--> Luật đầu tư nước ngoài tại Việt Nam tại Điều 36, Điều 42
+      [DEBUG] ✓ Đã LƯU: 23-HĐBT --[BASED_ON]--> Nghị quyết của Hội đồng Nhà nước ngày 16-2-1987
+      [ENTITY] 📦 (23-HĐBT): Organization=[Hội đồng Bộ trưởng, Uỷ ban Kinh tế đối ngoại, Chính phủ nước Cộng hoà xã hội chủ nghĩa Việt Nam...]; Person=[Võ Văn Kiệt]; Timeframe=[15 ngày]; Fee=[50 vạn đô-la Mỹ]; Concept=[đầu tư nước ngoài, giấy phép đầu tư]
+      [NODE REL] 🔗 (Document)23-HĐBT --[ASSIGNS_TO]--> (Organization)Uỷ ban Kinh tế đối ngoại
+      [NODE REL] 🔗 (Document)23-HĐBT --[SIGNED_BY]--> (Person)Võ Văn Kiệt
+      [NODE REL] 🔗 (Organization)Uỷ ban Kinh tế đối ngoại --[ISSUES]--> (Concept)giấy phép đầu tư
+      [NODE REL] 🔗 (Organization)Bộ chủ quản --[REPORTS_TO]--> (Organization)Thường vụ Hội đồng Bộ trưởng
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh, thành phố, đặc khu trực thuộc Trung ương --[REPORTS_TO]--> (Organization)Thường vụ Hội đồng Bộ trưởng
+      [Pha 1] 🚀 Tìm thấy 14 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 49/2003/NĐ-CP --[REPLACES]--> 68/CP
+      [ENTITY] 📦 (49/2003/NĐ-CP): Organization=[Bộ Y tế, Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương]; Person=[Phan Văn Khải]; Timeframe=[15 ngày]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)49/2003/NĐ-CP
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)49/2003/NĐ-CP
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)49/2003/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 20 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 05/2005/NQ-CP --[BASED_ON]--> 90/CP
+      [DEBUG] ✓ Đã LƯU: 05/2005/NQ-CP --[BASED_ON]--> 73/1999/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 05/2005/NQ-CP --[BASED_ON]--> Bộ luật Dân sự
+      [ENTITY] 📦 (05/2005/NQ-CP): Organization=[Chính phủ, Nhà nước, Đảng...]; Concept=[Xã hội hóa, Cơ chế cung ứng dịch vụ, Bảo hiểm y tế...]; Timeframe=[Năm 2010, 7 năm, 5 năm...]; Location=[Việt Nam, Vùng sâu, Vùng xa...]; Role=[Người thụ hưởng, Nhà đầu tư, Giáo viên...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Nhà nước --[MANAGED_BY]--> (Concept)Cơ sở công lập
+      [NODE REL] 🔗 (Organization)Nhà nước --[REGULATED_BY]--> (Concept)Cơ sở ngoài công lập
+      [NODE REL] 🔗 (Organization)Nhà nước --[FUNDS]--> (Concept)Bảo hiểm y tế
+      [NODE REL] 🔗 (Organization)Nhà nước --[FUNDS]--> (Concept)Giáo dục - đào tạo
+      [NODE REL] 🔗 (Organization)Nhà nước --[FUNDS]--> (Concept)Y tế
+      [NODE REL] 🔗 (Organization)Nhà nước --[FUNDS]--> (Concept)Văn hóa
+      [NODE REL] 🔗 (Organization)Nhà nước --[FUNDS]--> (Concept)Thể dục thể thao
+      [NODE REL] 🔗 (Role)Người thụ hưởng --[APPLIES_TO]--> (Concept)Cơ sở cung ứng dịch vụ
+      [NODE REL] 🔗 (Role)Người tham gia bảo hiểm --[APPLIES_TO]--> (Concept)Cơ sở khám chữa bệnh
+      [DEBUG] ✓ Đã LƯU: 05/2005/NQ-CP --[AMENDS]--> 73/1999/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 05/2005/NQ-CP --[AMENDS]--> 10/2002/NĐ-CP
+      [ENTITY] 📦 (05/2005/NQ-CP): Organization=[Bộ Giáo dục và Đào tạo, Bộ Lao động - Thương binh và Xã hội, Bộ Y tế...]; Person=[Phan Văn Khải]; Timeframe=[năm 2005, giai đoạn 2006 - 2010, quý II năm 2005...]; Concept=[xã hội hóa, cơ chế cung ứng dịch vụ, hoạt động phi lợi nhuận...]
+      [NODE REL] 🔗 (Organization)Bộ Giáo dục và Đào tạo --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Lao động - Thương binh và Xã hội --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Văn hóa - Thông tin --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Ủy ban Thể dục Thể thao --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài nguyên và Môi trường --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Xây dựng --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Bộ Bưu chính, Viễn thông --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[ASSIGNS_TO]--> (Document)05/2005/NQ-CP
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)05/2005/NQ-CP
+      [Pha 1] 🚀 Tìm thấy 8 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 225/2005/QĐ-TTG --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 225/2005/QĐ-TTG --[BASED_ON]--> 171/2004/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 225/2005/QĐ-TTG --[BASED_ON]--> 172/2004/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 225/2005/QĐ-TTG --[BASED_ON]--> 06 CT/TW
+      [DEBUG] ✓ Đã LƯU: 225/2005/QĐ-TTG --[BASED_ON]--> 46/NQ-TW
+      [DEBUG] ✓ Đã LƯU: 225/2005/QĐ-TTG --[BASED_ON]--> Luật Ngân sách nhà nước
+      [ENTITY] 📦 (225/2005/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Chính phủ, Ban Bí thư Trung ương Đảng...]; Person=[Phan Văn Khải]; Location=[Việt Nam, Hà Nội, Hải Phòng...]; Timeframe=[2005, 2008, 2 năm đầu...]; Concept=[Đề án nâng cấp bệnh viện huyện và bệnh viện đa khoa khu vực giai đoạn 2005 – 2008, bệnh viện huyện, bệnh viện đa khoa khu vực...]
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ISSUED_BY]--> (Document)225/2005/QĐ-TTg
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)225/2005/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[LEADS]--> (Organization)Ban Chỉ đạo Đề án nâng cấp bệnh viện huyện và bệnh viện đa khoa khu vực giai đoạn 2005 - 2008 ở Trung ương
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGED_BY]--> (Concept)Đề án nâng cấp bệnh viện huyện và bệnh viện đa khoa khu vực giai đoạn 2005 – 2008
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[MANAGED_BY]--> (Concept)Đề án nâng cấp bệnh viện huyện và bệnh viện đa khoa khu vực giai đoạn 2005 – 2008
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[MANAGED_BY]--> (Concept)Đề án nâng cấp bệnh viện huyện và bệnh viện đa khoa khu vực giai đoạn 2005 – 2008
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương --[MANAGED_BY]--> (Concept)Đề án nâng cấp bệnh viện huyện và bệnh viện đa khoa khu vực giai đoạn 2005 – 2008
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REPORTS_TO]--> (Organization)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Sở Y tế --[SUBORDINATE_TO]--> (Organization)Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương
+      [Pha 1] 🚀 Tìm thấy 4 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 25/1999/CT-TTG --[BASED_ON]--> Nghị quyết lần thứ 4 của Ban chấp hành Trung ương Đảng khoá VII
+      [DEBUG] ✓ Đã LƯU: 25/1999/CT-TTG --[BASED_ON]--> Nghị quyết hội nghị lần thứ 3 của Ban chấp hành Trung ương Đảng khoá VIII
+      [DEBUG] ✓ Đã LƯU: 25/1999/CT-TTG --[BASED_ON]--> Nghị quyết hội nghị lần thứ 4 của Ban chấp hành Trung ương Đảng khoá VIII
+      [DEBUG] ✓ Đã LƯU: 25/1999/CT-TTG --[BASED_ON]--> 37/CP
+      [ENTITY] 📦 (25/1999/CT-TTg): Organization=[Thủ tướng Chính phủ, Bộ Y tế, Ban Tổ chức - Cán bộ Chính phủ...]; Person=[Phan Văn Khải]; Timeframe=[ngày 30 tháng 8 năm 1999, Tháng 10 hàng năm, thời gian 1996 - 2000]; Concept=[Y, Dược học cổ truyền, y học hiện đại, dược liệu...]
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ISSUED_BY]--> (Document)25/1999/CT-TTg
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)25/1999/CT-TTg
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)25/1999/CT-TTg
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[COORDINATES_WITH]--> (Organization)Ban Tổ chức - Cán bộ Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[COORDINATES_WITH]--> (Organization)Bộ Khoa học, Công nghệ và Môi trường
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[COORDINATES_WITH]--> (Organization)Bộ Tài chính
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[COORDINATES_WITH]--> (Organization)Bộ Khoa học, Công nghệ và Môi trường
+      [NODE REL] 🔗 (Organization)Bộ Thương mại --[COORDINATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Thương mại --[COORDINATES_WITH]--> (Organization)Tổng cục Hải quan
+      [NODE REL] 🔗 (Organization)Bộ Giáo dục và Đào tạo --[COORDINATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Bộ Nông nghiệp và Phát triển nông thôn --[COORDINATES_WITH]--> (Organization)Bộ Y tế
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[SUPPORTS]--> (Organization)Hội Y học cổ truyền
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[SUPPORTS]--> (Organization)Hội Châm cứu
+      [Pha 1] 🚀 Tìm thấy 17 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 107/2004/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 107/2004/NĐ-CP --[BASED_ON]--> Luật Tổ Chức Hội Đồng Nhân Dân Và Uỷ Ban Nhân Dân Ngày 26 Tháng 11 năm 2003 tại Điều 122
+      [ENTITY] 📦 (107/2004/NĐ-CP): Organization=[Chính phủ, Bộ Nội vụ, Hội đồng nhân dân...]; Location=[Hà Nội, Thành phố Hồ Chí Minh, Việt Nam]; Role=[Chủ tịch Ủy ban nhân dân, Phó Chủ tịch Ủy ban nhân dân, ủy viên Ủy ban nhân dân...]; Concept=[quy chế làm việc, nguyên tắc tập thể, năng lực quản lý nhà nước...]; Timeframe=[ngày 01 tháng 4 năm 2004, ngày 25 tháng 12 năm 2001, ngày 26 tháng 11 năm 2003]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)107/2004/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[PROPOSED_FOR]--> (Document)107/2004/NĐ-CP
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân --[SUBMITS_TO]--> (Organization)Hội đồng nhân dân
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân --[MANAGED_BY]--> (Organization)Hội đồng nhân dân
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân --[MANAGED_BY]--> (Organization)Ủy ban nhân dân
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương --[MANAGED_BY]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)thành viên Ủy ban nhân dân --[MANAGED_BY]--> (Organization)Hội đồng nhân dân
+      [NODE REL] 🔗 (Role)thành viên Ủy ban nhân dân --[MANAGED_BY]--> (Organization)Ủy ban nhân dân
+      [NODE REL] 🔗 (Role)thành viên Ủy ban nhân dân --[MANAGED_BY]--> (Role)Chủ tịch Ủy ban nhân dân
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[ESTABLISHES]--> (Concept)quy chế làm việc
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân --[ASSIGNS_TO]--> (Role)Phó Chủ tịch Ủy ban nhân dân
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[APPROVES]--> (Concept)số lượng thành viên Ủy ban nhân dân cấp tỉnh
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân cấp trên trực tiếp --[APPROVES]--> (Concept)số lượng thành viên Ủy ban nhân dân cấp huyện
+      [DEBUG] ✓ Đã LƯU: 107/2004/NĐ-CP --[REPLACES]--> 174/CP
+      [ENTITY] 📦 (107/2004/NĐ-CP): Organization=[Ủy ban nhân dân xã, Hội đồng nhân dân xã, Ủy ban nhân dân cấp trên trực tiếp...]; Person=[Phan Văn Khải]; Role=[Chủ tịch, Phó Chủ tịch, ủy viên...]; Timeframe=[15 ngày]
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)107/2004/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[ASSIGNS_TO]--> (Document)107/2004/NĐ-CP
+      [NODE REL] 🔗 (Role)Bộ trưởng --[ASSIGNS_TO]--> (Document)107/2004/NĐ-CP
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan ngang Bộ --[ASSIGNS_TO]--> (Document)107/2004/NĐ-CP
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan thuộc Chính phủ --[ASSIGNS_TO]--> (Document)107/2004/NĐ-CP
+      [NODE REL] 🔗 (Role)Chủ tịch Hội đồng nhân dân --[ASSIGNS_TO]--> (Document)107/2004/NĐ-CP
+      [NODE REL] 🔗 (Role)Chủ tịch Uỷ ban nhân dân các cấp --[ASSIGNS_TO]--> (Document)107/2004/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 12 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 51/2001/QH10 --[AMENDS]--> Hiến Pháp Nước Cộng Hoà Xã Hội Chủ Nghĩa Việt Nam năm 1992
+      [DEBUG] ✓ Đã LƯU: 51/2001/QH10 --[REPEALS]--> Hiến Pháp Nước Cộng Hoà Xã Hội Chủ Nghĩa Việt Nam năm 1992 tại Điểm 8 Điều 91
+      [DEBUG] ✓ Đã LƯU: 51/2001/QH10 --[BASED_ON]--> 43/2001/QH10
+      [ENTITY] 📦 (51/2001/QH10): Organization=[Quốc hội nước Cộng hoà xã hội chủ nghĩa Việt Nam, Nhà nước Cộng hoà xã hội chủ nghĩa Việt Nam, Mặt trận Tổ quốc Việt Nam...]; Person=[Nguyễn Văn An]; Role=[Chủ tịch Quốc hội, Chủ tịch nước, Phó Chủ tịch nước...]; Concept=[chủ nghĩa Mác - Lê nin, tư tưởng Hồ Chí Minh, kinh tế thị trường định hướng xã hội chủ nghĩa...]; Location=[Việt Nam, Hà Nội, miền núi...]; Timeframe=[ngày 25 tháng 12 năm 2001, ngày 29 tháng 6 năm 2001, mười ngày]
+      [NODE REL] 🔗 (Organization)Quốc hội nước Cộng hoà xã hội chủ nghĩa Việt Nam --[ISSUED_BY]--> (Document)51/2001/QH10
+      [NODE REL] 🔗 (Person)Nguyễn Văn An --[SIGNED_BY]--> (Document)51/2001/QH10
+      [NODE REL] 🔗 (Person)Nguyễn Văn An --[HOLDS_ROLE]--> (Role)Chủ tịch Quốc hội
+      [NODE REL] 🔗 (Organization)Nhà nước Cộng hoà xã hội chủ nghĩa Việt Nam --[REGULATED_BY]--> (Concept)kinh tế thị trường định hướng xã hội chủ nghĩa
+      [NODE REL] 🔗 (Organization)Mặt trận Tổ quốc Việt Nam --[ASSIGNS_TO]--> (Organization)Nhà nước Cộng hoà xã hội chủ nghĩa Việt Nam
+      [NODE REL] 🔗 (Organization)Quốc hội nước Cộng hoà xã hội chủ nghĩa Việt Nam --[ASSIGNS_TO]--> (Role)Chủ tịch nước
+      [NODE REL] 🔗 (Organization)Quốc hội nước Cộng hoà xã hội chủ nghĩa Việt Nam --[ASSIGNS_TO]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[ASSIGNS_TO]--> (Role)Phó Thủ tướng
+      [NODE REL] 🔗 (Role)Chủ tịch nước --[ASSIGNS_TO]--> (Organization)Hội đồng quốc phòng và an ninh
+      [NODE REL] 🔗 (Role)Bộ trưởng --[PART_OF]--> (Organization)Chính phủ
+      [Pha 1] 🚀 Tìm thấy 27 đoạn văn quan trọng. Đang xử lý 3 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 103/2003/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 103/2003/NĐ-CP --[BASED_ON]--> Pháp lệnh Hành nghề y, dược tư nhân ngày 25 tháng 02 năm 2003
+      [DEBUG] ✓ Đã LƯU: 103/2003/NĐ-CP --[GUIDES]--> Pháp lệnh Hành nghề y, dược tư nhân
+      [ENTITY] 📦 (103/2003/NĐ-CP): Organization=[Chính phủ, Bộ Y tế, Sở Y tế tỉnh, thành phố trực thuộc Trung ương...]; Location=[Hà Nội, Thành phố Hồ Chí Minh, Hải Phòng...]; Role=[Người hành nghề y, dược tư nhân, Người đứng đầu cơ sở hành nghề, Người quản lý chuyên môn...]; Timeframe=[05 năm, Ngày 31 tháng 12 năm 2010, Ngày 01 tháng 01 năm 2006]; Condition=[Có bằng cấp chuyên môn phù hợp, Đã có thời gian thực hành tại cơ sở y, dược, Có đạo đức nghề nghiệp...]; Concept=[Hành nghề y, dược tư nhân, Hộ khẩu thường trú, Hợp đồng lao động...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Document)Chứng chỉ hành nghề y, dược tư nhân
+      [NODE REL] 🔗 (Organization)Sở Y tế tỉnh, thành phố trực thuộc Trung ương --[ISSUES]--> (Document)Chứng chỉ hành nghề y, dược tư nhân
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Document)Giấy chứng nhận đủ điều kiện hành nghề y, dược tư nhân
+      [NODE REL] 🔗 (Organization)Sở Y tế tỉnh, thành phố trực thuộc Trung ương --[ISSUES]--> (Document)Giấy chứng nhận đủ điều kiện hành nghề y, dược tư nhân
+      [NODE REL] 🔗 (Role)Người hành nghề y, dược tư nhân --[MUST_HAVE]--> (Condition)Có bằng cấp chuyên môn phù hợp
+      [NODE REL] 🔗 (Role)Người hành nghề y, dược tư nhân --[MUST_HAVE]--> (Condition)Đã có thời gian thực hành tại cơ sở y, dược
+      [NODE REL] 🔗 (Role)Người hành nghề y, dược tư nhân --[MUST_HAVE]--> (Condition)Có đạo đức nghề nghiệp
+      [NODE REL] 🔗 (Role)Người hành nghề y, dược tư nhân --[MUST_HAVE]--> (Condition)Có giấy chứng nhận đủ điều kiện sức khỏe để làm việc
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan --[APPROVES]--> (Role)Cán bộ, công chức
+      [NODE REL] 🔗 (Role)Cán bộ, công chức --[MUST_COMMIT]--> (Condition)Cam kết đảm bảo chất lượng công tác, thời gian làm việc
+      [NODE REL] 🔗 (Role)Cán bộ, công chức --[MUST_NOT_DO]--> (Condition)Không sử dụng cơ sở vật chất, trang thiết bị y tế của cơ quan để làm tư
+      [NODE REL] 🔗 (Role)Cán bộ, công chức --[EXPIRES_BY]--> (Timeframe)Ngày 31 tháng 12 năm 2010
+      [NODE REL] 🔗 (Document)Chứng chỉ hành nghề y, dược tư nhân --[HAS_VALIDITY_PERIOD]--> (Timeframe)05 năm
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[PROPOSES]--> (Concept)Phụ cấp thu hút
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[COOPERATES_IN_PROPOSING]--> (Concept)Phụ cấp thu hút
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[COOPERATES_IN_PROPOSING]--> (Concept)Phụ cấp thu hút
+      [DEBUG] ✓ Đã LƯU: 103/2003/NĐ-CP --[REPLACES]--> 06/CP
+      [DEBUG] ✓ Đã LƯU: 103/2003/NĐ-CP --[BASED_ON]--> Pháp lệnh Hành nghề y, dược tư nhân
+      [ENTITY] 📦 (103/2003/NĐ-CP): Organization=[Bộ Y tế, Chính phủ, Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương]; Person=[Phan Văn Khải]; Timeframe=[15 ngày]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)103/2003/NĐ-CP
+      [NODE REL] 🔗 (Role)Các Bộ trưởng, Thủ trưởng cơ quan ngang Bộ, Thủ trưởng cơ quan thuộc Chính phủ, Chủ tịch Uỷ ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)103/2003/NĐ-CP
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)103/2003/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 16 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 120/2004/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 120/2004/NĐ-CP --[BASED_ON]--> Luật Bảo Vệ Sức Khoẻ Nhân Dân Ngày 11 Tháng 7 năm 1989
+      [DEBUG] ✓ Đã LƯU: 120/2004/NĐ-CP --[BASED_ON]--> Pháp lệnh Giá ngày 26 tháng 4 năm 2002
+      [DEBUG] ✓ Đã LƯU: 120/2004/NĐ-CP --[BASED_ON]--> Pháp lệnh Xử lý vi phạm hành chính ngày 07 tháng 01 năm 2002
+      [DEBUG] ✓ Đã LƯU: 120/2004/NĐ-CP --[BASED_ON]--> 170/2003/NĐ-CP
+      [ENTITY] 📦 (120/2004/NĐ-CP): Organization=[Chính phủ, Bộ Tài chính, Bộ Y tế...]; Location=[Việt Nam, Hà Nội]; Timeframe=[ngày 12 tháng 5 năm 2004]; Concept=[Thuốc phòng, chữa bệnh cho người, Thuốc thành phẩm, Kê khai giá...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)120/2004/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[REGULATED_BY]--> (Concept)Mức giá cụ thể các loại thuốc do Nhà nước đặt hàng
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[REGULATED_BY]--> (Concept)Khung giá bán lẻ các loại thuốc thiết yếu
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Concept)Danh mục thuốc thiết yếu
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương --[REGULATED_BY]--> (Concept)Mức giá cụ thể một số thuốc cấp không thu tiền
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGED_BY]--> (Procedure)Việc đấu thầu các loại thuốc
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[MANAGED_BY]--> (Procedure)Việc đấu thầu các loại thuốc
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[MANAGED_BY]--> (Procedure)Việc đấu thầu các loại thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở sản xuất thuốc --[REGULATED_BY]--> (Concept)Giá bán thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở nhập khẩu thuốc --[REGULATED_BY]--> (Concept)Giá bán thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở bán buôn thuốc --[REGULATED_BY]--> (Concept)Giá bán buôn thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở bán lẻ thuốc --[REGULATED_BY]--> (Concept)Giá bán lẻ thuốc
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[REGULATED_BY]--> (Concept)Thặng số bán buôn
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[REGULATED_BY]--> (Concept)Thặng số bán lẻ
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Concept)Danh mục thuốc không phải kê đơn
+      [DEBUG] ✓ Đã LƯU: 120/2004/NĐ-CP --[BASED_ON]--> Pháp lệnh Xử lý vi phạm hành chính năm 2002
+      [DEBUG] ✓ Đã LƯU: 120/2004/NĐ-CP --[BASED_ON]--> Nghị định của Chính phủ quy định xử phạt vi phạm hành chính trong lĩnh vực giá cả
+      [ENTITY] 📦 (120/2004/NĐ-CP): Organization=[Bộ Tài chính, Bộ Y tế, Ủy ban nhân dân...]; Person=[Phan Văn Khải]; Penalty=[500.000 đồng đến 2.000.000 đồng, 2.000.000 đồng đến 5.000.000 đồng, 5.000.000 đồng đến 10.000.000 đồng...]; Timeframe=[1 năm]; Concept=[quản lý giá thuốc, kê khai giá thuốc, liên kết độc quyền về giá...]
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Document)120/2004/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)120/2004/NĐ-CP
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)120/2004/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[MANAGED_BY]--> (Concept)quản lý giá thuốc
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGED_BY]--> (Concept)quản lý giá thuốc
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[MANAGED_BY]--> (Concept)quản lý giá thuốc
+      [Pha 1] 🚀 Tìm thấy 48 đoạn văn quan trọng. Đang xử lý 4 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[BASED_ON]--> 01/2002/QH
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[BASED_ON]--> Luật Kế toán
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[BASED_ON]--> 115/2005/NĐ-CP
+      [ENTITY] 📦 (43/2006/NĐ-CP): Organization=[Chính phủ, Bộ Tài chính, Bộ Nội vụ...]; Concept=[đơn vị sự nghiệp công lập, quyền tự chủ, tự chịu trách nhiệm, hoạt động dịch vụ...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[PROPOSED_FOR]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[PROPOSED_FOR]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Document)43/2006/NĐ-CP --[APPLIES_TO]--> (Concept)đơn vị sự nghiệp công lập
+      [NODE REL] 🔗 (Document)43/2006/NĐ-CP --[APPLIES_TO]--> (Organization)Đài Tiếng nói Việt Nam
+      [NODE REL] 🔗 (Document)43/2006/NĐ-CP --[APPLIES_TO]--> (Organization)Thông tấn xã Việt Nam
+      [NODE REL] 🔗 (Document)43/2006/NĐ-CP --[APPLIES_TO]--> (Organization)Bộ Quốc phòng
+      [NODE REL] 🔗 (Document)43/2006/NĐ-CP --[APPLIES_TO]--> (Organization)Bộ Công an
+      [NODE REL] 🔗 (Organization)Bộ quản lý ngành, lĩnh vực --[GUIDES_IMPLEMENTATION_OF]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[GUIDES_IMPLEMENTATION_OF]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[GUIDES_IMPLEMENTATION_OF]--> (Document)43/2006/NĐ-CP
+      [ENTITY] 📦 (43/2006/NĐ-CP): Organization=[Đài Tiếng nói Việt Nam, Thông tấn xã Việt Nam, Kho bạc Nhà nước]; Concept=[Đơn vị sự nghiệp tự bảo đảm chi phí hoạt động, Đơn vị sự nghiệp tự bảo đảm một phần chi phí hoạt động, Đơn vị sự nghiệp do ngân sách nhà nước bảo đảm toàn bộ chi phí hoạt động...]; Timeframe=[3 năm]
+      [NODE REL] 🔗 (Concept)Đơn vị sự nghiệp tự bảo đảm chi phí hoạt động --[DEFINED_IN]--> (LegalArticle)Điều 9
+      [NODE REL] 🔗 (Concept)Đơn vị sự nghiệp tự bảo đảm một phần chi phí hoạt động --[DEFINED_IN]--> (LegalArticle)Điều 9
+      [NODE REL] 🔗 (Concept)Đơn vị sự nghiệp do ngân sách nhà nước bảo đảm toàn bộ chi phí hoạt động --[DEFINED_IN]--> (LegalArticle)Điều 9
+      [NODE REL] 🔗 (Organization)Đài Tiếng nói Việt Nam --[REGULATED_BY]--> (LegalArticle)Điều 9
+      [NODE REL] 🔗 (Organization)Thông tấn xã Việt Nam --[REGULATED_BY]--> (LegalArticle)Điều 9
+      [NODE REL] 🔗 (Organization)Kho bạc Nhà nước --[REGULATED_BY]--> (LegalArticle)Điều 13
+      [NODE REL] 🔗 (Concept)Quỹ phát triển hoạt động sự nghiệp --[DEFINED_IN]--> (LegalArticle)Điều 12
+      [NODE REL] 🔗 (Concept)Quy chế chi tiêu nội bộ --[DEFINED_IN]--> (LegalArticle)Điều 18
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[BASED_ON]--> Luật Ngân sách nhà nước
+      [ENTITY] 📦 (43/2006/NĐ-CP): Organization=[Đơn vị sự nghiệp, Nhà nước, Ngân sách nhà nước...]; Concept=[Quỹ phát triển hoạt động sự nghiệp, Quỹ khen thưởng, Quỹ phúc lợi...]; Timeframe=[Hàng năm, 3 tháng, Năm kế hoạch...]; Fee=[25%, 3 tháng tiền lương, tiền công và thu nhập tăng thêm bình quân, 2 lần quỹ tiền lương cấp bậc, chức vụ...]
+      [NODE REL] 🔗 (Organization)Đơn vị sự nghiệp --[ESTABLISHES]--> (Concept)Quỹ phát triển hoạt động sự nghiệp
+      [NODE REL] 🔗 (Organization)Đơn vị sự nghiệp --[ESTABLISHES]--> (Concept)Quỹ khen thưởng
+      [NODE REL] 🔗 (Organization)Đơn vị sự nghiệp --[ESTABLISHES]--> (Concept)Quỹ phúc lợi
+      [NODE REL] 🔗 (Organization)Đơn vị sự nghiệp --[ESTABLISHES]--> (Concept)Quỹ dự phòng ổn định thu nhập
+      [NODE REL] 🔗 (Organization)Thủ trưởng đơn vị --[DECIDES]--> (Concept)Mức trả thu nhập tăng thêm
+      [NODE REL] 🔗 (Organization)Thủ trưởng đơn vị --[DECIDES]--> (Concept)Việc sử dụng Quỹ
+      [NODE REL] 🔗 (Organization)Ngân sách nhà nước --[FUNDS]--> (Concept)Kinh phí bảo đảm hoạt động thường xuyên
+      [NODE REL] 🔗 (Organization)Đơn vị sự nghiệp --[PREPARES]--> (Concept)Dự toán thu, chi
+      [NODE REL] 🔗 (Organization)Đơn vị sự nghiệp --[DECIDES]--> (Concept)Mức thu phí, lệ phí
+      [NODE REL] 🔗 (Organization)Thủ trưởng đơn vị --[DECIDES]--> (Concept)Phương thức khoán chi phí
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[REPLACES]--> 10/2002/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[REPEALS]--> 33/CP tại Điều 1
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[REPEALS]--> 95/CP tại Khoản 1 Điều 6
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[REPEALS]--> 70/1998/QĐ-TTG tại Khoản 3 Điều 4
+      [DEBUG] ✓ Đã LƯU: 43/2006/NĐ-CP --[REPEALS]--> 60/2003/NĐ-CP tại Khoản 7 Điều 10
+      [ENTITY] 📦 (43/2006/NĐ-CP): Organization=[Bộ Tài chính, Bộ Nội vụ, Chính phủ...]; Person=[Phan Văn Khải]; Role=[Thủ tướng Chính phủ, Bộ trưởng, Thủ trưởng đơn vị sự nghiệp...]; Timeframe=[15 ngày, 3 năm, hàng năm...]; Concept=[quyền tự chủ, tự chịu trách nhiệm, dự toán thu, chi...]
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[GUIDES_IMPLEMENTATION_OF]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[GUIDES_IMPLEMENTATION_OF]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[HOLDS_ROLE]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Thủ trưởng đơn vị sự nghiệp --[REGULATED_BY]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Role)Bộ trưởng --[REGULATED_BY]--> (Document)43/2006/NĐ-CP
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân --[REGULATED_BY]--> (Document)43/2006/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 57 đoạn văn quan trọng. Đang xử lý 5 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 135/2009/QĐ-TTG --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 135/2009/QĐ-TTG --[BASED_ON]--> 83/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 135/2009/QĐ-TTG --[REPLACES]--> 42/2002/QĐ-TTG
+      [ENTITY] 📦 (135/2009/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Bộ Kế hoạch và Đầu tư, Bộ Tài chính...]; Person=[Nguyễn Tấn Dũng]; Role=[Thủ tướng, Phó Thủ tướng Chính phủ, Bộ trưởng...]; Concept=[Chương trình mục tiêu quốc gia, Dự án thuộc Chương trình mục tiêu quốc gia, Dự án đầu tư...]; Timeframe=[ngày 20 tháng 12 năm 2009, tháng 6 năm thứ 4 của từng kỳ kế hoạch 5 năm, 5 năm]
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)135/2009/QĐ-TTg
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Document)135/2009/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Document)135/2009/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[MANAGED_BY]--> (Concept)Danh mục Chương trình mục tiêu quốc gia
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[APPROVES]--> (Concept)Danh mục Chương trình mục tiêu quốc gia
+      [NODE REL] 🔗 (Organization)Quốc hội --[APPROVES]--> (Concept)Danh mục Chương trình mục tiêu quốc gia
+      [ENTITY] 📦 (135/2009/QĐ-TTg): Organization=[Bộ Kế hoạch và Đầu tư, Bộ Tài chính, Thủ tướng Chính phủ...]; Role=[Trưởng Ban Quản lý, Thành viên Ban Quản lý, Trưởng Ban Chỉ đạo...]; Timeframe=[45 ngày làm việc, đầu quý III hàng năm, 10 năm...]; Concept=[Chương trình mục tiêu quốc gia, Dự án thành phần, Kinh phí...]; Procedure=[Thẩm định Chương trình MTQG, Phê duyệt Chương trình MTQG, Điều chỉnh nội dung Chương trình MTQG...]
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[MANAGES]--> (Procedure)Thẩm định Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[PARTICIPATES_IN]--> (Procedure)Thẩm định Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[APPROVES]--> (Procedure)Phê duyệt Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ESTABLISHES]--> (Organization)Ban Chỉ đạo Chương trình MTQG
+      [NODE REL] 🔗 (Role)Phó Thủ tướng Chính phủ --[HOLDS_ROLE]--> (Role)Trưởng Ban Chỉ đạo
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân cấp tỉnh --[ESTABLISHES]--> (Organization)Ban Chỉ đạo các Chương trình MTQG
+      [NODE REL] 🔗 (Role)Lãnh đạo Ủy ban nhân dân cấp tỉnh --[HOLDS_ROLE]--> (Role)Trưởng Ban Chỉ đạo
+      [NODE REL] 🔗 (Role)Lãnh đạo Sở Kế hoạch và Đầu tư --[HOLDS_ROLE]--> (Role)Thường trực Ban Chỉ đạo
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[PREPARES]--> (Document)Hồ sơ trình thẩm định
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[ESTABLISHES]--> (Organization)Ban Quản lý Chương trình MTQG
+      [NODE REL] 🔗 (Role)Lãnh đạo của Cơ quan quản lý Chương trình MTQG --[HOLDS_ROLE]--> (Role)Trưởng Ban Quản lý
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[INITIATES]--> (Procedure)Điều chỉnh nội dung Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[REVIEWES]--> (Procedure)Điều chỉnh nội dung Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý chương trình MTQG --[GUIDES]--> (Procedure)Lập dự án thuộc Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Các Bộ, cơ quan được giao quản lý dự án thành phần --[EXECUTES]--> (Procedure)Lập dự án thuộc Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Cơ quan thực hiện Chương trình MTQG --[EXECUTES]--> (Procedure)Lập kế hoạch thực hiện Chương trình MTQG hàng năm
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[EXECUTES]--> (Procedure)Tổng hợp dự toán ngân sách nhà nước
+      [DEBUG] ✓ Đã LƯU: 135/2009/QĐ-TTG --[BASED_ON]--> Luật Ngân sách nhà nước
+      [DEBUG] ✓ Đã LƯU: 135/2009/QĐ-TTG --[BASED_ON]--> 79/2003/NĐ-CP
+      [ENTITY] 📦 (135/2009/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Bộ Kế hoạch và Đầu tư, Bộ Tài chính...]; Timeframe=[trước ngày 15 tháng 01 năm kế hoạch, chậm nhất vào ngày 20 tháng 7 cùng năm, cuối tháng 3 năm sau...]; Concept=[Chương trình MTQG, vốn đầu tư, vốn sự nghiệp...]
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ASSIGNS_TO]--> (Organization)Cơ quan quản lý Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Organization)Cơ quan quản lý Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Organization)Cơ quan quản lý Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[REPORTS_TO]--> (Organization)Bộ Tài chính
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[REPORTS_TO]--> (Organization)Bộ Kế hoạch và Đầu tư
+      [NODE REL] 🔗 (Organization)Cơ quan thực hiện Chương trình MTQG --[REPORTS_TO]--> (Organization)Cơ quan quản lý Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[REPORTS_TO]--> (Organization)Văn phòng Chính phủ
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[REPORTS_TO]--> (Organization)Bộ Kế hoạch và Đầu tư
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[REPORTS_TO]--> (Organization)Bộ Tài chính
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[REPORTS_TO]--> (Organization)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[REPORTS_TO]--> (Organization)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[COORDINATES]--> (Concept)Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Ban Chỉ đạo Trung ương về Chương trình MTQG --[COORDINATES]--> (Concept)Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Ban Chỉ đạo các Chương trình MTQG của tỉnh, thành phố --[COORDINATES]--> (Concept)Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp xã --[PROVIDES_INFO_TO]--> (Organization)Cộng đồng dân cư
+      [ENTITY] 📦 (135/2009/QĐ-TTg): Organization=[Chính phủ, Quốc hội, Ủy ban Thường vụ Quốc hội...]; Concept=[Chương trình MTQG, Quy chế, Danh mục các Chương trình MTQG...]; Role=[Thủ tướng Chính phủ, Thủ trưởng cơ quan quản lý, Trưởng Ban Quản lý...]; Timeframe=[sáu tháng, hàng năm, giữa kỳ...]
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[REPORTS_TO]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[SUBMITS_TO]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[REPORTS_TO]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý Chương trình MTQG --[ESTABLISHES]--> (Organization)Ban Quản lý Chương trình MTQG
+      [NODE REL] 🔗 (Organization)Cơ quan quản lý dự án --[ESTABLISHES]--> (Organization)Ban Quản lý dự án
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ESTABLISHES]--> (Organization)Ban Chỉ đạo các Chương trình MTQG
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Organization)Sở Kế hoạch và Đầu tư
+      [ENTITY] 📦 (135/2009/QĐ-TTg): Organization=[Sở Kế hoạch và Đầu tư, Ủy ban nhân dân, Hội đồng nhân dân...]; Person=[Nguyễn Tấn Dũng]; Role=[Thủ tướng]; Concept=[Chương trình MTQG, Kinh phí trung ương, Kinh phí XDCB...]
+      [NODE REL] 🔗 (Document)135/2009/QĐ-TTg --[SIGNED_BY]--> (Person)Nguyễn Tấn Dũng
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [NODE REL] 🔗 (Organization)Sở Kế hoạch và Đầu tư --[REGULATED_BY]--> (Document)135/2009/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[REGULATED_BY]--> (Document)135/2009/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Hội đồng nhân dân --[REGULATED_BY]--> (Document)135/2009/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Văn phòng Chính phủ --[REGULATED_BY]--> (Document)135/2009/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[REGULATED_BY]--> (Document)135/2009/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[REGULATED_BY]--> (Document)135/2009/QĐ-TTg
+      [Pha 1] 🚀 Tìm thấy 24 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 58/2003/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 58/2003/NĐ-CP --[BASED_ON]--> Luật Phòng, Chống Ma Tuý Ngày 9 Tháng 12 năm 2000
+      [ENTITY] 📦 (58/2003/NĐ-CP): Organization=[Chính phủ, Bộ Công an, Bộ Y tế...]; Timeframe=[15 ngày làm việc, 10 ngày làm việc]; Concept=[chất ma tuý, tiền chất, thuốc gây nghiện...]
+      [NODE REL] 🔗 (Organization)Bộ Công an --[MANAGED_BY]--> (Concept)kiểm soát nhập khẩu, xuất khẩu, vận chuyển quá cảnh lãnh thổ Việt Nam chất ma tuý, tiền chất, thuốc gây nghiện, thuốc hướng thần
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Procedure)trình tự, thủ tục cho phép nhập khẩu, xuất khẩu trong lĩnh vực y tế, phân tích, kiểm nghiệm và nghiên cứu khoa học
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[REGULATED_BY]--> (Procedure)trình tự, thủ tục cho phép nhập khẩu, xuất khẩu tiền chất sử dụng trong các lĩnh vực sản xuất
+      [NODE REL] 🔗 (Organization)Bộ Công an --[REGULATED_BY]--> (Procedure)trình tự, thủ tục cho phép nhập khẩu, xuất khẩu trong lĩnh vực đấu tranh chống tội phạm
+      [NODE REL] 🔗 (Person)Bộ trưởng Bộ Y tế --[ISSUED_BY]--> (Concept)giấy phép nhập khẩu, xuất khẩu
+      [NODE REL] 🔗 (Person)Bộ trưởng Bộ Công nghiệp --[ISSUED_BY]--> (Concept)giấy phép nhập khẩu, xuất khẩu
+      [NODE REL] 🔗 (Person)Bộ trưởng Bộ Công an --[ISSUED_BY]--> (Concept)giấy phép nhập khẩu, xuất khẩu
+      [NODE REL] 🔗 (Organization)Chi cục Hải quan cửa khẩu --[ASSIGNS_TO]--> (Procedure)thủ tục hải quan cho hàng nhập khẩu, xuất khẩu
+      [NODE REL] 🔗 (Organization)Bộ Công an --[ISSUED_BY]--> (Concept)giấy phép vận chuyển quá cảnh
+      [DEBUG] ✓ Đã LƯU: 58/2003/NĐ-CP --[BASED_ON]--> Luật Phòng, chống ma tuý
+      [DEBUG] ✓ Đã LƯU: 58/2003/NĐ-CP --[REPEALS]--> quy định trước đây của Chính phủ
+      [ENTITY] 📦 (58/2003/NĐ-CP): Organization=[Bộ Công an, Bộ Tài chính, Bộ Quốc phòng...]; Person=[Phan Văn Khải]; Role=[Bộ trưởng Bộ Công an, Bộ trưởng Bộ Y tế, Bộ trưởng Bộ Công nghiệp...]; Timeframe=[15 ngày làm việc, 15 ngày, một lần]; Concept=[chất ma tuý, tiền chất, thuốc gây nghiện...]
+      [NODE REL] 🔗 (Organization)Bộ Công an --[ISSUED_BY]--> (Document)58/2003/NĐ-CP
+      [NODE REL] 🔗 (Role)Bộ trưởng Bộ Công an --[APPROVES]--> (Document)Giấy phép vận chuyển quá cảnh lãnh thổ Việt Nam
+      [NODE REL] 🔗 (Organization)Bộ Công an --[REGULATED_BY]--> (Concept)vận chuyển quá cảnh lãnh thổ Việt Nam
+      [NODE REL] 🔗 (Organization)Cơ quan, tổ chức vận chuyển quá cảnh lãnh thổ Việt Nam --[REGULATED_BY]--> (Organization)Hải quan
+      [NODE REL] 🔗 (Organization)Bộ Công an --[MANAGED_BY]--> (Concept)vận chuyển quá cảnh
+      [NODE REL] 🔗 (Organization)Bộ Thương mại --[MANAGED_BY]--> (Document)Hiệp định về kiểm soát nhập khẩu, xuất khẩu, vận chuyển quá cảnh lãnh thổ Việt Nam chất ma tuý, tiền chất, thuốc gây nghiện, thuốc hướng thần
+      [NODE REL] 🔗 (Concept)ngân sách nhà nước --[FUNDS]--> (Concept)các hoạt động kiểm soát nhập khẩu, xuất khẩu, vận chuyển quá cảnh lãnh thổ Việt Nam chất ma tuý, tiền chất, thuốc gây nghiện, thuốc hướng thần
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)58/2003/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ trưởng các Bộ, Thủ trưởng các cơ quan ngang Bộ, cơ quan thuộc Chính phủ có liên quan và Chủ tịch ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)58/2003/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 77 đoạn văn quan trọng. Đang xử lý 7 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 34/2005/QH11 --[BASED_ON]--> Hiến Pháp Nước Cộng Hoà Xã Hội Chủ Nghĩa Việt Nam năm 1992
+      [DEBUG] ✓ Đã LƯU: 34/2005/QH11 --[BASED_ON]--> 51/2001/QH10
+      [ENTITY] 📦 (34/2005/QH11): Organization=[Quốc hội, Chính phủ, Bộ Y tế...]; Location=[Việt Nam, Hà Nội]; Concept=[thuốc kê đơn, thuốc không kê đơn, thuốc gây nghiện...]; Role=[dược sĩ, người hoạt động trong lĩnh vực dược]
+      [NODE REL] 🔗 (Organization)Quốc hội --[ISSUED_BY]--> (Document)Luật Dược
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGED_BY]--> (Concept)quản lý nhà nước về dược
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)quản lý nhà nước về dược
+      [NODE REL] 🔗 (Organization)Thanh tra Bộ Y tế --[PART_OF]--> (Concept)thanh tra dược
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)danh mục thuốc gây nghiện
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)danh mục thuốc hướng tâm thần
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)danh mục tiền chất
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)danh mục thuốc thiết yếu
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Document)danh mục thuốc chủ yếu sử dụng trong cơ sở khám bệnh, chữa bệnh
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Concept)thực hành tốt
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Concept)quản lý nhà nước về giá thuốc
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Concept)quản lý nhà nước về giá thuốc
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[ASSIGNS_TO]--> (Concept)quản lý nhà nước về giá thuốc
+      [NODE REL] 🔗 (Organization)Bộ Thương mại --[ASSIGNS_TO]--> (Concept)quản lý nhà nước về giá thuốc
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Concept)quản lý nhà nước về giá thuốc
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân --[MANAGED_BY]--> (Concept)quản lý nhà nước về dược
+[Unified Parser] JSON parse error: Unterminated string starting at: line 231 column 7 (char 11034)
+      [ENTITY] 📦 (34/2005/QH11): Organization=[Bộ Y tế, cơ sở sản xuất thuốc, cơ sở bán buôn thuốc...]; Role=[chủ cơ sở bán lẻ thuốc, người bán lẻ thuốc, dược sĩ có trình độ đại học...]; Concept=[nguyên liệu làm thuốc, thuốc thành phẩm, vắc xin...]; Timeframe=[ít nhất là một năm, kể từ khi thuốc hết hạn dùng]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[APPROVES]--> (Concept)thay đổi nhãn, bao bì của thuốc đã được đăng ký
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)địa bàn được mở cơ sở bán lẻ thuốc
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)điều kiện của nhà thuốc được pha chế thuốc theo đơn
+      [ENTITY] 📦 (34/2005/QH11): Organization=[Bộ Y tế, Chính phủ, Cơ sở kiểm nghiệm của Nhà nước về thuốc...]; Concept=[Thuốc thử lâm sàng, Thử thuốc trên lâm sàng, Thực hành tốt trong thử thuốc trên lâm sàng...]; Role=[Tổ chức, cá nhân có thuốc thử lâm sàng, Tổ chức nhận thử thuốc trên lâm sàng, Người tham gia thử lâm sàng...]; Timeframe=[Hai năm]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[APPROVES]--> (Concept)Thử thuốc trên lâm sàng
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[RECEIVES_REPORT_FROM]--> (Concept)Báo cáo về quá trình, kết quả thử lâm sàng
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)Điều kiện, hồ sơ, trình tự và các giai đoạn thử thuốc trên lâm sàng
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUES]--> (Concept)Danh mục thuốc phải kiểm soát đặc biệt
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)Điều kiện kinh doanh thuốc
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)Việc ban hành Dược điển Việt Nam
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)Trình tự, thủ tục lấy mẫu, lưu mẫu thuốc và nội dung kiểm nghiệm chất lượng thuốc
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)Hệ thống tổ chức và hoạt động của các cơ sở kiểm nghiệm của Nhà nước về thuốc
+      [NODE REL] 🔗 (Organization)Cơ sở kiểm nghiệm của Nhà nước về thuốc --[DEFINED_IN]--> (LegalArticle)Điều 33
+      [NODE REL] 🔗 (Organization)Cơ sở kiểm nghiệm của Nhà nước về thuốc --[DEFINED_IN]--> (LegalArticle)Điều 34
+      [DEBUG] ✓ Đã LƯU: 34/2005/QH11 --[REPEALS]--> Luật Dược
+      [ENTITY] 📦 (34/2005/QH11): Organization=[Chính phủ, Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam]; Person=[Nguyễn Văn An]; Timeframe=[ngày 01 tháng 10 năm 2005, ngày 14 tháng 6 năm 2005]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Document)34/2005/QH11
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Document)34/2005/QH11
+      [NODE REL] 🔗 (Organization)Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam --[ISSUED_BY]--> (Document)34/2005/QH11
+      [NODE REL] 🔗 (Person)Nguyễn Văn An --[SIGNED_BY]--> (Document)34/2005/QH11
+      [Pha 1] 🚀 Tìm thấy 155 đoạn văn quan trọng. Đang xử lý 13 mẻ (12 đoạn/prompt)...
+      [ENTITY] 📦 (22/2023/QH15): Organization=[Chính phủ, Bộ trưởng, Thủ trưởng cơ quan ngang Bộ...]; Role=[Nhà thầu, Nhà đầu tư, Nhà thầu phụ...]; Concept=[Hồ sơ yêu cầu, Hồ sơ dự thầu, Hồ sơ đề xuất...]; Timeframe=[24 giờ, 01 ngày, 05 ngày làm việc...]; Procedure=[Chỉ định thầu, Mua sắm trực tiếp, Đàm phán giá...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[GUIDES]--> (LegalArticle)Điều 6
+      [NODE REL] 🔗 (Role)Chủ đầu tư --[ASSIGNS_TO]--> (Concept)Thông tin về dự án, kế hoạch lựa chọn nhà thầu
+      [NODE REL] 🔗 (Role)Bên mời thầu --[ASSIGNS_TO]--> (Concept)Thông báo mời quan tâm, thông báo mời sơ tuyển
+      [NODE REL] 🔗 (Role)Nhà thầu --[ASSIGNS_TO]--> (Concept)Thông tin về năng lực, kinh nghiệm
+      [NODE REL] 🔗 (Role)Cơ quan có thẩm quyền --[ASSIGNS_TO]--> (Concept)Thông tin về dự án đầu tư kinh doanh
+      [NODE REL] 🔗 (Role)Bên mời thầu --[ASSIGNS_TO]--> (Concept)Thông báo mời thầu, hồ sơ mời thầu
+      [NODE REL] 🔗 (Organization)Tổ chức, cá nhân cung cấp, đăng tải thông tin --[REGULATED_BY]--> (Concept)Tính chính xác và trung thực của thông tin
+      [NODE REL] 🔗 (Role)Bên mời thầu --[MANAGED_BY]--> (Concept)Hồ sơ đề xuất về tài chính
+      [NODE REL] 🔗 (Role)Bên mời thầu --[MANAGED_BY]--> (Concept)Hồ sơ liên quan
+      [NODE REL] 🔗 (Role)Chủ đầu tư --[ASSIGNS_TO]--> (Procedure)Yêu cầu nhà thầu chào hàng hoá xuất xứ trong nước
+      [ENTITY] 📦 (22/2023/QH15): Organization=[Chính phủ, Nhà tài trợ vốn, Tổ chức tín dụng trong nước...]; Role=[Nhà đầu tư, Nhà thầu, Người có thẩm quyền...]; Concept=[Đấu thầu quốc tế, Đấu thầu trong nước, Đồng tiền dự thầu...]; Condition=[Nhà thầu trong nước không có khả năng đáp ứng, Không có nhà thầu tham gia, Cần có sự tham gia của nhà thầu nước ngoài...]; Fee=[Tiền mua bản điện tử hồ sơ mời thầu, Chi phí đăng tải thông tin, Chi phí chuẩn bị hồ sơ...]; Timeframe=[30 ngày, 14 ngày, 10 ngày...]; Procedure=[Xếp hạng cao hơn, Cộng thêm điểm, Quy đổi về Đồng Việt Nam...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (LegalArticle)Điều 10
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (LegalArticle)Điều 15
+      [NODE REL] 🔗 (Role)Nhà thầu --[REQUIRED_FOR]--> (Concept)Đồng Việt Nam
+      [NODE REL] 🔗 (Role)Nhà đầu tư --[REQUIRED_FOR]--> (Concept)Đồng Việt Nam
+      [NODE REL] 🔗 (Role)Nhà thầu --[REQUIRED_FOR]--> (Concept)Bảo đảm dự thầu
+      [NODE REL] 🔗 (Role)Nhà đầu tư --[REQUIRED_FOR]--> (Concept)Bảo đảm dự thầu
+      [NODE REL] 🔗 (Organization)Bên mời thầu --[ASSIGNS_TO]--> (Fee)Chi phí đăng tải thông tin
+      [NODE REL] 🔗 (Organization)Chủ đầu tư --[ASSIGNS_TO]--> (Fee)Chi phí đăng tải thông tin
+      [NODE REL] 🔗 (Role)Nhà thầu --[ASSIGNS_TO]--> (Fee)Chi phí chuẩn bị hồ sơ
+      [NODE REL] 🔗 (Role)Nhà đầu tư --[ASSIGNS_TO]--> (Fee)Chi phí chuẩn bị hồ sơ
+      [NODE REL] 🔗 (Concept)Hồ sơ mời thầu đối với đấu thầu quốc tế --[LOCATED_IN]--> (Organization)Hệ thống mạng đấu thầu quốc gia
+      [NODE REL] 🔗 (Concept)Hồ sơ yêu cầu đối với đấu thầu trong nước --[LOCATED_IN]--> (Organization)Hệ thống mạng đấu thầu quốc gia
+      [DEBUG] ✓ Đã LƯU: 22/2023/QH15 --[BASED_ON]--> Luật Đầu tư công
+      [ENTITY] 📦 (22/2023/QH15): Organization=[Quốc hội, Chính phủ, Ủy ban Thường vụ Quốc hội...]; Timeframe=[15 ngày, 45 ngày, 90 ngày...]; Fee=[50 triệu đồng, 100 triệu đồng, 500 triệu đồng...]; Concept=[chỉ định thầu, chào hàng cạnh tranh, mua sắm trực tiếp...]; Procedure=[chuẩn bị và gửi dự thảo hợp đồng, hoàn thiện hợp đồng, trình, phê duyệt và công khai kết quả lựa chọn nhà thầu...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[SUBMITS_TO]--> (Organization)Ủy ban Thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATES]--> (Concept)đàm phán giá
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[DECIDES_FOR]--> (Concept)Gói thầu có yêu cầu bảo đảm quốc phòng, an ninh, đối ngoại, biên giới lãnh thổ
+      [NODE REL] 🔗 (Organization)Bộ trưởng Bộ Y tế --[DECIDES_FOR]--> (Concept)Gói thầu mua thuốc, vắc xin trong quá trình thử nghiệm
+      [NODE REL] 🔗 (Organization)Bộ trưởng Bộ Y tế --[DECIDES_FOR]--> (Concept)Gói thầu mua thuốc, vắc xin, thiết bị y tế thông qua các tổ chức quốc tế
+      [NODE REL] 🔗 (Organization)Bộ trưởng, Thủ trưởng cơ quan ngang Bộ --[DECIDES_FOR]--> (Concept)Lựa chọn luật sư cung cấp dịch vụ pháp lý để bảo vệ quyền và lợi ích của Nhà nước Việt Nam
+      [NODE REL] 🔗 (Organization)Chủ tịch Ủy ban nhân dân cấp tỉnh --[DECIDES_FOR]--> (Concept)Gói thầu thực hiện nhiệm vụ chính trị do Đảng và Nhà nước giao
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)lựa chọn nhà thầu trong trường hợp đặc biệt
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Concept)chỉ định thầu
+      [ENTITY] 📦 (22/2023/QH15): Procedure=[Phương thức một giai đoạn hai túi hồ sơ, Phương thức hai giai đoạn một túi hồ sơ, Phương thức hai giai đoạn hai túi hồ sơ...]; Concept=[Hồ sơ đề xuất về kỹ thuật, Hồ sơ đề xuất về tài chính, Hồ sơ mời thầu...]; Organization=[Chính phủ, Chủ đầu tư, Cơ quan chuẩn bị dự án...]; Timeframe=[01 năm, 28 ngày]
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Document)22/2023/QH15
+      [NODE REL] 🔗 (Procedure)Phương thức một giai đoạn hai túi hồ sơ --[APPLIES_TO]--> (Concept)Gói thầu cung cấp dịch vụ tư vấn
+      [NODE REL] 🔗 (Procedure)Phương thức một giai đoạn hai túi hồ sơ --[APPLIES_TO]--> (Concept)Gói thầu cung cấp dịch vụ phi tư vấn
+      [NODE REL] 🔗 (Procedure)Phương thức hai giai đoạn một túi hồ sơ --[APPLIES_TO]--> (Concept)Gói thầu mua sắm hàng hóa
+      [NODE REL] 🔗 (Procedure)Phương thức hai giai đoạn hai túi hồ sơ --[APPLIES_TO]--> (Concept)Gói thầu mua sắm hàng hóa
+      [NODE REL] 🔗 (Procedure)Đấu thầu rộng rãi --[APPLIES_TO]--> (Concept)Dự án đầu tư kinh doanh
+      [NODE REL] 🔗 (Procedure)Đấu thầu hạn chế --[APPLIES_TO]--> (Concept)Dự án đầu tư kinh doanh
+      [NODE REL] 🔗 (Procedure)Phương thức một giai đoạn một túi hồ sơ --[APPLIES_TO]--> (Concept)Lựa chọn nhà đầu tư
+      [NODE REL] 🔗 (Procedure)Phương thức một giai đoạn hai túi hồ sơ --[APPLIES_TO]--> (Concept)Dự án đầu tư kinh doanh có yêu cầu công trình kiến trúc
+      [NODE REL] 🔗 (Procedure)Phương thức hai giai đoạn một túi hồ sơ --[APPLIES_TO]--> (Concept)Dự án đầu tư kinh doanh có yêu cầu đặc thù phát triển kinh tế, xã hội
+      [NODE REL] 🔗 (Procedure)Kế hoạch tổng thể lựa chọn nhà thầu --[MANAGED_BY]--> (Organization)Chủ đầu tư
+      [NODE REL] 🔗 (Procedure)Kế hoạch lựa chọn nhà thầu --[APPLIES_TO]--> (Concept)Toàn bộ dự án
+      [NODE REL] 🔗 (Procedure)Kế hoạch lựa chọn nhà thầu --[BASED_ON]--> (Document)Quyết định phê duyệt dự án
+      [NODE REL] 🔗 (Concept)Giá gói thầu --[PART_OF]--> (Concept)Chi phí dự phòng
+      [ENTITY] 📦 (22/2023/QH15): Organization=[Chính phủ, Bộ Y tế, Bộ Tài chính...]; Timeframe=[45 ngày, 60 ngày, 31 tháng 12 năm 2024...]; Concept=[đấu thầu trong nước, đấu thầu quốc tế, mua sắm tập trung...]; Procedure=[lựa chọn nhà đầu tư, công bố dự án đầu tư kinh doanh, đấu thầu qua mạng...]; Role=[nhà đầu tư, bên mời thầu, nhà thầu...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (LegalArticle)Điều 46
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (LegalArticle)Điều 50
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (LegalArticle)Điều 53
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ISSUED_BY]--> (Concept)danh mục mua sắm tập trung cấp quốc gia đối với thuốc
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ISSUED_BY]--> (Concept)danh mục hàng hóa, dịch vụ áp dụng mua sắm tập trung cấp quốc gia
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp tỉnh --[ISSUED_BY]--> (Concept)danh mục hàng hóa, dịch vụ áp dụng mua sắm tập trung
+      [NODE REL] 🔗 (Organization)doanh nghiệp nhà nước --[ISSUED_BY]--> (Concept)danh mục hàng hóa, dịch vụ áp dụng mua sắm tập trung
+      [NODE REL] 🔗 (Organization)Hệ thống mạng đấu thầu quốc gia --[REQUIRED_FOR]--> (Procedure)đấu thầu qua mạng
+      [NODE REL] 🔗 (Concept)thỏa thuận khung --[PART_OF]--> (Procedure)mua sắm tập trung
+      [DEBUG] ✓ Đã LƯU: 22/2023/QH15 --[BASED_ON]--> Luật Khám bệnh, chữa bệnh
+      [ENTITY] 📦 (22/2023/QH15): Organization=[Bộ Y tế, Chính phủ, quỹ bảo hiểm y tế]; Concept=[thuốc không thuộc danh mục thuốc do quỹ bảo hiểm y tế chi trả, vắc xin để tiêm chủng theo hình thức dịch vụ, cơ sở khám bệnh, chữa bệnh tư nhân...]; Procedure=[lựa chọn nhà thầu, mua sắm hàng hóa, xây lắp...]; Condition=[ít nhất 03 hãng trong nước sản xuất, tiêu chí kỹ thuật theo quy định của Bộ Y tế, nguyên tắc, tiêu chuẩn EU-GMP hoặc tương đương EU-GMP...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[PUBLISHES]--> (Concept)danh mục thuốc quy định tại điểm b khoản 1 Điều 56
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (LegalArticle)Điều 55
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (Procedure)hình thức đặt hàng, giao nhiệm vụ
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATES]--> (LegalArticle)Điều 62
+      [NODE REL] 🔗 (Concept)phương pháp giá thấp nhất --[APPLIES_TO]--> (Condition)gói thầu mà các đề xuất về kỹ thuật, tài chính, thương mại được coi là cùng một mặt bằng
+      [NODE REL] 🔗 (Concept)phương pháp giá đánh giá --[APPLIES_TO]--> (Procedure)gói thầu mua sắm hàng hóa, xây lắp, dịch vụ phi tư vấn và gói thầu hỗn hợp
+      [NODE REL] 🔗 (Concept)phương pháp kết hợp giữa kỹ thuật và giá --[APPLIES_TO]--> (Concept)gói thầu công nghệ thông tin, viễn thông, bảo hiểm
+      [NODE REL] 🔗 (Concept)phương pháp giá thấp nhất --[APPLIES_TO]--> (Concept)các gói thầu tư vấn đơn giản
+      [NODE REL] 🔗 (Concept)phương pháp giá cố định --[APPLIES_TO]--> (Concept)các gói thầu tư vấn đơn giản, phạm vi công việc được xác định chính xác
+      [NODE REL] 🔗 (Concept)phương pháp dựa trên kỹ thuật --[APPLIES_TO]--> (Concept)gói thầu tư vấn có yêu cầu kỹ thuật cao, đặc thù
+      [NODE REL] 🔗 (Concept)hợp đồng trọn gói --[APPLIES_TO]--> (Condition)gói thầu mà tại thời điểm lựa chọn nhà thầu, phạm vi công việc, yêu cầu kỹ thuật, thời gian thực hiện gói thầu được xác định rõ
+      [NODE REL] 🔗 (Concept)hợp đồng theo đơn giá cố định --[APPLIES_TO]--> (Condition)gói thầu mà tại thời điểm lựa chọn nhà thầu bản chất công việc đã xác định được rõ ràng nhưng chưa xác định được chính xác số lượng, khối lượng công việc thực tế phải hoàn thành
+      [DEBUG] ✓ Đã LƯU: 22/2023/QH15 --[BASED_ON]--> Luật Đầu tư
+      [ENTITY] 📦 (22/2023/QH15): Organization=[Tổ chức tín dụng trong nước, Chi nhánh ngân hàng nước ngoài, Doanh nghiệp bảo hiểm phi nhân thọ trong nước...]; Role=[Người có thẩm quyền, Nhà thầu tư vấn]; Concept=[Hợp đồng dự án đầu tư kinh doanh, Thư bảo lãnh, Giấy chứng nhận bảo hiểm bảo lãnh...]; Timeframe=[1% đến 3% tổng vốn đầu tư]
+      [NODE REL] 🔗 (Organization)Nhà đầu tư --[SUBMITS]--> (Concept)Thư bảo lãnh
+      [NODE REL] 🔗 (Organization)Nhà đầu tư --[SUBMITS]--> (Concept)Giấy chứng nhận bảo hiểm bảo lãnh
+      [NODE REL] 🔗 (Role)Người có thẩm quyền --[APPROVES]--> (Concept)Kế hoạch tổng thể lựa chọn nhà thầu
+      [NODE REL] 🔗 (Role)Người có thẩm quyền --[APPROVES]--> (Concept)Kế hoạch lựa chọn nhà thầu
+      [NODE REL] 🔗 (Organization)Chủ đầu tư --[APPROVES]--> (Concept)Hồ sơ mời quan tâm
+      [NODE REL] 🔗 (Organization)Chủ đầu tư --[APPROVES]--> (Concept)Hồ sơ mời thầu
+      [NODE REL] 🔗 (Organization)Chủ đầu tư --[APPROVES]--> (Concept)Kết quả lựa chọn nhà thầu
+      [NODE REL] 🔗 (Organization)Bên mời thầu --[PREPARES]--> (Concept)Hồ sơ mời quan tâm
+      [NODE REL] 🔗 (Organization)Tổ chuyên gia --[PREPARES]--> (Concept)Hồ sơ mời quan tâm
+      [NODE REL] 🔗 (Organization)Tổ chuyên gia --[PREPARES]--> (Concept)Hồ sơ mời thầu
+      [NODE REL] 🔗 (Organization)Nhà thầu --[USES]--> (Organization)Hệ thống mạng đấu thầu quốc gia
+      [NODE REL] 🔗 (Organization)Nhà đầu tư --[USES]--> (Organization)Hệ thống mạng đấu thầu quốc gia
+      [ENTITY] 📦 (22/2023/QH15): Organization=[Chính phủ, Bộ Kế hoạch và Đầu tư, Ủy ban Mặt trận Tổ quốc Việt Nam...]; Role=[Chủ đầu tư, Bên mời thầu, Nhà thầu...]; Concept=[Hoạt động đấu thầu, Hệ thống mạng đấu thầu quốc gia, Cơ sở dữ liệu quốc gia về nhà đầu tư, nhà thầu...]; Timeframe=[06 tháng đến 05 năm, 07 ngày làm việc, 05 ngày làm việc...]; Procedure=[Giải quyết kiến nghị, Thanh tra hoạt động đấu thầu, Kiểm tra hoạt động đấu thầu...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)Hoạt động đấu thầu
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[MANAGED_BY]--> (Concept)Hệ thống mạng đấu thầu quốc gia
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[MANAGED_BY]--> (Concept)Cơ sở dữ liệu quốc gia về nhà đầu tư, nhà thầu
+      [NODE REL] 🔗 (Organization)Bộ Kế hoạch và Đầu tư --[REGULATED_BY]--> (Concept)Chứng chỉ nghiệp vụ chuyên môn về đấu thầu
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các cấp --[MANAGED_BY]--> (Concept)Hoạt động đấu thầu
+      [NODE REL] 🔗 (Organization)Ủy ban Mặt trận Tổ quốc Việt Nam --[ASSIGNS_TO]--> (Procedure)Giám sát hoạt động đấu thầu
+      [NODE REL] 🔗 (Person)Bộ trưởng Bộ Kế hoạch và Đầu tư --[ASSIGNS_TO]--> (Concept)Cấm tham gia hoạt động đấu thầu
+      [NODE REL] 🔗 (Role)Chủ đầu tư --[ASSIGNS_TO]--> (Procedure)Xử lý tình huống trong hoạt động đấu thầu
+      [NODE REL] 🔗 (Role)Người có thẩm quyền --[ASSIGNS_TO]--> (Procedure)Xử lý tình huống trong hoạt động đấu thầu
+      [NODE REL] 🔗 (Role)Chủ đầu tư --[ASSIGNS_TO]--> (Procedure)Giải quyết kiến nghị
+      [NODE REL] 🔗 (Role)Người có thẩm quyền --[ASSIGNS_TO]--> (Procedure)Giải quyết kiến nghị
+      [NODE REL] 🔗 (Organization)Hội đồng tư vấn giải quyết kiến nghị --[ASSIGNS_TO]--> (Procedure)Giải quyết kiến nghị
+      [Pha 1] 🚀 Tìm thấy 26 đoạn văn quan trọng. Đang xử lý 3 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 80/2001/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 80/2001/NĐ-CP --[BASED_ON]--> Luật Phòng, Chống Ma Tuý Ngày 09 Tháng 12 năm 2000
+      [DEBUG] ✓ Đã LƯU: 80/2001/NĐ-CP --[BASED_ON]--> 67/2001/NĐ-CP
+      [ENTITY] 📦 (80/2001/NĐ-CP): Organization=[Chính phủ, Bộ Y tế, Bộ Công an...]; Concept=[ma túy, tiền chất, thuốc gây nghiện...]; Role=[Bộ trưởng Bộ Y tế, Bộ trưởng Bộ Công an, người có đủ điều kiện...]; Procedure=[kiểm soát các hoạt động hợp pháp liên quan đến ma túy, sản xuất, pha chế thuốc gây nghiện, thuốc hướng thần, tiền chất, vận chuyển chất ma túy, tiền chất, thuốc gây nghiện, thuốc hướng thần...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)Nghị định số 80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Procedure)sản xuất, pha chế thuốc gây nghiện, thuốc hướng thần, tiền chất
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[REGULATED_BY]--> (Procedure)sản xuất các tiền chất sử dụng trong lĩnh vực công nghiệp
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Role)người có đủ điều kiện được trực tiếp giao, nhận, tàng trữ, vận chuyển chất ma túy...
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[ASSIGNS_TO]--> (Role)người có đủ điều kiện được trực tiếp giao, nhận, tàng trữ, vận chuyển chất ma túy...
+      [NODE REL] 🔗 (Organization)Bộ Công an --[ASSIGNS_TO]--> (Role)người có đủ điều kiện được trực tiếp giao, nhận, tàng trữ, vận chuyển chất ma túy...
+      [NODE REL] 🔗 (Organization)Bộ Công an --[REGULATED_BY]--> (Procedure)vận chuyển các chất quy định tại khoản 1 Điều này để phục vụ cho đấu tranh chống tội phạm về ma túy
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Procedure)vận chuyển các chất quy định tại khoản 1 Điều này để phục vụ các nhu cầu y tế...
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[REGULATED_BY]--> (Procedure)vận chuyển các chất quy định tại khoản 1 Điều này để phục vụ các nhu cầu... công nghiệp...
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Procedure)phân phối, mua bán, sử dụng, trao đổi chất ma túy... trong lĩnh vực y tế...
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[REGULATED_BY]--> (Procedure)phân phối, mua bán, sử dụng, trao đổi tiền chất sử dụng trong lĩnh vực công nghiệp
+      [NODE REL] 🔗 (Organization)Bộ Công an --[REGULATED_BY]--> (Procedure)phân phối, mua bán, sử dụng, trao đổi chất ma túy... phục vụ nghiên cứu... điều tra tội phạm
+      [NODE REL] 🔗 (Organization)Quân đội nhân dân --[APPLIES_TO]--> (Procedure)mua thuốc gây nghiện, thuốc hướng thần
+      [NODE REL] 🔗 (Organization)Công an nhân dân --[APPLIES_TO]--> (Procedure)mua thuốc gây nghiện, thuốc hướng thần
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[REGULATED_BY]--> (Procedure)dự trù thuốc gây nghiện, thuốc hướng thần
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[REGULATED_BY]--> (Procedure)kế hoạch sử dụng các tiền chất trong lĩnh vực công nghiệp
+      [DEBUG] ✓ Đã LƯU: 80/2001/NĐ-CP --[BASED_ON]--> Luật Phòng, chống ma tuý tại Khoản 1, 2 Điều 24
+      [ENTITY] 📦 (80/2001/NĐ-CP): Organization=[Bộ Y tế, Bộ Công nghiệp, Bộ Công an...]; Timeframe=[mười ngày, ngày 25 hàng tháng, ngày 25 tháng 6...]; Concept=[chất ma tuý, tiền chất, thuốc gây nghiện...]
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[ASSIGNS_TO]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công an --[ASSIGNS_TO]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[ASSIGNS_TO]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[ASSIGNS_TO]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Ngân sách nhà nước --[FUNDS]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[MANAGED_BY]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công nghiệp --[MANAGED_BY]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Cục Y tế Bộ Công an --[MANAGED_BY]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Cục Quân y Bộ Quốc phòng --[MANAGED_BY]--> (Document)80/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Sở Y tế giao thông vận tải --[MANAGED_BY]--> (Document)80/2001/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 80/2001/NĐ-CP --[REPEALS]--> Những quy định trước đây
+      [ENTITY] 📦 (80/2001/NĐ-CP): Organization=[Bộ trưởng, Thủ trưởng cơ quan ngang Bộ, Thủ trưởng cơ quan thuộc Chính phủ...]; Person=[Phan Văn Khải]; Timeframe=[15 ngày]
+      [NODE REL] 🔗 (Document)80/2001/NĐ-CP --[ASSIGNS_TO]--> (Organization)Bộ trưởng
+      [NODE REL] 🔗 (Document)80/2001/NĐ-CP --[ASSIGNS_TO]--> (Organization)Thủ trưởng cơ quan ngang Bộ
+      [NODE REL] 🔗 (Document)80/2001/NĐ-CP --[ASSIGNS_TO]--> (Organization)Thủ trưởng cơ quan thuộc Chính phủ
+      [NODE REL] 🔗 (Document)80/2001/NĐ-CP --[ASSIGNS_TO]--> (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương
+      [NODE REL] 🔗 (Document)80/2001/NĐ-CP --[SIGNED_BY]--> (Person)Phan Văn Khải
+      [Pha 1] 🚀 Tìm thấy 22 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [Pha 1] 🚀 Tìm thấy 51 đoạn văn quan trọng. Đang xử lý 5 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 32/2001/QH10 --[BASED_ON]--> Hiến Pháp Nước Cộng Hoà Xã Hội Chủ Nghĩa Việt Nam năm 1992
+      [DEBUG] ✓ Đã LƯU: 32/2001/QH10 --[BASED_ON]--> 51/2001/QH10
+      [ENTITY] 📦 (32/2001/QH10): Organization=[Quốc hội, Chính phủ, Uỷ ban thường vụ Quốc hội...]; Role=[Thủ tướng Chính phủ, Phó Thủ tướng, Bộ trưởng...]; Location=[Hà Nội, Nước Cộng hoà xã hội chủ nghĩa Việt Nam, Việt Nam]; Timeframe=[Ngày 25 tháng 12 năm 2001, Nhiệm kỳ của Quốc hội]; Concept=[Kinh tế thị trường định hướng xã hội chủ nghĩa, Kinh tế nhà nước, Kinh tế tập thể...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Uỷ ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Role)Chủ tịch nước
+      [NODE REL] 🔗 (Organization)Quốc hội --[DECIDES_FORMATION_OF]--> (Organization)Bộ
+      [NODE REL] 🔗 (Organization)Quốc hội --[DECIDES_FORMATION_OF]--> (Organization)Cơ quan ngang bộ
+      [NODE REL] 🔗 (Organization)Quốc hội --[ELECTS]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Chủ tịch nước --[PROPOSES_APPOINTMENT_FOR]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[ASSIGNS_TASKS_TO]--> (Role)Phó Thủ tướng
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[LEADS]--> (Role)Bộ trưởng
+      [NODE REL] 🔗 (Organization)Chính phủ --[LEADS]--> (Organization)Bộ
+      [NODE REL] 🔗 (Organization)Chính phủ --[LEADS]--> (Organization)Cơ quan ngang bộ
+      [NODE REL] 🔗 (Organization)Chính phủ --[LEADS]--> (Organization)Cơ quan thuộc Chính phủ
+      [NODE REL] 🔗 (Organization)Chính phủ --[LEADS]--> (Organization)Ủy ban nhân dân
+      [NODE REL] 🔗 (Organization)Chính phủ --[GUIDES]--> (Organization)Hội đồng nhân dân
+      [NODE REL] 🔗 (Organization)Chính phủ --[SUBMITS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[SUBMITS_TO]--> (Organization)Uỷ ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGES]--> (Concept)Kinh tế thị trường định hướng xã hội chủ nghĩa
+      [NODE REL] 🔗 (Organization)Chính phủ --[EXECUTES]--> (Concept)Ngân sách nhà nước
+      [ENTITY] 📦 (32/2001/QH10): Organization=[Chính phủ, Quốc hội, Ủy ban thường vụ Quốc hội...]; Concept=[Tài nguyên thiên nhiên, Kinh tế đối ngoại, Đầu tư nước ngoài...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)32/2001/QH10
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Chủ tịch nước
+      [NODE REL] 🔗 (Organization)Chính phủ --[GUIDES]--> (Organization)Hội đồng nhân dân
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)Hệ thống hành chính nhà nước
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)Cán bộ, công chức, viên chức
+      [ENTITY] 📦 (32/2001/QH10): Organization=[Chính phủ, Quốc hội, Uỷ ban thường vụ Quốc hội...]; Role=[Thủ tướng Chính phủ, Phó Thủ tướng, Bộ trưởng...]; Concept=[Quản lý nhà nước, Tham nhũng, Lãng phí...]
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[LEADS]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[SIGNED_BY]--> (Document)Nghị quyết của Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[SIGNED_BY]--> (Document)Nghị định của Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[ISSUED_BY]--> (Document)Quyết định của Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[ISSUED_BY]--> (Document)Chỉ thị của Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Cơ quan ngang bộ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[ISSUED_BY]--> (Document)Quyết định của Bộ trưởng
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan ngang bộ --[ISSUED_BY]--> (Document)Quyết định của Bộ trưởng
+      [NODE REL] 🔗 (Role)Bộ trưởng --[ISSUED_BY]--> (Document)Chỉ thị của Bộ trưởng
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan ngang bộ --[ISSUED_BY]--> (Document)Chỉ thị của Bộ trưởng
+      [NODE REL] 🔗 (Role)Bộ trưởng --[ISSUED_BY]--> (Document)Thông tư của Bộ trưởng
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan ngang bộ --[ISSUED_BY]--> (Document)Thông tư của Bộ trưởng
+      [NODE REL] 🔗 (Role)Bộ trưởng --[ISSUED_BY]--> (Document)Thông tư liên tịch
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan ngang bộ --[ISSUED_BY]--> (Document)Thông tư liên tịch
+      [NODE REL] 🔗 (Role)Thứ trưởng --[ASSISTS]--> (Role)Bộ trưởng
+      [NODE REL] 🔗 (Role)Phó Thủ trưởng cơ quan ngang bộ --[ASSISTS]--> (Role)Thủ trưởng cơ quan ngang bộ
+      [DEBUG] ✓ Đã LƯU: 32/2001/QH10 --[REPLACES]--> 76/2015/QH13
+      [ENTITY] 📦 (32/2001/QH10): Organization=[Chính phủ, Quốc hội]; Person=[Nguyễn Văn An]; Role=[Chủ tịch Quốc hội]; Timeframe=[ngày 25 tháng 12 năm 2001]
+      [NODE REL] 🔗 (Organization)Quốc hội --[ISSUED_BY]--> (Document)32/2001/QH10
+      [NODE REL] 🔗 (Person)Nguyễn Văn An --[SIGNED_BY]--> (Document)32/2001/QH10
+      [NODE REL] 🔗 (Person)Nguyễn Văn An --[HOLDS_ROLE]--> (Role)Chủ tịch Quốc hội
+      [Pha 1] 🚀 Tìm thấy 26 đoạn văn quan trọng. Đang xử lý 3 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 53/2006/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 53/2006/NĐ-CP --[BASED_ON]--> 05/2005/NQ-CP
+      [DEBUG] ✓ Đã LƯU: 53/2006/NĐ-CP --[APPLIES_TO]--> Luật Doanh nghiệp
+      [DEBUG] ✓ Đã LƯU: 53/2006/NĐ-CP --[BASED_ON]--> Luật Thuế giá trị gia tăng
+      [DEBUG] ✓ Đã LƯU: 53/2006/NĐ-CP --[BASED_ON]--> Luật Thuế xuất khẩu, thuế nhập khẩu
+      [DEBUG] ✓ Đã LƯU: 53/2006/NĐ-CP --[BASED_ON]--> Luật Thuế thu nhập doanh nghiệp
+      [ENTITY] 📦 (53/2006/NĐ-CP): Organization=[Chính phủ, Bộ Tài chính, Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương...]; Concept=[Cơ sở ngoài công lập, Giáo dục - đào tạo, Y tế...]; Fee=[Tiền sử dụng đất, Tiền thuê đất, Tiền đền bù giải phóng mặt bằng...]; Timeframe=[Ngày 25 tháng 05 năm 2006, Ngày 25 tháng 12 năm 2001, Ngày 18 tháng 4 năm 2005...]; Condition=[Miễn lệ phí trước bạ, Miễn thu tiền sử dụng đất, Miễn tiền thuê đất...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)Nghị định 53/2006/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[PROPOSED_FOR]--> (Document)Nghị định 53/2006/NĐ-CP
+      [NODE REL] 🔗 (Document)Nghị định 53/2006/NĐ-CP --[REGULATES]--> (Concept)Cơ sở ngoài công lập
+      [NODE REL] 🔗 (Organization)Nhà nước --[SUPPORTS]--> (Concept)Cơ sở ngoài công lập
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Concept)Cơ sở ngoài công lập
+      [NODE REL] 🔗 (Organization)Nhà nước --[EXEMPTS]--> (Concept)Cơ sở ngoài công lập
+      [NODE REL] 🔗 (Organization)Nhà nước --[GRANTS_TAX_BENEFIT]--> (Concept)Cơ sở ngoài công lập
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương --[FUNDS]--> (Concept)Cơ sở ngoài công lập
+      [ENTITY] 📦 (53/2006/NĐ-CP): Organization=[Bộ, Cơ quan ngang Bộ, Cơ quan thuộc Chính phủ...]; Person=[Phan Văn Khải]; Role=[Bộ trưởng, Thủ trưởng cơ quan ngang Bộ, Thủ trưởng cơ quan thuộc Chính phủ...]
+      [NODE REL] 🔗 (Document)53/2006/NĐ-CP --[ASSIGNS_TO]--> (Organization)Bộ Giáo dục và Đào tạo
+      [NODE REL] 🔗 (Document)53/2006/NĐ-CP --[SIGNED_BY]--> (Person)Phan Văn Khải
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [Pha 1] 🚀 Tìm thấy 12 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [Pha 1] 🚀 Tìm thấy 13 đoạn văn quan trọng. Đang xử lý 2 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 2405/QĐ-TTG --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 2405/QĐ-TTG --[BASED_ON]--> 551/QĐ-TTG
+      [DEBUG] ✓ Đã LƯU: 2405/QĐ-TTG --[REPLACES]--> Các Quyết định phê duyệt xã đặc biệt khó khăn giai đoạn II
+      [ENTITY] 📦 (2405/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Bộ Giáo dục và Đào tạo, Ủy ban Dân tộc...]; Person=[Nguyễn Tấn Dũng]; Role=[Thủ tướng, Phó Thủ tướng Chính phủ, Bộ trưởng...]; Location=[Việt Nam, Hà Nội, Xã Giàng Chu Phìn...]; Timeframe=[10 tháng 12 năm 2013, 25 tháng 12 năm 2001, 04 tháng 4 năm 2013...]; Concept=[xã đặc biệt khó khăn, xã biên giới, xã an toàn khu...]
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)2405/QĐ-TTg
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [NODE REL] 🔗 (Document)2405/QĐ-TTg --[ISSUED_BY]--> (Organization)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Document)2405/QĐ-TTg --[APPLIES_TO]--> (Concept)xã đặc biệt khó khăn
+      [NODE REL] 🔗 (Document)2405/QĐ-TTg --[APPLIES_TO]--> (Concept)xã biên giới
+      [NODE REL] 🔗 (Document)2405/QĐ-TTg --[APPLIES_TO]--> (Concept)xã an toàn khu
+      [NODE REL] 🔗 (Concept)Ngân sách trung ương --[FUNDS]--> (Location)2.294 xã của 44 tỉnh
+      [NODE REL] 🔗 (Concept)Ngân sách địa phương --[FUNDS]--> (Location)39 xã của thành phố Hà Nội, các tỉnh: Vĩnh Phúc, Quảng Ninh, Khánh Hòa và Bà Rịa - Vũng Tàu
+      [NODE REL] 🔗 (Organization)Bộ Giáo dục và Đào tạo --[ASSIGNS_TO]--> (Document)2405/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)2405/QĐ-TTg
+      [ENTITY] 📦 (2405/QĐ-TTg): Location=[Tỉnh Bình Phước, Huyện Đạ Huoai, Xã Lộc Phú...]
+      [NODE REL] 🔗 (Location)Huyện Đạ Huoai --[LOCATED_IN]--> (Location)Tỉnh Bình Phước
+      [NODE REL] 🔗 (Location)Xã Lộc Phú --[LOCATED_IN]--> (Location)Huyện Đạ Huoai
+      [NODE REL] 🔗 (Location)Xã Đạ P'loa --[LOCATED_IN]--> (Location)Huyện Đạ Huoai
+      [NODE REL] 🔗 (Location)Xã Đoàn Kết --[LOCATED_IN]--> (Location)Huyện Đạ Huoai
+      [NODE REL] 🔗 (Location)Xã Phước Lộc --[LOCATED_IN]--> (Location)Huyện Đạ Huoai
+      [NODE REL] 🔗 (Location)Huyện Đạ Tẻh --[LOCATED_IN]--> (Location)Tỉnh Bình Phước
+      [NODE REL] 🔗 (Location)Xã Đạ Pal --[LOCATED_IN]--> (Location)Huyện Đạ Tẻh
+      [NODE REL] 🔗 (Location)Xã Hương Lâm --[LOCATED_IN]--> (Location)Huyện Đạ Tẻh
+      [NODE REL] 🔗 (Location)Xã Quảng Trị --[LOCATED_IN]--> (Location)Huyện Đạ Tẻh
+      [NODE REL] 🔗 (Location)Huyện Cát Tiên --[LOCATED_IN]--> (Location)Tỉnh Bình Phước
+      [NODE REL] 🔗 (Location)Xã Đồng Nai Thượng --[LOCATED_IN]--> (Location)Huyện Cát Tiên
+      [NODE REL] 🔗 (Location)Xã Mỹ Lâm --[LOCATED_IN]--> (Location)Huyện Cát Tiên
+      [NODE REL] 🔗 (Location)Xã Nam Ninh --[LOCATED_IN]--> (Location)Huyện Cát Tiên
+      [NODE REL] 🔗 (Location)Huyện Bù Đốp --[LOCATED_IN]--> (Location)Tỉnh Bình Phước
+      [Pha 1] 🚀 Tìm thấy 4 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 90-CP --[BASED_ON]--> Luật tổ chức Hội đồng Chính phủ ngày 14-7-1960
+      [DEBUG] ✓ Đã LƯU: 90-CP --[BASED_ON]--> 172-CP
+      [DEBUG] ✓ Đã LƯU: 90-CP --[BASED_ON]--> 61-CP
+      [ENTITY] 📦 (90-CP): Organization=[Hội đồng Chính phủ, Bộ Tài chính, Vụ quản lý ngân sách Nhà nước...]; Person=[Lê Thanh Nghị]; Role=[Bộ trưởng Bộ Tài chính, Thủ tướng Chính phủ, Phó Thủ tướng]
+      [NODE REL] 🔗 (Document)90-CP --[ISSUED_BY]--> (Organization)Hội đồng Chính phủ
+      [NODE REL] 🔗 (Document)90-CP --[SIGNED_BY]--> (Person)Lê Thanh Nghị
+      [NODE REL] 🔗 (Person)Lê Thanh Nghị --[HOLDS_ROLE]--> (Role)Phó Thủ tướng
+      [NODE REL] 🔗 (Document)90-CP --[REGULATED_BY]--> (Organization)Bộ Tài chính
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[MANAGED_BY]--> (Organization)Bộ Tài chính
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Role)Bộ trưởng Bộ Tài chính
+      [Pha 1] 🚀 Tìm thấy 7 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 539/QĐ-TTG --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 539/QĐ-TTG --[BASED_ON]--> 61/2020/QH14
+      [DEBUG] ✓ Đã LƯU: 539/QĐ-TTG --[BASED_ON]--> 118/2015/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 539/QĐ-TTG --[BASED_ON]--> 82/2018/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 539/QĐ-TTG --[BASED_ON]--> 148/2020/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 539/QĐ-TTG --[BASED_ON]--> 31/2024/QH15 tại Điều 134
+      [ENTITY] 📦 (539/QĐ-TTg): Organization=[Thủ tướng Chính phủ, Bộ Kế hoạch và Đầu tư, Công ty cổ phần tập đoàn đầu tư xây dựng DĐK...]; Person=[Trịnh Đình Dũng]; Location=[Huyện Sóc Sơn, Thành phố Hà Nội, Xã Minh Trí...]; Concept=[Dự án đầu tư xây dựng hạ tầng kỹ thuật khu công nghiệp sạch Sóc Sơn, Khu công nghiệp sạch Sóc Sơn]; Fee=[3.226,92 tỷ đồng, 850 tỷ đồng]; Timeframe=[36 tháng, 50 năm, 03 tháng 4 năm 2021]; Role=[Phó Thủ tướng]
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ISSUED_BY]--> (Document)539/QĐ-TTg
+      [NODE REL] 🔗 (Person)Trịnh Đình Dũng --[SIGNED_BY]--> (Document)539/QĐ-TTg
+      [NODE REL] 🔗 (Person)Trịnh Đình Dũng --[HOLDS_ROLE]--> (Role)Phó Thủ tướng
+      [NODE REL] 🔗 (Organization)Công ty cổ phần tập đoàn đầu tư xây dựng DĐK --[INVESTS_IN]--> (Concept)Dự án đầu tư xây dựng hạ tầng kỹ thuật khu công nghiệp sạch Sóc Sơn
+      [NODE REL] 🔗 (Concept)Dự án đầu tư xây dựng hạ tầng kỹ thuật khu công nghiệp sạch Sóc Sơn --[LOCATED_IN]--> (Location)Xã Minh Trí
+      [NODE REL] 🔗 (Concept)Dự án đầu tư xây dựng hạ tầng kỹ thuật khu công nghiệp sạch Sóc Sơn --[LOCATED_IN]--> (Location)Xã Tân Dân
+      [NODE REL] 🔗 (Concept)Dự án đầu tư xây dựng hạ tầng kỹ thuật khu công nghiệp sạch Sóc Sơn --[LOCATED_IN]--> (Location)Huyện Sóc Sơn
+      [NODE REL] 🔗 (Concept)Dự án đầu tư xây dựng hạ tầng kỹ thuật khu công nghiệp sạch Sóc Sơn --[LOCATED_IN]--> (Location)Thành phố Hà Nội
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân thành phố Hà Nội --[ASSIGNS_TO]--> (Document)539/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Công ty cổ phần tập đoàn đầu tư xây dựng DĐK --[ASSIGNS_TO]--> (Document)539/QĐ-TTg
+      [NODE REL] 🔗 (Organization)Ban quản lý các khu công nghiệp và chế xuất thành phố Hà Nội --[MANAGED_BY]--> (Concept)Dự án đầu tư xây dựng hạ tầng kỹ thuật khu công nghiệp sạch Sóc Sơn
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Thể thao - Y tế: 17 văn bản
+   - Bộ máy hành chính: 15 văn bản
+   - Xây dựng - Đô thị: 5 văn bản
+   - Tài chính nhà nước: 4 văn bản
+   - Đầu tư: 3 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - BASED_ON: 144 relations
+   - REPEALS: 16 relations
+   - AMENDS: 14 relations
+   - REPLACES: 8 relations
+   - GUIDES: 4 relations
+   - APPLIES: 2 relations
+   - ASSIGNS: 1 relations
+   - APPLIES_TO: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Tổng quan hệ thường (chủ động):     190
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Concept: 937 entities
+   - Organization: 608 entities
+   - Location: 357 entities
+   - Role: 267 entities
+   - Timeframe: 224 entities
+   - Procedure: 122 entities
+   - Condition: 70 entities
+   - Person: 32 entities
+   - Fee: 30 entities
+   - Penalty: 4 entities
+
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - ASSIGNS_TO: 1579 node relations
+   - REGULATED_BY: 1078 node relations
+   - MANAGED_BY: 715 node relations
+   - ISSUED_BY: 630 node relations
+   - APPLIES_TO: 411 node relations
+   - REQUIRED_FOR: 384 node relations
+   - REPORTS_TO: 338 node relations
+   - REGULATES: 264 node relations
+   - APPROVES: 252 node relations
+   - ISSUES: 245 node relations
+   - SIGNED_BY: 213 node relations
+   - HOLDS_ROLE: 176 node relations
+   - FUNDS: 168 node relations
+   - PART_OF: 132 node relations
+   - ESTABLISHES: 132 node relations
+   - LOCATED_IN: 121 node relations
+   - SUBMITS_TO: 120 node relations
+   - DEFINED_IN: 116 node relations
+   - LEADS: 116 node relations
+   - MANAGES: 108 node relations
+   - BASED_ON: 108 node relations
+   - COOPERATES_WITH: 99 node relations
+   - NOTIFIED_TO: 72 node relations
+   - COORDINATES_WITH: 68 node relations
+   - GUIDES: 64 node relations
+   - DECIDES: 60 node relations
+   - MUST_COMPLY_WITH: 60 node relations
+   - GUIDES_IMPLEMENTATION_OF: 60 node relations
+   - PREPARES: 60 node relations
+   - DECIDES_FOR: 60 node relations
+   - ASSISTS: 54 node relations
+   - REVOKES: 48 node relations
+   - PROPOSED_FOR: 48 node relations
+   - MUST_HAVE: 48 node relations
+   - EXECUTES: 48 node relations
+   - SUBORDINATE_TO: 44 node relations
+   - COLLABORATES_WITH: 36 node relations
+   - HEADS: 36 node relations
+   - COORDINATES: 36 node relations
+   - EXEMPTS: 34 node relations
+   - PROVIDES_INFO_TO: 24 node relations
+   - DECLARES: 24 node relations
+   - PERFORMS: 24 node relations
+   - ELECTS: 24 node relations
+   - PROPOSES_APPOINTMENT_FOR: 24 node relations
+   - SUBMITTED_TO: 24 node relations
+   - COOPERATES_IN_PROPOSING: 24 node relations
+   - SUBMITS: 24 node relations
+   - USES: 24 node relations
+   - DECIDES_FORMATION_OF: 24 node relations
+   - SUPPORTS: 20 node relations
+   - RECOMMENDS_SAFETY_STATUS: 12 node relations
+   - ORGANIZES: 12 node relations
+   - IMPLEMENTS: 12 node relations
+   - LICENSES: 12 node relations
+   - PROPOSED: 12 node relations
+   - DEVELOPS: 12 node relations
+   - REGULATES_FORMAT: 12 node relations
+   - COMPILES: 12 node relations
+   - MONITORS: 12 node relations
+   - EXERCISES: 12 node relations
+   - REPRESENTS: 12 node relations
+   - MEMBER_OF: 12 node relations
+   - DIRECTS: 12 node relations
+   - PROPOSED_BY: 12 node relations
+   - MUST_COMMIT: 12 node relations
+   - MUST_NOT_DO: 12 node relations
+   - EXPIRES_BY: 12 node relations
+   - HAS_VALIDITY_PERIOD: 12 node relations
+   - PROPOSES: 12 node relations
+   - PARTICIPATES_IN: 12 node relations
+   - INITIATES: 12 node relations
+   - REVIEWES: 12 node relations
+   - RECEIVES_REPORT_FROM: 12 node relations
+   - PUBLISHES: 12 node relations
+   - ASSIGNS_TASKS_TO: 12 node relations
+   - GRANTS_TAX_BENEFIT: 12 node relations
+   - INVESTS_IN: 7 node relations
+   - WORKS_FOR: 6 node relations
+   - ASSIGNED_TO: 2 node relations
+============================================================
+PHASE 3 complete: 22 depth=2 docs -> 843 additional chunks.
+SUMMARY: 35 documents total -> 1368 chunks.
+
+============================================================
+PHASE 4: Creating GHOST NODES for referenced docs not in dataset
+============================================================
+PHASE 4 complete: 92 ghost nodes to create in Neo4j.
+
+-> BỎ QUA Flush Database (FLUSH_DB_ON_START=False). DB hiện tại sẽ được cập nhật (upsert/merge) tiếp.
+
+============================================================
+PHASE 5: Embedding & Upsert Qdrant
+============================================================
+   Upserted 1368 points to Qdrant.
+
+============================================================
+PHASE 6: Building Neo4j Graph
+============================================================
+Lỗi khi push lô 0 tới Neo4j: {neo4j_code: Neo.ClientError.Schema.ConstraintValidationFailed} {message: Node(72) already exists with label `LegalArticle` and property `name` = 'Phần Nơi nhận và Chữ ký'} {gql_status: 50N42} {gql_status_description: error: general processing exception - unexpected error. Node(72) already exists with label `LegalArticle` and property `name` = 'Phần Nơi nhận và Chữ ký'}
+   Created 92 ghost nodes in Neo4j.
+   -> Đang xây dựng Knowledge Graph tự do (từ LLM Extractor)...
+   Upserted 0 free-form Graph Triplets to Neo4j.
+   -> Đang enrich 10 loại Entity từ Unified Extractor vào Neo4j...
+   Enriched 32 chunks với entity/node_relation data.
+   Neo4j Graph update complete.
+
+============================================================
+PIPELINE COMPLETE — STATISTICS
+============================================================
+  
+============================================================
+PHASE 1: Chunking ORIGINAL documents
+============================================================
+  
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+     - Thể thao - Y tế: 2 văn bản
+     - Bộ máy hành chính: 1 văn bản
+  
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+     - BASED_ON: 11 relations
+     - AMENDS: 1 relations
+     - REPEALS: 1 relations
+     - GUIDES: 1 relations
+  
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+     - Tổng quan hệ thường (chủ động):     14
+     - Tổng cross-doc AMENDS (bị động): 0
+     - Bỏ qua do already_captured:          0
+  
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+     - Organization: 45 entities
+     - Timeframe: 16 entities
+     - Concept: 11 entities
+     - Role: 7 entities
+     - Fee: 5 entities
+     - Location: 3 entities
+     - Condition: 2 entities
+     - Person: 1 entities
+  
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+     - ASSIGNS_TO: 94 node relations
+     - ISSUED_BY: 24 node relations
+     - REGULATED_BY: 24 node relations
+     - REQUIRED_FOR: 12 node relations
+     - APPLIES_TO: 12 node relations
+     - SIGNED_BY: 1 node relations
+     - HOLDS_ROLE: 1 node relations
+  ============================================================
+  
+============================================================
+PHASE 2: Chunking REFERENCE documents (exist in dataset)
+============================================================
+  
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+     - Thể thao - Y tế: 7 văn bản
+     - Bộ máy hành chính: 5 văn bản
+     - Tài chính nhà nước: 1 văn bản
+     - Xây dựng - Đô thị: 1 văn bản
+     - Lĩnh vực khác: 1 văn bản
+  
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+     - BASED_ON: 57 relations
+     - REPEALS: 6 relations
+     - AMENDS: 2 relations
+     - GUIDES: 2 relations
+     - ASSIGNS: 1 relations
+  
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+     - Tổng quan hệ thường (chủ động):     68
+     - Tổng cross-doc AMENDS (bị động): 0
+     - Bỏ qua do already_captured:          0
+  
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+     - Concept: 442 entities
+     - Organization: 243 entities
+     - Location: 197 entities
+     - Role: 115 entities
+     - Timeframe: 96 entities
+     - Procedure: 50 entities
+     - Condition: 28 entities
+     - Person: 13 entities
+     - Fee: 5 entities
+  
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+     - ASSIGNS_TO: 812 node relations
+     - REGULATED_BY: 516 node relations
+     - REQUIRED_FOR: 324 node relations
+     - MANAGED_BY: 288 node relations
+     - ISSUES: 180 node relations
+     - ISSUED_BY: 179 node relations
+     - REPORTS_TO: 128 node relations
+     - COOPERATES_WITH: 99 node relations
+     - REGULATES: 96 node relations
+     - BASED_ON: 96 node relations
+     - MANAGES: 84 node relations
+     - APPROVES: 84 node relations
+     - NOTIFIED_TO: 72 node relations
+     - PART_OF: 60 node relations
+     - MUST_COMPLY_WITH: 60 node relations
+     - SUBMITS_TO: 60 node relations
+     - SIGNED_BY: 58 node relations
+     - HOLDS_ROLE: 55 node relations
+     - LOCATED_IN: 55 node relations
+     - APPLIES_TO: 51 node relations
+     - REVOKES: 48 node relations
+     - FUNDS: 36 node relations
+     - COLLABORATES_WITH: 36 node relations
+     - HEADS: 36 node relations
+     - SUBORDINATE_TO: 36 node relations
+     - LEADS: 36 node relations
+     - COORDINATES_WITH: 36 node relations
+     - DEFINED_IN: 32 node relations
+     - ASSISTS: 30 node relations
+     - DECLARES: 24 node relations
+     - PERFORMS: 24 node relations
+     - SUBMITTED_TO: 24 node relations
+     - EXEMPTS: 22 node relations
+     - GUIDES: 16 node relations
+     - RECOMMENDS_SAFETY_STATUS: 12 node relations
+     - ORGANIZES: 12 node relations
+     - IMPLEMENTS: 12 node relations
+     - LICENSES: 12 node relations
+     - PROVIDES_INFO_TO: 12 node relations
+     - PROPOSED: 12 node relations
+     - DEVELOPS: 12 node relations
+     - DECIDES: 12 node relations
+     - REGULATES_FORMAT: 12 node relations
+     - COMPILES: 12 node relations
+     - MONITORS: 12 node relations
+     - EXERCISES: 12 node relations
+     - ELECTS: 12 node relations
+     - REPRESENTS: 12 node relations
+     - MEMBER_OF: 12 node relations
+     - PROPOSES_APPOINTMENT_FOR: 12 node relations
+     - DIRECTS: 12 node relations
+     - PROPOSED_BY: 12 node relations
+     - WORKS_FOR: 6 node relations
+     - ASSIGNED_TO: 2 node relations
+  ============================================================
+  
+============================================================
+PHASE 3: Chunking REFERENCE documents (Depth=2)
+============================================================
+  
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+     - Thể thao - Y tế: 17 văn bản
+     - Bộ máy hành chính: 15 văn bản
+     - Xây dựng - Đô thị: 5 văn bản
+     - Tài chính nhà nước: 4 văn bản
+     - Đầu tư: 3 văn bản
+  
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+     - BASED_ON: 144 relations
+     - REPEALS: 16 relations
+     - AMENDS: 14 relations
+     - REPLACES: 8 relations
+     - GUIDES: 4 relations
+     - APPLIES: 2 relations
+     - ASSIGNS: 1 relations
+     - APPLIES_TO: 1 relations
+  
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+     - Tổng quan hệ thường (chủ động):     190
+     - Tổng cross-doc AMENDS (bị động): 0
+     - Bỏ qua do already_captured:          0
+  
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+     - Concept: 937 entities
+     - Organization: 608 entities
+     - Location: 357 entities
+     - Role: 267 entities
+     - Timeframe: 224 entities
+     - Procedure: 122 entities
+     - Condition: 70 entities
+     - Person: 32 entities
+     - Fee: 30 entities
+     - Penalty: 4 entities
+  
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+     - ASSIGNS_TO: 1579 node relations
+     - REGULATED_BY: 1078 node relations
+     - MANAGED_BY: 715 node relations
+     - ISSUED_BY: 630 node relations
+     - APPLIES_TO: 411 node relations
+     - REQUIRED_FOR: 384 node relations
+     - REPORTS_TO: 338 node relations
+     - REGULATES: 264 node relations
+     - APPROVES: 252 node relations
+     - ISSUES: 245 node relations
+     - SIGNED_BY: 213 node relations
+     - HOLDS_ROLE: 176 node relations
+     - FUNDS: 168 node relations
+     - PART_OF: 132 node relations
+     - ESTABLISHES: 132 node relations
+     - LOCATED_IN: 121 node relations
+     - SUBMITS_TO: 120 node relations
+     - DEFINED_IN: 116 node relations
+     - LEADS: 116 node relations
+     - MANAGES: 108 node relations
+     - BASED_ON: 108 node relations
+     - COOPERATES_WITH: 99 node relations
+     - NOTIFIED_TO: 72 node relations
+     - COORDINATES_WITH: 68 node relations
+     - GUIDES: 64 node relations
+     - DECIDES: 60 node relations
+     - MUST_COMPLY_WITH: 60 node relations
+     - GUIDES_IMPLEMENTATION_OF: 60 node relations
+     - PREPARES: 60 node relations
+     - DECIDES_FOR: 60 node relations
+     - ASSISTS: 54 node relations
+     - REVOKES: 48 node relations
+     - PROPOSED_FOR: 48 node relations
+     - MUST_HAVE: 48 node relations
+     - EXECUTES: 48 node relations
+     - SUBORDINATE_TO: 44 node relations
+     - COLLABORATES_WITH: 36 node relations
+     - HEADS: 36 node relations
+     - COORDINATES: 36 node relations
+     - EXEMPTS: 34 node relations
+     - PROVIDES_INFO_TO: 24 node relations
+     - DECLARES: 24 node relations
+     - PERFORMS: 24 node relations
+     - ELECTS: 24 node relations
+     - PROPOSES_APPOINTMENT_FOR: 24 node relations
+     - SUBMITTED_TO: 24 node relations
+     - COOPERATES_IN_PROPOSING: 24 node relations
+     - SUBMITS: 24 node relations
+     - USES: 24 node relations
+     - DECIDES_FORMATION_OF: 24 node relations
+     - SUPPORTS: 20 node relations
+     - RECOMMENDS_SAFETY_STATUS: 12 node relations
+     - ORGANIZES: 12 node relations
+     - IMPLEMENTS: 12 node relations
+     - LICENSES: 12 node relations
+     - PROPOSED: 12 node relations
+     - DEVELOPS: 12 node relations
+     - REGULATES_FORMAT: 12 node relations
+     - COMPILES: 12 node relations
+     - MONITORS: 12 node relations
+     - EXERCISES: 12 node relations
+     - REPRESENTS: 12 node relations
+     - MEMBER_OF: 12 node relations
+     - DIRECTS: 12 node relations
+     - PROPOSED_BY: 12 node relations
+     - MUST_COMMIT: 12 node relations
+     - MUST_NOT_DO: 12 node relations
+     - EXPIRES_BY: 12 node relations
+     - HAS_VALIDITY_PERIOD: 12 node relations
+     - PROPOSES: 12 node relations
+     - PARTICIPATES_IN: 12 node relations
+     - INITIATES: 12 node relations
+     - REVIEWES: 12 node relations
+     - RECEIVES_REPORT_FROM: 12 node relations
+     - PUBLISHES: 12 node relations
+     - ASSIGNS_TASKS_TO: 12 node relations
+     - GRANTS_TAX_BENEFIT: 12 node relations
+     - INVESTS_IN: 7 node relations
+     - WORKS_FOR: 6 node relations
+     - ASSIGNED_TO: 2 node relations
+  ============================================================
+  Run timestamp       : 2026-04-29 16:59:15
+  Original docs       : 2
+  Reference docs      : 11
+  Ghost nodes         : 92
+  Total chunks        : 1368
+  Total doc relations : 190
+  Total entities      : 2651
+  Total node relations: 9028
+  Qdrant collection   : legal_rag_docs_nam
+  
+  Document Edge label breakdown:
+    BASED_ON       : 144
+    REPEALS        : 16
+    AMENDS         : 14
+    REPLACES       : 8
+    GUIDES         : 4
+    APPLIES        : 2
+    ASSIGNS        : 1
+    APPLIES_TO     : 1
+  
+Entity type breakdown:
+    Concept        : 937
+    Organization   : 608
+    Location       : 357
+    Role           : 267
+    Timeframe      : 224
+    Procedure      : 122
+    Condition      : 70
+    Person         : 32
+    Fee            : 30
+    Penalty        : 4
+  
+Node Relation label breakdown:
+    ASSIGNS_TO     : 1579
+    REGULATED_BY   : 1078
+    MANAGED_BY     : 715
+    ISSUED_BY      : 630
+    APPLIES_TO     : 411
+    REQUIRED_FOR   : 384
+    REPORTS_TO     : 338
+    REGULATES      : 264
+    APPROVES       : 252
+    ISSUES         : 245
+    SIGNED_BY      : 213
+    HOLDS_ROLE     : 176
+    FUNDS          : 168
+    PART_OF        : 132
+    ESTABLISHES    : 132
+    LOCATED_IN     : 121
+    SUBMITS_TO     : 120
+    DEFINED_IN     : 116
+    LEADS          : 116
+    MANAGES        : 108
+    BASED_ON       : 108
+    COOPERATES_WITH: 99
+    NOTIFIED_TO    : 72
+    COORDINATES_WITH: 68
+    GUIDES         : 64
+    DECIDES        : 60
+    MUST_COMPLY_WITH: 60
+    GUIDES_IMPLEMENTATION_OF: 60
+    PREPARES       : 60
+    DECIDES_FOR    : 60
+    ASSISTS        : 54
+    REVOKES        : 48
+    PROPOSED_FOR   : 48
+    MUST_HAVE      : 48
+    EXECUTES       : 48
+    SUBORDINATE_TO : 44
+    COLLABORATES_WITH: 36
+    HEADS          : 36
+    COORDINATES    : 36
+    EXEMPTS        : 34
+    PROVIDES_INFO_TO: 24
+    DECLARES       : 24
+    PERFORMS       : 24
+    ELECTS         : 24
+    PROPOSES_APPOINTMENT_FOR: 24
+    SUBMITTED_TO   : 24
+    COOPERATES_IN_PROPOSING: 24
+    SUBMITS        : 24
+    USES           : 24
+    DECIDES_FORMATION_OF: 24
+    SUPPORTS       : 20
+    RECOMMENDS_SAFETY_STATUS: 12
+    ORGANIZES      : 12
+    IMPLEMENTS     : 12
+    LICENSES       : 12
+    PROPOSED       : 12
+    DEVELOPS       : 12
+    REGULATES_FORMAT: 12
+    COMPILES       : 12
+    MONITORS       : 12
+    EXERCISES      : 12
+    REPRESENTS     : 12
+    MEMBER_OF      : 12
+    DIRECTS        : 12
+    PROPOSED_BY    : 12
+    MUST_COMMIT    : 12
+    MUST_NOT_DO    : 12
+    EXPIRES_BY     : 12
+    HAS_VALIDITY_PERIOD: 12
+    PROPOSES       : 12
+    PARTICIPATES_IN: 12
+    INITIATES      : 12
+    REVIEWES       : 12
+    RECEIVES_REPORT_FROM: 12
+    PUBLISHES      : 12
+    ASSIGNS_TASKS_TO: 12
+    GRANTS_TAX_BENEFIT: 12
+    INVESTS_IN     : 7
+    WORKS_FOR      : 6
+    ASSIGNED_TO    : 2
+
+============================================================
+QUERY BENCHMARK — QDRANT + NEO4J
+============================================================
+
+── QDRANT ──
+  [OK ] Dense search (top-5)                                 113.4ms  hits=5
+  [OK ] Sparse (BM25) search (top-5)                          18.7ms  hits=5
+  [OK ] Hybrid search RRF (top-5)                             54.9ms  hits=5
+  [OK ] Filter: legal_type='Luật' (top-5)                    173.6ms  hits=5
+  [OK ] Filter: year='2015' (top-5)                           99.6ms  hits=5
+  [OK ] Scroll filter: is_table=True (limit=10)               40.1ms  hits=10
+
+── NEO4J ──
+  [OK ] Count total Document nodes                            47.5ms  hits=1
+  [OK ] Count total relationships                             12.6ms  hits=1
+  [OK ] Count ghost nodes (is_ghost=true)                     27.5ms  hits=1
+  [OK ] Find doc by number '80/2015/QH13'                     24.8ms  hits=0
+  [OK ] Get all relations of doc '80/2015/QH13'               36.4ms  hits=0
+  [OK ] Find REPEALS edges (limit 10)                         25.9ms  hits=0
+  [OK ] Find GUIDES edges (limit 10)                          19.2ms  hits=4
+  [OK ] Shortest path (2 hops) between any 2 docs            120.0ms  hits=1
+  [OK ] Count edges grouped by relation type                  54.9ms  hits=80
+
+-> Đã lưu report ra: d:\iCOMM\Legal-RAG\result_8k.txt
+
+[DONE] Ingestion process completed successfully!

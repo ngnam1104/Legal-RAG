@@ -13,10 +13,9 @@ if hasattr(sys.stdout, 'reconfigure'):
 # ==========================================
 # THÔNG TIN CÁC ENDPOINT API NỘI BỘ
 # ==========================================
-from backend.llm.factory import get_client
-from backend.retrieval.reranker import reranker as internal_reranker
-from backend.retrieval.embedder import embedder as internal_embedder
-from backend.config import settings
+from backend.models.llm_factory import get_client
+from backend.models.reranker import reranker as internal_reranker
+from backend.models.embedder import embedder as internal_embedder
 
 # ICLLM Client
 llm_client = get_client()

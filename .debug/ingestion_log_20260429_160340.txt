@@ -1,0 +1,5 @@
+📝 Logging tức thời vào file: d:\iCOMM\Legal-RAG\backend\ingestion\..\..\.debug/ingestion_log_20260429_160340.txt
+--- TEST MODE: 2 samples | SKIP_LLM=False | Collection: legal_rag_docs_nam             ---
+Environment setup complete (Project Root: d:\iCOMM\Legal-RAG)
+-> Đã đọc 8000 IDs văn bản từ CSV.
+-> Đang tải dataset từ HuggingFace (offline cache)...

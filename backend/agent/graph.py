@@ -9,18 +9,13 @@ from langgraph.graph import StateGraph, END, START
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 
 import logging
-from backend.llm.factory import chat_completion
+from backend.models.llm_factory import chat_completion
 from backend.agent.query_router import RouteIntent, router
 from backend.utils.document_parser import parser
-from backend.config import settings
-
 # Tích hợp hệ thống Framework mới
 from backend.agent.state import AgentState
-from backend.agent.strategies.base import BaseRAGStrategy
-from backend.agent.strategies.legal_qa import LegalQAStrategy
-from backend.agent.strategies.sector_search import SectorSearchStrategy
-from backend.agent.strategies.conflict_analyzer import ConflictAnalyzerStrategy
-from backend.agent.utils.utils_general_chat import execute_general_chat
+from backend.agent.legal_chat import BaseRAGStrategy, LegalChatStrategy
+from backend.agent.utils_general import execute_general_chat
 
 logger = logging.getLogger("graph")
 
@@ -29,15 +24,8 @@ logger = logging.getLogger("graph")
 # --- HELPERS (DELEGATE FACTORY) ---
 
 def get_strategy(mode: str) -> BaseRAGStrategy:
-    mode_upper = str(mode).upper() if mode else ""
-    if mode_upper == RouteIntent.LEGAL_QA:
-        return LegalQAStrategy()
-    elif mode_upper == RouteIntent.SECTOR_SEARCH:
-        return SectorSearchStrategy()
-    elif mode_upper == RouteIntent.CONFLICT_ANALYZER:
-        return ConflictAnalyzerStrategy()
-    else:
-        return LegalQAStrategy() # Fallback
+    """Tất cả mọi mode pháp lý đều sử dụng LegalChatStrategy (GraphRAG)."""
+    return LegalChatStrategy()
 
 def node_timer(name: str):
     """Decorator to measure and log node execution time.
@@ -160,7 +148,7 @@ def node_general_chat(state: AgentState):
     return {"answer": answer, "thinking_content": thinking, "draft_response": answer, "final_response": answer}
 
 
-# --- UNIVERSAL 5-STAGE RAG NODES (Vector-to-Graph) ---
+# --- UNIVERSAL RAG NODES (GraphRAG) ---
 
 @node_timer("1. Understand")
 def node_understand(state: AgentState):
@@ -171,8 +159,6 @@ def node_understand(state: AgentState):
         logger.info(f"       🧠 [Understand] Nới lỏng bộ lọc do Retry {state.get('retry_count')}")
         state["router_filters"] = {}
         
-    # Fix 2.2: retry_count is now managed by router_grade, not here.
-    # This prevents premature increment on first pass.
     result = strategy.understand(state)
     return result
 
@@ -182,12 +168,11 @@ def node_retrieve(state: AgentState):
     strategy = get_strategy(mode)
     return strategy.retrieve(state)
 
-@node_timer("4. Generate")
+@node_timer("3. Generate")
 def node_generate(state: AgentState):
     mode = state.get("detected_mode") or state.get("mode")
     strategy = get_strategy(mode)
     
-    # generate handles final formatting without reflect
     result = strategy.generate(state)
     
     # Backward compatibility mapping
@@ -199,17 +184,21 @@ def node_generate(state: AgentState):
         from backend.utils.text_utils import extract_thinking_and_answer
         thinking, answer = extract_thinking_and_answer(answer)
     else:
-        # Nếu đã có thinking (vd từ model hỗ trợ native reasoning), 
-        # ta vẫn nên quét xem trong answer có bị leak thêm thinking tag không
         from backend.utils.text_utils import extract_thinking_and_answer
         extra_thinking, answer = extract_thinking_and_answer(answer)
         if extra_thinking:
             thinking = thinking + "\n\n" + extra_thinking
     
-    # Update for current state
     result["answer"] = answer
     result["thinking_content"] = thinking
     return result
+
+@node_timer("4. Reflect")
+def node_reflect(state: AgentState):
+    """Reviewer Agent: kiểm tra ảo giác và chất lượng câu trả lời."""
+    mode = state.get("detected_mode") or state.get("mode")
+    strategy = get_strategy(mode)
+    return strategy.reflect(state)
 
 
 # --- ROUTERS ---
@@ -223,20 +212,46 @@ def router_dispatcher(state: AgentState):
     logger.info(f"       🔀 Dispatcher: Routing to 'rag_pipeline' ({mode})")
     return "rag_pipeline"
 
-def router_generate(state: AgentState):
-    """Điều hướng vòng lặp Batching hoặc kết thúc."""
+def router_after_generate(state: AgentState):
+    """Điều hướng sau Generate: vào Reflect hoặc kết thúc."""
+    use_reflection = state.get("use_reflection", False)
     pending = state.get("pending_tasks", [])
+    
+    if use_reflection:
+        logger.info(f"       🔄 router_after_generate: → reflect")
+        return "reflect"
+    
     if pending:
-        logger.info(f"       🔄 Generator: {len(pending)} pending tasks remaining. Looping back to 'understand'")
+        logger.info(f"       🔄 router_after_generate: {len(pending)} pending tasks. → reset_for_batch")
         return "loop_next_batch"
         
-    logger.info(f"       🏁 Generator: No pending tasks. Ending workflow")
+    logger.info(f"       🏁 router_after_generate: → END")
+    return "end"
+
+def router_after_reflect(state: AgentState):
+    """Điều hướng sau Reflect: pass → END, fail → retry generate (max 1 lần)."""
+    pass_flag = state.get("pass_flag", True)
+    retry_count = state.get("retry_count", 0)
+    pending = state.get("pending_tasks", [])
+    
+    if pass_flag:
+        if pending:
+            logger.info(f"       ✅ Reflect passed + {len(pending)} pending → reset_for_batch")
+            return "loop_next_batch"
+        logger.info(f"       ✅ Reflect passed → END")
+        return "end"
+    
+    # Fail: retry generate tối đa 1 lần
+    if retry_count < 1:
+        logger.info(f"       ❌ Reflect failed (retry_count={retry_count}) → bump_retry → generate")
+        return "retry_generate"
+    
+    logger.info(f"       ❌ Reflect failed but max retries reached → END")
     return "end"
 
 
 # --- ASSEMBLE GRAPH ---
 
-# Fix 2.1: Router to bypass condense when no history
 def router_preprocess(state: AgentState):
     """Skip condense node if no chat history exists."""
     history = state.get("history", [])
@@ -244,7 +259,6 @@ def router_preprocess(state: AgentState):
         return "condense"
     return "detect_only"
 
-# Fix 2.2: Increment retry_count atomically when grade triggers retry
 def node_increment_retry(state: AgentState):
     """Bump retry_count before re-entering understand on CRAG retry."""
     return {"retry_count": state.get("retry_count", 0) + 1}
@@ -263,18 +277,19 @@ class LegalRAGWorkflow:
     def _add_nodes(self):
         self.workflow.add_node("preprocess", node_preprocess)
         self.workflow.add_node("condense", node_condense)
-        self.workflow.add_node("detect_only", node_detect_mode_only)  # Fix 2.1
+        self.workflow.add_node("detect_only", node_detect_mode_only)
         self.workflow.add_node("general", node_general_chat)
         self.workflow.add_node("understand", node_understand)
         self.workflow.add_node("retrieve", node_retrieve)
         self.workflow.add_node("generate", node_generate)
-        self.workflow.add_node("bump_retry", node_increment_retry)  # Fix 2.2
+        self.workflow.add_node("reflect", node_reflect)
+        self.workflow.add_node("bump_retry", node_increment_retry)
         self.workflow.add_node("reset_for_batch", node_reset_for_batch)
 
     def _add_edges(self):
         self.workflow.add_edge(START, "preprocess")
         
-        # Fix 2.1: Conditional bypass of condense when no history
+        # Conditional bypass of condense when no history
         self.workflow.add_conditional_edges(
             "preprocess",
             router_preprocess,
@@ -303,19 +318,36 @@ class LegalRAGWorkflow:
         )
         self.workflow.add_edge("general", END)
 
-        # RAG Pipeline Flow: Understand → Retrieve(+Graph) → Generate
+        # RAG Pipeline Flow: Understand → Retrieve → Generate
         self.workflow.add_edge("understand", "retrieve")
         self.workflow.add_edge("retrieve", "generate")
 
+        # After Generate: → Reflect (if enabled) | → END | → loop_next_batch
         self.workflow.add_conditional_edges(
             "generate",
-            router_generate,
+            router_after_generate,
             {
+                "reflect": "reflect",
                 "end": END,
                 "loop_next_batch": "reset_for_batch"
             }
         )
 
+        # After Reflect: → END | → retry generate | → loop_next_batch
+        self.workflow.add_conditional_edges(
+            "reflect",
+            router_after_reflect,
+            {
+                "end": END,
+                "retry_generate": "bump_retry",
+                "loop_next_batch": "reset_for_batch"
+            }
+        )
+
+        # Retry loop: bump_retry → generate (re-enter generate with corrected info)
+        self.workflow.add_edge("bump_retry", "generate")
+
+        # Batch loop
         self.workflow.add_edge("reset_for_batch", "understand")
 
     def build(self):
@@ -324,4 +356,3 @@ class LegalRAGWorkflow:
 # Backward compatibility for chat_engine.py
 workflow_instance = LegalRAGWorkflow()
 app = workflow_instance.build()
-

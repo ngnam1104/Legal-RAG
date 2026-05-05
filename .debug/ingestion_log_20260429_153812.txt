@@ -1,0 +1,528 @@
+📝 Logging tức thời vào file: d:\iCOMM\Legal-RAG\backend\ingestion\..\..\.debug/ingestion_log_20260429_153812.txt
+--- TEST MODE: 2 samples | SKIP_LLM=False | Collection: legal_rag_docs_nam             ---
+Environment setup complete (Project Root: d:\iCOMM\Legal-RAG)
+-> Đã đọc 8000 IDs văn bản từ CSV.
+-> Đang tải dataset từ HuggingFace (offline cache)...
+Loaded and mapped 518255 metadata records.
+-> KHÔNG sử dụng Checkpoint (sẽ chạy lại từ đầu).
+
+============================================================
+PHASE 1: Chunking ORIGINAL documents
+============================================================
+      [Pha 1] 🚀 Tìm thấy 4 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 17/2011/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 17/2011/NĐ-CP --[BASED_ON]--> Luật Phòng, Chống Ma Túy Ngày 09 Tháng 12 năm 2000
+      [DEBUG] ✓ Đã LƯU: 17/2011/NĐ-CP --[AMENDS]--> 67/2001/NĐ-CP tại Điều 1
+      [DEBUG] ✓ Đã LƯU: 17/2011/NĐ-CP --[AMENDS]--> 163/2007/NĐ-CP tại Khoản 3 Điều 1
+      [ENTITY] 📦 (17/2011/NĐ-CP): Organization=[Chính phủ, Bộ Công an, Bộ Y tế...]; Person=[Nguyễn Tấn Dũng]; Role=[Thủ tướng, Bộ trưởng]; Concept=[TFMPP, 2C-E, BZP...]
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)17/2011/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng
+      [NODE REL] 🔗 (Organization)Bộ Công an --[PROPOSED_FOR]--> (Document)17/2011/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[PROPOSED_FOR]--> (Document)17/2011/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công Thương --[PROPOSED_FOR]--> (Document)17/2011/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Khoa học và Công nghệ --[PROPOSED_FOR]--> (Document)17/2011/NĐ-CP
+      [NODE REL] 🔗 (Organization)Các Bộ trưởng, Thủ trưởng cơ quan ngang Bộ, Thủ trưởng cơ quan thuộc Chính phủ, Chủ tịch Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)17/2011/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 3 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Thể thao - Y tế: 2 văn bản
+   - Giao thông - Vận tải: 1 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - BASED_ON: 3 relations
+   - AMENDS: 2 relations
+   - ASSIGNS: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Tổng quan hệ thường (chủ động):     6
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+============================================================
+PHASE 1 complete: 27 chunks | 5 reference docs to process.
+
+============================================================
+PHASE 2: Chunking REFERENCE documents (exist in dataset)
+============================================================
+      [Pha 1] 🚀 Tìm thấy 7 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 12/2017/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 12/2017/NĐ-CP --[BASED_ON]--> 123/2016/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 12/2017/NĐ-CP --[BASED_ON]--> 141/2016/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 12/2017/NĐ-CP --[REPLACES]--> 107/2012/NĐ-CP
+      [ENTITY] 📦 (12/2017/NĐ-CP): Organization=[Chính phủ, Bộ Giao thông vận tải, Quốc hội...]; Person=[Nguyễn Xuân Phúc]; Role=[Thủ tướng Chính phủ, Bộ trưởng Bộ Giao thông vận tải, Chủ tịch Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương...]; Document=[Nghị định số 123/2016/NĐ-CP, Nghị định số 141/2016/NĐ-CP, Nghị định số 107/2012/NĐ-CP]; Timeframe=[ngày 26 tháng 3 năm 2017]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)12/2017/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Xuân Phúc --[SIGNED_BY]--> (Document)12/2017/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Xuân Phúc --[HOLDS_ROLE]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Giao thông vận tải --[REGULATED_BY]--> (Document)12/2017/NĐ-CP
+      [NODE REL] 🔗 (Organization)Tổng cục Đường bộ Việt Nam --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Cục Hàng hải Việt Nam --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Cục Hàng không Việt Nam --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Cục Đường sắt Việt Nam --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Cục Đường thủy nội địa Việt Nam --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Cục Đăng kiểm Việt Nam --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Cục Quản lý xây dựng và Chất lượng công trình giao thông --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Cục Y tế giao thông vận tải --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Văn phòng Thường trực của Ban Thư ký IMO Việt Nam --[PART_OF]--> (Organization)Cục Hàng hải Việt Nam
+      [NODE REL] 🔗 (Organization)Trung tâm Công nghệ thông tin --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Viện Chiến lược và Phát triển giao thông vận tải --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Trường Cán bộ quản lý giao thông vận tải --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Báo Giao thông --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Tạp chí Giao thông vận tải --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [Pha 1] 🚀 Tìm thấy 1 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 30/2021/QH15 --[BASED_ON]--> Hiến Pháp
+      [DEBUG] ✓ Đã LƯU: 30/2021/QH15 --[BASED_ON]--> 57/2014/QH13
+      [DEBUG] ✓ Đã LƯU: 30/2021/QH15 --[BASED_ON]--> 65/2020/QH14
+      [ENTITY] 📦 (30/2021/QH15): Organization=[Quốc hội, Ủy ban Thường vụ Quốc hội, Chính phủ...]; Role=[Chủ tịch nước, Chủ tịch Quốc hội, Thủ tướng Chính phủ...]; Timeframe=[nhiệm kỳ 2021-2026, 6 tháng đầu năm, 6 tháng cuối năm 2021...]; Concept=[kế hoạch phát triển kinh tế - xã hội, ngân sách nhà nước, công tác thực hành tiết kiệm, chống lãng phí...]
+      [Pha 1] 🚀 Tìm thấy 5 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 67/2001/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 67/2001/NĐ-CP --[BASED_ON]--> Luật Phòng, Chống Ma Tuý Ngày 09 Tháng 12 năm 2000
+      [ENTITY] 📦 (67/2001/NĐ-CP): Organization=[Chính phủ, Bộ Công an, Bộ Y tế...]; Person=[Phan Văn Khải]; Document=[Nghị định số 67/2001/NĐ-CP, Công ước của Liên hợp quốc năm 1961, Công ước của Liên hợp quốc năm 1971]; LegalArticle=[Điều 1, Điều 2, Điều 3]; Concept=[Chất ma tuý, Tiền chất, Danh mục I...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)Nghị định số 67/2001/NĐ-CP
+      [NODE REL] 🔗 (Person)Phan Văn Khải --[SIGNED_BY]--> (Document)Nghị định số 67/2001/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công an --[ASSIGNS_TO]--> (Document)Nghị định số 67/2001/NĐ-CP
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan thuộc Chính phủ --[ASSIGNS_TO]--> (Document)Nghị định số 67/2001/NĐ-CP
+      [NODE REL] 🔗 (Role)Chủ tịch ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)Nghị định số 67/2001/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 56 đoạn văn quan trọng. Đang xử lý 5 mẻ (12 đoạn/prompt)...
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Quốc hội, Chính phủ, Ủy ban thường vụ Quốc hội]; Role=[Thủ tướng Chính phủ, Phó Thủ tướng Chính phủ, Bộ trưởng...]; Document=[Hiến pháp, Luật tổ chức Chính phủ, 76/2015/QH13]; Concept=[quyền hành pháp, tập trung dân chủ, bình đẳng giới...]
+      [NODE REL] 🔗 (Document)76/2015/QH13 --[ISSUED_BY]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Document)76/2015/QH13 --[BASED_ON]--> (Document)Hiến pháp
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPORTS_TO]--> (Role)Chủ tịch nước
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[HEADS]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[HEADS]--> (Concept)hệ thống hành chính nhà nước
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Chính phủ, Quốc hội, Ủy ban thường vụ Quốc hội...]; LegalArticle=[Điều 11, Điều 12, Điều 13...]; Concept=[giáo dục và đào tạo, văn hóa, thể thao và du lịch, thông tin và truyền thông...]; Role=[người lao động, người sử dụng lao động, người có công...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)giáo dục và đào tạo
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)văn hóa, thể thao và du lịch
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)thông tin và truyền thông
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)y tế, chăm sóc sức khỏe của Nhân dân và dân số
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)chính sách xã hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)công tác dân tộc
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)tín ngưỡng, tôn giáo
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)quốc phòng
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)cơ yếu
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)an ninh quốc gia, trật tự, an toàn xã hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REGULATED_BY]--> (Concept)quyền con người, quyền công dân
+      [NODE REL] 🔗 (Organization)Chính phủ --[MANAGED_BY]--> (Concept)đối ngoại và hội nhập quốc tế
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Organization)Chủ tịch nước
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Organization)Hội đồng quốc phòng và an ninh
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Chính phủ, Quốc hội, Ủy ban thường vụ Quốc hội...]; Role=[Bộ trưởng, Thủ trưởng cơ quan ngang bộ, Thủ tướng Chính phủ...]; LegalArticle=[Điều 33, Điều 34, Điều 35...]; Concept=[Nhiệm vụ và quyền hạn, Trách nhiệm, Cơ cấu tổ chức...]; Procedure=[Bổ nhiệm, Miễn nhiệm, Cách chức...]
+      [NODE REL] 🔗 (Role)Bộ trưởng --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan ngang bộ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[MANAGED_BY]--> (Organization)Bộ
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan ngang bộ --[MANAGED_BY]--> (Organization)Cơ quan ngang bộ
+      [NODE REL] 🔗 (Role)Thứ trưởng --[ASSIGNS_TO]--> (Role)Bộ trưởng
+      [NODE REL] 🔗 (Role)Phó Thủ trưởng cơ quan ngang bộ --[ASSIGNS_TO]--> (Role)Thủ trưởng cơ quan ngang bộ
+      [NODE REL] 🔗 (Organization)Bộ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Cơ quan ngang bộ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Văn phòng Chính phủ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Văn phòng Chính phủ --[ASSIGNS_TO]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng, Chủ nhiệm Văn phòng Chính phủ --[MANAGED_BY]--> (Organization)Văn phòng Chính phủ
+      [NODE REL] 🔗 (Organization)Cơ quan thuộc Chính phủ --[ISSUED_BY]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan thuộc Chính phủ --[REGULATED_BY]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan thuộc Chính phủ --[REGULATED_BY]--> (Role)Thủ tướng Chính phủ
+      [DEBUG] ✓ Đã LƯU: 76/2015/QH13 --[REPEALS]--> 32/2001/QH10
+      [ENTITY] 📦 (76/2015/QH13): Organization=[Chính phủ, Quốc hội, Hội đồng dân tộc...]; Person=[Nguyễn Sinh Hùng]; Role=[Thủ tướng Chính phủ, Chủ tịch nước, Thành viên Chính phủ...]; Document=[Luật tổ chức Chính phủ số 32/2001/QH10]; Timeframe=[mỗi tháng một phiên, ít nhất một phần ba tổng số thành viên Chính phủ, ít nhất hai phần ba tổng số thành viên Chính phủ...]; Concept=[chế độ tập thể, quyết định theo đa số, chính sách dân tộc...]
+      [NODE REL] 🔗 (Organization)Quốc hội --[ISSUED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Person)Nguyễn Sinh Hùng --[SIGNED_BY]--> (Document)76/2015/QH13
+      [NODE REL] 🔗 (Person)Nguyễn Sinh Hùng --[HOLDS_ROLE]--> (Role)Chủ tịch Quốc hội
+      [NODE REL] 🔗 (Organization)Quốc hội --[DECIDES_BUDGET]--> (Concept)ngân sách nhà nước
+      [NODE REL] 🔗 (Organization)Chính phủ --[CONSULTS]--> (Organization)Hội đồng dân tộc
+      [Pha 1] 🚀 Tìm thấy 3 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 163/2007/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 163/2007/NĐ-CP --[BASED_ON]--> Luật Phòng, Chống Ma Tuý Ngày 09 Tháng 12 năm 2000
+      [DEBUG] ✓ Đã LƯU: 163/2007/NĐ-CP --[AMENDS]--> 67/2001/NĐ-CP
+      [ENTITY] 📦 (163/2007/NĐ-CP): Organization=[Chính phủ, Bộ Công an, Bộ Y tế...]; Person=[Nguyễn Tấn Dũng]; Role=[Thủ tướng Chính phủ, Bộ trưởng Bộ Công an, Bộ trưởng Bộ Y tế...]; Timeframe=[15 ngày]; LegalArticle=[Điều 1, Điều 2]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)163/2007/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)163/2007/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Công an --[PROPOSED_FOR]--> (Document)163/2007/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Y tế --[PROPOSED_FOR]--> (Document)163/2007/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công thương --[PROPOSED_FOR]--> (Document)163/2007/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Khoa học và Công nghệ --[PROPOSED_FOR]--> (Document)163/2007/NĐ-CP
+      [NODE REL] 🔗 (Organization)Các Bộ trưởng, Thủ trưởng cơ quan ngang Bộ, Thủ trưởng cơ quan thuộc Chính phủ, Chủ tịch Ủy ban nhân dân các tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)163/2007/NĐ-CP
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Thể thao - Y tế: 4 văn bản
+   - Bộ máy hành chính: 3 văn bản
+   - Giao thông - Vận tải: 2 văn bản
+   - Trách nhiệm hình sự: 2 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - BASED_ON: 15 relations
+   - AMENDS: 3 relations
+   - ASSIGNS: 1 relations
+   - REPLACES: 1 relations
+   - REPEALS: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Tổng quan hệ thường (chủ động):     21
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+============================================================
+PHASE 2 complete: 5 reference docs -> 144 additional chunks.
+SUMMARY: 7 documents total -> 171 chunks.
+
+============================================================
+PHASE 3: Chunking REFERENCE documents (Depth=2)
+============================================================
+      [Pha 1] 🚀 Tìm thấy 107 đoạn văn quan trọng. Đang xử lý 9 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 57/2014/QH13 --[BASED_ON]--> Hiến Pháp
+      [ENTITY] 📦 (57/2014/QH13): Organization=[Quốc hội, Ủy ban thường vụ Quốc hội, Hội đồng dân tộc...]; Role=[Chủ tịch nước, Phó Chủ tịch nước, Chủ tịch Quốc hội...]; LegalArticle=[Điều 8, Điều 9, Điều 12]; Procedure=[Miễn nhiệm, Bãi nhiệm, Cách chức...]; Concept=[Tín nhiệm thấp, Không tín nhiệm, Từ chức...]; Location=[Tỉnh, Thành phố trực thuộc trung ương, Đơn vị hành chính - kinh tế đặc biệt...]
+      [NODE REL] 🔗 (Organization)Quốc hội --[REGULATED_BY]--> (Role)Chủ tịch nước
+      [NODE REL] 🔗 (Organization)Quốc hội --[REGULATED_BY]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Quốc hội --[REGULATED_BY]--> (Role)Chánh án Tòa án nhân dân tối cao
+      [NODE REL] 🔗 (Organization)Quốc hội --[REGULATED_BY]--> (Role)Viện trưởng Viện kiểm sát nhân dân tối cao
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[ASSIGNS_TO]--> (Procedure)Bỏ phiếu tín nhiệm
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[REQUIRED_FOR]--> (Procedure)Bỏ phiếu tín nhiệm
+      [NODE REL] 🔗 (Organization)Hội đồng dân tộc --[ASSIGNS_TO]--> (Procedure)Bỏ phiếu tín nhiệm
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Procedure)Thành lập, bãi bỏ bộ
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[ASSIGNS_TO]--> (Procedure)Bãi bỏ văn bản
+      [NODE REL] 🔗 (Role)Chủ tịch nước --[ASSIGNS_TO]--> (Procedure)Đại xá
+      [NODE REL] 🔗 (Organization)Hội đồng quốc phòng và an ninh --[ASSIGNS_TO]--> (Procedure)Quyết định tình trạng chiến tranh
+      [NODE REL] 🔗 (Role)Chủ tịch nước --[ASSIGNS_TO]--> (Procedure)Phê chuẩn điều ước quốc tế
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[ASSIGNS_TO]--> (Procedure)Trưng cầu ý dân
+      [NODE REL] 🔗 (Organization)Chính phủ --[ASSIGNS_TO]--> (Procedure)Trưng cầu ý dân
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[REQUIRED_FOR]--> (Procedure)Trưng cầu ý dân
+      [NODE REL] 🔗 (Organization)Ủy ban trung ương Mặt trận Tổ quốc Việt Nam --[ASSIGNS_TO]--> (Procedure)Xem xét báo cáo ý kiến cử tri
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[APPLIES_TO]--> (Concept)Nhân dân
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[REGULATED_BY]--> (Concept)Cử tri
+      [ENTITY] 📦 (57/2014/QH13): Organization=[Quốc hội, Đoàn đại biểu Quốc hội, Hội đồng dân tộc...]; Role=[Đại biểu Quốc hội, Đại biểu Quốc hội hoạt động chuyên trách, Đại biểu Quốc hội hoạt động không chuyên trách...]; LegalArticle=[Điều 23 Luật 57/2014/QH13, Điều 24 Luật 57/2014/QH13, Điều 25 Luật 57/2014/QH13...]; Timeframe=[một phần ba thời gian làm việc trong năm, 15 ngày]; Concept=[Hiến pháp, luật, pháp lệnh...]
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[PART_OF]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[PART_OF]--> (Organization)Đoàn đại biểu Quốc hội
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[PART_OF]--> (Organization)Hội đồng dân tộc
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[PART_OF]--> (Organization)Ủy ban của Quốc hội
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[REGULATED_BY]--> (Role)Cử tri
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[AFFECTS]--> (Role)Chủ tịch nước
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[AFFECTS]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[AFFECTS]--> (Role)Bộ trưởng
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[AFFECTS]--> (Role)Chánh án Tòa án nhân dân tối cao
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[AFFECTS]--> (Role)Viện trưởng Viện kiểm sát nhân dân tối cao
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[AFFECTS]--> (Role)Tổng Kiểm toán nhà nước
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[REGULATED_BY]--> (Concept)Hiến pháp
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[REGULATED_BY]--> (Concept)luật
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[REGULATED_BY]--> (Concept)pháp lệnh
+      [ENTITY] 📦 (57/2014/QH13): Organization=[Quốc hội, Hội đồng nhân dân, Ủy ban thường vụ Quốc hội...]; Role=[Đại biểu Quốc hội, Chủ tịch Quốc hội, Phó Chủ tịch Quốc hội...]; LegalArticle=[Điều 35, Điều 36, Điều 37...]; Concept=[Quyền yêu cầu cung cấp thông tin, Quyền tham dự kỳ họp Hội đồng nhân dân, Quyền miễn trừ...]; Location=[Tỉnh, Thành phố trực thuộc trung ương, Địa phương]; Procedure=[Bắt, giam, giữ, khởi tố, Khám xét nơi ở và nơi làm việc, Bãi nhiệm, cách chức, buộc thôi việc, sa thải...]; Condition=[Phạm tội quả tang, Không còn xứng đáng với sự tín nhiệm của Nhân dân, Lý do sức khoẻ...]
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[REQUESTS_INFO_FROM]--> (Organization)Cơ quan, tổ chức, cá nhân
+      [NODE REL] 🔗 (Person)Người đứng đầu cơ quan, tổ chức hoặc cá nhân --[RESPONDS_TO]--> (Role)Đại biểu Quốc hội
+      [NODE REL] 🔗 (Role)Đại biểu Quốc hội --[ATTENDS]--> (Procedure)Kỳ họp Hội đồng nhân dân
+      [NODE REL] 🔗 (Role)Chủ tịch Hội đồng nhân dân --[INVITES]--> (Role)Đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Quốc hội --[APPROVES]--> (Procedure)Việc bắt, giam, giữ, khởi tố đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[APPROVES]--> (Procedure)Việc bắt, giam, giữ, khởi tố đại biểu Quốc hội
+      [NODE REL] 🔗 (Role)Viện trưởng Viện kiểm sát nhân dân tối cao --[HAS_AUTHORITY_OVER]--> (Procedure)Việc đề nghị bắt, giam, giữ, khởi tố đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[APPROVES]--> (Procedure)Việc bãi nhiệm, cách chức, buộc thôi việc, sa thải đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Quốc hội --[DECIDES_ON]--> (Procedure)Việc xin thôi làm nhiệm vụ đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[DECIDES_ON]--> (Procedure)Việc xin thôi làm nhiệm vụ đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[DECIDES_ON]--> (Procedure)Việc tạm đình chỉ nhiệm vụ đại biểu Quốc hội
+      [NODE REL] 🔗 (Document)Bản án, quyết định của Tòa án --[TERMINATES]--> (Concept)Quyền đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Quốc hội --[REMOVES]--> (Role)Đại biểu Quốc hội
+      [NODE REL] 🔗 (Role)Cử tri --[REMOVES]--> (Role)Đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[REGULATES]--> (Fee)Phụ cấp và các chế độ khác của đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Ngân sách nhà nước --[FUNDS]--> (Fee)Phụ cấp của đại biểu Quốc hội không hưởng lương
+      [NODE REL] 🔗 (Organization)Cơ quan, tổ chức có thẩm quyền --[ASSIGNS_JOB_TO]--> (Role)Đại biểu Quốc hội hoạt động chuyên trách
+      [NODE REL] 🔗 (Organization)Đoàn đại biểu Quốc hội --[ORGANIZES_ACTIVITIES_FOR]--> (Role)Đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Đoàn đại biểu Quốc hội --[MANAGES]--> (Organization)Văn phòng Đoàn đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Ngân sách nhà nước --[FUNDS]--> (Fee)Kinh phí hoạt động của Đoàn đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Quốc hội --[ESTABLISHES]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Quốc hội --[ELECTS]--> (Person)Thành viên Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Person)Thành viên Ủy ban thường vụ Quốc hội --[IS_COLLECTIVELY_RESPONSIBLE_FOR]--> (Concept)Nhiệm vụ, quyền hạn của Ủy ban thường vụ Quốc hội
+      [ENTITY] 📦 (57/2014/QH13): Organization=[Quốc hội, Ủy ban thường vụ Quốc hội, Chính phủ...]; Role=[Chủ tịch Quốc hội, Phó Chủ tịch Quốc hội, Thành viên Ủy ban thường vụ Quốc hội...]; LegalArticle=[Điều 58, Điều 59, Điều 60...]; Timeframe=[hằng năm, mỗi tháng một phiên, 30 ngày...]; Concept=[trưng cầu ý dân, phiên họp Ủy ban thường vụ Quốc hội, chương trình hoạt động đối ngoại và hợp tác quốc tế...]
+      [NODE REL] 🔗 (Organization)Quốc hội --[MANAGED_BY]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[REGULATED_BY]--> (Organization)Tổ chức nghị sĩ hữu nghị Việt Nam
+      [NODE REL] 🔗 (Organization)Quốc hội --[APPLIES_TO]--> (Concept)trưng cầu ý dân
+      [NODE REL] 🔗 (Role)Chủ tịch Quốc hội --[MANAGED_BY]--> (Concept)phiên họp Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Role)Chủ tịch nước --[AFFECTS]--> (Concept)phiên họp Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Role)Thủ tướng Chính phủ --[AFFECTS]--> (Concept)phiên họp Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Role)Tổng thư ký Quốc hội --[PART_OF]--> (Role)Chủ nhiệm Văn phòng Quốc hội
+      [NODE REL] 🔗 (Organization)Chính phủ --[REQUIRED_FOR]--> (Concept)phiên họp Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Tòa án nhân dân tối cao --[REQUIRED_FOR]--> (Concept)phiên họp Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Viện kiểm sát nhân dân tối cao --[REQUIRED_FOR]--> (Concept)phiên họp Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Organization)Hội đồng dân tộc --[PART_OF]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban của Quốc hội --[PART_OF]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Organization)Quốc hội --[ASSIGNS_TO]--> (Role)Chủ tịch Hội đồng dân tộc
+      [NODE REL] 🔗 (Organization)Quốc hội --[ASSIGNS_TO]--> (Role)Chủ nhiệm Ủy ban của Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[ASSIGNS_TO]--> (Role)Phó Chủ tịch Hội đồng dân tộc
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[ASSIGNS_TO]--> (Role)Ủy viên thường trực
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[ASSIGNS_TO]--> (Role)Ủy viên chuyên trách
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[ASSIGNS_TO]--> (Role)Ủy viên khác
+      [NODE REL] 🔗 (Organization)Hội đồng dân tộc --[PART_OF]--> (Concept)tiểu ban
+      [NODE REL] 🔗 (Organization)Ủy ban của Quốc hội --[PART_OF]--> (Concept)tiểu ban
+      [DEBUG] ✓ Đã LƯU: 57/2014/QH13 --[REPEALS]--> 30/2001/QH10
+      [DEBUG] ✓ Đã LƯU: 57/2014/QH13 --[BASED_ON]--> 83/2007/QH11
+      [ENTITY] 📦 (57/2014/QH13): Organization=[Quốc hội, Tòa án nhân dân tối cao, Viện kiểm sát nhân dân tối cao...]; Person=[Nguyễn Sinh Hùng]; Role=[Chánh án Tòa án nhân dân tối cao, Viện trưởng Viện kiểm sát nhân dân tối cao, Thành viên Chính phủ...]; Document=[Luật tổ chức Quốc hội số 30/2001/QH10, Luật số 83/2007/QH11]; LegalArticle=[Điều 93, Điều 94, Điều 95...]; Timeframe=[20 ngày, 10 ngày, Ngày 01 tháng 01 năm 2016...]; Concept=[Biểu quyết công khai, Bỏ phiếu kín, Kinh phí hoạt động của Quốc hội...]
+      [NODE REL] 🔗 (Organization)Quốc hội --[APPOINTS]--> (Role)Tổng thư ký Quốc hội
+      [NODE REL] 🔗 (Role)Tổng thư ký Quốc hội --[HOLDS_ROLE]--> (Role)Chủ nhiệm Văn phòng Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[APPOINTS]--> (Role)Phó Chủ nhiệm Văn phòng Quốc hội
+      [NODE REL] 🔗 (Person)Nguyễn Sinh Hùng --[HOLDS_ROLE]--> (Role)Chủ tịch Quốc hội
+      [NODE REL] 🔗 (Organization)Quốc hội --[DECIDES]--> (Concept)Kinh phí hoạt động của Quốc hội
+      [NODE REL] 🔗 (Organization)Văn phòng Quốc hội --[MANAGES]--> (Concept)Kinh phí hoạt động của Quốc hội
+      [Pha 1] 🚀 Tìm thấy 48 đoạn văn quan trọng. Đang xử lý 4 mẻ (12 đoạn/prompt)...
+      [ENTITY] 📦 (32/2001/QH10): Organization=[Chính phủ, Quốc hội, Ủy ban thường vụ Quốc hội...]; Role=[Bộ trưởng, Thủ trưởng cơ quan ngang bộ, Thứ trưởng...]; LegalArticle=[Điều 22, Điều 23, Điều 24...]; Concept=[Quản lý nhà nước, Dịch vụ công, Doanh nghiệp có vốn nhà nước...]
+      [NODE REL] 🔗 (Organization)Bộ, cơ quan ngang bộ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Văn phòng Chính phủ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Organization)Văn phòng Chính phủ --[MANAGED_BY]--> (Role)Bộ trưởng, Chủ nhiệm Văn phòng Chính phủ
+      [NODE REL] 🔗 (Role)Thứ trưởng, Phó Thủ trưởng cơ quan ngang bộ --[ASSIGNS_TO]--> (Role)Bộ trưởng, Thủ trưởng cơ quan ngang bộ
+      [DEBUG] ✓ Đã LƯU: 32/2001/QH10 --[REPLACES]--> 76/2015/QH13
+      [ENTITY] 📦 (32/2001/QH10): Organization=[Chính phủ, Quốc hội, Uỷ ban thường vụ Quốc hội...]; Person=[Nguyễn Văn An]; Role=[Thủ tướng, Bộ trưởng, Chủ nhiệm Văn phòng Chính phủ...]; LegalArticle=[Điều 19, Điều 32, Điều 33...]; Document=[Công báo nước Cộng hoà xã hội chủ nghĩa Việt Nam, Luật tổ chức Quốc hội, Luật tổ chức Chính phủ ngày 30 tháng 9 năm 1992]; Timeframe=[mỗi tháng một lần, ít nhất hai phần ba, quá nửa...]; Concept=[chế độ kết hợp trách nhiệm của tập thể với việc đề cao quyền hạn và trách nhiệm cá nhân, phiên họp Chính phủ, ngân sách nhà nước]
+      [NODE REL] 🔗 (Person)Nguyễn Văn An --[SIGNED_BY]--> (Document)32/2001/QH10
+      [NODE REL] 🔗 (Organization)Quốc hội --[ISSUED_BY]--> (Document)32/2001/QH10
+      [NODE REL] 🔗 (Organization)Quốc hội --[DECIDES]--> (Concept)ngân sách nhà nước
+      [NODE REL] 🔗 (Organization)Chính phủ --[REPLACES]--> (Document)Luật tổ chức Chính phủ ngày 30 tháng 9 năm 1992
+      [Pha 1] 🚀 Tìm thấy 7 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 107/2012/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 107/2012/NĐ-CP --[BASED_ON]--> 36/2012/NĐ-CP
+      [DEBUG] ✓ Đã LƯU: 107/2012/NĐ-CP --[REPLACES]--> 51/2008/NĐ-CP tại Khoản 2 Điều 4
+      [ENTITY] 📦 (107/2012/NĐ-CP): Organization=[Chính phủ, Bộ Giao thông vận tải, Quốc hội...]; Person=[Nguyễn Tấn Dũng]; Role=[Bộ trưởng Bộ Giao thông vận tải, Thủ tướng Chính phủ, Phó Thủ tướng Chính phủ...]; Document=[Nghị định số 36/2012/NĐ-CP, Nghị định số 51/2008/NĐ-CP, Luật tổ chức Chính phủ ngày 25 tháng 12 năm 2001]; Timeframe=[ngày 15 tháng 02 năm 2013, ngày 20 tháng 12 năm 2012, ngày 18 tháng 4 năm 2012...]; LegalArticle=[Điều 1, Điều 2, Điều 3...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)107/2012/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[SIGNED_BY]--> (Document)107/2012/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Tấn Dũng --[HOLDS_ROLE]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Organization)Bộ Giao thông vận tải --[REGULATED_BY]--> (Document)107/2012/NĐ-CP
+      [NODE REL] 🔗 (Organization)Vụ Kế hoạch - Đầu tư --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Tổng cục Đường bộ Việt Nam --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Trung tâm Công nghệ thông tin --[PART_OF]--> (Organization)Bộ Giao thông vận tải
+      [NODE REL] 🔗 (Organization)Bộ Giao thông vận tải --[ASSIGNS_TO]--> (Document)107/2012/NĐ-CP
+      [Pha 1] 🚀 Tìm thấy 3 đoạn văn quan trọng. Đang xử lý 1 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 65/2020/QH14 --[AMENDS]--> 57/2014/QH13
+      [DEBUG] ✓ Đã LƯU: 65/2020/QH14 --[BASED_ON]--> Hiến Pháp
+      [DEBUG] ✓ Đã LƯU: 65/2020/QH14 --[REPEALS]--> 580/2018/UBTVQH14
+      [DEBUG] ✓ Đã LƯU: 65/2020/QH14 --[BASED_ON]--> 1097/2015/UBTVQH13
+      [ENTITY] 📦 (65/2020/QH14): Organization=[Quốc hội, Ủy ban thường vụ Quốc hội, Đoàn đại biểu Quốc hội...]; Person=[Nguyễn Thị Kim Ngân]; Role=[Chủ tịch Quốc hội, Đại biểu Quốc hội hoạt động chuyên trách, Đại biểu Quốc hội hoạt động không chuyên trách]; Timeframe=[01 tháng 01 năm 2021, nhiệm kỳ Quốc hội khóa XV, 01 tháng 7 năm 2021...]; LegalArticle=[Điều 22, Điều 23, Điều 26...]
+      [NODE REL] 🔗 (Organization)Quốc hội --[ISSUED_BY]--> (Document)65/2020/QH14
+      [NODE REL] 🔗 (Person)Nguyễn Thị Kim Ngân --[SIGNED_BY]--> (Document)65/2020/QH14
+      [NODE REL] 🔗 (Person)Nguyễn Thị Kim Ngân --[HOLDS_ROLE]--> (Role)Chủ tịch Quốc hội
+      [NODE REL] 🔗 (Organization)Ủy ban thường vụ Quốc hội --[DECIDES]--> (Concept)Số lượng và danh sách đại biểu Quốc hội hoạt động chuyên trách tại Đoàn đại biểu Quốc hội
+      [NODE REL] 🔗 (Organization)Chính quyền địa phương ở tỉnh, thành phố trực thuộc trung ương --[FUNDS]--> (Organization)Văn phòng Đoàn đại biểu Quốc hội và Hội đồng nhân dân cấp tỉnh
+      [Pha 1] 🚀 Tìm thấy 27 đoạn văn quan trọng. Đang xử lý 3 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> 83/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> Luật Quản Lý Sử Dụng Tài Sản Nhà Nước Ngày 03 Tháng 6 năm 2008
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> Luật Viên Chức Ngày 15 Tháng 11 năm 2010
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> Luật Giá Ngày 20 Tháng 6 năm 2012
+      [ENTITY] 📦 (141/2016/NĐ-CP): Organization=[Chính phủ, Bộ Tài chính, Bộ Quốc phòng...]; Concept=[Cơ chế tự chủ của đơn vị sự nghiệp công lập trong lĩnh vực sự nghiệp kinh tế, sự nghiệp khác, Dịch vụ sự nghiệp công trong lĩnh vực sự nghiệp kinh tế và sự nghiệp khác, Dịch vụ sự nghiệp công trong lĩnh vực sự nghiệp kinh tế và sự nghiệp khác sử dụng kinh phí ngân sách nhà nước...]; Timeframe=[năm 2016, năm 2018, năm 2020...]; LegalArticle=[Điều 2, Điều 3, Điều 4...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[PROPOSED_FOR]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[GUIDES]--> (Organization)Hội đồng quản lý
+      [NODE REL] 🔗 (Organization)Bộ Nông nghiệp và Phát triển nông thôn --[DETERMINES]--> (Concept)Danh mục dịch vụ sự nghiệp công sử dụng ngân sách nhà nước
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp tỉnh --[DETERMINES]--> (Concept)Danh mục dịch vụ sự nghiệp công sử dụng ngân sách nhà nước
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> Luật ngân sách nhà nước
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> pháp luật về phí, lệ phí
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> quy định của pháp luật về quản lý, sử dụng tài sản nhà nước
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[BASED_ON]--> quy định của Thủ tướng Chính phủ về chuyển đơn vị sự nghiệp công lập thành công ty cổ phần
+      [ENTITY] 📦 (141/2016/NĐ-CP): Organization=[Nhà nước, ngân hàng thương mại, Kho bạc Nhà nước...]; LegalArticle=[Điều 12, Điều 13, Điều 14...]; Concept=[Quỹ phát triển hoạt động sự nghiệp, Quỹ bổ sung thu nhập, Quỹ khen thưởng...]; Timeframe=[15 ngày, 3 năm, 25%...]; Fee=[tiền trích khấu hao tài sản cố định, chi phí tiền lương, chi phí trực tiếp...]
+      [NODE REL] 🔗 (Document)141/2016/NĐ-CP --[BASED_ON]--> (Document)Luật ngân sách nhà nước
+      [NODE REL] 🔗 (Document)141/2016/NĐ-CP --[BASED_ON]--> (Document)pháp luật về phí, lệ phí
+      [NODE REL] 🔗 (Document)141/2016/NĐ-CP --[BASED_ON]--> (Document)quy định của pháp luật về quản lý, sử dụng tài sản nhà nước
+      [NODE REL] 🔗 (Document)141/2016/NĐ-CP --[BASED_ON]--> (Document)quy định của Thủ tướng Chính phủ về chuyển đơn vị sự nghiệp công lập thành công ty cổ phần
+      [NODE REL] 🔗 (Organization)Kho bạc Nhà nước --[REGULATED_BY]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)cơ quan quản lý cấp trên --[MANAGED_BY]--> (Concept)Quy chế chi tiêu nội bộ
+      [NODE REL] 🔗 (Organization)cơ quan tài chính cùng cấp --[MANAGED_BY]--> (Concept)Quy chế chi tiêu nội bộ
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[APPROVES]--> (Concept)cơ chế tài chính như doanh nghiệp
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp tỉnh --[APPROVES]--> (Concept)cơ chế tài chính như doanh nghiệp
+      [NODE REL] 🔗 (Organization)Thủ tướng Chính phủ --[ISSUES_REGULATION_FOR]--> (Procedure)chuyển đơn vị sự nghiệp công lập thành công ty cổ phần
+      [DEBUG] ✓ Đã LƯU: 141/2016/NĐ-CP --[REPLACES]--> 43/2006/NĐ-CP tại Khoản 2 Điều 26
+      [ENTITY] 📦 (141/2016/NĐ-CP): Organization=[Bộ Nông nghiệp và Phát triển nông thôn, Bộ Tài nguyên và Môi trường, Bộ Giao thông vận tải...]; Person=[Nguyễn Xuân Phúc]; Role=[Thủ tướng Chính phủ, Bộ trưởng, Thủ trưởng cơ quan ngang bộ...]; Document=[Nghị định số 43/2006/NĐ-CP, Luật về viên chức]; Timeframe=[ngày 20 tháng 12 năm 2016, hết năm 2016, ngày 25 tháng 4 năm 2006...]; Concept=[dịch vụ sự nghiệp công sử dụng ngân sách nhà nước, đơn vị sự nghiệp kinh tế, sự nghiệp khác...]
+      [NODE REL] 🔗 (Organization)Bộ Nông nghiệp và Phát triển nông thôn --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài nguyên và Môi trường --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Giao thông vận tải --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Công Thương --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Xây dựng --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Lao động - Thương binh và Xã hội --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tư pháp --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Ủy ban nhân dân cấp tỉnh --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Tài chính --[ASSIGNS_TO]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Xuân Phúc --[HOLDS_ROLE]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Person)Nguyễn Xuân Phúc --[SIGNED_BY]--> (Document)141/2016/NĐ-CP
+      [NODE REL] 🔗 (Role)Thủ trưởng đơn vị sự nghiệp kinh tế, sự nghiệp khác --[ENSURES]--> (Concept)chất lượng dịch vụ sự nghiệp công
+      [NODE REL] 🔗 (Role)Thủ trưởng đơn vị sự nghiệp kinh tế, sự nghiệp khác --[ESTABLISHES]--> (Concept)quy chế chi tiêu nội bộ
+      [NODE REL] 🔗 (Role)Thủ trưởng đơn vị sự nghiệp kinh tế, sự nghiệp khác --[REGULATED_BY]--> (Document)Luật về viên chức
+      [Pha 1] 🚀 Tìm thấy 36 đoạn văn quan trọng. Đang xử lý 3 mẻ (12 đoạn/prompt)...
+      [DEBUG] ✓ Đã LƯU: 123/2016/NĐ-CP --[BASED_ON]--> 76/2015/QH13
+      [DEBUG] ✓ Đã LƯU: 123/2016/NĐ-CP --[BASED_ON]--> Luật tổ chức Chính phủ
+      [ENTITY] 📦 (123/2016/NĐ-CP): Organization=[Chính phủ, Bộ Nội vụ, Bộ Quốc phòng...]; Role=[Bộ trưởng, Thủ trưởng cơ quan ngang Bộ, Thứ trưởng...]; Document=[Nghị định 123/2016/NĐ-CP, Hiến pháp, luật...]; Concept=[chức năng quản lý nhà nước, nhiệm vụ quản lý nhà nước, quyền hạn quản lý nhà nước...]; LegalArticle=[Điều 1, Điều 2, Điều 3...]
+      [NODE REL] 🔗 (Organization)Chính phủ --[ISSUED_BY]--> (Document)123/2016/NĐ-CP
+      [NODE REL] 🔗 (Organization)Bộ Nội vụ --[PROPOSED_FOR]--> (Document)123/2016/NĐ-CP
+      [NODE REL] 🔗 (Role)Bộ --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[PART_OF]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[LEADS]--> (Role)Bộ
+      [NODE REL] 🔗 (Role)Thứ trưởng --[ASSISTS]--> (Role)Bộ trưởng
+      [NODE REL] 🔗 (Role)Bộ --[SUBMITS_TO]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Bộ --[SUBMITS_TO]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Bộ --[COORDINATES_WITH]--> (Organization)Tòa án nhân dân tối cao
+      [NODE REL] 🔗 (Role)Bộ --[COORDINATES_WITH]--> (Organization)Viện kiểm sát nhân dân tối cao
+      [NODE REL] 🔗 (Role)Bộ --[DELEGATES_TO]--> (Organization)chính quyền địa phương
+      [NODE REL] 🔗 (Role)Bộ --[DELEGATES_TO]--> (Organization)các cơ quan, đơn vị trực thuộc
+      [DEBUG] ✓ Đã LƯU: 123/2016/NĐ-CP --[REPLACES]--> 36/2012/NĐ-CP
+      [ENTITY] 📦 (123/2016/NĐ-CP): Organization=[Tổng cục, Bộ, Chính phủ...]; Person=[Nguyễn Xuân Phúc]; Role=[Bộ trưởng, Thủ tướng Chính phủ, Phó Thủ tướng Chính phủ...]; Document=[123/2016/NĐ-CP, 36/2012/NĐ-CP, Hiến pháp...]; LegalArticle=[Điều 22, Điều 23, Điều 24...]; Timeframe=[15 tháng 10 năm 2016, 18 tháng 4 năm 2012]; Concept=[Tư cách pháp nhân, Con dấu, Tài khoản riêng...]
+      [NODE REL] 🔗 (Document)123/2016/NĐ-CP --[REPLACES]--> (Document)36/2012/NĐ-CP
+      [NODE REL] 🔗 (Organization)Tổng cục --[PART_OF]--> (Organization)Bộ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[MANAGED_BY]--> (Organization)Bộ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[ASSIGNS_TO]--> (Role)Tổng cục trưởng
+      [NODE REL] 🔗 (Role)Bộ trưởng --[AFFECTS]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[AFFECTS]--> (Organization)Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[AFFECTS]--> (Organization)Quốc hội
+      [NODE REL] 🔗 (Role)Bộ trưởng --[AFFECTS]--> (Organization)Ủy ban thường vụ Quốc hội
+      [NODE REL] 🔗 (Role)Bộ trưởng --[AFFECTS]--> (Organization)Mặt trận Tổ quốc Việt Nam
+      [NODE REL] 🔗 (Person)Nguyễn Xuân Phúc --[SIGNED_BY]--> (Document)123/2016/NĐ-CP
+      [NODE REL] 🔗 (Person)Nguyễn Xuân Phúc --[HOLDS_ROLE]--> (Role)Thủ tướng Chính phủ
+      [NODE REL] 🔗 (Role)Bộ trưởng --[ASSIGNS_TO]--> (Document)123/2016/NĐ-CP
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan ngang Bộ --[ASSIGNS_TO]--> (Document)123/2016/NĐ-CP
+      [NODE REL] 🔗 (Role)Thủ trưởng cơ quan thuộc Chính phủ --[ASSIGNS_TO]--> (Document)123/2016/NĐ-CP
+      [NODE REL] 🔗 (Role)Chủ tịch Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương --[ASSIGNS_TO]--> (Document)123/2016/NĐ-CP
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Bộ máy hành chính: 9 văn bản
+   - Thể thao - Y tế: 4 văn bản
+   - Giao thông - Vận tải: 3 văn bản
+   - Trách nhiệm hình sự: 2 văn bản
+   - Tài chính nhà nước: 1 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - BASED_ON: 34 relations
+   - AMENDS: 6 relations
+   - REPLACES: 5 relations
+   - REPEALS: 3 relations
+   - ASSIGNS: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Tổng quan hệ thường (chủ động):     49
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+============================================================
+PHASE 3 complete: 6 depth=2 docs -> 275 additional chunks.
+SUMMARY: 13 documents total -> 446 chunks.
+
+============================================================
+PHASE 4: Creating GHOST NODES for referenced docs not in dataset
+============================================================
+PHASE 4 complete: 21 ghost nodes to create in Neo4j.
+
+-> BỎ QUA Flush Database (FLUSH_DB_ON_START=False). DB hiện tại sẽ được cập nhật (upsert/merge) tiếp.
+
+============================================================
+PHASE 5: Embedding & Upsert Qdrant
+============================================================
+   Upserted 446 points to Qdrant.
+
+============================================================
+PHASE 6: Building Neo4j Graph
+============================================================
+Lỗi khi push lô 0 tới Neo4j: {neo4j_code: Neo.ClientError.Schema.ConstraintValidationFailed} {message: Node(17361) already exists with label `LegalArticle` and property `name` = 'Điều 1'} {gql_status: 50N42} {gql_status_description: error: general processing exception - unexpected error. Node(17361) already exists with label `LegalArticle` and property `name` = 'Điều 1'}
+   Created 21 ghost nodes in Neo4j.
+   -> Đang xây dựng Knowledge Graph tự do (từ LLM Extractor)...
+   Upserted 0 free-form Graph Triplets to Neo4j.
+   -> Đang enrich 10 loại Entity từ Unified Extractor vào Neo4j...
+   Enriched 12 chunks với entity/node_relation data.
+   Neo4j Graph update complete.
+
+============================================================
+PIPELINE COMPLETE — STATISTICS
+============================================================
+  
+============================================================
+PHASE 1: Chunking ORIGINAL documents
+============================================================
+  
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+     - Thể thao - Y tế: 2 văn bản
+     - Giao thông - Vận tải: 1 văn bản
+  
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+     - BASED_ON: 3 relations
+     - AMENDS: 2 relations
+     - ASSIGNS: 1 relations
+  
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+     - Tổng quan hệ thường (chủ động):     6
+     - Tổng cross-doc AMENDS (bị động): 0
+     - Bỏ qua do already_captured:          0
+  ============================================================
+  
+============================================================
+PHASE 2: Chunking REFERENCE documents (exist in dataset)
+============================================================
+  
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+     - Thể thao - Y tế: 4 văn bản
+     - Bộ máy hành chính: 3 văn bản
+     - Giao thông - Vận tải: 2 văn bản
+     - Trách nhiệm hình sự: 2 văn bản
+  
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+     - BASED_ON: 15 relations
+     - AMENDS: 3 relations
+     - ASSIGNS: 1 relations
+     - REPLACES: 1 relations
+     - REPEALS: 1 relations
+  
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+     - Tổng quan hệ thường (chủ động):     21
+     - Tổng cross-doc AMENDS (bị động): 0
+     - Bỏ qua do already_captured:          0
+  ============================================================
+  
+============================================================
+PHASE 3: Chunking REFERENCE documents (Depth=2)
+============================================================
+  
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+     - Bộ máy hành chính: 9 văn bản
+     - Thể thao - Y tế: 4 văn bản
+     - Giao thông - Vận tải: 3 văn bản
+     - Trách nhiệm hình sự: 2 văn bản
+     - Tài chính nhà nước: 1 văn bản
+  
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+     - BASED_ON: 34 relations
+     - AMENDS: 6 relations
+     - REPLACES: 5 relations
+     - REPEALS: 3 relations
+     - ASSIGNS: 1 relations
+  
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+     - Tổng quan hệ thường (chủ động):     49
+     - Tổng cross-doc AMENDS (bị động): 0
+     - Bỏ qua do already_captured:          0
+  ============================================================
+  Run timestamp       : 2026-04-29 15:47:10
+  Original docs       : 2
+  Reference docs      : 5
+  Ghost nodes         : 21
+  Total chunks        : 446
+  Total relations     : 49
+  Qdrant collection   : legal_rag_docs_nam
+  
+  Edge label breakdown:
+    BASED_ON       : 34
+    AMENDS         : 6
+    REPLACES       : 5
+    REPEALS        : 3
+    ASSIGNS        : 1
+
+============================================================
+QUERY BENCHMARK — QDRANT + NEO4J
+============================================================
+
+── QDRANT ──
+  [OK ] Dense search (top-5)                                  87.2ms  hits=5
+  [OK ] Sparse (BM25) search (top-5)                          17.4ms  hits=5
+  [OK ] Hybrid search RRF (top-5)                             26.5ms  hits=5
+  [OK ] Filter: legal_type='Luật' (top-5)                    190.0ms  hits=5
+  [OK ] Filter: year='2015' (top-5)                          164.9ms  hits=5
+  [OK ] Scroll filter: is_table=True (limit=10)               75.1ms  hits=10
+
+── NEO4J ──
+  [OK ] Count total Document nodes                            18.3ms  hits=1
+  [OK ] Count total relationships                              3.2ms  hits=1
+  [OK ] Count ghost nodes (is_ghost=true)                      7.3ms  hits=1
+  [OK ] Find doc by number '80/2015/QH13'                      8.2ms  hits=1
+  [OK ] Get all relations of doc '80/2015/QH13'                8.7ms  hits=10
+  [OK ] Find REPEALS edges (limit 10)                          7.3ms  hits=10
+  [OK ] Find GUIDES edges (limit 10)                           5.5ms  hits=10
+  [OK ] Shortest path (2 hops) between any 2 docs              7.5ms  hits=1
+  [OK ] Count edges grouped by relation type                  40.2ms  hits=65
+
+-> Đã lưu report ra: d:\iCOMM\Legal-RAG\result_8k.txt
+
+[DONE] Ingestion process completed successfully!

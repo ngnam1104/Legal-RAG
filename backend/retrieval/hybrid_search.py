@@ -1,10 +1,10 @@
 from typing import List, Dict, Optional, Any
 from qdrant_client import models
-from backend.retrieval.vector_db import client
-from backend.retrieval.embedder import embedder
-from backend.retrieval.reranker import reranker
-from backend.config import settings
-from backend.retrieval.graph_db import get_neo4j_driver
+from backend.database.qdrant_client import client
+from backend.models.embedder import embedder
+from backend.models.reranker import reranker
+import os
+from backend.database.neo4j_client import get_neo4j_driver
 import re
 import time
 from types import SimpleNamespace
@@ -38,7 +38,7 @@ def parse_chunk_order(chunk_id: str):
 
 class HybridRetriever:
     def __init__(self, collection_name: str = None):
-        self.collection_name = collection_name or settings.QDRANT_COLLECTION
+        self.collection_name = collection_name or os.environ.get("QDRANT_COLLECTION", "legal_hybrid_rag_docs")
         self.client = client
         self.hybrid_encoder = embedder
         self.reranker = reranker
@@ -810,54 +810,114 @@ class HybridRetriever:
         explore_depth: int = 1
     ) -> List[Dict]:
         """
-        Sử dụng neo4j_graphrag.retrievers.QdrantNeo4jRetriever để tự động hoá
-        quy trình Vector Search -> Graph Traversal (tìm Relationship: AMENDS, REPLACES...)
+        Entity-Aware GraphRAG Retrieval:
+        1. Hybrid Search → danh sách chunk (qdrant_id).
+        2. Neo4j Query 1 — doc-level relations (AMENDS, BASED_ON...).
+        3. Neo4j Query 2 — free-form entities (HAS_ENTITY → Organization, Fee...).
+        4. Neo4j Query 3 — dynamic node relations (RESPONSIBLE_FOR, SIGNED_BY...).
+        5. Inject cả 3 loại dữ liệu vào text context cho LLM.
         """
-        if not QdrantNeo4jRetriever:
-            print("⚠️ Cần cài đặt `neo4j-graphrag` để dùng QdrantNeo4jRetriever. Fallback sang Vector search.")
-            return self.search(query, limit=top_k)
-
         driver = get_neo4j_driver()
         if not driver:
             print("⚠️ Không khởi tạo được Neo4j Driver. Fallback sang Vector search.")
             return self.search(query, limit=top_k)
 
+        base_hits = self.search(query, limit=top_k)
+        if not base_hits:
+            return []
+
+        chunk_ids = [hit.get("chunk_id") or str(hit.get("id", "")) for hit in base_hits]
+
+        # ── Query 1: Doc-level relations ──
+        doc_rel_query = """
+        UNWIND $chunk_ids AS cid
+        MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+        OPTIONAL MATCH (c)-[:BELONGS_TO|PART_OF*1..3]->(doc:Document)
+        OPTIONAL MATCH (doc)-[dr]->(other_doc:Document)
+        WHERE type(dr) IN ['AMENDS','REPLACES','REPEALS','BASED_ON','GUIDES','APPLIES','ISSUED_WITH','ASSIGNS','CORRECTS']
+        RETURN cid AS chunk_id,
+               collect(DISTINCT {
+                 rel_type: type(dr),
+                 source: doc.document_number,
+                 target: other_doc.document_number,
+                 chunk_text: dr.chunk_text
+               }) AS doc_relations
+        """
+
+        # ── Query 2: Free-form entities ──
+        entity_query = """
+        UNWIND $chunk_ids AS cid
+        MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+        OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
+        WHERE e.name IS NOT NULL
+        RETURN cid AS chunk_id,
+               collect(DISTINCT {label: labels(e)[0], name: e.name}) AS entities
+        """
+
+        # ── Query 3: Dynamic node relations (RESPONSIBLE_FOR, SIGNED_BY...) ──
+        node_rel_query = """
+        UNWIND $chunk_ids AS cid
+        MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+        OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)-[nr]->(tgt)
+        WHERE nr IS NOT NULL AND type(nr) NOT IN ['HAS_ENTITY']
+        RETURN cid AS chunk_id,
+               collect(DISTINCT {
+                 relationship: type(nr),
+                 source_type: labels(src_ent)[0],
+                 source_node: src_ent.name,
+                 target_type: labels(tgt)[0],
+                 target_node: tgt.name,
+                 chunk_text: nr.chunk_text
+               }) AS node_relations
+        """
+
         try:
-            # Note: We must specify vector_name='dense' since we use Hybrid Qdrant Collection
-            from neo4j_graphrag.embeddings import OpenAIEmbeddings # Fallback if we need an embedder interface
-            
-            # Since neo4j-graphrag natively expects an embedder for its own Qdrant querying 
-            # if we don't pass vector directly, we'll configure it. 
-            # However QdrantNeo4jRetriever handles vector search out of the box if we provide correct parameters.
-            
-            retriever = QdrantNeo4jRetriever(
-                driver=driver,
-                client=self.client,
-                collection_name=self.collection_name,
-                id_property_external="chunk_id",  # ID field in Qdrant Payload
-                id_property_neo4j="qdrant_id" # ID loaded via Chunk Node in Neo4j
-            )
-            
-            # Run GraphRAG Search (This yields nodes augmented with exact old_text/new_text relations)
-            records = retriever.search(query_text=query, top_k=top_k)
-            
-            driver.close()
-            
-            # Format output compatible with our system
-            results = []
-            for item in records.items:
-                results.append({
-                    "id": getattr(item, "id", ""),
-                    "score": 1.0,
-                    "title": "Graph Retrieval Hit",
-                    "text": getattr(item, "content", ""),
-                    "chunk_id": getattr(item, "id", "")
-                })
-            return results
-            
+            with driver.session() as session:
+                doc_rel_map  = {r["chunk_id"]: r for r in session.run(doc_rel_query, chunk_ids=chunk_ids).data()}
+                entity_map   = {r["chunk_id"]: r for r in session.run(entity_query, chunk_ids=chunk_ids).data()}
+                node_rel_map = {r["chunk_id"]: r for r in session.run(node_rel_query, chunk_ids=chunk_ids).data()}
+
+            for hit in base_hits:
+                cid = hit.get("chunk_id") or str(hit.get("id", ""))
+                doc_rels   = [r for r in (doc_rel_map.get(cid) or {}).get("doc_relations", []) if r.get("rel_type")]
+                entities   = [e for e in (entity_map.get(cid) or {}).get("entities", []) if e.get("name")]
+                node_rels  = [n for n in (node_rel_map.get(cid) or {}).get("node_relations", []) if n.get("relationship")]
+
+                injected = ""
+                if entities:
+                    # Group by label
+                    by_label = {}
+                    for e in entities:
+                        by_label.setdefault(e["label"], []).append(e["name"])
+                    ent_str = "; ".join(f"{lbl}: {', '.join(names)}" for lbl, names in by_label.items())
+                    injected += f"\n[THỰC THỂ]: {ent_str}"
+
+                if doc_rels:
+                    rel_str = "; ".join(
+                        f"{r['source']} --{r['rel_type']}--> {r['target']}"
+                        for r in doc_rels if r.get("source") and r.get("target")
+                    )
+                    injected += f"\n[QUAN HỆ VĂN BẢN]: {rel_str}"
+
+                if node_rels:
+                    nr_str = "; ".join(
+                        f"{n['source_node']} --{n['relationship']}--> {n['target_node']}"
+                        for n in node_rels if n.get("source_node") and n.get("target_node")
+                    )
+                    injected += f"\n[QUAN HỆ THỰC THỂ]: {nr_str}"
+
+                if injected:
+                    hit["text"] = hit.get("text", "") + "\n" + injected
+
+                hit["graph_entities"]      = entities
+                hit["graph_doc_relations"] = doc_rels
+                hit["graph_node_relations"]= node_rels
+
+            return base_hits
+
         except Exception as e:
             print(f"Lỗi Graph Search: {e}")
-            if driver: driver.close()
-            return self.search(query, limit=top_k)
+            return base_hits
 
 retriever = HybridRetriever()
+

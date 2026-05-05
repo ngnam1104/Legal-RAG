@@ -1,105 +1,105 @@
 #!/bin/bash
 
 # ==============================================================================
-# Script khoi dong Backend & Frontend cua he thong Legal-RAG (Ubuntu/Server).
-# Dành cho test local với SQLite và Docker container.
+# Legal-RAG: Script khoi dong Backend & Frontend hoac chay test ingestion
+# Su dung:
+#   ./quick_start.sh              → Khoi dong Backend + Frontend (mac dinh)
+#   ./quick_start.sh --mode=test-ingest  → Chay pipeline test 500 VB y te
 # ==============================================================================
 
-# Define colors
-GREEN='\033[0;32m'
-CYAN='\033[0;36m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+GREEN='\033[0;32m'; CYAN='\033[0;36m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
 
-echo -e "${GREEN}==========================================${NC}"
-echo -e "${GREEN} KHOI DONG LEGAL RAG - BACKEND & FRONTEND${NC}"
-echo -e "${GREEN}==========================================${NC}"
+MODE="start"
+for arg in "$@"; do
+    case $arg in --mode=*) MODE="${arg#*=}" ;; esac
+done
 
-# Chuyển về đúng thư mục chứa script
 cd "$(dirname "$0")" || exit
 
-# 1. Start Docker containers
-echo -e "\n${CYAN}[1/6] Khoi dong DB Services (Redis, Qdrant, Neo4j) via Docker...${NC}"
+# --- 1. Docker containers ---
+echo -e "\n${CYAN}[1] Khoi dong DB Services (Redis, Qdrant, Neo4j) via Docker...${NC}"
 if ! command -v docker &> /dev/null; then
-    echo -e "${RED}LOI: Khong tim thay Docker CLI. Vui long cai dat Docker!${NC}"
-    exit 1
+    echo -e "${RED}LOI: Khong tim thay Docker CLI!${NC}"; exit 1
 fi
-
-# Chạy Docker Compose
-echo -e "${YELLOW}Kiem tra/Khoi dong cac container (Redis/Qdrant/Neo4j)...${NC}"
 if docker compose version &> /dev/null; then
     docker compose up -d
 else
     docker-compose up -d
 fi
 
-# 2. Setup Venv
-echo -e "\n${CYAN}[2/6] Kiem tra va khoi tao Moi truong Python (venv)...${NC}"
+# --- 2. Venv ---
+echo -e "\n${CYAN}[2] Kiem tra Python venv...${NC}"
 if [ ! -d "venv" ]; then
-    echo "Dang tao Virtual Environment (venv)..."
-    python3 -m venv venv
+    echo "Dang tao venv..."; python3 -m venv venv
 fi
 source venv/bin/activate
 
-# 3. Install requirements
-echo -e "\n${CYAN}[3/6] Cai dat/Cap nhat thu vien (pip install)...${NC}"
+# --- 3. Dependencies ---
+echo -e "\n${CYAN}[3] Cai dat thu vien...${NC}"
 pip install -r requirements.txt --quiet
 
-# 4. Check files
-echo -e "\n${CYAN}[4/6] Kiem tra file cau hinh (.env) va thu muc...${NC}"
+# --- 4. .env check ---
+echo -e "\n${CYAN}[4] Kiem tra .env...${NC}"
 if [ ! -f ".env" ]; then
-    if [ -f ".env.example" ]; then
-        cp .env.example .env
-        echo -e "${YELLOW}Da tao .env tu .env.example. Vui long kiem tra lai config IP máy chủ/Port DB!${NC}"
-    else
-        echo -e "${RED}Warning: Khong tim thay .env hay .env.example!${NC}"
-    fi
+    [ -f ".env.example" ] && cp .env.example .env && echo -e "${YELLOW}Da tao .env tu .env.example.${NC}" \
+    || echo -e "${RED}Warning: Khong tim thay .env!${NC}"
 else
-    echo -e "${GREEN}File .env da ton tai.${NC}"
+    echo -e "${GREEN}.env da ton tai.${NC}"
 fi
-
 mkdir -p backend/data backend/tmp_uploads
-echo -e "${GREEN}Thu muc backend/data va backend/tmp_uploads da san sang.${NC}"
 
-# 5. Kill old processes
-echo -e "\n${CYAN}[5/6] Don dep cac tien trinh cu (port 3005, 3006, 8005, 8006)...${NC}"
-for PORT in 3005 3006 8005 8006; do
-    # Tìm tiến trình đang giữ port và kill nó
-    PID=$(lsof -t -i:$PORT 2>/dev/null)
-    if [ -n "$PID" ]; then
-        echo -e "${YELLOW}  Giet tien trinh PID $PID dang chiem port $PORT${NC}"
-        kill -9 $PID 2>/dev/null
+# ==============================================================================
+if [ "$MODE" = "test-ingest" ]; then
+# ==============================================================================
+    echo -e "\n${GREEN}========== CHE DO TEST INGESTION (500 VB Y TE) ==========${NC}"
+    echo -e "${YELLOW}Config tu .env:${NC}"
+    echo -e "  - Qdrant collection : $(grep TEST_QDRANT_COLLECTION .env | cut -d= -f2)"
+    echo -e "  - Neo4j label prefix: $(grep TEST_NEO4J_LABEL_PREFIX .env | cut -d= -f2)"
+    echo -e "  - Sample limit      : $(grep TEST_SAMPLE_LIMIT .env | cut -d= -f2)"
+    echo -e "\n${CYAN}Bat dau pipeline... (log: .debug/ingestion_log_*.txt)${NC}"
+
+    # Check Neo4j + Qdrant san sang truoc khi chay
+    echo -e "${YELLOW}Cho 5s de DB containers khoi dong...${NC}"; sleep 5
+
+    python -m backend.ingestion.chunking_embedding 2>&1 | tee /dev/null
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo -e "\n${GREEN}Test ingestion HOAN TAT! Kiem tra ket qua:${NC}"
+        echo -e "  - Qdrant: http://localhost:6337/dashboard"
+        echo -e "  - Neo4j : http://localhost:7475"
+        echo -e "  - Logs  : ${YELLOW}ls .debug/ingestion_log_*.txt | tail -1${NC}"
+    else
+        echo -e "\n${RED}Pipeline gap loi! Xem log de debug:${NC}"
+        echo -e "  ${YELLOW}tail -100 \$(ls .debug/ingestion_log_*.txt | tail -1)${NC}"
     fi
-done
-sleep 2
 
-# 6. Start Services
-echo -e "\n${CYAN}[6/6] Khoi dong cac dich vu...${NC}"
+# ==============================================================================
+else
+# ==============================================================================
+    # --- 5. Kill old processes ---
+    echo -e "\n${CYAN}[5] Don dep tien trinh cu (port 3005, 8005)...${NC}"
+    for PORT in 3005 3006 8005 8006; do
+        PID=$(lsof -t -i:$PORT 2>/dev/null)
+        [ -n "$PID" ] && echo -e "${YELLOW}  Kill PID $PID (port $PORT)${NC}" && kill -9 $PID 2>/dev/null
+    done
+    sleep 2
 
-# Start Backend
-echo "Starting FastAPI Backend..."
-nohup uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend > backend_log.txt 2>&1 &
+    # --- 6. Start services ---
+    echo -e "\n${CYAN}[6] Khoi dong Backend & Frontend...${NC}"
+    nohup uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend > backend_log.txt 2>&1 &
+    echo -e "${YELLOW}Cho 20s de Backend warmup...${NC}"; sleep 20
 
-echo -e "${YELLOW}VUI LONG DOI: Backend dang thuc hien WARMUP (nap model, cache) trong vong 20s...${NC}"
-sleep 20
+    cd frontend || exit
+    export PORT=3005
+    nohup npm run dev -- --port 3005 > frontend_log.txt 2>&1 &
+    cd ..
 
-# Start Frontend
-echo "Starting Next.js Frontend..."
-cd frontend || exit
-export PORT=3005
-nohup npm run dev -- --port 3005 > frontend_log.txt 2>&1 &
-cd ..
-
-echo -e "\n${GREEN}============================================================${NC}"
-echo -e "${GREEN} HOAN TAT! HE THONG LEGAL-RAG DA SAN SANG (RUNNING IN BACKGROUND)${NC}"
-echo -e "${GREEN}============================================================${NC}"
-echo -e "${CYAN}  - Frontend: http://IP_MAY_CHU:3005${NC}"
-echo -e "${CYAN}  - Backend API: http://IP_MAY_CHU:8005${NC}"
-echo -e "${CYAN}  - Neo4j Graph DB: http://IP_MAY_CHU:7475${NC}"
-echo -e "${YELLOW}------------------------------------------------------------${NC}"
-echo -e "Cac tien trinh da duoc day xuong chay ngam, ban co the an tam tat cua so Terminal."
-echo -e "De xem tien trinh dang chay (log):"
-echo -e "  - Logs Backend:  ${YELLOW}tail -f backend_log.txt${NC}"
-echo -e "  - Logs Frontend: ${YELLOW}tail -f frontend/frontend_log.txt${NC}"
-echo -e "${GREEN}Chuc ban co trai nghiem tra cuu phap luat tuyet voi!${NC}"
+    echo -e "\n${GREEN}============================================================${NC}"
+    echo -e "${GREEN} LEGAL-RAG DA SAN SANG!${NC}"
+    echo -e "${GREEN}============================================================${NC}"
+    echo -e "${CYAN}  - Frontend  : http://IP_MAY_CHU:3005${NC}"
+    echo -e "${CYAN}  - Backend   : http://IP_MAY_CHU:8005${NC}"
+    echo -e "${CYAN}  - Neo4j     : http://IP_MAY_CHU:7475${NC}"
+    echo -e "${CYAN}  - Qdrant    : http://IP_MAY_CHU:6337/dashboard${NC}"
+    echo -e "${YELLOW}Logs: tail -f backend_log.txt | tail -f frontend/frontend_log.txt${NC}"
+fi

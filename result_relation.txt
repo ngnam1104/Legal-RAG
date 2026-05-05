@@ -1,0 +1,506 @@
+LEGAL_UNIFIED_EXTRACTOR_PROMPT = """Bạn là hệ thống phân tích tri thức pháp lý tự động.
+Đọc các đoạn văn bản pháp luật bên dưới và thực hiện ĐỒNG THỜI 3 nhiệm vụ.
+
+═══════════════════════════════════════════════════════
+NGỮ CẢNH ĐẦU VÀO (mỗi đoạn có nhãn VB nguồn):
+{contexts}
+═══════════════════════════════════════════════════════
+
+NHIỆM VỤ 1 — QUAN HỆ GIỮA VĂN BẢN (doc_relations):
+Trích xuất TẤT CẢ quan hệ pháp lý giữa các văn bản.
+
+QUY TẮC BẮT BUỘC:
+- "source": số hiệu đầy đủ lấy từ header đoạn (VD: 44/2019/QH14). TUYỆT ĐỐI không dùng "Luật này", "Nghị định này".
+- "target": ƯU TIÊN số hiệu dạng XX/YYYY/ABC. Nếu không có số hiệu mới dùng tên luật ngắn gọn (≤40 ký tự).
+- DEDUP: Mỗi cặp (source, target, edge_label) chỉ xuất hiện MỘT LẦN. Nếu cùng quan hệ nhưng khác điều khoản, GOM vào 1 object duy nhất.
+- VB nhắc ngầm ("đã được sửa đổi theo Luật X") → vẫn tạo quan hệ BASED_ON.
+- "chunk_text": đoạn văn gốc chứa bằng chứng (≤300 ký tự, trích nguyên văn).
+
+NHÃN QUAN HỆ BẮT BUỘC dùng chính xác (edge_label) — CHỈ ĐƯỢC CHỌN TRONG DANH SÁCH NÀY:
+BASED_ON | AMENDS | REPEALS | REPLACES | GUIDES | APPLIES_TO | ISSUED_WITH | ASSIGNS | CORRECTS
+
+NHIỆM VỤ 2 — THỰC THỂ (entities):
+Trích xuất các thực thể quan trọng có nghĩa tra cứu từ văn bản.
+
+QUY TẮC CHỌN NHÃN (entity_type) — bắt buộc theo 2 bước:
+BƯỚC 1 — ƯU TIÊN MATCH danh sách đã biết (PascalCase, tiếng Anh):
+  Organization | Person | Location | Document | LegalArticle |
+  Procedure | Condition | Fee | Penalty | Timeframe | Role | Concept
+BƯỚC 2 — Nếu không có nhãn nào phù hợp, TẠO NHÃN MỚI:
+  * Viết dạng PascalCase tiếng Anh, ngắn gọn (1–2 từ). VD: MedicalDevice, SanctionType, InsuranceType.
+  * Nhãn mới này được ghi nhận và dùng lại bởi các đoạn sau — hãy đặt nhãn chính xác, không viết hoa dư thừa.
+  * LƯU Ý QUAN TRỌNG: 
+    - Không dùng các nhãn đồng nghĩa như Authority, Institution -> Hãy gộp chung thành Organization.
+    - Không dùng Article -> Hãy gộp chung thành LegalArticle.
+    - Một Signer (người ký) bản chất là Person giữ một Role. Chỉ giữ lại Person và Role. Người ký thể hiện qua (Document)-[:SIGNED_BY]->(Person) và (Person)-[:HOLDS_ROLE]->(Role). Tuyệt đối xóa bỏ PersonRole, Signer.
+  * KHUYẾN NGHỊ: Chỉ tạo nhãn mới khi cần thiết — ưu tiên tái sử dụng nhãn đã có trong Danh sách.
+
+- "entity_value" (Giá trị): Viết chuẩn theo quy tắc:
+  * Organization: Viết đúng tên đầy đủ, hoa chữ cái đầu mỗi từ chính. TUYỆT ĐỐI KHÔNG VIẾT TẮT.
+    VD: "Bộ GDĐT", "Bộ GD&ĐT", "Bộ Giáo Dục Đào Tạo" → PHẢI GHI LÀ: "Bộ Giáo dục và Đào tạo".
+    VD: "UBND" → PHẢI GHI LÀ: "Ủy ban nhân dân".
+    VD: "Bộ Y Tế" → PHẢI GHI LÀ: "Bộ Y tế", SAI: "BỘ Y TẾ", "bộ y tế".
+  * Person: Họ tên đầy đủ, hoa đầu chữ. VD: "Nguyễn Thị Lan".
+  * Location: Tên địa danh chuẩn. VD: "Thành phố Hồ Chí Minh".
+  * Fee/Penalty: Kèm đơn vị. VD: "10.000.000 đồng".
+  * Timeframe: Kèm đơn vị thời gian. VD: "30 ngày", "12 tháng".
+  * TUYỆT ĐỐI KHÔNG trích xuất các đại từ chỉ định chung chung làm thực thể. BỎ QUA các từ như: "Cơ quan này", "Tổ chức đó", "Đối tượng này", "Người này", "Văn bản này", "Chương này", "Điều này". Chỉ trích xuất khi có tên cụ thể (VD: Bộ Y tế, Nguyễn Văn A).
+  * Tuyệt đối KHÔNG VIẾT HOA TOÀN BỘ, KHÔNG viết tắt tùy tiện.
+- DEDUP: Mỗi giá trị chỉ xuất hiện 1 lần trong cùng 1 entity_type.
+- Trả về: {{"EntityType": ["Gia tri 1", "Gia tri 2", ...], ...}}
+
+NHIỆM VỤ 3 — QUAN HỆ THỰC THỂ (node_relations):
+Chỉ trích xuất khi quan hệ RÕ RÀNG. Không suy diễn.
+
+QUY TẮC CHỌN NHÃN QUAN HỆ (relationship) — 2 bước:
+BƯỚC 1 — BẮT BUỘC ƯU TIÊN TỐI ĐA danh sách đã biết (SCREAMING_SNAKE_CASE):
+  ISSUED_BY | SIGNED_BY | AFFECTS | REGULATED_BY | APPLIES_TO |
+  MANAGED_BY | ASSIGNS_TO | REQUIRED_FOR | DEFINED_IN | LOCATED_IN | 
+  CLASSIFIED_AS | PART_OF | REPLACES | RESPONSIBLE_FOR
+BƯỚC 2 — Nếu không có nhãn nào phù hợp, TẠO NHÃN QUAN HỆ MỚI:
+  * Viết dạng SCREAMING_SNAKE_CASE.
+  * Bạn chỉ được phép tạo quan hệ theo một chiều chủ động. TUYỆT ĐỐI không tạo các quan hệ bị động.
+    - Ví dụ: Sử dụng REPLACES (A thay thế B), tuyệt đối KHÔNG dùng REPLACED_BY.
+    - Sử dụng ASSIGNS_TO (A giao việc cho B), tuyệt đối KHÔNG dùng ASSIGNED_BY.
+  * QUY TẮC TỐI THƯỢNG: Không tạo nhãn đồng nghĩa. Hãy gom vào nhóm có sẵn. Ví dụ: GUIDES/DIRECTS -> REGULATED_BY, REPORTS_TO/SUBORDINATE_TO -> MANAGED_BY, IMPLEMENTS/PERFORMS -> RESPONSIBLE_FOR, SUBMITTED_TO/NOTIFIED_TO -> REQUIRED_FOR, COOPERATES_WITH/COLLABORATES_WITH -> PART_OF.
+
+- "source_node": Tên thực thể nguồn (chuẩn hóa như Nhiệm vụ 2).
+- "source_type": Loại thực thể (từ danh sách EntityType ở Nhiệm vụ 2).
+- "target_node": Tên thực thể đích hoặc số hiệu văn bản.
+- "target_type": Loại thực thể đích (EntityType hoặc "Document").
+- "chunk_text": đoạn văn gốc làm bằng chứng (≤300 ký tự).
+
+VÍ DỤ MINH HỌA:
+Đoạn (VB: 44/2019/QH14): "Sửa đổi khoản 8 Điều 8 Luật GT đường bộ 23/2008/QH12 đã sửa đổi theo Luật 35/2018/QH14. Bộ Giao thông Vận tải chịu trách nhiệm thi hành."
+
+→ doc_relations: [
+    {{"source":"44/2019/QH14","target":"23/2008/QH12","edge_label":"AMENDS","relation_phrase":"sửa đổi khoản 8","target_article":"Điều 8","target_clause":"Khoản 8","target_text_content":"","chunk_text":"Sửa đổi khoản 8 Điều 8 Luật GT đường bộ 23/2008/QH12"}},
+    {{"source":"44/2019/QH14","target":"35/2018/QH14","edge_label":"BASED_ON","relation_phrase":"đã sửa đổi theo","target_article":"","target_clause":"","target_text_content":"","chunk_text":"đã sửa đổi theo Luật 35/2018/QH14"}}
+  ]
+→ entities: {{"Organization":["Bộ Giao thông Vận tải"],"Timeframe":["30 ngày"],"LegalArticle":["Điều 8 Khoản 8"]}}
+→ node_relations: [{{"source_node":"Bộ Giao thông Vận tải","source_type":"Organization","target_node":"44/2019/QH14","target_type":"Document","relationship":"RESPONSIBLE_FOR","chunk_text":"Bộ Giao thông Vận tải chịu trách nhiệm thi hành"}}]
+
+CHỈ TRẢ VỀ JSON THUẦN TÚY (không giải thích, không markdown):
+{{
+  "doc_relations": [
+    {{
+      "source": "Số hiệu VB nguồn",
+      "target": "Số hiệu hoặc Tên VB đích",
+      "edge_label": "NHÃN_QUAN_HỆ",
+      "relation_phrase": "cụm từ gốc trong văn bản",
+      "target_article": "Điều X (nếu có)",
+      "target_clause": "Khoản Y (nếu có)",
+      "target_text_content": "nội dung tóm tắt điều khoản đích (nếu có)",
+      "chunk_text": "đoạn văn bản gốc làm bằng chứng ≤300 ký tự"
+    }}
+  ],
+  "entities": {{
+    "Organization": ["Tên cơ quan chuẩn"],
+    "Person": ["Họ tên chuẩn"]
+  }},
+  "node_relations": [
+    {{
+      "source_node": "Tên thực thể nguồn (đã chuẩn hóa)",
+      "source_type": "EntityType từ danh sách",
+      "target_node": "Tên thực thể đích hoặc số hiệu VB",
+      "target_type": "EntityType hoặc Document",
+      "relationship": "TÊN_QUAN_HỆ_CỐ_ĐỊNH",
+      "chunk_text": "đoạn văn bản gốc làm bằng chứng ≤300 ký tự"
+    }}
+  ]
+}}
+"""
+
+============================================================
+PIPELINE STATISTICS
+============================================================
+
+============================================================
+PHASE 1: Chunking ORIGINAL documents
+============================================================
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Thể thao - Y tế: 2 văn bản
+   - Bộ máy hành chính: 1 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - BASED_ON: 11 relations
+   - AMENDS: 1 relations
+   - REPEALS: 1 relations
+   - GUIDES: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Tổng quan hệ thường (chủ động):     14
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - Organization: 45 entities
+   - Timeframe: 16 entities
+   - Concept: 11 entities
+   - Role: 7 entities
+   - Fee: 5 entities
+   - Location: 3 entities
+   - Condition: 2 entities
+   - Person: 1 entities
+
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 1 (GỐC)) ---
+   - ASSIGNS_TO: 94 node relations
+   - ISSUED_BY: 24 node relations
+   - REGULATED_BY: 24 node relations
+   - REQUIRED_FOR: 12 node relations
+   - APPLIES_TO: 12 node relations
+   - SIGNED_BY: 1 node relations
+   - HOLDS_ROLE: 1 node relations
+============================================================
+
+============================================================
+PHASE 2: Chunking REFERENCE documents (exist in dataset)
+============================================================
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Thể thao - Y tế: 7 văn bản
+   - Bộ máy hành chính: 5 văn bản
+   - Tài chính nhà nước: 1 văn bản
+   - Xây dựng - Đô thị: 1 văn bản
+   - Lĩnh vực khác: 1 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - BASED_ON: 57 relations
+   - REPEALS: 6 relations
+   - AMENDS: 2 relations
+   - GUIDES: 2 relations
+   - ASSIGNS: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Tổng quan hệ thường (chủ động):     68
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - Concept: 442 entities
+   - Organization: 243 entities
+   - Location: 197 entities
+   - Role: 115 entities
+   - Timeframe: 96 entities
+   - Procedure: 50 entities
+   - Condition: 28 entities
+   - Person: 13 entities
+   - Fee: 5 entities
+
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 2 (+VỆ TINH 1)) ---
+   - ASSIGNS_TO: 812 node relations
+   - REGULATED_BY: 516 node relations
+   - REQUIRED_FOR: 324 node relations
+   - MANAGED_BY: 288 node relations
+   - ISSUES: 180 node relations
+   - ISSUED_BY: 179 node relations
+   - REPORTS_TO: 128 node relations
+   - COOPERATES_WITH: 99 node relations
+   - REGULATES: 96 node relations
+   - BASED_ON: 96 node relations
+   - MANAGES: 84 node relations
+   - APPROVES: 84 node relations
+   - NOTIFIED_TO: 72 node relations
+   - PART_OF: 60 node relations
+   - MUST_COMPLY_WITH: 60 node relations
+   - SUBMITS_TO: 60 node relations
+   - SIGNED_BY: 58 node relations
+   - HOLDS_ROLE: 55 node relations
+   - LOCATED_IN: 55 node relations
+   - APPLIES_TO: 51 node relations
+   - REVOKES: 48 node relations
+   - FUNDS: 36 node relations
+   - COLLABORATES_WITH: 36 node relations
+   - HEADS: 36 node relations
+   - SUBORDINATE_TO: 36 node relations
+   - LEADS: 36 node relations
+   - COORDINATES_WITH: 36 node relations
+   - DEFINED_IN: 32 node relations
+   - ASSISTS: 30 node relations
+   - DECLARES: 24 node relations
+   - PERFORMS: 24 node relations
+   - SUBMITTED_TO: 24 node relations
+   - EXEMPTS: 22 node relations
+   - GUIDES: 16 node relations
+   - RECOMMENDS_SAFETY_STATUS: 12 node relations
+   - ORGANIZES: 12 node relations
+   - IMPLEMENTS: 12 node relations
+   - LICENSES: 12 node relations
+   - PROVIDES_INFO_TO: 12 node relations
+   - PROPOSED: 12 node relations
+   - DEVELOPS: 12 node relations
+   - DECIDES: 12 node relations
+   - REGULATES_FORMAT: 12 node relations
+   - COMPILES: 12 node relations
+   - MONITORS: 12 node relations
+   - EXERCISES: 12 node relations
+   - ELECTS: 12 node relations
+   - REPRESENTS: 12 node relations
+   - MEMBER_OF: 12 node relations
+   - PROPOSES_APPOINTMENT_FOR: 12 node relations
+   - DIRECTS: 12 node relations
+   - PROPOSED_BY: 12 node relations
+   - WORKS_FOR: 6 node relations
+   - ASSIGNED_TO: 2 node relations
+============================================================
+
+============================================================
+PHASE 3: Chunking REFERENCE documents (Depth=2)
+============================================================
+
+--- TOP 5 LĨNH VỰC (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Thể thao - Y tế: 17 văn bản
+   - Bộ máy hành chính: 15 văn bản
+   - Xây dựng - Đô thị: 5 văn bản
+   - Tài chính nhà nước: 4 văn bản
+   - Đầu tư: 3 văn bản
+
+--- THỐNG KÊ QUAN HỆ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - BASED_ON: 144 relations
+   - REPEALS: 16 relations
+   - AMENDS: 14 relations
+   - REPLACES: 8 relations
+   - GUIDES: 4 relations
+   - APPLIES: 2 relations
+   - ASSIGNS: 1 relations
+   - APPLIES_TO: 1 relations
+
+--- THỐNG KÊ CHỒNG CHÉO / PASSIVE CHAIN (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Tổng quan hệ thường (chủ động):     190
+   - Tổng cross-doc AMENDS (bị động): 0
+   - Bỏ qua do already_captured:          0
+
+--- THỐNG KÊ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - Concept: 937 entities
+   - Organization: 608 entities
+   - Location: 357 entities
+   - Role: 267 entities
+   - Timeframe: 224 entities
+   - Procedure: 122 entities
+   - Condition: 70 entities
+   - Person: 32 entities
+   - Fee: 30 entities
+   - Penalty: 4 entities
+
+--- THỐNG KÊ QUAN HỆ THỰC THỂ (TỔNG LUỸ KẾ SAU PHA 3 (+VỆ TINH 2)) ---
+   - ASSIGNS_TO: 1579 node relations
+   - REGULATED_BY: 1078 node relations
+   - MANAGED_BY: 715 node relations
+   - ISSUED_BY: 630 node relations
+   - APPLIES_TO: 411 node relations
+   - REQUIRED_FOR: 384 node relations
+   - REPORTS_TO: 338 node relations
+   - REGULATES: 264 node relations
+   - APPROVES: 252 node relations
+   - ISSUES: 245 node relations
+   - SIGNED_BY: 213 node relations
+   - HOLDS_ROLE: 176 node relations
+   - FUNDS: 168 node relations
+   - PART_OF: 132 node relations
+   - ESTABLISHES: 132 node relations
+   - LOCATED_IN: 121 node relations
+   - SUBMITS_TO: 120 node relations
+   - DEFINED_IN: 116 node relations
+   - LEADS: 116 node relations
+   - MANAGES: 108 node relations
+   - BASED_ON: 108 node relations
+   - COOPERATES_WITH: 99 node relations
+   - NOTIFIED_TO: 72 node relations
+   - COORDINATES_WITH: 68 node relations
+   - GUIDES: 64 node relations
+   - DECIDES: 60 node relations
+   - MUST_COMPLY_WITH: 60 node relations
+   - GUIDES_IMPLEMENTATION_OF: 60 node relations
+   - PREPARES: 60 node relations
+   - DECIDES_FOR: 60 node relations
+   - ASSISTS: 54 node relations
+   - REVOKES: 48 node relations
+   - PROPOSED_FOR: 48 node relations
+   - MUST_HAVE: 48 node relations
+   - EXECUTES: 48 node relations
+   - SUBORDINATE_TO: 44 node relations
+   - COLLABORATES_WITH: 36 node relations
+   - HEADS: 36 node relations
+   - COORDINATES: 36 node relations
+   - EXEMPTS: 34 node relations
+   - PROVIDES_INFO_TO: 24 node relations
+   - DECLARES: 24 node relations
+   - PERFORMS: 24 node relations
+   - ELECTS: 24 node relations
+   - PROPOSES_APPOINTMENT_FOR: 24 node relations
+   - SUBMITTED_TO: 24 node relations
+   - COOPERATES_IN_PROPOSING: 24 node relations
+   - SUBMITS: 24 node relations
+   - USES: 24 node relations
+   - DECIDES_FORMATION_OF: 24 node relations
+   - SUPPORTS: 20 node relations
+   - RECOMMENDS_SAFETY_STATUS: 12 node relations
+   - ORGANIZES: 12 node relations
+   - IMPLEMENTS: 12 node relations
+   - LICENSES: 12 node relations
+   - PROPOSED: 12 node relations
+   - DEVELOPS: 12 node relations
+   - REGULATES_FORMAT: 12 node relations
+   - COMPILES: 12 node relations
+   - MONITORS: 12 node relations
+   - EXERCISES: 12 node relations
+   - REPRESENTS: 12 node relations
+   - MEMBER_OF: 12 node relations
+   - DIRECTS: 12 node relations
+   - PROPOSED_BY: 12 node relations
+   - MUST_COMMIT: 12 node relations
+   - MUST_NOT_DO: 12 node relations
+   - EXPIRES_BY: 12 node relations
+   - HAS_VALIDITY_PERIOD: 12 node relations
+   - PROPOSES: 12 node relations
+   - PARTICIPATES_IN: 12 node relations
+   - INITIATES: 12 node relations
+   - REVIEWES: 12 node relations
+   - RECEIVES_REPORT_FROM: 12 node relations
+   - PUBLISHES: 12 node relations
+   - ASSIGNS_TASKS_TO: 12 node relations
+   - GRANTS_TAX_BENEFIT: 12 node relations
+   - INVESTS_IN: 7 node relations
+   - WORKS_FOR: 6 node relations
+   - ASSIGNED_TO: 2 node relations
+============================================================
+Run timestamp       : 2026-04-29 16:59:15
+Original docs       : 2
+Reference docs      : 11
+Ghost nodes         : 92
+Total chunks        : 1368
+Total doc relations : 190
+Total entities      : 2651
+Total node relations: 9028
+Qdrant collection   : legal_rag_docs_nam
+
+Document Edge label breakdown:
+  BASED_ON       : 144
+  REPEALS        : 16
+  AMENDS         : 14
+  REPLACES       : 8
+  GUIDES         : 4
+  APPLIES        : 2
+  ASSIGNS        : 1
+  APPLIES_TO     : 1
+
+Entity type breakdown:
+  Concept        : 937
+  Organization   : 608
+  Location       : 357
+  Role           : 267
+  Timeframe      : 224
+  Procedure      : 122
+  Condition      : 70
+  Person         : 32
+  Fee            : 30
+  Penalty        : 4
+
+Node Relation label breakdown:
+  ASSIGNS_TO     : 1579
+  REGULATED_BY   : 1078
+  MANAGED_BY     : 715
+  ISSUED_BY      : 630
+  APPLIES_TO     : 411
+  REQUIRED_FOR   : 384
+  REPORTS_TO     : 338
+  REGULATES      : 264
+  APPROVES       : 252
+  ISSUES         : 245
+  SIGNED_BY      : 213
+  HOLDS_ROLE     : 176
+  FUNDS          : 168
+  PART_OF        : 132
+  ESTABLISHES    : 132
+  LOCATED_IN     : 121
+  SUBMITS_TO     : 120
+  DEFINED_IN     : 116
+  LEADS          : 116
+  MANAGES        : 108
+  BASED_ON       : 108
+  COOPERATES_WITH: 99
+  NOTIFIED_TO    : 72
+  COORDINATES_WITH: 68
+  GUIDES         : 64
+  DECIDES        : 60
+  MUST_COMPLY_WITH: 60
+  GUIDES_IMPLEMENTATION_OF: 60
+  PREPARES       : 60
+  DECIDES_FOR    : 60
+  ASSISTS        : 54
+  REVOKES        : 48
+  PROPOSED_FOR   : 48
+  MUST_HAVE      : 48
+  EXECUTES       : 48
+  SUBORDINATE_TO : 44
+  COLLABORATES_WITH: 36
+  HEADS          : 36
+  COORDINATES    : 36
+  EXEMPTS        : 34
+  PROVIDES_INFO_TO: 24
+  DECLARES       : 24
+  PERFORMS       : 24
+  ELECTS         : 24
+  PROPOSES_APPOINTMENT_FOR: 24
+  SUBMITTED_TO   : 24
+  COOPERATES_IN_PROPOSING: 24
+  SUBMITS        : 24
+  USES           : 24
+  DECIDES_FORMATION_OF: 24
+  SUPPORTS       : 20
+  RECOMMENDS_SAFETY_STATUS: 12
+  ORGANIZES      : 12
+  IMPLEMENTS     : 12
+  LICENSES       : 12
+  PROPOSED       : 12
+  DEVELOPS       : 12
+  REGULATES_FORMAT: 12
+  COMPILES       : 12
+  MONITORS       : 12
+  EXERCISES      : 12
+  REPRESENTS     : 12
+  MEMBER_OF      : 12
+  DIRECTS        : 12
+  PROPOSED_BY    : 12
+  MUST_COMMIT    : 12
+  MUST_NOT_DO    : 12
+  EXPIRES_BY     : 12
+  HAS_VALIDITY_PERIOD: 12
+  PROPOSES       : 12
+  PARTICIPATES_IN: 12
+  INITIATES      : 12
+  REVIEWES       : 12
+  RECEIVES_REPORT_FROM: 12
+  PUBLISHES      : 12
+  ASSIGNS_TASKS_TO: 12
+  GRANTS_TAX_BENEFIT: 12
+  INVESTS_IN     : 7
+  WORKS_FOR      : 6
+  ASSIGNED_TO    : 2
+
+============================================================
+QUERY BENCHMARK
+============================================================
+Benchmark run: 2026-04-29 16:59:16
+Collection   : legal_rag_docs_nam
+
+Scenario                                              Time(ms)   Hits  Status
+--------------------------------------------------------------------------------
+Dense search (top-5)                                     113.4      5  OK
+Sparse (BM25) search (top-5)                              18.7      5  OK
+Hybrid search RRF (top-5)                                 54.9      5  OK
+Filter: legal_type='Luật' (top-5)                        173.6      5  OK
+Filter: year='2015' (top-5)                               99.6      5  OK
+Scroll filter: is_table=True (limit=10)                   40.1     10  OK
+Count total Document nodes                                47.5      1  OK
+Count total relationships                                 12.6      1  OK
+Count ghost nodes (is_ghost=true)                         27.5      1  OK
+Find doc by number '80/2015/QH13'                         24.8      0  OK
+Get all relations of doc '80/2015/QH13'                   36.4      0  OK
+Find REPEALS edges (limit 10)                             25.9      0  OK
+Find GUIDES edges (limit 10)                              19.2      4  OK
+Shortest path (2 hops) between any 2 docs                120.0      1  OK
+Count edges grouped by relation type                      54.9     80  OK
+--------------------------------------------------------------------------------
+Total: 15 | OK: 15 | ERR: 0 | Avg: 57.9ms
