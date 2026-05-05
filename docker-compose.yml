@@ -101,7 +101,7 @@ services:
     image: postgres:16-alpine
     container_name: legal-rag-postgres-nam
     ports:
-      - "5433:5432"
+      - "5435:5432"
     environment:
       POSTGRES_USER: legal_rag
       POSTGRES_PASSWORD: legal_rag_secret
