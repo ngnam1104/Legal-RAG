@@ -207,21 +207,7 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
         else:
             is_chunk_leaf = True
 
-        params.append({
-            "doc_id": meta.get("document_id"),
-            "doc_num": meta.get("document_number") or "N/A",
-            "title": meta.get("title") or "",
-            "l_type": meta.get("legal_type") or "N/A",
-            "p_date": p_date or "",
-            "year": year,
-            "url": meta.get("url") or "",
-            "auth_name": meta.get("issuing_authority") or "",
-            "signer_name": meta.get("signer_name") or "",
-            "signer_id": meta.get("signer_id"),
-            "eff_date": meta.get("effective_date") or "",
-            "doc_status": meta.get("doc_status") or "Đang có hiệu lực",
-            "doc_toc": meta.get("document_toc") or "",
-            "sectors": meta.get("legal_sectors") or [],
+
         # Normalize ontology relations
         ontology_relations = meta.get("ontology_relations") or []
         for rel in ontology_relations:
