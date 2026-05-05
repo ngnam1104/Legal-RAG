@@ -441,8 +441,8 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
         """)
 
     final_query = query.format(
-        dynamic_f2_blocks="\\n".join(f2_blocks),
-        dynamic_f4_blocks="\\n".join(f4_blocks)
+        dynamic_f2_blocks="\n".join(f2_blocks),
+        dynamic_f4_blocks="\n".join(f4_blocks)
     )
 
     with driver.session() as session:
