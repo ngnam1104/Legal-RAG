@@ -134,7 +134,7 @@ def enrich_reference_nodes(driver, batch_chunks, meta_by_docnum_lookup=None):
 
     query = """
     UNWIND $batch AS doc
-    MERGE (p:Document {{id: doc.id}})
+    MERGE (p:Document {id: doc.id})
     WITH p, doc
     WHERE p.title IS NULL OR p.title = '' OR p.id STARTS WITH 'REF_'
     SET p.document_number = COALESCE(p.document_number, doc.document_number),
@@ -282,7 +282,7 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
     UNWIND $batch AS row
 
     // A. Merge Document chính
-    MERGE (d:Document {{{{id: row.doc_id}}}})
+    MERGE (d:Document {{id: row.doc_id}})
     SET d.document_number = COALESCE(row.doc_num, d.document_number, 'N/A'),
         d.title = COALESCE(row.title, d.title, ''),
         d.promulgation_date = COALESCE(row.p_date, d.promulgation_date, ''),
@@ -295,27 +295,27 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
 
     // B. Merge Authority (Organization with type Authority)
     FOREACH (auth IN CASE WHEN row.auth_name IS NOT NULL AND row.auth_name <> 'N/A' AND row.auth_name <> '' THEN [1] ELSE [] END |
-        MERGE (a:Organization {{{{name: row.auth_name}}}})
+        MERGE (a:Organization {{name: row.auth_name}})
         ON CREATE SET a.type = 'Authority'
         MERGE (d)-[:ISSUED_BY]->(a)
     )
 
     // C. Merge Signer (Person)
     FOREACH (signer IN CASE WHEN row.signer_name IS NOT NULL AND row.signer_name <> '' THEN [1] ELSE [] END |
-        MERGE (s:Person {{{{name: row.signer_name}}}})
+        MERGE (s:Person {{name: row.signer_name}})
         SET s.signer_id = CASE WHEN row.signer_id IS NOT NULL THEN row.signer_id ELSE s.signer_id END
         MERGE (d)-[:SIGNED_BY]->(s)
     )
 
     // D. Merge LegalType
     FOREACH (ltype IN CASE WHEN row.l_type IS NOT NULL AND row.l_type <> 'N/A' AND row.l_type <> '' THEN [1] ELSE [] END |
-        MERGE (lt:LegalType {{{{name: row.l_type}}}})
+        MERGE (lt:LegalType {{name: row.l_type}})
         MERGE (d)-[:HAS_TYPE]->(lt)
     )
 
     // F. Merge Sectors
     FOREACH (sec_name IN row.sectors |
-        MERGE (sec:Sector {{{{name: sec_name}}}})
+        MERGE (sec:Sector {{name: sec_name}})
         MERGE (d)-[:HAS_SECTOR]->(sec)
     )
 
@@ -323,7 +323,7 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
 
     // Nhánh 1: XỬ LÝ ĐIỀU (LEGAL ARTICLE)
     FOREACH (_o IN CASE WHEN row.art_ref IS NOT NULL AND row.art_ref <> '' THEN [1] ELSE [] END |
-        MERGE (art:LegalArticle {{{{id: row.doc_id + '_' + row.art_ref}}}})
+        MERGE (art:LegalArticle {{id: row.doc_id + '_' + row.art_ref}})
         ON CREATE SET art.name = row.art_ref, art.chapter_ref = COALESCE(row.chap_ref, '')
         MERGE (d)-[:HAS_ARTICLE]->(art)
 
@@ -337,8 +337,8 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
 
     // Nhánh 2: XỬ LÝ KHOẢN (CLAUSE)
     FOREACH (_o IN CASE WHEN row.base_cl_ref IS NOT NULL THEN [1] ELSE [] END |
-        MERGE (art:LegalArticle {{{{id: row.doc_id + '_' + row.art_ref}}}})
-        MERGE (cl:Clause {{{{id: row.doc_id + '_' + row.art_ref + '_' + row.base_cl_ref}}}})
+        MERGE (art:LegalArticle {{id: row.doc_id + '_' + row.art_ref}})
+        MERGE (cl:Clause {{id: row.doc_id + '_' + row.art_ref + '_' + row.base_cl_ref}})
         ON CREATE SET cl.name = row.base_cl_ref
         MERGE (cl)-[:PART_OF]->(art)
 
@@ -352,7 +352,7 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
 
     // Nhánh 3: XỬ LÝ CHUNK MẢNH (SPLIT CHUNK)
     FOREACH (_o IN CASE WHEN row.is_chk_leaf THEN [1] ELSE [] END |
-        MERGE (c:Chunk {{{{id: row.chunk_id}}}})
+        MERGE (c:Chunk {{id: row.chunk_id}})
         SET c.chunk_index = row.chunk_idx,
             c.text = COALESCE(row.text, ''),
             c.is_table = row.is_table,
@@ -360,12 +360,12 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
             c.qdrant_id = row.chunk_id
 
         FOREACH (_c IN CASE WHEN row.base_cl_ref IS NOT NULL THEN [1] ELSE [] END |
-            MERGE (cl:Clause {{{{id: row.doc_id + '_' + row.art_ref + '_' + row.base_cl_ref}}}})
+            MERGE (cl:Clause {{id: row.doc_id + '_' + row.art_ref + '_' + row.base_cl_ref}})
             MERGE (c)-[:PART_OF]->(cl)
         )
 
         FOREACH (_a IN CASE WHEN row.base_cl_ref IS NULL AND row.art_ref IS NOT NULL AND row.art_ref <> '' THEN [1] ELSE [] END |
-            MERGE (art:Article {{{{id: row.doc_id + '_' + row.art_ref}}}})
+            MERGE (art:Article {{id: row.doc_id + '_' + row.art_ref}})
             MERGE (c)-[:PART_OF]->(art)
         )
 
@@ -376,18 +376,18 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
 
     // F2. ONTOLOGY RELATIONS (10 NHÃN) VÀ PHANTOM HIERARCHY
     FOREACH (rel IN row.ontology_relations |
-        MERGE (p:Document {{{{document_number: rel.target_doc}}}})
+        MERGE (p:Document {{document_number: rel.target_doc}})
         ON CREATE SET p.id = 'REF_' + rel.target_doc, p.is_full_text = false
         
         FOREACH (_art IN CASE WHEN rel.target_article IS NOT NULL AND rel.target_article <> '' THEN [1] ELSE [] END |
-            MERGE (art:Article {{{{id: COALESCE(p.id, 'REF_' + rel.target_doc) + '_' + rel.target_article}}}})
+            MERGE (art:Article {{id: COALESCE(p.id, 'REF_' + rel.target_doc) + '_' + rel.target_article}})
             ON CREATE SET art.name = rel.target_article
             // Always set target_text if present to overwrite ghost node dummy texts
             SET art.text = CASE WHEN rel.target_text <> '' THEN rel.target_text ELSE COALESCE(art.text, '') END
             MERGE (art)-[:BELONGS_TO]->(p)
             
             FOREACH (_cl IN CASE WHEN rel.target_clause IS NOT NULL AND rel.target_clause <> '' THEN [1] ELSE [] END |
-                MERGE (cl:Clause {{{{id: art.id + '_' + rel.target_clause}}}})
+                MERGE (cl:Clause {{id: art.id + '_' + rel.target_clause}})
                 ON CREATE SET cl.name = rel.target_clause
                 SET cl.text = CASE WHEN rel.target_text <> '' THEN rel.target_text ELSE COALESCE(cl.text, '') END
                 MERGE (cl)-[:PART_OF]->(art)
@@ -405,7 +405,7 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
     // row.refs đã được lọc Python-side: chỉ gồm các ref CHƯА có trong ontology_relations BASED_ON
     FOREACH (ref IN row.refs |
         FOREACH (_o IN CASE WHEN ref.doc_number IS NOT NULL AND ref.doc_number <> '' AND ref.doc_number <> 'unknown' THEN [1] ELSE [] END |
-            MERGE (p:Document {{{{document_number: ref.doc_number}}}})
+            MERGE (p:Document {{document_number: ref.doc_number}})
             ON CREATE SET p.id = 'REF_' + ref.doc_number, p.is_full_text = false
             SET p.title = COALESCE(p.title, ref.doc_title, ''),
                 p.year  = COALESCE(p.year,  ref.doc_year,  'N/A')
@@ -781,7 +781,7 @@ def search_docs_by_keyword(query: str, limit: int = 5):
 def fetch_document_administrative_metadata(doc_number: str) -> str:
     """Lấy thông tin hành chính văn bản qua GraphDB."""
     query = """
-    MATCH (d:Document {{{{document_number: $doc_num}}}})
+    MATCH (d:Document {document_number: $doc_num})
     OPTIONAL MATCH (s:Signer)-[:SIGNED]->(d)
     OPTIONAL MATCH (a:Authority)-[:ISSUED]->(d)
     OPTIONAL MATCH (d)-[:HAS_TYPE]->(lt:LegalType)
