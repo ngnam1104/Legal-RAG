@@ -274,9 +274,9 @@ Chỉ trích xuất khi quan hệ rõ ràng, không suy diễn.
 
 VÍ DỤ MINH HỌA & ĐỊNH DẠNG ĐẦU RA BẮT BUỘC:
 Đoạn: "Sửa đổi khoản 8 Điều 8 Luật GT đường bộ 23/2008/QH12 đã sửa đổi theo Luật 35/2018/QH14. Bộ GTVT chịu trách nhiệm thi hành." (VB: 44/2019/QH14)
-{
+{{
   "doc_relations": [
-    {
+    {{
       "source": "23/2008/QH12",
       "target": "44/2019/QH14",
       "edge_label": "AMENDED_BY",
@@ -285,8 +285,8 @@ VÍ DỤ MINH HỌA & ĐỊNH DẠNG ĐẦU RA BẮT BUỘC:
       "target_clause": "Khoản 8",
       "target_text_content": "",
       "chunk_text": "Sửa đổi khoản 8 Điều 8 Luật GT đường bộ 23/2008/QH12"
-    },
-    {
+    }},
+    {{
       "source": "23/2008/QH12",
       "target": "35/2018/QH14",
       "edge_label": "AMENDED_BY",
@@ -295,23 +295,23 @@ VÍ DỤ MINH HỌA & ĐỊNH DẠNG ĐẦU RA BẮT BUỘC:
       "target_clause": "",
       "target_text_content": "",
       "chunk_text": "đã sửa đổi theo Luật 35/2018/QH14"
-    }
+    }}
   ],
-  "entities": {
+  "entities": {{
     "Organization": ["Bộ Giao thông Vận tải"],
     "LegalArticle": ["Điều 8 Khoản 8"]
-  },
+  }},
   "node_relations": [
-    {
+    {{
       "source_node": "44/2019/QH14",
       "source_type": "Document",
       "target_node": "Bộ Giao thông Vận tải",
       "target_type": "Organization",
       "relationship": "IMPLEMENTED_BY",
       "chunk_text": "Bộ GTVT chịu trách nhiệm thi hành"
-    }
+    }}
   ]
-}
+}}
 """
 
 
