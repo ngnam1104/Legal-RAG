@@ -33,6 +33,12 @@ FIXED_NODE_RELATIONS = {
     "REPLACED_BY", "RELATED_TO",
 }
 
+# Quan hệ LLM hay sinh nhầm — bị loại bỏ hoàn toàn, fallback sang RELATED_TO
+BLACKLIST_RELATIONS = {
+    "IS", "DEADLINE", "EFFECTIVE_FROM", "HAS_MINIMUM_SIZE",
+    "PUBLISHED_ON", "STARTS_AT", "ENDS_AT",
+}
+
 FIXED_DOC_RELATIONS = {
     "BASED_ON", "AMENDS", "REPEALS", "REPLACES",
     "GUIDES", "APPLIES_TO", "ISSUED_WITH", "ASSIGNS", "CORRECTS",
@@ -106,9 +112,9 @@ def _normalize_entity_type(raw_type: str) -> str:
     s = raw_type.strip()
 
     # 0. Alias Mapper (Gộp các nhãn đồng nghĩa)
-    if s in ["Article"]: s = "LegalArticle"
-    if s in ["Authority", "Institution"]: s = "Organization"
-    if s in ["Signer", "PersonRole"]: s = "Person"
+    if s in ["Article"]:                   s = "LegalArticle"
+    if s in ["Authority", "Institution"]:  s = "Organization"
+    if s in ["Signer", "PersonRole"]:      s = "Person"
 
     # 1. Exact match trong cả 2 tập
     if s in FIXED_ENTITY_TYPES or s in DYNAMIC_ENTITY_TYPES:
@@ -146,17 +152,23 @@ def _normalize_relationship(raw_rel: str) -> str:
     # 0. Alias Mapper (Gộp các quan hệ đồng nghĩa / sai format)
     # Lưu ý: chỉ alias các nhãn VIẼT chữ́ động sang bị động tương ưứng (không đảo ngược)
     alias_map = {
-        "ISSUED":          "ISSUED_BY",
-        "SIGNED":          "SIGNED_BY",
-        "APPLIES":         "APPLIES_TO",
-        "SUPERVISED_BY":   "MANAGED_BY",
-        "ACCOUNTABLE_TO":  "MANAGED_BY",
-        "RESPONSIBLE_FOR": "MANAGED_BY",
-        "IMPLEMENTED_BY":  "MANAGED_BY",
-        "ASSIGNS":         "ASSIGNED_BY",
+        "ISSUED":              "ISSUED_BY",
+        "SIGNED":              "SIGNED_BY",
+        "APPLIES":             "APPLIES_TO",
+        "SUPERVISED_BY":       "MANAGED_BY",
+        "ACCOUNTABLE_TO":      "MANAGED_BY",
+        "RESPONSIBLE_FOR":     "MANAGED_BY",
+        "IMPLEMENTED_BY":      "MANAGED_BY",
+        "ASSIGNS":             "ASSIGNED_BY",
+        "OPINION_SEEKED_FROM": "OPINION_SOUGHT_FROM",
+        "SUBMITTED_TO_FOR_OPINION": "SUBMITTED_FOR_OPINION",
     }
     if s in alias_map:
         s = alias_map[s]
+
+    # Blacklist: quan hệ nhiễu/property giả — fallback về RELATED_TO
+    if s in BLACKLIST_RELATIONS:
+        return "RELATED_TO"
 
     # 1. Exact match
     if s in FIXED_NODE_RELATIONS or s in DYNAMIC_NODE_RELATIONS:
