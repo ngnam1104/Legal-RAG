@@ -90,6 +90,9 @@ def _normalize_entity_name(raw_name: str, ent_type: str) -> str:
             
     # Normalize khoảng trắng
     name = re.sub(r'\s+', ' ', name)
+    # Capitalize đầu câu: chữ đầu tiên hoa, giữ nguyên phần còn lại
+    if name:
+        name = name[0].upper() + name[1:]
     return name
 
 
