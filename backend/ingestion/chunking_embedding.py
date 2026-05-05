@@ -49,8 +49,8 @@ except ImportError:
 # CHẾ ĐỘ CHẠY: ĐẶT TEST_MODE = True để test 500 VB y tế với DB riêng
 # Tất cả tham số được đọc từ .env để dễ thay đổi không cần sửa code
 TEST_MODE         = True   # True = test 500 VB y tế | False = Full pipeline
-USE_CHECKPOINT    = False  # Bật để resume nếu sập giữa chừng
-FLUSH_DB_ON_START = False  # True = xóa sạch DB trước khi chạy (chỉ dùng khi reset)
+USE_CHECKPOINT    = True  # Bật để resume nếu sập giữa chừng
+FLUSH_DB_ON_START = True  # True = xóa sạch DB trước khi chạy (chỉ dùng khi reset)
 # ===================================================================
 
 # Đọc credentials từ env (ưu tiên giá trị server đã set, không ghi đè)
@@ -168,7 +168,29 @@ if USE_CHECKPOINT:
 else:
     print("-> KHÔNG sử dụng Checkpoint (sẽ chạy lại từ đầu).")
 
-# --- KHỞI TẠO ---
+# --- KHỞI TẠO & DATABASE ---
+driver = get_neo4j_driver()
+collection_name = os.environ.get("QDRANT_COLLECTION", "legal_rag_docs_nam")
+
+if FLUSH_DB_ON_START:
+    print("\n-> Đang Flush toàn bộ database (FLUSH_DB_ON_START=True)...")
+    if qdrant.collection_exists(collection_name):
+        qdrant.delete_collection(collection_name=collection_name)
+        print(f"   Deleted Qdrant Collection '{collection_name}'.")
+    if driver:
+        with driver.session() as session:
+            session.run("MATCH (n) DETACH DELETE n")
+            mode_label = "test container" if TEST_MODE else "production"
+            print(f"   Deleted all nodes in Neo4j ({mode_label}).")
+    ensure_collection(qdrant, collection_name=collection_name)
+else:
+    print("\n-> BỎ QUA Flush Database (FLUSH_DB_ON_START=False). DB hiện tại sẽ được cập nhật (upsert/merge) tiếp.")
+    if not qdrant.collection_exists(collection_name):
+        ensure_collection(qdrant, collection_name=collection_name)
+
+if driver:
+    init_neo4j_constraints(driver)
+
 chunker = AdvancedLegalChunker()
 # BATCH_SIZE: số tài liệu xử lý mỗi làn (chunk + LLM extract).
 # Tăng lên 8 để tăng throughput; LLM calls bên dưới đã song song hóa.
@@ -289,6 +311,8 @@ def process_doc_batch(doc_ids, pbar, discovered_set=None, newly_processed_list=N
     global total_rels, global_cross_rel_count, global_overlap_skipped, total_entities, total_node_rels
     import concurrent.futures
 
+    batch_neo4j_chunks = []
+
     def process_single_doc(doc_id):
         if doc_id in processed_ids: return doc_id, None, None
         idx_content = content_id_to_idx.get(doc_id)
@@ -337,6 +361,7 @@ def process_doc_batch(doc_ids, pbar, discovered_set=None, newly_processed_list=N
 
             if doc_chunks:
                 all_chunks.extend(doc_chunks)
+                batch_neo4j_chunks.extend(doc_chunks)
                 
                 first_meta = doc_chunks[0].get("neo4j_metadata", doc_chunks[0].get("metadata", {}))
                 rels = first_meta.get("ontology_relations", [])
@@ -380,6 +405,61 @@ def process_doc_batch(doc_ids, pbar, discovered_set=None, newly_processed_list=N
                 pbar.set_postfix({"Chunks": len(all_chunks), "Rels": total_rels, "CrossRels": global_cross_rel_count, "RefDocsAdded": len(discovered_set)})
             else:
                 pbar.set_postfix({"Chunks": len(all_chunks), "Rels": total_rels, "CrossRels": global_cross_rel_count, "RefDocsAdded": len(all_referenced_target_keys)})
+
+    # ---------------------------------------------------------
+    # ĐƯA LÊN GRAPH DB NGAY SAU KHI TRÍCH RELATION CỦA BATCH NÀY
+    # ---------------------------------------------------------
+    if driver and batch_neo4j_chunks:
+        # 1. Xây dựng Knowledge Graph động (Dynamic Tree)
+        build_neo4j(driver, batch_neo4j_chunks, meta_by_docnum_lookup=meta_by_docnum_lookup)
+        
+        # 2. Xây dựng Knowledge Graph tự do (từ LLM Extractor - legacy fallback)
+        with driver.session() as session:
+            for chunk in batch_neo4j_chunks:
+                meta = chunk.get("neo4j_metadata", {})
+                if meta.get("node_relations"):
+                    continue
+                triplets = meta.get("graph_triplets", [])
+                for t in triplets:
+                    src_name = t.get("source_node")
+                    src_type = str(t.get("source_type", "Entity")).replace(" ", "")
+                    tgt_name = t.get("target_node")
+                    tgt_type = str(t.get("target_type", "Entity")).replace(" ", "")
+                    rel_name = str(t.get("relationship", "RELATED_TO")).replace(" ", "_").upper()
+                    
+                    if not src_name or not tgt_name: continue
+                        
+                    src_lbl = ''.join(e for e in src_type if e.isalnum()) or 'Entity'
+                    tgt_lbl = ''.join(e for e in tgt_type if e.isalnum()) or 'Entity'
+                    rel_lbl = ''.join(e for e in rel_name if e.isalnum() or e == '_') or 'RELATED_TO'
+
+                    q = f"""
+                    MERGE (a:{src_lbl} {{name: $src_name}})
+                    MERGE (b:{tgt_lbl} {{name: $tgt_name}})
+                    MERGE (a)-[r:{rel_lbl}]->(b)
+                    """
+                    try:
+                        session.run(q, src_name=str(src_name).strip(), tgt_name=str(tgt_name).strip())
+                    except Exception:
+                        pass
+        
+        # 3. Entity Enrichment mới (10 loại Entity + Node Relations)
+        enrich_params = []
+        for chunk in batch_neo4j_chunks:
+            meta = chunk.get("neo4j_metadata", {})
+            ents = meta.get("entities")
+            node_rels = meta.get("node_relations")
+            if ents or node_rels:
+                enrich_params.append({
+                    "qdrant_id": chunk.get("chunk_id", ""),
+                    "entities": ents or {},
+                    "node_relations": node_rels or [],
+                })
+        if enrich_params:
+            try:
+                enrich_chunk_entities(driver, enrich_params, use_apoc=False)
+            except Exception as e:
+                print(f" Lỗi khi enrich entity: {e}")
 
 # ============================================================
 # PHASE 1: Chunk + Embed ORIGINAL documents (8000)
@@ -488,27 +568,27 @@ for ref_key in all_referenced_target_keys:
 
 print(f"PHASE 4 complete: {len(ghost_nodes)} ghost nodes to create in Neo4j.")
 
-# --- FLUSH DATABASE ---
-collection_name = os.environ.get("QDRANT_COLLECTION", "legal_rag_docs_nam")
-if FLUSH_DB_ON_START:
-    print("\n-> Đang Flush toàn bộ database (FLUSH_DB_ON_START=True)...")
-    if qdrant.collection_exists(collection_name):
-        qdrant.delete_collection(collection_name=collection_name)
-        print(f"   Deleted Qdrant Collection '{collection_name}'.")
-    driver = get_neo4j_driver()
-    if driver:
-        with driver.session() as session:
-            # TEST_MODE: xóa toàn bộ DB test (đã là container riêng, MATCH n xóa hết là an toàn)
-            # PROD MODE: xóa toàn bộ production DB
-            session.run("MATCH (n) DETACH DELETE n")
-            mode_label = "test container" if TEST_MODE else "production"
-            print(f"   Deleted all nodes in Neo4j ({mode_label}).")
-        driver.close()
-    ensure_collection(qdrant, collection_name=collection_name)
-else:
-    print("\n-> BỎ QUA Flush Database (FLUSH_DB_ON_START=False). DB hiện tại sẽ được cập nhật (upsert/merge) tiếp.")
-    if not qdrant.collection_exists(collection_name):
-        ensure_collection(qdrant, collection_name=collection_name)
+# Đưa ghost nodes lên Neo4j
+if driver and ghost_nodes:
+    print(f"-> Đang đẩy {len(ghost_nodes)} ghost nodes lên Neo4j...")
+    with driver.session() as session:
+        for gn in ghost_nodes:
+            session.run(
+                """
+                MERGE (d:Document {document_number: $doc_num})
+                ON CREATE SET
+                    d.title             = $title,
+                    d.legal_type        = $legal_type,
+                    d.issuing_authority = $issuing_authority,
+                    d.is_ghost          = true,
+                    d.test_mode         = $test_mode
+                """,
+                doc_num=gn["document_number"],
+                title=gn["title"],
+                legal_type=gn["legal_type"],
+                issuing_authority=gn["issuing_authority"],
+                test_mode=TEST_MODE
+            )
 
 # ============================================================
 # PHASE 5: Embedding + Upload Qdrant
@@ -579,112 +659,8 @@ pbar5.close()
 skipped_embed = len(all_chunks) - actual_embed_count
 print(f"   Embedded & upserted: {actual_embed_count} chunks | Skipped (already uploaded): {skipped_embed}")
 
-# ============================================================
-# PHASE 6: Build Neo4j Graph (nodes đầy đủ + ghost nodes)
-# ============================================================
-print("\n" + "=" * 60)
-print("PHASE 6: Building Neo4j Graph")
-print("=" * 60)
-
-driver = get_neo4j_driver()
 if driver:
-    # 5a. Khởi tạo ràng buộc Unique để chặn tạo node trùng lặp
-    init_neo4j_constraints(driver)
-    
-    # 5b. Tạo nodes/edges đầy đủ từ all_chunks
-    graph_batch_size = 5000
-    pbar6 = tqdm(total=len(all_chunks), desc="PHASE 6: Graph Nodes", unit="chunk")
-    for i in range(0, len(all_chunks), graph_batch_size):
-        chunk_batch = all_chunks[i:i+graph_batch_size]
-        build_neo4j(driver, chunk_batch, meta_by_docnum_lookup=meta_by_docnum_lookup)
-        pbar6.update(len(chunk_batch))
-    pbar6.close()
-
-    # 5b. Tạo ghost nodes (MERGE để không trùng nếu đã tồn tại)
-    if ghost_nodes:
-        with driver.session() as session:
-            for gn in ghost_nodes:
-                session.run(
-                    """
-                    MERGE (d:Document {document_number: $doc_num})
-                    ON CREATE SET
-                        d.title             = $title,
-                        d.legal_type        = $legal_type,
-                        d.issuing_authority = $issuing_authority,
-                        d.is_ghost          = true,
-                        d.test_mode         = $test_mode
-                    """,
-                    doc_num=gn["document_number"],
-                    title=gn["title"],
-                    legal_type=gn["legal_type"],
-                    issuing_authority=gn["issuing_authority"],
-                    test_mode=TEST_MODE
-                )
-        print(f"   Created {len(ghost_nodes)} ghost nodes in Neo4j.")
-        
-    # 6c. graph_triplets (legacy) — CHỈ xử lý nếu chunk KHÔNG có node_relations từ Unified Extractor
-    # Tránh duplicate: nếu chunk đã có node_relations thì bỏ qua graph_triplets
-    print("   -> Đang xây dựng Knowledge Graph tự do (từ LLM Extractor - legacy fallback)...")
-    with driver.session() as session:
-        triplet_count = 0
-        for chunk in all_chunks:
-            meta = chunk.get("neo4j_metadata", {})
-            # Skip nếu đã có node_relations từ Unified Extractor (tránh duplicate)
-            if meta.get("node_relations"):
-                continue
-            triplets = meta.get("graph_triplets", [])
-            for t in triplets:
-                src_name = t.get("source_node")
-                src_type = str(t.get("source_type", "Entity")).replace(" ", "")
-                tgt_name = t.get("target_node")
-                tgt_type = str(t.get("target_type", "Entity")).replace(" ", "")
-                rel_name = str(t.get("relationship", "RELATED_TO")).replace(" ", "_").upper()
-                
-                if not src_name or not tgt_name:
-                    continue
-                    
-                # Làm sạch nhãn chống lỗi Syntax Cypher
-                src_lbl = ''.join(e for e in src_type if e.isalnum()) or 'Entity'
-                tgt_lbl = ''.join(e for e in tgt_type if e.isalnum()) or 'Entity'
-                rel_lbl = ''.join(e for e in rel_name if e.isalnum() or e == '_') or 'RELATED_TO'
-
-                q = f"""
-                MERGE (a:{src_lbl} {{name: $src_name}})
-                MERGE (b:{tgt_lbl} {{name: $tgt_name}})
-                MERGE (a)-[r:{rel_lbl}]->(b)
-                """
-                try:
-                    session.run(q, src_name=str(src_name).strip(), tgt_name=str(tgt_name).strip())
-                    triplet_count += 1
-                except Exception as e:
-                    pass
-        print(f"   Upserted {triplet_count} legacy Graph Triplets to Neo4j (only for chunks without node_relations).")
-
-    # 6d. Entity Enrichment mới: đẩy 10 loại entity + node_relations (từ Unified Extractor)
-    print("   -> Đang enrich 10 loại Entity từ Unified Extractor vào Neo4j...")
-    enrich_params = []
-    for chunk in all_chunks:
-        meta = chunk.get("neo4j_metadata", {})
-        ents = meta.get("entities")
-        node_rels = meta.get("node_relations")
-        if ents or node_rels:
-            enrich_params.append({
-                "qdrant_id": chunk.get("chunk_id", ""),
-                "entities": ents or {},
-                "node_relations": node_rels or [],
-            })
-    if enrich_params:
-        # use_apoc=False để an toàn khi chưa chắc APOC được cài.
-        # Đổi sang use_apoc=True nếu Neo4j có APOC plugin.
-        enrich_chunk_entities(driver, enrich_params, use_apoc=False)
-        print(f"   Enriched {len(enrich_params)} chunks với entity/node_relation data.")
-    else:
-        print("   (Không có entity data từ Unified Extractor để enrich.)")
-
     driver.close()
-    print("   Neo4j Graph update complete.")
-else:
-    print("   Err: Could not connect to Neo4j.")
 
 # --- FINAL STATISTICS ---
 import time

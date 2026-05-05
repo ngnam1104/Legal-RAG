@@ -96,10 +96,19 @@ def enrich_reference_nodes(driver, batch_chunks, meta_by_docnum_lookup=None):
                     missing_docs.add(src_num.strip())
 
     enrich_payloads = []
+    seen_ids = set()
     for dnum in missing_docs:
         key = normalize_doc_key(dnum)
         if key in meta_by_docnum_lookup:
             hf = meta_by_docnum_lookup[key]
+
+            # Use canonical doc_number and id to avoid uniqueness constraint violation
+            canonical_doc_num = hf.get("document_number") or dnum
+            doc_id = str(hf.get("id", f"REF_{canonical_doc_num}"))
+            
+            if doc_id in seen_ids:
+                continue
+            seen_ids.add(doc_id)
 
             p_date = str(hf.get("issuance_date", "")).split("T")[0] if hf.get("issuance_date") else ""
 
@@ -109,8 +118,8 @@ def enrich_reference_nodes(driver, batch_chunks, meta_by_docnum_lookup=None):
             year_val = m_yr.group(1) if m_yr else str(hf.get("year", ""))
 
             enrich_payloads.append({
-                "document_number": dnum,
-                "id": str(hf.get("id", f"REF_{dnum}")),
+                "document_number": canonical_doc_num,
+                "id": doc_id,
                 "title": hf.get("title", ""),
                 "url": hf.get("url", ""),
                 "p_date": p_date,
@@ -125,10 +134,10 @@ def enrich_reference_nodes(driver, batch_chunks, meta_by_docnum_lookup=None):
 
     query = """
     UNWIND $batch AS doc
-    MERGE (p:Document {document_number: doc.document_number})
+    MERGE (p:Document {id: doc.id})
     WITH p, doc
     WHERE p.title IS NULL OR p.title = '' OR p.id STARTS WITH 'REF_'
-    SET p.id = doc.id,
+    SET p.document_number = COALESCE(p.document_number, doc.document_number),
         p.title = doc.title,
         p.url = doc.url,
         p.promulgation_date = doc.p_date,
@@ -213,19 +222,56 @@ def build_neo4j(driver, batch_chunks, meta_by_docnum_lookup=None):
             "doc_status": meta.get("doc_status") or "Đang có hiệu lực",
             "doc_toc": meta.get("document_toc") or "",
             "sectors": meta.get("legal_sectors") or [],
-            "ontology_relations": meta.get("ontology_relations") or [],
+        # Normalize ontology relations
+        ontology_relations = meta.get("ontology_relations") or []
+        for rel in ontology_relations:
+            # Normalize target_doc
+            tdoc = rel.get("target_doc")
+            if tdoc and meta_by_docnum_lookup:
+                key = normalize_doc_key(tdoc)
+                if key in meta_by_docnum_lookup:
+                    rel["target_doc"] = meta_by_docnum_lookup[key].get("document_number") or tdoc
+            # Normalize source_doc
+            sdoc = rel.get("source_doc")
+            if sdoc and meta_by_docnum_lookup:
+                key = normalize_doc_key(sdoc)
+                if key in meta_by_docnum_lookup:
+                    rel["source_doc"] = meta_by_docnum_lookup[key].get("document_number") or sdoc
+
+        # Normalize legal basis refs
+        refs = []
+        for r in (meta.get("legal_basis_refs") or []):
+            rdoc = r.get("doc_number")
+            if rdoc and meta_by_docnum_lookup:
+                key = normalize_doc_key(rdoc)
+                if key in meta_by_docnum_lookup:
+                    r["doc_number"] = meta_by_docnum_lookup[key].get("document_number") or rdoc
+            
+            # Check if covered by ontology_relations
+            if r.get("doc_number") and r["doc_number"] not in {
+                rel.get("target_doc") for rel in ontology_relations if rel.get("edge_label") == "BASED_ON"
+            }:
+                refs.append(r)
+
+        params.append({
+            "doc_id": meta.get("document_id"),
+            "doc_num": meta.get("document_number") or "N/A",
+            "title": meta.get("title") or "",
+            "l_type": meta.get("legal_type") or "N/A",
+            "p_date": p_date or "",
+            "year": year,
+            "url": meta.get("url") or "",
+            "auth_name": meta.get("issuing_authority") or "",
+            "signer_name": meta.get("signer_name") or "",
+            "signer_id": meta.get("signer_id"),
+            "eff_date": meta.get("effective_date") or "",
+            "doc_status": meta.get("doc_status") or "Đang có hiệu lực",
+            "doc_toc": meta.get("document_toc") or "",
+            "sectors": meta.get("legal_sectors") or [],
+            "ontology_relations": ontology_relations,
 
             # legal_basis_refs: chỉ giữ các ref CHƯА được ontology_relations BASED_ON phủ đủ
-            # (tránh push BASED_ON 2 lần khi LLM đã trích xuất được)
-            "refs": [
-                r for r in (meta.get("legal_basis_refs") or [])
-                if r.get("doc_number")
-                and r["doc_number"] not in {
-                    rel.get("target_doc")
-                    for rel in (meta.get("ontology_relations") or [])
-                    if rel.get("edge_label") == "BASED_ON"
-                }
-            ],
+            "refs": refs,
 
             # Thông tin Phân cấp và Lá
             "chunk_id": chunk.get("chunk_id"),
