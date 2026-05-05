@@ -1097,8 +1097,10 @@ def _enrich_fallback(driver, params_list: list) -> None:
     Fallback không cần APOC: chạy 1 Cypher riêng cho mỗi loại entity/relation.
     Sử dụng MERGE toàn phần — đảm bảo node và edge đã có thì NỐI VÀO chứ không tạo mới.
     """
-    per_label: dict = {}   # {label_str: [{qdrant_id, name}]}
-    per_rel: dict   = {}   # {"SRC_TYPE|TGT_TYPE|REL_TYPE": [{src_node, src_type, tgt_node, tgt_type, rel, chunk_text}]}
+    per_label: dict = {}        # {label_str: [{qdrant_id, name}]}
+    per_label_seen: dict = {}   # {label_str: set(name)} — Python-side dedup
+    per_rel: dict   = {}        # {key: [{src_node, tgt_node, chunk_text}]}
+    per_rel_seen: dict  = {}    # {key: set((src, tgt))} — Python-side dedup
 
     import re
     for p in params_list:
@@ -1113,9 +1115,11 @@ def _enrich_fallback(driver, params_list: list) -> None:
             if not clean_label:
                 continue
             bucket = per_label.setdefault(clean_label, [])
+            seen   = per_label_seen.setdefault(clean_label, set())
             for name in names:
                 name = str(name).strip()
-                if name:
+                if name and name not in seen:
+                    seen.add(name)
                     bucket.append({"qdrant_id": qdrant_id, "name": name})
 
         # --- Node Relations ---
@@ -1128,6 +1132,11 @@ def _enrich_fallback(driver, params_list: list) -> None:
             if not src_node or not tgt_node:
                 continue
             key = f"{src_type}|{tgt_type}|{rel_type}"
+            seen_pairs = per_rel_seen.setdefault(key, set())
+            pair = (src_node, tgt_node)
+            if pair in seen_pairs:
+                continue
+            seen_pairs.add(pair)
             per_rel.setdefault(key, []).append({
                 "src_node":  src_node,
                 "tgt_node":  tgt_node,
