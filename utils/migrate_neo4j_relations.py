@@ -10,11 +10,12 @@ if sys.stdout.encoding.lower() != 'utf-8':
 
 load_dotenv()
 
-import os as _os, sys as _sys
+import os as _os, sys as _sys   
 _sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 from backend.config import (
     CHUNKING_RELATIONS, FIXED_NODE_RELATIONS, BLACKLIST_RELATIONS,
-    FIXED_DOC_RELATIONS, _VERB_ROOT_CANONICAL, _CROSS_VERB_MAPPING
+    FIXED_DOC_RELATIONS, _VERB_ROOT_CANONICAL, _CROSS_VERB_MAPPING,
+    _normalize_relationship
 )
 
 try:
@@ -22,14 +23,6 @@ try:
 except ImportError:
     print("[ERROR] Cần cài đặt neo4j driver: pip install neo4j")
     sys.exit(1)
-
-
-
-
-
-
-
-
 
 def get_driver(uri, user, password):
     try:

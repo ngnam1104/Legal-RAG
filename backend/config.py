@@ -333,3 +333,297 @@ _VI_TRANSLATION_MAP = {
     "PROVIDED_BY": "Được cung cấp bởi",
     "PROVIDED_TO": "Cung cấp cho",
 }
+
+# =====================================================================
+# 5. NORMALIZATION FUNCTIONS
+# =====================================================================
+
+def _normalize_relationship(raw_rel: str) -> str:
+    """
+    Pipeline chuẩn hoá quan hệ — CLOSED SET, không tạo DYNAMIC mới:
+    0. _CROSS_VERB_MAPPING → ánh xạ cận nghĩa
+    1. Blacklist → RELATED_TO
+    2. Comprehensive alias_map (chủ động→bị động, đồng nghĩa→canonical)
+    3. Exact match FIXED_NODE_RELATIONS
+    4. Verb-root fuzzy match → canonical FIXED
+    5. Fallback: GIỮ NGUYÊN (bảo tồn)
+    """
+    if not raw_rel:
+        return "RELATED_TO"
+    s = raw_rel.strip().upper().replace(" ", "_")
+
+    # 0. Ánh xạ cận nghĩa / dọn rác
+    if s in _CROSS_VERB_MAPPING:
+        s = _CROSS_VERB_MAPPING[s]
+
+    # 1. Blacklist
+    if s in BLACKLIST_RELATIONS:
+        return "RELATED_TO"
+
+    # 2. Comprehensive alias map
+    _ALIAS: dict = {
+        # --- Chủ động → Bị động (Issuance / Acceptance) ---
+        "ISSUES":              "ISSUED_BY",
+        "ISSUED":              "ISSUED_BY",
+        "SIGNS":               "SIGNED_BY",
+        "SIGNED":              "SIGNED_BY",
+        "APPROVES":            "APPROVED_BY",
+        "APPROVED":            "APPROVED_BY",
+        "PUBLISHES":           "PUBLISHED_BY",
+        "PUBLISHED":           "PUBLISHED_BY",
+        "PUBLISHES_IN":        "PUBLISHED_BY",
+        "CREATES":             "CREATED_BY",
+        "CREATED":             "CREATED_BY",
+        "ESTABLISHES":         "ESTABLISHED_BY",
+        "ESTABLISHED":         "ESTABLISHED_BY",
+        "ACCEPTS":             "ACCEPTED_BY",
+        "CONFIRMS":            "CONFIRMED_BY",
+        "ACKNOWLEDGES":        "ACKNOWLEDGED_BY",
+        # --- Implementation ---
+        "IMPLEMENTS":          "IMPLEMENTED_BY",
+        "PERFORMS":            "IMPLEMENTED_BY",
+        "PERFORMED_BY":        "IMPLEMENTED_BY",
+        "CARRIED_OUT_BY":      "IMPLEMENTED_BY",
+        "DIRECTS_IMPLEMENTATION_OF": "IMPLEMENTED_BY",
+        "GUIDES_IMPLEMENTATION_OF":  "IMPLEMENTED_BY",
+        "ENFORCES":            "ENFORCED_BY",
+        "APPLIES":             "APPLIED_BY",
+        "EXECUTES":            "EXECUTED_BY",
+        "EXECUTED":            "EXECUTED_BY",
+        "EXECUTES_AT":         "EXECUTED_BY",
+        # --- Management synonyms → MANAGED_BY ---
+        "MANAGES":             "MANAGED_BY",
+        "GOVERNS":             "MANAGED_BY",
+        "GOVERNED_BY":         "MANAGED_BY",
+        "SUPERVISED_BY":       "MANAGED_BY",
+        "SUPERVISES":          "MANAGED_BY",
+        "DIRECTED_BY":         "MANAGED_BY",
+        "DIRECTS":             "MANAGED_BY",
+        "LEADS":               "MANAGED_BY",
+        "LEAD_BY":             "MANAGED_BY",
+        "OPERATES_UNDER":      "MANAGED_BY",
+        "SUBORDINATE_TO":      "MANAGED_BY",
+        "IS_RESPONSIBLE_FOR":  "MANAGED_BY",
+        "RESPONSIBLE_FOR":     "MANAGED_BY",
+        "ACCOUNTABLE_TO":      "MANAGED_BY",
+        "IS_HIGHEST_AUTHORITY_OF": "MANAGED_BY",
+        "CHAIRMANED_BY":       "MANAGED_BY",
+        "ASSESSES":            "MANAGED_BY",
+        "DECIDES":             "DECIDED_BY",
+        "DETERMINES":          "DETERMINED_BY",
+        "ORGANIZES":           "ORGANIZED_BY",
+        "INITIATES":           "INITIATED_BY",
+        "GUIDES":              "GUIDED_BY",
+        "HANDLES":             "HANDLED_BY",
+        # --- Regulation ---
+        "REGULATES":           "REGULATED_BY",
+        "COORDINATES":         "COORDINATED_BY",
+        "COORDINATED_WITH":    "COORDINATED_BY",
+        "COORDINATES_WITH":    "COORDINATED_BY",
+        "CONTRACTS_WITH":      "COOPERATES_WITH",
+        "ORGANIZES_WITH":      "ORGANIZED_WITH",
+        "PARTICIPATES_IN":     "PARTICIPATED_BY",
+        "CONSULTED_WITH":      "CONSULTED_BY",
+        # --- Transfer / Assignment ---
+        "TRANSFERS":           "TRANSFERRED_TO",
+        "TRANSFERS_TO":        "TRANSFERRED_TO",
+        "TRANSFERRED_BY":      "TRANSFERRED_TO",
+        "TRANSFERRED_VIA":     "TRANSFERRED_TO",
+        "TRANSPORTS":          "TRANSFERRED_TO",
+        "DELIVERS":            "TRANSFERRED_TO",
+        "DELIVERED_TO":        "TRANSFERRED_TO",
+        "SUBMITS":             "SUBMITTED_TO",
+        "SUBMITS_TO":          "SUBMITTED_TO",
+        "SUBMITTED_BY":        "SUBMITTED_TO",
+        "DELEGATES":           "DELEGATED_TO",
+        "DELEGATES_TO":        "DELEGATED_TO",
+        "ASSIGNS":             "ASSIGNED_TO",
+        "ASSIGNED":            "ASSIGNED_TO",
+        "RETURNED_TO":         "TRANSFERRED_TO",
+        "RETURNED_BY":         "TRANSFERRED_TO",
+        "APPOINTS":            "APPOINTED_BY",
+        "EMPLOYS":             "EMPLOYED_BY",
+        "IMPORTS":             "IMPORTED_BY",
+        "PROPOSED_TO":         "SUBMITTED_TO",
+        # --- Reporting / Notification ---
+        "REPORTS":             "REPORTED_TO",
+        "REPORTS_TO":          "REPORTED_TO",
+        "REPORTED_BY":         "REPORTED_TO",
+        "REPORTS_ON":          "REPORTED_TO",
+        "REPORTS_VIOLATIONS_TO": "REPORTED_TO",
+        "NOTIFIES":            "NOTIFIED_TO",
+        "NOTIFIED_BY":         "NOTIFIED_TO",
+        "INFORMS":             "NOTIFIED_TO",
+        "PROVIDES_INFO_TO":    "NOTIFIED_TO",
+        "PUBLISHES_INFO_TO":   "NOTIFIED_TO",
+        "TRANSMITS_DATA_TO":   "NOTIFIED_TO",
+        "REQUESTS_INFO_FROM":  "NOTIFIED_TO",
+        "RECEIVES_INFO_FROM":  "NOTIFIED_TO",
+        "RECEIVES":            "RECEIVED_BY",
+        "RECEIVED_FROM":       "RECEIVED_BY",
+        # --- Permission / Prohibition ---
+        "PERMITS":             "PERMITTED_TO",
+        "PERMITTED_FOR":       "PERMITTED_TO",
+        "PERMITTED_TO_USE":    "PERMITTED_TO",
+        "CAN_PERFORM":         "PERMITTED_TO",
+        "PROHIBITS":           "PROHIBITED_FROM",
+        "PROHIBITED_FOR":      "PROHIBITED_FROM",
+        "PROHIBITED_IN":       "PROHIBITED_FROM",
+        "PROHIBITED_BY":       "PROHIBITED_FROM",
+        "PREVENTED_BY":        "PROHIBITED_FROM",
+        "PROHIBITED_FROM_CONTAINING": "PROHIBITED_FROM",
+        "MUST_NOT_PERFORM":    "PROHIBITED_FROM",
+        "MUST_NOT_MISLEAD":    "PROHIBITED_FROM",
+        "MUST_PROTECT":        "PROTECTED_BY",
+        "PROTECTS":            "PROTECTED_BY",
+        "EXEMPT":              "EXEMPT_FROM",
+        "EXCLUDED_FROM":       "EXEMPT_FROM",
+        "EXEMPTS":             "EXEMPT_FROM",
+        "ENTITLES":            "ENTITLED_TO",
+        "PRIORITY_FOR":        "ENTITLED_TO",
+        "PRIORITY_OVER":       "ENTITLED_TO",
+        "HAS_PRIORITY_ACCESS_TO": "ENTITLED_TO",
+        # --- Requirement / Compliance ---
+        "REQUIRES":            "REQUIRED_FOR",
+        "REQUIRED":            "REQUIRED_FOR",
+        "MUST_COMPLY_WITH":    "COMPLIES_WITH",
+        "MUST_MEET":           "COMPLIES_WITH",
+        "CONFORMS_TO":         "COMPLIES_WITH",
+        "CONDITIONED_ON":      "COMPLIES_WITH",
+        "ENSURES_COMPLIANCE_WITH": "COMPLIES_WITH",
+        "COMPLIES":            "COMPLIES_WITH",
+        "ENSURES":             "ENSURED_BY",
+        "AFFECTED":            "AFFECTED_BY",
+        "AFFECTS":             "AFFECTED_BY",
+        "SUBJECTED_TO":        "AFFECTED_BY",
+        # --- Definition / Classification ---
+        "DEFINES":             "DEFINED_IN",
+        "DEFINED_AS":          "DEFINED_IN",
+        "DEFINED_BY":          "DEFINED_IN",
+        "DEFINED_FOR":         "DEFINED_IN",
+        "DEFINED_BY_ABSENCE_OF": "DEFINED_IN",
+        "CLASSIFIED_IN":       "CLASSIFIED_AS",
+        "CLASSIFIED":          "CLASSIFIED_AS",
+        "MARKED_WITH":         "CLASSIFIED_AS",
+        "NAMED_AFTER":         "CLASSIFIED_AS",
+        "IS_LEGAL_REPRESENTATIVE_OF": "BELONGS_TO",
+        "CONTAINED_IN":        "PART_OF",
+        "CONTAINS":            "PART_OF",
+        "INCLUDED_IN":         "PART_OF",
+        "INCLUDES":            "PART_OF",
+        "ATTACHED_TO":         "PART_OF",
+        "WORKS_FOR":           "BELONGS_TO",
+        "WORKS_IN":            "BELONGS_TO",
+        "REPRESENTS":          "REPRESENTED_BY",
+        # --- Financial ---
+        "FUNDS":               "FUNDED_BY",
+        "PAYS":                "PAID_TO",
+        "PAID_FOR":            "PAID_TO",
+        "DEDUCTED_FROM":       "PAID_TO",
+        "COMPENSATED_BY":      "PAID_BY",
+        "COLLECTS":            "COLLECTED_BY",
+        "DEPOSITED_TO":        "PAID_TO",
+        "PURCHASED_FROM":      "PAID_BY",
+        "FUNDED":              "FUNDED_BY",
+        "ALLOCATED_BY":        "FUNDED_BY",
+        "ALLOCATED_FOR":       "FUNDED_BY",
+        "ALLOCATED_FROM":      "FUNDED_BY",
+        "ALLOCATED_TO":        "FUNDED_BY",
+        "ALLOCATED_VIA":       "FUNDED_BY",
+        "ALLOCATES":           "FUNDED_BY",
+        # --- Document synonyms ---
+        "REPLACES":            "REPLACED_BY",
+        "AMENDS":              "AMENDED_BY",
+        "AMENDED":             "AMENDED_BY",
+        "REPEALS":             "REPEALED_BY",
+        "REMOVED_FROM":        "REPEALED_BY",
+        "REFERENCES":          "REFERENCED_BY",
+        "REFERS_TO":           "REFERENCED_BY",
+        "REFERRED_BY":         "REFERENCED_BY",
+        # --- General ---
+        "ISSUED_FOR":          "APPLIES_TO",
+        "DESIGNED_FOR":        "APPLIES_TO",
+        "ORGANIZED_FOR":       "APPLIES_TO",
+        "PERMITTED_BY":        "APPLIES_TO",
+        "RELATED":             "RELATED_TO",
+        "CONNECTED_TO":        "RELATED_TO",
+        "SYNCHRONIZED_WITH":   "RELATED_TO",
+        "IS_EQUAL_TO":         "RELATED_TO",
+        "SUPPLEMENTED_BY":     "RELATED_TO",
+        "COVERS":              "RELATED_TO",
+        "COVERED_BY":          "RELATED_TO",
+        "LEASED_BY":           "RELATED_TO",
+        "ASSUMES":             "RELATED_TO",
+        "SEPARATED_FROM":      "RELATED_TO",
+        "STORED_AT":           "LOCATED_IN",
+        # --- Other active → canonical ---
+        "PRODUCES":            "CREATED_BY",
+        "GENERATED_BY":        "CREATED_BY",
+        "GENERATES":           "CREATED_BY",
+        "REVOKES":             "REPEALED_BY",
+        "REVOKED_BY":          "REPEALED_BY",
+        "SUSPENDED_BY":        "REPEALED_BY",
+        "TERMINATED_BY":       "REPEALED_BY",
+        "UPDATED_BY":          "AMENDED_BY",
+        "UPDATES":             "AMENDED_BY",
+        "MODIFIED_BY":         "AMENDED_BY",
+        "MODIFIED_VIA":        "AMENDED_BY",
+        "CORRECTED_BY":        "AMENDED_BY",
+        "EXTENDED_BY":         "AMENDED_BY",
+        "SUPPORTED_BY":        "IMPLEMENTED_BY",
+        "SUPPORTS":            "IMPLEMENTED_BY",
+        "ASSISTED_BY":         "IMPLEMENTED_BY",
+        "MAINTAINED_BY":       "IMPLEMENTED_BY",
+        "MAINTAINS":           "IMPLEMENTED_BY",
+        "SERVICED_BY":         "IMPLEMENTED_BY",
+        "SERVICES":            "IMPLEMENTED_BY",
+        "PROCESSED_BY":        "IMPLEMENTED_BY",
+        "PROCESSED_IN":        "IMPLEMENTED_BY",
+        "TEACHES":             "EDUCATED_BY",
+        "TRAINING_PROVIDED_BY": "EDUCATED_BY",
+        "TRIGGERS":            "TRIGGERED_BY",
+        "USES":                "USED_BY",
+        "PROVIDES":            "PROVIDED_BY",
+        "PROVIDES_TO":         "PROVIDED_TO",
+        "OPENS":               "OPENED_BY",
+        "DEVELOPS":            "DEVELOPED_BY",
+        "PREPARES":            "PREPARED_BY",
+        "PREPARED_WITH":       "PREPARED_BY",
+        "AWARDS":              "AWARDED_BY",
+        "AWARDED_WITH":        "AWARDED_TO",
+        "CALCULATED_FROM":     "CALCULATED_BY",
+        "MONITORED_BY":        "MANAGED_BY",
+        "INSPECTED_BY":        "MANAGED_BY",
+        "ASSESSED_BY":         "MANAGED_BY",
+        "EVALUATED_BY":        "MANAGED_BY",
+        "VERIFIED_BY":         "MANAGED_BY",
+        "REVIEWED_BY":         "MANAGED_BY",
+        "REVIEWS":             "MANAGED_BY",
+        "ANALYZED_BY":         "MANAGED_BY",
+        "AUDITED_BY":          "MANAGED_BY",
+        "INVESTIGATED_BY":     "MANAGED_BY",
+        "PENALIZED_BY":        "AFFECTED_BY",
+        "CONFISCATED_BY":      "AFFECTED_BY",
+        "DETAINED_BY":         "AFFECTED_BY",
+        "EXPROPRIATED_BY":     "AFFECTED_BY",
+        "EXPROPRIATES":        "AFFECTED_BY",
+        "PROPOSES":            "PROPOSED_BY",
+        "ELECTS":              "ELECTED_BY",
+    }
+    if s in _ALIAS:
+        s = _ALIAS[s]
+
+    # 3. Exact match FIXED (sau alias)
+    if s in FIXED_NODE_RELATIONS:
+        return s
+
+    # 4. Verb-root fuzzy match → canonical FIXED
+    first_word = s.split('_')[0]
+    for i in range(len(first_word), 3, -1):
+        prefix = first_word[:i]
+        if prefix in _VERB_ROOT_CANONICAL:
+            return _VERB_ROOT_CANONICAL[prefix]
+
+    # 5. Fallback nếu không khớp bất cứ quy tắc nào -> GIỮ NGUYÊN (bảo tồn)
+    return s
+
