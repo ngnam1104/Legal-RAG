@@ -65,24 +65,6 @@ FIXED_DOC_RELATIONS = {
 
 # Bảng chuyển đổi verb-root → canonical passive relation
 # Được dùng trong fuzzy matching cuối cùng
-BLACKLIST_RELATIONS = {
-    "IS", "HAS", "DEADLINE", "EFFECTIVE_FROM", "HAS_MINIMUM_SIZE",
-    "PUBLISHED_ON", "STARTS_AT", "ENDS_AT", "IS_EQUAL_TO", "NOT_EQUAL_TO",
-    "MUST_NOT_BE_HIGHER_THAN", "MUST_NOT_BE_LOWER_THAN",
-    "OCCURS_AT", "OCCURS_EVERY", "EXPIRES_ON", "MEETS_EVERY",
-    "UPDATED_EVERY", "EXECUTED_AT", "EXECUTED_ON",
-}
-# Regex: bắt toàn bộ HAS_* property giả
-
-FIXED_DOC_RELATIONS = {
-    "BASED_ON", "AMENDS", "REPEALS", "REPLACES",
-    "GUIDES", "APPLIES_TO", "ISSUED_WITH", "ASSIGNS", "CORRECTS",
-    "AMENDED_BY", "REPEALED_BY", "REPLACED_BY", "GUIDED_BY",
-    "REFERENCED_BY",
-}
-
-# Bảng chuyển đổi verb-root → canonical passive relation
-# Được dùng trong fuzzy matching cuối cùng
 _VERB_ROOT_CANONICAL = {
     "ISSUE":       "ISSUED_BY",
     "SIGN":        "SIGNED_BY",
@@ -277,9 +259,6 @@ def _normalize_relationship(raw_rel: str) -> str:
     if s in _CROSS_VERB_MAPPING:
         s = _CROSS_VERB_MAPPING[s]
 
-    # 0.5 HAS_* property check (wipe out hallucinated properties)
-    if s.startswith("HAS_") and s not in {"HAS_ENTITY", "HAS_ARTICLE", "HAS_TYPE", "HAS_SECTOR"}:
-        return "RELATED_TO"
 
     # 1. Blacklist
     if s in BLACKLIST_RELATIONS:

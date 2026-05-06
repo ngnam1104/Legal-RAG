@@ -300,9 +300,6 @@ def _normalize_relationship(raw_rel: str) -> str:
     if s in _CROSS_VERB_MAPPING:
         s = _CROSS_VERB_MAPPING[s]
 
-    # 0.5 HAS_* property check (wipe out hallucinated properties)
-    if s.startswith("HAS_") and s not in {"HAS_ENTITY", "HAS_ARTICLE", "HAS_TYPE", "HAS_SECTOR"}:
-        return "RELATED_TO"
 
     # 1. Blacklist
     if s in BLACKLIST_RELATIONS:
