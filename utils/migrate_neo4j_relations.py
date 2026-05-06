@@ -559,9 +559,9 @@ def rename_relationship(driver, old_type: str, new_type: str):
         return 0
         
     q = f"""
-    MATCH ()-[r:`{old_type}`]->()
-    WITH r LIMIT 100000
-    CREATE (startNode(r))-[new_r:`{new_type}`]->(endNode(r))
+    MATCH (a)-[r:`{old_type}`]->(b)
+    WITH a, b, r LIMIT 100000
+    CREATE (a)-[new_r:`{new_type}`]->(b)
     SET new_r = properties(r)
     DELETE r
     RETURN count(new_r) as renamed
