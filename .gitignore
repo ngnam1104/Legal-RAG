@@ -93,7 +93,6 @@ _agent/
 .streamlit/secrets.toml
 
 # Dataset
-*.csv
 note.txt
 legal_docs/
 *.pptx
