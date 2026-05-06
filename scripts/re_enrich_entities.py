@@ -315,7 +315,6 @@ while not global_done:
     # Loc checkpoint
     page_rows = [r for r in page_rows if r["qdrant_id"] not in done_ids]
     if not page_rows:
-        page_offset += PAGE_SIZE
         stats["pages_done"] += 1
         _log(f"  [PAGE {stats['pages_done']}] Tat ca da trong checkpoint, skip.")
         continue
