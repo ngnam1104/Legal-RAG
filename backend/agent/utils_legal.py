@@ -382,7 +382,28 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     LIMIT 100
     """
 
-    result = {"doc_relations": [], "entities": [], "node_relations": []}
+    # ── Query 4: Cross-Document Entity Context (Sibling Documents) ──
+    # Tự động kết nối các văn bản thông qua Procedure, Term chung (Dù không có liên kết trực tiếp)
+    sibling_query = """
+    UNWIND $ids AS cid
+    MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+    MATCH (c)-[:HAS_ENTITY]->(e)
+    WHERE labels(e)[0] IN ['Procedure', 'Term', 'Condition', 'Organization'] AND e.name IS NOT NULL
+    // Tìm các chunk khác (khác Document) cũng chứa entity này
+    MATCH (other_c)-[:HAS_ENTITY]->(e)
+    WHERE other_c.qdrant_id <> cid AND coalesce(other_c.qdrant_id, other_c.id) <> coalesce(c.qdrant_id, c.id)
+    OPTIONAL MATCH (other_c)-[:PART_OF|BELONGS_TO*1..3]->(other_doc:Document)
+    OPTIONAL MATCH (c)-[:PART_OF|BELONGS_TO*1..3]->(doc:Document)
+    WHERE other_doc IS NOT NULL AND other_doc.document_number <> coalesce(doc.document_number, 'N/A')
+    RETURN 
+        e.name AS shared_entity,
+        labels(e)[0] AS entity_type,
+        other_doc.document_number AS sibling_doc,
+        other_c.text AS sibling_text
+    LIMIT 20
+    """
+
+    result = {"doc_relations": [], "entities": [], "node_relations": [], "sibling_texts": []}
 
     try:
         with driver.session() as session:
@@ -400,6 +421,16 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
             for r in session.run(node_rel_query, ids=entity_ids).data():
                 if r.get("source_node") and r.get("target_node"):
                     result["node_relations"].append(r)
+                    
+            # Sibling texts
+            for r in session.run(sibling_query, ids=entity_ids).data():
+                if r.get("sibling_text") and r.get("sibling_doc"):
+                    ent = r["shared_entity"]
+                    doc_num = r["sibling_doc"]
+                    text = r["sibling_text"]
+                    formatted_sib = f"[Liên kết qua {r['entity_type']}: {ent}] - Nguồn: {doc_num}\nNội dung: {text[:1500]}"
+                    if formatted_sib not in result["sibling_texts"]:
+                        result["sibling_texts"].append(formatted_sib)
 
     except Exception as e:
         import logging

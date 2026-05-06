@@ -118,6 +118,15 @@ class LegalChatStrategy(BaseRAGStrategy):
         query = rewritten_queries[0] or state.get("condensed_query") or state["query"]
         filters = state.get("metadata_filters", {}) or {}
 
+        # ── Phase 0: Entity Graph Retrieval (Pre-Retrieve) ──
+        graph_boost_chunk_ids = []
+        entity_pre_context = ""
+        with timer.step("Entity_Graph_Search"):
+            from backend.retrieval.graph_search import entity_retriever
+            graph_res = entity_retriever.search(query)
+            graph_boost_chunk_ids = graph_res.get("chunk_ids", [])
+            entity_pre_context = graph_res.get("graph_context", "")
+            
         # ── Phase 1: HybridRetriever (Dense + Sparse + Rerank + Expand) ──
         with timer.step("Hybrid_Search"):
             from backend.retrieval.hybrid_search import retriever as hybrid_retriever
@@ -129,7 +138,8 @@ class LegalChatStrategy(BaseRAGStrategy):
                 legal_type=filters.get("legal_type"),
                 doc_number=filters.get("doc_number"),
                 article_ref=filters.get("article_ref"),
-                limit=int(os.environ.get("MAX_RETRIEVAL_HITS", 20))
+                limit=int(os.environ.get("MAX_RETRIEVAL_HITS", 20)),
+                graph_boost_chunk_ids=graph_boost_chunk_ids
             )
 
         # Thu thập entity_ids từ Hybrid hits
@@ -169,9 +179,16 @@ class LegalChatStrategy(BaseRAGStrategy):
                     formatted = format_graph_context(subgraph)
                     graph_ctx["nodes"] = formatted["nodes"]
                     graph_ctx["edges"] = formatted["edges"]
-                    graph_ctx["entity_context"] = formatted.get("entity_context", "")
+                    # Merge context từ Phase 0 và Phase 3
+                    merged_entity_ctx = entity_pre_context
+                    phase3_ctx = formatted.get("entity_context", "")
+                    if phase3_ctx:
+                        merged_entity_ctx = merged_entity_ctx + "\n" + phase3_ctx if merged_entity_ctx else phase3_ctx
+                    
+                    graph_ctx["entity_context"] = merged_entity_ctx
                     graph_ctx["node_rel_lines"] = formatted.get("node_rel_lines", [])
-                    print(f"       🕸️ [Retrieve] Subgraph: {len(graph_ctx['nodes'])} nodes, {len(graph_ctx['edges'])} edges, {len(graph_ctx['node_rel_lines'])} node_rels, entities={bool(graph_ctx['entity_context'])}")
+                    graph_ctx["sibling_texts"] = formatted.get("sibling_texts", [])
+                    print(f"       🕸️ [Retrieve] Subgraph: {len(graph_ctx['nodes'])} nodes, {len(graph_ctx['edges'])} edges, {len(graph_ctx['node_rel_lines'])} node_rels, entities={bool(graph_ctx['entity_context'])}, siblings={len(graph_ctx['sibling_texts'])}")
 
         return {"raw_hits": hits, "graph_context": graph_ctx, "metrics": timer.results()}
 

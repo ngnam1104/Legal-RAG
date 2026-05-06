@@ -631,6 +631,7 @@ class HybridRetriever:
         use_rerank: bool = True,
         include_inactive: bool = False,
         article_ref: Optional[str] = None,
+        graph_boost_chunk_ids: Optional[List[str]] = None,
     ) -> List[Dict]:
         """Thực hiện Hybrid Search: Tiered Prefetch -> (Optional) Reranking -> Context Expansion."""
         if use_rerank:
@@ -685,6 +686,18 @@ class HybridRetriever:
                 
             item['rerank_score'] = item.get('rerank_score', 0.0) + boost
             item['score'] = item['rerank_score']
+
+        # --- GRAPH ENTITY BOOST ---
+        # Tăng điểm mạnh cho các chunk chứa đúng Entity người dùng hỏi
+        if graph_boost_chunk_ids:
+            graph_boost_set = set(graph_boost_chunk_ids)
+            for item in reranked_hits:
+                cid = str(item.get("payload", {}).get("chunk_id", item.get("id", "")))
+                if cid in graph_boost_set:
+                    # Tăng 0.3 điểm (Rất mạnh, đẩy nó lên top)
+                    item['rerank_score'] = item.get('rerank_score', 0.0) + 0.3
+                    item['score'] = item['rerank_score']
+                    print(f"       🌟 [Graph Boost] +0.3 score cho chunk {cid} (Chứa Entity truy vấn)")
 
         # Re-sort sau khi áp dụng boost
         reranked_hits = sorted(reranked_hits, key=lambda x: x.get('rerank_score', 0.0), reverse=True)
