@@ -210,18 +210,24 @@ def _normalize_entity_name(raw_name: str, ent_type: str) -> str:
     return name
 
 
-def _dedup_entity_values(values: list[str]) -> list[str]:
+def _dedup_entity_values(values: list[str]) -> tuple[list[str], dict[str, str]]:
     """
     Khử trùng entity values dựa trên substring containment.
     VD: ["Windows", "Hệ điều hành Windows", "windows"] → ["Hệ điều hành Windows"]
+
+    Trả về:
+    - list[str]: danh sách values đã dedup
+    - dict[str, str]: alias_map {removed_lower → canonical} để redirect relations
 
     Quy tắc:
     - So sánh case-insensitive.
     - Nếu value A là substring của value B → loại bỏ A, giữ B (cụ thể hơn).
     - Nếu 2 value chỉ khác nhau do hoa/thường → giữ cái viết hoa đầu đúng chuẩn hơn.
     """
+    alias_map: dict[str, str] = {}  # {removed_lower → canonical_value}
+
     if len(values) <= 1:
-        return values
+        return values, alias_map
 
     # Bước 1: Dedup exact case-insensitive
     seen_lower: dict[str, str] = {}  # lower → best form
@@ -230,10 +236,13 @@ def _dedup_entity_values(values: list[str]) -> list[str]:
         if lo not in seen_lower:
             seen_lower[lo] = v
         else:
-            # Ưu tiên form viết hoa đầu câu
             existing = seen_lower[lo]
+            # Ưu tiên form viết hoa đầu câu
             if v[0].isupper() and not existing[0].isupper():
+                alias_map[existing.lower()] = v   # existing bị thay → redirect sang v
                 seen_lower[lo] = v
+            else:
+                alias_map[v.lower()] = existing   # v bị bỏ → redirect sang existing
     deduped = list(seen_lower.values())
 
     # Bước 2: Substring containment — loại bỏ các giá trị ngắn hơn bị chứa trong giá trị khác
@@ -246,13 +255,14 @@ def _dedup_entity_values(values: list[str]) -> list[str]:
         for j, lo_b in enumerate(lower_list):
             if i == j or lo_b in to_remove:
                 continue
-            # Nếu A là substring của B → loại bỏ A
+            # Nếu A là substring của B → loại bỏ A, redirect sang B
             if lo_a in lo_b and lo_a != lo_b:
                 to_remove.add(lo_a)
+                alias_map[lo_a] = lower_map[lo_b]  # "windows" → "Hệ điều hành Windows"
                 break
 
     result = [lower_map[lo] for lo in lower_list if lo not in to_remove]
-    return result if result else deduped
+    return (result if result else deduped), alias_map
 
 
 def _normalize_entity_type(raw_type: str) -> str:
@@ -640,9 +650,12 @@ def parse_unified_response(resp_text: str) -> Dict[str, Any]:
                     entities[norm_type].append(norm_v)
                     existing_lower.add(norm_v.lower())
 
-    # Substring containment dedup trên toàn bộ tập sau khi collect xong
+    # Substring containment dedup + thu thập alias_map để redirect relations
+    entity_alias_map: dict[str, str] = {}  # {removed_lower → canonical}
     for etype in entities:
-        entities[etype] = _dedup_entity_values(entities[etype])
+        deduped, aliases = _dedup_entity_values(entities[etype])
+        entities[etype] = deduped
+        entity_alias_map.update(aliases)
 
     # --- node_relations: normalize relationship + source/target_type ---
     raw_node_rels = data.get("node_relations", [])
@@ -656,14 +669,19 @@ def parse_unified_response(resp_text: str) -> Dict[str, Any]:
             nr["target_type"] = "Document"
         else:
             nr["target_type"] = _normalize_entity_type(raw_tgt_type)
-            
+
         norm_src = _normalize_entity_name(nr.get("source_node", ""), nr["source_type"])
         norm_tgt = _normalize_entity_name(nr.get("target_node", ""), nr["target_type"])
-        
+
         # BỘ LỌC: Bỏ qua toàn bộ quan hệ nếu 1 trong 2 đầu mút là rác (bị chặn)
         if not norm_src or not norm_tgt:
             continue
-            
+
+        # REDIRECT: Nếu entity bị dedup (VD: "Windows" → "Hệ điều hành Windows")
+        # thì relation vẫn được giữ nhưng endpoint được đổi sang canonical
+        norm_src = entity_alias_map.get(norm_src.lower(), norm_src)
+        norm_tgt = entity_alias_map.get(norm_tgt.lower(), norm_tgt)
+
         nr["source_node"] = norm_src
         nr["target_node"] = norm_tgt
         node_rels.append(nr)
