@@ -3,7 +3,7 @@ entities.py — Trích xuất Thực thể + Quan hệ Node từ văn bản phá
 
 Exports:
   FIXED_ENTITY_TYPES       — danh sách 12 loại entity cố định
-  FIXED_NODE_RELATIONS     — danh sách 16 loại node relation cố định
+  FIXED_NODE_RELATIONS     — danh sách 49 loại node relation chuẩn hoá (closed set)
   build_unified_prompt()   — tạo prompt unified từ batch contexts
   parse_unified_response() — parse JSON response thành {doc_relations, entities, node_relations}
 """
@@ -27,22 +27,130 @@ FIXED_ENTITY_TYPES = {
 }
 
 FIXED_NODE_RELATIONS = {
-    "ISSUED_BY", "SIGNED_BY", "AFFECTED_BY", "REGULATED_BY",
-    "APPLIED_BY", "MANAGED_BY", "ASSIGNED_BY",
-    "REQUIRED_FOR", "DEFINED_IN", "LOCATED_IN", "CLASSIFIED_AS", "PART_OF",
-    "REPLACED_BY", "RELATED_TO",
+    # === BAN HÀNH / THẨM QUYỀN ===
+    "ISSUED_BY",        # ban hành bởi
+    "SIGNED_BY",        # ký bởi
+    "APPROVED_BY",      # phê duyệt bởi
+    "PUBLISHED_BY",     # công bố bởi
+    "CREATED_BY",       # tạo ra bởi
+    "ESTABLISHED_BY",   # thành lập bởi
+    # === THỰC HIỆN / THI HÀNH ===
+    "IMPLEMENTED_BY",   # thực hiện bởi
+    "ENFORCED_BY",      # cưỡng chế/kiểm tra bởi
+    "APPLIED_BY",       # áp dụng bởi
+    "EXECUTED_BY",      # thực thi bởi
+    # === QUẢN LÝ ===
+    "MANAGED_BY",       # quản lý (gộp: governed, supervised, directed, operated_under)
+    "REGULATED_BY",     # điều tiết/điều chỉnh
+    "COORDINATED_BY",   # phối hợp bởi
+    # === CHUYỂN GIAO / GỬI ===
+    "TRANSFERRED_TO",   # chuyển đến
+    "TRANSFERRED_FROM", # chuyển từ
+    "SUBMITTED_TO",     # nộp/gửi đến
+    "DELEGATED_TO",     # ủy quyền cho
+    "ASSIGNED_TO",      # giao cho
+    "ASSIGNED_BY",      # được giao bởi
+    # === BÁO CÁO / THÔNG BÁO ===
+    "REPORTED_TO",      # báo cáo đến (gộp: notified_to, informs)
+    "NOTIFIED_TO",      # thông báo chính thức
+    # === QUYỀN / CẤM / MIỄN ===
+    "PERMITTED_TO",     # được phép
+    "PROHIBITED_FROM",  # bị cấm
+    "EXEMPT_FROM",      # được miễn
+    "ENTITLED_TO",      # có quyền/được hưởng
+    # === YÊU CẦU / TUÂN THỦ ===
+    "REQUIRED_FOR",     # cần thiết cho
+    "REQUIRED_BY",      # được yêu cầu bởi
+    "COMPLIES_WITH",    # tuân thủ quy định
+    "AFFECTED_BY",      # bị ảnh hưởng bởi
+    # === PHÂN LOẠI / ĐỊNH NGHĨA ===
+    "DEFINED_IN",       # được định nghĩa trong
+    "CLASSIFIED_AS",    # được phân loại là
+    "BELONGS_TO",       # thuộc về
+    "PART_OF",          # là một phần của
+    "LOCATED_IN",       # nằm trong/tại
+    "MEMBER_OF",        # là thành viên của
+    # === TÀI CHÍNH ===
+    "FUNDED_BY",        # được tài trợ/cấp vốn bởi
+    "PAID_TO",          # thanh toán cho
+    "PAID_BY",          # được thanh toán bởi
+    "COLLECTED_BY",     # được thu bởi
+    # === VĂN BẢN PHÁP LÝ ===
+    "REPLACED_BY",      # được thay thế bởi
+    "AMENDED_BY",       # được sửa đổi bởi
+    "REPEALED_BY",      # được bãi bỏ bởi
+    "REFERENCED_BY",    # được tham chiếu bởi
+    "BASED_ON",         # dựa trên/căn cứ
+    # === CHUNG ===
+    "APPLIES_TO",       # áp dụng cho
+    "RELATED_TO",       # liên quan đến (fallback cuối)
 }
 
-# Quan hệ LLM hay sinh nhầm — bị loại bỏ hoàn toàn, fallback sang RELATED_TO
+# Quan hệ LLM hay sinh nhầm — fallback sang RELATED_TO
+# Bao gồm: property-as-relationship, timestamp, số đo
 BLACKLIST_RELATIONS = {
-    "IS", "DEADLINE", "EFFECTIVE_FROM", "HAS_MINIMUM_SIZE",
-    "PUBLISHED_ON", "STARTS_AT", "ENDS_AT",
+    "IS", "HAS", "DEADLINE", "EFFECTIVE_FROM", "HAS_MINIMUM_SIZE",
+    "PUBLISHED_ON", "STARTS_AT", "ENDS_AT", "IS_EQUAL_TO", "NOT_EQUAL_TO",
+    "MUST_NOT_BE_HIGHER_THAN", "MUST_NOT_BE_LOWER_THAN",
+    "OCCURS_AT", "OCCURS_EVERY", "EXPIRES_ON", "MEETS_EVERY",
+    "UPDATED_EVERY", "EXECUTED_AT", "EXECUTED_ON",
 }
+# Regex: bắt toàn bộ HAS_* property giả
+_RE_HAS_PROP = re.compile(r'^HAS_')
 
 FIXED_DOC_RELATIONS = {
     "BASED_ON", "AMENDS", "REPEALS", "REPLACES",
     "GUIDES", "APPLIES_TO", "ISSUED_WITH", "ASSIGNS", "CORRECTS",
-    "AMENDED_BY", "REPEALED_BY", "REPLACED_BY", "GUIDED_BY"
+    "AMENDED_BY", "REPEALED_BY", "REPLACED_BY", "GUIDED_BY",
+    "REFERENCED_BY",
+}
+
+# Bảng chuyển đổi verb-root → canonical passive relation
+# Được dùng trong fuzzy matching cuối cùng
+_VERB_ROOT_CANONICAL = {
+    "ISSUE":       "ISSUED_BY",
+    "SIGN":        "SIGNED_BY",
+    "APPROV":      "APPROVED_BY",
+    "PUBLISH":     "PUBLISHED_BY",
+    "CREAT":       "CREATED_BY",
+    "ESTABLISH":   "ESTABLISHED_BY",
+    "IMPLEMENT":   "IMPLEMENTED_BY",
+    "ENFORC":      "ENFORCED_BY",
+    "APPLY":       "APPLIED_BY",
+    "APPLI":       "APPLIED_BY",
+    "EXECUT":      "EXECUTED_BY",
+    "PERFORM":     "IMPLEMENTED_BY",
+    "CARRY":       "IMPLEMENTED_BY",
+    "MANAG":       "MANAGED_BY",
+    "GOVERN":      "MANAGED_BY",
+    "SUPERVIS":    "MANAGED_BY",
+    "DIRECT":      "MANAGED_BY",
+    "REGULAT":     "REGULATED_BY",
+    "COORDINAT":   "COORDINATED_BY",
+    "TRANSFER":    "TRANSFERRED_TO",
+    "SUBMIT":      "SUBMITTED_TO",
+    "DELEGAT":     "DELEGATED_TO",
+    "ASSIGN":      "ASSIGNED_TO",
+    "REPORT":      "REPORTED_TO",
+    "NOTIF":       "NOTIFIED_TO",
+    "INFORM":      "NOTIFIED_TO",
+    "PERMIT":      "PERMITTED_TO",
+    "PROHIBIT":    "PROHIBITED_FROM",
+    "EXEMPT":      "EXEMPT_FROM",
+    "ENTITL":      "ENTITLED_TO",
+    "REQUIR":      "REQUIRED_FOR",
+    "AFFECT":      "AFFECTED_BY",
+    "DEFIN":       "DEFINED_IN",
+    "CLASSIF":     "CLASSIFIED_AS",
+    "BELONG":      "BELONGS_TO",
+    "FUND":        "FUNDED_BY",
+    "PAY":         "PAID_TO",
+    "COLLECT":     "COLLECTED_BY",
+    "REPLAC":      "REPLACED_BY",
+    "AMEND":       "AMENDED_BY",
+    "REPEAL":      "REPEALED_BY",
+    "REFERENC":    "REFERENCED_BY",
+    "RELAT":       "RELATED_TO",
 }
 
 # Tập động: ghi nhận nhãn mới LLM tạo trong quá trình pipeline
@@ -102,6 +210,51 @@ def _normalize_entity_name(raw_name: str, ent_type: str) -> str:
     return name
 
 
+def _dedup_entity_values(values: list[str]) -> list[str]:
+    """
+    Khử trùng entity values dựa trên substring containment.
+    VD: ["Windows", "Hệ điều hành Windows", "windows"] → ["Hệ điều hành Windows"]
+
+    Quy tắc:
+    - So sánh case-insensitive.
+    - Nếu value A là substring của value B → loại bỏ A, giữ B (cụ thể hơn).
+    - Nếu 2 value chỉ khác nhau do hoa/thường → giữ cái viết hoa đầu đúng chuẩn hơn.
+    """
+    if len(values) <= 1:
+        return values
+
+    # Bước 1: Dedup exact case-insensitive
+    seen_lower: dict[str, str] = {}  # lower → best form
+    for v in values:
+        lo = v.lower()
+        if lo not in seen_lower:
+            seen_lower[lo] = v
+        else:
+            # Ưu tiên form viết hoa đầu câu
+            existing = seen_lower[lo]
+            if v[0].isupper() and not existing[0].isupper():
+                seen_lower[lo] = v
+    deduped = list(seen_lower.values())
+
+    # Bước 2: Substring containment — loại bỏ các giá trị ngắn hơn bị chứa trong giá trị khác
+    lower_map = {v.lower(): v for v in deduped}
+    to_remove: set[str] = set()
+    lower_list = list(lower_map.keys())
+    for i, lo_a in enumerate(lower_list):
+        if lo_a in to_remove:
+            continue
+        for j, lo_b in enumerate(lower_list):
+            if i == j or lo_b in to_remove:
+                continue
+            # Nếu A là substring của B → loại bỏ A
+            if lo_a in lo_b and lo_a != lo_b:
+                to_remove.add(lo_a)
+                break
+
+    result = [lower_map[lo] for lo in lower_list if lo not in to_remove]
+    return result if result else deduped
+
+
 def _normalize_entity_type(raw_type: str) -> str:
     """
     ƯU TIÊN: FIXED → DYNAMIC → chấp nhận nhãn mới hợp lệ (PascalCase)
@@ -142,44 +295,229 @@ def _normalize_entity_type(raw_type: str) -> str:
 
 def _normalize_relationship(raw_rel: str) -> str:
     """
-    ƯU TIÊN: FIXED → DYNAMIC → chấp nhận nhãn mới hợp lệ (SCREAMING_SNAKE_CASE)
-    Dự phòng cuối: 'RELATED_TO'.
+    Pipeline chuẩn hoá quan hệ — CLOSED SET, không tạo DYNAMIC mới:
+    0. HAS_* regex → RELATED_TO
+    1. Blacklist → RELATED_TO
+    2. Comprehensive alias_map (chủ động→bị động, đồng nghĩa→canonical)
+    3. Exact match FIXED
+    4. Verb-root fuzzy match → FIXED canonical
+    5. Fallback RELATED_TO
     """
     if not raw_rel:
         return "RELATED_TO"
     s = raw_rel.strip().upper().replace(" ", "_")
 
-    # 0. Alias Mapper (Gộp các quan hệ đồng nghĩa / sai format)
-    # Lưu ý: chỉ alias các nhãn VIẼT chữ́ động sang bị động tương ưứng (không đảo ngược)
-    alias_map = {
-        "ISSUED":              "ISSUED_BY",
-        "SIGNED":              "SIGNED_BY",
-        "APPLIES":             "APPLIES_TO",
-        "SUPERVISED_BY":       "MANAGED_BY",
-        "ACCOUNTABLE_TO":      "MANAGED_BY",
-        "RESPONSIBLE_FOR":     "MANAGED_BY",
-        "IMPLEMENTED_BY":      "MANAGED_BY",
-        "ASSIGNS":             "ASSIGNED_BY",
-        "OPINION_SEEKED_FROM": "OPINION_SOUGHT_FROM",
-        "SUBMITTED_TO_FOR_OPINION": "SUBMITTED_FOR_OPINION",
-    }
-    if s in alias_map:
-        s = alias_map[s]
+    # 0. HAS_* property giả → RELATED_TO
+    if _RE_HAS_PROP.match(s):
+        return "RELATED_TO"
 
-    # Blacklist: quan hệ nhiễu/property giả — fallback về RELATED_TO
+    # 1. Blacklist
     if s in BLACKLIST_RELATIONS:
         return "RELATED_TO"
 
-    # 1. Exact match
-    if s in FIXED_NODE_RELATIONS or s in DYNAMIC_NODE_RELATIONS:
+    # 2. Comprehensive alias map
+    _ALIAS: dict = {
+        # --- Chủ động → Bị động (Issuance) ---
+        "ISSUES":              "ISSUED_BY",
+        "ISSUED":              "ISSUED_BY",
+        "SIGNS":               "SIGNED_BY",
+        "SIGNED":              "SIGNED_BY",
+        "APPROVES":            "APPROVED_BY",
+        "APPROVED":            "APPROVED_BY",
+        "PUBLISHES":           "PUBLISHED_BY",
+        "PUBLISHED":           "PUBLISHED_BY",
+        "CREATES":             "CREATED_BY",
+        "CREATED":             "CREATED_BY",
+        "ESTABLISHES":         "ESTABLISHED_BY",
+        "ESTABLISHED":         "ESTABLISHED_BY",
+        # --- Implementation ---
+        "IMPLEMENTS":          "IMPLEMENTED_BY",
+        "PERFORMS":            "IMPLEMENTED_BY",
+        "PERFORMED_BY":        "IMPLEMENTED_BY",
+        "CARRIED_OUT_BY":      "IMPLEMENTED_BY",
+        "DIRECTS_IMPLEMENTATION_OF": "IMPLEMENTED_BY",
+        "GUIDES_IMPLEMENTATION_OF":  "IMPLEMENTED_BY",
+        "ENFORCES":            "ENFORCED_BY",
+        "APPLIES":             "APPLIED_BY",
+        "EXECUTES":            "EXECUTED_BY",
+        "EXECUTED":            "EXECUTED_BY",
+        # --- Management synonyms → MANAGED_BY ---
+        "MANAGES":             "MANAGED_BY",
+        "GOVERNS":             "MANAGED_BY",
+        "GOVERNED_BY":         "MANAGED_BY",
+        "SUPERVISED_BY":       "MANAGED_BY",
+        "SUPERVISES":          "MANAGED_BY",
+        "DIRECTED_BY":         "MANAGED_BY",
+        "DIRECTS":             "MANAGED_BY",
+        "LEADS":               "MANAGED_BY",
+        "LEAD_BY":             "MANAGED_BY",
+        "OPERATES_UNDER":      "MANAGED_BY",
+        "SUBORDINATE_TO":      "MANAGED_BY",
+        "IS_RESPONSIBLE_FOR":  "MANAGED_BY",
+        "RESPONSIBLE_FOR":     "MANAGED_BY",
+        "ACCOUNTABLE_TO":      "MANAGED_BY",
+        "IS_HIGHEST_AUTHORITY_OF": "MANAGED_BY",
+        "CHAIRMANED_BY":       "MANAGED_BY",
+        # --- Regulation ---
+        "REGULATES":           "REGULATED_BY",
+        "COORDINATES":         "COORDINATED_BY",
+        "COORDINATED_WITH":    "COORDINATED_BY",
+        "COORDINATES_WITH":    "COORDINATED_BY",
+        # --- Transfer / Assignment ---
+        "TRANSFERS":           "TRANSFERRED_TO",
+        "TRANSFERS_TO":        "TRANSFERRED_TO",
+        "TRANSFERRED_BY":      "TRANSFERRED_TO",
+        "TRANSFERRED_VIA":     "TRANSFERRED_TO",
+        "DELIVERS":            "TRANSFERRED_TO",
+        "DELIVERED_TO":        "TRANSFERRED_TO",
+        "SUBMITS":             "SUBMITTED_TO",
+        "SUBMITS_TO":          "SUBMITTED_TO",
+        "SUBMITTED_BY":        "SUBMITTED_TO",
+        "DELEGATES":           "DELEGATED_TO",
+        "DELEGATES_TO":        "DELEGATED_TO",
+        "ASSIGNS":             "ASSIGNED_TO",
+        "ASSIGNED":            "ASSIGNED_TO",
+        # --- Reporting / Notification ---
+        "REPORTS":             "REPORTED_TO",
+        "REPORTS_TO":          "REPORTED_TO",
+        "REPORTED_BY":         "REPORTED_TO",
+        "REPORTS_ON":          "REPORTED_TO",
+        "REPORTS_VIOLATIONS_TO": "REPORTED_TO",
+        "NOTIFIES":            "NOTIFIED_TO",
+        "NOTIFIED_BY":         "NOTIFIED_TO",
+        "INFORMS":             "NOTIFIED_TO",
+        "PROVIDES_INFO_TO":    "NOTIFIED_TO",
+        "PUBLISHES_INFO_TO":   "NOTIFIED_TO",
+        "TRANSMITS_DATA_TO":   "NOTIFIED_TO",
+        "REQUESTS_INFO_FROM":  "NOTIFIED_TO",
+        "RECEIVES_INFO_FROM":  "NOTIFIED_TO",
+        # --- Permission / Prohibition ---
+        "PERMITS":             "PERMITTED_TO",
+        "PERMITTED_FOR":       "PERMITTED_TO",
+        "PERMITTED_TO_USE":    "PERMITTED_TO",
+        "CAN_PERFORM":         "PERMITTED_TO",
+        "PROHIBITS":           "PROHIBITED_FROM",
+        "PROHIBITED_FOR":      "PROHIBITED_FROM",
+        "PROHIBITED_IN":       "PROHIBITED_FROM",
+        "PROHIBITED_BY":       "PROHIBITED_FROM",
+        "PROHIBITED_FROM_CONTAINING": "PROHIBITED_FROM",
+        "MUST_NOT_PERFORM":    "PROHIBITED_FROM",
+        "MUST_NOT_MISLEAD":    "PROHIBITED_FROM",
+        "EXEMPT":              "EXEMPT_FROM",
+        "EXCLUDED_FROM":       "EXEMPT_FROM",
+        "EXEMPTS":             "EXEMPT_FROM",
+        "ENTITLES":            "ENTITLED_TO",
+        "PRIORITY_FOR":        "ENTITLED_TO",
+        "HAS_PRIORITY_ACCESS_TO": "ENTITLED_TO",
+        # --- Requirement / Compliance ---
+        "REQUIRES":            "REQUIRED_FOR",
+        "REQUIRED":            "REQUIRED_FOR",
+        "MUST_COMPLY_WITH":    "COMPLIES_WITH",
+        "MUST_MEET":           "COMPLIES_WITH",
+        "CONFORMS_TO":         "COMPLIES_WITH",
+        "CONDITIONED_ON":      "COMPLIES_WITH",
+        "ENSURES_COMPLIANCE_WITH": "COMPLIES_WITH",
+        "COMPLIES":            "COMPLIES_WITH",
+        "AFFECTED":            "AFFECTED_BY",
+        "AFFECTS":             "AFFECTED_BY",
+        "SUBJECTED_TO":        "AFFECTED_BY",
+        # --- Definition / Classification ---
+        "DEFINES":             "DEFINED_IN",
+        "DEFINED_AS":          "DEFINED_IN",
+        "DEFINED_BY":          "DEFINED_IN",
+        "DEFINED_FOR":         "DEFINED_IN",
+        "DEFINED_BY_ABSENCE_OF": "DEFINED_IN",
+        "CLASSIFIED_IN":       "CLASSIFIED_AS",
+        "CLASSIFIED":          "CLASSIFIED_AS",
+        "MARKED_WITH":         "CLASSIFIED_AS",
+        "NAMED_AFTER":         "CLASSIFIED_AS",
+        "IS_LEGAL_REPRESENTATIVE_OF": "BELONGS_TO",
+        "CONTAINED_IN":        "PART_OF",
+        "CONTAINS":            "PART_OF",
+        "INCLUDED_IN":         "PART_OF",
+        "INCLUDES":            "PART_OF",
+        "ATTACHED_TO":         "PART_OF",
+        # --- Financial ---
+        "FUNDS":               "FUNDED_BY",
+        "PAYS":                "PAID_TO",
+        "PAID_FOR":            "PAID_TO",
+        "DEDUCTED_FROM":       "PAID_TO",
+        "COMPENSATED_BY":      "PAID_BY",
+        "COLLECTS":            "COLLECTED_BY",
+        "DEPOSITED_TO":        "PAID_TO",
+        "PURCHASED_FROM":      "PAID_BY",
+        # --- Financial Synonyms ---
+        "FUNDED":              "FUNDED_BY",
+        "ALLOCATED_BY":        "FUNDED_BY",
+        "ALLOCATED_FOR":       "FUNDED_BY",
+        "ALLOCATED_FROM":      "FUNDED_BY",
+        "ALLOCATED_TO":        "FUNDED_BY",
+        "ALLOCATED_VIA":       "FUNDED_BY",
+        "ALLOCATES":           "FUNDED_BY",
+        # --- Document synonyms ---
+        "REPLACES":            "REPLACED_BY",
+        "AMENDS":              "AMENDED_BY",
+        "AMENDED":             "AMENDED_BY",
+        "REPEALS":             "REPEALED_BY",
+        "REFERENCES":          "REFERENCED_BY",
+        "REFERS_TO":           "REFERENCED_BY",
+        "REFERRED_BY":         "REFERENCED_BY",
+        # --- General ---
+        "ISSUED_FOR":          "APPLIES_TO",
+        "DESIGNED_FOR":        "APPLIES_TO",
+        "ORGANIZED_FOR":       "APPLIES_TO",
+        "PERMITTED_BY":        "APPLIES_TO",
+        "APPLIES":             "APPLIES_TO",
+        "RELATED":             "RELATED_TO",
+        "CONNECTED_TO":        "RELATED_TO",
+        "SYNCHRONIZED_WITH":   "RELATED_TO",
+        "IS_EQUAL_TO":         "RELATED_TO",
+        "SUPPLEMENTED_BY":     "RELATED_TO",
+        # --- Other active → canonical ---
+        "PRODUCES":            "CREATED_BY",
+        "GENERATED_BY":        "CREATED_BY",
+        "GENERATES":           "CREATED_BY",
+        "REVOKES":             "REPEALED_BY",
+        "REVOKED_BY":          "REPEALED_BY",
+        "SUSPENDED_BY":        "REPEALED_BY",
+        "TERMINATED_BY":       "REPEALED_BY",
+        "UPDATED_BY":          "AMENDED_BY",
+        "UPDATES":             "AMENDED_BY",
+        "MODIFIED_BY":         "AMENDED_BY",
+        "MODIFIED_VIA":        "AMENDED_BY",
+        "CORRECTED_BY":        "AMENDED_BY",
+        "EXTENDED_BY":         "AMENDED_BY",
+        "SUPPORTED_BY":        "IMPLEMENTED_BY",
+        "ASSISTED_BY":         "IMPLEMENTED_BY",
+        "MAINTAINED_BY":       "IMPLEMENTED_BY",
+        "SERVICED_BY":         "IMPLEMENTED_BY",
+        "PROCESSED_BY":        "IMPLEMENTED_BY",
+        "MONITORED_BY":        "MANAGED_BY",
+        "INSPECTED_BY":        "MANAGED_BY",
+        "ASSESSED_BY":         "MANAGED_BY",
+        "EVALUATED_BY":        "MANAGED_BY",
+        "VERIFIED_BY":         "MANAGED_BY",
+        "REVIEWED_BY":         "MANAGED_BY",
+        "AUDITED_BY":          "MANAGED_BY",
+        "INVESTIGATED_BY":     "MANAGED_BY",
+        "PENALIZED_BY":        "AFFECTED_BY",
+        "CONFISCATED_BY":      "AFFECTED_BY",
+        "DETAINED_BY":         "AFFECTED_BY",
+        "EXPROPRIATED_BY":     "AFFECTED_BY",
+    }
+    if s in _ALIAS:
+        s = _ALIAS[s]
+
+    # 3. Exact match FIXED (sau alias)
+    if s in FIXED_NODE_RELATIONS:
         return s
 
-    # 2. nhãn mới: chấp nhận nếu format SCREAMING_SNAKE_CASE hợp lệ
-    if _RE_SCREAMING.match(s):
-        DYNAMIC_NODE_RELATIONS.add(s)
-        return s
+    # 4. Verb-root fuzzy match → canonical FIXED
+    for prefix, canonical in _VERB_ROOT_CANONICAL.items():
+        if s.startswith(prefix):
+            return canonical
 
-    # 3. Fallback
+    # 5. Fallback — KHÔNG thêm vào DYNAMIC nữa
     return "RELATED_TO"
 
 
@@ -219,9 +557,10 @@ def build_unified_prompt(batch_info: List[Dict[str, str]]) -> str:
         ctx_text += f"\n--- ĐOẠN {j+1} (VB: {item['s_doc']}) ---\n{item['context']}\n"
         
     allowed_entities = " | ".join(sorted(FIXED_ENTITY_TYPES | DYNAMIC_ENTITY_TYPES))
-    allowed_relations = " | ".join(sorted(FIXED_NODE_RELATIONS | DYNAMIC_NODE_RELATIONS))
-    allowed_doc_relations = " | ".join(sorted(FIXED_DOC_RELATIONS | DYNAMIC_DOC_RELATIONS))
-    
+    # Chỉ gửi FIXED vào prompt — KHÔNG gửi DYNAMIC để tránh feedback loop
+    allowed_relations = " | ".join(sorted(FIXED_NODE_RELATIONS))
+    allowed_doc_relations = " | ".join(sorted(FIXED_DOC_RELATIONS))
+
     return LEGAL_UNIFIED_EXTRACTOR_PROMPT.format(
         contexts=ctx_text,
         allowed_entity_types=allowed_entities,
@@ -293,13 +632,17 @@ def parse_unified_response(resp_text: str) -> Dict[str, Any]:
                 continue
             if norm_type not in entities:
                 entities[norm_type] = []
-            # Dedup sau normalize
-            existing = set(entities[norm_type])
+            # Dedup exact sau normalize
+            existing_lower = {e.lower() for e in entities[norm_type]}
             for v in vals:
                 norm_v = _normalize_entity_name(v, norm_type)
-                if norm_v and norm_v not in existing:
+                if norm_v and norm_v.lower() not in existing_lower:
                     entities[norm_type].append(norm_v)
-                    existing.add(norm_v)
+                    existing_lower.add(norm_v.lower())
+
+    # Substring containment dedup trên toàn bộ tập sau khi collect xong
+    for etype in entities:
+        entities[etype] = _dedup_entity_values(entities[etype])
 
     # --- node_relations: normalize relationship + source/target_type ---
     raw_node_rels = data.get("node_relations", [])

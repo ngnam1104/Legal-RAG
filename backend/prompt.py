@@ -266,11 +266,11 @@ NHIỆM VỤ 2: THỰC THỂ (entities)
 NHIỆM VỤ 3: QUAN HỆ THỰC THỂ (node_relations)
 Chỉ trích xuất khi quan hệ rõ ràng, không suy diễn.
 - Chọn Nhãn (relationship):
-  + ƯU TIÊN 1: {allowed_node_relations}
-  + ƯU TIÊN 2 (Tạo mới): Chuẩn SCREAMING_SNAKE_CASE. 
+  + BẮT BUỘC DÙNG TRONG DANH SÁCH: {allowed_node_relations}
+  + TUYỆT ĐỐI KHÔNG tạo nhãn mới ngoài danh sách trên. Nếu không tìm được nhãn phù hợp → dùng RELATED_TO.
   + RÀNG BUỘC (QUAN TRỌNG): BẮT BUỘC DÙNG CHIỀU BỊ ĐỘNG cho mọi quan hệ (VD: Dùng REPLACED_BY, CẤM REPLACES. Dùng ISSUED_BY thay vì ISSUES. Dùng GUIDED_BY thay vì GUIDES).
   + Tức là source = Thực thể/Văn bản bị tác động, target = Thực thể/Văn bản đi tác động.
-  + KHÔNG tạo đồng nghĩa (REGULATED_BY -> GUIDED_BY, MANAGED_BY -> REPORTS_TO).
+  + KHÔNG tạo đồng nghĩa (REGULATED_BY → GUIDED_BY, MANAGED_BY → REPORTS_TO).
 
 VÍ DỤ MINH HỌA & ĐỊNH DẠNG ĐẦU RA BẮT BUỘC:
 Đoạn: "Sửa đổi khoản 8 Điều 8 Luật GT đường bộ 23/2008/QH12 đã sửa đổi theo Luật 35/2018/QH14. Bộ GTVT chịu trách nhiệm thi hành." (VB: 44/2019/QH14)
