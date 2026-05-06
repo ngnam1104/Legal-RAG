@@ -212,17 +212,16 @@ def _normalize_entity_name(raw_name: str, ent_type: str) -> str:
 
 def _dedup_entity_values(values: list[str]) -> tuple[list[str], dict[str, str]]:
     """
-    Khử trùng entity values dựa trên substring containment.
-    VD: ["Windows", "Hệ điều hành Windows", "windows"] → ["Hệ điều hành Windows"]
+    Khu trung entity values -- CHI exact case-insensitive dedup.
+    Tra ve (deduped_list, alias_map) de redirect relations.
 
-    Trả về:
-    - list[str]: danh sách values đã dedup
-    - dict[str, str]: alias_map {removed_lower → canonical} để redirect relations
+    LY DO KHONG dung substring containment:
+    Trong domain phap ly, "Quyet dinh xu phat" va "Quyet dinh xu phat linh vuc y te"
+    la 2 entity KHAC NHAU du cai sau chua cai truoc.
+    Substring merge se gay sai noi dung (linh vuc A bi gan thanh linh vuc B).
 
-    Quy tắc:
-    - So sánh case-insensitive.
-    - Nếu value A là substring của value B → loại bỏ A, giữ B (cụ thể hơn).
-    - Nếu 2 value chỉ khác nhau do hoa/thường → giữ cái viết hoa đầu đúng chuẩn hơn.
+    Chi merge khi 2 gia tri GIONG HET nhau sau khi lowercase.
+    Uu tien giu form viet hoa dau cau (chuan hon).
     """
     alias_map: dict[str, str] = {}  # {removed_lower → canonical_value}
 
@@ -243,26 +242,7 @@ def _dedup_entity_values(values: list[str]) -> tuple[list[str], dict[str, str]]:
                 seen_lower[lo] = v
             else:
                 alias_map[v.lower()] = existing   # v bị bỏ → redirect sang existing
-    deduped = list(seen_lower.values())
-
-    # Bước 2: Substring containment — loại bỏ các giá trị ngắn hơn bị chứa trong giá trị khác
-    lower_map = {v.lower(): v for v in deduped}
-    to_remove: set[str] = set()
-    lower_list = list(lower_map.keys())
-    for i, lo_a in enumerate(lower_list):
-        if lo_a in to_remove:
-            continue
-        for j, lo_b in enumerate(lower_list):
-            if i == j or lo_b in to_remove:
-                continue
-            # Nếu A là substring của B → loại bỏ A, redirect sang B
-            if lo_a in lo_b and lo_a != lo_b:
-                to_remove.add(lo_a)
-                alias_map[lo_a] = lower_map[lo_b]  # "windows" → "Hệ điều hành Windows"
-                break
-
-    result = [lower_map[lo] for lo in lower_list if lo not in to_remove]
-    return (result if result else deduped), alias_map
+    return list(seen_lower.values()), alias_map
 
 
 def _normalize_entity_type(raw_type: str) -> str:
