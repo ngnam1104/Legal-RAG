@@ -205,7 +205,7 @@ def _save_checkpoint():
 
 
 def _flush_to_neo4j(params: list):
-    """MERGE entities + node_relations vao Neo4j (idempotent)."""
+    """MERGE entities + node_relations vao Neo4j (idempotent). Logs flush time."""
     if not params:
         return
     if DRY_RUN:
@@ -213,10 +213,16 @@ def _flush_to_neo4j(params: list):
         n_r = sum(len(p.get("node_relations", [])) for p in params)
         _log(f"    [DRY_RUN] skip {len(params)} params ({n_e} ents, {n_r} nrels)")
         return
+    t0 = time.perf_counter()
     try:
-        enrich_chunk_entities(driver, params, use_apoc=False)
+        enrich_chunk_entities(driver, params, use_apoc=True)
     except Exception as e:
-        _log(f"    [ERROR] enrich_chunk_entities: {e}")
+        _log(f"    [WARN] APOC flush failed ({e}), retrying fallback...")
+        try:
+            enrich_chunk_entities(driver, params, use_apoc=False)
+        except Exception as e2:
+            _log(f"    [ERROR] enrich_chunk_entities fallback: {e2}")
+    _log(f"      [FLUSH] done  {time.perf_counter()-t0:.1f}s")
 
 
 def _accumulate_entities(accumulator: dict, new_entities: dict):

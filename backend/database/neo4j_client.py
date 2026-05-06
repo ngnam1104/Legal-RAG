@@ -980,19 +980,25 @@ def _sanitize_rel_type(raw: str) -> str:
     return rel or 'RELATED_TO'
 
 
+# Module-level cache: chỉ gọi CREATE CONSTRAINT một lần duy nhất mỗi label/process.
+# Giúp tránh 30+ round-trip Neo4j per doc trong re_enrich_entities.py
+_constraint_created: set = set()
+
 def _ensure_entity_constraint(session, label: str) -> None:
-    """Tạo constraint `name IS UNIQUE` cho entity label nếu chưa tồn tại."""
+    """Tạo constraint `name IS UNIQUE` cho entity label (chỉ 1 lần/process)."""
     if label in ["Document", "LegalArticle", "Article", "Clause", "Chunk"]:
         return  # Tuyệt đối không tạo name IS UNIQUE cho Structural Nodes!
-        
+    if label in _constraint_created:
+        return  # Đã tạo trong lần trước, bỏ qua
     constraint_name = f"{label.lower()[:40]}_name_unique"
     try:
         session.run(
             f"CREATE CONSTRAINT {constraint_name} IF NOT EXISTS "
             f"FOR (n:{label}) REQUIRE n.name IS UNIQUE;"
         )
+        _constraint_created.add(label)
     except Exception:
-        pass  # bỏ qua nếu đã tồn tại hoặc Neo4j không hỗ trợ
+        _constraint_created.add(label)  # giả sử đã tồn tại, không retry
 
 
 
@@ -1020,6 +1026,7 @@ def enrich_chunk_entities(
         return
 
     # Luôn ghi nhận đã xử lý đối với toàn bộ các chunk trong params
+    # Rất quan trọng: Chunk có 0 entities vẫn phải mark để tránh fetch lại mãi mãi
     qdrant_ids = [p["qdrant_id"] for p in params_list if p.get("qdrant_id")]
     if qdrant_ids:
         try:
@@ -1072,6 +1079,14 @@ def _enrich_with_apoc(driver, params_list: list) -> None:
 
     BATCH_SIZE = 500
     with driver.session() as session:
+        # Tối quan trọng: Tạo constraint trước khi gọi APOC merge để Neo4j dùng Index!
+        unique_labels = {item["label"] for item in entity_items}
+        for nr in node_rel_items:
+            unique_labels.add(nr["source_type"])
+            unique_labels.add(nr["target_type"])
+        for label in unique_labels:
+            _ensure_entity_constraint(session, label)
+
         for i in range(0, len(entity_items), BATCH_SIZE):
             try:
                 session.run(_ENRICH_ENTITY_QUERY, items=entity_items[i:i+BATCH_SIZE])
