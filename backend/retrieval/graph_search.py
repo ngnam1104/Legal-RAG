@@ -121,17 +121,90 @@ class EntityGraphRetriever:
             return []
 
     # ------------------------------------------------------------------
+    # Intent Detection — chọn đúng label/relation cho từng loại câu hỏi
+    # ------------------------------------------------------------------
+    _INTENT_MAP = {
+        # intent_name: (keywords, target_labels, target_relations)
+        "authority": (
+            ["ban hành", "ký", "phê duyệt", "cơ quan ban hành", "ai ký", "ai ban hành",
+             "thẩm quyền", "được ký bởi", "được ban hành"],
+            ["Organization", "Person"],
+            ["ISSUED_BY", "SIGNED_BY", "APPROVED_BY", "CREATED_BY"]
+        ),
+        "penalty": (
+            ["xử phạt", "mức phạt", "vi phạm", "hình thức xử lý", "phạt tiền", "bị phạt"],
+            ["Penalty"],
+            ["APPLIES_TO", "AFFECTED_BY"]
+        ),
+        "fee": (
+            ["lệ phí", "phí", "chi phí", "mức phí", "tiền", "thu phí", "nộp phí"],
+            ["Fee"],
+            ["COLLECTED_BY", "PAID_TO", "APPLIES_TO"]
+        ),
+        "procedure": (
+            ["quy trình", "thủ tục", "cấp phép", "đăng ký", "nộp hồ sơ",
+             "hồ sơ", "các bước", "làm thế nào để"],
+            ["Procedure"],
+            ["IMPLEMENTED_BY", "REQUIRED_FOR", "APPLIES_TO"]
+        ),
+        "condition": (
+            ["điều kiện", "tiêu chuẩn", "yêu cầu", "đủ điều kiện", "tiêu chí"],
+            ["Condition"],
+            ["REQUIRED_FOR", "REQUIRED_BY", "COMPLIES_WITH"]
+        ),
+        "timeframe": (
+            ["thời hạn", "thời gian", "bao nhiêu ngày", "bao lâu", "trong vòng",
+             "hạn nộp", "hạn chót", "deadline"],
+            ["Timeframe"],
+            ["APPLIES_TO", "REQUIRED_FOR"]
+        ),
+        "management": (
+            ["quản lý", "giám sát", "điều phối", "cơ quan quản lý", "chịu trách nhiệm"],
+            ["Organization"],
+            ["MANAGED_BY", "REGULATED_BY", "COORDINATED_BY"]
+        ),
+    }
+
+    def _detect_intent(self, query: str) -> Optional[str]:
+        """Phát hiện intent của câu hỏi để chọn Cypher phù hợp."""
+        q_lower = query.lower()
+        for intent, (keywords, _, _) in self._INTENT_MAP.items():
+            if any(kw in q_lower for kw in keywords):
+                return intent
+        return None
+
+    def _get_intent_labels(self, intent: Optional[str]) -> str:
+        """Trả về label filter phù hợp với intent, hoặc toàn bộ nếu None."""
+        if intent and intent in self._INTENT_MAP:
+            return "|".join(self._INTENT_MAP[intent][1])
+        return _LABEL_FILTER
+
+    def _get_intent_relations(self, intent: Optional[str]) -> Optional[list]:
+        """Trả về danh sách relation target, hoặc None nếu không cần filter."""
+        if intent and intent in self._INTENT_MAP:
+            return self._INTENT_MAP[intent][2]
+        return None
+
+    # ------------------------------------------------------------------
     # 2. SEARCH IN NEO4J
     # ------------------------------------------------------------------
-    def search_by_entities(self, entities: List[str]) -> Dict[str, Any]:
+    def search_by_entities(self, entities: List[str], query: str = "") -> Dict[str, Any]:
         """
         Tìm chunk_ids + graph context bằng Entity.
         Dùng Fulltext Index nếu sẵn sàng, fallback CONTAINS.
+        Intent detection điều hướng Cypher target đúng label/relation.
         """
         if not entities or not self.neo4j_driver:
             return {"chunk_ids": [], "graph_context": "", "doc_numbers": [], "found_entities": []}
 
         self._ensure_fulltext_index()
+
+        # ── Intent detection ──
+        intent = self._detect_intent(query) if query else None
+        label_filter = self._get_intent_labels(intent)   # thu hẹp về label mục tiêu
+        target_rels  = self._get_intent_relations(intent)
+        if intent:
+            logger.info(f"[Graph Search] Intent detected: {intent} → labels={label_filter}")
 
         # Lucene query: exact phrase, fuzzy edit-distance 1
         lucene_terms = " OR ".join(f'"{e}"~1' for e in entities)
@@ -155,7 +228,7 @@ class EntityGraphRetriever:
         else:
             chunk_query = f"""
             UNWIND $entities AS ent_name
-            MATCH (e:{_LABEL_FILTER})
+            MATCH (e:{label_filter})
             WHERE toLower(e.name) CONTAINS toLower(ent_name)
                OR toLower(ent_name) CONTAINS toLower(e.name)
             OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
@@ -169,13 +242,18 @@ class EntityGraphRetriever:
             LIMIT 150
             """
 
-        # Query B: Entity–Entity relations (ISSUED_BY, MANAGED_BY, ...)
+        # Query B: Entity–Entity relations — lọc theo intent_relations nếu có
+        rel_filter = (
+            "AND type(r) IN $target_rels"
+            if target_rels
+            else ""
+        )
         rel_query = f"""
         UNWIND $entities AS ent_name
-        MATCH (e:{_LABEL_FILTER})
+        MATCH (e:{label_filter})
         WHERE toLower(e.name) CONTAINS toLower(ent_name)
         MATCH (e)-[r]->(target)
-        WHERE type(r) <> 'HAS_ENTITY' AND target.name IS NOT NULL
+        WHERE type(r) <> 'HAS_ENTITY' {rel_filter} AND target.name IS NOT NULL
         RETURN DISTINCT
             e.name              AS src_name,
             labels(e)[0]        AS src_type,
@@ -207,7 +285,10 @@ class EntityGraphRetriever:
                         doc_numbers.add(r["doc_number"])
 
                 # B — Entity–Entity relations
-                for r in session.run(rel_query, entities=entities).data():
+                rel_params = {"entities": entities}
+                if target_rels:
+                    rel_params["target_rels"] = target_rels
+                for r in session.run(rel_query, **rel_params).data():
                     src_t = r.get("src_type", "Entity")
                     tgt_t = r.get("tgt_type", "Entity")
                     rel_lines.append(
@@ -247,7 +328,7 @@ class EntityGraphRetriever:
             entities = self.extract_entities(query)
             if not entities:
                 return {"chunk_ids": [], "doc_numbers": [], "graph_context": "", "found_entities": []}
-            return self.search_by_entities(entities)
+            return self.search_by_entities(entities, query=query)  # pass query for intent
         except Exception as e:
             logger.error(f"[Graph Search] Unexpected error: {e}")
             return {"chunk_ids": [], "doc_numbers": [], "graph_context": "", "found_entities": []}

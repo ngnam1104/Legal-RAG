@@ -161,19 +161,42 @@ class LegalChatStrategy(BaseRAGStrategy):
             hits = sorted(hits, key=lambda x: x.get("score", 0), reverse=True)
 
         print(
-            f"       🔍 [Retrieve] Phase0_Graph: {len(graph_boost_chunk_ids)} boost_ids "
+            f"       🔍 [Retrieve] Phase0_Graph: {len(graph_boost_chunk_ids)} boost_ids, "
+            f"{len(graph_res.get('doc_numbers',[]))} doc_hints "
             f"| Phase1_Hybrid: {len(hits)} hits"
         )
 
-        # Thu thập entity_ids từ Hybrid hits
+        # ── Phase 1.5: Fetch Graph-hinted documents bị Vector Search bỏ sót ──
+        # entity_retriever.search() đã biết chính xác các văn bản liên quan (doc_numbers).
+        # Nếu Qdrant chưa kéo được chunks từ đó, ta scroll Qdrant theo doc_number.
+        graph_doc_numbers = graph_res.get("doc_numbers", [])
+        if graph_doc_numbers:
+            existing_doc_nums = {h.get("document_number", "") for h in hits}
+            missing_docs = [d for d in graph_doc_numbers if d not in existing_doc_nums][:3]
+            if missing_docs:
+                with timer.step("Graph_Doc_Fetch"):
+                    for doc_num in missing_docs:
+                        try:
+                            doc_hits = hybrid_retriever.search(
+                                query=query,
+                                doc_number=doc_num,
+                                expand_context=True,
+                                use_rerank=False,
+                                limit=5,
+                            )
+                            for dh in doc_hits:
+                                dh["score"] = dh.get("score", 0) + 0.25  # graph-sourced boost
+                                hits.append(dh)
+                            if doc_hits:
+                                print(f"       📌 [Graph Doc Fetch] Added {len(doc_hits)} chunks from {doc_num}")
+                        except Exception as e:
+                            import logging; logging.getLogger(__name__).warning(f"Graph doc fetch error: {e}")
+
+        # Thu thập entity_ids từ Hybrid hits (sau tất cả các phase fetch)
         entity_ids = [
             str(h.get("chunk_id") or h.get("id", ""))
             for h in hits if h.get("chunk_id") or h.get("id")
         ]
-        print(
-            f"       🔍 [Retrieve] Phase0_Graph: {len(graph_boost_chunk_ids)} boost_ids "
-            f"| HybridRetriever → {len(hits)} hits"
-        )
 
         # ── Phase 2: QdrantNeo4jRetriever — enrich + bổ sung entity_ids từ Neo4j ──
         with timer.step("QdrantNeo4j_Enrich"):
