@@ -118,19 +118,18 @@ class LegalChatStrategy(BaseRAGStrategy):
         query = rewritten_queries[0] or state.get("condensed_query") or state["query"]
         filters = state.get("metadata_filters", {}) or {}
 
-        # ── Phase 0: Entity Graph Retrieval (Pre-Retrieve) ──
-        graph_boost_chunk_ids = []
-        entity_pre_context = ""
-        with timer.step("Entity_Graph_Search"):
-            from backend.retrieval.graph_search import entity_retriever
-            graph_res = entity_retriever.search(query)
-            graph_boost_chunk_ids = graph_res.get("chunk_ids", [])
-            entity_pre_context = graph_res.get("graph_context", "")
-            
-        # ── Phase 1: HybridRetriever (Dense + Sparse + Rerank + Expand) ──
-        with timer.step("Hybrid_Search"):
-            from backend.retrieval.hybrid_search import retriever as hybrid_retriever
-            hits = hybrid_retriever.search(
+        from concurrent.futures import ThreadPoolExecutor
+        from backend.retrieval.graph_search import entity_retriever
+        from backend.retrieval.hybrid_search import retriever as hybrid_retriever
+
+        # ── Phase 0+1: SONG SONG — Entity Graph Search & Hybrid Search ──
+        # Hai phase này độc lập hoàn toàn nên chạy đồng thời để tiết kiệm 1-3s mỗi query.
+        # Boost từ Phase 0 được áp dụng SAU KHI cả hai hoàn thành.
+        def _run_graph_search():
+            return entity_retriever.search(query)
+
+        def _run_hybrid_search():
+            return hybrid_retriever.search(
                 query=query,
                 expand_context=True,
                 max_neighbors=8,
@@ -139,8 +138,32 @@ class LegalChatStrategy(BaseRAGStrategy):
                 doc_number=filters.get("doc_number"),
                 article_ref=filters.get("article_ref"),
                 limit=int(os.environ.get("MAX_RETRIEVAL_HITS", 20)),
-                graph_boost_chunk_ids=graph_boost_chunk_ids
             )
+
+        with timer.step("Phase0_and_Phase1_Parallel"):
+            with ThreadPoolExecutor(max_workers=2) as exe:
+                future_graph  = exe.submit(_run_graph_search)
+                future_hybrid = exe.submit(_run_hybrid_search)
+                graph_res = future_graph.result()
+                hits      = future_hybrid.result()
+
+        graph_boost_chunk_ids = graph_res.get("chunk_ids", [])
+        entity_pre_context    = graph_res.get("graph_context", "")
+
+        # Áp dụng Graph Boost sau khi cả hai phase xong
+        if graph_boost_chunk_ids:
+            boost_set = set(graph_boost_chunk_ids)
+            for hit in hits:
+                cid = str(hit.get("chunk_id") or hit.get("id", ""))
+                if cid in boost_set:
+                    hit["rerank_score"] = hit.get("rerank_score", hit.get("score", 0)) + 0.3
+                    hit["score"] = hit["rerank_score"]
+            hits = sorted(hits, key=lambda x: x.get("score", 0), reverse=True)
+
+        print(
+            f"       🔍 [Retrieve] Phase0_Graph: {len(graph_boost_chunk_ids)} boost_ids "
+            f"| Phase1_Hybrid: {len(hits)} hits"
+        )
 
         # Thu thập entity_ids từ Hybrid hits
         entity_ids = [

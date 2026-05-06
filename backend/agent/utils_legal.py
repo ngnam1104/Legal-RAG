@@ -383,23 +383,32 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     """
 
     # ── Query 4: Cross-Document Entity Context (Sibling Documents) ──
-    # Tự động kết nối các văn bản thông qua Procedure, Term chung (Dù không có liên kết trực tiếp)
+    # CHỈ dùng Entity "đặc thù" (ít chunk liên kết → cụ thể, không phổ biến).
+    # Lọc Entity có >= 30 chunks (ví dụ: "Bộ Y tế", "Nhà nước") để tránh kéo vào
+    # hàng nghìn sibling vô nghĩa và làm chậm query.
     sibling_query = """
     UNWIND $ids AS cid
     MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
     MATCH (c)-[:HAS_ENTITY]->(e)
-    WHERE labels(e)[0] IN ['Procedure', 'Term', 'Condition', 'Organization'] AND e.name IS NOT NULL
-    // Tìm các chunk khác (khác Document) cũng chứa entity này
+    WHERE labels(e)[0] IN ['Procedure', 'Term', 'Condition'] AND e.name IS NOT NULL
+    // Chỉ dùng entity đặc thù: số chunk liên kết < 30
+    WITH c, e, cid, count { (e)<-[:HAS_ENTITY]-() } AS usage_count
+    WHERE usage_count < 30
+    // Tìm chunk khác cùng entity nhưng khác document
     MATCH (other_c)-[:HAS_ENTITY]->(e)
-    WHERE other_c.qdrant_id <> cid AND coalesce(other_c.qdrant_id, other_c.id) <> coalesce(c.qdrant_id, c.id)
+    WHERE other_c.qdrant_id IS NOT NULL AND other_c.qdrant_id <> cid
     OPTIONAL MATCH (other_c)-[:PART_OF|BELONGS_TO*1..3]->(other_doc:Document)
     OPTIONAL MATCH (c)-[:PART_OF|BELONGS_TO*1..3]->(doc:Document)
-    WHERE other_doc IS NOT NULL AND other_doc.document_number <> coalesce(doc.document_number, 'N/A')
-    RETURN 
+    WHERE other_doc IS NOT NULL
+      AND other_doc.document_number IS NOT NULL
+      AND other_doc.document_number <> coalesce(doc.document_number, '__NONE__')
+    RETURN DISTINCT
         e.name AS shared_entity,
         labels(e)[0] AS entity_type,
         other_doc.document_number AS sibling_doc,
-        other_c.text AS sibling_text
+        other_c.text AS sibling_text,
+        usage_count
+    ORDER BY usage_count ASC
     LIMIT 20
     """
 
