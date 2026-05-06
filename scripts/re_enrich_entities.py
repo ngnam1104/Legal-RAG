@@ -149,6 +149,9 @@ _log("")
 #   Sau khi SET enriched_v2=true, lan query ke tiep tu dong bo qua.
 # SKIP/LIMIT khong co ORDER BY tren Neo4j = streaming nhanh, it RAM.
 # =====================================================================
+# SKIP bi bo: enriched_v2 lam cursor tu nhien
+# Moi trang: query tat ca node chua enrich → LIMIT PAGE_SIZE
+# Sau khi flush, node co enriched_v2=true → trang sau tu dong bo qua
 _FETCH_PAGE_Q = """
 MATCH (leaf)
 WHERE leaf.qdrant_id IS NOT NULL
@@ -157,7 +160,6 @@ WHERE leaf.qdrant_id IS NOT NULL
   AND ($resume = false OR leaf.enriched_v2 IS NULL OR leaf.enriched_v2 = false)
 OPTIONAL MATCH (leaf)-[:PART_OF|BELONGS_TO*1..4]->(d:Document)
 WITH leaf, d
-SKIP $skip
 LIMIT $limit
 RETURN DISTINCT
   leaf.qdrant_id                          AS qdrant_id,
@@ -283,13 +285,12 @@ stats = {
 }
 t_global = time.perf_counter()
 
-page_offset   = 0          # SKIP offset cho Neo4j
-total_fetched = 0          # Tong so chunk da fetch (de ung tinh MAX_CHUNKS)
+total_fetched = 0          # Tong so chunk da fetch
 global_done   = False      # Co tat ca chua
 
 while not global_done:
 
-    # ── FETCH 1 TRANG tu Neo4j ────────────────────────────────────────
+    # ── FETCH 1 TRANG tu Neo4j (LUON tu offset=0, WHERE lam cursor) ──
     fetch_limit = PAGE_SIZE
     if MAX_CHUNKS:
         remaining_budget = MAX_CHUNKS - total_fetched
@@ -303,7 +304,6 @@ while not global_done:
             dict(r) for r in sess.run(
                 _FETCH_PAGE_Q,
                 resume=RESUME,
-                skip=page_offset,
                 limit=fetch_limit,
             )
         ]
@@ -461,11 +461,10 @@ while not global_done:
 
     # Ket thuc 1 trang
     stats["pages_done"] += 1
-    page_offset += PAGE_SIZE
-
-    # Neu trang vua fetch ra it hon PAGE_SIZE → het data
+    # KHONG tang page_offset — enriched_v2 lam cursor tu nhien
+    # Dung khi page tra ve 0 row (tat ca da enrich)
     if len(page_rows) < fetch_limit:
-        _log(f"  [PAGE {stats['pages_done']}] Trang cuoi, ket thuc vong lap.")
+        _log(f"  [PAGE {stats['pages_done']}] Trang cuoi (< PAGE_SIZE), ket thuc.")
         break
 
 
