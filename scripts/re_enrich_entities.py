@@ -4,39 +4,17 @@ re_enrich_entities.py
 =====================
 Bo sung Entities + Node Relations vao Neo4j da co san.
 
-LOGIC NHAT QUAN VOI PIPELINE GOC:
-  1. parse_unified_response() (entities.py):
-     - _normalize_entity_type()  : PascalCase + alias (Signer->Person, Authority->Organization)
-     - Filter structural labels  : bo Document/LegalArticle/Article/Clause/Chunk
-     - _normalize_entity_name()  : expand abbreviations (ENTITY_NAME_ALIASES), filter garbage
-     - Dedup exact (case-insensitive) per entity type
-     - _dedup_entity_values()    : substring containment dedup + alias_map
-     - _normalize_relationship() : comprehensive alias map + verb-root fuzzy match
-     - Redirect node_relation endpoints via entity_alias_map
+TOAN BO CHI DUNG MERGE/SET/MATCH — KHONG CO DELETE/DROP.
 
-  2. Accumulate per doc (relations.py dong 669-696):
-     - entities: merge by exact match per type
-     - node_relations: dedup by tuple key (source_node, target_node, relationship)
+FLUSH STRATEGY (v2 — BATCH):
+  Gom SUPER_BATCH_DOCS doc mot luc, xay tat ca prompts → goi
+  batch_chat_completion() (song song LLM_PARALLEL_WORKERS threads)
+  → parse tung response → accumulate per-doc → flush Neo4j ngay.
 
-  3. Flush via enrich_chunk_entities(use_apoc=False) -> _enrich_fallback():
-     - MERGE entity nodes + HAS_ENTITY edges (Python-side dedup)
-     - MERGE src -> MERGE tgt -> MERGE rel edge
-     - SET enriched_v2 = true
-
-FLUSH STRATEGY:
-  Sau moi LLM response -> parse -> accumulate -> FLUSH NGAY vao Neo4j
-  Khong doi buffer day. Index song song voi LLM processing.
+  Ket qua: giam ETA tu ~8 ngay (tuan tu) xuong ~1 ngay (8 parallel).
 
 CHECKPOINT:
-  Luu done_ids (set of qdrant_id) sau MOI BATCH flush.
-  Khi crash va chay lai, chi xu ly cac chunk chua co trong done_ids.
-
-DB SAFETY:
-  Chi dung MERGE / SET / MATCH. Khong co DELETE / DROP / REMOVE.
-
-CHAY:
-  cd /path/to/Legal-RAG
-  python scripts/re_enrich_entities.py
+  Luu done_ids sau moi SUPER_BATCH flush thanh cong.
 """
 
 import sys
@@ -49,12 +27,13 @@ import threading
 # =====================================================================
 # CONFIGURATION
 # =====================================================================
-BATCH_SIZE_LLM   = 8      # so chunk / 1 LLM prompt (giong BATCH_SIZE trong relations.py)
-DRY_RUN          = False   # True = khong ghi DB, chi in thong ke
-RESUME           = True    # True = skip chunk da enriched_v2 hoac da co trong checkpoint
-MAX_CHUNKS       = None    # None = tat ca. Dat so nguyen de test (VD: 100)
+BATCH_SIZE_LLM   = 8      # So chunk / 1 LLM prompt (giong pipeline goc)
+SUPER_BATCH_DOCS = 8      # So doc gom vao 1 lan goi batch_chat_completion
+PAGE_SIZE        = 50000  # So chunk moi lan fetch tu Neo4j (tranh day RAM)
+DRY_RUN          = False   # True = khong ghi DB
+RESUME           = True    # True = skip chunk da enriched_v2
+MAX_CHUNKS       = None    # None = tat ca. Dat so de test (VD: 500)
 
-# Neo4j credentials override (None = doc tu .env / os.environ)
 NEO4J_URI_OVERRIDE      = None
 NEO4J_USERNAME_OVERRIDE = None
 NEO4J_PASSWORD_OVERRIDE = None
@@ -63,7 +42,7 @@ CHECKPOINT_FILE = ".checkpoints/re_enrich_done_ids.pkl"
 # =====================================================================
 
 
-# ── Logging (UTF-8 safe cho ca Windows va Linux) ─────────────────────
+# ── Logging UTF-8 ────────────────────────────────────────────────────
 os.makedirs(".debug", exist_ok=True)
 os.makedirs(".checkpoints", exist_ok=True)
 
@@ -74,7 +53,6 @@ _LOG_FILE = os.path.join(
 
 
 class _DualWriter:
-    """Ghi dong thoi ra terminal (UTF-8) va file log."""
     def __init__(self, logpath: str):
         self._term = open(
             sys.__stdout__.fileno(), mode="w",
@@ -109,16 +87,16 @@ def _log(msg: str):
 
 # ── Banner ───────────────────────────────────────────────────────────
 _log("=" * 65)
-_log(f"  RE-ENRICH ENTITIES")
+_log("  RE-ENRICH ENTITIES v2 (Batch Parallel)")
 _log(f"  {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 _log("=" * 65)
-_log(f"  Log            : {_LOG_FILE}")
-_log(f"  Checkpoint     : {CHECKPOINT_FILE}")
-_log(f"  DRY_RUN        : {DRY_RUN}")
-_log(f"  RESUME         : {RESUME}")
-_log(f"  BATCH_SIZE_LLM : {BATCH_SIZE_LLM} chunks/prompt")
-_log(f"  MAX_CHUNKS     : {MAX_CHUNKS or 'ALL'}")
-_log(f"  FLUSH          : Ngay sau moi LLM response (song song)")
+_log(f"  Log              : {_LOG_FILE}")
+_log(f"  Checkpoint       : {CHECKPOINT_FILE}")
+_log(f"  DRY_RUN          : {DRY_RUN}")
+_log(f"  RESUME           : {RESUME}")
+_log(f"  BATCH_SIZE_LLM   : {BATCH_SIZE_LLM} chunks/prompt")
+_log(f"  SUPER_BATCH_DOCS : {SUPER_BATCH_DOCS} docs/parallel-call")
+_log(f"  MAX_CHUNKS       : {MAX_CHUNKS or 'ALL'}")
 _log("")
 
 
@@ -130,9 +108,9 @@ if _repo not in sys.path:
 try:
     from dotenv import load_dotenv
     load_dotenv(os.path.join(_repo, ".env"), override=False)
-    _log("  .env           : loaded")
+    _log("  .env             : loaded")
 except ImportError:
-    _log("  .env           : (dotenv not installed)")
+    _log("  .env             : (dotenv not installed)")
 
 if NEO4J_URI_OVERRIDE:
     os.environ["NEO4J_URI"] = NEO4J_URI_OVERRIDE
@@ -141,20 +119,15 @@ if NEO4J_USERNAME_OVERRIDE:
 if NEO4J_PASSWORD_OVERRIDE:
     os.environ["NEO4J_PASSWORD"] = NEO4J_PASSWORD_OVERRIDE
 
-_log(f"  NEO4J_URI      : {os.environ.get('NEO4J_URI', '(not set)')}")
+_log(f"  NEO4J_URI        : {os.environ.get('NEO4J_URI', '(not set)')}")
+_log(f"  LLM_PARALLEL_WORKERS: {os.environ.get('LLM_PARALLEL_WORKERS', '8 (default)')}")
 _log("")
 
 
 # ── Imports ──────────────────────────────────────────────────────────
 from collections import Counter, defaultdict
-from backend.database.neo4j_client import (
-    get_neo4j_driver,
-    enrich_chunk_entities,
-)
-from backend.ingestion.extractor.entities import (
-    build_unified_prompt,
-    parse_unified_response,
-)
+from backend.database.neo4j_client import get_neo4j_driver, enrich_chunk_entities
+from backend.ingestion.extractor.entities import build_unified_prompt, parse_unified_response
 from backend.models.llm_factory import get_client
 from backend.utils.text_utils import strip_thinking_tags
 
@@ -165,15 +138,18 @@ if not driver:
     _log("[FATAL] Khong ket noi duoc Neo4j.")
     sys.exit(1)
 
-_log(f"[OK] Neo4j connected")
-_log(f"[OK] DB Safety: MERGE/SET/MATCH only — no DELETE/DROP")
+_log("[OK] Neo4j connected")
+_log("[OK] DB Safety: MERGE/SET/MATCH only — no DELETE/DROP")
 _log("")
 
 
 # =====================================================================
-# BUOC 1 — READ: Lay leaf nodes chua enrich tu Neo4j (read-only)
+# QUERY TEMPLATE — fetch theo trang, KHONG ORDER BY (nhanh hon 10x)
+# Moi lan LIMIT PAGE_SIZE chunk, dung enriched_v2 lam con tro tu nhien:
+#   Sau khi SET enriched_v2=true, lan query ke tiep tu dong bo qua.
+# SKIP/LIMIT khong co ORDER BY tren Neo4j = streaming nhanh, it RAM.
 # =====================================================================
-_FETCH_Q = """
+_FETCH_PAGE_Q = """
 MATCH (leaf)
 WHERE leaf.qdrant_id IS NOT NULL
   AND leaf.text IS NOT NULL
@@ -181,7 +157,8 @@ WHERE leaf.qdrant_id IS NOT NULL
   AND ($resume = false OR leaf.enriched_v2 IS NULL OR leaf.enriched_v2 = false)
 OPTIONAL MATCH (leaf)-[:PART_OF|BELONGS_TO*1..4]->(d:Document)
 WITH leaf, d
-ORDER BY leaf.qdrant_id
+SKIP $skip
+LIMIT $limit
 RETURN DISTINCT
   leaf.qdrant_id                          AS qdrant_id,
   leaf.text                               AS text,
@@ -189,34 +166,11 @@ RETURN DISTINCT
   labels(leaf)[0]                         AS node_label
 """
 
-_log("=" * 65)
-_log("BUOC 1: Query Neo4j — lay leaf nodes chua enrich")
-_log("=" * 65)
-
-t0 = time.perf_counter()
-with driver.session() as sess:
-    _rows_raw = [dict(r) for r in sess.run(_FETCH_Q, resume=RESUME)]
-_log(f"  Tim thay: {len(_rows_raw):,} nodes ({time.perf_counter()-t0:.1f}s)")
-
-for lbl, cnt in Counter(r.get("node_label", "?") for r in _rows_raw).most_common():
-    _log(f"    {lbl:20s}: {cnt:,}")
-
-if not _rows_raw:
-    _log("[DONE] Khong co node nao can enrich.")
-    driver.close()
-    sys.exit(0)
-
-if MAX_CHUNKS:
-    _rows_raw = _rows_raw[:MAX_CHUNKS]
-    _log(f"  [TEST] Gioi han: {len(_rows_raw):,} chunks")
-
-
 # =====================================================================
-# BUOC 2 — CHECKPOINT: Load + filter done_ids
+# BUOC 1+2 — CHECKPOINT load
 # =====================================================================
-_log("")
 _log("=" * 65)
-_log("BUOC 2: Checkpoint — loc chunk da xu ly")
+_log("BUOC 1: Checkpoint load")
 _log("=" * 65)
 
 done_ids: set = set()
@@ -227,34 +181,10 @@ if RESUME and os.path.exists(CHECKPOINT_FILE):
         _log(f"  Checkpoint loaded: {len(done_ids):,} IDs tu truoc")
     except Exception as e:
         _log(f"  [WARN] Khong doc duoc checkpoint: {e}")
-
-rows = [r for r in _rows_raw if r["qdrant_id"] not in done_ids]
-_log(f"  Con lai can xu ly: {len(rows):,} chunks")
-
-if not rows:
-    _log("[DONE] Tat ca da enriched.")
-    driver.close()
-    sys.exit(0)
-
-
-# =====================================================================
-# BUOC 3 — GROUP theo doc_number
-# =====================================================================
-# Pipeline goc (relations.py 669-696) accumulate entities theo s_doc.
-# Group de dam bao moi doc duoc xu ly rieng, entities khong bi tron.
-
+else:
+    _log("  Checkpoint: trong (lan dau chay)")
 _log("")
-_log("=" * 65)
-_log("BUOC 3: Group chunks theo doc_number")
-_log("=" * 65)
 
-docs_map: dict = defaultdict(list)
-for r in rows:
-    docs_map[r["doc_number"]].append(r)
-
-doc_queue = list(docs_map.items())  # [(doc_number, [rows])]
-_log(f"  {len(rows):,} chunks tu {len(doc_queue):,} documents")
-_log("")
 
 
 # =====================================================================
@@ -264,7 +194,6 @@ _ckpt_lock = threading.Lock()
 
 
 def _save_checkpoint():
-    """Luu checkpoint an toan (thread-safe)."""
     with _ckpt_lock:
         try:
             with open(CHECKPOINT_FILE, "wb") as f:
@@ -274,22 +203,13 @@ def _save_checkpoint():
 
 
 def _flush_to_neo4j(params: list):
-    """
-    Ghi truc tiep vao Neo4j bang MERGE (khong DELETE).
-
-    Goi enrich_chunk_entities(use_apoc=False) -> _enrich_fallback():
-      - Per label:   MERGE (ent:Label {name}) + MERGE (leaf)-[:HAS_ENTITY]->(ent)
-      - Per rel key: MERGE (src) + MERGE (tgt) + MERGE (src)-[r:REL]->(tgt)
-      - _MARK_ENRICHED_QUERY: SET c.enriched_v2 = true
-
-    Tat ca deu idempotent — chay nhieu lan khong duplicate.
-    """
+    """MERGE entities + node_relations vao Neo4j (idempotent)."""
     if not params:
         return
     if DRY_RUN:
         n_e = sum(sum(len(v) for v in p.get("entities", {}).values()) for p in params)
         n_r = sum(len(p.get("node_relations", [])) for p in params)
-        _log(f"    [DRY_RUN] skip {len(params)} chunks ({n_e} ents, {n_r} nrels)")
+        _log(f"    [DRY_RUN] skip {len(params)} params ({n_e} ents, {n_r} nrels)")
         return
     try:
         enrich_chunk_entities(driver, params, use_apoc=False)
@@ -298,15 +218,7 @@ def _flush_to_neo4j(params: list):
 
 
 def _accumulate_entities(accumulator: dict, new_entities: dict):
-    """
-    Merge new_entities vao accumulator, dedup EXACT (case-sensitive) per type.
-    Giong y het relations.py dong 676-685:
-        existing = set(entities_side_data[s_doc]["entities"][etype])
-        for v in vals:
-            if v not in existing:
-                entities_side_data[s_doc]["entities"][etype].append(v)
-                existing.add(v)
-    """
+    """Dedup exact per entity type (giong relations.py dong 676-685)."""
     for etype, vals in new_entities.items():
         if not isinstance(vals, list):
             continue
@@ -320,13 +232,7 @@ def _accumulate_entities(accumulator: dict, new_entities: dict):
 
 
 def _accumulate_nrels(accumulator: list, seen: set, new_nrels: list):
-    """
-    Merge new_nrels vao accumulator, dedup bang tuple key.
-    Giong y het relations.py dong 687-696:
-        existing_nrels = {(nr.source_node, nr.target_node, nr.relationship) for ...}
-        if nr_key not in existing_nrels:
-            entities_side_data[s_doc]["node_relations"].append(nr)
-    """
+    """Dedup bang tuple key (giong relations.py dong 687-696)."""
     for nr in new_nrels:
         key = (
             nr.get("source_node", ""),
@@ -339,44 +245,32 @@ def _accumulate_nrels(accumulator: list, seen: set, new_nrels: list):
 
 
 # =====================================================================
-# BUOC 4 — MAIN LOOP: LLM call -> parse -> accumulate -> flush ngay
+# BUOC 2: Super-Batch LLM (parallel) -> flush Neo4j
+#
+# Cau truc vong lap chinh (paginated):
+#   PAGE_LOOP:
+#     fetch PAGE_SIZE chunk tu Neo4j (SKIP offset, LIMIT PAGE_SIZE)
+#     loc qua done_ids (checkpoint)
+#     group theo doc_number
+#     SUPER_BATCH_LOOP (8 doc / lan):
+#       xay messages_list (tat ca prompts cua 8 doc)
+#       batch_chat_completion() song song
+#       parse + accumulate per-doc
+#       flush Neo4j
+#       checkpoint
+#     offset += PAGE_SIZE
+#   stop khi page tra ve 0 row
 # =====================================================================
-# Flow cho MOI document:
-#   doc_rows = [chunk1, chunk2, ..., chunkN]  (da group tu buoc 3)
-#   doc_entities = {}   # accumulator entities (nhu entities_side_data[s_doc])
-#   doc_nrels    = []   # accumulator node_relations
-#
-#   for batch in split(doc_rows, BATCH_SIZE_LLM):
-#       prompt   = build_unified_prompt(batch_info)
-#       response = llm_client.chat_completion(prompt)
-#       parsed   = parse_unified_response(response)
-#           -> _normalize_entity_type()
-#           -> _normalize_entity_name()
-#           -> _dedup_entity_values()
-#           -> _normalize_relationship()
-#           -> filter structural labels
-#           -> redirect via entity_alias_map
-#       _accumulate_entities(doc_entities, parsed["entities"])
-#       _accumulate_nrels(doc_nrels, doc_nrel_seen, parsed["node_relations"])
-#
-#       >>> FLUSH NGAY <<<
-#       enrich_params = [{qdrant_id, entities=doc_entities, node_relations=doc_nrels}
-#                        for row in batch]
-#       enrich_chunk_entities(driver, enrich_params)
-#           -> _enrich_fallback():
-#              MERGE entity nodes + HAS_ENTITY edges + node_relation edges
-#              SET enriched_v2 = true
-#
-#       >>> CHECKPOINT <<<
-#       done_ids.update(batch qdrant_ids)
-#       _save_checkpoint()
-
 _log("=" * 65)
-_log("BUOC 4: LLM extraction -> flush Neo4j ngay sau moi batch")
+_log("BUOC 2: Paginated fetch + Super-Batch LLM -> flush Neo4j")
 _log("=" * 65)
+_log(f"  PAGE_SIZE        : {PAGE_SIZE:,} chunks/fetch")
+_log(f"  SUPER_BATCH_DOCS : {SUPER_BATCH_DOCS} docs/parallel-call")
+_log(f"  BATCH_SIZE_LLM   : {BATCH_SIZE_LLM} chunks/prompt")
 _log("")
 
 stats = {
+    "pages_done"     : 0,
     "docs_done"      : 0,
     "chunks_done"    : 0,
     "llm_calls"      : 0,
@@ -389,123 +283,194 @@ stats = {
 }
 t_global = time.perf_counter()
 
+page_offset   = 0          # SKIP offset cho Neo4j
+total_fetched = 0          # Tong so chunk da fetch (de ung tinh MAX_CHUNKS)
+global_done   = False      # Co tat ca chua
 
-for doc_idx, (doc_number, doc_rows) in enumerate(doc_queue):
+while not global_done:
 
-    # Chia chunks cua doc nay thanh LLM batches
-    batches = [
-        doc_rows[i : i + BATCH_SIZE_LLM]
-        for i in range(0, len(doc_rows), BATCH_SIZE_LLM)
+    # ── FETCH 1 TRANG tu Neo4j ────────────────────────────────────────
+    fetch_limit = PAGE_SIZE
+    if MAX_CHUNKS:
+        remaining_budget = MAX_CHUNKS - total_fetched
+        if remaining_budget <= 0:
+            break
+        fetch_limit = min(PAGE_SIZE, remaining_budget)
+
+    t_fetch = time.perf_counter()
+    with driver.session() as sess:
+        page_rows = [
+            dict(r) for r in sess.run(
+                _FETCH_PAGE_Q,
+                resume=RESUME,
+                skip=page_offset,
+                limit=fetch_limit,
+            )
+        ]
+
+    if not page_rows:
+        _log(f"  [PAGE {stats['pages_done']+1}] Khong con chunk nao. Hoan tat.")
+        break
+
+    # Loc checkpoint
+    page_rows = [r for r in page_rows if r["qdrant_id"] not in done_ids]
+    if not page_rows:
+        page_offset += PAGE_SIZE
+        stats["pages_done"] += 1
+        _log(f"  [PAGE {stats['pages_done']}] Tat ca da trong checkpoint, skip.")
+        continue
+
+    total_fetched += len(page_rows)
+    t_fetch_elapsed = time.perf_counter() - t_fetch
+
+    # Group theo doc_number
+    docs_map: dict = defaultdict(list)
+    for r in page_rows:
+        docs_map[r["doc_number"]].append(r)
+    doc_queue = list(docs_map.items())
+
+    _log(
+        f"  [PAGE {stats['pages_done']+1}]"
+        f"  fetch={len(page_rows):,} chunks"
+        f"  ({t_fetch_elapsed:.1f}s)"
+        f"  → {len(doc_queue)} docs"
+        f"  RAM-safe: ~{len(page_rows)*1//1024}MB est."
+    )
+
+    # ── SUPER-BATCH: chia doc_queue thanh nhom SUPER_BATCH_DOCS ──────
+    super_batches = [
+        doc_queue[i : i + SUPER_BATCH_DOCS]
+        for i in range(0, len(doc_queue), SUPER_BATCH_DOCS)
     ]
 
-    # Accumulator per-doc (nhu entities_side_data[s_doc] trong relations.py)
-    doc_entities  : dict = {}    # {EntityType: [name, ...]}
-    doc_nrels     : list = []    # [{source_node, source_type, ...}]
-    doc_nrel_seen : set  = set() # (src, tgt, rel) da co
+    for sb_idx, super_batch in enumerate(super_batches):
 
-    for b_idx, batch in enumerate(batches):
+        # A. Xay messages_list cho ca super-batch
+        messages_list  = []
+        prompt_idx_map = {}
+        doc_batch_plan = []
 
-        # ── A. Build prompt (giong relations.py dong 554) ────────────
-        batch_info = [
-            {"s_doc": doc_number, "context": row["text"][:3000]}
-            for row in batch
-        ]
-        prompt = build_unified_prompt(batch_info)
-        stats["llm_calls"] += 1
+        for doc_i, (doc_number, doc_rows) in enumerate(super_batch):
+            batches = [
+                doc_rows[i : i + BATCH_SIZE_LLM]
+                for i in range(0, len(doc_rows), BATCH_SIZE_LLM)
+            ]
+            doc_batch_plan.append((doc_number, doc_rows, batches))
 
-        # ── B. Call LLM ──────────────────────────────────────────────
+            for batch_j, batch in enumerate(batches):
+                batch_info = [
+                    {"s_doc": doc_number, "context": row["text"][:3000]}
+                    for row in batch
+                ]
+                prompt = build_unified_prompt(batch_info)
+                idx = len(messages_list)
+                messages_list.append([{"role": "user", "content": prompt}])
+                prompt_idx_map[(doc_i, batch_j)] = idx
+
+        n_prompts = len(messages_list)
+        stats["llm_calls"] += n_prompts
+
+        # B. Goi batch_chat_completion SONG SONG
         try:
-            resp = llm_client.chat_completion(
-                messages=[{"role": "user", "content": prompt}],
+            responses = llm_client.batch_chat_completion(
+                messages_list=messages_list,
                 temperature=0.1,
                 max_tokens=5000,
                 response_format={"type": "json_object"},
             )
         except Exception as e:
-            _log(f"  [LLM ERROR] doc={doc_number} batch={b_idx+1}: {e}")
-            stats["llm_errors"] += 1
-            # Danh dau done de khong retry vo han
-            for row in batch:
-                done_ids.add(row["qdrant_id"])
+            _log(f"  [LLM BATCH ERROR] page={stats['pages_done']+1} sb={sb_idx+1}: {e}")
+            stats["llm_errors"] += n_prompts
+            for _, doc_rows, _ in doc_batch_plan:
+                for row in doc_rows:
+                    done_ids.add(row["qdrant_id"])
             _save_checkpoint()
             continue
 
-        if not resp or not resp.strip():
-            stats["empty_responses"] += 1
-            for row in batch:
-                done_ids.add(row["qdrant_id"])
-            _save_checkpoint()
-            continue
+        # C. Parse + accumulate + flush per-doc
+        for doc_i, (doc_number, doc_rows, batches) in enumerate(doc_batch_plan):
+            doc_entities  : dict = {}
+            doc_nrels     : list = []
+            doc_nrel_seen : set  = set()
 
-        # ── C. Parse (giong relations.py dong 571) ───────────────────
-        # parse_unified_response() da lam tat ca:
-        #   _normalize_entity_type()
-        #   _normalize_entity_name()
-        #   _dedup_entity_values() + entity_alias_map
-        #   _normalize_relationship()
-        #   filter structural labels (Document/LegalArticle/...)
-        #   redirect node_relation endpoints qua alias_map
-        resp = strip_thinking_tags(resp)
-        parsed = parse_unified_response(resp)
-        new_ents  = parsed.get("entities", {})
-        new_nrels = parsed.get("node_relations", [])
+            for batch_j, batch in enumerate(batches):
+                idx  = prompt_idx_map.get((doc_i, batch_j))
+                resp = responses[idx] if idx is not None and idx < len(responses) else ""
 
-        # ── D. Accumulate per-doc (giong relations.py dong 676-696) ──
-        _accumulate_entities(doc_entities, new_ents)
-        _accumulate_nrels(doc_nrels, doc_nrel_seen, new_nrels)
+                if not resp or not resp.strip():
+                    stats["empty_responses"] += 1
+                    continue
 
-        # ── E. FLUSH NGAY vao Neo4j (giong chunking_embedding.py 446-462) ──
-        # Moi chunk trong batch nay nhan TOAN BO entities tich luy
-        # cua doc tinh den thoi diem nay.
-        # MERGE la idempotent nen chunk cu da co HAS_ENTITY se khong bi dup.
-        enrich_params = []
-        for row in batch:
+                resp = strip_thinking_tags(resp)
+                try:
+                    parsed = parse_unified_response(resp)
+                except Exception as e:
+                    _log(f"    [PARSE ERR] doc={doc_number} b={batch_j}: {e}")
+                    continue
+
+                _accumulate_entities(doc_entities, parsed.get("entities", {}))
+                _accumulate_nrels(doc_nrels, doc_nrel_seen, parsed.get("node_relations", []))
+
+            # D. Flush Neo4j
             if doc_entities or doc_nrels:
-                enrich_params.append({
-                    "qdrant_id"     : row["qdrant_id"],
-                    "entities"      : doc_entities,      # full accumulated
-                    "node_relations": doc_nrels,          # full accumulated
-                })
+                enrich_params = [
+                    {
+                        "qdrant_id"     : row["qdrant_id"],
+                        "entities"      : doc_entities,
+                        "node_relations": doc_nrels,
+                    }
+                    for row in doc_rows
+                ]
+                _flush_to_neo4j(enrich_params)
 
-        _flush_to_neo4j(enrich_params)
+            # E. Stats
+            n_ents_doc = sum(len(v) for v in doc_entities.values())
+            stats["total_entities"] += n_ents_doc
+            stats["total_nrels"]    += len(doc_nrels)
+            stats["docs_done"]      += 1
+            stats["chunks_done"]    += len(doc_rows)
 
-        # ── F. CHECKPOINT per-batch ──────────────────────────────────
-        for row in batch:
-            done_ids.add(row["qdrant_id"])
-            stats["chunks_done"] += 1
+            for etype, vals in doc_entities.items():
+                stats["entity_counts"][etype] += len(vals)
+            for nr in doc_nrels:
+                stats["nrel_counts"][nr.get("relationship", "?")] += 1
 
+            for row in doc_rows:
+                done_ids.add(row["qdrant_id"])
+
+        # F. Checkpoint sau moi super-batch
         _save_checkpoint()
 
-    # ── Thong ke per-doc ─────────────────────────────────────────────
-    stats["docs_done"] += 1
-    n_ents_doc = sum(len(v) for v in doc_entities.values())
-    for etype, vals in doc_entities.items():
-        stats["entity_counts"][etype] += len(vals)
-    stats["total_entities"] += n_ents_doc
-    for nr in doc_nrels:
-        stats["nrel_counts"][nr.get("relationship", "?")] += 1
-    stats["total_nrels"] += len(doc_nrels)
+        # G. Progress
+        elapsed = time.perf_counter() - t_global
+        speed   = stats["docs_done"] / elapsed * 3600 if elapsed > 0 else 0
+        # ETA dua tren toc do hien tai va so chunk con lai uoc tinh
+        approx_remain_docs = max(0, (672138 - total_fetched) // max(1, len(page_rows) // len(doc_queue)))
+        eta_s = (elapsed / stats["docs_done"] * (stats["docs_done"] + approx_remain_docs)) if stats["docs_done"] > 0 else 0
+        eta   = str(datetime.timedelta(seconds=int(eta_s - elapsed))) if eta_s > elapsed else "?"
 
-    # ── Progress ─────────────────────────────────────────────────────
-    elapsed = time.perf_counter() - t_global
-    pct = stats["docs_done"] / len(doc_queue) * 100
-    remain = len(doc_queue) - stats["docs_done"]
-    eta_s = (elapsed / stats["docs_done"] * remain) if stats["docs_done"] > 0 else 0
-    eta = str(datetime.timedelta(seconds=int(eta_s)))
+        _log(
+            f"  P{stats['pages_done']+1}"
+            f"  SB{sb_idx+1:>3}/{len(super_batches)}"
+            f"  docs={stats['docs_done']:>6}"
+            f"  ents={stats['total_entities']:>7}"
+            f"  nrels={stats['total_nrels']:>6}"
+            f"  ETA~{eta}"
+            f"  ({speed:.0f} doc/h)"
+        )
 
-    _log(
-        f"  [{doc_idx+1:>5}/{len(doc_queue)}]"
-        f"  {pct:5.1f}%"
-        f"  doc={doc_number:<28s}"
-        f"  chunks={len(doc_rows)}"
-        f"  ents={n_ents_doc}"
-        f"  nrels={len(doc_nrels)}"
-        f"  ETA={eta}"
-    )
+    # Ket thuc 1 trang
+    stats["pages_done"] += 1
+    page_offset += PAGE_SIZE
+
+    # Neu trang vua fetch ra it hon PAGE_SIZE → het data
+    if len(page_rows) < fetch_limit:
+        _log(f"  [PAGE {stats['pages_done']}] Trang cuoi, ket thuc vong lap.")
+        break
 
 
 # =====================================================================
-# BUOC 5 — FINAL REPORT
+# BUOC 3 — FINAL REPORT
 # =====================================================================
 driver.close()
 t_total = time.perf_counter() - t_global
@@ -515,9 +480,10 @@ _log("=" * 65)
 _log(f"  HOAN TAT: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 _log("=" * 65)
 _log(f"  Thoi gian tong    : {datetime.timedelta(seconds=int(t_total))}")
+_log(f"  Pages fetched     : {stats['pages_done']:,}")
 _log(f"  Documents         : {stats['docs_done']:,}")
 _log(f"  Chunks            : {stats['chunks_done']:,}")
-_log(f"  LLM calls         : {stats['llm_calls']:,}")
+_log(f"  LLM prompts       : {stats['llm_calls']:,}")
 _log(f"  LLM errors        : {stats['llm_errors']:,}")
 _log(f"  Empty responses   : {stats['empty_responses']:,}")
 _log(f"  Total Entities    : {stats['total_entities']:,}")
@@ -534,31 +500,199 @@ for rel, cnt in stats["nrel_counts"].most_common(15):
 
 _log(f"\n  Log       : {_LOG_FILE}")
 _log(f"  Checkpoint: {CHECKPOINT_FILE}")
-
 _log("""
 =================================================================
-CYPHER VERIFY — Chay trong Neo4j Browser:
+CYPHER VERIFY:
+  MATCH (n) WHERE n:Organization OR n:Person RETURN count(n);
+  MATCH ()-[r:HAS_ENTITY]->() RETURN count(r);
+  MATCH (n) WHERE n.enriched_v2 = true RETURN count(n);
+  MATCH (d:Document) RETURN count(d) AS total_docs;
+""")
+
+_log("=" * 65)
+_log("BUOC 4: Super-Batch LLM (parallel) -> flush Neo4j")
+_log("=" * 65)
+_log(f"  Song song: {SUPER_BATCH_DOCS} docs x ~{max(1, 672138//18140//BATCH_SIZE_LLM+1)} prompts/doc")
+_log("")
+
+from collections import Counter
+
+stats = {
+    "docs_done"      : 0,
+    "chunks_done"    : 0,
+    "llm_calls"      : 0,
+    "llm_errors"     : 0,
+    "empty_responses": 0,
+    "total_entities" : 0,
+    "total_nrels"    : 0,
+    "entity_counts"  : Counter(),
+    "nrel_counts"    : Counter(),
+}
+t_global = time.perf_counter()
+
+# Chia doc_queue thanh cac super-batch
+super_batches = [
+    doc_queue[i : i + SUPER_BATCH_DOCS]
+    for i in range(0, len(doc_queue), SUPER_BATCH_DOCS)
+]
+
+for sb_idx, super_batch in enumerate(super_batches):
+
+    # ── A. Xay danh sach prompts cho toan bo super-batch ─────────────
+    # Cau truc: prompt_index_map[(doc_i, batch_j)] = idx trong messages_list
+    messages_list   = []   # list of [{"role":"user","content":prompt}]
+    prompt_idx_map  = {}   # (doc_i, batch_j) → index trong messages_list
+    doc_batch_plan  = []   # [(doc_number, doc_rows, [batch0, batch1, ...])]
+
+    for doc_i, (doc_number, doc_rows) in enumerate(super_batch):
+        batches = [
+            doc_rows[i : i + BATCH_SIZE_LLM]
+            for i in range(0, len(doc_rows), BATCH_SIZE_LLM)
+        ]
+        doc_batch_plan.append((doc_number, doc_rows, batches))
+
+        for batch_j, batch in enumerate(batches):
+            batch_info = [
+                {"s_doc": doc_number, "context": row["text"][:3000]}
+                for row in batch
+            ]
+            prompt = build_unified_prompt(batch_info)
+            idx = len(messages_list)
+            messages_list.append([{"role": "user", "content": prompt}])
+            prompt_idx_map[(doc_i, batch_j)] = idx
+
+    n_prompts = len(messages_list)
+    stats["llm_calls"] += n_prompts
+
+    # ── B. Goi batch_chat_completion (SONG SONG) ──────────────────────
+    try:
+        responses = llm_client.batch_chat_completion(
+            messages_list=messages_list,
+            temperature=0.1,
+            max_tokens=5000,
+            response_format={"type": "json_object"},
+        )
+    except Exception as e:
+        _log(f"  [LLM BATCH ERROR] super_batch={sb_idx+1}: {e}")
+        stats["llm_errors"] += n_prompts
+        # Danh dau tat ca chunk trong super-batch la done de khong retry
+        for _, doc_rows, _ in doc_batch_plan:
+            for row in doc_rows:
+                done_ids.add(row["qdrant_id"])
+        _save_checkpoint()
+        continue
+
+    # ── C. Phan phoi response, parse + accumulate per-doc ─────────────
+    for doc_i, (doc_number, doc_rows, batches) in enumerate(doc_batch_plan):
+        doc_entities  : dict = {}
+        doc_nrels     : list = []
+        doc_nrel_seen : set  = set()
+
+        for batch_j, batch in enumerate(batches):
+            idx = prompt_idx_map.get((doc_i, batch_j))
+            resp = responses[idx] if idx is not None and idx < len(responses) else ""
+
+            if not resp or not resp.strip():
+                stats["empty_responses"] += 1
+                continue
+
+            resp = strip_thinking_tags(resp)
+            try:
+                parsed = parse_unified_response(resp)
+            except Exception as e:
+                _log(f"    [PARSE ERROR] doc={doc_number} batch={batch_j}: {e}")
+                continue
+
+            _accumulate_entities(doc_entities, parsed.get("entities", {}))
+            _accumulate_nrels(doc_nrels, doc_nrel_seen, parsed.get("node_relations", []))
+
+        # ── D. FLUSH neo4j cho tung doc (sau khi co du du lieu) ───────
+        if doc_entities or doc_nrels:
+            enrich_params = [
+                {
+                    "qdrant_id"     : row["qdrant_id"],
+                    "entities"      : doc_entities,
+                    "node_relations": doc_nrels,
+                }
+                for row in doc_rows
+            ]
+            _flush_to_neo4j(enrich_params)
+
+        # ── E. Cap nhat stats ──────────────────────────────────────────
+        n_ents_doc = sum(len(v) for v in doc_entities.values())
+        stats["total_entities"] += n_ents_doc
+        stats["total_nrels"]    += len(doc_nrels)
+        stats["docs_done"]      += 1
+        stats["chunks_done"]    += len(doc_rows)
+
+        for etype, vals in doc_entities.items():
+            stats["entity_counts"][etype] += len(vals)
+        for nr in doc_nrels:
+            stats["nrel_counts"][nr.get("relationship", "?")] += 1
+
+        # Mark done
+        for row in doc_rows:
+            done_ids.add(row["qdrant_id"])
+
+    # ── F. CHECKPOINT sau moi super-batch ────────────────────────────
+    _save_checkpoint()
+
+    # ── G. Progress ──────────────────────────────────────────────────
+    elapsed = time.perf_counter() - t_global
+    pct     = stats["docs_done"] / len(doc_queue) * 100
+    remain  = len(doc_queue) - stats["docs_done"]
+    eta_s   = (elapsed / stats["docs_done"] * remain) if stats["docs_done"] > 0 else 0
+    eta     = str(datetime.timedelta(seconds=int(eta_s)))
+    speed   = stats["docs_done"] / elapsed * 3600 if elapsed > 0 else 0
+
+    # In 1 dong sau moi super-batch (thay vi sau tung doc)
+    last_doc = super_batch[-1][0]
+    _log(
+        f"  SB {sb_idx+1:>5}/{len(super_batches)}"
+        f"  {pct:5.1f}%"
+        f"  docs={stats['docs_done']:>6}/{len(doc_queue)}"
+        f"  prompts={n_prompts}"
+        f"  ents={stats['total_entities']:>7}"
+        f"  ETA={eta}"
+        f"  ({speed:.0f} docs/h)"
+    )
+
+
+# =====================================================================
+# BUOC 5 — FINAL REPORT
+# =====================================================================
+driver.close()
+t_total = time.perf_counter() - t_global
+
+_log("")
+_log("=" * 65)
+_log(f"  HOAN TAT: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+_log("=" * 65)
+_log(f"  Thoi gian tong    : {datetime.timedelta(seconds=int(t_total))}")
+_log(f"  Documents         : {stats['docs_done']:,}")
+_log(f"  Chunks            : {stats['chunks_done']:,}")
+_log(f"  LLM prompts       : {stats['llm_calls']:,}")
+_log(f"  LLM errors        : {stats['llm_errors']:,}")
+_log(f"  Empty responses   : {stats['empty_responses']:,}")
+_log(f"  Total Entities    : {stats['total_entities']:,}")
+_log(f"  Total Node Rels   : {stats['total_nrels']:,}")
+_log(f"  DRY_RUN           : {DRY_RUN}")
+
+_log("\n  Entity types (top 15):")
+for et, cnt in stats["entity_counts"].most_common(15):
+    _log(f"    {et:28s}: {cnt:,}")
+
+_log("\n  Node Relations (top 15):")
+for rel, cnt in stats["nrel_counts"].most_common(15):
+    _log(f"    {rel:35s}: {cnt:,}")
+
+_log(f"\n  Log       : {_LOG_FILE}")
+_log(f"  Checkpoint: {CHECKPOINT_FILE}")
+_log("""
 =================================================================
-// 1. Entity nodes
-MATCH (n)
-WHERE n:Organization OR n:Person OR n:Location
-   OR n:Procedure OR n:Condition OR n:Fee
-   OR n:Penalty OR n:Timeframe OR n:Role OR n:Concept
-RETURN labels(n)[0] AS label, count(n) AS cnt ORDER BY cnt DESC;
-
-// 2. HAS_ENTITY edges
-MATCH ()-[r:HAS_ENTITY]->() RETURN count(r);
-
-// 3. Node relation edges
-MATCH ()-[r]->()
-WHERE type(r) IN ['ISSUED_BY','SIGNED_BY','MANAGED_BY',
-  'IMPLEMENTED_BY','REGULATED_BY','APPROVED_BY','AFFECTED_BY',
-  'COMPLIES_WITH','SUBMITTED_TO','PERMITTED_TO','FUNDED_BY']
-RETURN type(r) AS rel, count(r) AS cnt ORDER BY cnt DESC;
-
-// 4. enriched_v2 count
-MATCH (n) WHERE n.enriched_v2 = true RETURN count(n);
-
-// 5. Tong Document KHONG bi mat
-MATCH (d:Document) RETURN count(d) AS total_docs;
+CYPHER VERIFY:
+  MATCH (n) WHERE n:Organization OR n:Person RETURN count(n);
+  MATCH ()-[r:HAS_ENTITY]->() RETURN count(r);
+  MATCH (n) WHERE n.enriched_v2 = true RETURN count(n);
+  MATCH (d:Document) RETURN count(d) AS total_docs;
 """)
