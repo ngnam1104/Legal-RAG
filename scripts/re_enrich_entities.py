@@ -433,6 +433,7 @@ while not global_done:
                     for row in doc_rows
                 ]
                 _flush_to_neo4j(enrich_params)
+                _log(f"      [FLUSH] doc={doc_number} → {sum(len(v) for v in doc_entities.values())} ents, {len(doc_nrels)} rels")
 
             # E. Stats
             n_ents_doc = sum(len(v) for v in doc_entities.values())
