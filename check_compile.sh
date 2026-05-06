@@ -3,7 +3,7 @@
 set -e
 
 echo "=== [1/2] Git Pull ==="
-git pull
+git pull origin main
 
 echo ""
 echo "=== [2/2] Syntax Check ==="
