@@ -244,7 +244,7 @@ NHIỆM VỤ 1: QUAN HỆ VĂN BẢN (doc_relations)
 - "target": Ưu tiên số hiệu, nếu không có dùng tên ngắn (≤40 ký tự).
 - "edge_label" ƯU TIÊN CHỌN TRONG: {allowed_doc_relations}. Hoặc TẠO MỚI (SCREAMING_SNAKE_CASE) nếu thật sự cần.
 - Quy tắc: 
-  + CHIỀU QUAN HỆ (QUAN TRỌNG NHẤT): BẮT BUỘC sử dụng chiều BỊ ĐỘNG cho mọi quan hệ giữa 2 văn bản. 
+  + CHIỀU QUAN HỆ (QUAN TRỌNG NHẤT): BẮT BUỘC sử dụng chiều BỊ ĐỘNG cho mọi quan hệ giữa 2 văn bản, NGAY CẢ KHI TẠO NHÃN MỚI.
     * source = Văn bản CŨ (Văn bản bị sửa đổi, bị thay thế, hoặc làm căn cứ).
     * target = Văn bản MỚI (Văn bản tác động, văn bản ban hành sau, hoặc văn bản đang đọc).
     * edge_label = BẮT BUỘC dùng nhãn BỊ ĐỘNG tương ứng (VD: AMENDED_BY, REPLACED_BY, REPEALED_BY, GUIDED_BY, REFERENCED_BY). TUYỆT ĐỐI KHÔNG dùng nhãn chủ động (như AMENDS, REPLACES).
@@ -266,11 +266,14 @@ NHIỆM VỤ 2: THỰC THỂ (entities)
 NHIỆM VỤ 3: QUAN HỆ THỰC THỂ (node_relations)
 Chỉ trích xuất khi quan hệ rõ ràng, không suy diễn.
 - Chọn Nhãn (relationship):
-  + BẮT BUỘC DÙNG TRONG DANH SÁCH: {allowed_node_relations}
-  + TUYỆT ĐỐI KHÔNG tạo nhãn mới ngoài danh sách trên. Nếu không tìm được nhãn phù hợp → dùng RELATED_TO.
-  + RÀNG BUỘC (QUAN TRỌNG): BẮT BUỘC DÙNG CHIỀU BỊ ĐỘNG cho mọi quan hệ (VD: Dùng REPLACED_BY, CẤM REPLACES. Dùng ISSUED_BY thay vì ISSUES. Dùng GUIDED_BY thay vì GUIDES).
-  + Tức là source = Thực thể/Văn bản bị tác động, target = Thực thể/Văn bản đi tác động.
-  + KHÔNG tạo đồng nghĩa (REGULATED_BY → GUIDED_BY, MANAGED_BY → REPORTS_TO).
+  + ƯU TIÊN SỬ DỤNG DANH SÁCH CÓ SẴN: {allowed_node_relations}
+  + ĐƯỢC PHÉP TẠO MỚI nhãn nếu quan hệ mang ý nghĩa pháp lý đặc thù và không có trong danh sách trên (ví dụ: MUST_COMPLY_WITH, HAS_DEADLINE, IS_RESPONSIBLE_FOR).
+  + RÀNG BUỘC KHI TẠO MỚI (CỰC KỲ QUAN TRỌNG):
+    1. BẮT BUỘC DÙNG CHIỀU BỊ ĐỘNG cho mọi quan hệ (VD: Dùng REPLACED_BY, CẤM REPLACES. Dùng ISSUED_BY thay vì ISSUES. Dùng GUIDED_BY thay vì GUIDES).
+    2. BẮT BUỘC DÙNG ĐỊNH DẠNG SCREAMING_SNAKE_CASE (viết hoa toàn bộ, cách nhau bằng gạch dưới).
+    3. Ngắn gọn (1-4 từ).
+  + HƯỚNG QUAN HỆ: source = Thực thể/Văn bản BỊ tác động, target = Thực thể/Văn bản ĐI tác động.
+  + KHÔNG tạo đồng nghĩa cho các từ đã có trong danh sách gốc.
 
 VÍ DỤ MINH HỌA & ĐỊNH DẠNG ĐẦU RA BẮT BUỘC:
 Đoạn: "Sửa đổi khoản 8 Điều 8 Luật GT đường bộ 23/2008/QH12 đã sửa đổi theo Luật 35/2018/QH14. Bộ GTVT chịu trách nhiệm thi hành." (VB: 44/2019/QH14)
