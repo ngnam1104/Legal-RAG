@@ -182,8 +182,8 @@ def print_separator(char="═", width=70):
 def main():
     parser = argparse.ArgumentParser(description="Debug Neo4j relationship types")
     parser.add_argument("--uri",      default=os.getenv("TEST_NEO4J_URI", os.getenv("NEO4J_URI", "bolt://localhost:7689")))
-    parser.add_argument("--user",     default=os.getenv("NEO4J_USERNAME", "neo4j"))
-    parser.add_argument("--password", default=os.getenv("NEO4J_PASSWORD", ""))
+    parser.add_argument("--user",     default=os.getenv("TEST_NEO4J_USERNAME", os.getenv("NEO4J_USERNAME", "neo4j")))
+    parser.add_argument("--password", default=os.getenv("TEST_NEO4J_PASSWORD", os.getenv("NEO4J_PASSWORD", "")))
     parser.add_argument("--top",      type=int, default=30, help="Hiển thị top N types")
     parser.add_argument("--noise-threshold", type=int, default=5,
                         help="Types có count <= threshold được coi là noise")
