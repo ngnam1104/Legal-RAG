@@ -48,7 +48,7 @@ except ImportError:
 # ===================================================================
 # CHẾ ĐỘ CHẠY: ĐẶT TEST_MODE = True để test 500 VB y tế với DB riêng
 # Tất cả tham số được đọc từ .env để dễ thay đổi không cần sửa code
-TEST_MODE         = True   # True = test 500 VB y tế | False = Full pipeline
+TEST_MODE         = False  # True = test 500 VB y tế | False = Full pipeline
 USE_CHECKPOINT    = True  # Bật để resume nếu sập giữa chừng
 FLUSH_DB_ON_START = True  # True = xóa sạch DB trước khi chạy (chỉ dùng khi reset)
 # ===================================================================
