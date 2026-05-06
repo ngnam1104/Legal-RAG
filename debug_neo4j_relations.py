@@ -181,7 +181,7 @@ def print_separator(char="═", width=70):
 
 def main():
     parser = argparse.ArgumentParser(description="Debug Neo4j relationship types")
-    parser.add_argument("--uri",      default=os.getenv("NEO4J_URI", "bolt://localhost:7688"))
+    parser.add_argument("--uri",      default=os.getenv("TEST_NEO4J_URI", os.getenv("NEO4J_URI", "bolt://localhost:7689")))
     parser.add_argument("--user",     default=os.getenv("NEO4J_USERNAME", "neo4j"))
     parser.add_argument("--password", default=os.getenv("NEO4J_PASSWORD", ""))
     parser.add_argument("--top",      type=int, default=30, help="Hiển thị top N types")
@@ -199,7 +199,7 @@ def main():
     total_types  = len(rel_types)
     total_rels   = sum(r["count"] for r in rel_types)
     noise_types  = [r for r in rel_types if r["count"] <= args.noise_threshold]
-    fixed_types  = [r for r in rel_types if r["rel_type"] in FIXED_NODE_RELATIONS] if HAS_NORMALIZER else []
+    fixed_types  = [r for r in rel_types if r["rel_type"] in FIXED_NODE_RELATIONS]
 
     # ── 1. TỔNG QUAN ──────────────────────────────────────────────────
     print_separator()
@@ -207,7 +207,7 @@ def main():
     print_separator()
     print(f"  Tổng số relationship types : {total_types:,}")
     print(f"  Tổng số relationships      : {total_rels:,}")
-    print(f"  Types thuộc FIXED set      : {len(fixed_types)} / {len(FIXED_NODE_RELATIONS) if HAS_NORMALIZER else '?'}")
+    print(f"  Types thuộc FIXED set      : {len(fixed_types)} / {len(FIXED_NODE_RELATIONS)}")
     print(f"  Types 'noise' (≤{args.noise_threshold} rels)    : {len(noise_types):,} types")
     print()
 
@@ -217,7 +217,7 @@ def main():
     print_separator("─")
     print(f"  {'#':<4} {'TYPE':<45} {'COUNT':>10}  {'IN_FIXED':>8}")
     print_separator("─")
-    fixed_set = FIXED_NODE_RELATIONS if HAS_NORMALIZER else set()
+    fixed_set = FIXED_NODE_RELATIONS
     for i, item in enumerate(rel_types[:args.top], 1):
         in_fixed = "✅" if item["rel_type"] in fixed_set else "❌"
         print(f"  {i:<4} {item['rel_type']:<45} {item['count']:>10,}  {in_fixed:>8}")
@@ -242,28 +242,27 @@ def main():
             print(f"    {in_fixed}  {v['rel_type']:<45} {v['count']:>8,}")
 
     # ── 4. MÔ PHỎNG NORMALIZATION ─────────────────────────────────────
-    if HAS_NORMALIZER:
-        print()
-        print_separator()
-        print("  🔄 MÔ PHỎNG NORMALIZATION MỚI")
-        print_separator()
-        sim = simulate_normalization(rel_types)
-        types_after  = len(sim)
-        types_before = total_types
-        pct_reduction = (1 - types_after / max(types_before, 1)) * 100
+    print()
+    print_separator()
+    print("  🔄 MÔ PHỎNG NORMALIZATION MỚI")
+    print_separator()
+    sim = simulate_normalization(rel_types)
+    types_after  = len(sim)
+    types_before = total_types
+    pct_reduction = (1 - types_after / max(types_before, 1)) * 100
 
-        print(f"  Types trước normalization : {types_before:,}")
-        print(f"  Types sau  normalization  : {types_after:,}")
-        print(f"  Giảm                      : {types_before - types_after:,} types ({pct_reduction:.1f}%)")
-        print()
-        print(f"  {'CANONICAL':<35} {'#ORIGINAL_TYPES':>15}  {'TOTAL_RELS':>12}")
-        print_separator("─")
-        for canonical, originals in sorted(sim.items(), key=lambda x: sum(v["count"] for v in x[1]), reverse=True):
-            total_in_group = sum(v["count"] for v in originals)
-            print(f"  {canonical:<35} {len(originals):>15}  {total_in_group:>12,}")
-            if len(originals) > 1:
-                for orig in sorted(originals, key=lambda x: x["count"], reverse=True):
-                    print(f"    ↳ {orig['rel_type']:<33} {orig['count']:>12,}")
+    print(f"  Types trước normalization : {types_before:,}")
+    print(f"  Types sau  normalization  : {types_after:,}")
+    print(f"  Giảm                      : {types_before - types_after:,} types ({pct_reduction:.1f}%)")
+    print()
+    print(f"  {'CANONICAL':<35} {'#ORIGINAL_TYPES':>15}  {'TOTAL_RELS':>12}")
+    print_separator("─")
+    for canonical, originals in sorted(sim.items(), key=lambda x: sum(v["count"] for v in x[1]), reverse=True):
+        total_in_group = sum(v["count"] for v in originals)
+        print(f"  {canonical:<35} {len(originals):>15}  {total_in_group:>12,}")
+        if len(originals) > 1:
+            for orig in sorted(originals, key=lambda x: x["count"], reverse=True):
+                print(f"    ↳ {orig['rel_type']:<33} {orig['count']:>12,}")
     print()
 
     # ── 5. NOISE REPORT ───────────────────────────────────────────────
@@ -271,7 +270,7 @@ def main():
     print(f"  🗑️  NOISE TYPES (count ≤ {args.noise_threshold}) — {len(noise_types)} types")
     print_separator("─")
     for item in sorted(noise_types, key=lambda x: x["count"]):
-        canonical = _normalize_relationship(item["rel_type"]) if HAS_NORMALIZER else "?"
+        canonical = _normalize_relationship(item["rel_type"])
         print(f"  {item['rel_type']:<45} cnt={item['count']:<5}  →  {canonical}")
 
     print()
