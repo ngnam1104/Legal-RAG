@@ -911,12 +911,7 @@ def sector_based_on_reverse(sector_name: str) -> list:
 # ENTITY ENRICHMENT — Gắn 10 loại Entity vào Chunk/Article/Clause (HAS_ENTITY)
 # =====================================================================
 
-# Các nhãn entity hợp lệ trước đây.
-# Hiện tại (Từ v2): Nhãn sẽ do LLM tự do quyết định, không còn bị giới hạn bởi mảng dưới đây.
-_ENTITY_LABELS = [
-    "Organization", "Subject", "LegalConcept", "Procedure", "Location",
-    "Right_Obligation", "Sanction", "Timeframe", "Form", "Fee"
-]
+from backend.config import _ENTITY_LABELS
 
 _MARK_ENRICHED_QUERY = """
 UNWIND $ids AS chunk_id

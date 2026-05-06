@@ -17,169 +17,24 @@ from backend.prompt import LEGAL_UNIFIED_EXTRACTOR_PROMPT
 
 llm_client = get_client()
 
-# ==========================================
-# TẬP CỐ ĐỊNH + TẬP ĐỘNG (tích lũy trong pipeline run)
-# ==========================================
-
-FIXED_ENTITY_TYPES = {
-    "Organization", "Person", "Location", "Document", "LegalArticle",
-    "Procedure", "Condition", "Fee", "Penalty", "Timeframe", "Role", "Concept",
-}
-
-FIXED_NODE_RELATIONS = {
-    # === BAN HÀNH / THẨM QUYỀN ===
-    "ISSUED_BY",        # ban hành bởi
-    "SIGNED_BY",        # ký bởi
-    "APPROVED_BY",      # phê duyệt bởi
-    "PUBLISHED_BY",     # công bố bởi
-    "CREATED_BY",       # tạo ra bởi
-    "ESTABLISHED_BY",   # thành lập bởi
-    # === THỰC HIỆN / THI HÀNH ===
-    "IMPLEMENTED_BY",   # thực hiện bởi
-    "ENFORCED_BY",      # cưỡng chế/kiểm tra bởi
-    "APPLIED_BY",       # áp dụng bởi
-    "EXECUTED_BY",      # thực thi bởi
-    # === QUẢN LÝ ===
-    "MANAGED_BY",       # quản lý (gộp: governed, supervised, directed, operated_under)
-    "REGULATED_BY",     # điều tiết/điều chỉnh
-    "COORDINATED_BY",   # phối hợp bởi
-    # === CHUYỂN GIAO / GỬI ===
-    "TRANSFERRED_TO",   # chuyển đến
-    "TRANSFERRED_FROM", # chuyển từ
-    "SUBMITTED_TO",     # nộp/gửi đến
-    "DELEGATED_TO",     # ủy quyền cho
-    "ASSIGNED_TO",      # giao cho
-    "ASSIGNED_BY",      # được giao bởi
-    # === BÁO CÁO / THÔNG BÁO ===
-    "REPORTED_TO",      # báo cáo đến (gộp: notified_to, informs)
-    "NOTIFIED_TO",      # thông báo chính thức
-    # === QUYỀN / CẤM / MIỄN ===
-    "PERMITTED_TO",     # được phép
-    "PROHIBITED_FROM",  # bị cấm
-    "EXEMPT_FROM",      # được miễn
-    "ENTITLED_TO",      # có quyền/được hưởng
-    # === YÊU CẦU / TUÂN THỦ ===
-    "REQUIRED_FOR",     # cần thiết cho
-    "REQUIRED_BY",      # được yêu cầu bởi
-    "COMPLIES_WITH",    # tuân thủ quy định
-    "AFFECTED_BY",      # bị ảnh hưởng bởi
-    # === PHÂN LOẠI / ĐỊNH NGHĨA ===
-    "DEFINED_IN",       # được định nghĩa trong
-    "CLASSIFIED_AS",    # được phân loại là
-    "BELONGS_TO",       # thuộc về
-    "PART_OF",          # là một phần của
-    "LOCATED_IN",       # nằm trong/tại
-    "MEMBER_OF",        # là thành viên của
-    # === TÀI CHÍNH ===
-    "FUNDED_BY",        # được tài trợ/cấp vốn bởi
-    "PAID_TO",          # thanh toán cho
-    "PAID_BY",          # được thanh toán bởi
-    "COLLECTED_BY",     # được thu bởi
-    # === VĂN BẢN PHÁP LÝ ===
-    "REPLACED_BY",      # được thay thế bởi
-    "AMENDED_BY",       # được sửa đổi bởi
-    "REPEALED_BY",      # được bãi bỏ bởi
-    "REFERENCED_BY",    # được tham chiếu bởi
-    "BASED_ON",         # dựa trên/căn cứ
-    # === CHUNG ===
-    "APPLIES_TO",       # áp dụng cho
-    "RELATED_TO",       # liên quan đến (fallback cuối)
-}
-
-# Quan hệ LLM hay sinh nhầm — fallback sang RELATED_TO
-# Bao gồm: property-as-relationship, timestamp, số đo
-BLACKLIST_RELATIONS = {
-    "IS", "HAS", "DEADLINE", "EFFECTIVE_FROM", "HAS_MINIMUM_SIZE",
-    "PUBLISHED_ON", "STARTS_AT", "ENDS_AT", "IS_EQUAL_TO", "NOT_EQUAL_TO",
-    "MUST_NOT_BE_HIGHER_THAN", "MUST_NOT_BE_LOWER_THAN",
-    "OCCURS_AT", "OCCURS_EVERY", "EXPIRES_ON", "MEETS_EVERY",
-    "UPDATED_EVERY", "EXECUTED_AT", "EXECUTED_ON",
-}
-# Regex: bắt toàn bộ HAS_* property giả
-
-FIXED_DOC_RELATIONS = {
-    "BASED_ON", "AMENDS", "REPEALS", "REPLACES",
-    "GUIDES", "APPLIES_TO", "ISSUED_WITH", "ASSIGNS", "CORRECTS",
-    "AMENDED_BY", "REPEALED_BY", "REPLACED_BY", "GUIDED_BY",
-    "REFERENCED_BY",
-}
-
-# Bảng chuyển đổi verb-root → canonical passive relation
-# Được dùng trong fuzzy matching cuối cùng
-_VERB_ROOT_CANONICAL = {
-    "ISSUE":       "ISSUED_BY",
-    "SIGN":        "SIGNED_BY",
-    "APPROV":      "APPROVED_BY",
-    "PUBLISH":     "PUBLISHED_BY",
-    "CREAT":       "CREATED_BY",
-    "ESTABLISH":   "ESTABLISHED_BY",
-    "IMPLEMENT":   "IMPLEMENTED_BY",
-    "ENFORC":      "ENFORCED_BY",
-    "APPLY":       "APPLIED_BY",
-    "APPLI":       "APPLIED_BY",
-    "EXECUT":      "EXECUTED_BY",
-    "PERFORM":     "IMPLEMENTED_BY",
-    "CARRY":       "IMPLEMENTED_BY",
-    "MANAG":       "MANAGED_BY",
-    "GOVERN":      "MANAGED_BY",
-    "SUPERVIS":    "MANAGED_BY",
-    "DIRECT":      "MANAGED_BY",
-    "REGULAT":     "REGULATED_BY",
-    "COORDINAT":   "COORDINATED_BY",
-    "TRANSFER":    "TRANSFERRED_TO",
-    "SUBMIT":      "SUBMITTED_TO",
-    "DELEGAT":     "DELEGATED_TO",
-    "ASSIGN":      "ASSIGNED_TO",
-    "REPORT":      "REPORTED_TO",
-    "NOTIF":       "NOTIFIED_TO",
-    "INFORM":      "NOTIFIED_TO",
-    "PERMIT":      "PERMITTED_TO",
-    "PROHIBIT":    "PROHIBITED_FROM",
-    "EXEMPT":      "EXEMPT_FROM",
-    "ENTITL":      "ENTITLED_TO",
-    "REQUIR":      "REQUIRED_FOR",
-    "AFFECT":      "AFFECTED_BY",
-    "DEFIN":       "DEFINED_IN",
-    "CLASSIF":     "CLASSIFIED_AS",
-    "BELONG":      "BELONGS_TO",
-    "FUND":        "FUNDED_BY",
-    "PAY":         "PAID_TO",
-    "COLLECT":     "COLLECTED_BY",
-    "REPLAC":      "REPLACED_BY",
-    "AMEND":       "AMENDED_BY",
-    "REPEAL":      "REPEALED_BY",
-    "REFERENC":    "REFERENCED_BY",
-    "RELAT":       "RELATED_TO",
-}
-
-# Tập động: ghi nhận nhãn mới LLM tạo trong quá trình pipeline
-# → các lần normalize sau sẽ khoanh ngắ luôn mà không force fallback
-DYNAMIC_ENTITY_TYPES: set = set()
-DYNAMIC_NODE_RELATIONS: set = set()
-DYNAMIC_DOC_RELATIONS: set = set()
-
-# Cấu trúc rỗng ban đầu (nếu cần fallback)
-_EMPTY_ENTITIES: Dict[str, List[str]] = {}
+from backend.config import (
+    FIXED_ENTITY_TYPES,
+    FIXED_NODE_RELATIONS,
+    BLACKLIST_RELATIONS,
+    FIXED_DOC_RELATIONS,
+    _VERB_ROOT_CANONICAL,
+    _CROSS_VERB_MAPPING,
+    DYNAMIC_ENTITY_TYPES,
+    DYNAMIC_NODE_RELATIONS,
+    DYNAMIC_DOC_RELATIONS,
+    _EMPTY_ENTITIES,
+    ENTITY_NAME_ALIASES
+)
 
 # Regex kiểm tra format hợp lệ
 _RE_PASCAL    = re.compile(r'^[A-Z][a-zA-Z]{1,29}$')       # PascalCase 2–30 ký tự
 _RE_SCREAMING = re.compile(r'^[A-Z][A-Z0-9_]{1,39}$')      # SCREAMING_SNAKE_CASE
 
-ENTITY_NAME_ALIASES = {
-    "Organization": {
-        "bộ gdđt": "Bộ Giáo dục và Đào tạo",
-        "bộ gd&đt": "Bộ Giáo dục và Đào tạo",
-        "bộ gd đt": "Bộ Giáo dục và Đào tạo",
-        "bộ giáo dục đào tạo": "Bộ Giáo dục và Đào tạo",
-        "bộ yt": "Bộ Y tế",
-        "bộ y tế": "Bộ Y tế",
-        "ubnd": "Ủy ban nhân dân",
-        "uỷ ban nhân dân": "Ủy ban nhân dân",
-        "hđnd": "Hội đồng nhân dân",
-        "chính phủ": "Chính phủ",
-        "nhà nước": "Nhà nước"
-    }
-}
 
 def _normalize_entity_name(raw_name: str, ent_type: str) -> str:
     """Chuẩn hóa giá trị của thực thể dựa trên từ điển Alias (chống viết tắt)."""

@@ -8,28 +8,11 @@ except ImportError:
 
 from backend.models.interfaces import BaseLLMClient
 
+from backend.config import _ICLLM_CONFIG, _JSON_ENFORCEMENT_PROMPT
+
 logger = logging.getLogger(__name__)
 
-# Thay đổi các thông số này theo cấu hình ICLLM thực tế của công ty
-_ICLLM_CONFIG = {
-    "AppCode": "LEGAL_RAG",
-    "FunctionCode": "standard_chat",
-    "ModelLLM": "llama3.1-8b", 
-    "UrlPrompt": "https://staging.pontusinc.com/api/chatbot/v1/prompt/list",
-    "LLMName": "legal_rag_chat",
-    "UrlLLMApi": "http://10.9.3.75:30031/api/llama3/8b", # Hoặc endpoint mới như 10.9.3.241:5564/api/Qas/v2
-    "BaseDirLog": "logs/llm_logs",
-    "BaseDirPostProcess": "logs/llm_logs/post_process",
-    "BaseDirPrompt": "logs/llm_logs/prompt",
-    "IsLog": True,
-    "IsShowConsole": False, # Có thể để True nếu muốn in chi tiết ICLLM ra terminal
-    "IsGetPromptOnline": False, # Đặt False để chạy prompt dưới ổ cứng, hãy đảm bảo thư mục BaseDirPrompt có template phù hợp
-}
 
-_JSON_ENFORCEMENT_PROMPT = (
-    "\nQUAN TRỌNG: Bạn BẮT BUỘC phải trả lời bằng định dạng JSON hợp lệ. "
-    "Không kèm theo bất kỳ văn bản giải thích nào ngoài khối JSON."
-)
 
 _instance = None
 

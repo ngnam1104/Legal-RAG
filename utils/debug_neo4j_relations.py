@@ -19,6 +19,13 @@ if sys.stdout.encoding.lower() != 'utf-8':
 
 load_dotenv()
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+from backend.config import (
+    FIXED_NODE_RELATIONS, BLACKLIST_RELATIONS, FIXED_DOC_RELATIONS,
+    _VERB_ROOT_CANONICAL, _CROSS_VERB_MAPPING
+)
+
 try:
     from neo4j import GraphDatabase
 except ImportError:
@@ -29,87 +36,11 @@ except ImportError:
 # Inline normalization constants (tranh import entities.py vi no keo
 # theo icllmlib / LLM client khong can thiet cho debug script nay)
 # =====================================================================
-FIXED_NODE_RELATIONS = {
-    "ISSUED_BY", "SIGNED_BY", "APPROVED_BY", "PUBLISHED_BY",
-    "CREATED_BY", "ESTABLISHED_BY",
-    "IMPLEMENTED_BY", "ENFORCED_BY", "APPLIED_BY", "EXECUTED_BY",
-    "MANAGED_BY", "REGULATED_BY", "COORDINATED_BY",
-    "TRANSFERRED_TO", "TRANSFERRED_FROM", "SUBMITTED_TO",
-    "DELEGATED_TO", "ASSIGNED_TO", "ASSIGNED_BY",
-    "REPORTED_TO", "NOTIFIED_TO",
-    "PERMITTED_TO", "PROHIBITED_FROM", "EXEMPT_FROM", "ENTITLED_TO",
-    "REQUIRED_FOR", "REQUIRED_BY", "COMPLIES_WITH", "AFFECTED_BY",
-    "DEFINED_IN", "CLASSIFIED_AS", "BELONGS_TO", "PART_OF",
-    "LOCATED_IN", "MEMBER_OF",
-    "FUNDED_BY", "PAID_TO", "PAID_BY", "COLLECTED_BY",
-    "REPLACED_BY", "AMENDED_BY", "REPEALED_BY", "REFERENCED_BY", "BASED_ON",
-    "APPLIES_TO", "RELATED_TO",
-}
 
 
-BLACKLIST_RELATIONS = {
-    "IS", "HAS", "DEADLINE", "EFFECTIVE_FROM", "HAS_MINIMUM_SIZE",
-    "PUBLISHED_ON", "STARTS_AT", "ENDS_AT", "IS_EQUAL_TO", "NOT_EQUAL_TO",
-    "MUST_NOT_BE_HIGHER_THAN", "MUST_NOT_BE_LOWER_THAN",
-    "OCCURS_AT", "OCCURS_EVERY", "EXPIRES_ON", "MEETS_EVERY",
-    "UPDATED_EVERY", "EXECUTED_AT", "EXECUTED_ON",
-}
 # Regex: bắt toàn bộ HAS_* property giả
 
-FIXED_DOC_RELATIONS = {
-    "BASED_ON", "AMENDS", "REPEALS", "REPLACES",
-    "GUIDES", "APPLIES_TO", "ISSUED_WITH", "ASSIGNS", "CORRECTS",
-    "AMENDED_BY", "REPEALED_BY", "REPLACED_BY", "GUIDED_BY",
-    "REFERENCED_BY",
-}
 
-# Bảng chuyển đổi verb-root → canonical passive relation
-# Được dùng trong fuzzy matching cuối cùng
-_VERB_ROOT_CANONICAL = {
-    "ISSUE":       "ISSUED_BY",
-    "SIGN":        "SIGNED_BY",
-    "APPROV":      "APPROVED_BY",
-    "PUBLISH":     "PUBLISHED_BY",
-    "CREAT":       "CREATED_BY",
-    "ESTABLISH":   "ESTABLISHED_BY",
-    "IMPLEMENT":   "IMPLEMENTED_BY",
-    "ENFORC":      "ENFORCED_BY",
-    "APPLY":       "APPLIED_BY",
-    "APPLI":       "APPLIED_BY",
-    "EXECUT":      "EXECUTED_BY",
-    "PERFORM":     "IMPLEMENTED_BY",
-    "CARRY":       "IMPLEMENTED_BY",
-    "MANAG":       "MANAGED_BY",
-    "GOVERN":      "MANAGED_BY",
-    "SUPERVIS":    "MANAGED_BY",
-    "DIRECT":      "MANAGED_BY",
-    "REGULAT":     "REGULATED_BY",
-    "COORDINAT":   "COORDINATED_BY",
-    "TRANSFER":    "TRANSFERRED_TO",
-    "SUBMIT":      "SUBMITTED_TO",
-    "DELEGAT":     "DELEGATED_TO",
-    "ASSIGN":      "ASSIGNED_TO",
-    "REPORT":      "REPORTED_TO",
-    "NOTIF":       "NOTIFIED_TO",
-    "INFORM":      "NOTIFIED_TO",
-    "PERMIT":      "PERMITTED_TO",
-    "PROHIBIT":    "PROHIBITED_FROM",
-    "EXEMPT":      "EXEMPT_FROM",
-    "ENTITL":      "ENTITLED_TO",
-    "REQUIR":      "REQUIRED_FOR",
-    "AFFECT":      "AFFECTED_BY",
-    "DEFIN":       "DEFINED_IN",
-    "CLASSIF":     "CLASSIFIED_AS",
-    "BELONG":      "BELONGS_TO",
-    "FUND":        "FUNDED_BY",
-    "PAY":         "PAID_TO",
-    "COLLECT":     "COLLECTED_BY",
-    "REPLAC":      "REPLACED_BY",
-    "AMEND":       "AMENDED_BY",
-    "REPEAL":      "REPEALED_BY",
-    "REFERENC":    "REFERENCED_BY",
-    "RELAT":       "RELATED_TO",
-}
 
 # Tập động: ghi nhận nhãn mới LLM tạo trong quá trình pipeline
 # → các lần normalize sau sẽ khoanh ngắ luôn mà không force fallback
@@ -405,53 +336,6 @@ def _normalize_relationship(raw_rel: str) -> str:
     # 5. Fallback nếu không khớp bất cứ quy tắc nào -> GIỮ NGUYÊN (bảo tồn)
     return s
 
-_CROSS_VERB_MAPPING = {
-    # Cập nhật / Sửa đổi -> AMENDED_BY
-    "UPDATED_BY": "AMENDED_BY", "UPDATES": "AMENDED_BY", "UPDATED_EVERY": "AMENDED_BY",
-    "MODIFIED_BY": "AMENDED_BY", "MODIFIED_VIA": "AMENDED_BY",
-    "CORRECTED_BY": "AMENDED_BY", "EXTENDED_BY": "AMENDED_BY", "EXTENDS": "AMENDED_BY",
-
-    # Giám sát / Kiểm tra -> REVIEWED_BY
-    "MONITORED_BY": "REVIEWED_BY", "MONITORS": "REVIEWED_BY",
-    "INSPECTED_BY": "REVIEWED_BY", "INSPECTS": "REVIEWED_BY",
-    "INVESTIGATED_BY": "REVIEWED_BY", "INVESTIGATES": "REVIEWED_BY",
-    "VERIFIED_BY": "REVIEWED_BY",
-
-    # Đánh giá -> ASSESSED_BY
-    "EVALUATED_BY": "ASSESSED_BY", "EVALUATES": "ASSESSED_BY", "TESTED_BY": "ASSESSED_BY",
-
-    # Phân công -> ALLOCATED_TO / ALLOCATED_BY
-    "ASSIGNED_TO": "ALLOCATED_TO", "ASSIGNED_BY": "ALLOCATED_BY",
-
-    # Cung cấp / Phân phối -> PROVIDED_TO / PROVIDED_BY
-    "DELIVERED_TO": "PROVIDED_TO", "DELIVERS_TO": "PROVIDED_TO",
-    "TRANSMITTED_TO": "PROVIDED_TO", "TRANSMITS_DATA_TO": "PROVIDED_TO",
-    "TRANSMITTED_BY": "PROVIDED_BY", "TRANSMITTED_VIA": "PROVIDED_BY",
-    "PROVIDED_WITH": "PROVIDED_BY",
-
-    # Tạo ra / Sản xuất -> CREATED_BY
-    "PRODUCED_BY": "CREATED_BY", "PRODUCES": "CREATED_BY",
-    "PRODUCED_IN": "CREATED_BY", "PRODUCED_WITH": "CREATED_BY",
-    "GENERATES": "CREATED_BY", "CONSTRUCTED_BY": "CREATED_BY",
-    
-    # Yêu cầu -> REQUESTED_BY
-    "REQUESTS_ACTION_FROM": "REQUESTED_BY", "REQUESTS_INFO_FROM": "REQUESTED_BY",
-    "REQUESTED_FROM": "REQUESTED_BY",
-
-    # Hỗ trợ -> SUPPORTED_BY
-    "ASSISTED_BY": "SUPPORTED_BY", "ASSISTS": "SUPPORTED_BY",
-    
-    # Tuân thủ -> COMPLIES_WITH
-    "CONFORMS_TO": "COMPLIES_WITH", "MUST_MEET": "COMPLIES_WITH",
-
-    # Dọn rác đuôi dài -> RELATED_TO hoặc nhãn chuẩn hơn
-    "IS_EQUAL_TO": "RELATED_TO", "NOT_EQUAL_TO": "RELATED_TO",
-    "SELF_REFERENCE": "RELATED_TO", "LACKS": "RELATED_TO",
-    "LACKS_SKILL": "RELATED_TO", "LACKS_KNOWLEDGE": "RELATED_TO",
-    "MUST_NOT_MISLEAD": "RELATED_TO", "PROVES": "RELATED_TO",
-    "PERFORMS_IF_DISAGREES": "IMPLEMENTED_BY",
-    "USES_FOR": "USED_FOR", "USED_WITH": "USED_IN",
-}
 
 
 
