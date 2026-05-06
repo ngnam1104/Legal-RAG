@@ -65,6 +65,24 @@ FIXED_DOC_RELATIONS = {
 
 # Bảng chuyển đổi verb-root → canonical passive relation
 # Được dùng trong fuzzy matching cuối cùng
+BLACKLIST_RELATIONS = {
+    "IS", "HAS", "DEADLINE", "EFFECTIVE_FROM", "HAS_MINIMUM_SIZE",
+    "PUBLISHED_ON", "STARTS_AT", "ENDS_AT", "IS_EQUAL_TO", "NOT_EQUAL_TO",
+    "MUST_NOT_BE_HIGHER_THAN", "MUST_NOT_BE_LOWER_THAN",
+    "OCCURS_AT", "OCCURS_EVERY", "EXPIRES_ON", "MEETS_EVERY",
+    "UPDATED_EVERY", "EXECUTED_AT", "EXECUTED_ON",
+}
+# Regex: bắt toàn bộ HAS_* property giả
+
+FIXED_DOC_RELATIONS = {
+    "BASED_ON", "AMENDS", "REPEALS", "REPLACES",
+    "GUIDES", "APPLIES_TO", "ISSUED_WITH", "ASSIGNS", "CORRECTS",
+    "AMENDED_BY", "REPEALED_BY", "REPLACED_BY", "GUIDED_BY",
+    "REFERENCED_BY",
+}
+
+# Bảng chuyển đổi verb-root → canonical passive relation
+# Được dùng trong fuzzy matching cuối cùng
 _VERB_ROOT_CANONICAL = {
     "ISSUE":       "ISSUED_BY",
     "SIGN":        "SIGNED_BY",
@@ -259,13 +277,17 @@ def _normalize_relationship(raw_rel: str) -> str:
     if s in _CROSS_VERB_MAPPING:
         s = _CROSS_VERB_MAPPING[s]
 
+    # 0.5 HAS_* property check (wipe out hallucinated properties)
+    if s.startswith("HAS_") and s not in {"HAS_ENTITY", "HAS_ARTICLE", "HAS_TYPE", "HAS_SECTOR"}:
+        return "RELATED_TO"
+
     # 1. Blacklist
     if s in BLACKLIST_RELATIONS:
         return "RELATED_TO"
 
     # 2. Comprehensive alias map
     _ALIAS: dict = {
-        # --- Chủ động → Bị động (Issuance) ---
+        # --- Chủ động → Bị động (Issuance / Acceptance) ---
         "ISSUES":              "ISSUED_BY",
         "ISSUED":              "ISSUED_BY",
         "SIGNS":               "SIGNED_BY",
@@ -279,6 +301,9 @@ def _normalize_relationship(raw_rel: str) -> str:
         "CREATED":             "CREATED_BY",
         "ESTABLISHES":         "ESTABLISHED_BY",
         "ESTABLISHED":         "ESTABLISHED_BY",
+        "ACCEPTS":             "ACCEPTED_BY",
+        "CONFIRMS":            "CONFIRMED_BY",
+        "ACKNOWLEDGES":        "ACKNOWLEDGED_BY",
         # --- Implementation ---
         "IMPLEMENTS":          "IMPLEMENTED_BY",
         "PERFORMS":            "IMPLEMENTED_BY",
@@ -308,11 +333,22 @@ def _normalize_relationship(raw_rel: str) -> str:
         "ACCOUNTABLE_TO":      "MANAGED_BY",
         "IS_HIGHEST_AUTHORITY_OF": "MANAGED_BY",
         "CHAIRMANED_BY":       "MANAGED_BY",
+        "ASSESSES":            "MANAGED_BY",
+        "DECIDES":             "DECIDED_BY",
+        "DETERMINES":          "DETERMINED_BY",
+        "ORGANIZES":           "ORGANIZED_BY",
+        "INITIATES":           "INITIATED_BY",
+        "GUIDES":              "GUIDED_BY",
+        "HANDLES":             "HANDLED_BY",
         # --- Regulation ---
         "REGULATES":           "REGULATED_BY",
         "COORDINATES":         "COORDINATED_BY",
         "COORDINATED_WITH":    "COORDINATED_BY",
         "COORDINATES_WITH":    "COORDINATED_BY",
+        "CONTRACTS_WITH":      "COOPERATES_WITH",
+        "ORGANIZES_WITH":      "ORGANIZED_WITH",
+        "PARTICIPATES_IN":     "PARTICIPATED_BY",
+        "CONSULTED_WITH":      "CONSULTED_BY",
         # --- Transfer / Assignment ---
         "TRANSFERS":           "TRANSFERRED_TO",
         "TRANSFERS_TO":        "TRANSFERRED_TO",
@@ -328,6 +364,12 @@ def _normalize_relationship(raw_rel: str) -> str:
         "DELEGATES_TO":        "DELEGATED_TO",
         "ASSIGNS":             "ASSIGNED_TO",
         "ASSIGNED":            "ASSIGNED_TO",
+        "RETURNED_TO":         "TRANSFERRED_TO",
+        "RETURNED_BY":         "TRANSFERRED_TO",
+        "APPOINTS":            "APPOINTED_BY",
+        "EMPLOYS":             "EMPLOYED_BY",
+        "IMPORTS":             "IMPORTED_BY",
+        "PROPOSED_TO":         "SUBMITTED_TO",
         # --- Reporting / Notification ---
         "REPORTS":             "REPORTED_TO",
         "REPORTS_TO":          "REPORTED_TO",
@@ -342,6 +384,8 @@ def _normalize_relationship(raw_rel: str) -> str:
         "TRANSMITS_DATA_TO":   "NOTIFIED_TO",
         "REQUESTS_INFO_FROM":  "NOTIFIED_TO",
         "RECEIVES_INFO_FROM":  "NOTIFIED_TO",
+        "RECEIVES":            "RECEIVED_BY",
+        "RECEIVED_FROM":       "RECEIVED_BY",
         # --- Permission / Prohibition ---
         "PERMITS":             "PERMITTED_TO",
         "PERMITTED_FOR":       "PERMITTED_TO",
@@ -355,6 +399,8 @@ def _normalize_relationship(raw_rel: str) -> str:
         "PROHIBITED_FROM_CONTAINING": "PROHIBITED_FROM",
         "MUST_NOT_PERFORM":    "PROHIBITED_FROM",
         "MUST_NOT_MISLEAD":    "PROHIBITED_FROM",
+        "MUST_PROTECT":        "PROTECTED_BY",
+        "PROTECTS":            "PROTECTED_BY",
         "EXEMPT":              "EXEMPT_FROM",
         "EXCLUDED_FROM":       "EXEMPT_FROM",
         "EXEMPTS":             "EXEMPT_FROM",
@@ -371,6 +417,7 @@ def _normalize_relationship(raw_rel: str) -> str:
         "CONDITIONED_ON":      "COMPLIES_WITH",
         "ENSURES_COMPLIANCE_WITH": "COMPLIES_WITH",
         "COMPLIES":            "COMPLIES_WITH",
+        "ENSURES":             "ENSURED_BY",
         "AFFECTED":            "AFFECTED_BY",
         "AFFECTS":             "AFFECTED_BY",
         "SUBJECTED_TO":        "AFFECTED_BY",
@@ -390,6 +437,9 @@ def _normalize_relationship(raw_rel: str) -> str:
         "INCLUDED_IN":         "PART_OF",
         "INCLUDES":            "PART_OF",
         "ATTACHED_TO":         "PART_OF",
+        "WORKS_FOR":           "BELONGS_TO",
+        "WORKS_IN":            "BELONGS_TO",
+        "REPRESENTS":          "REPRESENTED_BY",
         # --- Financial ---
         "FUNDS":               "FUNDED_BY",
         "PAYS":                "PAID_TO",
@@ -412,6 +462,7 @@ def _normalize_relationship(raw_rel: str) -> str:
         "AMENDS":              "AMENDED_BY",
         "AMENDED":             "AMENDED_BY",
         "REPEALS":             "REPEALED_BY",
+        "REMOVED_FROM":        "REPEALED_BY",
         "REFERENCES":          "REFERENCED_BY",
         "REFERS_TO":           "REFERENCED_BY",
         "REFERRED_BY":         "REFERENCED_BY",
@@ -427,7 +478,11 @@ def _normalize_relationship(raw_rel: str) -> str:
         "IS_EQUAL_TO":         "RELATED_TO",
         "SUPPLEMENTED_BY":     "RELATED_TO",
         "COVERS":              "RELATED_TO",
+        "COVERED_BY":          "RELATED_TO",
         "LEASED_BY":           "RELATED_TO",
+        "ASSUMES":             "RELATED_TO",
+        "SEPARATED_FROM":      "RELATED_TO",
+        "STORED_AT":           "LOCATED_IN",
         # --- Other active → canonical ---
         "PRODUCES":            "CREATED_BY",
         "GENERATED_BY":        "CREATED_BY",
@@ -443,11 +498,27 @@ def _normalize_relationship(raw_rel: str) -> str:
         "CORRECTED_BY":        "AMENDED_BY",
         "EXTENDED_BY":         "AMENDED_BY",
         "SUPPORTED_BY":        "IMPLEMENTED_BY",
+        "SUPPORTS":            "IMPLEMENTED_BY",
         "ASSISTED_BY":         "IMPLEMENTED_BY",
         "MAINTAINED_BY":       "IMPLEMENTED_BY",
+        "MAINTAINS":           "IMPLEMENTED_BY",
         "SERVICED_BY":         "IMPLEMENTED_BY",
+        "SERVICES":            "IMPLEMENTED_BY",
         "PROCESSED_BY":        "IMPLEMENTED_BY",
         "PROCESSED_IN":        "IMPLEMENTED_BY",
+        "TEACHES":             "EDUCATED_BY",
+        "TRAINING_PROVIDED_BY": "EDUCATED_BY",
+        "TRIGGERS":            "TRIGGERED_BY",
+        "USES":                "USED_BY",
+        "PROVIDES":            "PROVIDED_BY",
+        "PROVIDES_TO":         "PROVIDED_TO",
+        "OPENS":               "OPENED_BY",
+        "DEVELOPS":            "DEVELOPED_BY",
+        "PREPARES":            "PREPARED_BY",
+        "PREPARED_WITH":       "PREPARED_BY",
+        "AWARDS":              "AWARDED_BY",
+        "AWARDED_WITH":        "AWARDED_TO",
+        "CALCULATED_FROM":     "CALCULATED_BY",
         "MONITORED_BY":        "MANAGED_BY",
         "INSPECTED_BY":        "MANAGED_BY",
         "ASSESSED_BY":         "MANAGED_BY",
