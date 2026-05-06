@@ -552,31 +552,42 @@ def query_all_relationship_types(driver):
 
 def rename_relationship(driver, old_type: str, new_type: str):
     """
-    Đổi tên relationship trong Neo4j.
-    Chỉ thực hiện nếu old_type khác new_type.
+    Đổi tên relationship trong Neo4j dùng batched loop.
+    - Escape backtick trong tên relation.
+    - Mỗi batch chạy trong session riêng để tránh timeout.
+    - Guard None trên result.single().
     """
     if old_type == new_type:
         return 0
-        
-    q = f"""
-    MATCH (a)-[r:`{old_type}`]->(b)
-    WITH a, b, r LIMIT 100000
-    CREATE (a)-[new_r:`{new_type}`]->(b)
-    SET new_r = properties(r)
-    DELETE r
-    RETURN count(new_r) as renamed
-    """
-    
+
+    # Escape backtick trong tên relation (tránh Cypher injection)
+    safe_old = old_type.replace("`", "``")
+    safe_new = new_type.replace("`", "``")
+    batch_size = 10_000  # Nhỏ hơn để tránh timeout / heap OOM
+
     total_renamed = 0
-    with driver.session() as session:
-        while True:
-            result = session.run(q)
-            renamed = result.single()["renamed"]
-            if renamed == 0:
-                break
-            total_renamed += renamed
-            print(f"    ... renamed batch of {renamed} '{old_type}' -> '{new_type}'")
-            
+    while True:
+        q = f"""
+        MATCH (a)-[r:`{safe_old}`]->(b)
+        WITH a, r, b LIMIT {batch_size}
+        CREATE (a)-[new_r:`{safe_new}`]->(b)
+        SET new_r = properties(r)
+        DELETE r
+        RETURN count(*) AS renamed
+        """
+        with driver.session() as session:
+            try:
+                record = session.run(q).single()
+                renamed = record["renamed"] if record else 0
+            except Exception as e:
+                print(f"    [ERROR] Batch failed for '{old_type}': {e}")
+                raise
+
+        if renamed == 0:
+            break
+        total_renamed += renamed
+        print(f"    ... renamed batch of {renamed} '{old_type}' -> '{new_type}'")
+
     return total_renamed
 
 def main():
