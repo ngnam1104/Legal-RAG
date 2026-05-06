@@ -371,12 +371,24 @@ while not global_done:
         stats["llm_calls"] += n_prompts
 
         # B. Goi batch_chat_completion SONG SONG
+        _log(
+            f"    [LLM] P{stats['pages_done']+1} SB{sb_idx+1:>3}/{len(super_batches)}"
+            f"  →  {n_prompts} prompts ({len(super_batch)} docs)  ..."
+        )
+        t_llm = time.perf_counter()
         try:
             responses = llm_client.batch_chat_completion(
                 messages_list=messages_list,
                 temperature=0.1,
                 max_tokens=5000,
                 response_format={"type": "json_object"},
+            )
+            t_llm_elapsed = time.perf_counter() - t_llm
+            n_ok = sum(1 for r in responses if r and r.strip())
+            _log(
+                f"    [LLM] done  {t_llm_elapsed:.1f}s"
+                f"  avg={t_llm_elapsed/max(1,n_prompts):.1f}s/prompt"
+                f"  ok={n_ok}/{n_prompts}"
             )
         except Exception as e:
             _log(f"  [LLM BATCH ERROR] page={stats['pages_done']+1} sb={sb_idx+1}: {e}")
