@@ -147,7 +147,10 @@ class LegalChatStrategy(BaseRAGStrategy):
             str(h.get("chunk_id") or h.get("id", ""))
             for h in hits if h.get("chunk_id") or h.get("id")
         ]
-        print(f"       🔍 [Retrieve] HybridRetriever → {len(hits)} hits, {len(entity_ids)} entity_ids")
+        print(
+            f"       🔍 [Retrieve] Phase0_Graph: {len(graph_boost_chunk_ids)} boost_ids "
+            f"| HybridRetriever → {len(hits)} hits"
+        )
 
         # ── Phase 2: QdrantNeo4jRetriever — enrich + bổ sung entity_ids từ Neo4j ──
         with timer.step("QdrantNeo4j_Enrich"):
@@ -171,7 +174,13 @@ class LegalChatStrategy(BaseRAGStrategy):
             print(f"       🔗 [Retrieve] QdrantNeo4j added {len(neo4j_hits)} extra hits → total {len(hits)}")
 
         # ── Phase 3: 2-hop Subgraph Expansion ──
-        graph_ctx = {"nodes": [], "edges": [], "entity_context": "", "node_rel_lines": [], "lateral_docs": [], "document_toc": "", "sibling_texts": []}
+        # entity_pre_context từ Phase 0 LUÔN được giữ, kể cả khi Phase 3 trống
+        graph_ctx = {
+            "nodes": [], "edges": [],
+            "entity_context": entity_pre_context,  # ← default từ Phase 0
+            "node_rel_lines": [], "lateral_docs": [],
+            "document_toc": "", "sibling_texts": []
+        }
         with timer.step("Neo4j_Subgraph"):
             if all_entity_ids:
                 subgraph = fetch_related_graph(all_entity_ids)
@@ -179,16 +188,19 @@ class LegalChatStrategy(BaseRAGStrategy):
                     formatted = format_graph_context(subgraph)
                     graph_ctx["nodes"] = formatted["nodes"]
                     graph_ctx["edges"] = formatted["edges"]
-                    # Merge context từ Phase 0 và Phase 3
-                    merged_entity_ctx = entity_pre_context
+                    # Merge: Phase 0 context + Phase 3 entity context
                     phase3_ctx = formatted.get("entity_context", "")
                     if phase3_ctx:
-                        merged_entity_ctx = merged_entity_ctx + "\n" + phase3_ctx if merged_entity_ctx else phase3_ctx
-                    
-                    graph_ctx["entity_context"] = merged_entity_ctx
+                        sep = "\n" if graph_ctx["entity_context"] else ""
+                        graph_ctx["entity_context"] += sep + phase3_ctx
                     graph_ctx["node_rel_lines"] = formatted.get("node_rel_lines", [])
-                    graph_ctx["sibling_texts"] = formatted.get("sibling_texts", [])
-                    print(f"       🕸️ [Retrieve] Subgraph: {len(graph_ctx['nodes'])} nodes, {len(graph_ctx['edges'])} edges, {len(graph_ctx['node_rel_lines'])} node_rels, entities={bool(graph_ctx['entity_context'])}, siblings={len(graph_ctx['sibling_texts'])}")
+                    graph_ctx["sibling_texts"]  = formatted.get("sibling_texts", [])
+                    print(
+                        f"       🕸️ [Retrieve] Subgraph: "
+                        f"{len(graph_ctx['nodes'])} nodes, {len(graph_ctx['edges'])} edges, "
+                        f"{len(graph_ctx['node_rel_lines'])} node_rels, "
+                        f"siblings={len(graph_ctx['sibling_texts'])}"
+                    )
 
         return {"raw_hits": hits, "graph_context": graph_ctx, "metrics": timer.results()}
 
