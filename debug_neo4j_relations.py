@@ -45,7 +45,6 @@ FIXED_NODE_RELATIONS = {
     "APPLIES_TO", "RELATED_TO",
 }
 
-_RE_HAS_PROP = re.compile(r'^HAS_')
 
 _VERB_ROOT_CANONICAL = {
     "ISSUE": "ISSUED_BY", "SIGN": "SIGNED_BY", "APPROV": "APPROVED_BY",
@@ -105,19 +104,23 @@ _ALIAS = {
 
 
 def _normalize_relationship(raw_rel: str) -> str:
-    if not raw_rel:
-        return "RELATED_TO"
-    s = raw_rel.strip().upper().replace(" ", "_")
-    if _RE_HAS_PROP.match(s):
-        return "RELATED_TO"
-    if s in _ALIAS:
-        s = _ALIAS[s]
-    if s in FIXED_NODE_RELATIONS:
-        return s
-    for prefix, canonical in _VERB_ROOT_CANONICAL.items():
-        if s.startswith(prefix):
-            return canonical
-    return "RELATED_TO"
+    clean_rel = raw_rel.upper().replace(" ", "_").strip()
+    
+    # 1. FIXED match
+    if clean_rel in FIXED_NODE_RELATIONS:
+        return clean_rel
+        
+    # 2. Xóa đồng nghĩa (Fuzzy Verb Root matching)
+    parts = clean_rel.split("_")
+    first_word = parts[0]
+    
+    for i in range(len(first_word), 3, -1):
+        prefix = first_word[:i]
+        if prefix in _VERB_ROOT_CANONICAL:
+            return _VERB_ROOT_CANONICAL[prefix]
+            
+    # 3. Fallback: Nếu không phải từ đồng nghĩa đã biết, GIỮ NGUYÊN
+    return clean_rel
 
 
 def get_driver(uri: str, user: str, password: str):

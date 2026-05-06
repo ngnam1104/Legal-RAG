@@ -96,7 +96,6 @@ BLACKLIST_RELATIONS = {
     "UPDATED_EVERY", "EXECUTED_AT", "EXECUTED_ON",
 }
 # Regex: bắt toàn bộ HAS_* property giả
-_RE_HAS_PROP = re.compile(r'^HAS_')
 
 FIXED_DOC_RELATIONS = {
     "BASED_ON", "AMENDS", "REPEALS", "REPLACES",
@@ -296,10 +295,6 @@ def _normalize_relationship(raw_rel: str) -> str:
     if not raw_rel:
         return "RELATED_TO"
     s = raw_rel.strip().upper().replace(" ", "_")
-
-    # 0. HAS_* property giả → RELATED_TO
-    if _RE_HAS_PROP.match(s):
-        return "RELATED_TO"
 
     # 1. Blacklist
     if s in BLACKLIST_RELATIONS:
@@ -503,12 +498,14 @@ def _normalize_relationship(raw_rel: str) -> str:
         return s
 
     # 4. Verb-root fuzzy match → canonical FIXED
-    for prefix, canonical in _VERB_ROOT_CANONICAL.items():
-        if s.startswith(prefix):
-            return canonical
+    first_word = s.split('_')[0]
+    for i in range(len(first_word), 3, -1):
+        prefix = first_word[:i]
+        if prefix in _VERB_ROOT_CANONICAL:
+            return _VERB_ROOT_CANONICAL[prefix]
 
-    # 5. Fallback — KHÔNG thêm vào DYNAMIC nữa
-    return "RELATED_TO"
+    # 5. Fallback nếu không khớp bất cứ quy tắc nào -> GIỮ NGUYÊN (bảo tồn)
+    return s
 
 
 def _normalize_doc_relation(raw_rel: str) -> str:
