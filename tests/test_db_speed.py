@@ -75,7 +75,7 @@ def test_qdrant_easy_semantic_search(client, collection_name, query_vector=None)
     _out("\n[QDRANT - DỄ] 🔍 Scenario 1: Semantic Search Cơ Bản")
     _out("Mô tả: Tìm kiếm các chunk có ý nghĩa tương đồng với một vector (top 5).")
     if query_vector is None:
-        query_vector = [0.01] * 768 
+        query_vector = [0.01] * 1024 
     
     try:
         response = client.query_points(
@@ -94,7 +94,7 @@ def test_qdrant_medium_filtered_search(client, collection_name, query_vector=Non
     _out(f"\n[QDRANT - TRUNG BÌNH] 🔍 Scenario 2: Semantic Search kèm Metadata Filter (doc_id = {doc_id})")
     _out("Mô tả: Tìm kiếm ngữ nghĩa nhưng giới hạn bắt buộc trong một văn bản cụ thể.")
     if query_vector is None:
-        query_vector = [0.01] * 768
+        query_vector = [0.01] * 1024
         
     try:
         response = client.query_points(
