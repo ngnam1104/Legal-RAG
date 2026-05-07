@@ -1,4 +1,4 @@
-# Báo cáo Hiệu năng Hệ thống Legal-RAG
+﻿# Báo cáo Hiệu năng Hệ thống Legal-RAG
 
 Báo cáo này tổng hợp các chỉ số hiệu năng về tốc độ phản hồi và tốc độ lập chỉ mục dữ liệu dựa trên các kết quả đo lường thực tế.
 
@@ -22,7 +22,18 @@ Báo cáo này tổng hợp các chỉ số hiệu năng về tốc độ phản
 | ⚡ 3. Generate | 15.90s |
 
 > [!NOTE]
-> Phần lớn thời gian nằm ở bước **Retrieve + Graph Expand** (chiếm ~58% tổng thời gian). Trong đó, việc truy xuất Graph-Doc (`Graph_Doc_Fetch`) là thành phần tốn kém nhất.
+> Phần lớn thời gian nằm ở bước **Retrieve + Graph Expand** (chiếm ~58% tổng thời gian). Trong đó, việc truy xuất Graph-Doc (Graph_Doc_Fetch) là thành phần tốn kém nhất.
+
+### Phân rã chi tiết bước Retrieve + Graph Expand (33.26s)
+Dựa trên phân tích mã nguồn hệ thống, bước này bao gồm 5 giai đoạn chính với thời gian ước lượng:
+
+| Giai đoạn | Thời gian ước lượng | Chi tiết công việc |
+| :--- | :--- | :--- |
+| **Phase 0 & 1 (Parallel)** | 5 - 8s | Chạy song song Vector Search (Qdrant) và Entity Search (Neo4j). |
+| **Graph_Doc_Fetch** | 2 - 4s | Truy xuất các văn bản được đồ thị gợi ý nhưng Vector Search bỏ sót. |
+| **Unified Reranking** | **8 - 12s** | **Nút thắt chính**: Chạy mô hình Cross-Encoder để xếp hạng lại các ứng viên. |
+| **QdrantNeo4j Enrich** | 3 - 5s | Làm giàu thông tin Metadata (Người ký, Ngày hiệu lực, Mục lục) từ Neo4j. |
+| **Neo4j Subgraph Expand** | **10 - 15s** | **Nút thắt chính**: Chạy 4 truy vấn Cypher tuần tự để lấy đồ thị con 2 bước. |
 
 ---
 
@@ -30,10 +41,10 @@ Báo cáo này tổng hợp các chỉ số hiệu năng về tốc độ phản
 *Nguồn: [result_500.txt](file:///d:/iCOMM/Legal-RAG/result_500.txt)*
 
 Hệ thống đã được kiểm thử với tập dữ liệu y tế quy mô lớn:
-- **Tổng quy mô**: ~21,000 văn bản (được thu thập qua 3 tầng từ `chunking_embedding.py`):
+- **Tổng quy mô**: ~21,000 văn bản (được thu thập qua 3 tầng từ chunking_embedding.py):
     1. **Văn bản gốc**: Danh sách ưu tiên từ 8,000 VB y tế cốt lõi.
     2. **Tham chiếu cấp 1**: Các VB được trích dẫn trực tiếp từ nhóm gốc.
-    3. **Tham chiếu cấp 2**: Các VB được trích dẫn tiếp từ nhóm cấp 1 để bao phủ toàn bộ mạng lưới quy định.
+    3. **Tham chiếu cấp 2**: Các VB được trích dẫn tiếp từ nhóm cấp 1.
 - **Tổng số Points (Qdrant)**: ~672,185 points.
 - **Thời gian xử lý trung bình**: **23.75s / văn bản**.
 - **Công suất xử lý**: ~150 văn bản/giờ (với cấu hình LLM hiện tại).
@@ -49,7 +60,7 @@ Kết quả đo lường trực tiếp trên cụm Server (10.9.2.57) cho thấy
 | Kịch bản | Độ trễ (Latency) | Ghi chú |
 | :--- | :--- | :--- |
 | **Tìm kiếm ngữ nghĩa cơ bản** | **34.98 ms** | Top 5 tương đồng trên 670k points |
-| **Tìm kiếm kèm Filter Metadata** | **2666.89 ms** | Lọc theo `document_number` cụ thể |
+| **Tìm kiếm kèm Filter Metadata** | **2666.89 ms** | Lọc theo document_number cụ thể |
 
 ### 3.2. Graph Traversal (Neo4j)
 | Kịch bản | Độ trễ (Latency) | Ý nghĩa |
@@ -68,30 +79,16 @@ Kết quả đo lường trực tiếp trên cụm Server (10.9.2.57) cho thấy
 
 ---
 
-## 4. L? tr�nh T?i uu h�a (Optimization Roadmap)
+## 4. Lộ trình Tối ưu hóa (Optimization Roadmap)
 
-D?a tr�n c�c ch? s? tr�n, h? th?ng c?n t?p trung v�o c�c h?ng m?c sau:
+Dựa trên các chỉ số trên, hệ thống cần tập trung vào các hạng mục sau:
 
-1. **Gi?m d? tr? Graph (Shortest Path)**: 
-   - Tri?n khai **Graph Caching** cho c�c c?p Concept ph? bi?n.
-   - S? d?ng **Neo4j GDS (Graph Data Science)** d? t�nh to�n tru?c c�c tr?ng s? li�n k?t.
-2. **T?i uu h�a Ingestion**:
-   - S? d?ng **Parallel Processing** ? c?p d? Chunk (hi?n dang ? c?p d? Document) d? t?n d?ng t?i da GPU/CPU khi nh�ng vector.
-   - Batching c�c l?nh `MERGE` trong Neo4j d? gi?m overhead giao d?ch.
-3. **C?i thi?n d? ch�nh x�c (Accuracy)**:
-   - Tinh ch?nh bu?c **Rerank** (hi?n dang d�ng BGE-M3) d? l?c nhi?u t?t hon sau khi m? r?ng d? th?.
-   - B? sung bu?c **Query Expansion** b?ng LLM d? c?i thi?n t? l? Hit Rate trong Qdrant.
-
-### Ph�n r� chi ti?t bu?c Retrieve + Graph Expand (33.26s)
-D?a tr�n ph�n t�ch m� ngu?n h? th?ng, bu?c n�y bao g?m 5 giai do?n ch�nh v?i th?i gian u?c lu?ng:
-
-| Giai do?n | Th?i gian u?c lu?ng | Chi ti?t c�ng vi?c |
-| :--- | :--- | :--- |
-| **Phase 0 & 1 (Parallel)** | 5 - 8s | Ch?y song song Vector Search (Qdrant) v� Entity Search (Neo4j). |
-| **Graph_Doc_Fetch** | 2 - 4s | Truy xu?t c�c van b?n du?c d? th? g?i � nhung Vector Search b? s�t. |
-| **Unified Reranking** | **8 - 12s** | **N�t th?t ch�nh**: Ch?y m� h�nh Cross-Encoder d? x?p h?ng l?i d? ch�nh x�c c?a c�c ?ng vi�n. |
-| **QdrantNeo4j Enrich** | 3 - 5s | L�m gi�u th�ng tin Metadata (Ngu?i k�, Ng�y hi?u l?c, M?c l?c) t? Neo4j. |
-| **Neo4j Subgraph Expand** | **10 - 15s** | **N�t th?t ch�nh**: Ch?y 4 truy v?n Cypher tu?n t? d? l?y d? th? con 2 bu?c (2-hop) v� van b?n li�n quan (Sibling Docs). |
-
-> [!IMPORTANT]
-> **�i?m c?n t?i uu**: Bu?c **Unified Reranking** v� **Neo4j Subgraph Expand** dang chi?m t?i ~75% th?i gian c?a giai do?n Retrieve. Vi?c chuy?n c�c truy v?n Neo4j sang ch?y song song v� t?i uu h�a m� h�nh Rerank s? gi�p gi?m d�ng k? t?ng th?i gian ph?n h?i.
+1. **Giảm độ trễ Graph (Shortest Path)**: 
+   - Triển khai **Graph Caching** cho các cặp Concept phổ biến.
+   - Sử dụng **Neo4j GDS (Graph Data Science)** để tính toán trước các trọng số liên kết.
+2. **Tối ưu hóa Ingestion**:
+   - Sử dụng **Parallel Processing** ở cấp độ Chunk để tận dụng tối đa GPU/CPU.
+   - Batching các lệnh MERGE trong Neo4j để giảm overhead giao dịch.
+3. **Cải thiện độ chính xác (Accuracy)**:
+   - Tinh chỉnh bước **Rerank** để lọc nhiễu tốt hơn sau khi mở rộng đồ thị.
+   - Bổ sung bước **Query Expansion** bằng LLM để cải thiện tỷ lệ Hit Rate trong Qdrant.
