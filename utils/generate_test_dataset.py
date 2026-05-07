@@ -13,7 +13,7 @@ from backend.models.llm_factory import chat_completion
 from backend.utils.text_utils import extract_json_from_text
 
 # Cấu hình
-TARGET_DOCS = ["43/2018/TT-BCT", "207/2025/NĐ-CP", "12/2008/TTLT-BYT-BNV"]
+TARGET_DOCS = ["105/2014/NĐ-CP", "105/2016/QH13"]
 OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "tests", "qa_evaluation", "Chatbot_test_2mode_3docs.json")
 os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 

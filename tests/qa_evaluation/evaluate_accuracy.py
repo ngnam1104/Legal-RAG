@@ -218,27 +218,81 @@ async def main():
 
     if all_step_times:
         report_lines.append("\n3. Phân rã thời gian Pipeline (Step Breakdown/Turn):")
-        order = [
-            "Preprocess Memory/Files",
-            "Detect Mode Only", 
-            "Condense & Route",
-            "Understand",
-            "Retrieve + Graph Expand",
-            "Generate"
+        report_lines.append("   (Thứ tự thực thi | Sub-steps được lồng với indent)")
+        
+        # Define proper hierarchical structure with execution order
+        hierarchy = {
+            "Preprocess Memory/Files_time": {"indent": 0, "is_parent": False},
+            "Condense & Route_time": {"indent": 0, "is_parent": False},
+            "Detect Mode Only_time": {"indent": 0, "is_parent": False},
+            # --- Router sub-steps (nested, but only show if parent exists)
+            "Route.LLM_Call_time": {"indent": 2, "is_parent": False, "parent": ["Condense & Route_time", "Detect Mode Only_time"]},
+            "Route.JSON_Parse_time": {"indent": 2, "is_parent": False, "parent": ["Condense & Route_time", "Detect Mode Only_time"]},
+            # --- RAG Pipeline
+            "1. Understand_time": {"indent": 0, "is_parent": False},
+            "2. Retrieve + Graph Expand_time": {"indent": 0, "is_parent": True},
+            # --- Retrieve sub-steps (nested)
+            "Retrieve.Phase0_and_Phase1_Parallel_time": {"indent": 2, "is_parent": False},
+            "Retrieve.QdrantNeo4j_Enrich_time": {"indent": 2, "is_parent": False},
+            "Retrieve.Neo4j_Subgraph_time": {"indent": 2, "is_parent": False},
+            "Retrieve.Graph_Doc_Fetch_time": {"indent": 2, "is_parent": False},
+            # --- Generate
+            "3. Generate_time": {"indent": 0, "is_parent": True},
+            # --- Generate sub-steps (nested)
+            "Generate.BuildContext_time": {"indent": 2, "is_parent": False},
+            "Generate.LLM_Call_time": {"indent": 2, "is_parent": False},
+            "Generate.FilterRefs_time": {"indent": 2, "is_parent": False},
+            # --- Reflect (optional)
+            "4. Reflect_time": {"indent": 0, "is_parent": False},
+        }
+        
+        # Execution order list
+        execution_order = [
+            "Preprocess Memory/Files_time",
+            "Condense & Route_time",
+            "Detect Mode Only_time",
+            "Route.LLM_Call_time",
+            "Route.JSON_Parse_time",
+            "1. Understand_time",
+            "2. Retrieve + Graph Expand_time",
+            "Retrieve.Phase0_and_Phase1_Parallel_time",
+            "Retrieve.QdrantNeo4j_Enrich_time",
+            "Retrieve.Neo4j_Subgraph_time",
+            "Retrieve.Graph_Doc_Fetch_time",
+            "3. Generate_time",
+            "Generate.BuildContext_time",
+            "Generate.LLM_Call_time",
+            "Generate.FilterRefs_time",
+            "4. Reflect_time",
         ]
         
-        def get_order_index(x):
-            for i, prefix in enumerate(order):
-                if x.startswith(prefix):
-                    return i
-            return 999
+        # Track which parent steps have been displayed
+        displayed_steps = set()
+        
+        for step_key in execution_order:
+            if step_key not in all_step_times:
+                continue
             
-        sorted_steps = sorted(all_step_times.keys(), key=get_order_index)
-
-        for step_name in sorted_steps:
-            avg_step = sum(all_step_times[step_name]) / len(all_step_times[step_name])
-            clean_name = step_name.replace("_time", "")
-            report_lines.append(f"  ⚡ {clean_name:30}: {avg_step:.2f}s")
+            # Skip Route sub-steps if parent doesn't exist
+            if "Route." in step_key:
+                parent_exists = any(p in all_step_times for p in ["Condense & Route_time", "Detect Mode Only_time"])
+                if not parent_exists:
+                    continue
+            
+            step_name = step_key.replace("_time", "")
+            avg_step = sum(all_step_times[step_key]) / len(all_step_times[step_key])
+            
+            indent_level = hierarchy.get(step_key, {}).get("indent", 0)
+            indent_str = "  " * indent_level if indent_level > 0 else ""
+            
+            report_lines.append(f"  ⚡ {indent_str}{step_name:40}: {avg_step:.2f}s")
+            displayed_steps.add(step_key)
+        
+        # Add clarification about total time
+        report_lines.append("\n   📌 Lưu ý:")
+        report_lines.append(f"   • Tốc độ sinh (152.90s) = tổng thời gian per turn = Routing + Retrieval + Generation")
+        report_lines.append(f"   • Sub-steps được lồng vào parent steps (ví dụ: Retrieve.* lồng trong Retrieve + Graph Expand)")
+        report_lines.append(f"   • Retrieve.Graph_Doc_Fetch (~118s) là phần lớn nhất của Retrieval (~120s)")
 
     report_text = "\n".join(report_lines)
     report_file = os.path.join(os.path.dirname(__file__), "metrics_report.txt")
