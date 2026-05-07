@@ -335,10 +335,9 @@ class LegalChatStrategy(BaseRAGStrategy):
             # Cypher: lấy node + parent metadata + ontology relations (cải tiến so với cũ)
             retrieval_query = """
             OPTIONAL MATCH (n1:Chunk {qdrant_id: $id})
-            OPTIONAL MATCH (n2:Chunk {id: $id})
-            OPTIONAL MATCH (n3:Clause {id: $id})
-            OPTIONAL MATCH (n4:LegalArticle {id: $id})
-            WITH coalesce(n1, n2, n3, n4) AS node
+            OPTIONAL MATCH (n2:Clause {qdrant_id: $id})
+            OPTIONAL MATCH (n3:LegalArticle {qdrant_id: $id})
+            WITH coalesce(n1, n2, n3) AS node
             WHERE node IS NOT NULL
             OPTIONAL MATCH (node)-[:BELONGS_TO|PART_OF*1..2]->(parent)
             OPTIONAL MATCH (node)-[:BELONGS_TO]->(doc:Document)
