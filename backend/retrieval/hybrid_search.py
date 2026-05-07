@@ -863,7 +863,11 @@ class HybridRetriever:
         # ── Query 1: Doc-level relations ──
         doc_rel_query = """
         UNWIND $chunk_ids AS cid
-        MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+        OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
+        OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
+        OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+        WITH cid, coalesce(c1, c2, c3) AS c
+        WHERE c IS NOT NULL
         OPTIONAL MATCH (c)-[:BELONGS_TO|PART_OF*1..3]->(doc:Document)
         OPTIONAL MATCH (doc)-[dr]->(other_doc:Document)
         WHERE type(dr) IN ['AMENDS','REPLACES','REPEALS','BASED_ON','GUIDES','APPLIES','ISSUED_WITH','ASSIGNS','CORRECTS']
@@ -879,7 +883,11 @@ class HybridRetriever:
         # ── Query 2: Free-form entities ──
         entity_query = """
         UNWIND $chunk_ids AS cid
-        MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+        OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
+        OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
+        OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+        WITH cid, coalesce(c1, c2, c3) AS c
+        WHERE c IS NOT NULL
         OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
         WHERE e.name IS NOT NULL
         RETURN cid AS chunk_id,
@@ -889,7 +897,11 @@ class HybridRetriever:
         # ── Query 3: Dynamic node relations (RESPONSIBLE_FOR, SIGNED_BY...) ──
         node_rel_query = """
         UNWIND $chunk_ids AS cid
-        MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+        OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
+        OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
+        OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+        WITH cid, coalesce(c1, c2, c3) AS c
+        WHERE c IS NOT NULL
         OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)-[nr]->(tgt)
         WHERE nr IS NOT NULL AND NOT type(nr) IN ['HAS_ENTITY']
         RETURN cid AS chunk_id,

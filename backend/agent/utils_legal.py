@@ -333,7 +333,11 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     # ── Query 1: Document-level Relations (AMENDS, REPLACES, BASED_ON, etc.) ──
     doc_rel_query = """
     UNWIND $ids AS cid
-    MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+    OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
+    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
+    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+    WITH cid, coalesce(c1, c2, c3) AS c
+    WHERE c IS NOT NULL
     // Lấy quan hệ thuộc về Document node cha
     OPTIONAL MATCH (c)-[:BELONGS_TO|PART_OF*1..3]->(doc:Document)
     OPTIONAL MATCH (doc)-[dr]->(other_doc:Document)
@@ -356,7 +360,11 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     # ── Query 2: Free-form Entities linked to chunk nodes (HAS_ENTITY) ──
     entity_query = """
     UNWIND $ids AS cid
-    MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+    OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
+    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
+    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+    WITH cid, coalesce(c1, c2, c3) AS c
+    WHERE c IS NOT NULL
     OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
     WHERE e.name IS NOT NULL
     RETURN cid AS chunk_id,
@@ -368,7 +376,11 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     # ── Query 3: Free-form Node Relations (RESPONSIBLE_FOR, SIGNED_BY, etc.) ──
     node_rel_query = """
     UNWIND $ids AS cid
-    MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+    OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
+    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
+    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+    WITH cid, coalesce(c1, c2, c3) AS c
+    WHERE c IS NOT NULL
     OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)
     OPTIONAL MATCH (src_ent)-[nr]->(tgt)
     WHERE nr IS NOT NULL AND NOT type(nr) IN ['HAS_ENTITY']
@@ -388,7 +400,11 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     # hàng nghìn sibling vô nghĩa và làm chậm query.
     sibling_query = """
     UNWIND $ids AS cid
-    MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
+    OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
+    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
+    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+    WITH cid, coalesce(c1, c2, c3) AS c
+    WHERE c IS NOT NULL
     MATCH (c)-[:HAS_ENTITY]->(e)
     WHERE labels(e)[0] IN ['Procedure', 'Term', 'Condition'] AND e.name IS NOT NULL
     // Chỉ dùng entity đặc thù: số chunk liên kết < 30
