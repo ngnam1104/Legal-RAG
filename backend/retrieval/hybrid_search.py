@@ -54,7 +54,7 @@ class HybridRetriever:
         session_id: str,
         query: str,
         threshold_upload: float = 0.45,
-        top_k: int = 10,
+        top_k: int = 5,
         use_rerank: bool = True,
         **kwargs
     ) -> list:
@@ -223,13 +223,13 @@ class HybridRetriever:
     def broad_retrieve(
         self,
         query: str,
-        top_k: int = 15,
+        top_k: int = 5,
         is_appendix: Optional[bool] = None,
         legal_type: Optional[str] = None,
         doc_number: Optional[str] = None,
         include_inactive: bool = False,
-        main_limit: int = 10,
-        appendix_limit: int = 5,
+        main_limit: int = 5,
+        appendix_limit: int = 2,
         article_ref: Optional[str] = None,
     ):
         dense_query = self.hybrid_encoder.encode_query_dense(query)
@@ -626,6 +626,7 @@ class HybridRetriever:
         is_appendix: Optional[bool] = None,
         legal_type: Optional[str] = None,
         doc_number: Optional[str] = None,
+        sector: Optional[str] = None,
         expand_context: bool = True,
         max_neighbors: int = 8,
         use_rerank: bool = True,
@@ -635,11 +636,11 @@ class HybridRetriever:
     ) -> List[Dict]:
         """Thực hiện Hybrid Search: Tiered Prefetch -> (Optional) Reranking -> Context Expansion."""
         if use_rerank:
-            broad_top_k = 15
-            rerank_top_l = 8
+            broad_top_k = 5
+            rerank_top_l = 3
         else:
-            broad_top_k = 25
-            rerank_top_l = 8
+            broad_top_k = 10
+            rerank_top_l = 3
 
         if limit is not None:
             rerank_top_l = limit
@@ -647,11 +648,11 @@ class HybridRetriever:
         t0 = time.perf_counter()
         # Khi có doc_number cụ thể, KHÔNG nên lấy quá nhiều chunk từ chính văn bản đó, 
         # để chừa "đất" (pool) cho các văn bản hướng dẫn bên ngoài.
-        actual_broad_top_k = 30 if doc_number else broad_top_k
+        actual_broad_top_k = 15 if doc_number else broad_top_k
         broad_hits = self.broad_retrieve(
             query, top_k=actual_broad_top_k,
-            main_limit=15 if doc_number else 20,
-            appendix_limit=5,
+            main_limit=10 if doc_number else 20,
+            appendix_limit=2,
             is_appendix=is_appendix, legal_type=legal_type,
             doc_number=doc_number, include_inactive=include_inactive,
             article_ref=article_ref
@@ -662,9 +663,9 @@ class HybridRetriever:
         # Ta sẽ tự động "mở rộng lưới" và lấy thêm NHIỀU kết quả chung (không filter doc_number/legal_type) để Reranker ưu tiên.
         if doc_number or legal_type:
             extra_hits = self.broad_retrieve(
-                query, top_k=30,
-                main_limit=20,
-                appendix_limit=10,
+                query, top_k=15,
+                main_limit=5,
+                appendix_limit=2,
                 is_appendix=is_appendix, legal_type=None,
                 doc_number=None, include_inactive=include_inactive,
                 article_ref=article_ref
@@ -718,7 +719,26 @@ class HybridRetriever:
                     item['score'] = item['rerank_score']
                     print(f"       🌟 [Graph Boost] +0.3 score cho chunk {cid} (Chứa Entity truy vấn)")
 
-        # Re-sort sau khi áp dụng boost
+        # --- CROSS-SECTOR PENALIZATION ---
+        if sector:
+            # Normalize the extracted sector
+            lowered_extracted_sector = sector.lower().strip()
+            # Common sectors mapping or exact matching
+            for item in reranked_hits:
+                doc_sectors = item.get("payload", {}).get("legal_sectors", [])
+                if doc_sectors and isinstance(doc_sectors, list):
+                    # If the document has sectors defined but doesn't match the extracted sector
+                    matched = False
+                    for ds in doc_sectors:
+                        if lowered_extracted_sector in ds.lower() or ds.lower() in lowered_extracted_sector:
+                            matched = True
+                            break
+                    if not matched:
+                        item['rerank_score'] = item.get('rerank_score', 0.0) - 0.5
+                        item['score'] = item['rerank_score']
+                        print(f"       🔽 [Sector Penalty] -0.5 score cho chunk {item.get('id')} do sai lĩnh vực (Expected: {sector}, Got: {doc_sectors})")
+
+        # Re-sort sau khi áp dụng boost và penalty
         reranked_hits = sorted(reranked_hits, key=lambda x: x.get('rerank_score', 0.0), reverse=True)
 
         t2 = time.perf_counter()
@@ -964,4 +984,6 @@ class HybridRetriever:
             return base_hits
 
 retriever = HybridRetriever()
+
+
 

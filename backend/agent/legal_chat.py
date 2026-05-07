@@ -167,6 +167,7 @@ class LegalChatStrategy(BaseRAGStrategy):
                 legal_type=filters.get("legal_type"),
                 doc_number=filters.get("doc_number"),
                 article_ref=filters.get("article_ref"),
+                sector=filters.get("sector"),
                 limit=int(os.environ.get("MAX_RETRIEVAL_HITS", 20)),
             )
 
