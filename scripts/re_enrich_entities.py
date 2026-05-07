@@ -348,6 +348,41 @@ while not global_done:
         for i in range(0, len(doc_queue), SUPER_BATCH_DOCS)
     ]
 
+    # ── PIPELINE: flush chạy background trong lúc LLM xử lý SB tiếp theo ──
+    from concurrent.futures import ThreadPoolExecutor, Future
+    _flush_pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="neo4j-flush")
+    _pending_flush: Future = None
+
+    def _flush_sb_docs(flush_jobs: list):
+        """Background thread: flush từng doc của 1 super-batch + checkpoint."""
+        for job in flush_jobs:
+            doc_number       = job["doc_number"]
+            doc_rows         = job["doc_rows"]
+            all_enrich_params = job["all_enrich_params"]
+            doc_total_ents   = job["doc_total_ents"]
+            doc_total_nrels  = job["doc_total_nrels"]
+            doc_entity_counts = job["doc_entity_counts"]
+            doc_nrel_counts  = job["doc_nrel_counts"]
+
+            if all_enrich_params:
+                _flush_to_neo4j(all_enrich_params)
+            if doc_total_ents or doc_total_nrels:
+                _log(f"      [FLUSH] doc={doc_number} → {doc_total_ents} ents, {doc_total_nrels} rels")
+
+            # Stats (thread-safe: GIL protects dict/int ops)
+            stats["total_entities"] += doc_total_ents
+            stats["total_nrels"]    += doc_total_nrels
+            stats["docs_done"]      += 1
+            stats["chunks_done"]    += len(doc_rows)
+            for etype, cnt in doc_entity_counts.items():
+                stats["entity_counts"][etype] += cnt
+            for rel, cnt in doc_nrel_counts.items():
+                stats["nrel_counts"][rel] += cnt
+            for row in doc_rows:
+                done_ids.add(row["qdrant_id"])
+
+        _save_checkpoint()
+
     for sb_idx, super_batch in enumerate(super_batches):
 
         # A. Xay messages_list cho ca super-batch
@@ -404,8 +439,16 @@ while not global_done:
             _save_checkpoint()
             continue
 
-        # C. Parse per-batch → gắn entities vào ĐÚNG batch chunks (không gom doc-level)
-        # Mỗi LLM prompt xử lý 8 chunks → entities thuộc về 8 chunks đó
+        # ── Đợi flush SB trước hoàn tất trước khi parse SB mới ──
+        if _pending_flush is not None:
+            try:
+                _pending_flush.result()
+            except Exception as e:
+                _log(f"  [FLUSH THREAD ERR] {e}")
+            _pending_flush = None
+
+        # C. Parse per-batch → build flush jobs (không flush ngay)
+        flush_jobs = []
         for doc_i, (doc_number, doc_rows, batches) in enumerate(doc_batch_plan):
             all_enrich_params = []
             seen_qids = set()
@@ -434,8 +477,8 @@ while not global_done:
 
                 if batch_entities or batch_nrels:
                     # Gắn entities+rels vào TỪNG CHUNK thuộc batch này
-                    for row in batch:
-                        qid = row["qdrant_id"]
+                    batch_qids = [row["qdrant_id"] for row in batch]
+                    for qid in batch_qids:
                         all_enrich_params.append({
                             "qdrant_id"     : qid,
                             "entities"      : batch_entities,
@@ -451,7 +494,17 @@ while not global_done:
                     for nr in batch_nrels:
                         doc_nrel_counts[nr.get("relationship", "?")] += 1
 
-            # D. Flush Neo4j — 1 lần cho cả doc, nhưng entities đã gắn đúng batch
+                    # ── LOG XÁC NHẬN: batch nào → chunk nào → entity/rel nào ──
+                    ent_summary = ", ".join(
+                        f"{k}({len(v)})" for k, v in batch_entities.items()
+                    )
+                    _log(
+                        f"        [B{batch_j}/{len(batches)}]"
+                        f" chunks={len(batch_qids)}"
+                        f" → {n_ents} ents [{ent_summary}]"
+                        f"  {len(batch_nrels)} rels"
+                    )
+
             # Thêm chunks chưa có entity (chỉ để mark enriched_v2)
             for row in doc_rows:
                 if row["qdrant_id"] not in seen_qids:
@@ -461,34 +514,24 @@ while not global_done:
                         "node_relations": [],
                     })
 
-            if all_enrich_params:
-                _flush_to_neo4j(all_enrich_params)
-            if doc_total_ents or doc_total_nrels:
-                _log(f"      [FLUSH] doc={doc_number} → {doc_total_ents} ents, {doc_total_nrels} rels")
+            flush_jobs.append({
+                "doc_number"       : doc_number,
+                "doc_rows"         : doc_rows,
+                "all_enrich_params": all_enrich_params,
+                "doc_total_ents"   : doc_total_ents,
+                "doc_total_nrels"  : doc_total_nrels,
+                "doc_entity_counts": doc_entity_counts,
+                "doc_nrel_counts"  : doc_nrel_counts,
+            })
 
-            # E. Stats
-            stats["total_entities"] += doc_total_ents
-            stats["total_nrels"]    += doc_total_nrels
-            stats["docs_done"]      += 1
-            stats["chunks_done"]    += len(doc_rows)
+        # D. Submit flush to BACKGROUND THREAD → LLM tiếp SB kế tiếp ngay
+        _pending_flush = _flush_pool.submit(_flush_sb_docs, flush_jobs)
 
-            for etype, cnt in doc_entity_counts.items():
-                stats["entity_counts"][etype] += cnt
-            for rel, cnt in doc_nrel_counts.items():
-                stats["nrel_counts"][rel] += cnt
-
-            for row in doc_rows:
-                done_ids.add(row["qdrant_id"])
-
-        # F. Checkpoint sau moi super-batch
-        _save_checkpoint()
-
-        # G. Progress
+        # G. Progress (dùng stats snapshot, có thể hơi trễ do background flush)
         elapsed = time.perf_counter() - t_global
-        speed   = stats["docs_done"] / elapsed * 3600 if elapsed > 0 else 0
-        # ETA dua tren toc do hien tai va so chunk con lai uoc tinh
+        speed   = stats["docs_done"] / elapsed * 3600 if elapsed > 0 and stats["docs_done"] > 0 else 0
         approx_remain_docs = max(0, (672138 - total_fetched) // max(1, len(page_rows) // len(doc_queue)))
-        eta_s = (elapsed / stats["docs_done"] * (stats["docs_done"] + approx_remain_docs)) if stats["docs_done"] > 0 else 0
+        eta_s = (elapsed / max(1, stats["docs_done"]) * (stats["docs_done"] + approx_remain_docs))
         eta   = str(datetime.timedelta(seconds=int(eta_s - elapsed))) if eta_s > elapsed else "?"
 
         _log(
@@ -500,6 +543,15 @@ while not global_done:
             f"  ETA~{eta}"
             f"  ({speed:.0f} doc/h)"
         )
+
+    # ── Đợi flush SB cuối cùng hoàn tất trước khi sang trang ──
+    if _pending_flush is not None:
+        try:
+            _pending_flush.result()
+        except Exception as e:
+            _log(f"  [FLUSH THREAD ERR] {e}")
+        _pending_flush = None
+    _flush_pool.shutdown(wait=False)
 
     # Ket thuc 1 trang
     stats["pages_done"] += 1
