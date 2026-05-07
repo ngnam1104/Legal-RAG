@@ -274,6 +274,7 @@ Chỉ trích xuất khi quan hệ rõ ràng, không suy diễn.
     2. BẮT BUỘC DÙNG ĐỊNH DẠNG SCREAMING_SNAKE_CASE (viết hoa toàn bộ, cách nhau bằng gạch dưới).
     3. Ngắn gọn (1-4 từ).
   + HƯỚNG QUAN HỆ: source = Thực thể/Văn bản BỊ tác động, target = Thực thể/Văn bản ĐI tác động.
+  + ĐIỀU KIỆN PHÂN CẤP: Đối với các điều kiện về chuyên môn/kinh nghiệm, sử dụng các nhãn như MUST_HAVE_DEGREE_GEQ, MUST_HAVE_EXPERIENCE_GEQ. (VD: "Người hướng dẫn phải có bằng tương đương" -> source=Người hướng dẫn, target=Người thực hành, relationship=MUST_HAVE_DEGREE_GEQ).
   + KHÔNG tạo đồng nghĩa cho các từ đã có trong danh sách gốc.
 
 VÍ DỤ MINH HỌA & ĐỊNH DẠNG ĐẦU RA BẮT BUỘC:

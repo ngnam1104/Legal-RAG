@@ -79,6 +79,12 @@ FIXED_NODE_RELATIONS = {
     "REQUIRED_BY",      # được yêu cầu bởi
     "COMPLIES_WITH",    # tuân thủ quy định
     "AFFECTED_BY",      # bị ảnh hưởng bởi
+    # === ĐIỀU KIỆN PHÂN CẤP (Hierarchical Conditions) ===
+    "MUST_HAVE_DEGREE_GEQ", # phải có bằng cấp tương đương hoặc cao hơn
+    "MUST_HAVE_DEGREE_EQ",  # phải có bằng cấp tương đương
+    "MUST_HAVE_EXPERIENCE_GEQ", # phải có số năm kinh nghiệm tối thiểu
+    "MUST_HAVE_EXPERIENCE_EQ",  # phải có số năm kinh nghiệm bằng
+    "GUIDES_PRACTICE_OF",   # hướng dẫn thực hành cho
     # === PHÂN LOẠI / ĐỊNH NGHĨA ===
     "DEFINED_IN",       # được định nghĩa trong
     "CLASSIFIED_AS",    # được phân loại là
@@ -298,6 +304,11 @@ _VI_TRANSLATION_MAP = {
     "EXPORTED_TO": "Được xuất khẩu sang",
     "FACILITATED_BY": "Được tạo điều kiện bởi",
     "FORMATTED_WITH": "Được định dạng với",
+    "GUIDES_PRACTICE_OF": "Hướng dẫn thực hành cho",
+    "MUST_HAVE_DEGREE_GEQ": "Phải có bằng cấp tối thiểu tương đương",
+    "MUST_HAVE_DEGREE_EQ": "Phải có bằng cấp tương đương",
+    "MUST_HAVE_EXPERIENCE_GEQ": "Phải có kinh nghiệm tối thiểu",
+    "MUST_HAVE_EXPERIENCE_EQ": "Phải có kinh nghiệm tương đương",
     "FUNDED_BY": "Được tài trợ bởi",
     "GUIDED_BY": "Được hướng dẫn bởi",
     "HANDLED_BY": "Được xử lý bởi",
