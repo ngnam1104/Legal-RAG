@@ -122,6 +122,36 @@ class LegalChatStrategy(BaseRAGStrategy):
         from backend.retrieval.graph_search import entity_retriever
         from backend.retrieval.hybrid_search import retriever as hybrid_retriever
 
+        # ── Phase In-Memory Search (Cho file tải lên) ──
+        file_chunks = state.get("file_chunks", [])
+        if file_chunks and len(file_chunks) > 0:
+            with timer.step("InMemorySearch"):
+                try:
+                    from backend.models.embedder import embedder
+                    import numpy as np
+                    
+                    query_vector = np.array(embedder.encode_query_dense(query))
+                    query_norm = np.linalg.norm(query_vector)
+                    
+                    scored_chunks = []
+                    for chunk in file_chunks:
+                        chunk_vec = chunk.get("vector")
+                        if chunk_vec:
+                            vec = np.array(chunk_vec)
+                            norm = np.linalg.norm(vec)
+                            score = np.dot(query_vector, vec) / (query_norm * norm) if query_norm > 0 and norm > 0 else 0.0
+                            scored_chunks.append((score, chunk))
+                        else:
+                            scored_chunks.append((0.0, chunk))
+                            
+                    scored_chunks.sort(key=lambda x: x[0], reverse=True)
+                    # Giữ tối đa 10 chunks có liên quan nhất
+                    top_file_chunks = [c for score, c in scored_chunks[:10]]
+                    state["file_chunks"] = top_file_chunks
+                    print(f"       📎 [Retrieve] In-Memory Search: Lọc top {len(top_file_chunks)}/{len(file_chunks)} chunks từ file tải lên.")
+                except Exception as e:
+                    print(f"       ⚠️ [Retrieve] In-Memory Search failed: {e}")
+
         # ── Phase 0+1: SONG SONG — Entity Graph Search & Hybrid Search ──
         # Hai phase này độc lập hoàn toàn nên chạy đồng thời để tiết kiệm 1-3s mỗi query.
         # Boost từ Phase 0 được áp dụng SAU KHI cả hai hoàn thành.

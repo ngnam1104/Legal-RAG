@@ -27,8 +27,8 @@ import threading
 # =====================================================================
 # CONFIGURATION
 # =====================================================================
-BATCH_SIZE_LLM   = 8      # So chunk / 1 LLM prompt (giong pipeline goc)
-SUPER_BATCH_DOCS = 8      # So doc gom vao 1 lan goi batch_chat_completion
+BATCH_SIZE_LLM   = 16     # So chunk / 1 LLM prompt (tang tu 8 len 16)
+SUPER_BATCH_DOCS = 16     # So doc gom vao 1 lan goi batch_chat_completion (tang tu 8 len 16)
 PAGE_SIZE        = 50000  # So chunk moi lan fetch tu Neo4j (tranh day RAM)
 DRY_RUN          = False   # True = khong ghi DB
 RESUME           = True    # True = skip chunk da enriched_v2

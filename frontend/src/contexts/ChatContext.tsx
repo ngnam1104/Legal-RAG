@@ -351,11 +351,20 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   };
 
   const uploadFile = async (file: File) => {
+    let sid = currentSessionId;
+    if (!sid) {
+      sid = crypto.randomUUID();
+      isCreatingSessionRef.current = true;
+      setCurrentSessionId(sid);
+      if (pathname === "/") {
+        router.push(`/${sid}`);
+      }
+      fetchSessions();
+    }
+
     const formData = new FormData();
     formData.append("file", file);
-    if (currentSessionId) {
-      formData.append("session_id", currentSessionId);
-    }
+    formData.append("session_id", sid);
 
     try {
       const res = await fetch(`${API_BASE_URL}/upload`, {

@@ -276,16 +276,30 @@ async def upload_document(
     with open(temp_file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # Xử lý trích xuất RAM ngay lập tức nếu có session_id
+    # Xử lý trích xuất RAM và sinh Vector (In-Memory Vector Search) ngay lập tức nếu có session_id
     chunks = []
     if session_id:
         try:
             from backend.utils.document_parser import parser
-            print(f"    -> [API] Parsing file into session RAM: {session_id}")
+            from backend.models.embedder import embedder
+            print(f"    -> [API] Parsing and Embedding file into session RAM: {session_id}")
             chunks = parser.parse_and_chunk(temp_file_path)
+            
+            # Extract text from chunks to embed
+            texts_to_embed = [c.get("text_to_embed") or c.get("unit_text", "") for c in chunks]
+            
+            if texts_to_embed:
+                print(f"    -> [API] Embedding {len(texts_to_embed)} chunks for In-Memory Search...")
+                vectors = embedder.encode_dense(texts_to_embed)
+                
+                # Attach vectors to chunks
+                for chunk, vector in zip(chunks, vectors):
+                    chunk["vector"] = vector
+                    
             rag_engine.memory.set_temp_chunks(session_id, chunks)
+            print(f"    -> [API] Successfully stored {len(chunks)} chunks in RAM.")
         except Exception as e:
-            print(f"    ⚠️ [API] Failed to parse file for RAM storage: {e}")
+            print(f"    ⚠️ [API] Failed to parse and embed file for RAM storage: {e}")
 
     return {
         "message": "Đã tải lên tạm thời và sẵn sàng truy vấn.",

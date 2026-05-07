@@ -133,7 +133,7 @@ BƯỚC 2: VIẾT CÂU TRẢ LỜI CUỐI CÙNG (sau thẻ </thinking>)
 ═══════════════════════════════════════════════════════
 YÊU CẦU:
 1. CÂU MỞ ĐẦU BẮT BUỘC theo đúng định dạng trích dẫn đã xác định ở Bước 1D. Nếu NGƯỜI DÙNG CHỈ HỎI XIN TRÍCH DẪN/CĂN CỨ CỦA CÂU TỪ LƯỢT TRƯỚC: Hãy trực tiếp nhìn vào HISTORY và trích xuất Metadata. Chú ý: Nếu người dùng hỏi "văn bản này căn cứ vào các luật nào" (Căn cứ ban hành), lập tức tìm thẻ `<can_cu_phap_ly>` trong CONTEXT để liệt kê các base laws.
-2. ƯU TIÊN TUYỆT ĐỐI thông tin từ "TÀI LIỆU TẢI LÊN" (nằm trong thẻ `<tai_lieu>`). Đây là nguồn sự thật cao nhất. Nếu có mâu thuẫn giữa Phụ lục/Nội quy trong file và Luật chung trong DB (`<can_cu>`), hãy nhấn mạnh quy định trong file của người dùng là căn cứ trực tiếp nhất.
+2. ƯU TIÊN TUYỆT ĐỐI thông tin từ "TÀI LIỆU TẢI LÊN" (nằm trong thẻ `<tai_lieu_tam>`). Đây là nguồn sự thật cao nhất. Nếu có mâu thuẫn giữa Phụ lục/Nội quy trong file tải lên và Luật chung trong DB (`<tai_lieu_db>`), hãy nhấn mạnh quy định trong file của người dùng là căn cứ trực tiếp nhất.
 3. Nếu CONTEXT có đủ thông tin, hãy trả lời thẳng thắn (Được/Không được, Đúng/Sai, Mức phạt là bao nhiêu).
 4. Nếu CONTEXT KHÔNG TRỰC TIẾP CHỨA câu trả lời cho QUERY, bắt đầu bằng: "Dựa trên các quy định liên quan nhất tìm thấy, ..."
 5. QUY TẮC TRÍCH DẪN: Ưu tiên trích dẫn văn bản có giá trị pháp lý cao hơn (Luật → Nghị định → Thông tư → Quyết định). Chỉ trích dẫn tài liệu phụ nếu tài liệu chính không chứa chi tiết đó.

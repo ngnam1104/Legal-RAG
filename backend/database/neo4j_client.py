@@ -1113,7 +1113,7 @@ def _enrich_with_apoc(driver, params_list: list) -> None:
                     "chunk_text": str(nr.get("chunk_text", ""))[:300],
                 })
 
-    BATCH_SIZE = 500
+    BATCH_SIZE = 2000
     with driver.session() as session:
         # Tối quan trọng: Tạo constraint trước khi gọi APOC merge để Neo4j dùng Index!
         unique_labels = {item["label"] for item in entity_items}

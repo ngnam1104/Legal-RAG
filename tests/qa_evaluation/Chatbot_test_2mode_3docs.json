@@ -1,0 +1,347 @@
+[
+    {
+        "document_id": "Multiple_Documents",
+        "question": "Năm 2023, tôi gửi đơn xin cấp chứng chỉ hành nghề dược. Tôi thực hành tại một quầy thuốc có chủ sở hữu là người mang bằng trung cấp. Thời điểm đó, hồ sơ gửi lên Sở Y tế và đã được thông báo tiếp nhận (chấp nhận hồ sơ hợp lệ). Đến nay (năm 2024), tôi đã hoàn thành đủ thời gian thực hành theo quy định để được cấp chứng chỉ hành nghề nhưng lại bị Sở Y tế từ chối với lý do: xin cấp chứng chỉ hành nghề dược cho bằng cao đẳng thì phải nộp hồ sơ thực hành tại quầy thuốc có chủ sở hữu tối thiểu là bằng cao đẳng. Tôi xin hỏi sự từ chối này có đúng pháp luật không? Tại sao lúc đầu nộp hồ sơ thì Sở Y tế vẫn chấp nhận mà bây giờ lại từ chối?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Sự từ chối của Sở Y tế có thể được căn cứ theo quy định tại Luật Dược 2016 và Nghị định 54/2017/NĐ-CP (được sửa đổi bởi Nghị định 155/2018/NĐ-CP). Theo đó, người hướng dẫn thực hành phải có trình độ chuyên môn tối thiểu tương đương hoặc cao hơn người đăng ký thực hành (bạn bằng cao đẳng thì chủ quầy trung cấp không đủ điều kiện hướng dẫn). Việc lúc đầu Sở Y tế tiếp nhận hồ sơ chỉ là bước 'tiếp nhận thành phần hồ sơ hành chính ban đầu' trên hệ thống một cửa (chỉ kiểm tra có đủ các giấy tờ cơ bản hay không), chứ chưa bước vào khâu 'thẩm định nội dung chuyên môn'. Đến khi bạn nộp hồ sơ xin cấp chứng chỉ sau quá trình thực hành, chuyên viên thẩm định mới kiểm tra đối chiếu bằng cấp của người hướng dẫn và phát hiện không hợp lệ nên mới ra văn bản từ chối.",
+        "citation": "Luật Dược số 105/2016/QH13, Nghị định 54/2017/NĐ-CP, Nghị định 155/2018/NĐ-CP"
+    },
+    {
+        "document_id": "55/2010/QH12",
+        "question": "Gia đình tôi mở một nhà hàng ăn uống hải sản quy mô vừa tại TP.HCM. Cuối tuần trước, đoàn kiểm tra liên ngành của phường xuống kiểm tra và lập biên bản xử phạt cơ sở của tôi với lý do 'không có Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm'. Tuy nhiên, tôi giải thích rằng nhà hàng của tôi nằm trong khuôn viên một khách sạn đã được cấp chứng nhận chuẩn 3 sao, nên nhà hàng được miễn giấy phép con này theo quy định mới. Phường không đồng ý và vẫn đòi phạt 15 triệu. Theo Luật 55/2010/QH12 và các quy định pháp luật liên quan hiện hành, tôi đúng hay đoàn kiểm tra phường đúng?",
+        "category": "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
+        "answer": "Theo Luật An toàn thực phẩm 55/2010/QH12 và đặc biệt là Khoản 1 Điều 12 Nghị định 15/2018/NĐ-CP, một trong những trường hợp không thuộc diện phải cấp Giấy chứng nhận cơ sở đủ điều kiện ATTP là: 'Cơ sở kinh doanh dịch vụ ăn uống trong khách sạn, khu nghỉ dưỡng đã được cấp Giấy chứng nhận phù hợp tiêu chuẩn/quy chuẩn'. Do đó, nếu khách sạn đã được cấp chứng nhận chuẩn 3 sao (bao gồm quy chuẩn về buồng phòng và ăn uống), thì nhà hàng nằm trong đó thuộc trường hợp được miễn. Trong trường hợp này, lập luận của bạn là đúng, và việc đoàn kiểm tra cấp phường lập biên bản xử phạt lỗi 'không có giấy chứng nhận' là không có căn cứ pháp luật. Bạn có quyền làm đơn khiếu nại quyết định xử phạt này.",
+        "citation": "Khoản 1 Điều 12 Nghị định 15/2018/NĐ-CP hướng dẫn Luật An toàn thực phẩm 55/2010/QH12"
+    },
+    {
+        "document_id": "55/2010/QH12",
+        "question": "Doanh nghiệp của tôi nhập khẩu một lô hàng nước ép trái cây từ Hàn Quốc. Khi về đến cảng Cát Lái, Hải quan yêu cầu cung cấp kết quả kiểm tra nhà nước về an toàn thực phẩm đối với lô hàng nhập khẩu này. Nhưng tôi đã đưa ra bằng chứng rằng sản phẩm này đã được chúng tôi Tự công bố sản phẩm cách đây 2 tháng và đã có số tiếp nhận trên cổng thông tin của Sở An toàn thực phẩm. Hải quan vẫn không cho thông quan, yêu cầu phải lấy mẫu kiểm nghiệm tại cảng. Xin hỏi Hải quan làm thế có đúng Luật ATTP không, và tôi phải giải quyết thế nào để lấy được hàng?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Hải quan làm đúng. Theo Luật An toàn thực phẩm 55/2010/QH12 và Điều 13 Nghị định 15/2018/NĐ-CP, việc 'Tự công bố sản phẩm' chỉ là thủ tục đăng ký lưu hành. Đối với thực phẩm nhập khẩu, DÙ ĐÃ TỰ CÔNG BỐ, lô hàng vẫn phải trải qua thủ tục 'Kiểm tra nhà nước về an toàn thực phẩm lô hàng nhập khẩu' (trừ một số trường hợp được miễn kiểm tra cực kỳ đặc thù như hàng mẫu thử nghiệm, hàng ngoại giao). Việc có Giấy tiếp nhận Tự công bố là điều kiện cần để được kiểm tra chuyên ngành chứ không thay thế cho bước kiểm tra lô hàng tại cảng. Bạn cần nộp hồ sơ đăng ký kiểm tra cho cơ quan kiểm tra được Bộ Y tế chỉ định, sau khi có Thông báo kết quả đạt yêu cầu thì Hải quan mới cho thông quan.",
+        "citation": "Điều 13, 14 Nghị định 15/2018/NĐ-CP hướng dẫn Điều 38, 39 Luật ATTP 55/2010/QH12"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tháng 8/2023, doanh nghiệp tôi nộp hồ sơ xin cấp phép xây dựng biển quảng cáo theo Quyết định 1620/QĐ-UBND. Đến tháng 9/2023, UBND tỉnh ban hành Quyết định 1850/QĐ-UBND thay thế hoàn toàn Quyết định 1620, trong đó yêu cầu biển quảng cáo phải lùi sâu thêm 2 mét so với mặt đường. Hiện tại Sở Xây dựng yêu cầu tôi phải làm lại hồ sơ và thiết kế theo Quyết định 1850 mới nhất dù tôi nộp hồ sơ từ khi Quyết định 1620 còn hiệu lực. Yêu cầu của Sở Xây dựng là đúng hay sai theo nguyên tắc áp dụng pháp luật?",
+        "category": "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
+        "answer": "Yêu cầu của Sở Xây dựng là đúng pháp luật. Theo nguyên tắc áp dụng pháp luật (Luật Ban hành Văn bản Quy phạm pháp luật 2015), văn bản quy phạm pháp luật được áp dụng từ thời điểm có hiệu lực thi hành. Trừ khi Quyết định 1850 có 'Điều khoản chuyển tiếp' quy định rõ: 'Các hồ sơ nộp trước ngày Quyết định này có hiệu lực thì tiếp tục được giải quyết theo Quyết định 1620', nếu không có điều khoản bảo lưu này, cơ quan nhà nước buộc phải áp dụng pháp luật mới nhất (Quyết định 1850) để giải quyết thủ tục chưa hoàn thành. Vì biển quảng cáo chưa được cấp phép và chưa xây dựng, nó phải tuân thủ hành lang an toàn mới.",
+        "citation": "Luật Ban hành Văn bản Quy phạm pháp luật 2015 (Nguyên tắc áp dụng văn bản mới)"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tại một trạm y tế xã, có trường hợp một thai phụ chuyển dạ sinh non lúc 2h sáng. Bác sĩ trực hôm đó do mệt mỏi và cho rằng trạm y tế thiếu thiết bị y tế để đỡ đẻ sinh non, đã khuyên người nhà tự thuê xe taxi chở bệnh nhân lên bệnh viện tuyến huyện cách đó 15km thay vì làm thủ tục cấp cứu ban đầu, dẫn đến việc thai phụ bị băng huyết dọc đường. Hành vi của bác sĩ này đã vi phạm cụ thể những quy định nào trong 12 Điều Y đức (Ban hành kèm QĐ 3192/2000/QĐ-BYT) và sẽ bị xem xét hình thức kỷ luật nào?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Bác sĩ trực đã vi phạm nghiêm trọng Điều 4 trong 12 Điều Y đức (QĐ 3192/2000/QĐ-BYT), quy định: 'Khi cấp cứu phải khẩn trương chẩn đoán, xử trí kịp thời không được đùn đẩy người bệnh'. Bác sĩ có trách nhiệm thực hiện cấp cứu ban đầu (cầm máu, trợ tim mạch, ổn định dấu hiệu sinh tồn) TRƯỚC KHI chuyển tuyến, đồng thời phải bố trí xe cấp cứu hoặc cán bộ y tế đi kèm theo đúng quy chế chuyển tuyến, chứ không được để người nhà tự thuê taxi. Hành vi này có thể bị xem xét kỷ luật từ Cảnh cáo, cách chức, đến Thu hồi chứng chỉ hành nghề, nặng hơn là truy cứu trách nhiệm hình sự về tội vi phạm quy định khám chữa bệnh nếu gây hậu quả nghiêm trọng.",
+        "citation": "Điều 4, 12 Điều Y đức ban hành kèm Quyết định 3192/2000/QĐ-BYT"
+    },
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    "document_id",
+    "question",
+    "category",
+    "answer",
+    "citation",
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư nước ngoài đang xem xét mua lại cổ phần của dự án thủy điện Lai Châu. Tôi muốn biết cơ quan nào có thẩm quyền cao nhất đã phê duyệt chủ trương đầu tư này để đảm bảo tính pháp lý tuyệt đối của dự án trước khi ký kết hợp đồng. Văn bản 40/2009/QH12 có phải là văn bản quy phạm pháp luật do Quốc hội ban hành không, hay chỉ là một quyết định hành chính nội bộ?",
+        "category": "Lớp 1: Siêu dữ liệu & Căn cứ",
+        "answer": "Cơ quan có thẩm quyền cao nhất phê duyệt chủ trương đầu tư dự án thủy điện Lai Châu là Quốc hội. Văn bản 40/2009/QH12 là Nghị quyết do Quốc hội ban hành, thể hiện sự chấp thuận của cơ quan quyền lực nhà nước cao nhất đối với chủ trương đầu tư này.",
+        "citation": "Tên văn bản: Nghị quyết 40/2009/QH12 về chủ trương đầu tư dự án thủy điện Lai Châu do Quốc hội ban hành"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư đang xem xét mua lại cổ phần của dự án thủy điện Lai Châu. Tôi cần xác minh tính pháp lý cao nhất của chủ trương đầu tư này. Trong hồ sơ pháp lý, bên bán chỉ cung cấp bản sao có dấu đỏ của Nghị quyết 40/2009/QH12 nhưng không có chữ ký số hay công chứng thêm. Họ khẳng định đây là văn bản do Quốc hội ban hành nên có hiệu lực ngay khi đăng trên Cổng thông tin điện tử. Tuy nhiên, tôi nghi ngờ về thẩm quyền ban hành vì thấy tên Chủ tịch Quốc hội Nguyễn Phú Trọng ở phần cuối. Xin hỏi: Căn cứ vào cấu trúc và chữ ký trong văn bản 40/2009/QH12, ai là người trực tiếp ký ban hành nghị quyết này để đảm bảo tính xác thực của văn bản pháp lý?",
+        "category": "Lớp 1: Siêu dữ liệu & Căn cứ",
+        "answer": "Căn cứ vào phần 'Nơi nhận và Chữ ký' của Nghị quyết 40/2009/QH12, người trực tiếp ký ban hành văn bản này là Chủ tịch Quốc hội Nguyễn Phú Trọng. Đây là cơ sở pháp lý để xác minh tính xác thực của văn bản.",
+        "citation": "Phần Nơi nhận và Chữ ký; Nội dung: CHỦ TỊCH QUỐC HỘI Nguyễn Phú Trọng"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư nước ngoài muốn tham gia góp vốn vào dự án thủy điện Lai Châu. Tôi có thể sử dụng Nghị quyết 40/2009/QH12 làm cơ sở pháp lý trực tiếp để yêu cầu cơ quan nhà nước cấp phép đầu tư hoặc giải quyết tranh chấp hợp đồng với chủ đầu tư không? Nếu không, văn bản này có hiệu lực pháp lý cụ thể như thế nào đối với tôi?",
+        "category": "Lớp 2: Phạm vi & Thời gian",
+        "answer": "Không, bạn không thể sử dụng Nghị quyết 40/2009/QH12 làm cơ sở pháp lý trực tiếp để yêu cầu cấp phép hay giải quyết tranh chấp dân sự/thương mại. Nghị quyết này chỉ xác định 'chủ trương đầu tư' do Quốc hội ban hành, mang tính chất chính trị và định hướng vĩ mô, không phải là văn bản quy phạm pháp luật điều chỉnh các quyền và nghĩa vụ cụ thể trong hoạt động đầu tư hay giao dịch dân sự. Hiệu lực của nó nằm ở việc phê duyệt chủ trương, còn các thủ tục pháp lý cụ thể phải tuân theo Luật Đầu tư và các văn bản hướng dẫn thi hành khác.",
+        "citation": "Tiêu đề văn bản: 'Nghị quyết 40/2009/QH12 về chủ trương đầu tư dự án thủy điện Lai Châu do Quốc hội ban hành'"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư nước ngoài muốn tham gia dự án thủy điện Lai Châu. Tôi có thể dựa vào Nghị quyết 40/2009/QH12 để xác định phạm vi quyền lợi và nghĩa vụ pháp lý cụ thể của mình trong dự án này không? Nếu tôi bị từ chối cung cấp thông tin chi tiết về chủ trương đầu tư với lý do văn bản chỉ là 'chủ trương', liệu cơ quan chức năng có đúng không?",
+        "category": "Lớp 2: Phạm vi & Thời gian",
+        "answer": "Không, bạn không thể dựa vào nội dung văn bản được cung cấp (chỉ bao gồm phần Nơi nhận và Chữ ký) để xác định các điều khoản cụ thể về quyền lợi hay nghĩa vụ. Văn bản 40/2009/QH12 là một Nghị quyết của Quốc hội về chủ trương đầu tư, nhưng đoạn trích cung cấp không chứa nội dung quy định thực chất. Do đó, việc yêu cầu trích dẫn các điều khoản cụ thể từ đoạn văn bản này là không thể thực hiện được vì thiếu dữ liệu nội dung.",
+        "citation": "Phần Nơi nhận và Chữ ký"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư nước ngoài muốn tham gia góp vốn vào dự án thủy điện Lai Châu. Tôi yêu cầu xem xét lại toàn bộ nội dung kỹ thuật và tài chính của Nghị quyết 40/2009/QH12 để đánh giá rủi ro pháp lý. Tuy nhiên, cơ quan chức năng chỉ cung cấp cho tôi phần 'Nơi nhận và Chữ ký' có chữ ký của Chủ tịch Quốc hội Nguyễn Phú Trọng. Tôi bị từ chối cung cấp các điều khoản chi tiết về chủ trương đầu tư với lý do văn bản này quá ngắn gọn. Việc làm này có đúng quy định không? Căn cứ vào đâu?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Việc cơ quan chức năng chỉ cung cấp phần 'Nơi nhận và Chữ ký' là phản ánh đúng nội dung duy nhất được cung cấp trong ngữ cảnh văn bản hiện tại. Theo nội dung văn bản 40/2009/QH12 được cung cấp, toàn bộ nội dung hiển thị chỉ bao gồm phần 'Nơi nhận và Chữ ký' với chữ ký của Chủ tịch Quốc hội Nguyễn Phú Trọng. Do đó, không có thông tin nào khác về điều khoản kỹ thuật hay tài chính trong phạm vi dữ liệu này để đánh giá thêm.",
+        "citation": "Phần Nơi nhận và Chữ ký; CHỮ KÝ: CHỦ TỊCH QUỐC HỘI Nguyễn Phú Trọng"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư nước ngoài muốn tham gia góp vốn vào dự án thủy điện Lai Châu. Tôi yêu cầu xem văn bản pháp lý cơ sở để Quốc hội phê duyệt chủ trương đầu tư này. Văn bản đó có chữ ký của ai và do cơ quan nào ban hành để đảm bảo tính hợp lệ tối cao theo Hiến pháp?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Văn bản pháp lý cơ sở là Nghị quyết 40/2009/QH12 về chủ trương đầu tư dự án thủy điện Lai Châu, do Quốc hội ban hành. Theo phần Nơi nhận và Chữ ký của văn bản, người ký ban hành nghị quyết này là Chủ tịch Quốc hội Nguyễn Phú Trọng.",
+        "citation": "Phần Nơi nhận và Chữ ký; Tiêu đề văn bản"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư nước ngoài muốn tham gia dự án thủy điện Lai Châu. Tôi đã nộp hồ sơ đề nghị góp vốn vào tháng 6/2009, nhưng cơ quan chức năng từ chối với lý do Nghị quyết 40/2009/QH12 chỉ quy định về 'chủ trương đầu tư' và không có điều khoản nào cho phép hoặc hướng dẫn thủ tục góp vốn cụ thể cho nhà đầu tư tư nhân. Họ yêu cầu tôi phải chờ văn bản hướng dẫn thi hành khác. Trong khi đó, tôi lập luận rằng vì Quốc hội đã ban hành Nghị quyết này, nên mọi hoạt động liên quan đến dự án đều đã được phê duyệt ngầm. Xin hỏi, lập luận của tôi có đúng không? Căn cứ pháp lý để bác bỏ lập luận này nằm ở đâu trong văn bản?",
+        "category": "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
+        "answer": "Lập luận của bạn là sai. Văn bản 40/2009/QH12 là Nghị quyết về chủ trương đầu tư, mang tính chất phê duyệt nguyên tắc và phương hướng, không phải là văn bản quy phạm pháp luật chi tiết về thủ tục góp vốn hay hợp đồng đầu tư. Việc cơ quan chức năng yêu cầu tuân thủ các văn bản hướng dẫn thi hành hoặc quy định pháp luật hiện hành về đầu tư là đúng. Văn bản này không tạo ra quyền tự động tham gia dự án cho bất kỳ cá nhân/tổ chức nào mà không qua các thủ tục pháp lý riêng biệt. Nội dung văn bản chỉ dừng lại ở việc phê duyệt chủ trương và liệt kê nơi nhận, chữ ký, không chứa quy định về cơ chế góp vốn.",
+        "citation": "Phần Nơi nhận và Chữ ký; Tên văn bản: Nghị quyết 40/2009/QH12 về chủ trương đầu tư dự án thủy điện Lai Châu"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư nước ngoài muốn tham gia đấu thầu xây dựng phần đập chính của dự án thủy điện Lai Châu. Tôi đã chuẩn bị hồ sơ đầy đủ theo Luật Đấu thầu. Tuy nhiên, cơ quan chủ quản từ chối nhận hồ sơ với lý do: 'Dự án này do Quốc hội quyết định chủ trương đầu tư, nên mọi hoạt động thực hiện phải tuân thủ Nghị quyết 40/2009/QH12, và văn bản này không quy định về việc mở cửa cho nhà thầu nước ngoài'. Tôi hỏi: Việc từ chối này có căn cứ pháp lý đúng đắn dựa trên nội dung Nghị quyết 40/2009/QH12 hay không? Và tôi có thể viện dẫn điều khoản nào trong Nghị quyết để bảo vệ quyền lợi hoặc tìm hướng giải quyết?",
+        "category": "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
+        "answer": "Việc từ chối của cơ quan chủ quản là KHÔNG ĐÚNG và thiếu căn cứ pháp lý nếu chỉ dựa vào lập luận rằng 'Nghị quyết không quy định'. Nghị quyết 40/2009/QH12 là văn bản phê duyệt chủ trương đầu tư, xác định tính khả thi và sự cần thiết của dự án, chứ không phải là văn bản quy phạm pháp luật chi tiết về thủ tục đấu thầu hay điều kiện tham gia của nhà thầu. Nội dung duy nhất được cung cấp trong ngữ cảnh là 'Phần Nơi nhận và Chữ ký' cùng tên Chủ tịch Quốc hội Nguyễn Phú Trọng. Điều này chứng tỏ văn bản đã được ban hành hợp lệ. Tuy nhiên, vì ngữ cảnh chỉ cung cấp phần cuối văn bản, chúng ta không thể trích dẫn điều khoản cụ thể về đấu thầu. Nhưng logic pháp lý chung là: Nghị quyết phê duyệt chủ trương không loại trừ việc áp dụng các luật chuyên ngành khác (như Luật Đầu tư, Luật Đấu thầu) để triển khai dự án. Do đó, lập luận 'văn bản không quy định nên không được làm' là sai lầm trong tư duy pháp lý khi xử lý xung đột giữa văn bản phê duyệt dự án cụ thể và luật chung.",
+        "citation": "Phần Nơi nhận và Chữ ký; Tên Chủ tịch Quốc hội Nguyễn Phú Trọng"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một luật sư đang rà soát tính hợp pháp của hồ sơ đầu tư thủy điện Lai Châu. Một bên thứ ba khiếu nại rằng Nghị quyết 40/2009/QH12 không có chữ ký của Chủ tịch Quốc hội nên vô hiệu. Tuy nhiên, văn bản chỉ liệt kê 'CHỦ TỊCH QUỐC HỘI Nguyễn Phú Trọng' ở phần Nơi nhận và Chữ ký mà không rõ ràng về hành vi ký tên hay đóng dấu. Tôi cần xác minh xem việc liệt kê tên này trong phần cuối văn bản có được coi là bằng chứng xác thực nguồn gốc và thẩm quyền ban hành từ Quốc hội không? Căn cứ vào cấu trúc văn bản hiện có?",
+        "category": "Lớp 6: Liên kết văn bản",
+        "answer": "Việc liệt kê tên 'CHỦ TỊCH QUỐC HỘI Nguyễn Phú Trọng' ở phần cuối văn bản (Phần Nơi nhận và Chữ ký) là thành phần cấu trúc chuẩn xác nhận nguồn gốc và thẩm quyền ban hành của văn bản do Quốc hội thông qua. Trong hệ thống văn bản quy phạm pháp luật Việt Nam, sự hiện diện của chức danh và tên người đứng đầu cơ quan ban hành (hoặc người đại diện) ở phần kết thúc văn bản là yếu tố xác thực tính chính thức của văn bản đó.",
+        "citation": "Phần Nơi nhận và Chữ ký, Văn bản 40/2009/QH12"
+    },
+    {
+        "document_id": "40/2009/QH12",
+        "question": "Tôi là một nhà đầu tư nước ngoài muốn tham gia đấu thầu xây dựng đập thủy điện Lai Châu. Tôi yêu cầu cơ quan quản lý cung cấp văn bản pháp lý chi tiết quy định về tiêu chuẩn kỹ thuật, quy trình an toàn và bảo vệ môi trường cụ thể cho dự án này để tôi lập hồ sơ dự thầu. Cơ quan trả lời rằng Nghị quyết 40/2009/QH12 chỉ là văn bản phê duyệt chủ trương, không chứa các quy định kỹ thuật chi tiết đó. Họ hướng dẫn tôi phải căn cứ vào các văn bản khác do Chính phủ hoặc Bộ trưởng có thẩm quyền ban hành sau khi có Nghị quyết này. Việc làm của cơ quan quản lý có đúng pháp luật không? Căn cứ vào đâu?",
+        "category": "Lớp 6: Liên kết văn bản",
+        "answer": "Việc làm của cơ quan quản lý là đúng. Nghị quyết 40/2009/QH12 là văn bản của Quốc hội phê duyệt chủ trương đầu tư, mang tính chất nguyên tắc và định hướng chiến lược. Các quy định chi tiết về kỹ thuật, an toàn và môi trường sẽ được quy định trong các văn bản dưới luật (Nghị định, Thông tư) do Chính phủ hoặc cơ quan có thẩm quyền ban hành để thi hành Nghị quyết này. Văn bản hiện tại chỉ xác nhận sự phê duyệt chủ trương, không chứa nội dung kỹ thuật chi tiết.",
+        "citation": "Tên văn bản: Nghị quyết 40/2009/QH12; Nội dung: Phê duyệt chủ trương đầu tư dự án thủy điện Lai Châu."
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là cán bộ kỹ thuật của Sở Thông tin và Truyền thông tỉnh. Trong quá trình rà soát hệ thống VIC (Văn bản điện tử), tôi phát hiện một số văn bản thuộc danh mục thủ tục hành chính được sửa đổi, bổ sung theo Quyết định này chưa được cập nhật trạng thái 'đã công bố' trên Cổng Thông tin điện tử tỉnh. Tôi muốn xác minh xem liệu việc gửi văn bản đến Sở Thông tin và Truyền thông có phải là yêu cầu bắt buộc để đảm bảo tính hợp lệ của quy trình lưu trữ và công bố không? Nếu đúng, căn cứ cụ thể trong phần Nơi nhận của văn bản là gì?",
+        "category": "Lớp 1: Siêu dữ liệu & Căn cứ",
+        "answer": "Việc gửi văn bản đến Sở Thông tin và Truyền thông là bắt buộc theo quy định tại phần Nơi nhận của Quyết định. Đây là một trong các cơ quan nhận bản sao văn bản để thực hiện chức năng quản lý nhà nước về công nghệ thông tin và lưu trữ văn bản điện tử (VIC).",
+        "citation": "Phần Nơi nhận: '- Sở Thông tin và Truyền thông (VIC);'"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một doanh nghiệp vừa và nhỏ, đang thực hiện thủ tục hành chính liên quan đến lĩnh vực Doanh nghiệp. Tôi cần xác minh tính pháp lý của quyết định này trên Cổng Thông tin điện tử tỉnh. Tuy nhiên, tôi lo ngại rằng văn bản chỉ được lưu trữ nội bộ tại Văn thư (VT) và chưa được công bố rộng rãi. Căn cứ vào phần 'Nơi nhận' của Quyết định 1620/QĐ-UBND, tôi có thể khẳng định chắc chắn rằng văn bản này đã được gửi đến Cổng Thông tin điện tử tỉnh để công bố không? Và điều này có nghĩa là gì đối với hiệu lực thi hành của danh mục thủ tục hành chính được sửa đổi, bổ sung trong quyết định này?",
+        "category": "Lớp 1: Siêu dữ liệu & Căn cứ",
+        "answer": "Có, bạn có thể khẳng định chắc chắn rằng văn bản đã được gửi đến Cổng Thông tin điện tử tỉnh. Theo phần 'Nơi nhận' của Quyết định 1620/QĐ-UBND, 'Cổng Thông tin điện tử tỉnh (VIC)' được liệt kê rõ ràng là một nơi nhận. Việc gửi đến Cổng Thông tin điện tử tỉnh (thường kèm theo ký hiệu VIC - Văn bản điện tử/Internet) là cơ sở để công bố văn bản quy phạm pháp luật hoặc các quyết định hành chính có tính chất phổ biến rộng rãi, đảm bảo tính công khai, minh bạch và là căn cứ để người dân, tổ chức tra cứu, tuân thủ.",
+        "citation": "Phần Nơi nhận và Chữ ký: '- Cổng Thông tin điện tử tỉnh (VIC);'"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một doanh nghiệp muốn kiểm tra tính hợp lệ của Quyết định 1620/QĐ-UBND về danh mục thủ tục hành chính. Tôi cần xác minh xem văn bản này đã được công bố trên Cổng Thông tin điện tử tỉnh chưa và ai là người chịu trách nhiệm ký duyệt cuối cùng để đảm bảo tính pháp lý khi đối chiếu với các quy định cũ. Văn bản có nêu rõ nơi lưu trữ và cơ quan nhận không?",
+        "category": "Lớp 2: Phạm vi & Thời gian",
+        "answer": "Theo phần Nơi nhận và Chữ ký của văn bản, Quyết định này đã được gửi đến Cổng Thông tin điện tử tỉnh (VIC) để công bố. Người ký duyệt là Phó Chủ tịch UBND tỉnh Thân Đức Hưởng (ký thay cho Chủ tịch). Văn bản cũng quy định rõ các nơi nhận bao gồm VIC, Cục KSTTHC, VPCP, TT.TU, TT.HĐND tỉnh, CT/PCT UBND tỉnh, PVP UBND tỉnh, Sở TT&TT, CCHC và Lưu tại VT.",
+        "citation": "Phần Nơi nhận và Chữ ký; KT. CHỦ TỊCH PHÓ CHỦ TỊCH Thân Đức Hưởng"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một doanh nghiệp muốn xác minh tính pháp lý của Quyết định 1620/QĐ-UBND. Tôi nghi ngờ văn bản này chưa được công bố chính thức vì tôi không thấy nó trên Cổng Thông tin điện tử tỉnh vào ngày ký ban hành. Liệu việc văn bản có ghi 'Cổng Thông tin điện tử tỉnh (VIC)' trong phần Nơi nhận có đảm bảo tính hiệu lực thi hành ngay lập tức đối với công chúng hay không? Căn cứ vào đâu để khẳng định phạm vi áp dụng và thời điểm công bố?",
+        "category": "Lớp 2: Phạm vi & Thời gian",
+        "answer": "Theo nội dung văn bản cung cấp, Quyết định 1620/QĐ-UBND có gửi đến 'Cổng Thông tin điện tử tỉnh (VIC)'. Tuy nhiên, văn bản chỉ liệt kê các nơi nhận và không quy định cụ thể về thời điểm có hiệu lực hoặc điều kiện công bố chi tiết trong đoạn trích này. Do đó, dựa strictly vào đoạn văn bản cung cấp, không thể xác định chính xác thời điểm có hiệu lực đối với công chúng, nhưng việc gửi đến Cổng TTĐT tỉnh cho thấy ý định công bố. Tính pháp lý phụ thuộc vào việc tuân thủ quy trình công bố theo Luật Văn bản quy phạm pháp luật, nhưng trong ngữ cảnh hẹp này, chỉ xác nhận được việc văn bản đã được gửi đến cơ quan quản lý cổng thông tin.",
+        "citation": "Phần Nơi nhận và Chữ ký: '- Cổng Thông tin điện tử tỉnh (VIC);'"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một doanh nghiệp vừa gửi hồ sơ xin cấp phép kinh doanh theo thủ tục mới được sửa đổi trong Quyết định 1620/QĐ-UBND. Tôi muốn xác minh tính pháp lý của quyết định này bằng cách kiểm tra xem nó đã được công bố trên Cổng Thông tin điện tử tỉnh chưa. Tuy nhiên, tôi không tìm thấy thông tin cụ thể về thời điểm đăng tải trong văn bản. Liệu việc Sở Thông tin và Truyền thông và Cổng Thông tin điện tử tỉnh được liệt kê trong phần 'Nơi nhận' có đồng nghĩa với việc văn bản này đã chính thức có hiệu lực công bố đối với người dân hay không? Căn cứ vào đâu?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Việc Sở Thông tin và Truyền thông và Cổng Thông tin điện tử tỉnh được liệt kê trong phần 'Nơi nhận' với ký hiệu '(VIC)' cho thấy đây là nơi tiếp nhận văn bản để thực hiện nhiệm vụ lưu trữ, công bố hoặc cập nhật vào hệ thống (VIC - Văn bản điện tử/Cổng TTĐT). Tuy nhiên, nội dung văn bản cung cấp chỉ là phần cuối cùng (Phần Nơi nhận và Chữ ký) của Quyết định 1620/QĐ-UBND, không chứa điều khoản quy định rõ thời điểm có hiệu lực hay quy trình công bố cụ thể. Do đó, dựa TRỰC TIẾP vào đoạn văn bản được cung cấp, không thể khẳng định chắc chắn rằng việc liệt kê trong Nơi nhận đồng nghĩa với việc văn bản đã chính thức có hiệu lực công bố đối với người dân tại thời điểm bạn truy vấn, mà chỉ xác nhận đây là một trong các đơn vị được giao nhận văn bản này.",
+        "citation": "Phần Nơi nhận và Chữ ký, mục Nơi nhận: '- Sở Thông tin và Truyền thông (VIC); - Cổng Thông tin điện tử tỉnh (VIC);'"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một doanh nghiệp vừa và nhỏ, đang thực hiện thủ tục hành chính liên quan đến lĩnh vực Doanh nghiệp được quy định trong Quyết định 1620/QĐ-UBND. Tôi muốn xác minh tính hợp lệ của văn bản này trên Cổng Thông tin điện tử tỉnh nhưng không tìm thấy nội dung chi tiết về các điều kiện, hồ sơ cụ thể vì văn bản chỉ liệt kê phần Nơi nhận. Tôi có thể khiếu nại cơ quan nhà nước vì cung cấp thông tin không đầy đủ để phục vụ việc thực hiện thủ tục hành chính không? Căn cứ vào đâu?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Không thể khiếu nại dựa trên nội dung của văn bản 1620/QĐ-UBND được cung cấp vì đoạn trích dẫn chỉ bao gồm phần 'Nơi nhận và Chữ ký', không chứa nội dung quy định về điều kiện, hồ sơ hay quy trình thực hiện thủ tục hành chính. Văn bản này có chức năng công bố danh mục thủ tục hành chính được sửa đổi, bổ sung, và phần trích dẫn chỉ xác nhận việc gửi văn bản đến các cơ quan như Cổng Thông tin điện tử tỉnh để lưu trữ và công bố. Việc thiếu thông tin chi tiết về thủ tục trong đoạn trích này là do giới hạn của ngữ cảnh cung cấp, không phải là lỗi pháp lý của văn bản gốc.",
+        "citation": "Phần Nơi nhận và Chữ ký; Nơi nhận: ... - Cổng Thông tin điện tử tỉnh (VIC);"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một doanh nghiệp vừa nộp đơn xin cấp phép kinh doanh và vừa gửi kiến nghị về việc sửa đổi thủ tục hành chính này. Tôi muốn xác minh xem Quyết định 1620/QĐ-UBND có được lưu trữ tại Sở Thông tin và Truyền thông để tôi có thể tra cứu trực tuyến qua Cổng Thông tin điện tử tỉnh không, hay chỉ lưu tại Văn thư (VT)? Nếu tôi yêu cầu cung cấp văn bản gốc từ Cục KSTTHC, VPCP thì có đúng quy trình 'Nơi nhận' trong quyết định này không?",
+        "category": "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
+        "answer": "Theo phần 'Nơi nhận' của Quyết định 1620/QĐ-UBND, văn bản này được gửi đến Sở Thông tin và Truyền thông (VIC) và Cổng Thông tin điện tử tỉnh (VIC), đồng thời cũng được lưu tại Văn thư (VT). Do đó, bạn có thể tra cứu thông tin qua các kênh công bố công khai như Cổng Thông tin điện tử tỉnh hoặc Sở TT&TT. Tuy nhiên, Cục KSTTHC, VPCP là nơi nhận bản sao để cập nhật vào Cơ sở dữ liệu quốc gia về thủ tục hành chính (CSDLQGTTHC), không phải là nơi lưu trữ văn bản gốc địa phương để cung cấp cho người dân theo quy định nội bộ của UBND tỉnh trong quyết định này.",
+        "citation": "Phần Nơi nhận và Chữ ký"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một công dân muốn khiếu nại về việc UBND tỉnh không cập nhật danh mục thủ tục hành chính sửa đổi vào Cổng Thông tin điện tử tỉnh theo đúng quy định trong văn bản này. Tôi đã kiểm tra và thấy văn bản 1620/QĐ-UBND có phần 'Nơi nhận' liệt kê 'Cổng Thông tin điện tử tỉnh (VIC)'. Tuy nhiên, tôi không tìm thấy nội dung chi tiết của các thủ tục được sửa đổi trên cổng thông tin. Liệu việc chỉ liệt kê tên cơ quan trong phần Nơi nhận có đồng nghĩa với nghĩa vụ pháp lý bắt buộc phải công bố nội dung chi tiết ngay lập tức hay không? Căn cứ vào đâu để khẳng định đây là lỗi vi phạm?",
+        "category": "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
+        "answer": "Không thể xác định đây là lỗi vi phạm dựa solely trên phần 'Nơi nhận' của văn bản 1620/QĐ-UBND được cung cấp. Phần 'Nơi nhận' chỉ liệt kê các cơ quan, tổ chức nhận văn bản để thi hành hoặc lưu trữ, bao gồm 'Cổng Thông tin điện tử tỉnh (VIC)'. Văn bản này là Quyết định công bố danh mục, nên việc gửi đến Cổng Thông tin điện tử tỉnh là để đảm bảo tính công khai, nhưng phần trích dẫn hiện tại không chứa các điều khoản quy định thời hạn cụ thể hoặc hậu quả pháp lý nếu chậm công bố. Do đó, không đủ thông tin trong ngữ cảnh để kết luận về trách nhiệm pháp lý cụ thể từ đoạn trích này.",
+        "citation": "Phần Nơi nhận và Chữ ký; Nội dung: 'Nơi nhận: ... - Cổng Thông tin điện tử tỉnh (VIC);'"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một doanh nghiệp vừa và nhỏ, muốn xác minh tính pháp lý của việc sửa đổi thủ tục hành chính trong lĩnh vực Doanh nghiệp được quy định tại Quyết định 1620/QĐ-UBND. Tôi cần biết văn bản này đã được công bố trên Cổng Thông tin điện tử tỉnh chưa để làm căn cứ khiếu nại nếu cơ quan chức năng không chấp nhận hồ sơ theo quy định mới? Văn bản có quy định rõ nơi lưu trữ và công bố này không?",
+        "category": "Lớp 6: Liên kết văn bản",
+        "answer": "Theo phần Nơi nhận của Quyết định 1620/QĐ-UBND, văn bản này đã được gửi đến 'Cổng Thông tin điện tử tỉnh (VIC)'. Điều này xác nhận rằng thông tin về danh mục thủ tục hành chính được sửa đổi, bổ sung đã được công bố trên Cổng Thông tin điện tử tỉnh, đây là kênh chính thức để người dân và doanh nghiệp tra cứu.",
+        "citation": "Phần Nơi nhận và Chữ ký"
+    },
+    {
+        "document_id": "1620/QĐ-UBND",
+        "question": "Tôi là một doanh nghiệp vừa và nhỏ, đang thực hiện thủ tục hành chính liên quan đến lĩnh vực Doanh nghiệp. Tôi cần xác minh tính pháp lý của Quyết định 1620/QĐ-UBND năm 2019 để làm cơ sở kháng nghị khi bị từ chối hồ sơ. Tuy nhiên, tôi không tìm thấy nội dung chi tiết về các điều kiện, trình tự hay thời gian giải quyết trong văn bản này, mà chỉ thấy phần 'Nơi nhận' và chữ ký. Liệu tôi có thể dựa vào văn bản này để yêu cầu cơ quan hành chính giải thích rõ quy trình cụ thể không, hay văn bản này chỉ mang tính chất thông báo danh mục?",
+        "category": "Lớp 6: Liên kết văn bản",
+        "answer": "Bạn không thể dựa vào phần nội dung được cung cấp của Quyết định 1620/QĐ-UBND để yêu cầu giải thích quy trình cụ thể (điều kiện, trình tự, thời gian) vì đoạn trích dẫn chỉ bao gồm 'Phần Nơi nhận và Chữ ký'. Văn bản này có tiêu đề là 'công bố danh mục thủ tục hành chính được sửa đổi, bổ sung', nghĩa là nó liên kết đến các văn bản khác hoặc danh mục đã được quy định trước đó. Phần nội dung hiện tại chỉ chứng minh việc ban hành và phân phối văn bản, không chứa quy định chi tiết về thủ tục.",
+        "citation": "Phần Nơi nhận và Chữ ký; Tiêu đề văn bản: 'Quyết định 1620/QĐ-UBND năm 2019 công bố danh mục thủ tục hành chính được sửa đổi, bổ sung...'"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc một bệnh viện tư nhân trên địa bàn tỉnh. Bệnh viện của tôi vừa bị Thanh tra Sở Y tế ra quyết định xử phạt vi phạm về quy trình kỹ thuật khám chữa bệnh. Tôi muốn khiếu nại về tính đúng đắn của các tiêu chuẩn chuyên môn mà thanh tra viên sử dụng để đánh giá. Theo quy định, Phòng Nghiệp vụ Y có vai trò gì trong việc giải quyết khiếu nại này và tôi có thể yêu cầu họ can thiệp trực tiếp vào kết quả thanh tra không?",
+        "category": "Lớp 1: Siêu dữ liệu & Căn cứ",
+        "answer": "Phòng Nghiệp vụ Y có nhiệm vụ tham gia giải quyết các khiếu nại, tố cáo liên quan đến chuyên môn, kỹ thuật trong phòng bệnh và khám, chữa bệnh (Khoản 9, Điều II). Tuy nhiên, Phòng Nghiệp vụ Y chỉ có mối quan hệ phối hợp với Thanh tra Sở Y tế để thanh tra, kiểm tra (Khoản 8, Điều II), chứ không phải là cơ quan trực tiếp ra quyết định xử lý hành chính hay thay thế chức năng của Thanh tra. Do đó, bạn có thể đề nghị Phòng Nghiệp vụ Y tham gia ý kiến về mặt chuyên môn kỹ thuật trong quá trình giải quyết khiếu nại, nhưng không thể yêu cầu họ can thiệp trực tiếp vào quyền hạn thanh tra của Thanh tra Sở.",
+        "citation": "Điều II, Khoản 8 và Khoản 9"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc Sở Y tế tỉnh A. Hiện tại, tôi muốn thành lập một tổ chức mới trực thuộc Sở để chuyên trách công tác nghiên cứu khoa học và đào tạo, tách biệt hoàn toàn khỏi Phòng Nghiệp vụ Y để tăng tính chuyên sâu. Tuy nhiên, Trưởng phòng Nghiệp vụ Y phản đối, cho rằng điều này vi phạm quy định về nhiệm vụ của phòng do Bộ trưởng Bộ Y tế ban hành. Xin hỏi: Theo văn bản 3192/2000/QĐ-BYT, Phòng Nghiệp vụ Y có phải là 'đầu mối' duy nhất hay không? Việc tách riêng có vi phạm quy định hiện hành về chức năng, nhiệm vụ của Phòng này không?",
+        "category": "Lớp 1: Siêu dữ liệu & Căn cứ",
+        "answer": "Theo Điều II, Khoản 6 của Quyết định 3192/2000/QĐ-BYT, Phòng Nghiệp vụ Y được quy định rõ ràng là 'đầu mối triển khai và theo dõi thực hiện công tác nghiên cứu khoa học và ứng dụng các tiến bộ kỹ thuật hiện đại...'. Đồng thời, khoản này cũng quy định Phòng này 'Tham gia đề xuất nhu cầu và phối hợp thực hiện công tác đào tạo về chuyên môn, kỹ thuật'. Do đó, việc tách riêng hoàn toàn các chức năng này ra khỏi Phòng Nghiệp vụ Y sẽ làm mất đi vai trò 'đầu mối' và chức năng tham mưu, phối hợp vốn đã được pháp luật giao cho Phòng này, dẫn đến xung đột với quy định về nhiệm vụ của Phòng.",
+        "citation": "Điều II, Khoản 6"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc một bệnh viện tư nhân tại tỉnh. Bệnh viện tôi bị thanh tra Sở Y tế kiểm tra về vi phạm quy trình kỹ thuật khám chữa bệnh. Tôi muốn khiếu nại vì cho rằng cán bộ thanh tra không có thẩm quyền chuyên môn. Căn cứ vào Quyết định 3192/2000/QĐ-BYT, tôi cần xác minh xem Phòng Nghiệp vụ Y của Sở có tham gia trực tiếp vào hoạt động thanh tra, kiểm tra này hay không? Nếu họ chỉ 'phối hợp', thì vai trò cụ thể của họ trong quá trình thanh tra chuyên ngành y tế là gì?",
+        "category": "Lớp 2: Phạm vi & Thời gian",
+        "answer": "Theo quy định tại Điểm 8, Mục II (Nhiệm vụ) của văn bản, Phòng Nghiệp vụ Y có nhiệm vụ 'Phối hợp với thanh tra Sở Y tế để thanh tra, kiểm tra chuyên ngành y tế về công tác khám, chữa bệnh...'. Do đó, Phòng Nghiệp vụ Y không tự mình thực hiện chức năng thanh tra độc lập mà có vai trò phối hợp với Thanh tra Sở Y tế trong các hoạt động thanh tra, kiểm tra chuyên ngành.",
+        "citation": "Điểm 8, Mục II (Nhiệm vụ)"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc một bệnh viện tư nhân tại tỉnh. Khi xảy ra sự cố y khoa, tôi đã gửi đơn khiếu nại trực tiếp đến Phòng Nghiệp vụ Y của Sở Y tế tỉnh với yêu cầu giải quyết ngay lập tức. Tuy nhiên, cán bộ phòng trả lời rằng họ chỉ 'tham gia' giải quyết chứ không phải cơ quan thụ lý chính thức và hướng tôi sang các kênh khác. Tôi cho rằng đây là sự đùn đẩy trách nhiệm vì văn bản quy định họ có nhiệm vụ này. Xin hỏi căn cứ pháp lý nào chứng minh vai trò của Phòng Nghiệp vụ Y trong việc giải quyết khiếu nại kỹ thuật chỉ mang tính chất tham gia phối hợp chứ không phải là chủ thể quyết định cuối cùng?",
+        "category": "Lớp 2: Phạm vi & Thời gian",
+        "answer": "Theo quy định tại Điểm 9, Mục II (Nhiệm vụ) của văn bản, Phòng Nghiệp vụ Y có nhiệm vụ 'Tham gia giải quyết các khiếu nại, tố cáo liên quan đến chuyên môn, kỹ thuật trong phòng bệnh và khám, chữa bệnh'. Từ khóa 'Tham gia' xác định rõ phạm vi nhiệm vụ của Phòng chỉ là hỗ trợ, phối hợp về mặt chuyên môn kỹ thuật, chứ không phải là cơ quan hành chính nhà nước có thẩm quyền thụ lý và ra quyết định giải quyết khiếu nại theo thủ tục hành chính. Do đó, phản hồi của cán bộ phòng là đúng với quy định về chức năng, nhiệm vụ.",
+        "citation": "Điểm 9, Mục II (Nhiệm vụ)"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là chủ một phòng khám đa khoa tư nhân tại tỉnh X. Gần đây, cơ quan chức năng tiến hành thanh tra về vấn đề vệ sinh an toàn thực phẩm tại khu vực bán đồ ăn nhẹ cho bệnh nhân của tôi. Tôi bị phạt vì vi phạm quy định này. Tôi thắc mắc: Tại sao Phòng Nghiệp vụ Y lại có liên quan đến vụ việc này? Họ chỉ quản lý chuyên môn y tế thôi mà, hay họ cũng tham gia vào khâu thanh tra kiểm tra về an toàn thực phẩm?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Theo quy định tại Điều 8 của Quyết định 3192/2000/QĐ-BYT, Phòng Nghiệp vụ Y có nhiệm vụ phối hợp với thanh tra Sở Y tế để thanh tra, kiểm tra chuyên ngành y tế về nhiều lĩnh vực, trong đó bao gồm cả 'quản lý chất lượng vệ sinh an toàn thực phẩm'. Do đó, sự tham gia của Phòng Nghiệp vụ Y trong quá trình thanh tra hoặc phối hợp xử lý các vấn đề liên quan đến vệ sinh an toàn thực phẩm tại cơ sở y tế là đúng theo chức năng, nhiệm vụ được giao.",
+        "citation": "Điều 8"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc một bệnh viện tư nhân trên địa bàn tỉnh. Bệnh viện của tôi vừa bị Thanh tra Sở Y tế ra quyết định xử phạt vi phạm về quy trình kỹ thuật khám chữa bệnh. Tôi muốn khiếu nại vì cho rằng đây là vấn đề thuần túy chuyên môn, không phải hành chính. Vậy theo quy định, Phòng Nghiệp vụ Y có thẩm quyền tham gia giải quyết khiếu nại này không? Nếu có, vai trò cụ thể của họ là gì và tôi cần căn cứ vào đâu để biết họ sẽ phối hợp với ai?",
+        "category": "Lớp 3: Nội dung thực chất (Tình huống)",
+        "answer": "Phòng Nghiệp vụ Y có thẩm quyền tham gia giải quyết các khiếu nại liên quan đến chuyên môn, kỹ thuật trong phòng bệnh và khám, chữa bệnh. Tuy nhiên, nhiệm vụ này được quy định là 'Tham gia giải quyết' chứ không phải là cơ quan quyết định cuối cùng hay đơn độc xử lý. Trong quá trình thanh tra, kiểm tra trước đó, Phòng Nghiệp vụ Y đã có mối quan hệ phối hợp với Thanh tra Sở Y tế để thực hiện công tác thanh tra, kiểm tra chuyên ngành y tế. Do đó, khi có khiếu nại về nội dung chuyên môn phát sinh từ hoạt động thanh tra này, Phòng Nghiệp vụ Y sẽ tham gia với tư cách chuyên môn kỹ thuật.",
+        "citation": "Điều II, Khoản 9 và Khoản 8"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc một bệnh viện tư nhân trên địa bàn tỉnh. Bệnh viện của tôi vừa bị Thanh tra Sở Y tế ra quyết định xử phạt vi phạm về quy trình kỹ thuật khám chữa bệnh. Tôi muốn khiếu nại vì cho rằng đây là vấn đề chuyên môn thuần túy, không thuộc thẩm quyền hành chính. Tuy nhiên, văn bản lại ghi Phòng Nghiệp vụ Y chỉ 'tham gia' giải quyết khiếu nại liên quan đến chuyên môn. Vậy trong trường hợp này, Phòng Nghiệp vụ Y có thẩm quyền trực tiếp ra quyết định giải quyết khiếu nại của tôi hay chỉ đóng vai trò tham mưu? Nếu họ từ chối thụ lý với lý do đó, tôi có thể dựa vào điều khoản nào để phản bác?",
+        "category": "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
+        "answer": "Phòng Nghiệp vụ Y KHÔNG có thẩm quyền trực tiếp ra quyết định giải quyết khiếu nại. Theo quy định, nhiệm vụ của Phòng là 'Tham gia giải quyết các khiếu nại, tố cáo liên quan đến chuyên môn, kỹ thuật'. Điều này nghĩa là Phòng đóng vai trò hỗ trợ, cung cấp ý kiến chuyên môn cho cơ quan có thẩm quyền (thường là Giám đốc Sở hoặc Ban giám khảo) chứ không phải là chủ thể ra quyết định cuối cùng. Việc từ chối thụ lý nếu hiểu là 'không chịu trách nhiệm giải quyết' là đúng về mặt thẩm quyền ra quyết định, nhưng nếu họ từ chối hoàn toàn việc 'tham gia' (cung cấp ý kiến chuyên môn) thì là sai nhiệm vụ.",
+        "citation": "Điều II, Khoản 9: 'Tham gia giải quyết các khiếu nại, tố cáo liên quan đến chuyên môn, kỹ thuật trong phòng bệnh và khám, chữa bệnh.'"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc một bệnh viện tư nhân tại tỉnh. Bệnh viện tôi bị Thanh tra Sở Y tế ra quyết định xử phạt vi phạm về vệ sinh an toàn thực phẩm. Tôi muốn khiếu nại nhưng không biết nên nộp đơn cho ai và ai là người có thẩm quyền tham mưu giải quyết vụ việc này về mặt chuyên môn kỹ thuật? Phòng Nghiệp vụ Y có trực tiếp ra quyết định chấp nhận hay bác bỏ khiếu nại của tôi không?",
+        "category": "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
+        "answer": "Phòng Nghiệp vụ Y KHÔNG có thẩm quyền trực tiếp ra quyết định chấp nhận hay bác bỏ khiếu nại. Theo quy định, nhiệm vụ của Phòng Nghiệp vụ Y là 'Tham gia giải quyết các khiếu nại, tố cáo liên quan đến chuyên môn, kỹ thuật trong phòng bệnh và khám, chữa bệnh' (Điều II, Khoản 9). Việc giải quyết khiếu nại thuộc thẩm quyền của cơ quan nhà nước có thẩm quyền (thường là Giám đốc Sở hoặc cơ quan cấp trên), còn Phòng Nghiệp vụ Y chỉ đóng vai trò tham gia ý kiến chuyên môn kỹ thuật để hỗ trợ quá trình giải quyết.",
+        "citation": "Điều II, Khoản 9"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc một bệnh viện tư nhân tại tỉnh. Khi xảy ra sự cố y khoa, tôi muốn khiếu nại về mặt chuyên môn kỹ thuật. Tôi đã gửi đơn trực tiếp cho Phòng Nghiệp vụ Y thuộc Sở Y tế tỉnh với yêu cầu họ phải ra quyết định xử lý ngay lập tức. Tuy nhiên, cán bộ phòng trả lời rằng họ chỉ 'tham gia giải quyết' chứ không có thẩm quyền quyết định đơn độc và cần phối hợp với các bên liên quan. Họ nói đúng hay sai? Căn cứ vào đâu?",
+        "category": "Lớp 6: Liên kết văn bản",
+        "answer": "Cán bộ Phòng Nghiệp vụ Y nói đúng. Theo quy định, nhiệm vụ của Phòng Nghiệp vụ Y trong lĩnh vực này là 'Tham gia giải quyết các khiếu nại, tố cáo liên quan đến chuyên môn, kỹ thuật trong phòng bệnh và khám, chữa bệnh' (Điều II, Khoản 9). Từ khóa 'Tham gia' cho thấy đây là vai trò hỗ trợ, phối hợp chứ không phải là cơ quan có thẩm quyền ra quyết định hành chính cuối cùng một cách độc lập đối với khiếu nại.",
+        "citation": "Điều II, Khoản 9"
+    },
+    {
+        "document_id": "3192/2000/QĐ-BYT",
+        "question": "Tôi là Giám đốc một bệnh viện tư nhân trên địa bàn tỉnh. Bệnh viện tôi vừa bị thanh tra Sở Y tế kiểm tra và lập biên bản vi phạm về quy trình kỹ thuật khám chữa bệnh. Tôi muốn khiếu nại vì cho rằng cán bộ thanh tra không có thẩm quyền chuyên môn để đánh giá sai sót kỹ thuật của bác sĩ. Theo quy định, Phòng Nghiệp vụ Y có vai trò gì trong việc giải quyết khiếu nại này và mối quan hệ phối hợp giữa họ với Thanh tra Sở như thế nào?",
+        "category": "Lớp 6: Liên kết văn bản",
+        "answer": "Theo quy định tại Quyết định 3192/2000/QĐ-BYT, Phòng Nghiệp vụ Y có nhiệm vụ tham gia giải quyết các khiếu nại, tố cáo liên quan đến chuyên môn, kỹ thuật trong phòng bệnh và khám, chữa bệnh (Khoản 9, Điều II). Đồng thời, Phòng Nghiệp vụ Y phải phối hợp với thanh tra Sở Y tế để thanh tra, kiểm tra chuyên ngành y tế về công tác khám, chữa bệnh (Khoản 8, Điều II). Do đó, Phòng Nghiệp vụ Y có trách nhiệm tham gia vào quá trình giải quyết khiếu nại của bạn dựa trên góc độ chuyên môn, đồng thời họ là đơn vị phối hợp trực tiếp với Thanh tra Sở trong hoạt động thanh tra trước đó.",
+        "citation": "Điều II, Khoản 8 và Khoản 9"
+    }
+]
