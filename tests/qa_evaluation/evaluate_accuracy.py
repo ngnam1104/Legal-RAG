@@ -13,7 +13,6 @@ load_dotenv(override=True)
 
 from backend.agent.chat_engine import rag_engine
 from backend.models.llm_factory import chat_completion
-from backend.config import settings
 
 # 1. Cấu hình Logger
 class Logger(object):
