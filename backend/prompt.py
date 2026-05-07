@@ -266,10 +266,11 @@ NHIỆM VỤ 2: THỰC THỂ (entities)
   + Viết chuẩn, BỎ viết tắt/viết hoa toàn bộ. (VD: "Bộ GD&ĐT" -> "Bộ Giáo dục và Đào tạo", "UBND" -> "Ủy ban nhân dân").
   + Fee/Timeframe: Giữ nguyên đơn vị đo lường ("10.000.000 đồng", "30 ngày").
   + BỎ QUA đại từ chung chung ("Cơ quan này", "Điều này"). Chỉ lấy tên cụ thể.
+  + TRÍCH XUẤT ĐẦY ĐỦ VÀ CHÍNH XÁC (QUAN TRỌNG): Phải trích xuất TOÀN BỘ các chủ thể, điều kiện, ngoại lệ, chức danh có trong văn bản. Giữ nguyên cụm từ pháp lý đầy đủ (VD: trích xuất "người chịu trách nhiệm chuyên môn kỹ thuật" thay vì rút gọn thành "người chịu trách nhiệm"). Tuyệt đối không bỏ sót để tiết kiệm chữ.
 - DEDUP: Mỗi giá trị xuất hiện 1 lần/nhãn. 
 
 NHIỆM VỤ 3: QUAN HỆ THỰC THỂ (node_relations)
-Chỉ trích xuất khi quan hệ rõ ràng, không suy diễn.
+Trích xuất TẤT CẢ các mối quan hệ pháp lý có trong văn bản. Không bỏ sót các điều kiện, trách nhiệm, hay quyền lợi. Chỉ trích xuất dựa trên văn bản, không suy diễn.
 - Chọn Nhãn (relationship):
   + ƯU TIÊN SỬ DỤNG DANH SÁCH CÓ SẴN: {allowed_node_relations}
   + ĐƯỢC PHÉP TẠO MỚI nhãn nếu quan hệ mang ý nghĩa pháp lý đặc thù và không có trong danh sách trên (ví dụ: MUST_COMPLY_WITH, HAS_DEADLINE, IS_RESPONSIBLE_FOR).
