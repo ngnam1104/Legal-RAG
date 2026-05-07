@@ -65,3 +65,33 @@ Káº¿t quáº£ Ä‘o lÆ°á»ng trá»±c tiáº¿p trÃªn cá»¥m Server (10.9.2.57) cho tháº¥y
 > 1. Tá»‘c Ä‘á»™ truy váº¥n thÃ´ cá»§a DB ráº¥t nhanh (háº§u háº¿t < 50ms).
 > 2. Sá»± chÃªnh lá»‡ch giá»¯a 44s (Shortest Path) vÃ  56s (Tá»•ng Pipeline) cho tháº¥y cÃ¡c thuáº­t toÃ¡n Ä‘á»“ thá»‹ phá»©c táº¡p lÃ  nhÃ¢n tá»‘ chÃ­nh áº£nh hÆ°á»Ÿng Ä‘áº¿n tráº£i nghiá»‡m ngÆ°á»i dÃ¹ng cuá»‘i. 
 > 3. Cáº§n tá»‘i Æ°u hÃ³a viá»‡c cache káº¿t quáº£ Shortest Path cho cÃ¡c khÃ¡i niá»‡m phá»• biáº¿n Ä‘á»ƒ giáº£m táº£i cho CPU Neo4j.
+
+---
+
+## 4. L? trình T?i uu hóa (Optimization Roadmap)
+
+D?a trên các ch? s? trên, h? th?ng c?n t?p trung vào các h?ng m?c sau:
+
+1. **Gi?m d? tr? Graph (Shortest Path)**: 
+   - Tri?n khai **Graph Caching** cho các c?p Concept ph? bi?n.
+   - S? d?ng **Neo4j GDS (Graph Data Science)** d? tính toán tru?c các tr?ng s? liên k?t.
+2. **T?i uu hóa Ingestion**:
+   - S? d?ng **Parallel Processing** ? c?p d? Chunk (hi?n dang ? c?p d? Document) d? t?n d?ng t?i da GPU/CPU khi nhúng vector.
+   - Batching các l?nh `MERGE` trong Neo4j d? gi?m overhead giao d?ch.
+3. **C?i thi?n d? chính xác (Accuracy)**:
+   - Tinh ch?nh bu?c **Rerank** (hi?n dang dùng BGE-M3) d? l?c nhi?u t?t hon sau khi m? r?ng d? th?.
+   - B? sung bu?c **Query Expansion** b?ng LLM d? c?i thi?n t? l? Hit Rate trong Qdrant.
+
+### Phân rã chi ti?t bu?c Retrieve + Graph Expand (33.26s)
+D?a trên phân tích mã ngu?n h? th?ng, bu?c này bao g?m 5 giai do?n chính v?i th?i gian u?c lu?ng:
+
+| Giai do?n | Th?i gian u?c lu?ng | Chi ti?t công vi?c |
+| :--- | :--- | :--- |
+| **Phase 0 & 1 (Parallel)** | 5 - 8s | Ch?y song song Vector Search (Qdrant) và Entity Search (Neo4j). |
+| **Graph_Doc_Fetch** | 2 - 4s | Truy xu?t các van b?n du?c d? th? g?i ý nhung Vector Search b? sót. |
+| **Unified Reranking** | **8 - 12s** | **Nút th?t chính**: Ch?y mô hình Cross-Encoder d? x?p h?ng l?i d? chính xác c?a các ?ng viên. |
+| **QdrantNeo4j Enrich** | 3 - 5s | Làm giàu thông tin Metadata (Ngu?i ký, Ngày hi?u l?c, M?c l?c) t? Neo4j. |
+| **Neo4j Subgraph Expand** | **10 - 15s** | **Nút th?t chính**: Ch?y 4 truy v?n Cypher tu?n t? d? l?y d? th? con 2 bu?c (2-hop) và van b?n liên quan (Sibling Docs). |
+
+> [!IMPORTANT]
+> **Ði?m c?n t?i uu**: Bu?c **Unified Reranking** và **Neo4j Subgraph Expand** dang chi?m t?i ~75% th?i gian c?a giai do?n Retrieve. Vi?c chuy?n các truy v?n Neo4j sang ch?y song song và t?i uu hóa mô hình Rerank s? giúp gi?m dáng k? t?ng th?i gian ph?n h?i.
