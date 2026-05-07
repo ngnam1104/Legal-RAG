@@ -1,0 +1,17 @@
+[
+    {
+        "session_name": "Tra cứu và phân tích Nghị định 105/2014/NĐ-CP về BHYT",
+        "document_id": "105/2014/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Văn bản 105/2014/NĐ-CP là văn bản gì và lĩnh vực điều chỉnh của nó là gì?",
+                "citation": "Phần mở đầu và tiêu đề văn bản",
+                "answer": "Căn cứ Nghị định 105/2014/NĐ-CP, đây là văn bản quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế, thuộc lĩnh vực chuyên môn: Bảo hiểm, Thể thao - Y tế.",
+                "judge": "✅ ĐẠT: Câu trả lời của RAG xác định chính xác bản chất pháp lý (Nghị định quy định chi tiết Luật Bảo hiểm y tế) và lĩnh vực điều chỉnh (Bảo hiểm, Thể thao - Y tế) trùng khớp với câu trả lời mẫu, đảm bảo tính chính xác về thông tin cốt lõi.",
+                "detected_mode": "LEGAL_CHAT",
+                "standalone_query": "Văn bản Nghị định 105/2014/NĐ-CP là loại văn bản quy phạm pháp luật nào và lĩnh vực chuyên môn mà nó điều chỉnh là gì?"
+            }
+        ]
+    }
+]

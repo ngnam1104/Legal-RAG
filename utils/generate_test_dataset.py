@@ -70,13 +70,13 @@ Chỉ trả về danh sách JSON hợp lệ chứa đúng 5 object. Bắt đầu
 """
 
 LONG_TERM_PROMPT_TEMPLATE = """Bạn là một chuyên gia Pháp lý thiết bộ test cho Chatbot RAG dài hạn.
-Nhiệm vụ: Dựa trên văn bản pháp luật dưới đây, hãy tạo ra 01 "Phiên hội thoại" (Session) gồm 6 lượt hỏi đáp liên tục có tính kế thừa ngữ cảnh cực cao.
+Nhiệm vụ: Dựa trên văn bản pháp luật dưới đây, hãy tạo ra 01 "Phiên hội thoại" (Session) gồm 6 lượt hỏi đáp liên tục có tính kế thừa ngữ cảnh cực cao, bám sát các nội dung trọng tâm và các điều khoản quan trọng nhất của văn bản. Tránh các câu hỏi đánh đố vào các điều khoản cuối cùng (thường là về điều khoản thi hành/hiệu lực).
 
 Yêu cầu cho từng lượt (Turn):
 - Lượt 1: Câu hỏi tra cứu cơ bản về văn bản {doc_id}.
 - Lượt 2: Câu hỏi kế thừa lượt 1 bằng đại từ thay thế (nó, văn bản này, người đó...), yêu cầu chi tiết hơn về metadata hoặc căn cứ.
-- Lượt 3 (Tình huống thực tế): Tạo ra một tình huống thực tế điển hình, bám sát nội dung trọng tâm của văn bản để giải quyết.
-- Lượt 4 (Đào sâu nội dung): Hỏi sâu vào các chi tiết quan trọng hoặc điều kiện áp dụng phát sinh từ tình huống ở lượt 3. Tránh các câu hỏi quá đánh đố vô lý.
+- Lượt 3 (Tình huống thực tế): Tạo ra một "Case Study" thực tế chi tiết và có độ phức tạp cao, bám sát các nội dung trọng tâm và các điều khoản quan trọng nhất của văn bản. Tránh các câu hỏi đánh đố vào các điều khoản cuối cùng (thường là về điều khoản thi hành/hiệu lực).
+- Lượt 4 (Đào sâu & Phân tích): Đào sâu vào các khía cạnh logic, điều kiện loại trừ hoặc các bước xử lý tiếp theo dựa trên tình huống ở lượt 3. Yêu cầu câu hỏi có độ dài và chiều sâu chuyên môn, buộc Chatbot phải suy luận từ các quy định chính.
 - Lượt 5 (Thủ tục & Hồ sơ): Hỏi về quy trình thực hiện, các bước hoặc giấy tờ cần thiết liên quan đến tình huống trên.
 - Lượt 6 (Nâng cao): Hỏi về tính kế thừa, quy định chuyển tiếp hoặc mối quan hệ với các văn bản khác (Dựa trên thông tin Đồ thị).
 
@@ -222,12 +222,12 @@ def get_doc_data_from_db(driver, doc_id):
             
             # 2. Lấy thông tin quan hệ văn bản (Graph Metadata)
             rel_query = """
-            MATCH (d:Document {document_number: $doc})
+            MATCH (d:Document {document_number: $doc_id})
             OPTIONAL MATCH (d)-[r]->(other:Document)
             WHERE type(r) IN ['AMENDS','REPLACES','BASED_ON','GUIDES','APPLIES','ISSUED_WITH']
             RETURN type(r) AS rel_type, other.document_number AS target_doc, other.title AS target_title
             """
-            rel_res = session.run(rel_query, doc=doc_id)
+            rel_res = session.run(rel_query, doc_id=doc_id)
             rels = []
             for r in rel_res:
                 if r['target_doc']:
@@ -235,15 +235,14 @@ def get_doc_data_from_db(driver, doc_id):
             
             # 3. Lấy thực thể tiêu biểu
             ent_query = """
-            MATCH (d:Document {document_number: $doc})
-            MATCH (d)<-[:PART_OF]-(section)
-            MATCH (section)<-[:PART_OF|BELONGS_TO*0..1]-(c:Chunk)
+            MATCH (d:Document {document_number: $doc_id})
+            MATCH (d)<-[:PART_OF|BELONGS_TO*1..2]-(c:Chunk)
             MATCH (c)-[:HAS_ENTITY]->(e)
             WHERE NOT labels(e)[0] IN ['Chunk', 'Document', 'LegalArticle', 'Article', 'Clause']
             RETURN labels(e)[0] AS type, e.name AS name, count(c) AS weight
             ORDER BY weight DESC LIMIT 15
             """
-            ent_res = session.run(ent_query, doc=doc_id)
+            ent_res = session.run(ent_query, doc_id=doc_id)
             entities = []
             for e in ent_res:
                 entities.append(f"- {e['type']}: {e['name']} (Liên kết {e['weight']} đoạn)")

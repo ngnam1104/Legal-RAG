@@ -82,5 +82,131 @@
                 "citation": "THÔNG TIN ĐỒ THỊ (Mối quan hệ & Thực thể): Quan hệ văn bản"
             }
         ]
+    },
+    {
+        "session_name": "Xác định căn cứ pháp lý và phạm vi hướng dẫn của Nghị định 105/2014/NĐ-CP",
+        "document_id": "105/2014/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Nghị định 105/2014/NĐ-CP là văn bản quy phạm pháp luật nào và lĩnh vực điều chỉnh chính của nó là gì?",
+                "expected_answer": "Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế. Lĩnh vực điều chỉnh chính thuộc về Bảo hiểm và Thể thao - Y tế.",
+                "citation": "Phần tiêu đề và mục 'Lĩnh vực' trong văn bản"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các luật và nghị định làm nền tảng cho việc ban hành nó.",
+                "expected_answer": "Nghị định này được ban hành căn cứ vào: 1) Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; 2) Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008; 3) Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014; và theo đề nghị của Bộ trưởng Bộ Y tế.",
+                "citation": "Phần 'Căn cứ' ngay sau tiêu đề văn bản"
+            },
+            {
+                "turn": 3,
+                "query": "Tôi là cán bộ phụ trách BHXH tại một huyện. Huyện tôi có nhiều hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp. Theo Nghị định này, thẩm quyền và nội dung hướng dẫn liên quan đến nhóm đối tượng có mức sống trung bình này được quy định như thế nào?",
+                "expected_answer": "Theo Nghị định 105/2014/NĐ-CP, có quy định hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình. Đây là một trong những nội dung trọng tâm được hướng dẫn chi tiết trong văn bản này để thực hiện Luật Bảo hiểm y tế đối với nhóm đối tượng này.",
+                "citation": "Điều khoản: 'Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình.'"
+            },
+            {
+                "turn": 4,
+                "query": "Trong quá trình lập danh sách nói trên, nếu phát sinh vướng mắc về phối hợp giữa các ngành (ví dụ: Nông nghiệp và Phát triển nông thôn, Lao động - Thương binh và Xã hội), thì trách nhiệm giải quyết và hướng dẫn thi hành thuộc về ai theo quy định chung của Nghị định này?",
+                "expected_answer": "Theo quy định chung của Nghị định 105/2014/NĐ-CP, các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này. Do đó, sự phối hợp và hướng dẫn kỹ thuật chuyên môn sẽ do các bộ, ngành liên quan chịu trách nhiệm trong phạm vi quản lý nhà nước của họ.",
+                "citation": "Khoản 6: 'Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này.'"
+            },
+            {
+                "turn": 5,
+                "query": "Để đảm bảo tính hợp lệ và lưu trữ hồ sơ, tôi cần biết Nghị định này đã được gửi đến những cơ quan nhà nước nào để nắm bắt và chỉ đạo thực hiện?",
+                "expected_answer": "Nghị định này được gửi đến các cơ quan cao nhất và địa phương bao gồm: Ban Bí thư Trung ương Đảng; Thủ tướng và các Phó Thủ tướng Chính phủ; Các Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ; HĐND, UBND các tỉnh, thành phố trực thuộc Trung ương; cùng các cơ quan khác như Văn phòng Quốc hội, Tòa án nhân dân tối cao, Viện Kiểm sát nhân dân tối cao, Ngân hàng Chính sách Xã hội, Ngân hàng Phát triển Việt Nam, v.v. Hồ sơ cũng được lưu tại Văn phòng Chính phủ (VPCP).",
+                "citation": "Phần 'Nơi nhận' trong phần kết thúc văn bản"
+            },
+            {
+                "turn": 6,
+                "query": "Dựa trên mối quan hệ với các văn bản khác, Nghị định 105/2014/NĐ-CP có thay thế hoặc sửa đổi hoàn toàn Nghị định 62/2009/NĐ-CP không? Và nó có mối liên hệ thế nào với Luật Bảo hiểm y tế?",
+                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP có mối quan hệ 'BASED_ON' (Căn cứ) với Nghị định 62/2009/NĐ-CP, nghĩa là nó kế thừa hoặc dựa trên nền tảng đó chứ không nhất thiết thay thế hoàn toàn mà là hướng dẫn chi tiết hơn. Đồng thời, nó có mối quan hệ 'GUIDES' (Hướng dẫn) đối với Luật Bảo hiểm y tế, tức là vai trò chính của nó là làm rõ và hướng dẫn thi hành các quy định của Luật này.",
+                "citation": "Thông tin Đồ thị: Quan hệ văn bản 'BASED_ON: 62/2009/NĐ-CP' và 'GUIDES: Luật Bảo hiểm y tế'"
+            }
+        ]
+    },
+    {
+        "session_name": "Xác định căn cứ pháp lý và phạm vi hướng dẫn của Nghị định 105/2014/NĐ-CP",
+        "document_id": "105/2014/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Văn bản 105/2014/NĐ-CP là văn bản gì và thuộc lĩnh vực nào?",
+                "expected_answer": "Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế. Văn bản này thuộc lĩnh vực Bảo hiểm và Thể thao - Y tế.",
+                "citation": "Phần tiêu đề và lĩnh vực văn bản"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào?",
+                "expected_answer": "Nghị định 105/2014/NĐ-CP được ban hành căn cứ vào: Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 và Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014; theo đề nghị của Bộ trưởng Bộ Y tế.",
+                "citation": "Phần Căn cứ ban hành"
+            },
+            {
+                "turn": 3,
+                "query": "Một cán bộ tại Sở Y tế tỉnh X đang lập danh sách người tham gia BHYT. Họ cần xác định rõ đối tượng thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình. Theo nội dung được trích dẫn từ Nghị định 105/2014/NĐ-CP, có quy định cụ thể nào về việc hướng dẫn lập danh sách này không?",
+                "expected_answer": "Dựa trên nội dung văn bản được cung cấp, có nhắc đến điều khoản 'Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình'. Tuy nhiên, trong đoạn trích dẫn cụ thể này, chỉ nêu tên điều khoản mà chưa đưa ra các bước thực hiện chi tiết hoặc tiêu chí cụ thể nằm trong phần nội dung điều khoản đó (chỉ thấy phần kết thúc và chữ ký). Do đó, dựa strictly vào đoạn trích dẫn hiện có, chúng ta xác định được Nghị định này CÓ chứa quy định hướng dẫn lập danh sách đối tượng này, nhưng cần tham khảo toàn văn bản để biết chi tiết kỹ thuật.",
+                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình."
+            },
+            {
+                "turn": 4,
+                "query": "Trong quá trình thực hiện nhiệm vụ hướng dẫn thi hành Nghị định này, nếu phát sinh vướng mắc về trách nhiệm phối hợp giữa các cơ quan chuyên môn, tôi cần xem xét quy định nào về trách nhiệm của các bộ, ngành liên quan?",
+                "expected_answer": "Theo quy định tại Nghị định 105/2014/NĐ-CP, các bộ, ngành khác có liên quan có trách nhiệm hướng dẫn thi hành Nghị định này trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình. Điều này nghĩa là mỗi bộ/ngành phải tự chịu trách nhiệm hướng dẫn phần thuộc thẩm quyền quản lý của họ đối với việc thực hiện BHYT.",
+                "citation": "Khoản 6: Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này."
+            },
+            {
+                "turn": 5,
+                "query": "Để đảm bảo tính pháp lý khi ban hành các văn bản hướng dẫn triển khai tại địa phương dựa trên Nghị định này, tôi cần biết ai là người ký ban hành và văn bản đã được gửi đến những cơ quan nào để lưu trữ và phối hợp?",
+                "expected_answer": "Nghị định được ký bởi Thủ tướng Chính phủ Nguyễn Tấn Dũng. Văn bản đã được gửi đến nhiều cơ quan cao nhất bao gồm: Ban Bí thư Trung ương Đảng; Thủ tướng, các Phó Thủ tướng Chính phủ; Các Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ; HĐND, UBND các tỉnh, thành phố trực thuộc Trung ương; và nhiều cơ quan khác như Tòa án nhân dân tối cao, Viện Kiểm sát nhân dân tối cao, Ngân hàng Chính sách Xã hội... cũng như lưu tại Văn phòng Chính phủ (VPCP).",
+                "citation": "Phần Nơi nhận và Chữ ký"
+            },
+            {
+                "turn": 6,
+                "query": "Dựa trên thông tin đồ thị mối quan hệ, Nghị định 105/2014/NĐ-CP có mối liên hệ thế nào với các văn bản trước đó và nó thay thế hay hướng dẫn cho văn bản nào?",
+                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP có các mối quan hệ sau:\n1. BASED_ON (Căn cứ): Luật Bảo hiểm xã hội, Nghị định 62/2009/NĐ-CP, Quyết định 32/2014/QĐ-TTG.\n2. GUIDES (Hướng dẫn): Luật Bảo hiểm y tế, Luật Tổ chức Chính phủ.\n3. AMENDS (Sửa đổi/Bổ sung): Nghị định 206/CP.\nĐiều này cho thấy Nghị định 105/2014/NĐ-CP kế thừa và hướng dẫn thi hành Luật BHYT, đồng thời có sự liên quan đến việc sửa đổi Nghị định 206/CP và dựa trên nền tảng của Nghị định 62/2009/NĐ-CP trước đó.",
+                "citation": "Thông tin Đồ thị (Mối quan hệ & Thực thể)"
+            }
+        ]
+    },
+    {
+        "session_name": "Quyền thay thế thuốc và trách nhiệm của nhà thuốc bán lẻ theo Luật Dược 2016",
+        "document_id": "105/2016/QH13",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Vui lòng cung cấp thông tin cơ bản về văn bản 105/2016/QH13, bao gồm tên gọi chính thức và lĩnh vực điều chỉnh.",
+                "expected_answer": "Văn bản 105/2016/QH13 là Luật Dược 2016, thuộc lĩnh vực Thể thao - Y tế.",
+                "citation": "Văn bản: 105/2016/QH13 - Luật Dược 2016; Lĩnh vực: Thể thao - Y tế"
+            },
+            {
+                "turn": 2,
+                "query": "Luật này có hiệu lực thi hành từ ngày nào? Hãy nêu rõ căn cứ thời gian bắt đầu áp dụng.",
+                "expected_answer": "Luật Dược 2016 có hiệu lực thi hành từ ngày 01 tháng 01 năm 2017.",
+                "citation": "Thông tin Đồ thị: BASED_ON: Luật Này Có Hiệu Lực Thi Hành Từ Ngày 01 Tháng 01 năm 2017"
+            },
+            {
+                "turn": 3,
+                "query": "Tôi đến một nhà thuốc bán lẻ để mua thuốc theo đơn. Dược sĩ tại đây đề nghị thay đổi loại thuốc tôi kê đơn bằng một loại khác có cùng hoạt chất, đường dùng và liều lượng vì hàng cũ hết. Tuy nhiên, dược sĩ chưa hỏi ý kiến tôi mà tự quyết định. Hành động này vi phạm quy định nào trong Luật Dược 2016?",
+                "expected_answer": "Hành động của dược sĩ vi phạm điểm đ khoản 1 Điều 46 của Luật Dược 2016. Theo quy định, người có Bằng dược sỹ chỉ được thay thế thuốc đã kê trong đơn thuốc bằng một thuốc khác có cùng hoạt chất, đường dùng, liều lượng khi có sự đồng ý của người mua. Việc không xin ý kiến người mua là vi phạm.",
+                "citation": "Chương IV > Điều 46 > Khoản 1, điểm đ"
+            },
+            {
+                "turn": 4,
+                "query": "Nếu trong tình huống trên, dược sĩ đã xin ý kiến và tôi đồng ý cho thay đổi thuốc, thì ai sẽ chịu trách nhiệm pháp lý nếu sau đó xảy ra tác dụng phụ hoặc vấn đề liên quan đến việc thay đổi thuốc này? Hãy phân tích dựa trên quy định về trách nhiệm.",
+                "expected_answer": "Ngay cả khi có sự đồng ý của người mua, người có Bằng dược sỹ (dược sĩ) thực hiện việc thay đổi thuốc phải chịu trách nhiệm về việc thay đổi thuốc đó. Trách nhiệm này thuộc về cá nhân dược sĩ thực hiện hành vi thay thế.",
+                "citation": "Chương IV > Điều 46 > Khoản 1, điểm đ"
+            },
+            {
+                "turn": 5,
+                "query": "Ngoài quyền thay thế thuốc, cơ sở bán lẻ là nhà thuốc còn có những trách nhiệm cụ thể nào khác được quy định tại Điều 46 của Luật Dược 2016?",
+                "expected_answer": "Cơ sở bán lẻ là nhà thuốc có các trách nhiệm sau: 1) Trách nhiệm quy định tại khoản 2 Điều 42 và khoản 2 Điều 81 của Luật này; 2) Bảo đảm điều kiện pha chế thuốc theo quy định của Bộ trưởng Bộ Y tế; 3) Không được bán nguyên liệu làm thuốc, trừ dược liệu.",
+                "citation": "Chương IV > Điều 46 > Khoản 2"
+            },
+            {
+                "turn": 6,
+                "query": "Luật Dược 2016 (105/2016/QH13) có mối quan hệ kế thừa như thế nào với các văn bản trước đó, đặc biệt là Luật Dược 2005? Văn bản mới này dựa trên cơ sở nào để ban hành?",
+                "expected_answer": "Luật Dược 2016 (105/2016/QH13) có quan hệ kế thừa trực tiếp từ Luật Dược 2005 (văn bản số 34/2005/QH11). Ngoài ra, nó cũng dựa trên Hiến Pháp và các luật liên quan khác như Luật đấu thầu.",
+                "citation": "Thông tin Đồ thị: Quan hệ văn bản - BASED_ON: 34/2005/QH11 (Luật Dược 2005); BASED_ON: Hiến Pháp"
+            }
+        ]
     }
 ]
