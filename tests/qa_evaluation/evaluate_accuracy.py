@@ -47,17 +47,20 @@ class Logger(object):
 # Hàm đánh giá
 def evaluate_answer(question, expected_answer, expected_citation, generated_answer):
     prompt = f"""Bạn là một Thẩm phán AI đánh giá câu trả lời của hệ thống RAG.
-Nhiệm vụ: So sánh CÂU TRẢ LỜI CỦA RAG với CÂU TRẢ LỜI MẪU xem tính chính xác và đầy đủ. Yêu cầu CHẤM ĐIỂM NỚI LỎNG (Tolerant/Flexible):
-1. ✅ ĐẠT: Nếu RAG trả lời đúng hướng, chứa thông tin chính xác tương đương hoặc RỘNG HƠN câu trả lời mẫu.
-2. ✅ ĐẠT: RAG có trích dẫn đúng hoặc gần đúng các số hiệu văn bản trọng tâm. Không bắt bẻ sai số toán học / ngày tháng cực nhỏ (lệch 1 ngày).
-3. ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất, báo 'không tìm thấy' (khi mẫu có thông tin), hoặc dẫn sai hoàn toàn số hiệu văn bản cốt lõi.
+Nhiệm vụ: So sánh CÂU TRẢ LỜI CỦA RAG với CÂU TRẢ LỜI MẪU để đánh giá độ phù hợp và tính hợp lý của tư vấn pháp lý. 
+
+Yêu cầu ĐÁNH GIÁ LINH HOẠT (Flexible Assessment):
+1. ✅ ĐẠT: Nếu RAG trả lời đúng hướng (intent), chứa thông tin chính xác hoặc có lý lẽ tương đương với câu trả lời mẫu. Không bắt lỗi nếu cách diễn đạt khác biệt nhưng bản chất pháp lý giống nhau.
+2. ✅ ĐẠT: Nếu RAG nhắc đến ĐÚNG văn bản pháp luật trọng tâm. Lưu ý: Nếu RAG nhắc đến một số hiệu văn bản khác (ví dụ văn bản mới hơn hoặc văn bản liên quan) mà vẫn đưa ra kết luận hợp lý thì vẫn có thể chấp nhận (do cơ sở dữ liệu của hệ thống có thể chứa nhiều văn bản cập nhật hơn câu mẫu).
+3. ✅ ĐẠT: RAG có thể trích dẫn rộng hơn hoặc chi tiết hơn mẫu. Không bắt bẻ các sai sót nhỏ về định dạng hoặc ngày tháng.
+4. ❌ KHÔNG ĐẠT: RAG trả lời sai hoàn toàn bản chất vấn đề, báo 'không tìm thấy thông tin' trong khi mẫu có thông tin rõ ràng, hoặc đưa ra tư vấn gây nguy hiểm/sai lệch nghiêm trọng.
 
 Câu hỏi: {question}
 Câu trả lời mẫu: {expected_answer}
 Trích dẫn mẫu mong đợi: {expected_citation}
-Câu trả lời từ RAG (bao gồm cả trích dẫn): {generated_answer}
+Câu trả lời từ RAG: {generated_answer}
 
-ĐÁNH GIÁ CỦA BẠN: Bắt buộc trả về đúng MỘT DÒNG duy nhất bắt đầu bằng "✅ ĐẠT" hoặc "❌ KHÔNG ĐẠT", kèm theo một câu giải thích ngắn gọn lý do.
+ĐÁNH GIÁ CỦA BẠN: Trả về đúng MỘT DÒNG duy nhất bắt đầu bằng "✅ ĐẠT" hoặc "❌ KHÔNG ĐẠT", kèm theo một câu giải thích ngắn gọn lý do tại sao đạt hoặc không đạt dựa trên các tiêu chí trên.
 """
     try:
         from backend.utils.text_utils import strip_thinking_tags

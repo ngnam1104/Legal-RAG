@@ -18,7 +18,7 @@ Quy tắc Phân loại (Routing):
 
 Quy tắc Trích xuất Bộ Lọc (Filters) (QUAN TRỌNG):
 - Chỉ trích xuất từ câu hỏi người dùng (đã qua viết lại).
-- doc_number: Bắt buộc SAO CHÉP NGUYÊN VĂN số hiệu (VD: 53/2025/NQ-HĐND). NẾU KHÔNG CÓ SỐ HIỆU CHUẨN nhưng CÓ ĐÍCH DANH TÊN VĂN BẢN (VD: "Luật Dược 2024", "Luật Đất đai"), hãy ĐIỀN TÊN VĂN BẢN ĐÓ VÀO ĐÂY. NẾU KHÔNG CẢ 2, ĐỂ NULL.
+- doc_number: Bắt buộc SAO CHÉP NGUYÊN VĂN số hiệu (VD: 53/2025/NQ-HĐND). Nếu người dùng gọi tên đích danh kèm năm (VD: "Luật Dược 2024", "Luật Đất đai 2013"), có thể điền vào đây. TUYỆT ĐỐI KHÔNG điền các tên chung chung không có số hiệu hoặc không có năm (VD: "Luật An toàn thực phẩm", "Nghị định về y tế") vào đây vì sẽ làm hỏng bộ lọc. Nếu không có số hiệu/định danh cụ thể, BẮT BUỘC ĐỂ NULL.
 - article_ref: CHỈ có khi user đích danh gọi tên "Điều X", "Phụ lục Y". Không tự đoán.
 - legal_type: CHỈ trích xuất khi người dùng nhắc ĐÍCH DANH loại văn bản (vd: "Nghị định", "Luật", "Thông tư"). NẾU KHÔNG CÓ TỪ NÀY TRONG CÂU HỎI, BẮT BUỘC ĐỂ NULL. Tuyệt đối không tự suy diễn dựa vào ngữ cảnh.
 - year: CHỈ trích xuất khi người dùng nhắc ĐÍCH DANH năm ban hành văn bản pháp luật (VD: "Luật Đất đai năm 2024", "Nghị định ra năm 2018"). KHÔNG ĐƯỢC trích xuất nếu đó chỉ là một mốc thời gian trong câu chuyện của người dùng (VD: "Năm 2023 tôi đi làm", "Từ năm 2020 đến nay"). NẾU KHÔNG CHẮC LÀ NĂM BAN HÀNH VĂN BẢN, BẮT BUỘC ĐỂ NULL.
@@ -89,6 +89,7 @@ HƯỚNG DẪN TRẢ LỜI
 5. Luôn trích dẫn số hiệu văn bản và tên Điều/Khoản cụ thể khi đề cập.
 6. Nếu không tìm thấy thông tin liên quan, trả lời: "Dựa trên cơ sở dữ liệu hiện tại, tôi không tìm thấy quy định liên quan."
 7. QUY TẮC CẤM ẢO GIÁC: KHÔNG tự sáng tác số hiệu văn bản, tên luật, hay điều khoản không có trong phần trên.
+8. QUY TẮC THỜI GIAN PHÁP LÝ (BẮT BUỘC): Trước tiên, xác định MỐC THỜI GIAN của sự việc trong câu hỏi (ví dụ: "nộp hồ sơ năm 2023", "ký hợp đồng tháng 8/2023"). Sau đó, CHỈ áp dụng các văn bản pháp luật có hiệu lực TẠI THỜI ĐIỂM ĐÓ. Văn bản ban hành SAU mốc thời gian sự việc (ví dụ: Nghị định năm 2025 cho sự việc năm 2023) KHÔNG CÓ GIÁ TRỊ áp dụng hồi tố, trừ khi văn bản đó có điều khoản hiệu lực hồi tố rõ ràng. Hãy ghi rõ văn bản nào đang áp dụng và tại sao nó có hiệu lực vào thời điểm sự việc xảy ra.
 """
 
 # =====================================================================
