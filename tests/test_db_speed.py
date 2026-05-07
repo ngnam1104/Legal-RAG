@@ -78,11 +78,12 @@ def test_qdrant_easy_semantic_search(client, collection_name, query_vector=None)
         query_vector = [0.01] * 768 
     
     try:
-        results = client.search(
+        response = client.query_points(
             collection_name=collection_name,
-            query_vector=query_vector,
+            query=query_vector,
             limit=5
         )
+        results = response.points
         _out(f"✅ Tìm thấy {len(results)} kết quả.")
     except Exception as e:
         _out(f"❌ Lỗi: {e}")
@@ -95,9 +96,9 @@ def test_qdrant_medium_filtered_search(client, collection_name, query_vector=Non
         query_vector = [0.01] * 768
         
     try:
-        results = client.search(
+        response = client.query_points(
             collection_name=collection_name,
-            query_vector=query_vector,
+            query=query_vector,
             query_filter=Filter(
                 must=[
                     FieldCondition(
@@ -108,6 +109,7 @@ def test_qdrant_medium_filtered_search(client, collection_name, query_vector=Non
             ),
             limit=5
         )
+        results = response.points
         _out(f"✅ Tìm thấy {len(results)} kết quả.")
     except Exception as e:
         _out(f"❌ Lỗi: {e}")
@@ -149,11 +151,11 @@ def test_neo4j_easy_1_hop(driver, org_name="Bộ Y tế"):
 
 # ----------------- CẤP ĐỘ TRUNG BÌNH (MEDIUM) -----------------
 @measure_time
-def test_neo4j_medium_doc_hierarchy(driver, doc_number="38/2020/QĐ-UBND"):
+def test_neo4j_medium_doc_hierarchy(driver, doc_number="105/2016/QH13"):
     _out(f"\n[NEO4J - TRUNG BÌNH] 🕸️ Scenario 3: Traversal Phân cấp Văn bản (Document -> Article -> Clause -> Chunk)")
     _out("Mô tả: Lấy toàn bộ cấu trúc cây của một văn bản (Document) xuống tới Chunk.")
     query = """
-    MATCH (d:Document)-[:HAS_ARTICLE|PART_OF*1..3]->(child)
+    MATCH (child)-[:PART_OF|BELONGS_TO*1..3]->(d:Document)
     WHERE d.document_number = $doc_number
     RETURN labels(child)[0] AS type, count(child) AS count
     """

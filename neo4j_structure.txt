@@ -1,0 +1,2 @@
+Outbound from 105/2016/QH13: [{'rel': 'HAS_TYPE', 'labels': ['LegalType'], 'cnt': 1}, {'rel': 'HAS_SECTOR', 'labels': ['Sector'], 'cnt': 1}, {'rel': 'BASED_ON', 'labels': ['Document'], 'cnt': 5}, {'rel': 'REPEALS', 'labels': ['Document'], 'cnt': 1}]
+Inbound PART_OF to 105/2016/QH13: []
