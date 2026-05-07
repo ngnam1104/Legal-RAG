@@ -354,30 +354,17 @@ while not global_done:
     _pending_flush: Future = None
 
     def _flush_sb_docs(flush_jobs: list):
-        """Background thread: flush từng doc của 1 super-batch + checkpoint."""
+        """Background thread: CHỈ flush Neo4j + checkpoint. Stats đã update ở main thread."""
         for job in flush_jobs:
-            doc_number       = job["doc_number"]
-            doc_rows         = job["doc_rows"]
+            doc_number        = job["doc_number"]
+            doc_rows          = job["doc_rows"]
             all_enrich_params = job["all_enrich_params"]
-            doc_total_ents   = job["doc_total_ents"]
-            doc_total_nrels  = job["doc_total_nrels"]
-            doc_entity_counts = job["doc_entity_counts"]
-            doc_nrel_counts  = job["doc_nrel_counts"]
 
             if all_enrich_params:
                 _flush_to_neo4j(all_enrich_params)
-            if doc_total_ents or doc_total_nrels:
-                _log(f"      [FLUSH] doc={doc_number} → {doc_total_ents} ents, {doc_total_nrels} rels")
+            if job["doc_total_ents"] or job["doc_total_nrels"]:
+                _log(f"      [FLUSH] doc={doc_number} → {job['doc_total_ents']} ents, {job['doc_total_nrels']} rels")
 
-            # Stats (thread-safe: GIL protects dict/int ops)
-            stats["total_entities"] += doc_total_ents
-            stats["total_nrels"]    += doc_total_nrels
-            stats["docs_done"]      += 1
-            stats["chunks_done"]    += len(doc_rows)
-            for etype, cnt in doc_entity_counts.items():
-                stats["entity_counts"][etype] += cnt
-            for rel, cnt in doc_nrel_counts.items():
-                stats["nrel_counts"][rel] += cnt
             for row in doc_rows:
                 done_ids.add(row["qdrant_id"])
 
@@ -524,7 +511,18 @@ while not global_done:
                 "doc_nrel_counts"  : doc_nrel_counts,
             })
 
-        # D. Submit flush to BACKGROUND THREAD → LLM tiếp SB kế tiếp ngay
+        # D. Update stats NGAY ở main thread (trước khi submit flush)
+        for job in flush_jobs:
+            stats["total_entities"] += job["doc_total_ents"]
+            stats["total_nrels"]    += job["doc_total_nrels"]
+            stats["docs_done"]      += 1
+            stats["chunks_done"]    += len(job["doc_rows"])
+            for etype, cnt in job["doc_entity_counts"].items():
+                stats["entity_counts"][etype] += cnt
+            for rel, cnt in job["doc_nrel_counts"].items():
+                stats["nrel_counts"][rel] += cnt
+
+        # E. Submit flush to BACKGROUND THREAD → LLM tiếp SB kế tiếp ngay
         _pending_flush = _flush_pool.submit(_flush_sb_docs, flush_jobs)
 
         # G. Progress (dùng stats snapshot, có thể hơi trễ do background flush)
