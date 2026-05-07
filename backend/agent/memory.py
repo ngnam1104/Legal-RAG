@@ -23,8 +23,8 @@ try:
     _pg_pool.putconn(_test_conn)
     logger.info("✅ PostgreSQL connected for long-term memory.")
 except Exception as e:
-    logger.error(f"❌ Thuần Docker yêu cầu PostgreSQL. Lỗi kết nối: {e}")
-    raise e
+    logger.warning(f"⚠️ PostgreSQL không khả dụng ({e}). Sẽ chỉ dùng RAM cục bộ (không lưu lịch sử vĩnh viễn).")
+    _pg_pool = None
 
 class ChatSessionManager:
     """
@@ -54,6 +54,8 @@ class ChatSessionManager:
 
     def _init_postgres(self):
         """Khởi tạo schema PostgreSQL."""
+        if _pg_pool is None:
+            return
         conn = _pg_pool.getconn()
         try:
             cursor = conn.cursor()
@@ -103,6 +105,9 @@ class ChatSessionManager:
         now = datetime.now().isoformat()
         title = title or "Phiên chat mới"
 
+        if _pg_pool is None:
+            return sid
+
         conn = _pg_pool.getconn()
         try:
             cursor = conn.cursor()
@@ -118,6 +123,8 @@ class ChatSessionManager:
 
     def list_sessions(self, limit: int = 50) -> List[Dict]:
         """Lấy danh sách phiên chat có ít nhất 1 trao đổi."""
+        if _pg_pool is None:
+            return []
         conn = _pg_pool.getconn()
         try:
             from psycopg2.extras import RealDictCursor
@@ -138,6 +145,8 @@ class ChatSessionManager:
 
     def get_session(self, session_id: str) -> Optional[Dict]:
         """Lấy thông tin 1 phiên."""
+        if _pg_pool is None:
+            return None
         conn = _pg_pool.getconn()
         try:
             from psycopg2.extras import RealDictCursor
@@ -150,6 +159,8 @@ class ChatSessionManager:
             _pg_pool.putconn(conn)
 
     def update_session_title(self, session_id: str, title: str):
+        if _pg_pool is None:
+            return
         conn = _pg_pool.getconn()
         try:
             cursor = conn.cursor()
@@ -161,15 +172,16 @@ class ChatSessionManager:
             _pg_pool.putconn(conn)
 
     def delete_session(self, session_id: str):
-        conn = _pg_pool.getconn()
-        try:
-            cursor = conn.cursor()
-            cursor.execute("DELETE FROM messages WHERE session_id = %s", (session_id,))
-            cursor.execute("DELETE FROM sessions WHERE id = %s", (session_id,))
-            conn.commit()
-            cursor.close()
-        finally:
-            _pg_pool.putconn(conn)
+        if _pg_pool is not None:
+            conn = _pg_pool.getconn()
+            try:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM messages WHERE session_id = %s", (session_id,))
+                cursor.execute("DELETE FROM sessions WHERE id = %s", (session_id,))
+                conn.commit()
+                cursor.close()
+            finally:
+                _pg_pool.putconn(conn)
 
         if self.use_redis:
             self.redis_client.delete(f"session:{session_id}")
@@ -197,6 +209,8 @@ class ChatSessionManager:
         return self._get_recent_messages(session_id, limit=self.max_turns * 2)
 
     def get_full_history(self, session_id: str) -> List[Dict]:
+        if _pg_pool is None:
+            return self.get_history(session_id)
         conn = _pg_pool.getconn()
         try:
             from psycopg2.extras import RealDictCursor
@@ -220,6 +234,8 @@ class ChatSessionManager:
             _pg_pool.putconn(conn)
 
     def _get_recent_messages(self, session_id: str, limit: int = 14) -> List[Dict[str, str]]:
+        if _pg_pool is None:
+            return []
         conn = _pg_pool.getconn()
         try:
             from psycopg2.extras import RealDictCursor
@@ -249,6 +265,9 @@ class ChatSessionManager:
             self.redis_client.set(f"session:{session_id}", json.dumps(history), ex=86400)
         else:
             self.local_sessions[session_id] = history
+
+        if _pg_pool is None:
+            return
 
         conn = _pg_pool.getconn()
         try:
@@ -289,6 +308,8 @@ class ChatSessionManager:
             _pg_pool.putconn(conn)
 
     def get_message_count(self, session_id: str) -> int:
+        if _pg_pool is None:
+            return len(self.get_history(session_id))
         conn = _pg_pool.getconn()
         try:
             cursor = conn.cursor()
@@ -300,24 +321,25 @@ class ChatSessionManager:
             _pg_pool.putconn(conn)
 
     def delete_last_turn(self, session_id: str):
-        conn = _pg_pool.getconn()
-        try:
-            from psycopg2.extras import RealDictCursor
-            cursor = conn.cursor(cursor_factory=RealDictCursor)
-            cursor.execute(
-                "SELECT id FROM messages WHERE session_id = %s ORDER BY id DESC LIMIT 2",
-                (session_id,)
-            )
-            rows = cursor.fetchall()
-            ids = [r['id'] for r in rows]
-            if ids:
-                placeholders = ','.join(['%s'] * len(ids))
-                cursor.execute(f"DELETE FROM messages WHERE id IN ({placeholders})", ids)
-                conn.commit()
-                logger.debug(f"    → [Memory] Đã xóa {len(ids)} tin nhắn cuối của session {session_id}")
-            cursor.close()
-        finally:
-            _pg_pool.putconn(conn)
+        if _pg_pool is not None:
+            conn = _pg_pool.getconn()
+            try:
+                from psycopg2.extras import RealDictCursor
+                cursor = conn.cursor(cursor_factory=RealDictCursor)
+                cursor.execute(
+                    "SELECT id FROM messages WHERE session_id = %s ORDER BY id DESC LIMIT 2",
+                    (session_id,)
+                )
+                rows = cursor.fetchall()
+                ids = [r['id'] for r in rows]
+                if ids:
+                    placeholders = ','.join(['%s'] * len(ids))
+                    cursor.execute(f"DELETE FROM messages WHERE id IN ({placeholders})", ids)
+                    conn.commit()
+                    logger.debug(f"    → [Memory] Đã xóa {len(ids)} tin nhắn cuối của session {session_id}")
+                cursor.close()
+            finally:
+                _pg_pool.putconn(conn)
 
         updated_history = self._get_recent_messages(session_id, limit=self.max_turns * 2)
         if self.use_redis:
@@ -330,6 +352,14 @@ class ChatSessionManager:
     # =====================================================================
 
     def get_state(self, session_id: str) -> Dict[str, Any]:
+        if _pg_pool is None:
+            return {
+                "session_id": session_id,
+                "current_document": None,
+                "entities": [],
+                "last_intent": None,
+                "last_rewritten_query": None
+            }
         conn = _pg_pool.getconn()
         try:
             from psycopg2.extras import RealDictCursor
@@ -360,6 +390,9 @@ class ChatSessionManager:
         now = datetime.now().isoformat()
         entities_json = json.dumps(state_dict.get("entities", []), ensure_ascii=False)
         
+        if _pg_pool is None:
+            return
+
         conn = _pg_pool.getconn()
         try:
             cursor = conn.cursor()
