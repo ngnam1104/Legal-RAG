@@ -297,3 +297,181 @@ Mô tả: Nếu Concept/Condition 'An toàn thực phẩm' thay đổi, những 
 ==================================================
 HOAN THANH KIEM TRA
 ==================================================
+
+============================================================
+test_db_speed.py — 2026-05-08 00:59:34
+============================================================
+==================================================
+BAT DAU KIEM TRA TOC DO VA TRUY VAN CO SO DU LIEU
+==================================================
+Qdrant URL: http://10.9.2.57:6337 | Collection: legal_rag_docs_nam
+Neo4j URI: bolt://10.9.2.57:7688 | User: neo4j
+
+==================================================
+TEST QDRANT
+==================================================
+[OK] Da ket noi Qdrant. Collection 'legal_rag_docs_nam' ton tai.
+
+[QDRANT - DỄ] 🔍 Scenario 1: Semantic Search Cơ Bản
+Mô tả: Tìm kiếm các chunk có ý nghĩa tương đồng với một vector (top 5).
+❌ Lỗi: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Wrong input: Not existing vector name error: "},"time":0.000503284}'
+  Thoi gian: 13.06 ms
+
+[QDRANT - TRUNG BÌNH] 🔍 Scenario 2: Semantic Search kèm Metadata Filter (doc_id = 38/2020/QĐ-UBND)
+Mô tả: Tìm kiếm ngữ nghĩa nhưng giới hạn bắt buộc trong một văn bản cụ thể.
+❌ Lỗi: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Wrong input: Not existing vector name error: "},"time":0.000401168}'
+  Thoi gian: 12.54 ms
+
+==================================================
+TEST NEO4J
+==================================================
+[OK] Da ket noi Neo4j thanh cong.
+
+[NEO4J - DỄ] 🕸️ Scenario 1: Tra cứu Node (Lookup)
+Mô tả: Tìm trực tiếp các Node có label là 'Organization' và tên chứa 'Y tế'.
+✅ Tìm thấy 10 node.
+  Thoi gian: 7.14 ms
+
+[NEO4J - DỄ] 🕸️ Scenario 2: Traversal 1 Bước (1-hop) - Quan hệ cơ bản
+Mô tả: Tìm tất cả Document có quan hệ ISSUED_BY với Organization 'Bộ Y tế'.
+✅ Tìm thấy 10 văn bản.
+  Thoi gian: 5.87 ms
+
+[NEO4J - TRUNG BÌNH] 🕸️ Scenario 3: Traversal Phân cấp Văn bản (Document -> Article -> Clause -> Chunk)
+Mô tả: Lấy toàn bộ cấu trúc cây của một văn bản (Document) xuống tới Chunk.
+✅ Phân tách cấu trúc văn bản: [<Record type='Article' count=249>, <Record type='Clause' count=174>, <Record type='Chunk' count=6>]
+  Thoi gian: 7.27 ms
+
+[NEO4J - TRUNG BÌNH] 🕸️ Scenario 4: Bán kính 1 Bước (1-hop Radius) từ một Concept
+Mô tả: Lấy *tất cả* các Node và loại quan hệ có kết nối trực tiếp (vào hoặc ra) với Concept 'An toàn thực phẩm'.
+✅ Thống kê bán kính 1 bước quanh 'An toàn thực phẩm':
+   - HAS_ENTITY -> Chunk (Số lượng: 933)
+   - HAS_ENTITY -> Clause (Số lượng: 248)
+   - HAS_ENTITY -> Article (Số lượng: 222)
+   - MANAGED_BY -> Organization (Số lượng: 14)
+   - SUBJECT_OF -> Concept (Số lượng: 8)
+  Thoi gian: 47.60 ms
+
+[NEO4J - KHÓ] 🕸️ Scenario 5: Bán kính 2 Bước (2-hop Radius) - Góc nhìn bao quát
+Mô tả: Tìm *tất cả* mọi thứ cách 'Bộ Y tế' đúng 2 bước nhảy (Organization -> Document -> Entities).
+✅ Thống kê bán kính 2 bước từ 'Bộ Y tế':
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Concept] (Số lượng: 87933)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Role] (Số lượng: 57481)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Timeframe] (Số lượng: 34659)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Procedure] (Số lượng: 21289)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Location] (Số lượng: 16341)
+  Thoi gian: 443.68 ms
+
+[NEO4J - KHÓ] 🕸️ Scenario 6: Liên kết chéo giữa các Văn bản (Cross-document Traversal)
+Mô tả: Tìm các văn bản (D1) sửa đổi/căn cứ vào văn bản (D2) VÀ tìm các Tổ chức phát hành cả hai văn bản đó.
+✅ Tìm thấy 5 liên kết chéo phức tạp.
+   - None (Bộ Y tế) -[REPEALED_BY]-> None (Bộ Y tế)
+   - None (Bộ Y tế) -[BASED_ON]-> None (Ủy ban nhân dân)
+   - None (Bộ Y tế) -[BASED_ON]-> None (Ủy ban nhân dân tỉnh Bà Rịa - Vũng Tàu)
+  Thoi gian: 9.89 ms
+
+[NEO4J - CỰC KHÓ] 🕸️ Scenario 7: Đường đi ngắn nhất (Shortest Path)
+Mô tả: Tìm đường đi ngắn nhất giữa hai Concept 'An toàn thực phẩm' và 'Y tế' trong toàn bộ đồ thị tri thức.
+[ERROR] Ket noi Neo4j: Existing exports of data: object cannot be re-sized
+
+==================================================
+HOAN THANH KIEM TRA
+==================================================
+
+============================================================
+test_db_speed.py — 2026-05-08 01:01:13
+============================================================
+==================================================
+BAT DAU KIEM TRA TOC DO VA TRUY VAN CO SO DU LIEU
+==================================================
+Qdrant URL: http://10.9.2.57:6337 | Collection: legal_rag_docs_nam
+Neo4j URI: bolt://10.9.2.57:7688 | User: neo4j
+
+==================================================
+TEST QDRANT
+==================================================
+[OK] Da ket noi Qdrant. Collection 'legal_rag_docs_nam' ton tai.
+
+[QDRANT - DỄ] 🔍 Scenario 1: Semantic Search Cơ Bản
+Mô tả: Tìm kiếm các chunk có ý nghĩa tương đồng với một vector (top 5).
+❌ Lỗi: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Wrong input: Vector dimension error: expected dim: 1024, got 768"},"time":0.000648924}'
+  Thoi gian: 16.83 ms
+
+[QDRANT - TRUNG BÌNH] 🔍 Scenario 2: Semantic Search kèm Metadata Filter (doc_id = 38/2020/QĐ-UBND)
+Mô tả: Tìm kiếm ngữ nghĩa nhưng giới hạn bắt buộc trong một văn bản cụ thể.
+❌ Lỗi: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Wrong input: Vector dimension error: expected dim: 1024, got 768"},"time":0.000323803}'
+  Thoi gian: 13.37 ms
+
+==================================================
+TEST NEO4J
+==================================================
+[OK] Da ket noi Neo4j thanh cong.
+
+[NEO4J - DỄ] 🕸️ Scenario 1: Tra cứu Node (Lookup)
+Mô tả: Tìm trực tiếp các Node có label là 'Organization' và tên chứa 'Y tế'.
+✅ Tìm thấy 10 node.
+  Thoi gian: 6.38 ms
+
+[NEO4J - DỄ] 🕸️ Scenario 2: Traversal 1 Bước (1-hop) - Quan hệ cơ bản
+Mô tả: Tìm tất cả Document có quan hệ ISSUED_BY với Organization 'Bộ Y tế'.
+✅ Tìm thấy 10 văn bản.
+  Thoi gian: 7.63 ms
+
+[NEO4J - TRUNG BÌNH] 🕸️ Scenario 3: Traversal Phân cấp Văn bản (Document -> Article -> Clause -> Chunk)
+Mô tả: Lấy toàn bộ cấu trúc cây của một văn bản (Document) xuống tới Chunk.
+✅ Phân tách cấu trúc văn bản: [<Record type='Article' count=249>, <Record type='Clause' count=174>, <Record type='Chunk' count=6>]
+  Thoi gian: 7.99 ms
+
+[NEO4J - TRUNG BÌNH] 🕸️ Scenario 4: Bán kính 1 Bước (1-hop Radius) từ một Concept
+Mô tả: Lấy *tất cả* các Node và loại quan hệ có kết nối trực tiếp (vào hoặc ra) với Concept 'An toàn thực phẩm'.
+✅ Thống kê bán kính 1 bước quanh 'An toàn thực phẩm':
+   - HAS_ENTITY -> Chunk (Số lượng: 933)
+   - HAS_ENTITY -> Clause (Số lượng: 248)
+   - HAS_ENTITY -> Article (Số lượng: 222)
+   - MANAGED_BY -> Organization (Số lượng: 14)
+   - SUBJECT_OF -> Concept (Số lượng: 8)
+  Thoi gian: 30.59 ms
+
+[NEO4J - KHÓ] 🕸️ Scenario 5: Bán kính 2 Bước (2-hop Radius) - Góc nhìn bao quát
+Mô tả: Tìm *tất cả* mọi thứ cách 'Bộ Y tế' đúng 2 bước nhảy (Organization -> Document -> Entities).
+✅ Thống kê bán kính 2 bước từ 'Bộ Y tế':
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Concept] (Số lượng: 87967)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Role] (Số lượng: 57561)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Timeframe] (Số lượng: 34693)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Procedure] (Số lượng: 21292)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Location] (Số lượng: 16373)
+  Thoi gian: 665.68 ms
+
+[NEO4J - KHÓ] 🕸️ Scenario 6: Liên kết chéo giữa các Văn bản (Cross-document Traversal)
+Mô tả: Tìm các văn bản (D1) sửa đổi/căn cứ vào văn bản (D2) VÀ tìm các Tổ chức phát hành cả hai văn bản đó.
+✅ Tìm thấy 5 liên kết chéo phức tạp.
+   - None (Bộ Y tế) -[REPEALED_BY]-> None (Bộ Y tế)
+   - None (Bộ Y tế) -[BASED_ON]-> None (Ủy ban nhân dân)
+   - None (Bộ Y tế) -[BASED_ON]-> None (Ủy ban nhân dân tỉnh Bà Rịa - Vũng Tàu)
+  Thoi gian: 26.06 ms
+
+[NEO4J - CỰC KHÓ] 🕸️ Scenario 7: Đường đi ngắn nhất (Shortest Path)
+Mô tả: Tìm đường đi ngắn nhất giữa hai Concept 'An toàn thực phẩm' và 'Y tế' trong toàn bộ đồ thị tri thức.
+✅ Tìm thấy đường đi ngắn nhất (độ dài 2):
+   Đường đi: An toàn thực phẩm -> Điều 3 -> Trang thiết bị y tế
+  Thoi gian: 47293.73 ms
+
+[NEO4J - CỰC KHÓ] 🕸️ Scenario 8: Phân tích Tác động Sâu (Deep Impact Analysis)
+Mô tả: Nếu Concept/Condition 'An toàn thực phẩm' thay đổi, những văn bản nào, thủ tục nào và tổ chức nào sẽ bị ảnh hưởng (bán kính lên tới 3 bước)?
+✅ Tác động của việc thay đổi 'An toàn thực phẩm':
+   - Ảnh hưởng tới 2603 Procedure
+   - Ảnh hưởng tới 2211 Organization
+   - Ảnh hưởng tới 1946 Document
+  Thoi gian: 776.35 ms
+
+==================================================
+HOAN THANH KIEM TRA
+==================================================

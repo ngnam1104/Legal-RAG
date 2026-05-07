@@ -81,6 +81,7 @@ def test_qdrant_easy_semantic_search(client, collection_name, query_vector=None)
         response = client.query_points(
             collection_name=collection_name,
             query=query_vector,
+            using="dense",
             limit=5
         )
         results = response.points
@@ -99,6 +100,7 @@ def test_qdrant_medium_filtered_search(client, collection_name, query_vector=Non
         response = client.query_points(
             collection_name=collection_name,
             query=query_vector,
+            using="dense",
             query_filter=Filter(
                 must=[
                     FieldCondition(
