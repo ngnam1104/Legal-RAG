@@ -96,31 +96,48 @@ class ICLLMClient(BaseLLMClient):
         else:
             final_question += "User: Hello\nAI: "
 
-        try:
-            response = self.llm_engine.generate(
-                params={
-                    "thinking_mode": "off",
-                    "max_new_tokens": str(max_tokens),
-                    "max_tokens": str(max_tokens),
-                    "do_sample": "false",
-                    "repetition_penalty": "1.0"
-                },
-                prompt=final_question,
-                temperature=temperature,
-                is_translate_context=False,
-                is_translate_prompt=False,
-                is_translate_result=False
-            )
-            
-            if response and len(response) > 0 and response[0].get("is_valid"):
-                return response[0].get("answer_norm", "").strip()
-            else:
-                logger.error(f"❌ [ICLLM] Sinh thất bại hoặc bị chặn, response: {response}")
-                return ""
+        max_retries = 3
+        prompt_len = len(final_question)
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"🚀 [ICLLM] Sending request (Attempt {attempt+1}/{max_retries}, Prompt Length: {prompt_len})")
+                response = self.llm_engine.generate(
+                    params={
+                        "thinking_mode": "off",
+                        "max_new_tokens": str(max_tokens),
+                        "max_tokens": str(max_tokens),
+                        "do_sample": "false",
+                        "repetition_penalty": "1.0"
+                    },
+                    prompt=final_question,
+                    temperature=temperature,
+                    is_translate_context=False,
+                    is_translate_prompt=False,
+                    is_translate_result=False
+                )
                 
-        except Exception as e:
-            logger.exception(f"❌ [ICLLM] Gặp lỗi hệ thống: {str(e)}")
-            return ""
+                if response and len(response) > 0 and response[0].get("is_valid"):
+                    data = response[0]
+                    # Try different potential keys for the answer string
+                    return (data.get("answer_norm") or data.get("answer") or data.get("content") or "").strip()
+                else:
+                    logger.warning(f"⚠️ [ICLLM] Thử lại lần {attempt+1}/{max_retries}: Phản hồi rỗng hoặc không hợp lệ. Response: {response}")
+                    if attempt < max_retries - 1:
+                        import time
+                        wait_time = 2 * (attempt + 1)
+                        logger.info(f"   -> Đang chờ {wait_time}s trước khi thử lại...")
+                        time.sleep(wait_time)
+                        continue
+                    return ""
+                    
+            except Exception as e:
+                logger.error(f"❌ [ICLLM] Lỗi tại lần thử {attempt+1}: {str(e)}")
+                if attempt < max_retries - 1:
+                    import time
+                    time.sleep(2)
+                    continue
+                return ""
+        return ""
 
     def batch_chat_completion(
         self, 

@@ -66,8 +66,8 @@ def measure_time(func):
 # ==============================================================================
 @measure_time
 def test_qdrant_easy_semantic_search(client, collection_name, query_vector=None):
-    print("\n[QDRANT - DỄ] 🔍 Scenario 1: Semantic Search Cơ Bản")
-    print("Mô tả: Tìm kiếm các chunk có ý nghĩa tương đồng với một vector (top 5).")
+    _out("\n[QDRANT - DỄ] 🔍 Scenario 1: Semantic Search Cơ Bản")
+    _out("Mô tả: Tìm kiếm các chunk có ý nghĩa tương đồng với một vector (top 5).")
     if query_vector is None:
         query_vector = [0.01] * 768 
     
@@ -77,14 +77,14 @@ def test_qdrant_easy_semantic_search(client, collection_name, query_vector=None)
             query_vector=query_vector,
             limit=5
         )
-        print(f"✅ Tìm thấy {len(results)} kết quả.")
+        _out(f"✅ Tìm thấy {len(results)} kết quả.")
     except Exception as e:
-        print(f"❌ Lỗi: {e}")
+        _out(f"❌ Lỗi: {e}")
 
 @measure_time
 def test_qdrant_medium_filtered_search(client, collection_name, query_vector=None, doc_id="38/2020/QĐ-UBND"):
-    print(f"\n[QDRANT - TRUNG BÌNH] 🔍 Scenario 2: Semantic Search kèm Metadata Filter (doc_id = {doc_id})")
-    print("Mô tả: Tìm kiếm ngữ nghĩa nhưng giới hạn bắt buộc trong một văn bản cụ thể.")
+    _out(f"\n[QDRANT - TRUNG BÌNH] 🔍 Scenario 2: Semantic Search kèm Metadata Filter (doc_id = {doc_id})")
+    _out("Mô tả: Tìm kiếm ngữ nghĩa nhưng giới hạn bắt buộc trong một văn bản cụ thể.")
     if query_vector is None:
         query_vector = [0.01] * 768
         
@@ -102,9 +102,9 @@ def test_qdrant_medium_filtered_search(client, collection_name, query_vector=Non
             ),
             limit=5
         )
-        print(f"✅ Tìm thấy {len(results)} kết quả.")
+        _out(f"✅ Tìm thấy {len(results)} kết quả.")
     except Exception as e:
-        print(f"❌ Lỗi: {e}")
+        _out(f"❌ Lỗi: {e}")
 
 # ==============================================================================
 # KỊCH BẢN TEST NEO4J (GRAPH TRAVERSAL) - TỪ DỄ ĐẾN KHÓ
@@ -113,8 +113,8 @@ def test_qdrant_medium_filtered_search(client, collection_name, query_vector=Non
 # ----------------- CẤP ĐỘ DỄ (EASY) -----------------
 @measure_time
 def test_neo4j_easy_node_lookup(driver, node_label="Organization", name_contains="Y tế"):
-    print(f"\n[NEO4J - DỄ] 🕸️ Scenario 1: Tra cứu Node (Lookup)")
-    print(f"Mô tả: Tìm trực tiếp các Node có label là '{node_label}' và tên chứa '{name_contains}'.")
+    _out(f"\n[NEO4J - DỄ] 🕸️ Scenario 1: Tra cứu Node (Lookup)")
+    _out(f"Mô tả: Tìm trực tiếp các Node có label là '{node_label}' và tên chứa '{name_contains}'.")
     query = f"""
     MATCH (n:{node_label})
     WHERE toLower(n.name) CONTAINS toLower($name_contains)
@@ -124,12 +124,12 @@ def test_neo4j_easy_node_lookup(driver, node_label="Organization", name_contains
     with driver.session() as session:
         result = session.run(query, name_contains=name_contains)
         records = list(result)
-        print(f"✅ Tìm thấy {len(records)} node.")
+        _out(f"✅ Tìm thấy {len(records)} node.")
 
 @measure_time
 def test_neo4j_easy_1_hop(driver, org_name="Bộ Y tế"):
-    print(f"\n[NEO4J - DỄ] 🕸️ Scenario 2: Traversal 1 Bước (1-hop) - Quan hệ cơ bản")
-    print(f"Mô tả: Tìm tất cả Document có quan hệ ISSUED_BY với Organization '{org_name}'.")
+    _out("\n[NEO4J - DỄ] 🕸️ Scenario 2: Traversal 1 Bước (1-hop) - Quan hệ cơ bản")
+    _out(f"Mô tả: Tìm tất cả Document có quan hệ ISSUED_BY với Organization '{org_name}'.")
     query = """
     MATCH (d:Document)-[:ISSUED_BY]->(o:Organization)
     WHERE toLower(o.name) CONTAINS toLower($org_name)
@@ -139,13 +139,13 @@ def test_neo4j_easy_1_hop(driver, org_name="Bộ Y tế"):
     with driver.session() as session:
         result = session.run(query, org_name=org_name)
         records = list(result)
-        print(f"✅ Tìm thấy {len(records)} văn bản.")
+        _out(f"✅ Tìm thấy {len(records)} văn bản.")
 
 # ----------------- CẤP ĐỘ TRUNG BÌNH (MEDIUM) -----------------
 @measure_time
 def test_neo4j_medium_doc_hierarchy(driver, doc_number="38/2020/QĐ-UBND"):
-    print(f"\n[NEO4J - TRUNG BÌNH] 🕸️ Scenario 3: Traversal Phân cấp Văn bản (Document -> Article -> Clause -> Chunk)")
-    print(f"Mô tả: Lấy toàn bộ cấu trúc cây của một văn bản (Document) xuống tới Chunk.")
+    _out(f"\n[NEO4J - TRUNG BÌNH] 🕸️ Scenario 3: Traversal Phân cấp Văn bản (Document -> Article -> Clause -> Chunk)")
+    _out("Mô tả: Lấy toàn bộ cấu trúc cây của một văn bản (Document) xuống tới Chunk.")
     query = """
     MATCH (d:Document)-[:HAS_ARTICLE|PART_OF*1..3]->(child)
     WHERE d.document_number = $doc_number
@@ -154,12 +154,12 @@ def test_neo4j_medium_doc_hierarchy(driver, doc_number="38/2020/QĐ-UBND"):
     with driver.session() as session:
         result = session.run(query, doc_number=doc_number)
         records = list(result)
-        print(f"✅ Phân tách cấu trúc văn bản: {records}")
+        _out(f"✅ Phân tách cấu trúc văn bản: {records}")
 
 @measure_time
 def test_neo4j_medium_all_1_hop_radius(driver, concept_name="An toàn thực phẩm"):
-    print(f"\n[NEO4J - TRUNG BÌNH] 🕸️ Scenario 4: Bán kính 1 Bước (1-hop Radius) từ một Concept")
-    print(f"Mô tả: Lấy *tất cả* các Node và loại quan hệ có kết nối trực tiếp (vào hoặc ra) với Concept '{concept_name}'.")
+    _out(f"\n[NEO4J - TRUNG BÌNH] 🕸️ Scenario 4: Bán kính 1 Bước (1-hop Radius) từ một Concept")
+    _out(f"Mô tả: Lấy *tất cả* các Node và loại quan hệ có kết nối trực tiếp (vào hoặc ra) với Concept '{concept_name}'.")
     query = """
     MATCH (c:Concept)-[r]-(connected_node)
     WHERE toLower(c.name) CONTAINS toLower($concept_name)
@@ -170,15 +170,15 @@ def test_neo4j_medium_all_1_hop_radius(driver, concept_name="An toàn thực ph�
     with driver.session() as session:
         result = session.run(query, concept_name=concept_name)
         records = list(result)
-        print(f"✅ Thống kê bán kính 1 bước quanh '{concept_name}':")
+        _out(f"✅ Thống kê bán kính 1 bước quanh '{concept_name}':")
         for r in records[:5]:
-            print(f"   - {r['rel_type']} -> {r['node_type']} (Số lượng: {r['freq']})")
+            _out(f"   - {r['rel_type']} -> {r['node_type']} (Số lượng: {r['freq']})")
 
 # ----------------- CẤP ĐỘ KHÓ (HARD) -----------------
 @measure_time
 def test_neo4j_hard_2_hop_radius(driver, org_name="Bộ Y tế"):
-    print(f"\n[NEO4J - KHÓ] 🕸️ Scenario 5: Bán kính 2 Bước (2-hop Radius) - Góc nhìn bao quát")
-    print(f"Mô tả: Tìm *tất cả* mọi thứ cách '{org_name}' đúng 2 bước nhảy (Organization -> Document -> Entities).")
+    _out(f"\n[NEO4J - KHÓ] 🕸️ Scenario 5: Bán kính 2 Bước (2-hop Radius) - Góc nhìn bao quát")
+    _out(f"Mô tả: Tìm *tất cả* mọi thứ cách '{org_name}' đúng 2 bước nhảy (Organization -> Document -> Entities).")
     # Ví dụ: Bộ Y tế -> ISSUED -> Document -> HAS_ENTITY -> Procedure
     query = """
     MATCH (o:Organization)-[r1]-(mid)-[r2]-(target)
@@ -191,14 +191,14 @@ def test_neo4j_hard_2_hop_radius(driver, org_name="Bộ Y tế"):
     with driver.session() as session:
         result = session.run(query, org_name=org_name)
         records = list(result)
-        print(f"✅ Thống kê bán kính 2 bước từ '{org_name}':")
+        _out(f"✅ Thống kê bán kính 2 bước từ '{org_name}':")
         for r in records[:5]:
-            print(f"   - [Org] -{r['rel1']}- [Mid] -{r['rel2']}- [{r['target_type']}] (Số lượng: {r['freq']})")
+            _out(f"   - [Org] -{r['rel1']}- [Mid] -{r['rel2']}- [{r['target_type']}] (Số lượng: {r['freq']})")
 
 @measure_time
 def test_neo4j_hard_cross_doc_links(driver):
-    print("\n[NEO4J - KHÓ] 🕸️ Scenario 6: Liên kết chéo giữa các Văn bản (Cross-document Traversal)")
-    print("Mô tả: Tìm các văn bản (D1) sửa đổi/căn cứ vào văn bản (D2) VÀ tìm các Tổ chức phát hành cả hai văn bản đó.")
+    _out("\n[NEO4J - KHÓ] 🕸️ Scenario 6: Liên kết chéo giữa các Văn bản (Cross-document Traversal)")
+    _out("Mô tả: Tìm các văn bản (D1) sửa đổi/căn cứ vào văn bản (D2) VÀ tìm các Tổ chức phát hành cả hai văn bản đó.")
     query = """
     MATCH (d1:Document)-[r:AMENDED_BY|BASED_ON|REPEALED_BY|REPLACED_BY]->(d2:Document)
     MATCH (d1)-[:ISSUED_BY]->(org1:Organization)
@@ -209,19 +209,20 @@ def test_neo4j_hard_cross_doc_links(driver):
     with driver.session() as session:
         result = session.run(query)
         records = list(result)
-        print(f"✅ Tìm thấy {len(records)} liên kết chéo phức tạp.")
+        _out(f"✅ Tìm thấy {len(records)} liên kết chéo phức tạp.")
         for r in records[:3]:
-            print(f"   - {r['doc1']} ({r['o1']}) -[{r['relation']}]-> {r['doc2']} ({r['o2']})")
+            _out(f"   - {r['doc1']} ({r['o1']}) -[{r['relation']}]-> {r['doc2']} ({r['o2']})")
 
 # ----------------- CẤP ĐỘ CỰC KHÓ (VERY HARD) -----------------
 @measure_time
 def test_neo4j_very_hard_shortest_path(driver, concept1="An toàn thực phẩm", concept2="Y tế"):
-    print(f"\n[NEO4J - CỰC KHÓ] 🕸️ Scenario 7: Đường đi ngắn nhất (Shortest Path)")
-    print(f"Mô tả: Tìm đường đi ngắn nhất giữa hai Concept '{concept1}' và '{concept2}' trong toàn bộ đồ thị tri thức.")
+    _out(f"\n[NEO4J - CỰC KHÓ] 🕸️ Scenario 7: Đường đi ngắn nhất (Shortest Path)")
+    _out(f"Mô tả: Tìm đường đi ngắn nhất giữa hai Concept '{concept1}' và '{concept2}' trong toàn bộ đồ thị tri thức.")
     query = """
     MATCH (start:Concept), (end:Concept)
     WHERE toLower(start.name) CONTAINS toLower($concept1) 
       AND toLower(end.name) CONTAINS toLower($concept2)
+      AND start <> end
     MATCH path = shortestPath((start)-[*]-(end))
     RETURN length(path) AS path_length, 
            [n IN nodes(path) | coalesce(n.name, n.document_number, labels(n)[0])] AS node_names
@@ -232,15 +233,15 @@ def test_neo4j_very_hard_shortest_path(driver, concept1="An toàn thực phẩm"
         result = session.run(query, concept1=concept1, concept2=concept2)
         records = list(result)
         if records:
-            print(f"✅ Tìm thấy đường đi ngắn nhất (độ dài {records[0]['path_length']}):")
-            print(f"   Đường đi: {' -> '.join(records[0]['node_names'])}")
+            _out(f"✅ Tìm thấy đường đi ngắn nhất (độ dài {records[0]['path_length']}):")
+            _out(f"   Đường đi: {' -> '.join(records[0]['node_names'])}")
         else:
-            print("❌ Không tìm thấy đường đi nào nối 2 concept này.")
+            _out("❌ Không tìm thấy đường đi nào nối 2 concept này.")
 
 @measure_time
 def test_neo4j_very_hard_deep_impact_analysis(driver, condition_name="An toàn thực phẩm"):
-    print(f"\n[NEO4J - CỰC KHÓ] 🕸️ Scenario 8: Phân tích Tác động Sâu (Deep Impact Analysis)")
-    print(f"Mô tả: Nếu Concept/Condition '{condition_name}' thay đổi, những văn bản nào, thủ tục nào và tổ chức nào sẽ bị ảnh hưởng (bán kính lên tới 3 bước)?")
+    _out(f"\n[NEO4J - CỰC KHÓ] 🕸️ Scenario 8: Phân tích Tác động Sâu (Deep Impact Analysis)")
+    _out(f"Mô tả: Nếu Concept/Condition '{condition_name}' thay đổi, những văn bản nào, thủ tục nào và tổ chức nào sẽ bị ảnh hưởng (bán kính lên tới 3 bước)?")
     query = """
     MATCH (c:Concept)
     WHERE toLower(c.name) CONTAINS toLower($condition_name)
@@ -251,9 +252,9 @@ def test_neo4j_very_hard_deep_impact_analysis(driver, condition_name="An toàn t
     with driver.session() as session:
         result = session.run(query, condition_name=condition_name)
         records = list(result)
-        print(f"✅ Tác động của việc thay đổi '{condition_name}':")
+        _out(f"✅ Tác động của việc thay đổi '{condition_name}':")
         for r in records:
-            print(f"   - Ảnh hưởng tới {r['impact_count']} {r['type']}")
+            _out(f"   - Ảnh hưởng tới {r['impact_count']} {r['type']}")
 
 if __name__ == "__main__":
     _out("==================================================")

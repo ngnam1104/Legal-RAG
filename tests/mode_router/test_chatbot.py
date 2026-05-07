@@ -6,9 +6,11 @@ import time
 # Add project root to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+from backend.agent.chat_engine import rag_engine
+from backend.models.llm_factory import chat_completion
+from backend.config import _ICLLM_CONFIG
+from backend.utils.text_utils import strip_thinking_tags
 from backend.agent.graph import LegalRAGWorkflow
-from backend.llm.factory import chat_completion
-from backend.config import settings
 
 # 1. Cấu hình Logger để vừa in ra màn hình vừa ghi file
 class Logger(object):
@@ -69,9 +71,7 @@ Câu trả lời từ RAG (bao gồm cả trích dẫn): {generated_answer}
 ĐÁNH GIÁ CỦA BẠN: Bắt buộc trả về đúng MỘT DÒNG duy nhất bắt đầu bằng "✅ ĐẠT" hoặc "❌ KHÔNG ĐẠT", kèm theo một câu giải thích ngắn gọn lý do.
 """
     try:
-        from backend.config import settings
-        from backend.agent.utils.utils_legal_qa import strip_thinking_tags
-        res = chat_completion([{"role": "user", "content": prompt}], temperature=0.0, model=settings.LLM_ROUTING_MODEL)
+        res = chat_completion([{"role": "user", "content": prompt}], temperature=0.0, model=_ICLLM_CONFIG.get("ModelLLM"))
         return strip_thinking_tags(str(res)).strip()
     except Exception as e:
         return f"❌ LỖI ĐÁNH GIÁ LLM: {str(e)}"

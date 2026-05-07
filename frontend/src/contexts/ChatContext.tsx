@@ -225,9 +225,8 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
         query,
         mode: 'AUTO',
         file_path: lastFileId ? lastFileId : null,
-        llm_preset: settings.llm_preset,
-        top_k: settings.top_k,
         use_rerank: settings.use_rerank,
+        attached_file: stagedFile ? { id: stagedFile.id, name: stagedFile.name } : null
       };
 
       // --- STATE CẬP NHẬT (Xử lý Edit + Append Query) ---
@@ -247,9 +246,11 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
         return [...filtered, { role: 'user', content: query, attached_file: stagedFile ? { ...stagedFile } : undefined }];
       });
 
-      // Reset edit states ngay lập tức
+      // Reset edit and file states immediately
       setEditingIndex(null);
       setIsPendingEdit(false);
+      setStagedFile(null);
+      setLastFileId(null);
 
       // Call API delete on Server if it's an Edit (Silent)
       if ((isPendingEdit || editIndex !== undefined) && sid) {

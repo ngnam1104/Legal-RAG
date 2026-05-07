@@ -1,0 +1,28 @@
+==================================================
+         BÁO CÁO ĐÁNH GIÁ ĐỘ CHÍNH XÁC QA         
+==================================================
+
+1. Chỉ số Tổng quan (Overall Metrics):
+- Tổng số test cases: 114
+- Tỷ lệ chính xác nội dung (Content Acc): 71.93% (82/114)
+- Tỷ lệ đúng Intent (Intent Acc): 100.00% (114/114)
+- Thời gian phản hồi trung bình: 56.78s
+
+2. Chi tiết Hiệu suất theo Mode:
+  [LEGAL_CHAT]
+    + Số lượt kích hoạt: 114 lượt
+    + Tỷ lệ Đạt: 71.93% (82/114)
+    + Tốc độ sinh: 56.78s
+
+3. Phân rã thời gian Pipeline (Step Breakdown/Turn):
+   (Thứ tự thực thi | Sub-steps được lồng với indent)
+  ⚡ Preprocess Memory/Files                 : 0.00s
+  ⚡ Detect Mode Only                        : 6.04s
+  ⚡ 1. Understand                           : 0.00s
+  ⚡ 2. Retrieve + Graph Expand              : 33.26s
+  ⚡ 3. Generate                             : 15.90s
+
+   📌 Lưu ý:
+   • Tốc độ sinh (152.90s) = tổng thời gian per turn = Routing + Retrieval + Generation
+   • Sub-steps được lồng vào parent steps (ví dụ: Retrieve.* lồng trong Retrieve + Graph Expand)
+   • Retrieve.Graph_Doc_Fetch (~118s) là phần lớn nhất của Retrieval (~120s)

@@ -28,9 +28,10 @@ async def lifespan(app: FastAPI):
     # --- WARMUP STRATEGY ---
     print("\n🔥 [Startup] Warming up local models (Embedder & Reranker)...")
     try:
-        from backend.models.embedder import get_embedder
+        from backend.models.embedder import embedder
         from backend.models.reranker import reranker
-        get_embedder()
+        # Warmup
+        _ = embedder
         reranker._lazy_load()
         print(f"✅ [Startup] Local models are ready.")
     except Exception as e:
@@ -74,6 +75,7 @@ class ChatRequest(BaseModel):
     use_reflection: Optional[bool] = None
     use_grading: Optional[bool] = None
     use_rerank: Optional[bool] = None
+    attached_file: Optional[Dict] = None
 
 class CreateSessionRequest(BaseModel):
     title: Optional[str] = None
@@ -134,7 +136,8 @@ async def chat_endpoint(request_data: ChatRequest, fastapi_request: Request):
                 top_k=request_data.top_k,
                 use_reflection=request_data.use_reflection,
                 use_grading=request_data.use_grading,
-                use_rerank=request_data.use_rerank
+                use_rerank=request_data.use_rerank,
+                attached_file=request_data.attached_file
             ):
                 # Check for disconnect
                 if await fastapi_request.is_disconnected():
@@ -184,7 +187,9 @@ async def get_session_messages(session_id: str):
     """Lấy toàn bộ lịch sử chat của một phiên (long-term từ SQLite)."""
     session = rag_engine.memory.get_session(session_id)
     if not session:
-        raise HTTPException(status_code=404, detail="Session not found")
+        # Tự động tạo nếu chưa có (Tránh lỗi 404 khi FE gọi sớm)
+        rag_engine.memory.create_session(session_id=session_id)
+        session = {"id": session_id, "title": "Phiên chat mới"}
 
     messages = rag_engine.memory.get_full_history(session_id)
     return {
@@ -276,33 +281,46 @@ async def upload_document(
     with open(temp_file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # Xử lý trích xuất RAM và sinh Vector (In-Memory Vector Search) ngay lập tức nếu có session_id
+    # Xử lý trích xuất bền vững vào Postgres nếu có session_id
     chunks = []
     if session_id:
         try:
             from backend.utils.document_parser import parser
             from backend.models.embedder import embedder
-            print(f"    -> [API] Parsing and Embedding file into session RAM: {session_id}")
-            chunks = parser.parse_and_chunk(temp_file_path)
+            
+            # Đảm bảo session tồn tại trong Postgres trước khi lưu chunks (Tránh lỗi FK)
+            rag_engine.memory.create_session(session_id=session_id)
+            
+            print(f"    -> [API] Parsing and Embedding file into Session Postgres: {session_id}")
+            
+            # Metadata cố định: Tên file và đánh dấu "File Upload"
+            metadata = {
+                "title": file.filename,
+                "document_number": "File Upload",
+                "session_id": session_id
+            }
+            
+            chunks = parser.parse_and_chunk(temp_file_path, metadata)
             
             # Extract text from chunks to embed
             texts_to_embed = [c.get("text_to_embed") or c.get("unit_text", "") for c in chunks]
             
             if texts_to_embed:
-                print(f"    -> [API] Embedding {len(texts_to_embed)} chunks for In-Memory Search...")
+                print(f"    -> [API] Embedding {len(texts_to_embed)} chunks for Persistent Session Search...")
                 vectors = embedder.encode_dense(texts_to_embed)
                 
                 # Attach vectors to chunks
                 for chunk, vector in zip(chunks, vectors):
-                    chunk["vector"] = vector
+                    chunk["vector"] = vector.tolist() if hasattr(vector, "tolist") else vector
                     
-            rag_engine.memory.set_temp_chunks(session_id, chunks)
-            print(f"    -> [API] Successfully stored {len(chunks)} chunks in RAM.")
+            rag_engine.memory.set_temp_chunks(session_id, chunks, document_id=file_id)
+            print(f"    -> [API] Successfully stored {len(chunks)} chunks in Postgres (Session: {session_id}).")
         except Exception as e:
-            print(f"    ⚠️ [API] Failed to parse and embed file for RAM storage: {e}")
-
+            print(f"    ❌ Parsing/Embedding failed: {e}")
+            raise HTTPException(status_code=500, detail=f"Lỗi xử lý tài liệu: {str(e)}")
+    
     return {
-        "message": "Đã tải lên tạm thời và sẵn sàng truy vấn.",
+        "status": "success",
         "file_id": file_id,
         "filename": file.filename,
         "session_id": session_id,

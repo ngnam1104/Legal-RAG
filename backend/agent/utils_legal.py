@@ -73,12 +73,16 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
     if file_chunks:
         context_parts.append("<tai_lieu_tam>")
         for idx, f_chunk in enumerate(file_chunks, start=1):
+            if current_chars > max_chars:
+                break
             text = f_chunk.get("text_to_embed", f_chunk.get("unit_text", ""))
             # Nén trắng
             text = re.sub(r'\s*\n\s*', '\n', text)
             text = re.sub(r' {2,}', ' ', text).strip()
+                
             chunk_info = f"[File Chunk {idx}]\n{text}\n"
             context_parts.append(chunk_info)
+            current_chars += len(chunk_info)
         context_parts.append("</tai_lieu_tam>\n")
 
     # --- [CƠ SỞ PHÁP LÝ TỪ HỆ THỐNG DB]: Bọc trong thẻ <tai_lieu_db> ---
@@ -102,6 +106,9 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
     
     # Chiến thuật 2: XML Context Injection
     for hit in hits:
+        if current_chars > max_chars:
+            break
+            
         doc_counter += 1
         ref = hit.get("article_ref") or hit.get("reference_tag") or "N/A"
         doc_number = hit.get("document_number") or "N/A"
@@ -115,9 +122,9 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
         base_laws = hit.get("base_laws", [])
 
         if is_appendix:
-            loai = "PHỤ LỤC / BẢNG BIỂU ĐÍNH KÈM - Đây là dữ liệu chi tiết, định mức hoặc biểu mẫu."
+            loai = "PHỤ LỤC / BẢNG BIỂU ĐÍNH KÈM"
         else:
-            loai = "NỘI DUNG CHÍNH - Quy định trực tiếp trong văn bản pháp luật."
+            loai = "NỘI DUNG CHÍNH"
 
         base_law_xml = f"\n    <can_cu_phap_ly>{', '.join(base_laws)}</can_cu_phap_ly>" if base_laws else ""
         
@@ -135,13 +142,17 @@ def build_legal_context(hits: List[Dict[str, Any]], file_chunks: List[Dict[str, 
         )
 
         context_parts.append(chunk_xml)
+        current_chars += len(chunk_xml)
     
     # --- Sibling texts từ Neo4j Bottom-Up Expansion ---
     if graph_context and graph_context.get("sibling_texts"):
         for sib_text in graph_context["sibling_texts"][:10]:
+            if current_chars > max_chars:
+                break
             sib_text_clean = re.sub(r'\s*\n\s*', '\n', sib_text)
             sib_block = f'<can_cu_bo_sung>\n  {sib_text_clean}\n</can_cu_bo_sung>\n'
             context_parts.append(sib_block)
+            current_chars += len(sib_block)
     
     context_parts.append("</tai_lieu_db>")
 
@@ -296,7 +307,15 @@ def filter_cited_references(answer_text: str, refs: List[Dict[str, Any]]) -> Lis
                 clean_text = re.sub(r'^' + re.escape(art_label) + r'[\.\s\:\-]+', '', clean_text, flags=re.IGNORECASE).strip()
             ref["text_preview"] = clean_text
             
-            cited.append(ref)
+            # Deduplication
+            is_dup = False
+            for c in cited:
+                if c.get("chunk_id") == ref.get("chunk_id") or c.get("text_preview") == ref.get("text_preview"):
+                    is_dup = True
+                    break
+            
+            if not is_dup:
+                cited.append(ref)
 
     # Fallback: Nếu LLM tóm tắt hoàn toàn → giữ duy nhất 1 nguồn đáng tin nhất
     if not cited and refs:

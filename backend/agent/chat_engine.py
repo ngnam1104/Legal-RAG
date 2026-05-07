@@ -29,7 +29,7 @@ class RAGEngine:
             "reset_for_batch": "📦 Đang xử lý tập dữ liệu tiếp theo..."
         }
 
-    async def chat(self, session_id: str, query: str, mode: str = "LEGAL_CHAT", file_path: str = None, llm_preset: str = "groq_8b", top_k: int = 5, use_reflection: bool = None, use_grading: bool = None, use_rerank: bool = None):
+    async def chat(self, session_id: str, query: str, mode: str = "LEGAL_CHAT", file_path: str = None, llm_preset: str = "groq_8b", top_k: int = 5, use_reflection: bool = None, use_grading: bool = None, use_rerank: bool = None, attached_file: Dict = None):
         """Streaming flow bằng LangGraph Orchestration."""
         import os
         import time
@@ -51,11 +51,24 @@ class RAGEngine:
         logger.info("🚀 [LANGGRAPH ENGINE] CHAT REQUEST RECEIVED")
         logger.info(f"   - Session: {session_id} | Mode: {mode}")
         logger.info(f"   - Input Query: \"{query}\"")
+        if attached_file:
+            logger.info(f"   - Attachment: {attached_file.get('name')}")
         logger.info("="*80)
 
         # 0. Load Conversation State (New)
         conv_state = self.memory.get_state(session_id)
         logger.info(f"   - Current State: doc='{conv_state.get('current_document')}', entities={conv_state.get('entities')}")
+
+        # 0.5 Resolve physical file_path from attached_file if needed
+        if not file_path and attached_file and attached_file.get("id"):
+            file_id = attached_file["id"]
+            filename = attached_file.get("name", "")
+            ext = os.path.splitext(filename)[1].lower() or ".pdf"
+            # Giả định file nằm trong thư mục tmp_uploads
+            possible_path = os.path.join("backend", "tmp_uploads", f"{file_id}{ext}")
+            if os.path.exists(possible_path):
+                file_path = possible_path
+                logger.info(f"   -> Resolved attached file to path: {file_path}")
 
         # 1. Prepare Initial State
         history = self.memory.get_history(session_id)
@@ -73,8 +86,12 @@ class RAGEngine:
             "conversation_state": conv_state, # Inject state
             "retry_count": 0,
             "references": [],
-            "metrics": {}
+            "metrics": {},
+            "attached_file": attached_file
         }
+
+        # Save User Message to Long-term History with attachment info
+        self.memory.add_message(session_id, "user", query, attached_file=attached_file, mode=mode)
 
         # 2. Invoke Graph (Streaming Events)
         final_state = {}
@@ -161,6 +178,7 @@ class RAGEngine:
                 standalone_query=standalone_query,
                 detected_mode=detected_mode,
                 mode=mode,
+                attached_file=attached_file,
                 conv_state=conv_state,
                 t0=t0
             ))
@@ -172,12 +190,11 @@ class RAGEngine:
             logger.error(f"  [!] LangGraph Streaming Error: {e}", exc_info=True)
             yield {"type": "error", "content": f"Lỗi hệ thống: {str(e)}"}
     
-    async def _background_post_turn(self, session_id, query, answer, references, standalone_query, detected_mode, mode, conv_state, t0):
+    async def _background_post_turn(self, session_id, query, answer, references, standalone_query, detected_mode, mode, attached_file, conv_state, t0):
         """Tác vụ chạy nền sau khi đã trả kết quả cho người dùng."""
         try:
             logger.info(f"🧠 [Engine] Post-turn processing (background task) starting...")
-            # 1. Lưu message vào DB
-            self.memory.add_message(session_id, "user", query, mode=mode)
+            # 1. Lưu message Assistant vào DB (User đã được lưu ở đầu hàm chat)
             self.memory.add_message(session_id, "assistant", answer, references=references, mode=mode)
             
             # 2. Trích xuất thực thể (Slow)

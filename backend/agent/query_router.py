@@ -21,10 +21,10 @@ class QueryRouter:
         if history is None:
             history = []
 
-        # HEURISTIC FAST PATH: Nhận diện câu chào hỏi/ngắn gọn
+        # HEURISTIC FAST PATH: Nhận diện câu chào hỏi/ngắn gọn (Chỉ áp dụng khi KHÔNG có file đính kèm)
         q_clean = query.strip().lower().rstrip("?.!")
         greetings = ["chào", "chào bạn", "hello", "hi", "hey", "tạm biệt", "cảm ơn", "thanks", "ok", "vâng", "dạ"]
-        if q_clean in greetings:
+        if q_clean in greetings and not has_file_attachment:
             print(f"       🎯 [SuperRouter] Fast Path Detect: GENERAL_CHAT")
             return RouteIntent.GENERAL_CHAT, query, query, {}, {"Route.FastPath": 0.001}
         

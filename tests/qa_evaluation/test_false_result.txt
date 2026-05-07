@@ -1,0 +1,1199 @@
+=== LIST OF FAILED TEST CASES ===
+
+--- FAILED: MULTIPLE_DOCUMENTS ---
+Query: Năm 2023, tôi gửi đơn xin cấp chứng chỉ hành nghề dược. Tôi thực hành tại một quầy thuốc có chủ sở hữu là người mang bằng trung cấp. Thời điểm đó, hồ sơ gửi lên Sở Y tế và đã được thông báo tiếp nhận (chấp nhận hồ sơ hợp lệ). Đến nay (năm 2024), tôi đã hoàn thành đủ thời gian thực hành theo quy định để được cấp chứng chỉ hành nghề nhưng lại bị Sở Y tế từ chối với lý do: xin cấp chứng chỉ hành nghề dược cho bằng cao đẳng thì phải nộp hồ sơ thực hành tại quầy thuốc có chủ sở hữu tối thiểu là bằng cao đẳng. Tôi xin hỏi sự từ chối này có đúng pháp luật không? Tại sao lúc đầu nộp hồ sơ thì Sở Y tế vẫn chấp nhận mà bây giờ lại từ chối?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng khi kết luận việc từ chối của Sở Y tế "có thể vi phạm pháp luật" và không nhận diện được nguyên tắc cốt lõi là người hướng dẫn thực hành phải có trình độ tương đương hoặc cao hơn, dẫn đến kết luận trái ngược với câu trả lời mẫu và thực tiễn pháp lý.
+Answer: Dựa trên **Đồ thị tri thức** và **Ngữ cảnh bổ sung** được cung cấp, tôi xin trả lời câu hỏi của bạn như sau:
+
+### 1. Xác định văn bản pháp luật áp dụng
+Theo nguyên tắc thời gian pháp lý (Quy tắc 8), chúng ta cần xác định văn bản nào có hiệu lực tại thời điểm sự việc xảy ra. Tuy nhiên, câu hỏi đề cập đến "Luật Dược 2016" và các Nghị định/Thông tư hướng dẫn (như Nghị định 84/2021/NĐ-CP, Thông tư 30/2018/TT-BYT).
+
+Trong dữ liệu cung cấp:
+*   Có **Luật Dược 2016** (Văn bản: `105/2016/QH13`).
+*   Có **Nghị định 79/2006/NĐ-CP** (Hướng dẫn Luật Dược 2005 - Văn bản cũ).
+*   Có **Thông tư 01/2004/TT-BYT** (Văn bản cũ).
+*   **KHÔNG CÓ** trong ngữ cảnh các văn bản mới mà người dùng nhắc đến: *Nghị định 84/2021/NĐ-CP*, *Thông tư 30/2018/TT-BYT*, hay *Thông tư 54/2025/TT-BYT*.
+
+Do đó, tôi sẽ phân tích dựa trên quy định chung về điều kiện thực hành trong **Luật Dược 2016** (có trong ngữ cảnh) và đối chiếu với các văn bản hướng dẫn chi tiết hiện có trong ngữ cảnh (dù là cũ, để minh họa logic pháp lý về điều kiện thực hành), đồng thời cảnh báo về việc thiếu thông tin từ các văn bản mới.
+
+### 2. Quy định về điều kiện thực hành chuyên môn theo Luật Dược 2016
+
+Theo **Điều 13, Khoản 2** của **Luật Dược 2016** (`105/2016/QH13`) có trong ngữ cảnh:
+> *"Có thời gian thực hành tại cơ sở kinh doanh dược... phù hợp với chuyên môn của người hành nghề theo quy định sau đây..."*
+
+Luật Dược 2016 quy định nguyên tắc chung là phải có thời gian thực hành, nhưng **không quy định cụ thể số năm** cho từng trình độ bằng cấp (như Cao đẳng, Trung cấp) ngay trong Luật. Luật giao quyền cho Chính phủ và Bộ trưởng Bộ Y tế quy định chi tiết.
+
+Cụ thể:
+*   Điểm b Khoản 2 Điều 13: Người có trình độ chuyên khoa sau đại học được giảm thời gian thực hành theo quy định của Chính phủ.
+*   Điểm c Khoản 2 Điều 13: Đối với người có văn bằng chuyên môn quy định tại điểm l khoản 1 (y dược cổ truyền) thì thời gian thực hành theo quy định của Bộ trưởng Bộ Y tế.
+
+**Lưu ý quan trọng:** Trong ngữ cảnh **không có** Nghị định 84/2021/NĐ-CP hay Thông tư 30/2018/TT-BYT để trích dẫn con số cụ thể (ví dụ: 12 tháng, 24 tháng...) cho người có bằng Cao đẳng Dược. Do đó, tôi không thể đưa ra con số chính xác về thời gian thực hành bắt buộc cho bằng Cao đẳng Dược dựa *chỉ* trên dữ liệu này.
+
+Tuy nhiên, dựa trên logic pháp lý từ các văn bản hướng dẫn trước đó có trong ngữ cảnh (để tham chiếu cấu trúc quy định):
+*   **Nghị định 79/2006/NĐ-CP** (Văn bản cũ, đã bị thay thế bởi Luật Dược 2016 và các nghị định mới, nhưng vẫn phản ánh nguyên tắc quản lý): Quy định thời gian thực hành tùy thuộc vào vị trí công tác (quản lý chuyên môn, chủ nhà thuốc...). Ví dụ: Chủ quầy thuốc cần ít nhất 02 năm thực hành (Khoản 4b Điều 15).
+
+### 3. Phân tích tính hợp pháp của việc Sở Y tế từ chối cấp chứng chỉ
+
+Câu hỏi đặt ra: *Việc Sở Y tế từ chối cấp chứng chỉ cho người thực hành tại quầy thuốc do người có bằng Trung cấp làm chủ sở hữu/người chịu trách nhiệm chuyên môn kỹ thuật có đúng pháp luật không?*
+
+Để trả lời, ta cần xem xét hai yếu tố:
+1.  **Điều kiện của người xin cấp chứng chỉ (Người có bằng Cao đẳng Dược).**
+2.  **Điều kiện của cơ sở thực hành (Quầy thuốc do người Trung cấp đứng tên).**
+
+#### A. Về điều kiện của cơ sở thực hành (Quầy thuốc)
+Theo nguyên tắc quản lý dược, người đứng tên chịu trách nhiệm chuyên môn kỹ thuật tại cơ sở kinh doanh dược (như Quầy thuốc) phải đáp ứng đủ điều kiện hành nghề và có Chứng chỉ hành nghề dược phù hợp.
+
+*   Trong ngữ cảnh, **Thông tư 01/2004/TT-BYT** (Văn bản cũ) tại **Điều 19, Khoản 4b** quy định: *"Người có bằng tốt nghiệp trung học chuyên nghiệp dược trở lên và đã có thời gian làm việc tại cơ sở y, dược ít nhất là 2 năm"* có thể làm người đứng đầu quầy thuốc.
+*   Nếu áp dụng tương tự vào khung pháp lý hiện hành (mặc dù văn bản cụ thể 84/2021/NĐ-CP không có trong ngữ cảnh), người có bằng **Trung cấp Dược** thường đủ điều kiện để làm người chịu trách nhiệm chuyên môn kỹ thuật tại **Quầy thuốc** (vì yêu cầu thấp hơn Nhà thuốc).
+
+=> **Kết luận sơ bộ:** Việc một người có bằng Trung cấp Dược làm chủ sở hữu/chịu trách nhiệm chuyên môn tại Quầy thuốc là **có thể hợp pháp**, miễn là họ đã có Chứng chỉ hành nghề dược và đáp ứng đủ thời gian thực hành theo quy định.
+
+#### B. Về việc từ chối hồ sơ của người có bằng Cao đẳng Dược
+Sở Y tế từ chối vì lý do: *"Thực hành tại quầy thuốc do người có bằng Trung cấp làm chủ sở hữu/người chịu trách nhiệm chuyên môn kỹ thuật"*.
+
+Lý do từ chối này **CHỈ ĐÚNG PHÁP LUẬT** nếu:
+1.  Người có bằng Trung cấp đó **KHÔNG CÓ** Chứng chỉ hành nghề dược hoặc **MẤT HIỆU LỰC** chứng chỉ.
+2.  Hoặc, quy định pháp luật hiện hành (trong Nghị định 84/2021/NĐ-CP - *không có trong ngữ cảnh*) quy định rằng người thực hành (người xin cấp chứng chỉ) phải thực hành dưới sự giám sát trực tiếp của người có trình độ **cao hơn** hoặc bằng, và người Trung cấp không đủ tư cách để giám sát người Cao đẳng trong một số vị trí cụ thể.
+
+Tuy nhiên, nhìn vào **Luật Dược 2016** (Điều 13), điều kiện thực hành là *"tại cơ sở kinh doanh dược... phù hợp với chuyên môn"*. Luật không cấm người có bằng Cao đẳng thực hành tại cơ sở do người có bằng Trung cấp đứng tên, **miễn là cơ sở đó hoạt động hợp pháp và người đứng tên có đủ tư cách hành nghề**.
+
+Nếu Sở Y tế từ chối vì lý do *"Người đứng tên cơ sở thực hành có trình độ thấp hơn người xin cấp chứng chỉ"*, điều này **CÓ THỂ KHÔNG ĐÚNG PHÁP LUẬT** nếu:
+*   Người Trung cấp đó đã có đầy đủ Chứng chỉ hành nghề dược và đang hành nghề hợp pháp tại Quầy thuốc.
+*   Không có quy định nào cấm người có trình độ cao hơn thực hành tại cơ sở do người có trình độ thấp hơn đứng tên (trừ khi vị trí thực hành yêu cầu người hướng dẫn phải có trình độ tương đương hoặc cao hơn, điều này thường áp dụng cho vị trí Quản lý chuyên môn, không phải nhân viên thực hành thông thường).
+
+#### C. Giải thích việc chấp nhận hồ sơ ban đầu rồi từ chối sau kiểm tra
+Việc Sở Y tế chấp nhận hồ sơ ban đầu nhưng từ chối sau khi kiểm tra thực tế là thủ tục hành chính bình thường:
+1.  **Giai đoạn 1 (Tiếp nhận):** Sở Y tế kiểm tra tính hợp lệ của hồ sơ giấy tờ (bằng cấp, đơn đề nghị...). Nếu giấy tờ đầy đủ, họ tiếp nhận.
+2.  **Giai đoạn 2 (Kiểm tra thực tế):** Cơ quan chức năng kiểm tra điều kiện thực tế tại cơ sở thực hành. Nếu phát hiện cơ sở thực hành không đảm bảo điều kiện (ví dụ: người đứng tên chưa có chứng chỉ, hoặc cơ sở không còn hoạt động, hoặc người thực hành không thực sự làm việc tại đó), họ sẽ từ chối.
+
+### 4. Kết luận và Khuyến nghị
+
+1.  **Về quy định thời gian thực hành:** Dựa trên ngữ cảnh hiện tại, **không tìm thấy** quy định cụ thể về số tháng/năm thực hành cho người có bằng Cao đẳng Dược trong Luật Dược 2016. Cần tra cứu thêm **Nghị định 84/2021/NĐ-CP** (văn bản hướng dẫn thi hành Luật Dược 2016) để biết chính xác thời gian (thường là 12-24 tháng tùy vị trí).
+2.  **Về tính hợp pháp của việc từ chối:**
+    *   Nếu người có bằng Trung cấp đứng tên Quầy thuốc **đã có Chứng chỉ hành nghề dược hợp lệ**, việc Sở Y tế từ chối hồ sơ của người Cao đẳng chỉ vì lý do trình độ người đứng tên thấp hơn là **có thể vi phạm pháp luật**, trừ khi có quy định đặc thù về việc người hướng dẫn thực tập phải có trình độ tương đương.
+    *   Nếu người có bằng Trung cấp **chưa có Chứng chỉ hành nghề dược**, thì cơ sở đó không đủ điều kiện để người khác thực hành tại đó, và việc từ chối là **ĐÚNG PHÁP LUẬT**.
+3.  **Khuyến nghị:** Người dân cần đối chiếu với **Nghị định 84/2021/NĐ-CP** (Điều 15 về điều kiện cấp Chứng chỉ hành nghề dược) để xem:
+    *   Thời gian thực hành bắt buộc cho bằng Cao đẳng là bao nhiêu?
+    *   Có quy định nào về trình độ của người đứng tên cơ sở thực hành so với người thực hành không?
+
+**Cảnh báo:** Do ngữ cảnh không chứa Nghị định 84/2021/NĐ-CP, câu trả lời này dựa trên nguyên tắc chung của Luật Dược 2016 và các văn bản cũ. Để có kết luận chính xác tuyệt đối, cần tham khảo văn bản hướng dẫn thi hành hiện hành.
+--------------------------------------------------
+
+--- FAILED: 55/2010/QH12 ---
+Query: Gia đình tôi mở một nhà hàng ăn uống hải sản quy mô vừa tại TP.HCM. Cuối tuần trước, đoàn kiểm tra liên ngành của phường xuống kiểm tra và lập biên bản xử phạt cơ sở của tôi với lý do 'không có Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm'. Tuy nhiên, tôi giải thích rằng nhà hàng của tôi nằm trong khuôn viên một khách sạn đã được cấp chứng nhận chuẩn 3 sao, nên nhà hàng được miễn giấy phép con này theo quy định mới. Phường không đồng ý và vẫn đòi phạt 15 triệu. Theo Luật 55/2010/QH12 và các quy định pháp luật liên quan hiện hành, tôi đúng hay đoàn kiểm tra phường đúng?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra kết luận sai hoàn toàn về bản chất vấn đề khi khẳng định nhà hàng trong khách sạn không được miễn giấy chứng nhận, bỏ sót quy định quan trọng tại Khoản 1 Điều 12 Nghị định 15/2018/NĐ-CP (văn bản hướng dẫn hiện hành thay thế các nghị định cũ mà RAG trích dẫn), dẫn đến tư vấn pháp lý sai lệch và gây thiệt hại cho người hỏi.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin trả lời câu hỏi của bạn như sau:
+
+### 1. Về việc miễn Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm
+
+**Kết luận:** Cơ sở kinh doanh ăn uống (nhà hàng hải sản) nằm trong khuôn viên khách sạn **KHÔNG được miễn** Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm.
+
+**Căn cứ pháp lý:**
+*   Theo **Điều 34 Luật An toàn thực phẩm số 55/2010/QH12** (được trích dẫn trong `<can_cu id="1">`), các cơ sở sản xuất, kinh doanh thực phẩm phải có Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm khi đáp ứng đủ các điều kiện quy định.
+*   Khoản 3 Điều 34 nêu rõ: *"Chính phủ quy định cụ thể đối tượng không thuộc diện cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm."*
+*   Tuy nhiên, trong toàn bộ ngữ cảnh và đồ thị tri thức được cung cấp, **không có văn bản nào** (Luật hay Nghị định hướng dẫn) quy định rằng "khách sạn đạt chuẩn sao" hoặc "bếp ăn tập thể/nhà hàng trong khách sạn" là đối tượng được miễn giấy phép này. Ngược lại, **Điều 28 Luật An toàn thực phẩm 55/2010/QH12** (`<can_cu id="2">`) quy định chi tiết các điều kiện bảo đảm an toàn thực phẩm đối với nơi chế biến, kinh doanh dịch vụ ăn uống, bao gồm cả bếp ăn, nhà hàng ăn uống của khách sạn.
+*   Do đó, nhà hàng hải sản trong khách sạn vẫn thuộc đối tượng phải xin cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm theo quy định chung.
+
+### 2. Về tính đúng đắn của biên bản xử phạt 15 triệu đồng
+
+**Kết luận:** Việc đoàn kiểm tra lập biên bản xử phạt 15 triệu đồng là **ĐÚNG PHÁP LUẬT**, dựa trên mức phạt tối đa cho hành vi không có giấy phép đối với cơ sở thuộc thẩm quyền quản lý của cấp tỉnh (hoặc tương đương tùy vào phân cấp cụ thể tại thời điểm, nhưng mức 15 triệu nằm trong khung luật định).
+
+**Phân tích chi tiết:**
+
+**A. Xác định văn bản áp dụng:**
+*   Câu hỏi yêu cầu áp dụng theo **Luật An toàn thực phẩm số 55/2010/QH12** và các văn bản hướng dẫn thi hành hiện hành.
+*   Trong đồ thị tri thức, có sự thay thế giữa các Nghị định:
+    *   **Nghị định 91/2012/NĐ-CP** (`<can_cu id="6">`) quy định mức phạt cho hành vi không có giấy chứng nhận hoặc hết hạn trên 3 tháng đối với cơ sở thuộc cấp tỉnh trở lên quản lý là từ **10.000.000 đồng đến 15.000.000 đồng** (Khoản 2, Điểm c).
+    *   **Nghị định 178/2013/NĐ-CP** (`<can_cu id="5">`, `<can_cu id="12">`) đã sửa đổi, bổ sung và thay thế một phần Nghị định 91/2012/NĐ-CP (theo quan hệ `[178/2013/NĐ-CP] --(Căn cứ vào)--> [91/2012/NĐ-CP]`). Nghị định 178/2013/NĐ-CP quy định mức phạt cho hành vi không có giấy chứng nhận đối với cơ sở thuộc phạm vi quản lý của cấp tỉnh trở lên là từ **10.000.000 đồng đến 15.000.000 đồng** (Điều 24, Khoản 3, Điểm c).
+    *   **Nghị định 115/2018/NĐ-CP** (`<can_cu id="13">`) đã thay thế Nghị định 178/2013/NĐ-CP (theo quan hệ `[115/2018/NĐ-CP] --(Thay thế)--> [178/2013/NĐ-CP]`). Nghị định 115/2018/NĐ-CP quy định mức phạt cao hơn nhiều: Phạt tiền từ **20.000.000 đồng đến 30.000.000 đồng** đối với hành vi kinh doanh dịch vụ ăn uống mà không có Giấy chứng nhận (Điều 18, Khoản 1).
+
+**B. Đánh giá mức phạt 15 triệu đồng:**
+*   Nếu sự việc xảy ra trong thời gian **Nghị định 178/2013/NĐ-CP** còn hiệu lực (trước khi Nghị định 115/2018/NĐ-CP có hiệu lực), thì mức phạt **15.000.000 đồng** là mức phạt **cao nhất** trong khung từ 10-15 triệu đồng dành cho cơ sở thuộc thẩm quyền cấp tỉnh trở lên (Điều 24, Khoản 3, Điểm c Nghị định 178/2013/NĐ-CP). Đây là mức phạt hợp lệ.
+*   Nếu sự việc xảy ra sau khi **Nghị định 115/2018/NĐ-CP** có hiệu lực, khung phạt đã tăng lên 20-30 triệu đồng. Tuy nhiên, câu hỏi đề cập đến việc áp dụng theo Luật 55/2010/QH12 và các văn bản hướng dẫn. Nếu đoàn kiểm tra áp dụng Nghị định 178/2013/NĐ-CP (vì có thể sự việc phát sinh trước ngày Nghị định 115/2018/NĐ-CP có hiệu lực, hoặc do lỗi áp dụng văn bản cũ nếu sự việc mới), mức 15 triệu vẫn nằm trong khung luật định của văn bản cũ.
+*   Quan trọng hơn, ngay cả khi áp dụng **Nghị định 91/2012/NĐ-CP** (văn bản gốc trước 178/2013), mức phạt cũng là 10-15 triệu đồng (Điều 23, Khoản 2, Điểm c).
+
+**C. Thẩm quyền và Địa điểm:**
+*   Nhà hàng nằm trong khách sạn tại TP.HCM. Thông thường, các cơ sở sản xuất, kinh doanh thực phẩm lớn hoặc thuộc loại hình khách sạn, nhà hàng thường thuộc thẩm quyền quản lý của cấp Tỉnh (Sở Y tế/Sở An toàn thực phẩm) hoặc cấp Huyện tùy theo quy định phân cấp cụ thể tại địa phương và nghị định hướng dẫn.
+*   Theo **Điều 24, Khoản 3 Nghị định 178/2013/NĐ-CP** (và tương tự ở Nghị định 91/2012/NĐ-CP), đối với cơ sở thuộc phạm vi quản lý của cấp tỉnh trở lên, hành vi không có giấy chứng nhận bị phạt từ 10-15 triệu đồng.
+*   Vì vậy, mức phạt 15 triệu đồng là **đúng với khung mức phạt** quy định trong các Nghị định hướng dẫn Luật An toàn thực phẩm 55/2010/QH12 (cụ thể là Nghị định 91/2012/NĐ-CP hoặc 178/2013/NĐ-CP) đối với hành vi không có Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm.
+
+### Tóm lại:
+1.  **Không được miễn giấy phép:** Nhà hàng trong khách sạn vẫn phải có Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm.
+2.  **Xử phạt đúng pháp luật:** Mức phạt 15 triệu đồng là hợp lệ nếu áp dụng theo Nghị định 91/2012/NĐ-CP hoặc Nghị định 178/2013/NĐ-CP (mức phạt tối đa 15 triệu cho cơ sở cấp tỉnh). Nếu áp dụng Nghị định 115/2018/NĐ-CP (hiện hành hơn), mức phạt sẽ cao hơn (20-30 triệu), nhưng mức 15 triệu vẫn phản ánh đúng khung phạt của các văn bản trước đó mà câu hỏi có thể đang tham chiếu hoặc thời điểm vi phạm. Đoàn kiểm tra có căn cứ để lập biên bản vì cơ sở hoạt động thiếu giấy phép bắt buộc.
+--------------------------------------------------
+
+--- FAILED: 40/2009/QH12 ---
+Query: Tôi là một nhà đầu tư nước ngoài muốn tham gia dự án thủy điện Lai Châu. Tôi có thể dựa vào Nghị quyết 40/2009/QH12 để xác định phạm vi quyền lợi và nghĩa vụ pháp lý cụ thể của mình trong dự án này không? Nếu tôi bị từ chối cung cấp thông tin chi tiết về chủ trương đầu tư với lý do văn bản chỉ là 'chủ trương', liệu cơ quan chức năng có đúng không?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng khi khẳng định cơ quan chức năng "không đúng" trong việc từ chối cung cấp thông tin chi tiết, trái ngược hoàn toàn với câu trả lời mẫu (văn bản chỉ là chủ trương nên không chứa điều khoản cụ thể về quyền lợi/nghĩa vụ), đồng thời RAG tự sinh nội dung các Điều 1-6 của Nghị quyết thay vì tuân thủ ngữ cảnh hạn chế như yêu cầu của bài toán.
+Answer: Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh, câu trả lời cho hai vấn đề của bạn như sau:
+
+**1. Về việc xác định phạm vi quyền lợi và nghĩa vụ pháp lý cụ thể của nhà đầu tư nước ngoài:**
+
+Nghị quyết 40/2009/QH12 **không quy định chi tiết** về phạm vi quyền lợi và nghĩa vụ cụ thể dành riêng cho "nhà đầu tư nước ngoài". Văn bản này chủ yếu quy định về chủ trương đầu tư, các thông số kỹ thuật cơ bản và giao nhiệm vụ cho Chính phủ. Cụ thể:
+*   **Điều 1** chỉ quyết định chủ trương đầu tư Dự án thủy điện Lai Châu để cung cấp điện, chống lũ, cấp nước và phục vụ phát triển kinh tế - xã hội.
+*   **Điều 2** quy định các thông số cơ bản (mực nước dâng, công suất, tổng mức đầu tư dự tính 32.600 tỷ đồng, lộ trình thời gian).
+*   **Điều 3** giao Chính phủ quyết định đầu tư và triển khai Dự án với các yêu cầu về hồ sơ, thiết kế, di dân tái định cư, bảo vệ môi trường và quốc phòng, an ninh.
+*   **Điều 4** giao Chính phủ tổ chức thi công các hạng mục chuẩn bị và áp dụng cơ chế, chính sách đã phát huy hiệu quả từ Dự án thủy điện Sơn La; nếu cần cơ chế đặc biệt thì Chính phủ trình Quốc hội quyết định.
+
+Do đó, Nghị quyết 40/2009/QH12 mang tính chất **quyết định chủ trương đầu tư** đối với một công trình quan trọng quốc gia, chứ không phải là văn bản quy định chi tiết về hợp đồng hay quyền lợi/nghĩa vụ cụ thể của từng loại hình nhà đầu tư (trong nước hay nước ngoài). Các quy định chi tiết về lựa chọn nhà đầu tư, nghĩa vụ pháp lý sẽ được thực hiện theo quy định của pháp luật về đầu tư và các văn bản hướng dẫn thi hành khác (như Luật Đầu tư công, Luật Kinh doanh bất động sản tùy thuộc vào mô hình, hoặc các nghị định hướng dẫn cụ thể).
+
+**2. Về hành vi từ chối cung cấp thông tin chi tiết với lý do văn bản chỉ mang tính 'chủ trương':**
+
+Hành vi này **không đúng** với tinh thần minh bạch và quy định về giám sát, báo cáo trong Nghị quyết 40/2009/QH12, mặc dù ngữ cảnh không trực tiếp quy định về "tiếp cận thông tin" theo nghĩa rộng của Luật Tiếp cận thông tin. Tuy nhiên, dựa trên nội dung Nghị quyết:
+*   **Điều 6, Khoản 1** quy định rõ: *"Sau khi triển khai đầu tư xây dựng, hằng năm Chính phủ báo cáo Quốc hội về tình hình thực hiện Dự án."* Điều này cho thấy thông tin về việc thực hiện dự án phải được công khai, báo cáo định kỳ trước cơ quan quyền lực nhà nước cao nhất.
+*   **Điều 6, Khoản 2** quy định: *"Ủy ban thường vụ Quốc hội, Hội đồng dân tộc, các Ủy ban của Quốc hội, các Đoàn đại biểu Quốc hội, các đại biểu Quốc hội trong phạm vi nhiệm vụ và quyền hạn của mình giám sát việc thực hiện Nghị quyết này."* Việc giám sát đòi hỏi phải có sự tiếp cận với thông tin thực hiện dự án.
+
+Việc cơ quan chức năng từ chối cung cấp thông tin chi tiết về chủ trương đầu tư (mà Nghị quyết 40/2009/QH12 là văn bản công khai, đã được Quốc hội thông qua ngày 25/11/2009) với lý do "chỉ mang tính chủ trương" là không phù hợp, vì:
+1.  Nghị quyết 40/2009/QH12 là văn bản pháp luật có hiệu lực, công khai, quy định rõ địa điểm, thông số kỹ thuật, tổng mức đầu tư dự tính và lộ trình (Điều 1, Điều 2). Đây là những thông tin cơ bản đã được công bố.
+2.  Pháp luật yêu cầu Chính phủ phải báo cáo và chịu sự giám sát về việc thực hiện dự án, điều này ngụ ý rằng thông tin về dự án không được giữ bí mật một cách vô lý mà phải phục vụ công tác quản lý, giám sát nhà nước.
+
+Tóm lại, nhà đầu tư (bao gồm cả nhà đầu tư nước ngoài nếu tham gia) có thể căn cứ vào Nghị quyết 40/2009/QH12 để biết các thông tin cơ bản về dự án (thông số, địa điểm, mục tiêu), nhưng các quyền lợi và nghĩa vụ chi tiết sẽ được xác định thông qua các thủ tục lựa chọn nhà đầu tư và hợp đồng đầu tư cụ thể theo quy định của pháp luật hiện hành. Cơ quan chức năng không được từ chối cung cấp các thông tin đã được công khai trong Nghị quyết này.
+--------------------------------------------------
+
+--- FAILED: 40/2009/QH12 ---
+Query: Tôi là một nhà đầu tư nước ngoài muốn tham gia góp vốn vào dự án thủy điện Lai Châu. Tôi yêu cầu xem xét lại toàn bộ nội dung kỹ thuật và tài chính của Nghị quyết 40/2009/QH12 để đánh giá rủi ro pháp lý. Tuy nhiên, cơ quan chức năng chỉ cung cấp cho tôi phần 'Nơi nhận và Chữ ký' có chữ ký của Chủ tịch Quốc hội Nguyễn Phú Trọng. Tôi bị từ chối cung cấp các điều khoản chi tiết về chủ trương đầu tư với lý do văn bản này quá ngắn gọn. Việc làm này có đúng quy định không? Căn cứ vào đâu?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng khi khẳng định việc từ chối cung cấp là vi phạm pháp luật, trong khi thực tế (theo câu trả lời mẫu) văn bản 40/2009/QH12 trong ngữ cảnh dữ liệu chỉ chứa phần "Nơi nhận và Chữ ký", nên cơ quan chức năng đã cung cấp đúng toàn bộ nội dung có sẵn.
+Answer: Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh, việc cơ quan chức năng từ chối cung cấp nội dung chi tiết về chủ trương đầu tư dự án thủy điện Lai Châu cho nhà đầu tư nước ngoài, chỉ cung cấp phần 'Nơi nhận và Chữ ký' với lý do văn bản quá ngắn gọn là **không đúng quy định pháp luật Việt Nam**.
+
+Cụ thể, căn cứ pháp lý quy định về trách nhiệm công khai và quyền được cung cấp thông tin đầy đủ của nhà đầu tư như sau:
+
+**1. Trách nhiệm công bố và cung cấp thông tin đầy đủ của cơ quan nhà nước**
+Theo **Khoản 1 Điều 21 Nghị định 118/2015/NĐ-CP** (và tương tự tại **Khoản 1 Điều 8 Nghị định 31/2021/NĐ-CP**), cơ quan đăng ký đầu tư, cơ quan quản lý nhà nước về quy hoạch, tài nguyên và môi trường và các cơ quan quản lý nhà nước khác có trách nhiệm **công bố đầy đủ, công khai** quy hoạch, danh mục dự án đầu tư theo quy định của pháp luật.
+
+Hơn nữa, theo **Khoản 2 Điều 21 Nghị định 118/2015/NĐ-CP** (và **Khoản 2 Điều 8 Nghị định 31/2021/NĐ-CP**), khi nhà đầu tư có yêu cầu cung cấp thông tin về quy hoạch, danh mục dự án đầu tư và các thông tin khác liên quan đến dự án đầu tư, các cơ quan quy định tại Khoản 1 Điều này có trách nhiệm **cung cấp thông tin theo thẩm quyền cho nhà đầu tư trong thời hạn 05 ngày làm việc** kể từ ngày nhận được văn bản đề nghị. Việc chỉ cung cấp phần "Nơi nhận và Chữ ký" mà không cung cấp nội dung chính (như Điều 1, Điều 2, Điều 3... của Nghị quyết) là vi phạm nghĩa vụ cung cấp thông tin đầy đủ.
+
+**2. Quyền sử dụng thông tin của nhà đầu tư**
+Theo **Khoản 3 Điều 21 Nghị định 118/2015/NĐ-CP** (và **Khoản 3 Điều 8 Nghị định 31/2021/NĐ-CP**), nhà đầu tư có quyền sử dụng thông tin theo quy định tại Khoản 1 và Khoản 2 Điều này để lập hồ sơ đăng ký đầu tư. Do đó, nhà đầu tư cần nắm được toàn bộ nội dung chủ trương đầu tư (mục tiêu, địa điểm, thông số kỹ thuật, nhiệm vụ...) chứ không chỉ phần thủ tục hành chính cuối văn bản.
+
+**3. Nội dung cần được cung cấp thuộc phạm vi công khai**
+Nghị quyết 40/2009/QH12 là văn bản quy phạm pháp luật về chủ trương đầu tư. Theo **Điều 4 Thông tư 26/2009/TT-BTTTT**, các cơ quan nhà nước phải đăng tải hệ thống văn bản quy phạm pháp luật chuyên ngành, bao gồm hình thức văn bản, trích yếu, tệp văn bản cho phép tải về. Ngoài ra, thông tin về dự án đầu tư (tên dự án, mục tiêu chính, lĩnh vực chuyên môn, loại dự án, thời gian thực hiện...) cũng là thông tin chủ yếu phải được công khai theo **điểm e khoản 1 Điều 4 Thông tư 26/2009/TT-BTTTT**.
+
+Các nội dung trong Nghị quyết 40/2009/QH12 như:
+*   **Điều 1:** Quyết định chủ trương đầu tư, địa điểm xây dựng.
+*   **Điều 2:** Các thông số cơ bản (mực nước dâng, công suất, tổng mức đầu tư, lộ trình).
+*   **Điều 3:** Giao Chính phủ quyết định đầu tư và triển khai với các yêu cầu cụ thể.
+*   **Điều 4, 5:** Cơ chế chính sách và các dự án thành phần/dự án liên quan.
+
+Là những thông tin cốt lõi liên quan trực tiếp đến dự án đầu tư, không thuộc các trường hợp từ chối cung cấp thông tin theo quy định tại **Điều 38 Luật Báo chí 2016** (như bí mật nhà nước, bí mật đời tư, vụ án đang điều tra...) hay các quy định về tiếp cận thông tin có điều kiện. Do đó, cơ quan chức năng không có cơ sở pháp lý để từ chối cung cấp các nội dung này.
+
+**Kết luận:**
+Việc từ chối cung cấp nội dung chi tiết của Nghị quyết 40/2009/QH12 là sai quy định. Cơ quan chức năng có trách nhiệm cung cấp toàn bộ văn bản hoặc các thông tin liên quan đến dự án đầu tư cho nhà đầu tư trong thời hạn 05 ngày làm việc theo yêu cầu, căn cứ vào **Điều 21 Nghị định 118/2015/NĐ-CP** (hoặc **Điều 8 Nghị định 31/2021/NĐ-CP** tùy thời điểm áp dụng) và các quy định về công khai thông tin trên trang thông tin điện tử tại **Thông tư 26/2009/TT-BTTTT**.
+--------------------------------------------------
+
+--- FAILED: 1620/QĐ-UBND ---
+Query: Tôi là một doanh nghiệp vừa và nhỏ, đang thực hiện thủ tục hành chính liên quan đến lĩnh vực Doanh nghiệp. Tôi cần xác minh tính pháp lý của quyết định này trên Cổng Thông tin điện tử tỉnh. Tuy nhiên, tôi lo ngại rằng văn bản chỉ được lưu trữ nội bộ tại Văn thư (VT) và chưa được công bố rộng rãi. Căn cứ vào phần 'Nơi nhận' của Quyết định 1620/QĐ-UBND, tôi có thể khẳng định chắc chắn rằng văn bản này đã được gửi đến Cổng Thông tin điện tử tỉnh để công bố không? Và điều này có nghĩa là gì đối với hiệu lực thi hành của danh mục thủ tục hành chính được sửa đổi, bổ sung trong quyết định này?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra kết luận sai lệch so với câu trả lời mẫu và dữ liệu thực tế, phủ nhận việc văn bản được gửi đến Cổng Thông tin điện tử tỉnh (trong khi mẫu khẳng định có) và không giải thích đúng ý nghĩa pháp lý của việc này đối với tính công khai, minh bạch như yêu cầu.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin trả lời câu hỏi của bạn như sau:
+
+**1. Xác định đúng văn bản pháp luật liên quan**
+Câu hỏi đề cập đến "Quyết định 1620/QĐ-UBND về sửa đổi, bổ sung danh mục thủ tục hành chính trong lĩnh vực **Doanh nghiệp**".
+*   Theo `<can_cu id="1">` và `<can_cu id="19">`, đây là **Quyết định 1620/QĐ-UBND năm 2019** của Chủ tịch UBND tỉnh Cà Mau (công bố danh mục TTHC sửa đổi, bổ sung trong lĩnh vực Thành lập và hoạt động của doanh nghiệp).
+*   *Lưu ý:* Các văn bản khác cùng số hiệu 1620/QĐ-UBND nhưng thuộc các tỉnh/năm khác (như Điện Biên 2021 về hỗ trợ Covid-19, Hà Tĩnh 2025 về Thiết bị Y tế) không phải là đối tượng chính của câu hỏi này do lĩnh vực không khớp.
+
+**2. Về việc gửi đến Cổng Thông tin điện tử tỉnh và khẳng định công bố rộng rãi**
+*   **Thông tin từ ngữ cảnh:** Trong `<can_cu id="19">` (Điều 2, Khoản 2 của QĐ 1620/QĐ-UBND năm 2019), quy định giao Sở Kế hoạch và Đầu tư chủ trì cập nhật quy trình lên **"Hệ thống thông tin một cửa điện tử tỉnh"**.
+*   **So sánh với các văn bản khác:** Trong khi các văn bản 1620/QĐ-UBND khác (ví dụ: QĐ 1620/QĐ-UBND năm 2021 của tỉnh Điện Biên tại `<can_cu id="3">`) có phần "Nơi nhận" liệt kê rõ ràng "Cổng Thông tin điện tử tỉnh", thì trong nội dung chi tiết của QĐ 1620/QĐ-UBND năm 2019 (lĩnh vực Doanh nghiệp) được cung cấp, **không thấy liệt kê cụ thể "Cổng Thông tin điện tử tỉnh" trong phần Nơi nhận** mà chỉ nhấn mạnh việc cập nhật lên "Hệ thống thông tin một cửa điện tử tỉnh".
+*   **Kết luận:** Việc gửi hoặc cập nhật lên hệ thống thông tin điện tử là một biện pháp kỹ thuật để đảm bảo tính minh bạch và tiếp cận thông tin. Tuy nhiên, dựa trên dữ liệu hiện có, **không thể khẳng định chắc chắn** rằng chỉ việc gửi đến Cổng Thông tin điện tử tỉnh là yếu tố duy nhất hay đủ điều kiện để khẳng định văn bản đã được "công bố rộng rãi" theo đúng nghĩa pháp lý đầy đủ (thường cần đăng Công báo hoặc cơ sở dữ liệu quốc gia). Nó là một kênh công bố quan trọng nhưng ngữ cảnh không cung cấp đủ thông tin để khẳng định tính "chắc chắn tuyệt đối" của việc công bố rộng rãi chỉ dựa trên kênh này.
+
+**3. Ảnh hưởng đến hiệu lực thi hành của các thủ tục hành chính**
+*   **Thời điểm có hiệu lực:** Theo **Điều 2** của Quyết định 1620/QĐ-UBND năm 2019 (`<can_cu id="19">`): *"Quyết định này có hiệu lực thi hành kể từ ngày ký."*
+*   **Ảnh hưởng cụ thể:**
+    1.  **Thay thế văn bản cũ:** Khoản 1 Điều 2 quy định quyết định này **thay thế** Quyết định số 527/QĐ-UBND ngày 29/3/2019. Do đó, các thủ tục hành chính được quy định trong QĐ 527/QĐ-UBND sẽ hết hiệu lực và thay bằng các quy định mới trong QĐ 1620/QĐ-UBND.
+    2.  **Cập nhật quy trình:** Khoản 2 Điều 2 yêu cầu cập nhật quy trình nội bộ, liên thông và điện tử lên Hệ thống thông tin một cửa điện tử tỉnh trong thời hạn 05 ngày làm việc. Điều này có nghĩa là các thủ tục hành chính mới/sửa đổi sẽ được thực hiện theo quy trình điện tử mới ngay sau khi quyết định có hiệu lực và hoàn tất việc cập nhật hệ thống.
+
+**Tóm lại:**
+Việc cập nhật/gửi đến hệ thống thông tin điện tử là bước thực hiện kỹ thuật bắt buộc để đưa thủ tục vào vận hành, nhưng **hiệu lực thi hành** của các thủ tục hành chính trong Quyết định 1620/QĐ-UBND (năm 2019) được xác định rõ ràng là **kể từ ngày ký** của quyết định, đồng thời nó **thay thế** hoàn toàn Quyết định 527/QĐ-UBND trước đó.
+--------------------------------------------------
+
+--- FAILED: 1620/QĐ-UBND ---
+Query: Tôi là một doanh nghiệp vừa và nhỏ, đang thực hiện thủ tục hành chính liên quan đến lĩnh vực Doanh nghiệp được quy định trong Quyết định 1620/QĐ-UBND. Tôi muốn xác minh tính hợp lệ của văn bản này trên Cổng Thông tin điện tử tỉnh nhưng không tìm thấy nội dung chi tiết về các điều kiện, hồ sơ cụ thể vì văn bản chỉ liệt kê phần Nơi nhận. Tôi có thể khiếu nại cơ quan nhà nước vì cung cấp thông tin không đầy đủ để phục vụ việc thực hiện thủ tục hành chính không? Căn cứ vào đâu?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng khi khẳng định người dân có quyền khiếu nại việc "thiếu thông tin chi tiết" trong khi thực chất đó là do giới hạn trích dẫn ngữ cảnh (chỉ có phần Nơi nhận), không phải lỗi pháp lý của văn bản hay hành vi vi phạm của cơ quan nhà nước, trái ngược hoàn toàn với kết luận đúng đắn trong câu trả lời mẫu.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin trả lời câu hỏi của bạn như sau:
+
+### 1. Xác định Văn bản Pháp lý Áp dụng
+Câu hỏi đề cập đến **Quyết định 1620/QĐ-UBND** trong lĩnh vực Doanh nghiệp. Trong ngữ cảnh, có hai văn bản mang số hiệu này nhưng khác năm và nội dung:
+*   **1620/QĐ-UBND năm 2019**: Công bố danh mục thủ tục hành chính sửa đổi, bổ sung trong lĩnh vực Thành lập và hoạt động của doanh nghiệp thuộc thẩm quyền giải quyết của Sở Kế hoạch và Đầu tư tỉnh Cà Mau (Nguồn: `<can_cu id="1">`, `<can_cu id="19">`).
+*   **1620/QĐ-UBND năm 2021**: Phê duyệt quy trình nội bộ hỗ trợ người lao động/người sử dụng lao động do đại dịch Covid-19 tại tỉnh Điện Biên (Nguồn: `<can_cu id="3">`).
+
+Vì câu hỏi nêu rõ là **"lĩnh vực Doanh nghiệp"**, nên văn bản áp dụng là **Quyết định 1620/QĐ-UBND năm 2019** của UBND tỉnh Cà Mau.
+
+### 2. Về Quyền Khiếu nại và Nghĩa vụ Công khai Thông tin
+
+**a. Bạn có quyền khiếu nại không?**
+**Có.** Theo quy định tại **Điều 28 Luật Tố tụng hành chính 2015** (Văn bản: `93/2015/QH13`), cơ quan, tổ chức, cá nhân có quyền khiếu nại hành vi, quyết định trái pháp luật của cơ quan tiến hành tố tụng hoặc bất cứ cơ quan, tổ chức, cá nhân nào trong hoạt động tố tụng hành chính. Nếu việc không công bố đầy đủ điều kiện, hồ sơ trên Cổng Thông tin điện tử tỉnh là hành vi vi phạm nghĩa vụ công khai theo quy định pháp luật, bạn có quyền khiếu nại.
+
+**b. Căn cứ pháp lý về nghĩa vụ công khai thông tin thủ tục hành chính:**
+Mặc dù ngữ cảnh không trích dẫn trực tiếp toàn bộ Luật Tiếp cận thông tin hay Luật Tổ chức chính quyền địa phương chi tiết về *nội dung* phải công khai, nhưng các văn bản sau khẳng định trách nhiệm công khai:
+
+1.  **Nghị định 20/2008/NĐ-CP** (Văn bản: `20/2008/NĐ-CP`):
+    *   **Điều 13, Khoản 3**: Quy định rõ: *"Ủy ban nhân dân cấp tỉnh có trách nhiệm công khai địa chỉ cơ quan... thực hiện việc tiếp nhận phản ánh, kiến nghị... trên Cổng thông tin điện tử hoặc Trang tin điện tử (website) của cơ quan mình..."*.
+    *   **Điều 19**: Quy định về *"Công khai kết quả xử lý phản ánh, kiến nghị"* thông qua đăng tải trên Cổng thông tin điện tử.
+    *   *Lưu ý*: Nghị định này chủ yếu nói về công khai kênh tiếp nhận phản ánh/khiếu nại, nhưng nguyên tắc chung là UBND cấp tỉnh phải công khai thông tin trên Cổng TTĐT.
+
+2.  **Quyết định 1620/QĐ-UBND năm 2019** (Văn bản: `1620/QĐ-UBND`):
+    *   Tại phần **Nơi nhận**, văn bản này liệt kê: *"Cổng Thông tin điện tử tỉnh (VIC)"*. Điều này cho thấy văn bản đã được gửi đến Cổng Thông tin điện tử tỉnh để công bố.
+    *   Tuy nhiên, nếu Cổng Thông tin điện tử tỉnh chỉ đăng tải phần "Nơi nhận" mà không đăng tải chi tiết điều kiện, hồ sơ (thường nằm ở Phụ lục hoặc Điều khoản cụ thể của Quyết định), thì đây có thể là sự thiếu sót trong việc thực hiện nghĩa vụ công khai minh bạch.
+
+3.  **Quyết định 46/2012/QĐ-UBND** (Văn bản: `46/2012/QĐ-UBND`) - Mặc dù là của tỉnh Khánh Hòa và liên quan đến thanh tra/khiếu nại, nhưng nó phản ánh nguyên tắc chung:
+    *   **Điều 5**: *"Thực hiện công khai theo quy định tại Điều 41 Luật Khiếu nại... Công khai hoạt động giải quyết khiếu nại là trách nhiệm của Thủ trưởng tổ chức thanh tra, Thủ trưởng cơ quan có thẩm quyền giải quyết khiếu nại."*
+
+### 3. Phân tích mối quan hệ pháp lý và Cảnh báo
+*   **Quan hệ căn cứ**: Quyết định 1620/QĐ-UBND năm 2019 căn cứ vào **Luật Tổ chức chính quyền địa phương ngày 19/6/2015** (`77/2015/QH13`) và **Nghị định 63/2010/NĐ-CP** về kiểm soát thủ tục hành chính.
+*   **Quan hệ sửa đổi/bãi bỏ**: Trong đồ thị tri thức, có một số quan hệ chỉ ra rằng `1620/QĐ-UBND` (có thể là bản khác hoặc cùng số hiệu nhưng ngữ cảnh khác) có quan hệ "Bãi bỏ" với `491/QĐ-UBND` và `2273/QĐ-UBND`. Tuy nhiên, đối với bản 1620/QĐ-UBND năm 2019 về doanh nghiệp, không thấy thông tin nó bị bãi bỏ trong ngữ cảnh hiện tại.
+*   **Cảnh báo**: Cần phân biệt rõ giữa **Quyết định 1620/QĐ-UBND năm 2019** (Cà Mau, Doanh nghiệp) và **Quyết định 1620/QĐ-UBND năm 2025** (Hà Tĩnh, Thiết bị Y tế) cũng xuất hiện trong ngữ cảnh. Câu hỏi của bạn thuộc về lĩnh vực Doanh nghiệp, nên chỉ áp dụng văn bản năm 2019.
+
+### 4. Kết luận và Khuyến nghị
+1.  **Bạn có quyền khiếu nại** nếu cơ quan nhà nước (UBND tỉnh hoặc Sở KH&ĐT) không công bố đầy đủ thông tin thủ tục hành chính (điều kiện, hồ sơ) trên Cổng Thông tin điện tử tỉnh, vì điều này vi phạm nguyên tắc công khai, minh bạch trong quản lý nhà nước và gây khó khăn cho người dân/doanh nghiệp khi thực hiện thủ tục.
+2.  **Căn cứ khiếu nại**:
+    *   **Luật Tố tụng hành chính 2015 (Điều 28)**: Về quyền khiếu nại hành vi trái pháp luật.
+    *   **Nghị định 20/2008/NĐ-CP (Điều 13)**: Về trách nhiệm công khai thông tin tiếp nhận phản ánh, kiến nghị trên Cổng TTĐT của UBND cấp tỉnh.
+    *   **Luật Tổ chức chính quyền địa phương**: Quy định về trách nhiệm của UBND cấp tỉnh trong việc tổ chức thực hiện và công khai các văn bản quy phạm pháp luật.
+3.  **Hành động**: Bạn có thể gửi đơn khiếu nại đến **UBND tỉnh Cà Mau** hoặc **Sở Kế hoạch và Đầu tư tỉnh Cà Mau** (cơ quan trực tiếp thực hiện TTHC theo Điều 3 của QĐ 1620/QĐ-UBND năm 2019) yêu cầu công bố đầy đủ thông tin. Nếu không được giải quyết thỏa đáng, bạn có thể khởi kiện vụ án hành chính tại Tòa án nhân dân.
+
+*Lưu ý: Dựa trên ngữ cảnh hiện tại, không thấy quy định chi tiết về mức phạt hoặc chế tài cụ thể cho hành vi "không công bố đầy đủ hồ sơ" trong các đoạn trích dẫn, nhưng đây là vi phạm nghĩa vụ công khai thông tin.*
+--------------------------------------------------
+
+--- FAILED: 3192/2000/QĐ-BYT ---
+Query: Tôi là Giám đốc một bệnh viện tư nhân trên địa bàn tỉnh. Bệnh viện của tôi vừa bị Thanh tra Sở Y tế ra quyết định xử phạt vi phạm về quy trình kỹ thuật khám chữa bệnh. Tôi muốn khiếu nại về tính đúng đắn của các tiêu chuẩn chuyên môn mà thanh tra viên sử dụng để đánh giá. Theo quy định, Phòng Nghiệp vụ Y có vai trò gì trong việc giải quyết khiếu nại này và tôi có thể yêu cầu họ can thiệp trực tiếp vào kết quả thanh tra không?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời "không tìm thấy thông tin" về vai trò của Phòng Nghiệp vụ Y trong khi câu trả lời mẫu đã cung cấp rõ ràng cơ sở pháp lý (Điều II, Khoản 9) và bản chất vấn đề, vi phạm tiêu chí đánh giá linh hoạt.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin trả lời câu hỏi của bạn như sau:
+
+**1. Về vai trò của Phòng Nghiệp vụ Y trong việc giải quyết khiếu nại:**
+Dựa trên cơ sở dữ liệu hiện tại, **không tìm thấy** bất kỳ quy định nào đề cập cụ thể đến "Phòng Nghiệp vụ Y" hay vai trò của đơn vị này trong việc giải quyết khiếu nại đối với quyết định xử phạt vi phạm quy trình kỹ thuật khám chữa bệnh.
+
+Các văn bản có trong ngữ cảnh chỉ quy định chung về thẩm quyền xem xét lại hoặc giải quyết khiếu nại thuộc về các chức danh/cơ quan sau:
+*   **Nghị định 46-CP (Điều 32):** Quy định Chánh thanh tra Sở Y tế hoặc Chánh thanh tra Bộ Y tế là người xem xét lại quyết định xử phạt khi có khiếu nại.
+*   **Nghị định 341-HĐBT (Điều 25):** Quy định cơ quan Nhà nước có thẩm quyền nhận được khiếu nại có trách nhiệm xem xét giải quyết.
+*   **Pháp lệnh 26-L/CTN (Điều 32):** Quy định quyết định của Bộ trưởng Bộ Y tế là quyết định cuối cùng về việc giải quyết khiếu nại, tố cáo trong lĩnh vực hành nghề y, dược tư nhân.
+
+Do đó, không có bằng chứng trong ngữ cảnh để khẳng định Phòng Nghiệp vụ Y có vai trò trực tiếp giải quyết khiếu nại theo quy định pháp luật hiện hành được trích xuất.
+
+**2. Về việc người bị xử phạt yêu cầu Phòng Nghiệp vụ Y can thiệp trực tiếp vào kết quả thanh tra:**
+Dựa trên ngữ cảnh hiện tại, **không thấy quy định** cho phép một cá nhân hoặc tổ chức (như Phòng Nghiệp vụ Y) can thiệp trực tiếp vào kết quả thanh tra của thanh tra viên. Ngược lại, các quy định nhấn mạnh tính độc lập và trách nhiệm của thanh tra viên cũng như thủ tục khiếu nại chính thức:
+*   **Pháp lệnh 26-L/CTN (Điều 32, Khoản 1):** Quy định rõ: *"Thanh tra viên y tế phải chịu trách nhiệm trước pháp luật về các quyết định của mình."* Điều này ngụ ý rằng quyết định của thanh tra viên mang tính chất pháp lý cá nhân/chức danh và không thể bị can thiệp tùy tiện bởi các phòng ban nghiệp vụ khác nếu không thông qua thủ tục khiếu nại, tố cáo đúng quy định.
+*   **Pháp lệnh 26-L/CTN (Điều 32, Khoản 2):** Chỉ ra con đường hợp pháp là: *"Trường hợp không nhất trí với quyết định của thanh tra viên y tế... được thanh tra có quyền khiếu nại theo quy định của pháp luật về khiếu nại, tố cáo."*
+
+**Cảnh báo về hiệu lực văn bản:**
+*   **Nghị định 46-CP** và **Nghị định 341-HĐBT** đã được **Thay thế** hoặc **Sửa đổi** bởi các văn bản mới hơn (theo Đồ thị tri thức: [46-CP] --(Thay thế)--> [341-HĐBT]; và [117/2020/NĐ-CP] là văn bản hiện hành quy định xử phạt vi phạm hành chính trong lĩnh vực y tế).
+*   **Pháp lệnh 26-L/CTN** là văn bản cũ (năm 1993). Trong thực tế pháp lý hiện nay, Luật Khiếu nại, Tố cáo và Luật Khám bệnh, chữa bệnh mới sẽ là cơ sở áp dụng chính. Tuy nhiên, vì ngữ cảnh không cung cấp nội dung chi tiết của Luật Khiếu nại hay Luật Khám bệnh, chữa bệnh mới, nên chỉ có thể dựa vào các văn bản còn lại trong ngữ cảnh.
+
+**Kết luận:**
+Theo dữ liệu hiện có, người bị xử phạt **không thể** yêu cầu Phòng Nghiệp vụ Y can thiệp trực tiếp vào kết quả thanh tra. Họ phải thực hiện quyền khiếu nại theo quy định của pháp luật về khiếu nại, tố cáo gửi đến cơ quan có thẩm quyền (như Chánh thanh tra hoặc cơ quan cấp trên trực tiếp), chứ không phải thông qua sự can thiệp của phòng ban nghiệp vụ.
+--------------------------------------------------
+
+--- FAILED: 3192/2000/QĐ-BYT ---
+Query: Tôi là Giám đốc Sở Y tế tỉnh A. Hiện tại, tôi muốn thành lập một tổ chức mới trực thuộc Sở để chuyên trách công tác nghiên cứu khoa học và đào tạo, tách biệt hoàn toàn khỏi Phòng Nghiệp vụ Y để tăng tính chuyên sâu. Tuy nhiên, Trưởng phòng Nghiệp vụ Y phản đối, cho rằng điều này vi phạm quy định về nhiệm vụ của phòng do Bộ trưởng Bộ Y tế ban hành. Xin hỏi: Theo văn bản 3192/2000/QĐ-BYT, Phòng Nghiệp vụ Y có phải là 'đầu mối' duy nhất hay không? Việc tách riêng có vi phạm quy định hiện hành về chức năng, nhiệm vụ của Phòng này không?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra kết luận sai lệch về mặt pháp lý khi cho rằng việc tách riêng hoàn toàn các chức năng nghiên cứu và đào tạo không vi phạm quy định, trong khi câu trả lời mẫu khẳng định điều này làm mất vai trò "đầu mối" và chức năng tham mưu, phối hợp vốn đã được pháp luật giao cho Phòng Nghiệp vụ Y, dẫn đến xung đột với quy định hiện hành.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung từ văn bản **Quyết định 3192/2000/QĐ-BYT**, tôi xin trả lời như sau:
+
+**1. Về vai trò của Phòng Nghiệp vụ Y trong công tác nghiên cứu khoa học và đào tạo:**
+
+Theo quy định tại **Phần II. Nhiệm vụ, điểm 6** của Quyết định 3192/2000/QĐ-BYT (trích dẫn trong `<can_cu id="1">`), Phòng Nghiệp vụ Y có nhiệm vụ:
+> *"Là đầu mối triển khai và theo dõi thực hiện công tác nghiên cứu khoa học và ứng dụng các tiến bộ kỹ thuật hiện đại phục vụ cho sự phát triển của ngành. Tham gia đề xuất nhu cầu và phối hợp thực hiện công tác đào tạo về chuyên môn, kỹ thuật đối với tất cả các đơn vị trực thuộc Sở Y tế."*
+
+Từ quy định này, có thể xác định:
+*   Phòng Nghiệp vụ Y được xác định là **"đầu mối"** để *triển khai và theo dõi* công tác nghiên cứu khoa học.
+*   Đối với công tác đào tạo, Phòng Nghiệp vụ Y chỉ có vai trò **"tham gia đề xuất nhu cầu và phối hợp thực hiện"**.
+
+Văn bản **không quy định** rằng Phòng Nghiệp vụ Y là cơ quan *duy nhất* chịu trách nhiệm toàn diện hoặc độc quyền thực hiện các hoạt động nghiên cứu và đào tạo. Vai trò "đầu mối" thường mang tính chất điều phối, tổng hợp và báo cáo, chứ không loại trừ khả năng thành lập các đơn vị chuyên trách khác để thực hiện cụ thể các hoạt động này nếu cần thiết, miễn là vẫn đảm bảo sự phối hợp và báo cáo đúng quy trình.
+
+**2. Về việc Giám đốc Sở Y tế thành lập tổ chức trực thuộc mới chuyên trách nghiên cứu khoa học và đào tạo:**
+
+Dựa trên ngữ cảnh hiện tại, **không có quy định nào trong Quyết định 3192/2000/QĐ-BYT cấm** Giám đốc Sở Y tế thành lập một tổ chức trực thuộc mới để chuyên trách riêng biệt các hoạt động nghiên cứu khoa học và đào tạo.
+
+Cụ thể:
+*   **Chức năng của Phòng Nghiệp vụ Y** (theo Điều I) là *"tham mưu cho Giám đốc Sở Y tế trong việc thực hiện chức năng quản lý nhà nước về công tác chuyên môn nghiệp vụ y và phát triển khoa học kỹ thuật trong ngành y tế"*. Việc tham mưu không đồng nghĩa với việc phải tự mình thực hiện mọi hoạt động chuyên sâu.
+*   **Nhiệm vụ của Phòng Nghiệp vụ Y** (theo Điều II, điểm 6) là *"phối hợp thực hiện công tác đào tạo"* và *"triển khai và theo dõi thực hiện công tác nghiên cứu khoa học"*. Từ khóa "phối hợp" và "theo dõi" cho thấy Phòng Nghiệp vụ Y đóng vai trò giám sát và kết nối, chứ không nhất thiết phải là đơn vị trực tiếp thực hiện các hoạt động nghiên cứu hay đào tạo chuyên sâu.
+*   **Quyền hạn của Giám đốc Sở Y tế**: Theo quan hệ thực thể trong đồ thị, *"Phòng Nghiệp vụ Y chịu sự quản lý và chỉ đạo trực tiếp của Giám đốc Sở Y tế"* và *"Thực hiện các nhiệm vụ khác do Giám đốc Sở Y tế giao"* (Điều II, điểm 12). Điều này ngụ ý Giám đốc Sở Y tế có thẩm quyền tổ chức bộ máy và phân công nhiệm vụ.
+
+**Kết luận:**
+Việc Giám đốc Sở Y tế thành lập một tổ chức trực thuộc mới để chuyên trách nghiên cứu khoa học và đào tạo **không vi phạm** quy định về chức năng, nhiệm vụ của Phòng Nghiệp vụ Y theo Quyết định 3192/2000/QĐ-BYT, vì:
+1.  Văn bản chỉ quy định Phòng Nghiệp vụ Y là "đầu mối triển khai và theo dõi" (đối với nghiên cứu) và "phối hợp" (đối với đào tạo), không quy định là cơ quan duy nhất thực hiện.
+2.  Việc tách riêng các hoạt động chuyên sâu ra khỏi phòng tham mưu để thành lập đơn vị chuyên trách là biện pháp tổ chức nhằm nâng cao hiệu quả, phù hợp với nguyên tắc phân công lao động, miễn là Phòng Nghiệp vụ Y vẫn thực hiện tốt vai trò tham mưu, theo dõi và phối hợp với đơn vị mới này theo đúng quy định.
+
+*Lưu ý: Quyết định 3192/2000/QĐ-BYT có hiệu lực sau 15 ngày kể từ ngày ký ban hành (ngày 11/9/2000) và bãi bỏ các quy định trước đây trái với quyết định này (Điều 2). Tuy nhiên, cần lưu ý rằng đây là văn bản năm 2000, nên trong thực tế hiện nay, cần đối chiếu thêm với các văn bản mới hơn về tổ chức bộ máy hành chính nhà nước và tổ chức y tế địa phương (như Nghị định 01/1998/NĐ-CP đã được sửa đổi, bổ sung bởi nhiều văn bản sau này) để đảm bảo tính cập nhật.*
+--------------------------------------------------
+
+--- FAILED: 3192/2000/QĐ-BYT ---
+Query: Tôi là Giám đốc một bệnh viện tư nhân tại tỉnh. Khi xảy ra sự cố y khoa, tôi đã gửi đơn khiếu nại trực tiếp đến Phòng Nghiệp vụ Y của Sở Y tế tỉnh với yêu cầu giải quyết ngay lập tức. Tuy nhiên, cán bộ phòng trả lời rằng họ chỉ 'tham gia' giải quyết chứ không phải cơ quan thụ lý chính thức và hướng tôi sang các kênh khác. Tôi cho rằng đây là sự đùn đẩy trách nhiệm vì văn bản quy định họ có nhiệm vụ này. Xin hỏi căn cứ pháp lý nào chứng minh vai trò của Phòng Nghiệp vụ Y trong việc giải quyết khiếu nại kỹ thuật chỉ mang tính chất tham gia phối hợp chứ không phải là chủ thể quyết định cuối cùng?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời "không tìm thấy thông tin" và không đưa ra được kết luận pháp lý chính xác về vai trò của Phòng Nghiệp vụ Y, trong khi câu trả lời mẫu đã cung cấp rõ ràng căn cứ (từ khóa "Tham gia" trong nhiệm vụ) để khẳng định cán bộ phòng làm đúng quy định.
+Answer: Dựa trên cơ sở dữ liệu và ngữ cảnh được cung cấp, tôi **không tìm thấy quy định cụ thể** nào xác định vai trò của Phòng Nghiệp vụ Y thuộc Sở Y tế tỉnh trong việc giải quyết khiếu nại kỹ thuật y tế hay sự cố y khoa tại bệnh viện tư nhân với tính chất "chỉ tham gia, phối hợp chứ không phải là chủ thể thụ lý hay ra quyết định cuối cùng".
+
+Tuy nhiên, dựa trên các thông tin có sẵn trong Đồ thị tri thức và Ngữ cảnh bổ sung, tôi có thể cung cấp các phân tích pháp lý liên quan như sau:
+
+**1. Về chức năng, nhiệm vụ của Phòng Nghiệp vụ Y:**
+Theo **Quyết định 3192/2000/QĐ-BYT** (được trích dẫn trong `<can_cu id="1">`), Phòng Nghiệp vụ Y thuộc Sở Y tế tỉnh, thành phố trực thuộc Trung ương có chức năng:
+*   Tham mưu cho Giám đốc Sở Y tế trong việc thực hiện chức năng quản lý nhà nước về công tác chuyên môn nghiệp vụ y.
+*   Nhiệm vụ bao gồm: Triển khai hướng dẫn, theo dõi và giám sát việc thực hiện các quy chế, quy trình kỹ thuật; đánh giá hiệu quả hoạt động về chuyên môn nghiệp vụ của các đơn vị y tế trực thuộc và **y tế tư nhân** đóng trên địa bàn tỉnh (Khoản 2, Mục II).
+*   Văn bản này **không đề cập** đến thẩm quyền giải quyết khiếu nại hay sự cố y khoa.
+
+**2. Về thẩm quyền giải quyết khiếu nại trong lĩnh vực y tế tư nhân:**
+*   Theo **Pháp lệnh 07/2003/PL-UBTVQH11** (Pháp lệnh hành nghề y, dược tư nhân năm 2003) tại **Điều 50** (trích dẫn trong `<can_cu id="5">`):
+    *   Cá nhân, tổ chức có quyền khiếu nại các hành vi vi phạm pháp luật về hành nghề y, dược tư nhân.
+    *   Việc giải quyết khiếu nại được thực hiện **theo quy định của pháp luật về khiếu nại, tố cáo**.
+*   Pháp lệnh này **không quy định chi tiết** về cơ quan nào là chủ thể thụ lý hay ra quyết định cuối cùng đối với khiếu nại kỹ thuật y tế, mà chỉ chuyển hướng áp dụng sang Luật/Khiếu nại chung.
+
+**3. Về thẩm quyền giải quyết khiếu nại nói chung (Tham chiếu):**
+*   Các văn bản như **Nghị định 124/2020/NĐ-CP** và **Nghị định 75/2012/NĐ-CP** (trích dẫn trong `<can_cu id="3">` và `<can_cu id="4">`) quy định về thẩm quyền giải quyết khiếu nại trong **đơn vị sự nghiệp công lập** và **doanh nghiệp nhà nước**.
+*   Bệnh viện tư nhân thường không được xếp vào nhóm "đơn vị sự nghiệp công lập" theo nghĩa hẹp của các nghị định này, hoặc nếu có thì cần xem xét loại hình pháp nhân cụ thể. Tuy nhiên, ngữ cảnh hiện tại **không cung cấp** quy định cụ thể về thẩm quyền giải quyết khiếu nại đối với **bệnh viện tư nhân** hay vai trò cụ thể của Phòng Nghiệp vụ Y trong quá trình này.
+
+**Kết luận:**
+Trong phạm vi dữ liệu được cung cấp, **không có văn bản pháp lý nào** khẳng định rõ ràng rằng Phòng Nghiệp vụ Y chỉ có vai trò tham gia/phối hợp mà không phải là chủ thể thụ lý/quyết định đối với sự cố y khoa tại bệnh viện tư nhân. Thông tin về thẩm quyền giải quyết khiếu nại đối với hành nghề y tư nhân được quy định chung là "theo quy định của pháp luật về khiếu nại, tố cáo" tại Điều 50 Pháp lệnh 07/2003/PL-UBTVQH11, nhưng chi tiết về cơ quan có thẩm quyền cụ thể (Sở Y tế, Giám đốc Sở, hay Phòng Nghiệp vụ) không được nêu rõ trong các đoạn trích dẫn hiện có.
+
+*Lưu ý: Để có câu trả lời chính xác về thẩm quyền giải quyết sự cố y khoa, cần tra cứu thêm Luật Khiếu nại, Luật Tố cáo và các Nghị định hướng dẫn thi hành Luật Khám bệnh, chữa bệnh hoặc Luật Hành nghề y, dược (nếu có) quy định cụ thể về cơ quan nhà nước có thẩm quyền giải quyết tranh chấp/sự cố y tế đối với cơ sở y tế tư nhân.*
+--------------------------------------------------
+
+--- FAILED: 3192/2000/QĐ-BYT ---
+Query: Tôi là Giám đốc một bệnh viện tư nhân trên địa bàn tỉnh. Bệnh viện của tôi vừa bị Thanh tra Sở Y tế ra quyết định xử phạt vi phạm về quy trình kỹ thuật khám chữa bệnh. Tôi muốn khiếu nại vì cho rằng đây là vấn đề chuyên môn thuần túy, không thuộc thẩm quyền hành chính. Tuy nhiên, văn bản lại ghi Phòng Nghiệp vụ Y chỉ 'tham gia' giải quyết khiếu nại liên quan đến chuyên môn. Vậy trong trường hợp này, Phòng Nghiệp vụ Y có thẩm quyền trực tiếp ra quyết định giải quyết khiếu nại của tôi hay chỉ đóng vai trò tham mưu? Nếu họ từ chối thụ lý với lý do đó, tôi có thể dựa vào điều khoản nào để phản bác?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời "không tìm thấy thông tin" trong khi câu trả lời mẫu đã cung cấp giải pháp rõ ràng dựa trên văn bản pháp luật cụ thể, vi phạm tiêu chí đánh giá linh hoạt về việc chấp nhận các văn bản liên quan hoặc cập nhật hơn.
+Answer: Dựa trên cơ sở dữ liệu và ngữ cảnh được cung cấp, tôi xin trả lời như sau:
+
+**Dựa trên cơ sở dữ liệu hiện tại, tôi không tìm thấy quy định liên quan.**
+
+Cụ thể:
+1.  **Về văn bản pháp luật:** Câu hỏi yêu cầu áp dụng **Luật Khiếu nại 2011** và **Luật Xử lý vi phạm hành chính 2012**. Tuy nhiên, trong Đồ thị tri thức và Ngữ cảnh bổ sung chỉ liệt kê các văn bản cũ hơn hoặc khác lĩnh vực như: Nghị định 93/CP (1977), Luật Tổ chức Chính phủ, Nghị định 129/2005/NĐ-CP, Nghị định 134/2003/NĐ-CP, Nghị định 37/2005/NĐ-CP, Nghị định 113/2004/NĐ-CP, Nghị định 40/2009/NĐ-CP, Nghị định 341-HĐBT và Quyết định 49/2006/QĐ-UBND. Không có nội dung nào từ Luật Khiếu nại 2011 hay Luật Xử lý vi phạm hành chính 2012 được cung cấp.
+2.  **Về vấn đề chuyên môn:** Các văn bản có trong ngữ cảnh (như Điều 34 Nghị định 129/2005/NĐ-CP, Điều 35 Nghị định 40/2009/NĐ-CP) chỉ quy định chung rằng việc giải quyết khiếu nại thực hiện theo "pháp luật về khiếu nại, tố cáo" mà không đi vào chi tiết thẩm quyền cụ thể của Phòng Nghiệp vụ Y hay vai trò tham mưu/trực tiếp ra quyết định đối với các vụ việc khám chữa bệnh.
+3.  **Về cơ sở phản bác:** Không có thông tin trong ngữ cảnh để xây dựng lập luận phản bác việc từ chối thụ lý dựa trên lý do "chuyên môn thuần túy" theo đúng hai bộ luật được nêu trong câu hỏi.
+
+Do tuân thủ nghiêm ngặt quy tắc **CHỈ trả lời dựa trên thông tin trong Đồ thị và Ngữ cảnh bên dưới** và **KHÔNG sử dụng kiến thức có sẵn**, hệ thống không thể đưa ra câu trả lời cho câu hỏi này.
+--------------------------------------------------
+
+--- FAILED: 3192/2000/QĐ-BYT ---
+Query: Tôi là Giám đốc một bệnh viện tư nhân tại tỉnh. Khi xảy ra sự cố y khoa, tôi muốn khiếu nại về mặt chuyên môn kỹ thuật. Tôi đã gửi đơn trực tiếp cho Phòng Nghiệp vụ Y thuộc Sở Y tế tỉnh với yêu cầu họ phải ra quyết định xử lý ngay lập tức. Tuy nhiên, cán bộ phòng trả lời rằng họ chỉ 'tham gia giải quyết' chứ không có thẩm quyền quyết định đơn độc và cần phối hợp với các bên liên quan. Họ nói đúng hay sai? Căn cứ vào đâu?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất vấn đề khi khẳng định không có quy định về vai trò tham gia giải quyết khiếu nại trong văn bản được cung cấp, dẫn đến việc không xác nhận được cán bộ Phòng Nghiệp vụ Y nói đúng như yêu cầu của câu hỏi và câu trả lời mẫu.
+Answer: Dựa trên các quy định liên quan nhất tìm thấy trong ngữ cảnh cung cấp, câu trả lời cho các thắc mắc của bạn như sau:
+
+**1. Về thẩm quyền giải quyết khiếu nại sự cố y khoa đối với bệnh viện tư nhân:**
+Trong văn bản **Thông tư 43/2018/TT-BYT** được cung cấp, **không có quy định cụ thể** về thẩm quyền giải quyết *khiếu nại* (complaints) đối với sự cố y khoa. Văn bản này chủ yếu quy định về quy trình **báo cáo, ghi nhận, xử lý và phòng ngừa** sự cố y khoa.
+
+Tuy nhiên, về mặt quản lý nhà nước đối với cơ sở khám bệnh, chữa bệnh tư nhân, tại **Khoản 4 Điều 5** của Thông tư 43/2018/TT-BYT quy định:
+> "Phòng Nghiệp vụ Y, Sở Y tế là đơn vị đầu mối tiếp nhận báo cáo, phân loại sự cố y khoa của các cơ sở khám bệnh, chữa bệnh thuộc thẩm quyền quản lý bao gồm cơ sở khám bệnh, chữa bệnh nhà nước và **tư nhân** trên địa bàn..."
+
+Do đó, mặc dù không nói rõ về "giải quyết khiếu nại", nhưng cơ quan quản lý trực tiếp đối với bệnh viện tư nhân trong hệ thống báo cáo sự cố y khoa là **Sở Y tế** (cụ thể là Phòng Nghiệp vụ Y). Việc giải quyết khiếu nại cụ thể thường thuộc phạm vi của Luật Khiếu nại hoặc các văn bản hướng dẫn thi hành Luật Khiếu nại, không nằm trong nội dung chi tiết của Thông tư 43/2018/TT-BYT này.
+
+**2. Về vai trò của Phòng Nghiệp vụ Y thuộc Sở Y tế tỉnh (xử lý đơn độc hay phối hợp):**
+Theo **Khoản 4 Điều 5** của Thông tư 43/2018/TT-BYT, Phòng Nghiệp vụ Y, Sở Y tế là **"đơn vị đầu mối tiếp nhận báo cáo, phân loại sự cố y khoa"**.
+
+Văn bản không sử dụng từ ngữ "xử lý đơn độc" hay "chỉ tham gia phối hợp" một cách tuyệt đối trong ngữ cảnh chung, mà xác định vai trò là **đơn vị đầu mối**. Điều này có nghĩa là Phòng Nghiệp vụ Y chịu trách nhiệm chính trong việc tiếp nhận và phân loại. Tuy nhiên, đối với các sự cố y khoa nghiêm trọng, quy trình báo cáo và chỉ đạo có sự tham gia của nhiều cấp độ:
+*   Tại **Khoản 1 Điều 5**, sự cố y khoa nghiêm trọng phải được chia sẻ báo cáo đến cơ quan quản lý trực tiếp và **Bộ Y tế**.
+*   Tại **Điều 9**, Sở Y tế có trách nhiệm chỉ đạo trực tiếp cơ sở khám bệnh, chữa bệnh và báo cáo nhanh cho Bộ Y tế đối với sự cố y khoa nghiêm trọng.
+
+Như vậy, Phòng Nghiệp vụ Y đóng vai trò đầu mối tại cấp tỉnh, nhưng trong các trường hợp sự cố nghiêm trọng, hoạt động này diễn ra trong khuôn khổ sự chỉ đạo và giám sát của cả Sở Y tế và Bộ Y tế, chứ không hoàn toàn tách biệt hay đơn độc một cách cô lập khỏi hệ thống quản lý quốc gia.
+
+**3. Căn cứ pháp lý quy định về việc cơ quan quản lý nhà nước về y tế tham gia giải quyết khiếu nại chuyên môn kỹ thuật trong sự cố y khoa:**
+**Không có căn cứ pháp lý nào** trong văn bản **Thông tư 43/2018/TT-BYT** được cung cấp quy định về việc cơ quan quản lý nhà nước về y tế tham gia giải quyết *khiếu nại chuyên môn kỹ thuật*.
+
+Văn bản này tập trung vào:
+*   Báo cáo và ghi nhận sự cố (Điều 5).
+*   Trách nhiệm của Sở Y tế và Cục Quản lý Khám, chữa bệnh trong việc giữ bí mật, chỉ đạo, kiểm tra, đánh giá an toàn người bệnh và xây dựng chính sách (Điều 13, Điều 14).
+*   Xử lý sự cố để đảm bảo an toàn người bệnh và khắc phục phòng ngừa (Điều 9, Điều 11).
+
+Việc "giải quyết khiếu nại chuyên môn kỹ thuật" thường thuộc phạm vi điều chỉnh của các văn bản khác như Luật Khiếu nại, Luật Trách nhiệm bồi thường của Nhà nước, hoặc các Nghị định hướng dẫn về bồi thường thiệt hại do khám bệnh, chữa bệnh gây ra, không nằm trong nội dung của Thông tư 43/2018/TT-BYT.
+
+**Tóm lại:**
+*   Thông tư 43/2018/TT-BYT quy định Sở Y tế (Phòng Nghiệp vụ Y) là đơn vị đầu mối quản lý sự cố y khoa đối với bệnh viện tư nhân, nhưng **không quy định về thẩm quyền giải quyết khiếu nại**.
+*   Phòng Nghiệp vụ Y là đơn vị đầu mối tiếp nhận và phân loại, hoạt động dưới sự chỉ đạo của Sở Y tế và phối hợp với Bộ Y tế đối với sự cố nghiêm trọng.
+*   **Không có quy định** trong văn bản này về việc cơ quan y tế tham gia giải quyết khiếu nại chuyên môn kỹ thuật.
+--------------------------------------------------
+
+--- FAILED: 40/2009/QH12 ---
+Query: Tôi là một nhà đầu tư nước ngoài muốn tham gia dự án thủy điện Lai Châu. Tôi đã nghiên cứu Nghị quyết 40/2009/QH12 và thấy phần cuối văn bản có chữ ký của Chủ tịch Quốc hội Nguyễn Phú Trọng. Tôi muốn hỏi: Căn cứ vào chính xác nội dung văn bản này, tôi có thể xác định được ai là cơ quan nhà nước có thẩm quyền phê duyệt chủ trương đầu tư hay thời gian hiệu lực thi hành của dự án không? Nếu không, lý do pháp lý cụ thể dựa trên cấu trúc văn bản được cung cấp là gì?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai bản chất vấn đề vì đã bỏ qua ràng buộc "dựa trên chính xác nội dung văn bản được cung cấp" (chỉ gồm phần Nơi nhận và Chữ ký) để đưa ra thông tin từ các điều khoản không có trong ngữ cảnh, dẫn đến kết luận trái ngược với câu trả lời mẫu.
+Answer: Dựa trên nội dung Nghị quyết 40/2009/QH12 được cung cấp trong ngữ cảnh, câu trả lời cho các vấn đề của bạn như sau:
+
+**1. Cơ quan nhà nước có thẩm quyền phê duyệt chủ trương đầu tư:**
+Cơ quan có thẩm quyền phê duyệt (quyết định) chủ trương đầu tư Dự án thủy điện Lai Châu là **Quốc hội**.
+*   **Căn cứ:** Tiêu đề văn bản ghi rõ "NGHỊ QUYẾT VỀ CHỦ TRƯƠNG ĐẦU TƯ DỰ ÁN THỦY ĐIỆN LAI CHÂU" do Quốc hội ban hành. Tại **Điều 1**, văn bản khẳng định: "**Quyết định chủ trương đầu tư** Dự án thủy điện Lai Châu...". Ngoài ra, tại **Lời dẫn**, Quốc hội đã xem xét Tờ trình của Chính phủ và các báo cáo thẩm tra trước khi "QUYẾT NGHỊ".
+
+**2. Thời gian hiệu lực thi hành của dự án/văn bản:**
+Văn bản quy định về thời điểm có hiệu lực của chính Nghị quyết này, chứ không quy định một "thời gian hiệu lực thi hành" cụ thể (ví dụ: hết hạn vào năm nào) cho toàn bộ dự án.
+*   **Căn cứ:** Tại **Điều 6, Khoản 2** của Nghị quyết 40/2009/QH12 quy định: "**Nghị quyết này có hiệu lực từ ngày Quốc hội thông qua.**"
+*   Văn bản cũng nêu rõ ngày thông qua là ngày 25 tháng 11 năm 2009 (tại Lời dẫn và Điều 6).
+
+**3. Lý do pháp lý dựa trên cấu trúc văn bản nếu không quy định rõ thời gian kết thúc hiệu lực:**
+Nếu hiểu câu hỏi là tại sao văn bản không quy định thời điểm *kết thúc* hiệu lực hoặc thời hạn tồn tại của dự án dưới góc độ hiệu lực văn bản, thì dựa trên cấu trúc và tính chất của văn bản pháp luật này:
+*   Nghị quyết 40/2009/QH12 là văn bản **quyết định chủ trương đầu tư** đối với một công trình quan trọng quốc gia. Theo nguyên tắc chung của văn bản quy phạm pháp luật và văn bản quyết định hành chính, khi quy định "có hiệu lực từ ngày thông qua" mà không kèm điều khoản hủy bỏ hoặc hết hạn, văn bản đó có hiệu lực liên tục để làm căn cứ pháp lý cho việc triển khai, thực hiện và giám sát dự án trong suốt quá trình đời sống của dự án (từ khởi công đến hoàn thành và vận hành), trừ khi có văn bản mới thay thế hoặc bãi bỏ nó.
+*   Văn bản chỉ quy định **lộ trình thực hiện** (khởi công cuối năm 2010, phát điện năm 2016, hoàn thành năm 2017) tại **Điều 2, Khoản 5**, nhưng đây là tiến độ thi công, không phải là thời hạn hiệu lực của văn bản pháp lý phê duyệt chủ trương.
+
+Tóm lại, cơ quan phê duyệt là **Quốc hội** và văn bản có hiệu lực **từ ngày Quốc hội thông qua** (25/11/2009).
+--------------------------------------------------
+
+--- FAILED: 40/2009/QH12 ---
+Query: Tôi là một nhà đầu tư nước ngoài muốn tham gia góp vốn vào dự án thủy điện Lai Châu. Tôi đã nghiên cứu Nghị quyết 40/2009/QH12 nhưng chỉ thấy phần 'Nơi nhận và Chữ ký' với tên Chủ tịch Quốc hội Nguyễn Phú Trọng. Tôi bị từ chối cấp phép đầu tư với lý do 'Thiếu cơ sở pháp lý về chủ trương đầu tư'. Xin hỏi, liệu việc văn bản này không chứa nội dung cụ thể về phê duyệt chủ trương có phải là lỗi kỹ thuật của văn bản pháp luật hay tôi đang hiểu sai về tính chất của Nghị quyết này?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng khi khẳng định Nghị quyết 40/2009/QH12 là văn bản phê duyệt chủ trương đầu tư (thực tế đây là văn bản phê duyệt Báo cáo nghiên cứu khả thi), dẫn đến kết luận trái ngược với câu trả lời mẫu và gây hiểu nhầm cho người dùng về cơ sở pháp lý.
+Answer: Chào bạn, dựa trên **Đồ thị tri thức** và **Ngữ cảnh bổ sung** từ cơ sở dữ liệu pháp luật được cung cấp, tôi xin giải đáp thắc mắc của bạn như sau:
+
+Việc bạn cho rằng Nghị quyết 40/2009/QH12 "không chứa nội dung cụ thể về phê duyệt chủ trương đầu tư" là một sự **hiểu sai về cấu trúc và nội dung văn bản**, chứ không phải là lỗi kỹ thuật của văn bản pháp luật. Nghị quyết này chính là văn bản pháp lý cao nhất (do Quốc hội ban hành) phê duyệt chủ trương đầu tư cho dự án thủy điện Lai Châu.
+
+Dưới đây là phân tích chi tiết dựa trên các quy định trong ngữ cảnh:
+
+### 1. Nghị quyết 40/2009/QH12 chính là văn bản phê duyệt chủ trương đầu tư
+Theo **Lời dẫn** của Nghị quyết 40/2009/QH12 (trích từ `<can_cu id="8">`), Quốc hội đã xem xét Tờ trình của Chính phủ và **"QUYẾT NGHỊ"** về chủ trương đầu tư. Điều này khẳng định tính chất phê duyệt chủ trương ngay từ tiêu đề và lời mở đầu.
+
+Cụ thể, **Điều 1** của Nghị quyết 40/2009/QH12 (trích từ `<can_cu id="1">`) quy định rõ ràng:
+> *"Quyết định chủ trương đầu tư Dự án thủy điện Lai Châu để cung cấp điện cho hệ thống điện quốc gia..."*
+
+Do đó, nội dung phê duyệt chủ trương đã được ghi nhận trực tiếp tại **Điều 1**, không nằm ở phần "Nơi nhận và Chữ ký". Phần "Nơi nhận và Chữ ký" (như bạn đã thấy trong `<can_cu id="2">` và `<can_cu id="3">`) chỉ là phần kết thúc văn bản hành chính, nơi có chữ ký của Chủ tịch Quốc hội Nguyễn Phú Trọng để xác nhận hiệu lực của toàn bộ Nghị quyết, bao gồm cả Điều 1.
+
+### 2. Lý do bị từ chối cấp phép có thể liên quan đến thẩm quyền hoặc thủ tục tiếp theo
+Mặc dù Nghị quyết 40/2009/QH12 đã phê duyệt chủ trương, nhưng việc bạn bị từ chối với lý do "Thiếu cơ sở pháp lý về chủ trương đầu tư" có thể xuất phát từ các nguyên nhân sau dựa trên quy định hiện hành:
+
+*   **Thẩm quyền phê duyệt:** Dự án thủy điện Lai Châu là dự án quan trọng quốc gia, do **Quốc hội** quyết định chủ trương đầu tư (theo Điều 1, Nghị quyết 40/2009/QH12). Nếu hồ sơ của bạn nộp cho cơ quan cấp tỉnh hoặc cơ quan khác không có thẩm quyền xác nhận lại chủ trương này, họ có thể yêu cầu bạn cung cấp đúng văn bản gốc là Nghị quyết 40/2009/QH12.
+*   **Thủ tục đăng ký đầu tư:** Sau khi có chủ trương đầu tư, nhà đầu tư cần thực hiện thủ tục cấp Giấy chứng nhận đăng ký đầu tư. Theo **Quyết định 2413/QĐ-UBND năm 2025** (trích từ `<can_cu id="6">`), thủ tục cấp Giấy chứng nhận đăng ký đầu tư đối với dự án *không thuộc diện chấp thuận chủ trương đầu tư* (tức là dự án nhỏ hơn, không cần Quốc hội/Thủ tướng phê duyệt) sẽ do Sở Kế hoạch và Đầu tư giải quyết. Tuy nhiên, đối với dự án đã có Nghị quyết của Quốc hội, quy trình sẽ tuân theo Luật Đầu tư và các nghị định hướng dẫn cụ thể cho dự án nhóm A/quan trọng quốc gia.
+*   **Cơ chế đặc biệt:** **Điều 4** của Nghị quyết 40/2009/QH12 (trích từ `<can_cu id="11">`) cho phép áp dụng những cơ chế, chính sách đã phát huy hiệu quả trong dự án thủy điện Sơn La, và nếu cần thiết phải áp dụng cơ chế đặc biệt thì Chính phủ trình Quốc hội quyết định. Bạn cần kiểm tra xem hồ sơ của mình đã tuân thủ đúng các cơ chế đặc biệt này chưa.
+
+### 3. Kết luận và Khuyến nghị
+*   **Không có lỗi kỹ thuật:** Nghị quyết 40/2009/QH12 hoàn toàn hợp lệ và chứa đầy đủ nội dung phê duyệt chủ trương tại **Điều 1**.
+*   **Hành động cần làm:**
+    1.  Cung cấp bản sao có công chứng của **Nghị quyết 40/2009/QH12** (đặc biệt là Điều 1) cho cơ quan có thẩm quyền xem xét hồ sơ đầu tư của bạn.
+    2.  Kiểm tra lại hồ sơ xem có thiếu các giấy tờ liên quan đến việc thực hiện các điều kiện kèm theo trong Nghị quyết (như Báo cáo đánh giá tác động môi trường, phương án di dân tái định cư theo **Điều 3** - trích từ `<can_cu id="9">`) hay không.
+    3.  Liên hệ với **Sở Kế hoạch và Đầu tư tỉnh Lai Châu** hoặc cơ quan quản lý nhà nước về đầu tư cấp trung ương để được hướng dẫn cụ thể về thủ tục đăng ký đầu tư cho dự án đã có chủ trương của Quốc hội, vì thủ tục này phức tạp hơn so với các dự án thông thường (như quy định trong Quyết định 2413/QĐ-UBND dành cho dự án không thuộc diện chấp thuận chủ trương).
+
+*Lưu ý: Thông tin trên dựa trên các văn bản pháp luật được cung cấp trong ngữ cảnh. Để đảm bảo tính chính xác tuyệt đối cho hồ sơ pháp lý, bạn nên tham vấn thêm ý kiến từ chuyên gia pháp lý hoặc cơ quan nhà nước có thẩm quyền tại thời điểm hiện tại.*
+--------------------------------------------------
+
+--- FAILED: 1620/QĐ-UBND ---
+Query: Tôi là một doanh nghiệp vừa và nhỏ, đang cố gắng truy cập vào Cơ sở dữ liệu quốc gia về thủ tục hành chính (CSDLQGTTHC) để kiểm tra tính hợp lệ của một thủ tục mới được sửa đổi theo Quyết định này. Tuy nhiên, hệ thống báo lỗi hoặc tôi không tìm thấy thông tin chi tiết. Tôi muốn khiếu nại rằng Sở Thông tin và Truyền thông hoặc Cổng Thông tin điện tử tỉnh đã không thực hiện đúng nghĩa vụ công bố. Dựa trên văn bản 1620/QĐ-UBND, tôi có thể yêu cầu cơ quan nào chịu trách nhiệm trực tiếp về việc lưu trữ và cung cấp thông tin này trên môi trường điện tử?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG xác định sai văn bản pháp luật trọng tâm (chọn QĐ 1620/QĐ-UBND của Cà Mau thay vì văn bản liên quan đến VIC như gợi ý trong câu trả lời mẫu), dẫn đến kết luận về cơ quan chịu trách nhiệm (Sở KH&ĐT) khác biệt hoàn toàn so với yêu cầu và thông tin mẫu (Sở TT&TT/Cổng TTĐT tỉnh).
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, dưới đây là phân tích pháp lý về trách nhiệm cập nhật thông tin và cơ chế khiếu nại liên quan đến Quyết định 1620/QĐ-UBND.
+
+**Lưu ý quan trọng về tính xác thực của văn bản:**
+Trong cơ sở dữ liệu cung cấp, mã số **1620/QĐ-UBND** xuất hiện trong nhiều ngữ cảnh khác nhau (Cà Mau năm 2019, Điện Biên năm 2021, Hà Tĩnh năm 2025). Tuy nhiên, câu hỏi đề cập đến việc "doanh nghiệp vừa và nhỏ phát hiện lỗi... trên CSDLQGTTHC" và mối liên hệ với "Sở Thông tin và Truyền thông". Dựa vào nội dung chi tiết trong `<can_cu id="1">`, `<can_cu id="2">`, `<can_cu id="3">` và `<can_cu id="19">`, văn bản phù hợp nhất với ngữ cảnh quản lý doanh nghiệp và cập nhật hệ thống là **Quyết định 1620/QĐ-UBND năm 2019 của UBND tỉnh Cà Mau** (công bố danh mục TTHC lĩnh vực Thành lập và hoạt động của doanh nghiệp). Các văn bản khác cùng mã số này thuộc lĩnh vực Y tế hoặc Lao động, không trực tiếp giải quyết vấn đề của doanh nghiệp nói chung theo cách đặt câu hỏi.
+
+Do đó, câu trả lời dựa trên **Quyết định 1620/QĐ-UBND năm 2019 của UBND tỉnh Cà Mau**.
+
+### 1. Cơ quan chịu trách nhiệm trực tiếp lưu trữ, cập nhật và cung cấp thông tin
+
+Theo quy định tại **Điều 2, Khoản 2** của Quyết định 1620/QĐ-UBND năm 2019:
+
+> *"Trên cơ sở quy trình nội bộ, liên thông và điện tử đã được Chủ tịch Ủy ban nhân dân tỉnh phê duyệt tại Quyết định số 977/QĐ-UBND ngày 13/6/2019, giao **Sở Kế hoạch và Đầu tư** chủ trì, phối hợp **Sở Thông tin và Truyền thông**, Văn phòng Ủy ban nhân dân tỉnh (Trung tâm Giải quyết thủ tục hành chính tỉnh) và các cơ quan, đơn vị liên quan cập nhật, bổ sung quy trình nội bộ, liên thông và điện tử lên Hệ thống thông tin một cửa điện tử tỉnh đối với 60 thủ tục hành chính công bố tại Điều 1 Quyết định này..."*
+
+Và theo **Điều 3**:
+> *"Chánh Văn phòng Ủy ban nhân dân tỉnh; **Giám đốc Sở Kế hoạch và Đầu tư**; Giám đốc Trung tâm Giải quyết thủ tục hành chính tỉnh và các tổ chức, cá nhân có liên quan chịu trách nhiệm thi hành Quyết định này."*
+
+**Kết luận:**
+*   Cơ quan chịu trách nhiệm **chủ trì** việc cập nhật nội dung thủ tục hành chính (bao gồm cả việc đảm bảo tính chính xác của thông tin pháp lý) là **Sở Kế hoạch và Đầu tư**.
+*   Cơ quan chịu trách nhiệm kỹ thuật về việc đưa thông tin lên hệ thống điện tử là **Sở Thông tin và Truyền thông** (phối hợp với Sở KH&ĐT).
+*   Nếu thông tin sai lệch là do lỗi kỹ thuật hiển thị trên Cổng thông tin điện tử/Hệ thống một cửa, trách nhiệm thuộc về sự phối hợp giữa Sở KH&ĐT (cung cấp dữ liệu đúng) và Sở TT&TT (triển khai kỹ thuật). Tuy nhiên, trách nhiệm pháp lý cuối cùng về nội dung TTHC thuộc về cơ quan quản lý nhà nước chuyên ngành, tức là **Sở Kế hoạch và Đầu tư**.
+
+### 2. Doanh nghiệp có quyền khiếu nại đến Sở Thông tin và Truyền thông hay cơ quan khác?
+
+Dựa trên ngữ cảnh hiện tại, **không có quy định cụ thể** trong Quyết định 1620/QĐ-UBND năm 2019 nêu rõ cơ chế khiếu nại trực tiếp của doanh nghiệp đối với lỗi thông tin trên CSDL. Tuy nhiên, dựa trên nguyên tắc phân công trách nhiệm:
+
+1.  **Nếu lỗi là về nội dung pháp lý** (ví dụ: thời hạn, hồ sơ, điều kiện quy định sai so với văn bản gốc): Doanh nghiệp nên phản ánh/khiếu nại đến **Sở Kế hoạch và Đầu tư** vì đây là cơ quan chủ trì và chịu trách nhiệm thi hành (Điều 3).
+2.  **Nếu lỗi là về kỹ thuật** (ví dụ: trang web không truy cập được, biểu mẫu bị lỗi hiển thị): Doanh nghiệp có thể phản ánh đến **Sở Thông tin và Truyền thông** hoặc **Văn phòng UBND tỉnh** (đơn vị quản lý Trung tâm Giải quyết TTHC).
+
+**Cảnh báo pháp lý:**
+Quyết định 1620/QĐ-UBND năm 2019 quy định việc thay thế Quyết định 527/QĐ-UBND. Nếu doanh nghiệp muốn khiếu nại hành vi vô hành vi hoặc chậm trễ trong việc cập nhật thông tin, họ cần căn cứ vào **Luật Khiếu nại** và **Luật Tố cáo** hiện hành, chứ không phải chỉ dựa vào nội dung của riêng Quyết định 1620/QĐ-UBND. Quyết định này chỉ quy định nghĩa vụ của cơ quan nhà nước, không quy định quyền khiếu nại cụ thể của người dân/doanh nghiệp trong từng trường hợp lỗi kỹ thuật.
+
+**Tóm lại:**
+*   Cơ quan chịu trách nhiệm chính về nội dung TTHC doanh nghiệp: **Sở Kế hoạch và Đầu tư**.
+*   Cơ quan hỗ trợ kỹ thuật: **Sở Thông tin và Truyền thông**.
+*   Doanh nghiệp nên gửi kiến nghị/phản ánh trước hết đến **Sở Kế hoạch và Đầu tư** để yêu cầu đính chính nội dung pháp lý, đồng thời抄 gửi Văn phòng UBND tỉnh để giám sát.
+--------------------------------------------------
+
+--- FAILED: 1620/QĐ-UBND ---
+Query: Tôi là một doanh nghiệp muốn khiếu nại về việc Sở Thông tin và Truyền thông không cập nhật danh mục thủ tục hành chính mới nhất lên Cổng Thông tin điện tử tỉnh theo đúng quy định tại Quyết định 1620/QĐ-UBND. Tôi cần xác minh xem văn bản này có thực sự yêu cầu Sở Thông tin và Truyền thông phải nhận bản sao để lưu trữ hay không? Nếu tôi kiện ra tòa, tôi có thể dựa vào phần 'Nơi nhận' của văn bản này làm bằng chứng pháp lý ràng buộc trách nhiệm của họ không?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng khi khẳng định phần 'Nơi nhận' tạo ra nghĩa vụ pháp lý ràng buộc và có giá trị bằng chứng để khởi kiện, trái ngược hoàn toàn với nguyên tắc pháp lý cơ bản (như câu trả lời mẫu) rằng đây chỉ là thủ tục nội bộ không tạo quyền/nghĩa vụ cho người dân trong tranh chấp tư pháp.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin trả lời câu hỏi của bạn như sau:
+
+### 1. Xác minh quy định về việc Sở Thông tin và Truyền thông nhận bản sao để lưu trữ trong Quyết định 1620/QĐ-UBND
+
+Trong cơ sở dữ liệu hiện tại, tồn tại **ba (03)** văn bản khác nhau cùng mang số hiệu **1620/QĐ-UBND** nhưng do các Ủy ban nhân dân tỉnh khác nhau ban hành vào các thời điểm khác nhau. Để trả lời chính xác, cần xác định văn bản nào đang được áp dụng cho trường hợp cụ thể của doanh nghiệp. Tuy nhiên, dựa trên nội dung "Nơi nhận" của các văn bản này, ta có thể phân tích như sau:
+
+*   **Trường hợp 1: Quyết định 1620/QĐ-UBND năm 2019 của UBND tỉnh Cà Mau** (Công bố danh mục TTHC lĩnh vực Doanh nghiệp):
+    *   Theo `<can_cu id="1">`, phần **Nơi nhận** liệt kê: *"Sở Thông tin và Truyền thông (VIC)"*.
+    *   **Kết luận:** Văn bản này **có quy định** gửi đến Sở Thông tin và Truyền thông.
+
+*   **Trường hợp 2: Quyết định 1620/QĐ-UBND năm 2021 của UBND tỉnh Điện Biên** (Phê duyệt quy trình nội bộ hỗ trợ người lao động/người sử dụng lao động do Covid-19):
+    *   Theo `<can_cu id="2">`, `<can_cu id="3">`, `<can_cu id="16">`, `<can_cu id="17">`, `<can_cu id="18">`, phần **Nơi nhận** liệt kê: *"Cổng DVC trực tuyến tỉnh (Sở TT&TT)"*.
+    *   **Kết luận:** Văn bản này **có quy định** gửi đến Sở Thông tin và Truyền thông (để cập nhật lên Cổng Dịch vụ công).
+
+*   **Trường hợp 3: Quyết định 1620/QĐ-UBND năm 2025 của UBND tỉnh Hà Tĩnh** (Công bố danh mục TTHC lĩnh vực Thiết bị Y tế):
+    *   Theo `<can_cu id="9">` và `<can_cu id="12">`, phần **Nơi nhận** liệt kê: *"Các Sở: Y tế, KH&CN"* và *"Trung tâm PV HCC tỉnh; Trung tâm CB-TH tỉnh"*.
+    *   **Kết luận:** Trong danh sách Nơi nhận của văn bản này **không thấy đề cập trực tiếp** đến Sở Thông tin và Truyền thông (mặc dù có thể liên quan gián tiếp qua Trung tâm Công báo - Tin học hoặc Cổng thông tin điện tử, nhưng không nêu rõ tên Sở TT&TT trong phần Nơi nhận như hai văn bản kia).
+
+**Tóm lại:** Nếu doanh nghiệp khiếu nại liên quan đến văn bản 1620/QĐ-UBND của tỉnh **Cà Mau (2019)** hoặc **Điện Biên (2021)**, thì Sở Thông tin và Truyền thông **có bắt buộc** phải nhận văn bản theo phần "Nơi nhận". Nếu là văn bản của tỉnh **Hà Tĩnh (2025)**, phần "Nơi nhận" không liệt kê trực tiếp Sở TT&TT.
+
+### 2. Giá trị bằng chứng pháp lý của phần 'Nơi nhận' khi khởi kiện ra Tòa án
+
+Phần **"Nơi nhận"** trong một Quyết định hành chính **có giá trị bằng chứng pháp lý quan trọng** để xác định trách nhiệm của cơ quan nhà nước, nhưng cần hiểu đúng bản chất pháp lý của nó:
+
+1.  **Bản chất của "Nơi nhận":**
+    *   Phần "Nơi nhận" quy định đối tượng phải nhận văn bản để **thi hành**, **biết**, hoặc **lưu hồ sơ**.
+    *   Khi một cơ quan (như Sở Thông tin và Truyền thông) được liệt kê trong "Nơi nhận", điều đó tạo ra **nghĩa vụ hành chính** cho cơ quan đó là phải tiếp nhận văn bản và thực hiện các nhiệm vụ liên quan (ví dụ: cập nhật lên Cổng thông tin điện tử, lưu trữ hồ sơ, hoặc phối hợp giải quyết).
+
+2.  **Giá trị trong tố tụng hành chính:**
+    *   Nếu Sở Thông tin và Truyền thông từ chối cập nhật danh mục TTHC lên Cổng thông tin điện tử tỉnh mà họ đã được liệt kê trong "Nơi nhận" (đặc biệt là các trường hợp ghi rõ *"Cổng DVC trực tuyến tỉnh (Sở TT&TT)"* như trong QĐ 1620/QĐ-UBND năm 2021 của Điện Biên), thì đây là căn cứ để chứng minh cơ quan này **vi phạm nghĩa vụ hành chính** hoặc **bất động hành chính**.
+    *   Doanh nghiệp có thể sử dụng phần "Nơi nhận" làm bằng chứng chứng minh rằng:
+        *   Văn bản đã được ban hành hợp lệ.
+        *   Sở Thông tin và Truyền thông là cơ quan có thẩm quyền/trách nhiệm liên quan đến việc công bố/cập nhật thông tin đó (theo quy định chung về quản lý Cổng thông tin điện tử và Dịch vụ công).
+        *   Việc không cập nhật là vi phạm quy định về công khai thủ tục hành chính.
+
+3.  **Lưu ý quan trọng:**
+    *   Phần "Nơi nhận" tự thân nó không phải là một "Điều khoản xử phạt" hay "Điều khoản nghĩa vụ chi tiết", nhưng nó là **căn cứ xác định chủ thể chịu trách nhiệm thi hành**.
+    *   Để khởi kiện thành công, doanh nghiệp cần kết hợp phần "Nơi nhận" với các quy định khác về **trách nhiệm của Sở Thông tin và Truyền thông** trong việc quản lý Cổng thông tin điện tử và Dịch vụ công (ví dụ: Nghị định 61/2018/NĐ-CP, Nghị định 118/2025/NĐ-CP, hoặc các Quyết định quy chế Cổng thông tin điện tử tỉnh như `<can_cu id="15">` về trách nhiệm cung cấp thông tin).
+
+**Kết luận:**
+*   **Có**, phần "Nơi nhận" trong Quyết định 1620/QĐ-UBND (tùy thuộc vào tỉnh cụ thể là Cà Mau hay Điện Biên) **có giá trị bằng chứng pháp lý** để ràng buộc trách nhiệm của Sở Thông tin và Truyền thông.
+*   Nếu Sở TT&TT không thực hiện việc cập nhật/lưu trữ mặc dù đã được liệt kê trong "Nơi nhận" (đặc biệt khi ghi rõ chức năng như "Cổng DVC trực tuyến tỉnh"), doanh nghiệp có thể dùng đây là căn cứ để khiếu nại hoặc khởi kiện hành chính về việc cơ quan nhà nước không thực hiện đúng nghĩa vụ công khai thủ tục hành chính.
+
+**Khuyến nghị:** Doanh nghiệp cần xác định chính xác **tỉnh** nào ban hành Quyết định 1620/QĐ-UBND liên quan đến lĩnh vực hoạt động của mình để trích dẫn đúng văn bản (Cà Mau 2019, Điện Biên 2021, hay Hà Tĩnh 2025).
+--------------------------------------------------
+
+--- FAILED: 3192/2000/QĐ-BYT ---
+Query: Tôi là Giám đốc một bệnh viện tư nhân tại tỉnh. Bệnh viện của tôi vừa bị Thanh tra Sở Y tế ra quyết định xử phạt vi phạm về quy trình kỹ thuật khám chữa bệnh. Tôi muốn khiếu nại lên Phòng Nghiệp vụ Y vì cho rằng quyết định này thiếu căn cứ chuyên môn. Tuy nhiên, cán bộ Phòng Nghiệp vụ Y từ chối tiếp nhận hồ sơ khiếu nại của tôi với lý do họ không có thẩm quyền giải quyết trực tiếp mà chỉ 'tham gia'. Xin hỏi hành động từ chối này có đúng pháp luật không? Căn cứ vào nhiệm vụ nào của Phòng Nghiệp vụ Y?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra kết luận sai lệch nghiêm trọng về bản chất pháp lý khi khẳng định hành động từ chối là "không đúng pháp luật", trong khi câu trả lời mẫu xác định hành động này là "đúng" do Phòng Nghiệp vụ Y chỉ có vai trò tham gia chứ không phải cơ quan tiếp nhận và giải quyết khiếu nại chính thức.
+Answer: Dựa trên cơ sở dữ liệu và ngữ cảnh được cung cấp, tôi xin trả lời như sau:
+
+**1. Về tính đúng pháp luật của hành động từ chối:**
+Hành động từ chối tiếp nhận hồ sơ khiếu nại với lý do "không có thẩm quyền giải quyết trực tiếp" là **KHÔNG ĐÚNG PHÁP LUẬT** theo quy định tại **Quyết định 56/2008/QĐ-BYT**.
+
+Cụ thể, tại **Điều 10, Khoản 5** của Quyết định 56/2008/QĐ-BYT quy định rõ nhiệm vụ đối với đơn khiếu tố không thuộc thẩm quyền:
+> *"Trường hợp công dân đến khiếu nại có nội dung không thuộc thẩm quyền giải quyết của cơ quan mình thì **hướng dẫn công dân đến nơi có thẩm quyền giải quyết**."*
+
+Như vậy, ngay cả khi Phòng Nghiệp vụ Y (hoặc đơn vị tương đương trong cơ cấu Bộ Y tế) không phải là cơ quan có thẩm quyền *giải quyết cuối cùng* hoặc *trực tiếp ra quyết định*, họ vẫn có trách nhiệm **tiếp nhận thông tin/hồ sơ** để thực hiện việc **hướng dẫn** người khiếu nại đến đúng cơ quan có thẩm quyền, chứ không được từ chối tiếp nhận hoàn toàn. Việc từ chối tiếp nhận sẽ khiến người dân không được hướng dẫn đúng quy trình, vi phạm nguyên tắc phục vụ nhân dân và quy chế tiếp công dân.
+
+Ngoài ra, nếu nội dung khiếu nại thuộc thẩm quyền của Thủ trưởng đơn vị khác thuộc Bộ, **Khoản 7 Điều 10** cũng quy định:
+> *"Thông báo cho Thủ trưởng các đơn vị thuộc Bộ tiếp công dân hoặc cử công chức nắm vững chuyên môn, nghiệp vụ liên quan đến vụ việc tiếp công dân..."*
+
+Điều này khẳng định vai trò của các đơn vị chuyên môn (như Phòng Nghiệp vụ Y) là phối hợp, thông báo và hỗ trợ, chứ không phải là từ chối cửa.
+
+**2. Về căn cứ nhiệm vụ theo Luật Tổ chức Y tế công cộng và Luật Khiếu nại:**
+*Dựa trên ngữ cảnh hiện tại, không thấy quy định cụ thể về "Luật Tổ chức Y tế công cộng" hay "Luật Khiếu nại" (bản mới) trong phần tài liệu tham khảo được cung cấp.*
+
+Tuy nhiên, dựa trên các văn bản có hiệu lực tại thời điểm ngữ cảnh (Quyết định 56/2008/QĐ-BYT và Nghị định 341-HĐBT), nhiệm vụ của cán bộ tiếp công dân/cơ quan chuyên môn được xác định như sau:
+
+*   **Theo Quyết định 56/2008/QĐ-BYT (Điều 10, Khoản 1, 2, 3):** Công chức thường trực tiếp công dân (có thể bao gồm cán bộ phòng nghiệp vụ được cử tham gia) có nhiệm vụ:
+    *   Là đầu mối tiếp và hướng dẫn công dân.
+    *   Tiếp xúc ban đầu để nắm rõ mục đích, yêu cầu.
+    *   Lắng nghe, giải thích, hướng dẫn, ghi chép nội dung.
+*   **Theo Nghị định 341-HĐBT (Điều 25):** Cơ quan Nhà nước có thẩm quyền nhận được khiếu nại, tố cáo có trách nhiệm xem xét giải quyết và trả lời. Nếu không thuộc thẩm quyền, trách nhiệm là chuyển đơn hoặc hướng dẫn (theo tinh thần chung của pháp luật về khiếu nại tố cáo lúc bấy giờ và được cụ thể hóa trong QĐ 56/2008).
+
+**Kết luận:**
+Cán bộ Phòng Nghiệp vụ Y không được phép từ chối tiếp nhận hồ sơ. Họ phải thực hiện nghĩa vụ **tiếp nhận và hướng dẫn** người khiếu nại đến cơ quan có thẩm quyền đúng quy định tại **Khoản 5 Điều 10, Quyết định 56/2008/QĐ-BYT**. Lý do "chỉ tham gia" không phải là lý do chính đáng để từ chối tiếp nhận ban đầu, vì chính quy chế đã giao nhiệm vụ phối hợp và hướng dẫn cho các đơn vị thuộc Bộ.
+
+*Lưu ý: Các văn bản trên (56/2008/QĐ-BYT, 341-HĐBT) là các văn bản cũ. Trong thực tế hiện nay, cần đối chiếu với Luật Khiếu nại, Luật Tố cáo và các văn bản mới nhất của Bộ Y tế về tiếp công dân để có áp dụng chính xác nhất, nhưng dựa trên dữ liệu đồ thị và ngữ cảnh vector search được cung cấp, kết luận trên là chính xác.*
+--------------------------------------------------
+
+--- FAILED: 43/2018/TT-BCT ---
+Query: Tôi là chủ một chuỗi cửa hàng bán lẻ thực phẩm tổng hợp. Khi làm hồ sơ xin cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm theo Mẫu số 05b, tôi thấy phần ghi chú yêu cầu phải liệt kê danh sách các cơ sở kinh doanh thuộc chuỗi và nhóm sản phẩm. Tuy nhiên, trong quá trình thẩm định theo Mẫu số 03b, có 2 trong số 10 cửa hàng của tôi bị đánh giá kết quả là "Chờ hoàn thiện" (do đạt 100% tiêu chí A nhưng chỉ đạt 50% tiêu chí B), còn lại 8 cửa hàng đạt kết quả "Đạt". Cơ quan chức năng từ chối cấp giấy cho toàn bộ chuỗi với lý do không đồng nhất. Xin hỏi: Theo quy định tại Thông tư này, tôi có được cấp Giấy chứng nhận cho 8 cửa hàng đạt chuẩn không? Và căn cứ pháp lý cụ thể để xác định phạm vi hiệu lực của Giấy chứng nhận đối với chuỗi là gì?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng về cơ sở pháp lý (áp dụng Thông tư 43/2018/TT-BCT của Bộ Công Thương thay vì quy định của Bộ Y tế cho an toàn thực phẩm) và kết luận sai rằng không được cấp giấy riêng cho các cửa hàng đạt chuẩn, trái với hướng dẫn rõ ràng trong câu trả lời mẫu dựa trên Mẫu số 05b.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin trả lời câu hỏi của bạn như sau:
+
+**1. Về việc cấp Giấy chứng nhận riêng cho các cửa hàng đã đạt chuẩn trong chuỗi:**
+
+Theo quy định hiện hành được trích dẫn trong ngữ cảnh (cụ thể là **Nghị định 17/2020/NĐ-CP** và **Thông tư 43/2018/TT-BCT**), cơ quan chức năng **KHÔNG** cấp Giấy chứng nhận riêng lẻ cho từng cửa hàng con trong một chuỗi kinh doanh thực phẩm khi hồ sơ được nộp theo hình thức chuỗi. Thay vào đó, Giấy chứng nhận được cấp cho toàn bộ chuỗi hoặc các nhóm sản phẩm/cơ sở đã đạt yêu cầu theo nguyên tắc sau:
+
+*   **Nguyên tắc cấp chung:** Theo **Khoản 3 Điều 6 Thông tư 43/2018/TT-BCT**, Bộ Công Thương (hoặc cơ quan có thẩm quyền tại địa phương đối với chuỗi siêu thị mini/cửa hàng tiện lợi) cấp **01 Giấy chứng nhận** cho chuỗi cơ sở kinh doanh thực phẩm.
+*   **Xử lý kết quả thẩm định "Chờ hoàn thiện" hoặc "Không đạt":**
+    *   Theo **Điều 13 Nghị định 17/2020/NĐ-CP** (và tương tự tại **Điều 5 Thông tư 43/2018/TT-BCT**), đối với cơ sở kinh doanh thực phẩm tổng hợp (bao gồm cả chuỗi), cơ sở được cấp Giấy chứng nhận khi các điều kiện kinh doanh của **ít nhất một nhóm sản phẩm** được đánh giá “Đạt”. Các nhóm sản phẩm đạt yêu cầu sẽ được ghi vào Giấy chứng nhận.
+    *   Tuy nhiên, ngữ cảnh không quy định rõ việc tách riêng từng cửa hàng vật lý để cấp giấy nếu một số cửa hàng "Chờ hoàn thiện". Quy định nhấn mạnh rằng nếu kết quả thẩm định là "Chờ hoàn thiện", thời hạn khắc phục tối đa là 60 ngày. Nếu quá thời hạn này mà không khắc phục hoặc thẩm định lại không đạt, cơ quan có thẩm quyền thông báo yêu cầu cơ sở **không được hoạt động** cho đến khi được cấp Giấy chứng nhận (**Điểm d Khoản 1 Điều 13 Nghị định 17/2020/NĐ-CP**).
+    *   Do đó, nếu một phần của chuỗi (các cửa hàng cụ thể) chưa đạt hoặc đang chờ hoàn thiện, toàn bộ hồ sơ chuỗi thường bị treo hoặc chỉ được cấp phép cho những phần đã hoàn tất thủ tục và đạt chuẩn, nhưng pháp luật hiện hành trong ngữ cảnh này thiên về việc cấp 01 Giấy chứng nhận cho chuỗi. Nếu có cửa hàng không đạt, rủi ro là toàn bộ chuỗi có thể bị yêu cầu ngừng hoạt động tại các điểm chưa đạt hoặc phải hoàn thiện toàn bộ trước khi cấp phép chính thức cho chuỗi, tùy thuộc vào cách hiểu "nhóm sản phẩm" hay "cơ sở" trong biên bản. Tuy nhiên, điểm mấu chốt là **không có quy định cho phép cấp giấy riêng lẻ cho từng cửa hàng con** trong cùng một hồ sơ chuỗi đã nộp.
+
+**2. Căn cứ pháp lý xác định phạm vi hiệu lực của Giấy chứng nhận đối với chuỗi kinh doanh:**
+
+Phạm vi hiệu lực và thẩm quyền cấp Giấy chứng nhận cho chuỗi cửa hàng bán lẻ được xác định dựa trên các văn bản sau:
+
+*   **Thẩm quyền cấp:**
+    *   **Điều 6 Thông tư 43/2018/TT-BCT**: Quy định rõ thẩm quyền.
+        *   **Bộ Công Thương** cấp cho chuỗi cơ sở kinh doanh thực phẩm (trừ chuỗi siêu thị mini và chuỗi cửa hàng tiện lợi có diện tích tương đương siêu thị mini).
+        *   **Sở Công Thương** (hoặc cơ quan được phân cấp) cấp cho chuỗi siêu thị mini và chuỗi cửa hàng tiện lợi có diện tích tương đương siêu thị mini.
+    *   **Nghị định 146/2025/NĐ-CP** (Văn bản mới nhất trong ngữ cảnh, tuy nhiên cần lưu ý thời điểm áp dụng): Tiếp tục khẳng định việc phân cấp quản lý an toàn thực phẩm, trong đó Ủy ban nhân dân cấp tỉnh tiếp nhận và tổ chức thẩm định.
+
+*   **Nội dung và Phạm vi Ghi nhận trên Giấy chứng nhận:**
+    *   **Điều 13 Nghị định 17/2020/NĐ-CP** và **Điều 5 Thông tư 43/2018/TT-BCT**: Quy định rằng đối với cơ sở kinh doanh thực phẩm tổng hợp (áp dụng cho chuỗi), Giấy chứng nhận sẽ ghi rõ **các nhóm sản phẩm đạt yêu cầu**. Điều này ngụ ý rằng phạm vi hiệu lực của Giấy chứng nhận bao gồm các loại hình sản phẩm/dịch vụ đã được thẩm định và đạt chuẩn.
+    *   **Mẫu số 05b** (được nhắc đến trong câu hỏi và quy định tại Phụ lục kèm theo Nghị định 17/2020/NĐ-CP và Thông tư 43/2018/TT-BCT) là mẫu Giấy chứng nhận cho cơ sở kinh doanh.
+
+**Cảnh báo về hiệu lực văn bản:**
+*   Câu hỏi đề cập đến **Thông tư 30/2019/TT-BYT**. Tuy nhiên, trong Đồ thị tri thức và Ngữ cảnh bổ sung, **không tìm thấy Thông tư 30/2019/TT-BYT**.
+*   Các văn bản hướng dẫn chi tiết về thủ tục cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm thuộc lĩnh vực quản lý của Bộ Công Thương (thường áp dụng cho chuỗi bán lẻ thực phẩm tổng hợp, rượu, bia, nước giải khát...) là **Thông tư 43/2018/TT-BCT** và **Nghị định 17/2020/NĐ-CP**.
+*   Nếu chuỗi cửa hàng bán lẻ thuộc lĩnh vực quản lý chuyên ngành của Bộ Y tế (ví dụ: thực phẩm chức năng, sữa...), thì áp dụng **Nghị định 67/2016/NĐ-CP** và **Nghị định 148/2025/NĐ-CP** (Điều 27). Tuy nhiên, Mẫu số 05b và quy trình thẩm định chi tiết được mô tả trong ngữ cảnh chủ yếu liên quan đến hệ thống văn bản của Bộ Công Thương (Nghị định 17/2020/NĐ-CP sửa đổi Nghị định 77/2016/NĐ-CP).
+
+**Kết luận:**
+Cơ quan chức năng **không cấp Giấy chứng nhận riêng** cho từng cửa hàng đã đạt chuẩn trong một hồ sơ chuỗi. Giấy chứng nhận được cấp cho toàn bộ chuỗi (hoặc các nhóm sản phẩm của chuỗi) theo nguyên tắc "cấp 01 Giấy chứng nhận cho chuỗi" (**Điều 6 Thông tư 43/2018/TT-BCT**). Nếu có cửa hàng "Chờ hoàn thiện", cơ sở phải khắc phục trong thời hạn quy định (tối đa 60 ngày). Nếu không khắc phục kịp thời, cơ quan có thẩm quyền có thể yêu cầu ngừng hoạt động tại các điểm chưa đạt hoặc từ chối cấp phép cho đến khi toàn bộ điều kiện được đáp ứng, tùy thuộc vào mức độ ảnh hưởng đến tính chất "chuỗi" và sự đồng nhất trong quản lý. Phạm vi hiệu lực được xác định bởi **Nghị định 17/2020/NĐ-CP** và **Thông tư 43/2018/TT-BCT**.
+--------------------------------------------------
+
+--- FAILED: 43/2018/TT-BCT ---
+Query: Tôi là chủ một chuỗi cửa hàng bán lẻ thực phẩm tổng hợp. Trong đợt thẩm định điều kiện an toàn thực phẩm theo Mẫu số 03b, đoàn thẩm định đánh giá cơ sở của tôi đạt 100% các tiêu chí mức độ A (bao gồm thiết kế bố trí khu vực, nguồn gốc sản phẩm, trang thiết bị bảo quản/trưng bày/vận chuyển, giấy xác nhận sức khỏe và kiến thức). Tuy nhiên, chỉ có 50% các tiêu chí mức độ B (như hệ thống chiếu sáng, thu gom rác thải, dụng cụ rửa tay...) được đánh giá là Đạt. Tôi lo ngại cơ sở sẽ bị kết luận "Không đạt" và từ chối cấp Giấy chứng nhận. Xin hỏi với tỷ lệ này, kết quả thẩm định của tôi là gì? Và nếu muốn được cấp Giấy chứng nhận, tôi cần làm gì?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra kết luận sai lệch nghiêm trọng về bản chất pháp lý (kết luận "Không đạt" thay vì "Chờ hoàn thiện" như quy định tại Mẫu 03b khi đạt 100% tiêu chí A và từ 40%-60% tiêu chí B), dẫn đến tư vấn sai hướng xử lý cho người dùng.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, dưới đây là phân tích pháp lý cho tình huống của bạn:
+
+### 1. Xác định văn bản pháp luật áp dụng
+*   **Văn bản chính:** Nghị định số **17/2020/NĐ-CP** (sửa đổi Nghị định liên quan đến điều kiện đầu tư kinh doanh thuộc lĩnh vực quản lý nhà nước của Bộ Công thương).
+*   **Lý do áp dụng:** Theo Đồ thị tri thức, Nghị định **15/2018/NĐ-CP** đã **Thay thế** Nghị định **38/2012/NĐ-CP**. Tuy nhiên, trong phần Ngữ cảnh bổ sung, thông tin chi tiết về "Mẫu số 03b" và quy trình thẩm định cụ thể cho cơ sở kinh doanh thực phẩm được trích dẫn trực tiếp từ **Điều 13 của Nghị định 17/2020/NĐ-CP** (văn bản này sửa đổi và bổ sung vào các nghị định trước đó, cụ thể là Nghị định 77/2016/NĐ-CP nhưng ngữ cảnh cung cấp nội dung chi tiết nhất về thủ tục này nằm ở đây). Do câu hỏi đề cập cụ thể đến "Mẫu số 03b" và kết quả thẩm định theo quy định hiện hành được mô tả trong ngữ cảnh, chúng ta sẽ áp dụng quy định tại **Điều 13, Nghị định 17/2020/NĐ-CP**.
+
+### 2. Kết luận thẩm định: Đạt hay Không đạt?
+
+**Kết luận: KHÔNG ĐẠT.**
+
+**Căn cứ pháp lý:**
+Theo **Điều 13, Nghị định 17/2020/NĐ-CP**, tại điểm **d) Kết quả thẩm định thực tế tại cơ sở**:
+> "Kết quả thẩm định phải ghi rõ “Đạt” hoặc “Không đạt” hoặc “Chờ hoàn thiện” vào Biên bản thẩm định điều kiện an toàn thực phẩm đối với cơ sở sản xuất thực phẩm theo Mẫu số 03a, **Biên bản thẩm định điều kiện an toàn thực phẩm đối với cơ sở kinh doanh thực phẩm theo Mẫu số 03b**..."
+
+Quy định tiếp theo nêu rõ:
+> "**Đối với cơ sở kinh doanh thực phẩm tổng hợp, cơ sở được cấp Giấy chứng nhận khi các điều kiện kinh doanh của ít nhất một nhóm sản phẩm được đánh giá “Đạt”.** Các nhóm sản phẩm đạt yêu cầu theo quy định sẽ được ghi vào Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm."
+
+**Phân tích tình huống:**
+*   Câu hỏi nêu cơ sở là "kinh doanh thực phẩm bán lẻ tổng hợp".
+*   Cơ sở chỉ đạt 50% tiêu chí mức độ B. Trong hệ thống đánh giá an toàn thực phẩm (thường áp dụng theo Thông tư liên tịch hoặc hướng dẫn chi tiết đi kèm Nghị định), việc không đạt 100% các tiêu chí bắt buộc (thường là nhóm A và B tùy vào phân loại rủi ro) sẽ dẫn đến kết luận không đáp ứng điều kiện an toàn thực phẩm cho nhóm sản phẩm đó.
+*   Tuy nhiên, điểm mấu chốt là quy định tại Nghị định 17/2020/NĐ-CP cho phép cơ sở kinh doanh tổng hợp được cấp giấy nếu **ít nhất một nhóm sản phẩm** được đánh giá "Đạt".
+*   Nếu "tiêu chí mức độ A" và "tiêu chí mức độ B" là các nhóm tiêu chí chung cho toàn bộ cơ sở hoặc nếu việc chỉ đạt 50% mức B đồng nghĩa với việc **không có nhóm sản phẩm nào** được đánh giá là "Đạt" đầy đủ điều kiện an toàn, thì kết quả là **Không đạt**.
+*   *Lưu ý quan trọng:* Ngữ cảnh không cung cấp bảng điểm chi tiết để xác định xem 50% mức B có tương đương với việc "Không đạt" cho tất cả các nhóm hàng hay không. Tuy nhiên, thông thường trong thẩm định an toàn thực phẩm, nếu không đạt các tiêu chí bắt buộc (thường là nhóm A - nguy cơ cao, và một phần nhóm B), cơ sở sẽ bị đánh giá là không đảm bảo an toàn. Nếu giả định rằng việc chỉ đạt 50% mức B khiến cơ sở **không có bất kỳ nhóm sản phẩm nào** đạt chuẩn "Đạt" hoàn toàn, thì kết luận là **Không đạt**.
+
+*(Nếu trong thực tế, 50% mức B vẫn cho phép một nhóm sản phẩm cụ thể được công nhận là "Đạt" theo hướng dẫn chi tiết của Bộ Công Thương, thì cơ sở có thể được cấp giấy cho nhóm đó. Nhưng dựa trên nguyên tắc an toàn và thông tin hạn chế, nếu không có nhóm nào "Đạt" trọn vẹn, kết quả là Không đạt).*
+
+Để trả lời chính xác nhất dựa trên logic "Không đạt" như giả định trong câu hỏi ("Nếu không đạt..."), chúng ta đi vào biện pháp khắc phục.
+
+### 3. Biện pháp cần thực hiện nếu kết quả là "Không đạt" hoặc "Chờ hoàn thiện"
+
+Theo **Điều 13, Nghị định 17/2020/NĐ-CP**, nếu kết quả thẩm định là **"Không đạt"** hoặc **"Chờ hoàn thiện"**, cơ sở cần thực hiện các bước sau:
+
+1.  **Khắc phục sai phạm:**
+    *   Cơ sở phải khắc phục các tồn tại, vi phạm theo yêu cầu của Đoàn thẩm định được ghi rõ trong **Biên bản thẩm định**.
+    *   Thời hạn khắc phục tối đa là **60 ngày** kể từ ngày có biên bản thẩm định (áp dụng cho trường hợp "Chờ hoàn thiện"). Đối với trường hợp "Không đạt", thời hạn thẩm định lại tối đa là **03 tháng** (theo quy định cũ tại TT 29/2012/TT-BCT còn được tham chiếu trong một số ngữ cảnh, nhưng Nghị định 17/2020/NĐ-CP quy định rõ: *"Trường hợp 'Chờ hoàn thiện', thời hạn khắc phục tối đa là 60 ngày... Sau 60 ngày cơ sở không nộp báo cáo kết quả khắc phục thì hồ sơ... không còn giá trị"*).
+
+2.  **Nộp báo cáo kết quả khắc phục:**
+    *   Sau khi khắc phục xong, cơ sở phải nộp **Báo cáo kết quả khắc phục** theo **Mẫu số 04** (Mục I Phụ lục ban hành kèm theo Nghị định 17/2020/NĐ-CP) về cơ quan có thẩm quyền.
+    *   Cơ sở cũng phải nộp **phí thẩm định** lại.
+
+3.  **Thẩm định lại:**
+    *   Cơ quan có thẩm quyền sẽ tổ chức thẩm định lại.
+    *   Thời hạn thẩm định lại tối đa là **10 ngày làm việc** tính từ khi cơ quan có thẩm quyền nhận được báo cáo khắc phục.
+
+4.  **Hậu quả nếu không khắc phục kịp thời:**
+    *   Nếu quá thời hạn 60 ngày mà cơ sở không nộp báo cáo kết quả khắc phục, hồ sơ đề nghị cấp Giấy chứng nhận và kết quả thẩm định trước đó sẽ **không còn giá trị**.
+    *   Nếu kết quả thẩm định lại vẫn **"Không đạt"**, cơ quan có thẩm quyền sẽ thông báo bằng văn bản tới cơ quan quản lý địa phương để giám sát và **yêu cầu cơ sở không được hoạt động** cho đến khi được cấp Giấy chứng nhận.
+
+### Tóm tắt hành động cần làm:
+1.  Đọc kỹ **Biên bản thẩm định** (Mẫu 03b) để xác định rõ các tiêu chí chưa đạt.
+2.  Khắc phục các tiêu chí chưa đạt trong vòng **tối đa 60 ngày**.
+3.  Nộp **Báo cáo kết quả khắc phục (Mẫu 04)** và phí thẩm định lại cho cơ quan có thẩm quyền.
+4.  Chờ đoàn thẩm định kiểm tra lại (trong vòng 10 ngày làm việc).
+5.  Nếu đạt, cơ quan sẽ cấp Giấy chứng nhận trong vòng **05 ngày làm việc** kể từ ngày có kết quả thẩm định lại là "Đạt".
+
+**Cảnh báo:** Nếu cơ sở không khắc phục trong 60 ngày, hồ sơ sẽ bị hủy bỏ và cơ sở có thể bị đình chỉ hoạt động nếu đang kinh doanh trái phép.
+--------------------------------------------------
+
+--- FAILED: 43/2018/TT-BCT ---
+Query: Tôi là chủ một chuỗi cửa hàng bán lẻ thực phẩm tổng hợp. Trong đợt thẩm định gần đây, đoàn kiểm tra đánh giá cơ sở của tôi đạt 100% các tiêu chí mức độ A (bao gồm thiết kế bố trí, nguồn nước, giấy tờ con người...), nhưng chỉ đạt 55% các tiêu chí mức độ B (liên quan đến hệ thống chiếu sáng, xử lý rác thải...). Tôi lo lắng cơ sở sẽ bị đánh giá "Không đạt" và không được cấp Giấy chứng nhận. Xin hỏi với tỷ lệ này, kết quả thẩm định chính thức của cơ sở tôi là gì? Và nếu muốn được cấp Giấy chứng nhận, tôi cần làm gì theo quy định tại Mẫu đơn đề nghị?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai hoàn toàn bản chất vấn đề khi khẳng định "không thấy quy định cụ thể" về kết quả thẩm định (trong khi mẫu có thông tin rõ ràng là "Chờ hoàn thiện") và không đưa ra hướng dẫn khắc phục đúng theo quy định (nộp Báo cáo kết quả khắc phục Mẫu 04), vi phạm tiêu chí báo 'không tìm thấy thông tin' trong khi mẫu có thông tin rõ ràng.
+Answer: Dựa trên cơ sở dữ liệu và ngữ cảnh được cung cấp, tôi xin trả lời như sau:
+
+**1. Về kết quả đánh giá (Đạt/Không đạt) khi đạt 100% tiêu chí mức độ A nhưng chỉ đạt 55% tiêu chí mức độ B:**
+Dựa trên ngữ cảnh hiện tại, **không thấy quy định cụ thể** về cách tính điểm hoặc tỷ lệ phần trăm tiêu chí mức độ A và B để xác định kết quả "Đạt" hay "Không đạt". Các văn bản trong đồ thị tri thức (Luật An toàn thực phẩm 2010, Nghị định 15/2018/NĐ-CP, Nghị định 148/2025/NĐ-CP) chỉ quy định về hồ sơ, trình tự thủ tục và điều kiện chung để cấp Giấy chứng nhận, mà không nêu chi tiết phương pháp thẩm định theo từng mức độ tiêu chí A/B. Do đó, không thể khẳng định kết quả chính thức là Đạt hay Không đạt dựa trên thông tin có sẵn. Cần đối chiếu thêm các Thông tư hướng dẫn chi tiết về tiêu chí đánh giá an toàn thực phẩm (ví dụ: Thông tư của Bộ Y tế hoặc Bộ Công Thương tùy loại hình cơ sở).
+
+**2. Về việc cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm:**
+Việc cơ sở này có được cấp Giấy chứng nhận hay không phụ thuộc vào hai yếu tố chính dựa trên các văn bản đã cung cấp:
+
+*   **Yếu tố 1: Cơ sở có thuộc diện phải cấp Giấy chứng nhận không?**
+    Theo **Điều 12 Nghị định 15/2018/NĐ-CP**, các cơ sở sau **không thuộc diện cấp** Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm:
+    *   Kinh doanh thực phẩm nhỏ lẻ;
+    *   Kinh doanh thực phẩm bao gói sẵn;
+    *   Sản xuất ban đầu nhỏ lẻ;
+    *   ...và một số trường hợp khác như bếp ăn tập thể không đăng ký ngành nghề, nhà hàng trong khách sạn...
+    
+    Nếu cơ sở kinh doanh bán lẻ của bạn thuộc diện "Kinh doanh thực phẩm nhỏ lẻ" hoặc "Kinh doanh thực phẩm bao gói sẵn", thì **không cần** và **không được cấp** Giấy chứng nhận này, mà chỉ cần tuân thủ các yêu cầu về điều kiện bảo đảm an toàn thực phẩm tương ứng (Khoản 2 Điều 12 Nghị định 15/2018/NĐ-CP).
+
+*   **Yếu tố 2: Nếu thuộc diện phải cấp, cơ sở có đủ điều kiện không?**
+    Nếu cơ sở không thuộc diện miễn trừ nêu trên, theo **Điều 11 Nghị định 15/2018/NĐ-CP**, cơ sở sản xuất, kinh doanh thực phẩm phải có Giấy chứng nhận khi hoạt động. Điều kiện cấp được thực hiện theo khoản 1 Điều 34 Luật An toàn thực phẩm.
+    
+    Theo **Điều 36 Luật An toàn thực phẩm 2010 (55/2010/QH12)** và **Phần 4 Nghị định 148/2025/NĐ-CP**, cơ quan nhà nước có thẩm quyền sẽ kiểm tra thực tế điều kiện bảo đảm an toàn thực phẩm. Nếu **đủ điều kiện** thì phải cấp Giấy chứng nhận; nếu **không đủ điều kiện** thì từ chối và trả lời bằng văn bản nêu rõ lý do.
+    
+    Vì ngữ cảnh không cung cấp ngưỡng điểm cụ thể để coi là "đủ điều kiện", nên nếu việc đạt 55% tiêu chí mức độ B được coi là chưa đáp ứng các yêu cầu bắt buộc về điều kiện vệ sinh an toàn thực phẩm, thì cơ sở sẽ bị từ chối cấp giấy.
+
+**3. Về trách nhiệm của người chịu trách nhiệm chuyên môn kỹ thuật trong Mẫu đơn đề nghị cấp Giấy chứng nhận:**
+Dựa trên ngữ cảnh hiện tại, **không tìm thấy thông tin** về nội dung cụ thể của "Mẫu đơn đề nghị cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm" cũng như các bước hành động cụ thể mà người chịu trách nhiệm chuyên môn kỹ thuật cần làm trong trường hợp cơ sở chưa đạt hoặc cần khắc phục.
+
+Tuy nhiên, dựa trên quy định chung về hồ sơ tại **Điều 36 Luật An toàn thực phẩm 2010** và **Phần 4 Nghị định 148/2025/NĐ-CP**, hồ sơ nộp lên bao gồm:
+*   Đơn đề nghị cấp Giấy chứng nhận.
+*   Bản sao Giấy chứng nhận đăng ký kinh doanh.
+*   Bản thuyết minh về cơ sở vật chất, trang thiết bị, dụng cụ bảo đảm điều kiện vệ sinh an toàn thực phẩm.
+*   Giấy xác nhận đủ sức khỏe.
+*   Giấy xác nhận đã được tập huấn kiến thức về an toàn vệ sinh thực phẩm.
+
+Nếu cơ sở chưa đạt, theo nguyên tắc hành chính, cơ quan nhà nước sẽ từ chối và nêu lý do bằng văn bản. Người nộp hồ sơ (thường là chủ cơ sở hoặc người đại diện) cần căn cứ vào lý do từ chối để khắc phục các tồn tại về điều kiện an toàn thực phẩm trước khi nộp lại hồ sơ. Vai trò cụ thể của "người chịu trách nhiệm chuyên môn kỹ thuật" trong mẫu đơn không được mô tả chi tiết trong các đoạn trích dẫn hiện có.
+
+**Tóm lại:**
+1.  Không xác định được kết quả Đạt/Không đạt do thiếu quy định về tỷ lệ tiêu chí A/B trong ngữ cảnh.
+2.  Nếu cơ sở thuộc diện "kinh doanh nhỏ lẻ" hoặc "bao gói sẵn", không được cấp Giấy chứng nhận. Nếu thuộc diện phải cấp, việc cấp giấy phụ thuộc vào kết quả kiểm tra thực tế xem có đủ điều kiện an toàn thực phẩm hay không.
+3.  Không có thông tin về hành động cụ thể của người chịu trách nhiệm chuyên môn kỹ thuật trong mẫu đơn khi chưa đạt.
+--------------------------------------------------
+
+--- FAILED: 43/2018/TT-BCT ---
+Query: Tôi là chủ một chuỗi cửa hàng tạp hóa. Trong đợt thẩm định vừa qua, đoàn kiểm tra đánh giá cơ sở của tôi có 100% tiêu chí mức độ A đạt yêu cầu, nhưng chỉ có 45% các tiêu chí mức độ B đạt yêu cầu. Tôi bị kết luận là 'Chờ hoàn thiện' và không được cấp Giấy chứng nhận ngay lập tức. Tôi muốn hỏi: Kết luận này có đúng với quy định tại Mẫu 03b không? Và nếu tôi khắc phục xong để đạt 60% tiêu chí B, liệu tôi có cần làm thủ tục xin cấp lại từ đầu hay chỉ cần báo cáo kết quả khắc phục?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai hoàn toàn bản chất vấn đề và báo 'không tìm thấy thông tin' trong khi câu trả lời mẫu có thông tin rõ ràng, đồng thời đưa ra nhận định sai lệch về lĩnh vực điều chỉnh của văn bản pháp luật.
+Answer: Dựa trên các quy định liên quan nhất tìm thấy, thông tin trong `CONTEXT` (Thông tư 30/2019/TT-BYT) **không chứa** bất kỳ quy định nào về tiêu chí đánh giá mức độ A và B trong thẩm định an toàn thực phẩm đối với cơ sở kinh doanh tạp hóa, cũng như không đề cập đến Mẫu 03b hay thủ tục cấp lại Giấy chứng nhận an toàn thực phẩm.
+
+Cụ thể:
+1.  **Lĩnh vực điều chỉnh:** Theo `<can_cu id="1">` và `<can_cu id="3">`, Thông tư 30/2019/TT-BYT là văn bản sửa đổi, bổ sung một số điều của Thông tư 34/2017/TT-BYT về hướng dẫn **tư vấn, sàng lọc, chẩn đoán, điều trị trước sinh và sơ sinh**. Đây thuộc lĩnh vực Y tế - Dân số, không phải lĩnh vực An toàn thực phẩm.
+2.  **Nội dung cụ thể:** Các điều khoản được trích dẫn trong context (Điều 1, Điều 2, Điều 3) chỉ quy định về định nghĩa sàng lọc trước sinh/sơ sinh, chế độ báo cáo thống kê, hiệu lực thi hành và trách nhiệm thi hành của các đơn vị y tế/dân số. Không có nội dung nào liên quan đến "cơ sở kinh doanh tạp hóa", "tiêu chí mức độ A/B", hay "Mẫu 03b".
+
+Do đó, dựa hoàn toàn vào ngữ cảnh được cung cấp, tôi không thể trả lời về tính đúng/sai của kết luận 'Chờ hoàn thiện' hay thủ tục xin cấp lại giấy chứng nhận vì những vấn đề này nằm ngoài phạm vi điều chỉnh của văn bản pháp luật hiện có trong dữ liệu. Bạn cần tham khảo các văn bản pháp luật chuyên ngành về An toàn thực phẩm (ví dụ: Nghị định 15/2018/NĐ-CP hoặc các Thông tư hướng dẫn thi hành Luật An toàn thực phẩm) để có câu trả lời chính xác cho câu hỏi này.
+--------------------------------------------------
+
+--- FAILED: 43/2018/TT-BCT ---
+Query: Tôi là chủ một chuỗi cửa hàng tiện lợi. Trong đợt thẩm định điều kiện an toàn thực phẩm (theo Mẫu số 03b), đoàn kiểm tra đánh giá cơ sở của tôi có 100% các tiêu chí mức độ A đạt, nhưng chỉ có 55% các tiêu chí mức độ B đạt. Tôi bị kết luận là "Chờ hoàn thiện" và không được cấp Giấy chứng nhận ngay. Tuy nhiên, tôi cho rằng vì đã đạt 100% tiêu chí quan trọng (mức A) nên vẫn phải được cấp giấy. Xin hỏi việc từ chối cấp giấy ngay lập tức này có đúng quy định không? Căn cứ vào đâu để xác định ngưỡng điểm "Đạt"?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai hoàn toàn bản chất vấn đề khi khẳng định không tìm thấy thông tin về ngưỡng điểm "Đạt" trong khi câu hỏi và mẫu đã cung cấp rõ ràng căn cứ là Mẫu số 03b, đồng thời đưa ra tư vấn gây hiểu lầm nghiêm trọng về phạm vi điều chỉnh của văn bản pháp luật.
+Answer: Dựa trên cơ sở dữ liệu và ngữ cảnh được cung cấp, tôi xin trả lời như sau:
+
+**1. Về việc áp dụng Thông tư 30/2019/TT-BYT:**
+Thông tin trong câu hỏi của bạn **không chính xác** về phạm vi điều chỉnh của văn bản. Theo ngữ cảnh cung cấp (Căn cứ id="5", "6", "7", "8", "9", "10"), **Thông tư 30/2019/TT-BYT** là văn bản sửa đổi, bổ sung Thông tư 34/2017/TT-BYT về hướng dẫn **tư vấn, sàng lọc, chẩn đoán, điều trị trước sinh và sơ sinh**. Văn bản này **không quy định** về quản lý an toàn thực phẩm trong cơ sở kinh doanh thực phẩm hay các tiêu chí thẩm định an toàn thực phẩm.
+
+Do đó, không thể sử dụng Thông tư 30/2019/TT-BYT để làm căn cứ cho việc thẩm định an toàn thực phẩm của chuỗi cửa hàng tiện lợi.
+
+**2. Về quy định ngưỡng điểm "Đạt" để được cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm:**
+Trong toàn bộ ngữ cảnh và đồ thị tri thức được cung cấp, **không có thông tin nào** quy định cụ thể về:
+*   Việc phân loại tiêu chí thành "mức độ A" và "mức độ B".
+*   Ngưỡng phần trăm (%) cụ thể (ví dụ: 100% mức A, 55% mức B) để đạt kết quả "Đạt".
+*   Mẫu số 03b liên quan đến bảng điểm thẩm định an toàn thực phẩm.
+
+Ngữ cảnh chỉ đề cập đến:
+*   **Nghị định 15/2018/NĐ-CP** (Điều 11, 12): Quy định đối tượng phải có Giấy chứng nhận và các trường hợp miễn cấp giấy.
+*   **Quyết định 2076/QĐ-BYT** (Căn cứ id="4"): Quy định trình tự, thủ tục, hồ sơ và thời hạn giải quyết cho cơ sở thuộc phạm vi quản lý của Bộ Y tế. Trong phần "Trình tự thực hiện", văn bản nêu rằng nếu kết quả thẩm định đạt yêu cầu thì được cấp giấy; nếu chưa đạt nhưng có thể khắc phục thì ghi vào biên bản với thời hạn khắc phục không quá 30 ngày. Tuy nhiên, văn bản này **không nêu rõ tiêu chuẩn chấm điểm hay tỷ lệ phần trăm** cụ thể nào để xác định là "đạt yêu cầu".
+*   **Quyết định 330/QĐ-UBND** (Căn cứ id="11"): Quy định trình tự thẩm định thực tế, kết quả ghi "Đạt", "Không đạt" hoặc "Chờ hoàn thiện", nhưng cũng **không quy định ngưỡng điểm phần trăm** cho từng mức độ tiêu chí.
+
+**Kết luận:**
+Dựa trên cơ sở dữ liệu hiện tại, tôi **không tìm thấy quy định** về ngưỡng điểm phần trăm cụ thể (100% mức A, 55% mức B) trong Thông tư 30/2019/TT-BYT hay bất kỳ văn bản nào khác trong ngữ cảnh để trả lời trực tiếp câu hỏi về việc có được cấp giấy ngay hay không dựa trên con số đó.
+
+Hơn nữa, cần lưu ý rằng **Thông tư 30/2019/TT-BYT không phải là văn bản quy định về an toàn thực phẩm**. Để biết chính xác tiêu chí chấm điểm, bạn cần tham khảo các văn bản chuyên ngành về an toàn thực phẩm cụ thể hơn (như Nghị định 15/2018/NĐ-CP, Nghị định 67/2016/NĐ-CP hoặc các Thông tư hướng dẫn chi tiết của Bộ Y tế/Bộ Công Thương tùy thuộc vào loại hình thực phẩm), những văn bản này có thể chưa được trích xuất đầy đủ chi tiết về bảng điểm trong ngữ cảnh hiện tại.
+--------------------------------------------------
+
+--- FAILED: 43/2018/TT-BCT ---
+Query: Tôi là chủ một chuỗi cửa hàng bán lẻ thực phẩm tổng hợp. Trong quá trình thẩm định để cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm, đoàn thẩm định đánh giá kết quả như sau: 100% các tiêu chí mức độ A đạt yêu cầu, nhưng chỉ có 55% các tiêu chí mức độ B đạt yêu cầu. Tôi xin hỏi, theo quy định tại Mẫu số 03b trong Thông tư này, kết luận của biên bản thẩm định sẽ là "Đạt", "Không đạt" hay "Chờ hoàn thiện"? Và nếu kết quả là "Chờ hoàn thiện", tôi cần làm gì tiếp theo để được cấp giấy chứng nhận?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG báo cáo không tìm thấy thông tin trong khi câu trả lời mẫu đã cung cấp kết luận và hướng dẫn rõ ràng, vi phạm tiêu chí đánh giá về việc hệ thống từ chối trả lời khi có sẵn thông tin cần thiết.
+Answer: Dựa trên các quy định liên quan nhất tìm thấy, thông tin trong `CONTEXT` (`<tai_lieu_db>`) và `SUPPLEMENTAL_CONTEXT` hiện đang trống hoặc không chứa nội dung cụ thể về "Mẫu số 03b của Thông tư hướng dẫn cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm", cũng như các tiêu chí chấm điểm mức độ A và B.
+
+Do đó, hệ thống không thể xác định được kết luận là 'Đạt', 'Không đạt' hay 'Chờ hoàn thiện' dựa trên tỷ lệ 100% mức độ A và 55% mức độ B, cũng như không thể liệt kê các bước tiếp theo mà chủ cơ sở cần thực hiện.
+
+Để có câu trả lời chính xác, vui lòng cung cấp văn bản pháp luật cụ thể (Thông tư hướng dẫn) hoặc nội dung chi tiết của Mẫu số 03b trong phần ngữ cảnh.
+--------------------------------------------------
+
+--- FAILED: 207/2025/NĐ-CP ---
+Query: Tôi là Giám đốc một cơ sở y tế tư nhân. Ngày 10/8/2025, tôi nhận được đơn đề nghị của một cặp vợ chồng muốn thực hiện kỹ thuật thụ tinh trong ống nghiệm (IVF). Tôi đã chuẩn bị đầy đủ hồ sơ và muốn lập "Bản xác nhận thực hành kỹ thuật thụ tinh trong ống nghiệm" theo mẫu quy định. Tuy nhiên, nhân viên pháp chế của tôi nghi ngờ rằng Nghị định 207/2025/NĐ-CP có thể chưa chính thức có hiệu lực hoặc không áp dụng cho trường hợp này vì văn bản mới được ký ngày 15/7/2025. Xin hỏi: Việc sử dụng mẫu xác nhận kèm theo Nghị định 207/2025/NĐ-CP vào thời điểm tháng 8/2025 có đúng với phạm vi áp dụng về thời gian và nội dung của văn bản này không? Căn cứ vào đâu để khẳng định tính hợp lệ của mẫu giấy tờ này?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng khi khẳng định Nghị định 207/2025/NĐ-CP chưa có hiệu lực vào tháng 8/2025 (trái với thông tin mẫu cho thấy văn bản đã áp dụng), dẫn đến kết luận phủ nhận việc sử dụng mẫu giấy tờ đúng quy định, gây nguy cơ vi phạm pháp luật cho người hỏi.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, dưới đây là phân tích pháp lý về tính hợp lệ và thời điểm có hiệu lực của Nghị định 207/2025/NĐ-CP đối với trường hợp bạn nêu:
+
+### 1. Xác định mốc thời gian và tình trạng hiệu lực
+*   **Mốc thời gian sự việc:** Tháng 8 năm 2025.
+*   **Ngày ban hành văn bản:** Ngày 15 tháng 7 năm 2025 (theo *can_cụ id="7"*).
+*   **Thời điểm có hiệu lực:** Theo **Điều 15, Khoản 1** của Nghị định 207/2025/NĐ-CP (*can_cụ id="16"*), Nghị định này có hiệu lực thi hành kể từ ngày **01 tháng 10 năm 2025**.
+
+**Kết luận về hiệu lực:** Tại thời điểm tháng 8/2025, Nghị định 207/2025/NĐ-CP **CHƯA CHÍNH THỨC CÓ HIỆU LỰC THI HÀNH**. Do đó, về mặt nguyên tắc áp dụng pháp luật, các quy định chi tiết trong Nghị định này (bao gồm cả mẫu "Bản xác nhận thực hành kỹ thuật thụ tinh trong ống nghiệm") chưa bắt buộc phải được áp dụng cho các thủ tục hành chính mới phát sinh vào thời điểm này, trừ khi có quy định chuyển tiếp đặc biệt hoặc cơ quan nhà nước áp dụng trước (tuy nhiên, văn bản cũ vẫn đang có giá trị pháp lý cho đến ngày 30/9/2025).
+
+### 2. Áp dụng cho trường hợp lập hồ sơ IVF vào tháng 8/2025
+Vì Nghị định 207/2025/NĐ-CP chưa có hiệu lực vào tháng 8/2025, việc lập hồ sơ thụ tinh trong ống nghiệm (IVF) tại thời điểm này sẽ chịu sự điều chỉnh của các văn bản pháp luật **đang có hiệu lực** trước ngày 01/10/2025.
+
+Theo **Điều 15, Khoản 2** của Nghị định 207/2025/NĐ-CP (*can_cụ id="16"*), các văn bản sau sẽ **hết hiệu lực** kể từ ngày 01/10/2025 (nghĩa là chúng vẫn có hiệu lực vào tháng 8/2025):
+*   Nghị định số 10/2015/NĐ-CP.
+*   Nghị định số 98/2016/NĐ-CP.
+
+Do đó, vào tháng 8/2025, cơ sở y tế và người dân cần tuân thủ theo quy định của **Nghị định 10/2015/NĐ-CP** (được sửa đổi bởi Nghị định 98/2016/NĐ-CP) để lập hồ sơ IVF. Mẫu "Bản xác nhận thực hành kỹ thuật thụ tinh trong ống nghiệm" quy định trong Phụ lục của Nghị định 207/2025/NĐ-CP (*can_cụ id="4", id="14"*) **chưa phải là mẫu bắt buộc** vào thời điểm này.
+
+### 3. Quy định chuyển tiếp (Lưu ý quan trọng)
+Mặc dù văn bản chưa có hiệu lực, nhưng **Điều 16** của Nghị định 207/2025/NĐ-CP (*can_cụ id="17"*) có quy định về chuyển tiếp:
+*   Cơ sở đã được công nhận được tiếp tục hoạt động.
+*   Trường hợp cơ sở đã nộp hồ sơ đề nghị công nhận trước ngày Nghị định có hiệu lực nhưng chưa giải quyết xong thì được tiếp tục thực hiện theo trình tự, thủ tục tại các quy định và văn bản tại khoản 2 Điều 15 (tức là áp dụng theo Nghị định 10/2015/NĐ-CP và 98/2016/NĐ-CP).
+
+Điều này khẳng định rằng đối với các thủ tục mới bắt đầu hoặc đang giải quyết vào tháng 8/2025, hệ thống pháp luật hiện hành (Nghị định 10/2015/NĐ-CP) vẫn là căn cứ áp dụng chính.
+
+### 4. Căn cứ pháp lý khẳng định
+1.  **Về thời điểm hiệu lực:** **Điều 15, Khoản 1 Nghị định 207/2025/NĐ-CP** quy định rõ hiệu lực từ ngày 01/10/2025 (*can_cụ id="16"*).
+2.  **Về việc bãi bỏ văn bản cũ:** **Điều 15, Khoản 2 Nghị định 207/2025/NĐ-CP** quy định Nghị định 10/2015/NĐ-CP và 98/2016/NĐ-CP hết hiệu lực từ ngày 01/10/2025, nghĩa là chúng có hiệu lực vào tháng 8/2025 (*can_cụ id="16"*).
+3.  **Về nội dung mẫu xác nhận:** Mẫu "Bản xác nhận thực hành kỹ thuật thụ tinh trong ống nghiệm" là phụ lục kèm theo Nghị định 207/2025/NĐ-CP (*can_cụ id="4", id="14"*), do đó nó chỉ có giá trị pháp lý bắt buộc khi Nghị định này có hiệu lực.
+
+### Tóm lại
+*   **Tính hợp lệ:** Nghị định 207/2025/NĐ-CP là văn bản hợp lệ đã được ký ban hành nhưng **chưa có hiệu lực thi hành** vào tháng 8/2025.
+*   **Áp dụng:** Không áp dụng mẫu xác nhận trong Nghị định 207/2025/NĐ-CP cho hồ sơ IVF vào tháng 8/2025. Cần áp dụng theo quy định của **Nghị định 10/2015/NĐ-CP** và **Nghị định 98/2016/NĐ-CP**.
+*   **Cảnh báo:** Từ ngày 01/10/2025 trở đi, Nghị định 207/2025/NĐ-CP mới chính thức thay thế và áp dụng mẫu xác nhận mới.
+--------------------------------------------------
+
+--- FAILED: 207/2025/NĐ-CP ---
+Query: Tôi là đại diện pháp luật của một cơ sở y tế tư nhân. Ngày 10/7/2025, chúng tôi đã nộp hồ sơ xin phép thực hiện kỹ thuật thụ tinh trong ống nghiệm. Tuy nhiên, đến ngày 20/7/2025, khi Nghị định 207/2025/NĐ-CP chính thức có hiệu lực (ban hành ngày 15/7/2025), cơ quan chức năng yêu cầu chúng tôi phải sử dụng 'Mẫu bản xác nhận thực hành kỹ thuật thụ tinh trong ống nghiệm' mới kèm theo Nghị định này thay vì mẫu cũ đang lưu hành. Tôi muốn hỏi: Việc áp dụng mẫu biểu mới từ thời điểm Nghị định ban hành có đúng với quy định về thời gian thi hành và phạm vi điều chỉnh của văn bản này không? Căn cứ vào đâu để khẳng định tính bắt buộc của mẫu biểu này ngay sau ngày ban hành?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra kết luận trái ngược với câu trả lời mẫu (RAG cho là sai, mẫu cho là đúng) và dựa trên các trích dẫn văn bản giả định (Điều 15, 16 của Nghị định 207/2025/NĐ-CP) không có trong ngữ cảnh cung cấp, dẫn đến tư vấn pháp lý sai lệch so với yêu cầu xác nhận tính bắt buộc của mẫu biểu mới.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, dưới đây là phân tích pháp lý về tính đúng đắn của việc yêu cầu sử dụng mẫu biểu mới và căn cứ pháp lý liên quan:
+
+### 1. Xác định Mốc thời gian và Hiệu lực thi hành của Nghị định 207/2025/NĐ-CP
+
+Theo **Điều 15, Khoản 1** của **Nghị định 207/2025/NĐ-CP** (trích từ `<can_cu id="18">`):
+> *"Nghị định này có hiệu lực thi hành kể từ ngày **01 tháng 10 năm 2025**."*
+
+**Phân tích:**
+*   Sự việc trong câu hỏi xảy ra vào ngày **10/7/2025**.
+*   Tại thời điểm này (10/7/2025), Nghị định 207/2025/NĐ-CP **chưa có hiệu lực thi hành** (vì chỉ có hiệu lực từ 01/10/2025).
+*   Do đó, về nguyên tắc chung, các quy định chi tiết (bao gồm cả mẫu biểu đính kèm) của Nghị định 207/2025/NĐ-CP chưa bắt buộc áp dụng đối với các thủ tục hành chính đang diễn ra trước ngày 01/10/2025, trừ khi có quy định chuyển tiếp đặc biệt.
+
+### 2. Phân tích Quy định Chuyển tiếp (Điều 16)
+
+**Điều 16** của **Nghị định 207/2025/NĐ-CP** (trích từ `<can_cu id="1">`) quy định về chuyển tiếp như sau:
+> *"2. Trường hợp cơ sở khám bệnh, chữa bệnh đã nộp hồ sơ đề nghị công nhận cơ sở được thực hiện kỹ thuật thụ tinh trong ống nghiệm hoặc kỹ thuật mang thai hộ vì mục đích nhân đạo trước ngày Nghị định này có hiệu lực nhưng chưa giải quyết xong thì được tiếp tục thực hiện theo trình tự, thủ tục tại các quy định và văn bản tại khoản 2 Điều 15 Nghị định này."*
+
+**Giải thích:**
+*   "Văn bản tại khoản 2 Điều 15" là các văn bản bị bãi bỏ/hết hiệu lực, cụ thể là **Nghị định số 10/2015/NĐ-CP** và các văn bản sửa đổi bổ sung nó.
+*   Điều này có nghĩa là: Nếu hồ sơ đã nộp trước ngày 01/10/2025, thủ tục sẽ tiếp tục được giải quyết theo quy định cũ (Nghị định 10/2015/NĐ-CP), không áp dụng ngay các điều kiện/mẫu biểu mới của Nghị định 207/2025/NĐ-CP cho phần hồ sơ đã nộp.
+
+### 3. Đánh giá tính đúng đắn của yêu cầu cơ quan chức năng
+
+Việc cơ quan chức năng yêu cầu sử dụng **'Mẫu bản xác nhận thực hành kỹ thuật thụ tinh trong ống nghiệm'** mới (kèm theo Nghị định 207/2025/NĐ-CP) vào ngày **10/7/2025** là **KHÔNG ĐÚNG** với quy định về thời gian thi hành, dựa trên các lý do sau:
+
+1.  **Chưa đến hạn hiệu lực:** Nghị định 207/2025/NĐ-CP chỉ có hiệu lực từ 01/10/2025. Việc áp dụng mẫu biểu của một văn bản chưa có hiệu lực là trái với nguyên tắc không áp dụng hồi tố (trừ khi có lợi cho người vi phạm hoặc có quy định chuyển tiếp rõ ràng, mà ở đây quy định chuyển tiếp lại hướng về văn bản cũ).
+2.  **Quy định chuyển tiếp ưu tiên văn bản cũ:** Theo Điều 16, hồ sơ nộp trước ngày hiệu lực (01/10/2025) phải tiếp tục thực hiện theo quy định của văn bản cũ (Nghị định 10/2015/NĐ-CP). Mẫu biểu đi kèm Nghị định 10/2015/NĐ-CP (được nhắc đến trong `<can_cu id="5">` là "Mẫu số 01 tại Phụ lục ban hành kèm theo Nghị định số 10/2015/NĐ-CP") mới là mẫu biểu hợp lệ tại thời điểm 10/7/2025.
+3.  **Mâu thuẫn với nguyên tắc thủ tục hành chính:** Nguyên tắc áp dụng pháp luật hiện hành (Quy tắc 11) chỉ áp dụng khi văn bản mới *đã có hiệu lực*. Vì văn bản chưa có hiệu lực, nên không thể áp dụng.
+
+### 4. Căn cứ pháp lý khẳng định tính bắt buộc (hoặc không bắt buộc) của mẫu biểu
+
+*   **Căn cứ khẳng định mẫu biểu MỚI (Nghị định 207/2025/NĐ-CP) CHƯA BẮT BUỘC vào ngày 10/7/2025:**
+    *   **Điều 15, Khoản 1, Nghị định 207/2025/NĐ-CP:** Quy định ngày hiệu lực là 01/10/2025.
+    *   **Điều 16, Khoản 2, Nghị định 207/2025/NĐ-CP:** Quy định hồ sơ nộp trước ngày hiệu lực tiếp tục thực hiện theo quy định cũ.
+
+*   **Căn cứ khẳng định mẫu biểu CŨ (Nghị định 10/2015/NĐ-CP) LÀ BẮT BUỘC vào ngày 10/7/2025:**
+    *   Tại thời điểm 10/7/2025, **Nghị định 10/2015/NĐ-CP** vẫn còn hiệu lực (vì chỉ bị bãi bỏ từ 01/10/2025 theo Điều 15, Khoản 2a, Nghị định 207/2025/NĐ-CP).
+    *   **Quyết định 1095/QĐ-BYT** (trích từ `<can_cu id="5">`) - dù là văn bản công bố TTHC, nhưng nội dung trích dẫn cho thấy thủ tục hành chính "Công nhận cơ sở... thụ tinh trong ống nghiệm" tại thời điểm đó (trước khi Nghị định 207/2025/NĐ-CP có hiệu lực và thay thế hoàn toàn) vẫn dựa trên Nghị định 10/2015/NĐ-CP. Cụ thể, mục 1.9 ghi: *"Tên mẫu đơn, mẫu tờ khai: Công văn đề nghị thẩm định... theo Mẫu số 01 tại Phụ lục ban hành kèm theo Nghị định số 10/2015/NĐ-CP."*
+
+### Kết luận
+
+Việc yêu cầu sử dụng mẫu biểu mới của Nghị định 207/2025/NĐ-CP vào ngày 10/7/2025 là **sai quy định**. Cơ quan chức năng cần yêu cầu cơ sở y tế sử dụng mẫu biểu theo **Nghị định 10/2015/NĐ-CP** (văn bản còn hiệu lực tại thời điểm đó) hoặc chờ đến ngày 01/10/2025 để áp dụng quy định mới nếu hồ sơ chưa được giải quyết xong và có sự thỏa thuận/chuyển tiếp phù hợp theo Điều 16. Tuy nhiên, với hồ sơ đã nộp trước ngày hiệu lực, nguyên tắc là áp dụng quy định cũ.
+
+**Lưu ý quan trọng:** Nếu cơ quan chức năng lập luận rằng họ đang "chuẩn bị" hoặc "hướng dẫn trước", thì đó không phải là yêu cầu bắt buộc về mặt pháp lý đối với hồ sơ đang giải quyết. Yêu cầu bắt buộc chỉ phát sinh khi văn bản có hiệu lực.
+--------------------------------------------------
+
+--- FAILED: 207/2025/NĐ-CP ---
+Query: Tôi là Giám đốc một cơ sở y tế tư nhân. Năm 2024, tôi đã triển khai dịch vụ thụ tinh trong ống nghiệm (IVF) và mang thai hộ vì mục đích nhân đạo dựa trên các quy định hành chính cũ trước khi Luật Khám bệnh, chữa bệnh số 15/2023/QH15 có hiệu lực toàn diện. Nay Nghị định 207/2025/NĐ-CP được ban hành, cơ quan chức năng yêu cầu tôi phải tuân thủ ngay các mẫu đơn và xác nhận mới kèm theo Nghị định này. Tôi cho rằng việc áp dụng ngược lại các thủ tục hành chính mới vào các hồ sơ đang xử lý hoặc đã bắt đầu từ năm 2024 là vi phạm nguyên tắc không áp dụng pháp luật ngược thời gian. Xin hỏi: Căn cứ vào hệ thống văn bản quy phạm pháp luật được trích dẫn trong Nghị định 207/2025/NĐ-CP, liệu có cơ sở pháp lý nào để tôi kháng cáo việc áp dụng các mẫu biểu mới đối với các trường hợp đã khởi xướng trước ngày Nghị định có hiệu lực không, hay tôi bắt buộc phải tuân thủ tuyệt đối các quy định mới kể từ ngày ban hành?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng bằng cách trích dẫn các điều khoản và nội dung không tồn tại trong ngữ cảnh (hallucination), trái ngược với câu trả lời mẫu khẳng định rõ ràng rằng văn bản cung cấp không chứa điều khoản chuyển tiếp để giải quyết vấn đề này.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, dưới đây là phân tích pháp lý cho trường hợp của Giám đốc cơ sở y tế tư nhân:
+
+### 1. Xác định Mốc thời gian và Hiệu lực văn bản
+*   **Mốc thời gian sự việc:** Cơ sở đã triển khai dịch vụ từ năm 2024 (trước khi Nghị định 207/2025/NĐ-CP có hiệu lực). Các hồ sơ đã được "khởi xướng" (nộp) trước ngày Nghị định có hiệu lực.
+*   **Hiệu lực thi hành:** Theo **Điều 15, Khoản 1 Nghị định 207/2025/NĐ-CP**, Nghị định này có hiệu lực thi hành kể từ ngày **01 tháng 10 năm 2025**.
+*   **Văn bản bị bãi bỏ:** Theo **Điều 15, Khoản 2 Nghị định 207/2025/NĐ-CP**, các văn bản sau hết hiệu lực kể từ ngày Nghị định này có hiệu lực:
+    *   Nghị định số 10/2015/NĐ-CP.
+    *   Nghị định số 98/2016/NĐ-CP.
+    *   Khoản 2 Điều 19 Nghị định số 155/2018/NĐ-CP.
+    *   Khoản 9 Điều 40 Nghị định số 96/2023/NĐ-CP.
+
+### 2. Phân tích quy định chuyển tiếp (Điều khoản then chốt)
+Câu hỏi đặt ra là liệu các quy định mới (mẫu đơn, xác nhận) có áp dụng ngược lại cho hồ sơ đã nộp trước ngày 01/10/2025 hay không. Căn cứ vào **Điều 16 - Quy định chuyển tiếp** của Nghị định 207/2025/NĐ-CP, chúng ta có hai tình huống cụ thể:
+
+**Tình huống A: Cơ sở đã được công nhận trước đó**
+> *"Cơ sở khám bệnh, chữa bệnh đã được công nhận được thực hiện kỹ thuật thụ tinh trong ống nghiệm và mang thai hộ vì mục đích nhân đạo được tiếp tục hoạt động."* (Khoản 1, Điều 16)
+
+Nếu cơ sở đã có giấy phép/công nhận hợp lệ trước ngày 01/10/2025, họ được tiếp tục hoạt động. Tuy nhiên, điều này chưa trả lời trực tiếp về thủ tục hành chính đang giải quyết.
+
+**Tình huống B: Hồ sơ đã nộp nhưng chưa giải quyết xong (Trọng tâm câu hỏi)**
+> *"Trường hợp cơ sở khám bệnh, chữa bệnh đã nộp hồ sơ đề nghị công nhận cơ sở được thực hiện kỹ thuật thụ tinh trong ống nghiệm hoặc kỹ thuật mang thai hộ vì mục đích nhân đạo trước ngày Nghị định này có hiệu lực nhưng chưa giải quyết xong thì **được tiếp tục thực hiện theo trình tự, thủ tục tại các quy định và văn bản tại khoản 2 Điều 15 Nghị định này**."* (Khoản 2, Điều 16)
+
+**Giải thích pháp lý:**
+*   "Các quy định và văn bản tại khoản 2 Điều 15" chính là các văn bản **đã bị bãi bỏ** (Nghị định 10/2015/NĐ-CP, Nghị định 98/2016/NĐ-CP, v.v.).
+*   Do đó, đối với các hồ sơ đã nộp trước ngày 01/10/2025 mà chưa có kết quả giải quyết, cơ quan nhà nước **phải tiếp tục áp dụng quy định cũ** (Nghị định 10/2015/NĐ-CP và các văn bản hướng dẫn cũ) để giải quyết hồ sơ đó.
+*   Việc áp dụng các mẫu đơn, xác nhận mới theo Nghị định 207/2025/NĐ-CP cho các hồ sơ này là **không đúng quy định chuyển tiếp**.
+
+### 3. Kết luận và Cơ sở kháng cáo
+
+Giám đốc cơ sở y tế **CÓ CƠ SỞ PHÁP LÝ** để kháng cáo việc áp dụng ngược lại các mẫu đơn/xác nhận mới.
+
+**Lý do:**
+1.  **Nguyên tắc không áp dụng hồi tố trừ khi có lợi:** Pháp luật hành chính thường áp dụng nguyên tắc "luật cũ cho việc cũ, luật mới cho việc mới" đối với thủ tục đang giải quyết nếu có điều khoản chuyển tiếp rõ ràng.
+2.  **Quy định chuyển tiếp rõ ràng:** **Khoản 2 Điều 16 Nghị định 207/2025/NĐ-CP** quy định rõ ràng rằng hồ sơ nộp trước ngày hiệu lực nhưng chưa giải quyết xong sẽ được giải quyết theo **văn bản cũ** (các văn bản bị bãi bỏ tại Điều 15).
+3.  **Hệ quả:** Cơ quan chức năng không được yêu cầu cơ sở nộp lại hồ sơ theo mẫu mới của Nghị định 207/2025/NĐ-CP cho các hồ sơ đã khởi xướng trước ngày 01/10/2025. Họ phải hoàn tất thủ tục dựa trên hồ sơ và quy định cũ (Nghị định 10/2015/NĐ-CP).
+
+**Lưu ý thêm:**
+*   Nếu cơ sở muốn áp dụng quy định mới (Nghị định 207/2025/NĐ-CP) ngay cả khi hồ sơ đã nộp trước đó, họ cần có nguyện vọng chủ động đề nghị chuyển sang áp dụng quy định mới (tương tự như tinh thần tại Điều 127 Luật Dược hoặc các quy định chuyển tiếp khác trong lĩnh vực y tế, tuy nhiên Điều 16 Nghị định 207/2025/NĐ-CP chỉ nêu "tiếp tục thực hiện theo... văn bản cũ", nên mặc định là áp dụng cũ trừ khi có thỏa thuận hoặc đề nghị chuyển đổi cụ thể từ phía cơ sở và sự chấp thuận của cơ quan quản lý).
+*   Đối với các hồ sơ nộp **sau** ngày 01/10/2025, bắt buộc phải tuân thủ tuyệt đối các quy định và mẫu biểu mới trong Nghị định 207/2025/NĐ-CP.
+
+**Tóm lại:** Giám đốc cơ sở y tế có quyền yêu cầu cơ quan quản lý áp dụng **Điều 16, Khoản 2 Nghị định 207/2025/NĐ-CP** để giải quyết hồ sơ theo quy định cũ (Nghị định 10/2015/NĐ-CP), thay vì áp dụng các mẫu đơn mới của Nghị định 207/2025/NĐ-CP.
+--------------------------------------------------
+
+--- FAILED: 12/2008/TTLT-BYT-BNV ---
+Query: Tôi là Giám đốc Sở Y tế tỉnh A. UBND tỉnh vừa ban hành quyết định thành lập Chi cục An toàn vệ sinh thực phẩm với cơ cấu gồm 5 phòng: Phòng Đăng ký, Phòng Thanh tra, Phòng Truyền thông, Phòng Hành chính và một Phòng Chuyên môn kỹ thuật riêng biệt để hỗ trợ chuyên sâu. Tôi lo ngại cơ cấu này vi phạm quy định về biên chế và tổ chức. Xin hỏi: Việc thành lập 5 phòng như vậy có đúng với quy định tại Thông tư 12/2008 không? Nếu sai, căn cứ pháp lý cụ thể nào quy định giới hạn số lượng phòng và các mặt công tác bắt buộc phải bao gồm?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra kết luận sai lệch về giới hạn số lượng phòng (khẳng định tối đa 03 phòng thay vì 04 phòng như quy định tại Thông tư 12/2008 được hỏi và câu trả lời mẫu), đồng thời trích dẫn văn bản pháp lý không chính xác cho vấn đề cụ thể này.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, câu trả lời cho yêu cầu của bạn như sau:
+
+**1. Kết luận:**
+Việc UBND tỉnh thành lập Chi cục An toàn vệ sinh thực phẩm với cơ cấu gồm **5 phòng** là **KHÔNG ĐÚNG** với quy định tại Thông tư liên tịch 12/2008/TTLT-BYT-BNV (văn bản gốc hướng dẫn chức năng, nhiệm vụ, quyền hạn, cơ cấu tổ chức và biên chế của Chi cục An toàn vệ sinh thực phẩm).
+
+Theo các văn bản pháp lý hiện hành trong ngữ cảnh (căn cứ vào Thông tư 12/2008/TTLT-BYT-BNV và các văn bản sửa đổi/hướng dẫn sau này), số lượng phòng ban thuộc Chi cục An toàn vệ sinh thực phẩm bị giới hạn tối đa là **03 phòng** (hoặc không quá 02-03 phòng tùy theo từng quyết định cụ thể của địa phương nhưng đều tuân thủ nguyên tắc tối đa 03 phòng theo hướng dẫn của Bộ Y tế).
+
+**2. Căn cứ pháp lý chi tiết:**
+
+*   **Về giới hạn số lượng phòng ban:**
+    *   Theo **Công văn 2575/BYT-ATTP năm 2017** (trích dẫn trong `<can_cu id="6">`), Bộ Y tế đã hướng dẫn triển khai thực hiện **Thông tư liên tịch số 51/2015/TTLT-BYT-BNV** (văn bản thay thế/hướng dẫn mới hơn so với TT 12/2008 về mặt tổ chức bộ máy chung của Sở Y tế và các đơn vị trực thuộc). Tại Điều 3, Khoản 3, Điểm b của Thông tư 51/2015/TTLT-BYT-BNV quy định: *"Cơ cấu tổ chức của Chi cục An toàn vệ sinh thực phẩm có **không quá 03 phòng**"*.
+    *   Công văn 2575/BYT-ATTP进一步明确 tên gọi 03 phòng chức năng này là:
+        1.  Phòng Hành chính - Tổng hợp.
+        2.  Phòng Nghiệp vụ.
+        3.  Phòng Công tác thanh tra.
+    *   Ngoài ra, **Quyết định 08/2018/QĐ-UBND** (tỉnh Tuyên Quang) tại Điều 1, mục 3.3.2.b cũng quy định rõ: *"Có **không quá 02 phòng**... gồm: Phòng Hành chính - Tổng hợp... Phòng Nghiệp vụ tổng hợp và Thanh tra..."*.
+    *   **Quyết định 19/2024/QĐ-UBND** (tỉnh Đắk Lắk) tại Điều 3, Khoản 2.a quy định Chi cục có 02 phòng: *"a) Phòng Hành chính - Tổng hợp. b) Phòng Nghiệp vụ."*
+    *   **Quyết định 03/2024/QĐ-UBND** (tỉnh Thanh Hóa) tại Điều 2, Khoản 2.a quy định Chi cục có 02 phòng: *"Phòng Hành chính - Tổng hợp - Thông tin, truyền thông và Phòng chống ngộ độc thực phẩm"* và *"Phòng Đăng ký và Chứng nhận sản phẩm - Thanh tra"*.
+
+    => Như vậy, mô hình 5 phòng vi phạm quy định về giới hạn tối đa số lượng phòng ban (thường là không quá 03 phòng, hoặc gộp thành 02 phòng lớn).
+
+*   **Về nhiệm vụ, chức năng bắt buộc:**
+    Mặc dù tên gọi các phòng có thể linh hoạt tùy địa phương (như gộp Truyền thông vào Hành chính hoặc Nghiệp vụ), nhưng các nhóm chức năng cốt lõi phải được đảm bảo theo hướng dẫn của Bộ Y tế và các Nghị định/Thông tư liên quan:
+    1.  **Hành chính - Tổng hợp:** Quản lý công tác hành chính, nhân sự, tài chính, kế hoạch.
+    2.  **Nghiệp vụ (Chuyên môn kỹ thuật):** Bao gồm công tác đăng ký, chứng nhận sản phẩm, quản lý điều kiện an toàn thực phẩm, phòng chống ngộ độc thực phẩm, truyền thông giáo dục sức khỏe (có thể gộp vào phòng này hoặc phòng hành chính).
+    3.  **Thanh tra:** Thực hiện chức năng thanh tra chuyên ngành về an toàn thực phẩm.
+
+    Việc tách riêng "Phòng Truyền thông", "Phòng Chuyên môn kỹ thuật", "Phòng Đăng ký", "Phòng Thanh tra", "Phòng Hành chính" thành 5 phòng riêng biệt là không phù hợp với tinh thần tinh gọn bộ máy và quy định "không quá 03 phòng" tại Thông tư 51/2015/TTLT-BYT-BNV (được áp dụng thay thế/hướng dẫn chi tiết cho TT 12/2008 trong bối cảnh cải cách hành chính).
+
+**3. Lưu ý về hiệu lực văn bản:**
+*   **Thông tư liên tịch 12/2008/TTLT-BYT-BNV** vẫn được nhắc đến trong các văn bản sau này (ví dụ: QĐ 08/2018/QĐ-UBND căn cứ vào TT 12/2008 cho chức năng, nhiệm vụ). Tuy nhiên, về **cơ cấu tổ chức**, các văn bản mới hơn như **Thông tư liên tịch 51/2015/TTLT-BYT-BNV** và **Nghị định 24/2014/NĐ-CP** (sửa đổi bởi Nghị định 107/2020/NĐ-CP) đã có những quy định cập nhật về tổ chức bộ máy các cơ quan chuyên môn thuộc UBND tỉnh.
+*   Cụ thể, **Quyết định 19/2024/QĐ-UBND** (mới nhất trong ngữ cảnh) căn cứ vào **Nghị định 107/2020/NĐ-CP** sửa đổi Nghị định 24/2014/NĐ-CP để quy định về số lượng cấp phó và cơ cấu tổ chức, khẳng định xu hướng tinh gọn (chỉ 02 phòng trong trường hợp Đắk Lắk).
+
+**Tóm lại:** Mô hình 5 phòng là sai. Cơ cấu tổ chức phải tuân thủ quy định **"không quá 03 phòng"** (theo hướng dẫn của Bộ Y tế dựa trên TT 51/2015/TTLT-BYT-BNV) hoặc gộp thành ít hơn (như 02 phòng) tùy theo quyết định cụ thể của UBND tỉnh nhưng phải bao quát đủ các chức năng: Hành chính-Tổng hợp, Nghiệp vụ (bao gồm đăng ký, chứng nhận, truyền thông, phòng chống ngộ độc) và Thanh tra.
+--------------------------------------------------
+
+--- FAILED: 105/2014/NĐ-CP ---
+Query: Tôi là đại diện một tổ chức đoàn thể cơ sở, vừa nhận được văn bản Nghị định 105/2014/NĐ-CP. Tôi muốn xác minh tính hợp pháp của việc văn bản này có được gửi đến đơn vị tôi hay không để đảm bảo quy trình lưu trữ và thi hành đúng quy định. Căn cứ vào phần 'Nơi nhận' của văn bản, liệu 'Cơ quan Trung ương của các đoàn thể' có nằm trong danh sách bắt buộc nhận văn bản này không? Nếu có, điều này phản ánh trách nhiệm gì đối với các bộ, ngành liên quan theo Điều 6?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai hoàn toàn bản chất vấn đề khi khẳng định Điều 6 của Nghị định 105/2014/NĐ-CP quy định về quỹ BHYT (thực tế điều này thuộc Luật BHYT hoặc các nghị định khác, còn Nghị định 105/2014/NĐ-CP là về xử phạt vi phạm hành chính trong lĩnh vực giao thông đường bộ và đường sắt), đồng thời báo "không tìm thấy thông tin" về Nơi nhận trong khi câu hỏi yêu cầu xác minh dựa trên văn bản cụ thể và mẫu đã có đáp án rõ ràng.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin trả lời câu hỏi của bạn như sau:
+
+**1. Về việc xác minh tính hợp pháp và danh sách "Nơi nhận" của Nghị định 105/2014/NĐ-CP:**
+
+*   **Thông tin thiếu trong ngữ cảnh:** Trong phần dữ liệu được cung cấp (bao gồm cả Đồ thị tri thức và các đoạn trích từ Vector Search), **không có thông tin nào về mục "Nơi nhận"** của Nghị định 105/2014/NĐ-CP. Các đoạn trích chỉ tập trung vào nội dung Điều 6 (Phân bổ và sử dụng quỹ bảo hiểm y tế) và một số điều khoản khác liên quan đến trách nhiệm thi hành hoặc quy định chung của các nghị định khác (như 105/2012, 107/2012, v.v.).
+*   **Kết luận:** Do không có dữ liệu về danh sách "Nơi nhận", tôi **không thể xác minh** liệu "Cơ quan Trung ương của các đoàn thể" có nằm trong danh sách bắt buộc nhận văn bản này hay không dựa trên cơ sở dữ liệu hiện tại.
+
+**2. Về trách nhiệm theo Điều 6 của Nghị định 105/2014/NĐ-CP:**
+
+*   **Nội dung Điều 6:** Theo ngữ cảnh cung cấp (các đoạn `<can_cu id="2">`, `id="4">`, `id="17">`, `id="18">`), **Điều 6 của Nghị định 105/2014/NĐ-CP** quy định về **"Phân bổ và sử dụng quỹ bảo hiểm y tế"**.
+    *   Cụ thể, Điều 6 quy định việc phân bổ 90% số tiền đóng BHYT cho quỹ khám bệnh, chữa bệnh và 10% cho quỹ dự phòng và chi phí quản lý.
+    *   Nó cũng quy định mức trích để lại cho cơ sở giáo dục (7% đối với học sinh/sinh viên, 5% đối với trẻ em mầm non) và cho cơ quan, tổ chức, doanh nghiệp có tổ chức y tế cơ quan (1%).
+*   **Mối liên hệ với câu hỏi:** Điều 6 của Nghị định 105/2014/NĐ-CP **không quy định về trách nhiệm tiếp nhận văn bản hay trách nhiệm của các bộ, ngành liên quan đến việc gửi/nhận văn bản hành chính**. Trách nhiệm thi hành Nghị định nói chung thường được quy định ở điều khoản cuối cùng của văn bản (ví dụ như Điều 60 của Nghị định 105/2012/NĐ-CP hay Điều 6 của Nghị định 107/2012/NĐ-CP có trong ngữ cảnh, nhưng đó là các nghị định khác).
+*   **Lưu ý quan trọng:** Có sự nhầm lẫn tiềm ẩn trong câu hỏi khi gán trách nhiệm "tiếp nhận/gửi văn bản" cho Điều 6 của Nghị định 105/2014/NĐ-CP. Thực tế, Điều 6 của Nghị định này chỉ quy định về tài chính/quỹ BHYT. Nếu câu hỏi muốn hỏi về trách nhiệm thi hành Nghị định 105/2014/NĐ-CP, thông tin này không có trong ngữ cảnh cung cấp (chỉ thấy nội dung Điều 6 về quỹ BHYT).
+
+**Tóm lại:**
+1.  **Không tìm thấy** thông tin về danh sách "Nơi nhận" để xác minh việc gửi đến "Cơ quan Trung ương của các đoàn thể".
+2.  **Điều 6 của Nghị định 105/2014/NĐ-CP** quy định về **phân bổ và sử dụng quỹ bảo hiểm y tế**, không quy định về trách nhiệm hành chính trong việc tiếp nhận văn bản hay trách nhiệm của các bộ/ngành liên quan đến thủ tục gửi/nhận văn bản.
+
+*Dựa trên cơ sở dữ liệu hiện tại, tôi không tìm thấy quy định liên quan đến danh sách nơi nhận và trách nhiệm hành chính cụ thể theo Điều 6 của Nghị định 105/2014/NĐ-CP như đã mô tả trong câu hỏi.*
+--------------------------------------------------
+
+--- FAILED: 105/2014/NĐ-CP ---
+Query: Tôi là đại diện pháp luật của một doanh nghiệp bảo hiểm tư nhân. Trong quá trình rà soát quy trình bồi thường, chúng tôi phát hiện một trường hợp khách hàng yêu cầu áp dụng mức hưởng BHYT dựa trên các điều khoản chi tiết về đối tượng tham gia và mức hưởng mà họ cho rằng đã được hướng dẫn trong Nghị định 105/2014/NĐ-CP. Tuy nhiên, khi kiểm tra văn bản này, chúng tôi chỉ thấy phần mở đầu, căn cứ ban hành và danh sách nơi nhận. Khách hàng khiếu nại rằng cơ quan BHXH địa phương từ chối giải quyết vì 'thiếu quy định hướng dẫn cụ thể' trong nghị định này. Xin hỏi, liệu việc từ chối của cơ quan BHXH có đúng với nội dung thực tế của Nghị định 105/2014/NĐ-CP không? Căn cứ vào đâu để khẳng định nghị định này có hay không chứa các quy định chi tiết về mức hưởng BHYT?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng về bản chất pháp lý khi khẳng định Nghị định 105/2014/NĐ-CP chứa quy định chi tiết về mức hưởng và đối tượng tham gia, trong khi câu trả lời mẫu (dựa trên ngữ cảnh dữ liệu được cung cấp) xác định rõ văn bản này chỉ mang tính chất khung ban hành và không có nội dung chi tiết đó, dẫn đến kết luận trái ngược hoàn toàn với thực tế dữ liệu đầu vào.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin xác minh và trả lời như sau:
+
+**1. Xác minh nội dung Nghị định 105/2014/NĐ-CP:**
+Lý do từ chối của cơ quan BHXH là **SAI**. Nghị định 105/2014/NĐ-CP có chứa các quy định chi tiết rất rõ ràng về cả **đối tượng tham gia** và **mức hưởng BHYT**. Cụ thể:
+
+*   **Về Đối tượng tham gia:**
+    *   **Điều 1** của Nghị định 105/2014/NĐ-CP quy định cụ thể các đối tượng khác ngoài các nhóm đã nêu trong Luật BHYT, bao gồm:
+        *   Khoản 1: Công nhân cao su đang hưởng trợ cấp hằng tháng theo Quyết định số 206/CP.
+        *   Khoản 2: Người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình.
+    *   Ngoài ra, **Điều 2** cũng quy định chi tiết mức đóng BHYT cho các đối tượng này (ví dụ: 4,5% tiền lương, 4,5% mức lương cơ sở, hoặc mức đóng giảm dần cho các thành viên trong hộ gia đình).
+
+*   **Về Mức hưởng BHYT:**
+    *   **Điều 4** của Nghị định 105/2014/NĐ-CP quy định chi tiết mức hưởng BHYT đối với các trường hợp khám bệnh, chữa bệnh, bao gồm:
+        *   Điểm a: Hưởng 100% chi phí đối với một số đối tượng đặc biệt (người hoạt động cách mạng, bà mẹ Việt Nam anh hùng, thương binh, trẻ em dưới 6 tuổi...).
+        *   Điểm c: Hưởng 100% chi phí tại tuyến xã.
+        *   Điểm d: Hưởng 100% chi phí nếu chi phí một lần khám chữa bệnh thấp hơn 15% mức lương cơ sở.
+        *   Điểm đ: Hưởng 100% chi phí đối với người tham gia BHYT đủ 5 năm liên tục trở lên và số tiền cùng chi trả lũy kế trong năm lớn hơn 6 tháng lương cơ sở.
+        *   Điểm e: Hưởng 95% chi phí đối với một số đối tượng cụ thể.
+        *   Điểm g: Hưởng 80% chi phí đối với các đối tượng khác.
+
+**2. Đánh giá hành vi từ chối của cơ quan BHXH:**
+Việc cơ quan BHXH từ chối giải quyết với lý do "thiếu quy định hướng dẫn cụ thể" là **không đúng với nội dung thực tế** của Nghị định 105/2014/NĐ-CP. Nghị định này có hiệu lực thi hành từ ngày 01 tháng 01 năm 2015 (theo **Điều 12**) và đã quy định đầy đủ các điều khoản cần thiết để thực hiện chế độ BHYT.
+
+**3. Lưu ý quan trọng về hiệu lực văn bản (Quy tắc thời gian pháp lý):**
+*   Theo **Điều 12** của Nghị định 105/2014/NĐ-CP, Nghị định này có hiệu lực từ ngày 01/01/2015 và thay thế Nghị định 62/2009/NĐ-CP.
+*   Tuy nhiên, trong Đồ thị tri thức có nhắc đến **Nghị định 146/2018/NĐ-CP** (ban hành sau này) cũng hướng dẫn Luật Bảo hiểm y tế. Nếu sự việc xảy ra sau ngày Nghị định 146/2018/NĐ-CP có hiệu lực, thì cần áp dụng Nghị định mới nhất. Nhưng ngay cả khi xét riêng Nghị định 105/2014/NĐ-CP, nó vẫn có quy định chi tiết như đã phân tích ở trên.
+*   Do đó, bất kể áp dụng Nghị định 105/2014/NĐ-CP hay các văn bản sửa đổi, bổ sung sau này, khẳng định rằng "thiếu quy định" là không chính xác dựa trên dữ liệu hiện có.
+
+**Kết luận:**
+Cơ quan BHXH **không có căn cứ** để từ chối giải quyết hưởng BHYT với lý do Nghị định 105/2014/NĐ-CP thiếu quy định về đối tượng và mức hưởng, vì Nghị định này đã quy định rõ ràng tại **Điều 1** (Đối tượng) và **Điều 4** (Mức hưởng).
+--------------------------------------------------
+
+--- FAILED: 105/2014/NĐ-CP ---
+Query: Tôi là cán bộ pháp chế của một Sở Y tế tỉnh. Năm 2015, chúng tôi đang triển khai lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình để tham gia BHYT. Tuy nhiên, trong quá trình phối hợp với các cơ quan địa phương, phát sinh tranh chấp về trách nhiệm cụ thể của Bộ Nông nghiệp và Phát triển nông thôn trong việc cung cấp số liệu. Một số đồng nghiệp cho rằng Nghị định 105/2014/NĐ-CP không quy định rõ trách nhiệm này nên chúng tôi có thể tự quyết định. Tôi xin hỏi: Căn cứ vào Điều 6 của Nghị định này, cách hiểu đó có đúng không? Trách nhiệm hướng dẫn thi hành thuộc về ai và phạm vi quyền hạn của họ được xác định như thế nào?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai hoàn toàn bản chất vấn đề khi khẳng định Điều 6 Nghị định 105/2014/NĐ-CP không quy định về trách nhiệm của các bộ, ngành liên quan (trong khi mẫu và thực tế pháp lý xác định Khoản 6 Điều 6 chính là quy định này), dẫn đến kết luận sai lệch so với yêu cầu tư vấn.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, tôi xin trả lời các câu hỏi của bạn như sau:
+
+**1. Về trách nhiệm của Bộ Nông nghiệp và Phát triển nông thôn trong việc lập danh sách người thuộc hộ gia đình làm nông nghiệp... có mức sống trung bình theo Điều 6 Nghị định 105/2014/NĐ-CP:**
+
+*   **Phân tích nội dung:** Theo ngữ cảnh từ Vector Search (cụ thể là `<can_cu id="2">`, `<can_cu id="3">`, `<can_cu id="18">`, `<can_cu id="19">`), **Điều 6 Nghị định 105/2014/NĐ-CP** quy định về **"Phân bổ và sử dụng quỹ bảo hiểm y tế"**.
+    *   Nội dung điều khoản này tập trung vào việc phân chia tỷ lệ % số tiền đóng BHYT cho quỹ khám chữa bệnh (90%), quỹ dự phòng và chi phí quản lý (10%), cũng như trích để lại cho cơ sở giáo dục và cơ quan, tổ chức có tổ chức y tế cơ quan.
+    *   **Không có quy định nào** trong Điều 6 Nghị định 105/2014/NĐ-CP đề cập đến việc "lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình" hay trách nhiệm cung cấp số liệu của Bộ Nông nghiệp và Phát triển nông thôn cho mục đích này.
+*   **Kết luận:** Tiền đề của câu hỏi là **sai lệch**. Điều 6 Nghị định 105/2014/NĐ-CP không quy định về thủ tục xác định đối tượng hay trách nhiệm cung cấp danh sách hộ nông nghiệp có mức sống trung bình. Quy định về quy trình xác định hộ làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình thường nằm ở các văn bản khác (ví dụ: Quyết định 24/2021/QĐ-TTg được nhắc đến trong `<can_cu id="16">`, nhưng đây là văn bản riêng biệt).
+
+**2. Về cách hiểu rằng Nghị định này không quy định rõ trách nhiệm nên cơ quan địa phương có thể tự quyết định:**
+
+*   **Đánh giá:** Cách hiểu này là **không chính xác** về mặt pháp lý, mặc dù đúng là Điều 6 Nghị định 105/2014/NĐ-CP không quy định vấn đề này.
+*   **Lý do:** Việc một điều khoản cụ thể (Điều 6) không quy định không có nghĩa là cơ quan địa phương có quyền "tự quyết định" tùy tiện mà không có căn cứ pháp lý khác. Trong hệ thống pháp luật Việt Nam, nếu Nghị định hướng dẫn Luật không quy định chi tiết một thủ tục hành chính cụ thể, thì việc thực hiện phải dựa trên:
+    1.  Các quy định chung trong Luật mẹ (Luật Bảo hiểm y tế).
+    2.  Các văn bản hướng dẫn thi hành khác có liên quan trực tiếp đến đối tượng đó (như Nghị định về bảo hiểm nông nghiệp hoặc các Quyết định của Thủ tướng Chính phủ về rà soát hộ nghèo/cận nghèo/mức sống trung bình).
+    3.  Nguyên tắc phân cấp quản lý nhà nước.
+*   **Cảnh báo:** Cơ quan địa phương không thể tự ý tạo ra quy trình nếu không có văn bản quy phạm pháp luật cấp cao hơn hoặc cùng cấp quy định thẩm quyền và trình tự đó.
+
+**3. Trách nhiệm hướng dẫn thi hành thuộc về ai và phạm vi quyền hạn:**
+
+*   **Theo Đồ thị tri thức (Quan hệ pháp lý):**
+    *   Nghị định 105/2014/NĐ-CP có quan hệ **(Hướng dẫn)** --> [Luật Bảo hiểm y tế].
+    *   Nghị định 105/2014/NĐ-CP có quan hệ **(Căn cứ vào)** --> [Luật Bảo hiểm xã hội] [Điều 9], [62/2009/NĐ-CP], [32/2014/QĐ-TTG].
+*   **Theo Ngữ cảnh bổ sung (Vector Search):**
+    *   Trong `<can_cu id="1">` (thuộc Nghị định 152/2006/NĐ-CP - văn bản cũ hướng dẫn BHXH bắt buộc, nhưng mang tính tham chiếu về cơ chế): *Bộ Lao động - Thương binh và Xã hội chịu trách nhiệm hướng dẫn thực hiện Nghị định.*
+    *   Tuy nhiên, đối với **Nghị định 105/2014/NĐ-CP** (hướng dẫn Luật BHYT), thông thường trách nhiệm hướng dẫn thi hành thuộc về cơ quan quản lý chuyên ngành là **Bộ Y tế** (vì BHYT thuộc lĩnh vực Y tế) và **Bảo hiểm xã hội Việt Nam** (trong phạm vi quản lý quỹ).
+    *   Cụ thể, trong `<can_cu id="2">` (Điều 6 Nghị định 105/2014/NĐ-CP), có nêu: *"Bộ Y tế, Bộ Tài chính hướng dẫn chi tiết Điểm b và Điểm c Khoản 1 Điều này..."*. Điều này cho thấy **Bộ Y tế** và **Bộ Tài chính** có trách nhiệm hướng dẫn chi tiết các nội dung liên quan đến phân bổ và sử dụng quỹ BHYT quy định tại Điều 6.
+*   **Phạm vi quyền hạn:**
+    *   **Bộ Y tế:** Hướng dẫn về điều kiện, quy mô tổ chức y tế cơ quan, nội dung chi, quản lý và thanh quyết toán nguồn kinh phí trích để lại cho cơ sở giáo dục và cơ quan, tổ chức, doanh nghiệp có tổ chức y tế cơ quan (theo Điểm b, c Khoản 1 Điều 6).
+    *   **Bảo hiểm xã hội Việt Nam:** Có trách nhiệm thu tiền, chuyển tiền, hạch toán quỹ dự phòng, và chuyển kinh phí cho BHXH cấp tỉnh (theo Khoản 3, 4 Điều 6).
+
+**Tóm lại:**
+1.  **Điều 6 Nghị định 105/2014/NĐ-CP KHÔNG quy định** về việc lập danh sách hộ nông nghiệp có mức sống trung bình hay trách nhiệm của Bộ NN&PTNT trong việc này. Đây là sự nhầm lẫn về nội dung điều khoản.
+2.  Cơ quan địa phương **không thể tự quyết định** nếu không có căn cứ pháp lý từ các văn bản khác quy định về đối tượng tham gia BHYT nhóm này.
+3.  Trách nhiệm hướng dẫn thi hành các nội dung tài chính/quỹ BHYT tại Điều 6 thuộc về **Bộ Y tế** và **Bộ Tài chính** (đối với phần trích để lại) và **Bảo hiểm xã hội Việt Nam** (đối với phần quản lý, thu chi quỹ).
+--------------------------------------------------
+
+--- FAILED: 105/2016/QH13 ---
+Query: Tôi là chủ một quầy thuốc tại vùng đồng bào dân tộc thiểu số, miền núi. Tôi muốn mở rộng kinh doanh bằng cách bán thêm các loại thuốc không nằm trong Danh mục thuốc thiết yếu và Danh mục thuốc không kê đơn (trừ vắc xin). Tôi đã tham khảo Điều 48 nhưng thấy quy định khá chung chung về việc 'bán thêm một số loại thuốc khác'. Xin hỏi: Căn cứ pháp lý cụ thể để tôi được phép bán những loại thuốc bổ sung này là gì? Ai là người ban hành danh mục hoặc quy định chi tiết cho trường hợp ngoại lệ này?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG trả lời sai hoàn toàn bản chất vấn đề khi trích dẫn Luật Dược 2005 (đã hết hiệu lực) thay vì Luật Dược 2016 như trong câu hỏi và mẫu, đồng thời kết luận "không tìm thấy quy định" mặc dù thông tin này có sẵn trong văn bản pháp luật hiện hành.
+Answer: Dựa trên cơ sở dữ liệu và ngữ cảnh được cung cấp, tôi xin trả lời như sau:
+
+**1. Về căn cứ pháp lý cho phép bán thuốc không nằm trong Danh mục thuốc thiết yếu và Danh mục thuốc không kê đơn tại vùng đồng bào dân tộc thiểu số, miền núi:**
+
+Dựa trên **Ngữ cảnh bổ sung từ Vector Search**, cụ thể là `<can_cu id="1">` trích dẫn từ **Luật Dược 2005 (Văn bản 34/2005/QH11)**, Điều 48 quy định về "Điều kiện cung ứng thuốc".
+*   Khoản 3 Điều 48 nêu rõ: *"Bác sĩ, y sĩ, y tá, nữ hộ sinh, điều dưỡng viên không được bán thuốc cho người bệnh, trừ trường hợp quy định tại **Điều 42** của Luật này."*
+
+Tuy nhiên, trong phần ngữ cảnh cung cấp, **nội dung chi tiết của Điều 42** (vốn là điều khoản quy định các trường hợp ngoại lệ, bao gồm cả việc bán thuốc tại vùng sâu, vùng xa, vùng đồng bào dân tộc thiểu số) **không được hiển thị**. Do đó, dựa strictly vào thông tin có sẵn trong Đồ thị tri thức và Ngữ cảnh, tôi **không thể trích xuất được nội dung cụ thể** của Điều 42 để xác định chính xác loại thuốc nào được phép bán hoặc điều kiện cụ thể cho chủ quầy thuốc tại vùng đồng bào dân tộc thiểu số.
+
+*Lưu ý quan trọng:* Văn bản **34/2005/QH11 (Luật Dược 2005)** đã bị thay thế bởi Luật Dược mới hơn (ví dụ: Luật Dược 2016). Tuy nhiên, theo yêu cầu chỉ sử dụng kiến thức từ đồ thị/ngữ cảnh, và vì ngữ cảnh chỉ cung cấp Luật Dược 2005, câu trả lời dựa trên văn bản này nhưng cần lưu ý tính hiệu lực thực tế.
+
+**2. Về cơ quan có thẩm quyền ban hành danh mục hoặc quy định chi tiết cho trường hợp ngoại lệ này theo quy định tại Điều 48 của Luật Dược:**
+
+Theo **<can_cu id="1">** (Điều 48 Luật Dược 2005), nội dung chỉ quy định về trách nhiệm của người cấp phát thuốc và cấm bán thuốc đối với một số đối tượng y tế (trừ trường hợp Điều 42). **Điều 48 của Luật Dược 2005 không quy định trực tiếp về cơ quan có thẩm quyền ban hành danh mục thuốc cho vùng đồng bào dân tộc thiểu số.**
+
+Thông tin về cơ quan có thẩm quyền ban hành danh mục thuốc thiết yếu hoặc danh mục thuốc không kê đơn thường nằm ở các điều khoản khác của Luật Dược (ví dụ: Điều 17, 18... về quản lý nhà nước về dược) hoặc các Nghị định hướng dẫn thi hành, nhưng những nội dung này **không có mặt** trong ngữ cảnh được cung cấp.
+
+**Kết luận:**
+Dựa trên cơ sở dữ liệu hiện tại, tôi **không tìm thấy quy định liên quan** đầy đủ để trả lời chính xác câu hỏi về:
+1.  Nội dung cụ thể của Điều 42 (được viện dẫn trong Điều 48) cho phép bán thuốc ngoại lệ tại vùng đồng bào dân tộc thiểu số.
+2.  Cơ quan có thẩm quyền ban hành danh mục/quy định chi tiết cho trường hợp này *theo quy định tại Điều 48*, vì Điều 48 trong ngữ cảnh chỉ đề cập đến điều kiện cung ứng và cấm bán, không đề cập đến thẩm quyền ban hành danh mục.
+
+*Cảnh báo:* Văn bản **34/2005/QH11** (Luật Dược 2005) đã hết hiệu lực thi hành và được thay thế bởi Luật Dược 2016. Các quy định hiện hành có thể đã thay đổi. Cần đối chiếu thêm với Luật Dược 2016 và các Nghị định hướng dẫn thi hành hiện hành để có câu trả lời chính xác về mặt pháp lý thực tiễn.
+--------------------------------------------------
+
+--- FAILED: 105/2016/QH13 ---
+Query: Tôi là chủ một quầy thuốc tại vùng đồng bào dân tộc thiểu số, miền núi. Khách hàng đến mua một loại thuốc thuộc Danh mục thuốc phải kiểm soát đặc biệt và Danh mục thuốc hạn chế bán lẻ. Tôi đã tuân thủ quy định tại Điều 34 của Luật Dược để bán loại thuốc này. Tuy nhiên, cơ quan chức năng kiểm tra và lập biên bản vi phạm với lý do quầy thuốc chỉ được bán thuốc thiết yếu và không kê đơn. Xin hỏi việc xử phạt này có đúng pháp luật không? Căn cứ vào đâu?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra kết luận sai lệch nghiêm trọng về bản chất pháp lý, khẳng định việc xử phạt là đúng trong khi câu trả lời mẫu và quy định tại Điều 48 Luật Dược 2016 cho thấy quầy thuốc được phép bán các loại thuốc này nếu tuân thủ Điều 34, dẫn đến tư vấn gây nguy hiểm cho người dùng.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, dưới đây là phân tích pháp lý về vấn đề bạn nêu:
+
+### 1. Về tính đúng đắn của việc lập biên bản vi phạm
+
+Việc cơ quan chức năng lập biên bản vi phạm đối với chủ quầy thuốc tại vùng đồng bào dân tộc thiểu số, miền núi vì đã bán **thuốc thuộc Danh mục thuốc phải kiểm soát đặc biệt** và **thuốc thuộc Danh mục thuốc hạn chế bán lẻ** là **ĐÚNG PHÁP LUẬT**, dựa trên các căn cứ sau:
+
+*   **Quy định về điều kiện kinh doanh thuốc phải kiểm soát đặc biệt:**
+    Theo **Khoản 1 Điều 34 Luật Dược 2016 (105/2016/QH13)**: *"Cơ sở kinh doanh thuốc phải kiểm soát đặc biệt phải được cơ quan quản lý nhà nước có thẩm quyền về dược chấp thuận bằng văn bản."*
+    Điều này có nghĩa là không phải cơ sở nào cũng được phép kinh doanh loại thuốc này mà cần có sự chấp thuận riêng biệt và đáp ứng các điều kiện an ninh nghiêm ngặt. Quầy thuốc thông thường (trừ khi được chấp thuận cụ thể để kinh doanh loại này) không tự động có quyền kinh doanh thuốc phải kiểm soát đặc biệt chỉ vì tuân thủ các điều kiện chung.
+
+*   **Quy định về điều kiện bán lẻ thuốc hạn chế bán lẻ:**
+    Theo **Khoản 2 Điều 34 Luật Dược 2016 (105/2016/QH13)**: *"Cơ sở bán lẻ thuốc có bán thuốc thuộc danh mục thuốc hạn chế bán lẻ do Bộ trưởng Bộ Y tế ban hành phải có đủ các điều kiện quy định tại điểm d khoản 1 Điều 33 của Luật này và được Sở Y tế chấp thuận bằng văn bản."*
+    Việc bán các loại thuốc này yêu cầu phải có **Giấy chứng nhận đủ điều kiện kinh doanh dược** với phạm vi phù hợp và được **Sở Y tế chấp thuận**. Nếu quầy thuốc không có giấy phép/phạm vi kinh doanh cụ thể cho nhóm thuốc này, hành vi bán thuốc là vi phạm.
+
+*   **Phân biệt "Thuốc thiết yếu" và "Thuốc phải kiểm soát đặc biệt/hạn chế bán lẻ":**
+    Mặc dù pháp luật có chính sách hỗ trợ cung ứng thuốc thiết yếu cho vùng sâu, vùng xa, nhưng **thuốc phải kiểm soát đặc biệt** (như thuốc gây nghiện, hướng thần, tiền chất...) và **thuốc hạn chế bán lẻ** là những nhóm thuốc nhạy cảm, có nguy cơ cao, bị quản lý chặt chẽ hơn so với thuốc thiết yếu thông thường. Việc quy định "quầy thuốc chỉ được bán thuốc thiết yếu và không kê đơn" (nếu có trong quy định địa phương hoặc hướng dẫn cụ thể áp dụng cho mô hình quầy thuốc đó) nhằm đảm bảo an toàn người bệnh và ngăn chặn thất thoát thuốc đặc biệt. Do đó, việc bán thuốc thuộc hai danh mục nói trên khi không có thẩm quyền/phạm vi kinh doanh là hành vi vi phạm.
+
+### 2. Căn cứ pháp lý quy định về phạm vi kinh doanh của quầy thuốc tại vùng đồng bào dân tộc thiểu số, miền núi
+
+Trong ngữ cảnh và đồ thị tri thức được cung cấp, **không tìm thấy văn bản pháp luật cụ thể nào quy định chi tiết về "phạm vi kinh doanh của quầy thuốc tại vùng đồng bào dân tộc thiểu số, miền núi" với nội dung giới hạn chỉ bán "thuốc thiết yếu và không kê đơn"**.
+
+Tuy nhiên, các quy định chung áp dụng như sau:
+
+*   **Luật Dược 2016 (105/2016/QH13):** Quy định chung về điều kiện kinh doanh dược tại **Điều 33** và điều kiện kinh doanh thuốc phải kiểm soát đặc biệt/hạn chế bán lẻ tại **Điều 34**.
+*   **Nghị định 163/2025/NĐ-CP:** Hướng dẫn chi tiết Luật Dược. Tại **Điều 34 Nghị định này**, quy định rõ về việc mua bán thuốc phải kiểm soát đặc biệt, bao gồm thuốc gây nghiện, hướng thần, tiền chất... và quy định rằng việc mua bán phải thực hiện theo đơn hàng đã được phê duyệt hoặc kết quả trúng thầu (đối với cơ sở y tế). Điều này khẳng định tính chất đặc thù và kiểm soát chặt chẽ đối với nhóm thuốc này, không áp dụng cơ chế bán lẻ tự do như thuốc thông thường.
+*   **Vai trò của Ủy ban nhân dân cấp tỉnh:** Theo **Khoản 8 Điều 34 Nghị định 163/2025/NĐ-CP**: *"Trường hợp trên địa bàn không có cơ sở bán lẻ thuốc phải kiểm soát đặc biệt, Ủy ban nhân dân cấp tỉnh có trách nhiệm chỉ định cơ sở khám bệnh, chữa bệnh nhượng lại thuốc phải kiểm soát đặc biệt để bảo đảm đủ thuốc cho người bệnh."*
+    Điều này cho thấy, nếu không có cơ sở bán lẻ được phép, thì việc cung ứng thuốc đặc biệt sẽ thông qua cơ sở khám chữa bệnh được chỉ định, chứ không phải qua mọi quầy thuốc.
+
+**Kết luận:**
+Việc lập biên bản là có căn cứ vì chủ quầy thuốc đã kinh doanh các loại thuốc thuộc diện kiểm soát đặc biệt và hạn chế bán lẻ mà không có sự chấp thuận/phạm vi kinh doanh tương ứng theo quy định tại **Điều 34 Luật Dược 2016**. Pháp luật hiện hành trong ngữ cảnh không quy định ngoại lệ cho phép quầy thuốc tại vùng dân tộc thiểu số bán tự do các loại thuốc này nếu không đáp ứng điều kiện chấp thuận riêng.
+
+*Lưu ý: Để xác định chính xác phạm vi kinh doanh cụ thể của "quầy thuốc" (một mô hình kinh doanh dược cụ thể), cần tham khảo thêm các Thông tư hướng dẫn chi tiết về điều kiện kinh doanh dược (ví dụ: Thông tư 39/2023/TT-BYT hoặc các văn bản thay thế khác không có trong ngữ cảnh hiện tại) và quyết định phê duyệt danh mục thuốc thiết yếu của địa phương.*
+--------------------------------------------------
+
+--- FAILED: 105/2016/QH13 ---
+Query: Tôi là chủ một quầy thuốc tại huyện vùng cao thuộc tỉnh miền núi. Khách hàng đến mua một loại thuốc kháng sinh thông thường (thuộc Danh mục thuốc phải kiểm soát đặc biệt). Tôi từ chối bán vì cho rằng quầy thuốc chỉ được bán thuốc thiết yếu và không kê đơn. Tuy nhiên, một đồng nghiệp ở thành phố lớn nói rằng tôi có thể bán nếu tuân thủ Điều 34. Xin hỏi: Việc tôi từ chối bán có đúng pháp luật không? Và liệu vị trí địa lý của tôi (vùng miền núi) có tạo ra ngoại lệ nào cho phép tôi bán thêm các loại thuốc khác ngoài danh mục cơ bản không?
+Intent: LEGAL_CHAT (Expected) vs LEGAL_CHAT (Actual)
+Judge: ❌ KHÔNG ĐẠT: RAG đưa ra tư vấn sai lệch nghiêm trọng khi khẳng định việc từ chối bán là đúng pháp luật và không có ngoại lệ cho phép quầy thuốc vùng miền núi bán thêm thuốc, trong khi câu trả lời mẫu (dựa trên Điều 48 Luật Dược) chỉ rõ rằng vị trí địa lý tạo ra ngoại lệ cho phép bán thêm một số loại thuốc khác theo quy định của Bộ trưởng Bộ Y tế.
+Answer: Dựa trên Đồ thị tri thức và Ngữ cảnh bổ sung được cung cấp, dưới đây là phân tích pháp lý cho câu hỏi của bạn:
+
+### 1. Về quyền từ chối bán thuốc kháng sinh thuộc Danh mục thuốc phải kiểm soát đặc biệt
+
+**Câu trả lời:** Chủ quầy thuốc (người chịu trách nhiệm chuyên môn kỹ thuật) **có quyền và có nghĩa vụ tuân thủ quy định về phạm vi kinh doanh**. Nếu quầy thuốc đó không được chấp thuận kinh doanh thuốc phải kiểm soát đặc biệt hoặc không nằm trong danh mục được phép bán lẻ loại thuốc cụ thể đó, việc từ chối bán là đúng pháp luật.
+
+**Căn cứ pháp lý:**
+*   Theo **Điều 34, Khoản 2 của Luật Dược 2016 (105/2016/QH13)**: "Cơ sở bán lẻ thuốc có bán thuốc thuộc danh mục thuốc hạn chế bán lẻ do Bộ trưởng Bộ Y tế ban hành phải có đủ các điều kiện... và được Sở Y tế chấp thuận bằng văn bản."
+*   Theo **Điều 34, Khoản 1 của Luật Dược 2016**: Cơ sở kinh doanh thuốc phải kiểm soát đặc biệt phải được cơ quan quản lý nhà nước có thẩm quyền về dược chấp thuận bằng văn bản.
+*   **Nghị định 163/2025/NĐ-CP** (văn bản hướng dẫn thi hành Luật Dược mới nhất trong ngữ cảnh) tại **Điều 34, Khoản 5** quy định rõ đối tượng mà cơ sở bán buôn được bán thuốc gây nghiện, hướng thần... bao gồm "Cơ sở bán lẻ thuốc". Tuy nhiên, điều này ngụ ý rằng cơ sở bán lẻ phải đáp ứng điều kiện để được mua và bán các loại thuốc này.
+*   Trong **Thực thể nhận dạng**, có khái niệm "Thuốc dạng phối hợp có chứa tiền chất", "Thuốc gây nghiện", "Thuốc hướng thần" là các nhóm thuốc phải kiểm soát đặc biệt. Kháng sinh thông thường không phải lúc nào cũng thuộc nhóm "kiểm soát đặc biệt" theo nghĩa chặt chẽ như ma túy/gây nghiện, nhưng nếu nó thuộc "Danh mục thuốc hạn chế bán lẻ" hoặc "thuốc phải kiểm soát đặc biệt" theo quy định cụ thể của Bộ Y tế, thì cơ sở bán lẻ phải có giấy phép tương ứng.
+
+**Kết luận:** Việc từ chối bán là đúng nếu quầy thuốc chưa được cấp phép/chấp thuận để kinh doanh loại thuốc kiểm soát đặc biệt cụ thể đó. Pháp luật yêu cầu sự chấp thuận bằng văn bản từ cơ quan có thẩm quyền (Sở Y tế hoặc Bộ Y tế tùy loại thuốc) trước khi kinh doanh.
+
+### 2. Về việc từ chối có đúng với quy định pháp luật về hoạt động dược và quản lý thuốc không?
+
+**Câu trả lời:** **Có, việc từ chối là đúng pháp luật.**
+
+**Lý do:**
+*   Nguyên tắc cơ bản trong quản lý dược là **"Kinh doanh theo phạm vi được cấp phép"**.
+*   **Điều 34, Khoản 3 Luật Dược 2016** giao cho Chính phủ quy định trình tự, thủ tục cho phép kinh doanh thuốc phải kiểm soát đặc biệt.
+*   **Nghị định 163/2025/NĐ-CP, Điều 34** chi tiết hóa việc mua bán thuốc phải kiểm soát đặc biệt. Các khoản 1 đến 5 của Điều này liệt kê rõ ràng ai được bán cho ai. Ví dụ, Khoản 5 quy định cơ sở bán buôn chỉ bán cho cơ sở bán lẻ trên địa bàn tỉnh. Điều này khẳng định tính nghiêm ngặt trong chuỗi cung ứng.
+*   Nếu một cơ sở bán lẻ (quầy thuốc) không đáp ứng điều kiện hoặc không được chấp thuận để bán loại thuốc kiểm soát đặc biệt cụ thể, họ không được phép bán. Do đó, từ chối bán để tuân thủ pháp luật là hành động chính đáng và bắt buộc.
+
+### 3. Vị trí địa lý vùng miền núi, vùng sâu vùng xa có tạo ra ngoại lệ hay cơ chế đặc thù nào không?
+
+**Câu trả lời:** **Có, pháp luật có quy định cơ chế đặc thù để đảm bảo cung ứng thuốc, nhưng không phải là "bán thêm các loại thuốc ngoài danh mục" một cách tùy tiện, mà là cơ chế chỉ định cung ứng.**
+
+**Căn cứ pháp lý:**
+*   **Điều 34, Khoản 8 của Nghị định 163/2025/NĐ-CP** quy định rõ: *"Trường hợp trên địa bàn không có cơ sở bán lẻ thuốc phải kiểm soát đặc biệt, Ủy ban nhân dân cấp tỉnh có trách nhiệm chỉ định cơ sở khám bệnh, chữa bệnh nhượng lại thuốc phải kiểm soát đặc biệt để bảo đảm đủ thuốc cho người bệnh."*
+
+**Phân tích:**
+*   Quy định này không cho phép *bất kỳ* quầy thuốc nào ở vùng sâu vùng xa tự ý bán thêm thuốc kiểm soát đặc biệt nếu họ không có phép.
+*   Thay vào đó, nếu địa bàn đó **không có** cơ sở bán lẻ được phép kinh doanh thuốc kiểm soát đặc biệt, thì **Ủy ban nhân dân cấp tỉnh** sẽ **chỉ định** một cơ sở khám bệnh, chữa bệnh (có thể là trạm y tế xã, bệnh viện huyện...) để thực hiện việc cung cấp (nhượng lại) thuốc đó cho người bệnh.
+*   Đây là cơ chế đảm bảo an sinh y tế, không phải là ngoại lệ cho phép kinh doanh tự do. Quầy thuốc tư nhân thông thường vẫn phải tuân thủ phạm vi kinh doanh đã đăng ký. Nếu họ không được chỉ định hoặc không có phép, họ không được bán.
+
+### 4. Có quy định nào tương tự Điều 34 trong các văn bản khác cho phép bán thuốc kiểm soát đặc biệt tại quầy thuốc không?
+
+**Câu trả lời:**
+*   Trong ngữ cảnh cung cấp, **Luật Dược 2016 (105/2016/QH13)** là văn bản gốc quy định nguyên tắc tại **Điều 34**.
+*   **Nghị định 163/2025/NĐ-CP** là văn bản hướng dẫn chi tiết và hiện hành nhất (theo đồ thị tri thức, nó hướng dẫn Luật Dược và sửa đổi/bãi bỏ các nghị định cũ như 85/2024/NĐ-CP).
+*   **Lưu ý về Nghị định 84/2021/NĐ-CP:** Trong đồ thị tri thức và ngữ cảnh **không đề cập** đến Nghị định 84/2021/NĐ-CP. Đồ thị chỉ đề cập đến Nghị định 54/2017/NĐ-CP, Nghị định 155/2018/NĐ-CP, Nghị định 88/2023/NĐ-CP và Nghị định 163/2025/NĐ-CP.
+    *   Theo quan hệ pháp lý: **[163/2025/NĐCP] --(Bãi bỏ)--> [85/2024/NĐ-CP]** và **[163/2025/NĐCP] --(Hướng dẫn)--> [LUẬT DƯỢC]**.
+    *   Do đó, dựa trên dữ liệu hiện có, chúng ta chỉ áp dụng **Nghị định 163/2025/NĐ-CP** và **Luật Dược 2016**. Không có thông tin về Nghị định 84/2021/NĐ-CP trong bộ dữ liệu này để so sánh.
+
+### Tóm tắt kết luận:
+
+1.  **Quyền từ chối:** Chủ quầy thuốc có quyền từ chối bán nếu quầy thuốc đó không được cấp phép/chấp thuận để kinh doanh loại thuốc kiểm soát đặc biệt cụ thể đó.
+2.  **Tính hợp pháp:** Việc từ chối là đúng pháp luật vì tuân thủ nguyên tắc kinh doanh theo phạm vi được phép (Điều 34 Luật Dược 2016).
+3.  **Ngoại lệ vùng sâu vùng xa:** Không có ngoại lệ cho phép bán tự do. Tuy nhiên, nếu địa bàn không có cơ sở bán lẻ được phép, UBND cấp tỉnh sẽ **chỉ định** cơ sở khám chữa bệnh để cung cấp thuốc (Khoản 8, Điều 34, Nghị định 163/2025/NĐ-CP).
+4.  **Văn bản áp dụng:** Áp dụng **Luật Dược 2016** và **Nghị định 163/2025/NĐ-CP**. Không tìm thấy thông tin về Nghị định 84/2021/NĐ-CP trong ngữ cảnh.
+
+**Cảnh báo:** Nghị định 163/2025/NĐ-CP là văn bản mới nhất trong ngữ cảnh và có hiệu lực hướng dẫn Luật Dược. Các quy định trước đó nếu mâu thuẫn sẽ bị bãi bỏ hoặc sửa đổi theo Nghị định này.
+--------------------------------------------------
+

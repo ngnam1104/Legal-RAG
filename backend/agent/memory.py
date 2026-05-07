@@ -74,8 +74,20 @@ class ChatSessionManager:
                     role TEXT NOT NULL,
                     content TEXT NOT NULL,
                     references_json TEXT DEFAULT '[]',
+                    attached_file_json TEXT DEFAULT NULL,
                     created_at TEXT NOT NULL,
                     FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
+                )
+            """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS session_documents (
+                    id SERIAL PRIMARY KEY,
+                    session_id TEXT NOT NULL,
+                    document_id TEXT NOT NULL,
+                    chunks_json TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
+                    UNIQUE(session_id, document_id)
                 )
             """)
             cursor.execute("""
@@ -89,7 +101,18 @@ class ChatSessionManager:
                     FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
                 )
             """)
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_session_docs_session ON session_documents(session_id)")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_messages_session ON messages(session_id)")
+            
+            # SCHEMA MIGRATION: Đảm bảo các cột mới tồn tại trong bảng cũ
+            try:
+                cursor.execute("ALTER TABLE messages ADD COLUMN IF NOT EXISTS attached_file_json TEXT DEFAULT NULL")
+                cursor.execute("ALTER TABLE messages ADD COLUMN IF NOT EXISTS references_json TEXT DEFAULT '[]'")
+                conn.commit()
+            except Exception as e:
+                logger.warning(f"⚠️ [Migration] Could not alter table: {e}")
+                conn.rollback()
+
             conn.commit()
             cursor.close()
         finally:
@@ -216,7 +239,7 @@ class ChatSessionManager:
             from psycopg2.extras import RealDictCursor
             cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute(
-                "SELECT role, content, references_json, created_at FROM messages WHERE session_id = %s ORDER BY id ASC",
+                "SELECT role, content, references_json, attached_file_json, created_at FROM messages WHERE session_id = %s ORDER BY id ASC",
                 (session_id,)
             )
             rows = cursor.fetchall()
@@ -225,9 +248,15 @@ class ChatSessionManager:
             for r in rows:
                 msg = {"role": r["role"], "content": r["content"], "created_at": r["created_at"]}
                 try:
-                    msg["references"] = json.loads(r["references_json"])
+                    msg["references"] = json.loads(r["references_json"]) if r.get("references_json") else []
                 except:
                     msg["references"] = []
+                
+                try:
+                    if r.get("attached_file_json"):
+                        msg["attached_file"] = json.loads(r["attached_file_json"])
+                except:
+                    pass
                 result.append(msg)
             return result
         finally:
@@ -241,22 +270,47 @@ class ChatSessionManager:
             from psycopg2.extras import RealDictCursor
             cursor = conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute(
-                "SELECT role, content FROM messages WHERE session_id = %s ORDER BY id DESC LIMIT %s",
+                "SELECT role, content, references_json, attached_file_json, created_at FROM messages WHERE session_id = %s ORDER BY id DESC LIMIT %s",
                 (session_id, limit)
             )
             rows = cursor.fetchall()
             cursor.close()
-            return [{"role": r["role"], "content": r["content"]} for r in reversed(rows)]
+            
+            result = []
+            for r in reversed(rows):
+                msg = {
+                    "role": r["role"], 
+                    "content": r["content"],
+                    "created_at": r["created_at"]
+                }
+                try:
+                    msg["references"] = json.loads(r["references_json"]) if r.get("references_json") else []
+                except: msg["references"] = []
+                
+                try:
+                    if r.get("attached_file_json"):
+                        msg["attached_file"] = json.loads(r["attached_file_json"])
+                except: pass
+                
+                result.append(msg)
+            return result
         finally:
             _pg_pool.putconn(conn)
 
-    def add_message(self, session_id: str, role: str, content: str, references: List[Dict] = None, mode: str = "GENERAL_CHAT"):
+    def add_message(self, session_id: str, role: str, content: str, references: List[Dict] = None, attached_file: Dict = None, mode: str = "GENERAL_CHAT"):
         references = references or []
         now = datetime.now().isoformat()
         self.create_session(session_id=session_id)
 
         history = self.get_history(session_id)
-        history.append({"role": role, "content": content})
+        new_msg = {
+            "role": role, 
+            "content": content,
+            "references": references or [],
+            "attached_file": attached_file,
+            "created_at": now
+        }
+        history.append(new_msg)
         max_messages = self.max_turns * 2
         if len(history) > max_messages:
             history = history[-max_messages:]
@@ -273,8 +327,8 @@ class ChatSessionManager:
         try:
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO messages (session_id, role, content, references_json, created_at) VALUES (%s, %s, %s, %s, %s)",
-                (session_id, role, content, json.dumps(references, ensure_ascii=False), now)
+                "INSERT INTO messages (session_id, role, content, references_json, attached_file_json, created_at) VALUES (%s, %s, %s, %s, %s, %s)",
+                (session_id, role, content, json.dumps(references, ensure_ascii=False), json.dumps(attached_file, ensure_ascii=False) if attached_file else None, now)
             )
             cursor.execute("UPDATE sessions SET updated_at = %s WHERE id = %s", (now, session_id))
 
@@ -292,7 +346,10 @@ class ChatSessionManager:
                 if msg_count == 1 and current_title == "Phiên chat mới":
                     try:
                         current_prompt = TITLE_PROMPT if mode != "GENERAL_CHAT" else GENERAL_TITLE_PROMPT
-                        title_resp = chat_completion([{"role": "user", "content": current_prompt.format(query=content)}], temperature=0.1)
+                        # TITLE_PROMPT yêu cầu {query} và {answer}. Vì đây là tin nhắn đầu, ta để answer rỗng.
+                        prompt_filled = current_prompt.format(query=content, answer="") if mode != "GENERAL_CHAT" else current_prompt.format(query=content)
+                        
+                        title_resp = chat_completion([{"role": "user", "content": prompt_filled}], temperature=0.1)
                         title = title_resp.strip().replace('"', '').replace("'", "")
                         if not title or len(title) > 100:
                             title = content[:40] + ("..." if len(content) > 40 else "")
@@ -424,35 +481,50 @@ class ChatSessionManager:
     # =====================================================================
 
     def set_temp_chunks(self, session_id: str, chunks: List[Dict], document_id: str = "default"):
-        """Lưu trữ chunks tạm thời. Scoped by session + document, TTL 5m."""
-        # Clean old chunks for this session if document changed and it's not "default"
-        if document_id != "default":
-            self.clear_temp_chunks(session_id, exclude_doc_id=document_id)
+        """Lưu trữ chunks vào PostgreSQL (bền vững theo session)."""
+        if _pg_pool is None:
+            # Fallback to RAM if no PG
+            self.temp_chunks[(session_id, document_id)] = {"chunks": chunks, "expires_at": time.time() + 3600}
+            return
 
-        if self.use_redis:
-            key = f"temp_chunks:{session_id}:{document_id}"
-            self.redis_client.set(key, json.dumps(chunks, ensure_ascii=False), ex=300) # 5 minutes
-        else:
-            self.temp_chunks[(session_id, document_id)] = {
-                "chunks": chunks,
-                "expires_at": time.time() + 300
-            }
-        logger.info(f"    → [Memory] Đã lưu {len(chunks)} chunks cho session {session_id}, doc {document_id}")
+        conn = _pg_pool.getconn()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO session_documents (session_id, document_id, chunks_json)
+                VALUES (%s, %s, %s)
+                ON CONFLICT (session_id, document_id) DO UPDATE SET
+                    chunks_json = excluded.chunks_json,
+                    created_at = CURRENT_TIMESTAMP
+            """, (session_id, document_id, json.dumps(chunks, ensure_ascii=False)))
+            conn.commit()
+            cursor.close()
+            logger.info(f"    → [Memory] Đã lưu {len(chunks)} chunks vào Postgres cho session {session_id}")
+        finally:
+            _pg_pool.putconn(conn)
 
     def get_temp_chunks(self, session_id: str, document_id: str = "default") -> List[Dict]:
-        """Lấy chunks tạm thời. Kiểm tra TTL."""
-        if self.use_redis:
-            key = f"temp_chunks:{session_id}:{document_id}"
-            val = self.redis_client.get(key)
-            return json.loads(val) if val else []
-        
-        entry = self.temp_chunks.get((session_id, document_id))
-        if entry:
-            if time.time() < entry["expires_at"]:
-                return entry["chunks"]
-            else:
-                del self.temp_chunks[(session_id, document_id)] # Expired
-        return []
+        """Lấy chunks từ PostgreSQL."""
+        if _pg_pool is None:
+            entry = self.temp_chunks.get((session_id, document_id))
+            return entry["chunks"] if entry and time.time() < entry["expires_at"] else []
+
+        conn = _pg_pool.getconn()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT chunks_json FROM session_documents WHERE session_id = %s", (session_id,))
+            rows = cursor.fetchall()
+            cursor.close()
+            
+            all_chunks = []
+            for row in rows:
+                try:
+                    all_chunks.extend(json.loads(row[0]))
+                except:
+                    pass
+            return all_chunks
+        finally:
+            _pg_pool.putconn(conn)
 
     def clear_temp_chunks(self, session_id: str, document_id: str = None, exclude_doc_id: str = None):
         """Xóa chunks tạm thời. Có thể xóa cụ thể 1 doc hoặc toàn bộ session."""

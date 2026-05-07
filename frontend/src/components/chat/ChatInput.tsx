@@ -9,8 +9,8 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/a
 
 export default function ChatInput() {
   const { 
-    sendMessage, uploadFile, ingestFile, clearStagedFile, 
-    isSending, isIngesting, stagedFile, 
+    sendMessage, uploadFile, clearStagedFile, 
+    isSending, stagedFile, 
     stopResponse, inputBuffer, setInputBuffer, 
     isPendingEdit, editingIndex, cancelEdit, activeMode 
   } = useChat();
@@ -47,44 +47,16 @@ export default function ChatInput() {
       await uploadFile(file);
       toast.success(
         <div>
-          <strong>Tải lên tạm thời thành công!</strong>
-          <p className="text-xs mt-1 text-gray-500">Bạn có thể hỏi đáp ngay hoặc nhấn "Đưa lên DB" để lưu vĩnh viễn.</p>
+          <strong>Đã đính kèm {file.name}!</strong>
+          <p className="text-xs mt-1 text-gray-500">Bắt đầu đặt câu hỏi để phân tích tài liệu này.</p>
         </div>,
-        { id: toastId, duration: 5000 }
+        { id: toastId, duration: 3000 }
       );
     } catch (error: any) {
       toast.error(`Upload thất bại: ${error.message}`, { id: toastId });
     }
   };
 
-  const handleIngest = async () => {
-    if (!stagedFile) return;
-    const toastId = toast.loading(`Đang kiểm tra và đưa ${stagedFile.name} lên DB...`);
-    
-    try {
-      const data = await ingestFile();
-      
-      if (data.status === "duplicate") {
-        toast.error(data.message, { id: toastId, duration: 6000 });
-        return;
-      }
-
-      if (data.status === "success" && data.result) {
-        clearStagedFile();
-        toast.success(
-          <div>
-            <strong>{data.result.filename} đã được đưa lên DB!</strong><br/>
-            <p className="text-sm mt-1">{data.result.summary}</p>
-          </div>, 
-          { id: toastId, duration: 8000 }
-        );
-      } else {
-        toast.error("Phản hồi không hợp lệ từ server.", { id: toastId });
-      }
-    } catch (error: any) {
-      toast.error(`Lỗi: ${error.message}`, { id: toastId });
-    }
-  };
 
   const isGeneralChat = activeMode === "GENERAL_CHAT";
 
@@ -115,17 +87,15 @@ export default function ChatInput() {
         />
 
         {/* Upload File Button */}
-        {!isGeneralChat && (
-          <button 
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isSending}
-            className="p-3 text-text-disabled hover:text-emerald-accent hover:bg-emerald-primary/10 rounded-full transition-all mb-1 disabled:opacity-50"
-            title="Đính kèm tài liệu"
-            type="button"
-          >
-            <Paperclip size={20} />
-          </button>
-        )}
+        <button 
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isSending}
+          className="p-3 text-text-disabled hover:text-emerald-accent hover:bg-emerald-primary/10 rounded-full transition-all mb-1 disabled:opacity-50"
+          title="Đính kèm tài liệu"
+          type="button"
+        >
+          <Paperclip size={20} />
+        </button>
 
         {/* Input Textarea */}
         <TextareaAutosize
@@ -173,7 +143,7 @@ export default function ChatInput() {
       </div>
 
       {/* NEW STAGED FILE UI - Horizontal box, vertical buttons, below input */}
-      {stagedFile && !isGeneralChat && (
+      {stagedFile && (
         <div className="flex items-center gap-3 w-fit max-w-[40%] min-w-[200px] bg-emerald-surface/80 backdrop-blur-md border border-emerald-primary/30 rounded-2xl p-2 pr-2 animate-in fade-in slide-in-from-top-2 shadow-lg">
           {/* File Info */}
           <div className="flex items-center gap-2 flex-1 min-w-0 px-1">
@@ -183,33 +153,18 @@ export default function ChatInput() {
              <div className="flex flex-col overflow-hidden">
                 <span className="text-[13px] font-bold text-text-main truncate">{stagedFile.name}</span>
                 <span className="text-[10px] text-emerald-accent font-medium uppercase tracking-wider">
-                  {isIngesting ? "Đang nạp dữ liệu..." : "Chờ nạp DB"}
+                  Sẵn sàng phân tích
                 </span>
              </div>
           </div>
 
-          {/* Action Vertical Stack */}
-          <div className="flex flex-col gap-1 border-l border-emerald-primary/10 pl-2">
-             <button 
-               onClick={handleIngest} 
-               disabled={isIngesting} 
-               className={`p-1.5 rounded-lg transition-all flex items-center justify-center group/db ${
-                 isIngesting ? "bg-emerald-accent/20 animate-pulse text-emerald-accent" : "bg-emerald-accent/10 text-emerald-accent hover:bg-emerald-accent hover:text-emerald-base"
-               }`}
-               title="Nạp vào DB"
-             >
-               <Plus size={10} className="mr-0.5" />
-               <Database size={14} />
-             </button>
-             <button 
-               onClick={clearStagedFile} 
-               disabled={isIngesting}
-               className="p-1.5 rounded-lg text-text-disabled hover:bg-red-400/10 hover:text-red-400 transition-all flex items-center justify-center disabled:opacity-30"
-               title="Hủy tài liệu"
-             >
-               <X size={14} />
-             </button>
-          </div>
+          <button 
+            onClick={clearStagedFile} 
+            className="p-1.5 rounded-lg text-text-disabled hover:bg-red-400/10 hover:text-red-400 transition-all flex items-center justify-center"
+            title="Hủy tài liệu"
+          >
+            <X size={18} />
+          </button>
         </div>
       )}
     </div>

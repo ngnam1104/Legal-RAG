@@ -115,9 +115,13 @@ class EntityGraphRetriever:
             response = strip_thinking_tags(response)
             cleaned = re.sub(r'```json\n|\n```|```', '', response).strip()
             data = json.loads(cleaned)
-            return data.get("entities", [])[:5]
+            if isinstance(data, list):
+                return data[:5]
+            if isinstance(data, dict):
+                return data.get("entities", [])[:5]
+            return []
         except Exception as e:
-            logger.warning(f"[Graph Search] Entity extraction error: {e}")
+            logger.warning(f"[Graph Search] Entity extraction error: {e} | Raw response: {response[:100]}")
             return []
 
     # ------------------------------------------------------------------

@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 from typing import List, Dict, Any
 import docx
@@ -61,32 +62,34 @@ class DocumentParser:
         except Exception:
             pass
 
-        # Strategy 3: Raw binary text extraction (last resort)
+        # Strategy 3: Raw binary text extraction with strict filtering (last resort)
         try:
             with open(file_path, 'rb') as f:
                 raw = f.read()
-            # Extract readable text chunks from binary
+            
+            # Extract only readable strings (4 or more printable chars)
+            # This avoids most OLE binary structures
             import re
-            # Try utf-16-le first (common in .doc)
+            
+            # Try UTF-16-LE (common in Word)
             try:
                 decoded = raw.decode('utf-16-le', errors='ignore')
-                # Filter to keep only printable Vietnamese text
-                lines = decoded.split('\n')
-                clean_lines = [l.strip() for l in lines if len(l.strip()) > 2 and not all(c in '\x00\x01\x02\x03\x04\x05' for c in l[:5])]
-                text = "\n".join(clean_lines)
-                if len(text.strip()) > 100:
+                # Keep only printable Vietnamese & basic symbols
+                # Filter: A-Z, a-z, 0-9, Vietnamese chars, and basic punctuation
+                filtered = re.findall(r'[a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂÂÊÔƠƯàáâãèéêìíòóôõùúăđĩũơưăâêôơưẠ-ỹ\s\.\,\:\-\!\?]{10,}', decoded)
+                text = "\n".join(filtered)
+                if len(text.strip()) > 200:
                     return text
             except Exception:
                 pass
-            
-            # utf-8 fallback
+                
+            # Try UTF-8 fallback
             decoded = raw.decode('utf-8', errors='ignore')
-            lines = decoded.split('\n')
-            clean_lines = [l.strip() for l in lines if len(l.strip()) > 3]
-            text = "\n".join(clean_lines)
-            if len(text.strip()) > 100:
+            filtered = re.findall(r'[a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂÂÊÔƠƯàáâãèéêìíòóôõùúăđĩũơưăâêôơưẠ-ỹ\s\.\,\:\-\!\?]{10,}', decoded)
+            text = "\n".join(filtered)
+            if len(text.strip()) > 200:
                 return text
-        except Exception as e:
+        except Exception:
             pass
 
         raise RuntimeError(f"Failed to read .doc file {file_path}. Install docx2txt: pip install docx2txt")
@@ -115,26 +118,39 @@ class DocumentParser:
             metadata["title"] = os.path.basename(file_path)
 
         # AdvancedLegalChunker handles Regex-based tree splitting and Breadcrumbs
-        chunks = chunker.process_document(content, metadata)
+        # skip_llm=True để xử lý nhanh cho file upload phiên chat, tránh gọi LLM bóc thực thể
+        chunks = chunker.process_document(content, metadata, skip_llm=True)
         return chunks
 
     def extract_metadata(self, file_path: str) -> Dict[str, Any]:
-        """Trích xuất metadata cơ bản (số hiệu văn bản, tiêu đề) để kiểm tra trùng lặp."""
+        """Trích xuất số hiệu văn bản từ 500 ký tự đầu tiên của file."""
         ext = os.path.splitext(file_path)[1].lower()
-        if ext == ".pdf":
-            content = self.extract_text_from_pdf(file_path)
-        elif ext == ".docx":
-            content = self.extract_text_from_docx(file_path)
-        else:
-            with open(file_path, "r", encoding="utf-8") as f:
-                content = f.read()
+        content = ""
+        try:
+            if ext == ".pdf":
+                content = self.extract_text_from_pdf(file_path)
+            elif ext == ".docx":
+                content = self.extract_text_from_docx(file_path)
+            elif ext == ".doc":
+                content = self.extract_text_from_doc(file_path)
+            else:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+        except Exception as e:
+            print(f"      [Parser] Metadata extraction failed: {e}")
 
-        from backend.ingestion.chunker import metadata as md
+        # Lấy 500 ký tự đầu để tìm số hiệu chính
+        preamble = content[:500]
         
-        # Lấy 100 dòng đầu tiên để tìm số hiệu
-        preamble = "\n".join(content.splitlines()[:100])
-        doc_number = md.extract_doc_number(preamble)
-        
+        # 1. Tìm mẫu "Số: 123/QĐ-..." (Chính xác nhất cho tiêu đề văn bản)
+        match_so = re.search(r"(?i)Số\s*:\s*([0-9]+/[0-9]{4}/[A-Z0-9Đ\-]+|[0-9]+/[A-Z0-9Đ\-]+)", preamble)
+        if match_so:
+            doc_number = match_so.group(1).strip()
+        else:
+            # 2. Fallback dùng hàm tổng quát
+            from backend.ingestion.chunker import metadata as md
+            doc_number = md.extract_doc_number(preamble) or "File Upload"
+
         return {
             "document_number": doc_number,
             "title": os.path.basename(file_path)

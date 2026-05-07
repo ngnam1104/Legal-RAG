@@ -175,9 +175,15 @@ export function MessageItem({ message, index, isLastUserMessage }: {
                 );
             })()}
 
-            {/* References Accordion */}
+            {/* References Section - Tách biệt rõ ràng */}
             {message.references && message.references.length > 0 && (
-              <div className="mt-8 pt-8 border-t border-emerald-primary/10">
+              <div className="mt-10 pt-4 relative">
+                {/* Decorative Separator */}
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-primary/40 to-transparent" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 bg-emerald-base text-[10px] font-black uppercase tracking-[0.3em] text-emerald-primary/60">
+                   Appendix
+                </div>
+                
                 <LegalReference refs={message.references} />
               </div>
             )}

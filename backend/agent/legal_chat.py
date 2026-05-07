@@ -162,7 +162,7 @@ class LegalChatStrategy(BaseRAGStrategy):
             return hybrid_retriever.search(
                 query=query,
                 expand_context=True,
-                max_neighbors=8,
+                max_neighbors=2, # Giảm từ 8 xuống 2 để tránh tràn ngữ cảnh
                 use_rerank=state.get("use_rerank", True),
                 legal_type=filters.get("legal_type"),
                 doc_number=filters.get("doc_number"),
@@ -288,32 +288,78 @@ class LegalChatStrategy(BaseRAGStrategy):
                     except Exception as e:
                         import logging; logging.getLogger(__name__).warning(f"Graph doc fetch error: {e}")
 
-        # Thu thập entity_ids từ Hybrid hits (sau tất cả các phase fetch)
+        # ── Phase 1.8: UNIFIED RERANKING (Gộp File Up + Global DB) ──
+        with timer.step("Unified_Reranking"):
+            # 1. Chuẩn hóa file_chunks thành format của hits
+            normalized_file_hits = []
+            for idx, fc in enumerate(state.get("file_chunks", [])):
+                normalized_file_hits.append({
+                    "id": fc.get("chunk_id") or f"upload_{idx}",
+                    "chunk_id": fc.get("chunk_id") or f"upload_{idx}",
+                    "text": fc.get("chunk_text", fc.get("text", fc.get("unit_text", ""))),
+                    "title": fc.get("title", "Tài liệu tải lên"),
+                    "document_number": fc.get("document_number", "File Upload"),
+                    "article_ref": fc.get("article_ref", ""),
+                    "score": 0.95, # Ưu tiên cực cao
+                    "payload": fc,
+                    "_source": "upload"
+                })
+            
+            # 2. Gộp danh sách
+            all_candidates = normalized_file_hits + hits
+            
+            # 3. Chạy Reranker trên toàn bộ danh sách gộp
+            if all_candidates and state.get("use_rerank", True):
+                from backend.models.reranker import reranker
+                # Rerank trả về danh sách đã sắp xếp theo điểm số Cross-Encoder
+                reranked_all = reranker.rerank(query, all_candidates)
+                # Lấy Top 10 tinh túy nhất
+                final_top_hits = reranked_all[:10]
+            else:
+                final_top_hits = all_candidates[:10]
+            
+            # 4. Tách lại để giữ logic build_legal_context (hoặc cập nhật state)
+            state["raw_hits"] = [h for h in final_top_hits if h.get("_source") != "upload"]
+            state["file_chunks"] = [h["payload"] for h in final_top_hits if h.get("_source") == "upload"]
+            
+            print(f"       🎯 [Unified Rerank] Picked top 10 from {len(all_candidates)} candidates (Upload: {len(state['file_chunks'])}, DB: {len(state['raw_hits'])})")
+
+        # Thu thập entity_ids từ Final Top Hits (để expand graph nếu cần)
         entity_ids = [
             str(h.get("chunk_id") or h.get("id", ""))
-            for h in hits if h.get("chunk_id") or h.get("id")
+            for h in final_top_hits if h.get("chunk_id") or h.get("id")
         ]
 
-        # ── Phase 2: QdrantNeo4jRetriever — enrich + bổ sung entity_ids từ Neo4j ──
-        with timer.step("QdrantNeo4j_Enrich"):
-            neo4j_hits, neo4j_entity_ids = self._qdrant_neo4j_search(query, state)
+        # ── Phase 2: QdrantNeo4jRetriever — enrich ──
+        # Giữ nguyên nhưng chỉ enrich cho những gì còn lại sau Rerank
+        is_pure_upload = len(final_top_hits) > 0 and all(h.get("_source") == "upload" for h in final_top_hits)
+        
+        neo4j_hits, neo4j_entity_ids = [], []
+        if not is_pure_upload:
+            with timer.step("QdrantNeo4j_Enrich"):
+                neo4j_hits, neo4j_entity_ids = self._qdrant_neo4j_search(query, state)
+        else:
+            print("       📎 [Retrieve] Pure Upload context after Rerank. Skipping Neo4j.")
 
-        # Merge entity_ids (unique, giữ thứ tự)
+        # Update final hits after enrichment
+        # Lưu ý: Ở đây ta chỉ muốn enrich metadata chứ không muốn làm xáo trộn thứ tự Rerank
+        # Nên ta sẽ map metadata từ neo4j_hits vào final_top_hits
+        if neo4j_hits:
+            neo4j_map = {str(nh.get("chunk_id")): nh for nh in neo4j_hits}
+            for fh in final_top_hits:
+                cid = str(fh.get("chunk_id"))
+                if cid in neo4j_map:
+                    # Cập nhật metadata cho cả wrapper và payload bên trong
+                    fh.update(neo4j_map[cid])
+                    if "payload" in fh and isinstance(fh["payload"], dict):
+                        fh["payload"].update(neo4j_map[cid])
+                    fh["_source"] = "neo4j_enriched"
+
+        # Merge entity_ids (unique, giữ thứ tự) để dùng cho Phase 3
         seen_ids = dict.fromkeys(entity_ids)
         for eid in neo4j_entity_ids:
             seen_ids.setdefault(eid)
         all_entity_ids = list(seen_ids.keys())
-
-        # Merge neo4j_hits: chỉ thêm hits chưa có trong hybrid_hits
-        hybrid_chunk_ids = {str(h.get("chunk_id") or h.get("id", "")) for h in hits}
-        for nh in neo4j_hits:
-            nid = str(nh.get("chunk_id") or nh.get("id", ""))
-            if nid and nid not in hybrid_chunk_ids:
-                hits.append(nh)
-                hybrid_chunk_ids.add(nid)
-
-        if neo4j_hits:
-            print(f"       🔗 [Retrieve] QdrantNeo4j added {len(neo4j_hits)} extra hits → total {len(hits)}")
 
         # ── Phase 3: 2-hop Subgraph Expansion ──
         # entity_pre_context từ Phase 0 LUÔN được giữ, kể cả khi Phase 3 trống
@@ -324,7 +370,7 @@ class LegalChatStrategy(BaseRAGStrategy):
             "document_toc": "", "sibling_texts": []
         }
         with timer.step("Neo4j_Subgraph"):
-            if all_entity_ids:
+            if all_entity_ids and not is_pure_upload:
                 subgraph = fetch_related_graph(all_entity_ids)
                 if subgraph:
                     formatted = format_graph_context(subgraph)
@@ -396,15 +442,16 @@ class LegalChatStrategy(BaseRAGStrategy):
                 logger.debug("Neo4j driver not available — skipping QdrantNeo4jRetriever enrichment.")
                 return [], []
 
+            # Filter out upload chunks to avoid unnecessary Neo4j queries
+            current_hits = state.get("raw_hits", [])
+            existing_ids = {h.get("chunk_id") for h in current_hits if h.get("chunk_id")}
+            
             top_k = state.get("top_k") or int(os.environ.get("MAX_RETRIEVAL_HITS", 20))
 
-            # Cypher: lấy node + parent metadata + ontology relations (cải tiến so với cũ)
+            # Cypher: lấy node + parent metadata (Dùng $id là tham số mặc định của QdrantNeo4jRetriever)
             retrieval_query = """
-            OPTIONAL MATCH (n1:Chunk {qdrant_id: $id})
-            OPTIONAL MATCH (n2:Clause {qdrant_id: $id})
-            OPTIONAL MATCH (n3:LegalArticle {qdrant_id: $id})
-            WITH coalesce(n1, n2, n3) AS node
-            WHERE node IS NOT NULL
+            MATCH (node) 
+            WHERE node.qdrant_id = $id
             OPTIONAL MATCH (node)-[:BELONGS_TO|PART_OF*1..2]->(parent)
             OPTIONAL MATCH (node)-[:BELONGS_TO]->(doc:Document)
             RETURN node {
