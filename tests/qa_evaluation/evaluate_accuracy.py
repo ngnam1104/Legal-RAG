@@ -11,6 +11,20 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from dotenv import load_dotenv
 load_dotenv(override=True)
 
+import logging
+
+# Filter out messy ICLLM console logs
+class ICLLMFilter(logging.Filter):
+    def filter(self, record):
+        if record.name.startswith("LLM/"):
+            return False
+        return True
+
+# Apply filter to root logger right away
+logging.basicConfig(level=logging.INFO)
+for handler in logging.root.handlers:
+    handler.addFilter(ICLLMFilter())
+
 from backend.agent.chat_engine import rag_engine
 from backend.models.llm_factory import chat_completion
 
