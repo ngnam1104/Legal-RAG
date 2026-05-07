@@ -590,9 +590,9 @@ class HybridRetriever:
             neighbor_points, _ = self.client.scroll(
                 collection_name=self.collection_name,
                 scroll_filter=models.Filter(must=must),
-                with_payload=True,
+                with_payload=["chunk_text", "document_number", "id", "chunk_id", "article_ref", "reference_tag", "chunk_index"],
                 with_vectors=False,
-                limit=100,
+                limit=20,
             )
 
             neighbor_payloads = [p.payload for p in neighbor_points if p.payload]

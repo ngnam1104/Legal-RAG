@@ -200,28 +200,93 @@ class LegalChatStrategy(BaseRAGStrategy):
         # ── Phase 1.5: Fetch Graph-hinted documents bị Vector Search bỏ sót ──
         # entity_retriever.search() đã biết chính xác các văn bản liên quan (doc_numbers).
         # Nếu Qdrant chưa kéo được chunks từ đó, ta scroll Qdrant theo doc_number.
+        # OPTIMIZATION: Batch query toàn bộ missing_docs cùng lúc (MatchAny), không loop tuần tự
         graph_doc_numbers = graph_res.get("doc_numbers", [])
         if graph_doc_numbers:
             existing_doc_nums = {h.get("document_number", "") for h in hits}
             missing_docs = [d for d in graph_doc_numbers if d not in existing_doc_nums][:3]
             if missing_docs:
                 with timer.step("Graph_Doc_Fetch"):
-                    for doc_num in missing_docs:
-                        try:
-                            doc_hits = hybrid_retriever.search(
+                    try:
+                        from qdrant_client import models
+                        from backend.agent.utils_legal_optimization import optimize_batch_fetch
+                        
+                        # Strategy selection: "batch" (baseline) | "neo4j" (Cách 2) | "rerank" (Cách 1) | "hybrid" (kết hợp)
+                        strategy = os.environ.get("GRAPH_DOC_FETCH_STRATEGY", "neo4j")
+                        
+                        # Phase A: Batch query từ Qdrant (luôn chạy để có baseline)
+                        missing_filter = models.Filter(
+                            must=[
+                                models.FieldCondition(
+                                    key="document_number",
+                                    match=models.MatchAny(any=missing_docs)
+                                ),
+                                models.FieldCondition(
+                                    key="is_active",
+                                    match=models.MatchValue(value=True)
+                                )
+                            ]
+                        )
+                        
+                        # Single scroll call: lấy chunks cho TẤT CẢ missing_docs cùng lúc
+                        batch_hits, _ = hybrid_retriever.client.scroll(
+                            collection_name=hybrid_retriever.collection_name,
+                            scroll_filter=missing_filter,
+                            with_payload=["chunk_text", "document_number", "chunk_id", "id", "article_ref", "title"],
+                            with_vectors=False,
+                            limit=len(missing_docs) * 5  # ~5 chunks per doc
+                        )
+                        
+                        # Convert to dict format
+                        batch_hits_dict = []
+                        for bp in batch_hits:
+                            if not bp.payload:
+                                continue
+                            payload = bp.payload
+                            hit_dict = {
+                                "id": bp.id,
+                                "chunk_id": payload.get("chunk_id", ""),
+                                "document_number": payload.get("document_number", ""),
+                                "title": payload.get("title", ""),
+                                "text": payload.get("chunk_text", ""),
+                                "score": 0.6,
+                                "payload": payload,
+                            }
+                            batch_hits_dict.append(hit_dict)
+                        
+                        # Phase B: Apply optimization strategy
+                        if strategy == "batch":
+                            # Baseline: Use raw batch hits + boost
+                            final_hits = batch_hits_dict
+                            for fh in final_hits:
+                                fh["score"] = fh.get("score", 0) + 0.25
+                            print(f"       📌 [Graph Doc Fetch] Strategy=BATCH: {len(final_hits)} chunks")
+                        
+                        elif strategy in ["neo4j", "rerank", "hybrid"]:
+                            # Optimized strategies
+                            final_hits = optimize_batch_fetch(
+                                batch_hits=batch_hits_dict,
+                                missing_docs=missing_docs,
                                 query=query,
-                                doc_number=doc_num,
-                                expand_context=True,
-                                use_rerank=False,
-                                limit=5,
+                                reranker_client=hybrid_retriever.reranker if hasattr(hybrid_retriever, 'reranker') else None,
+                                strategy=strategy,
                             )
-                            for dh in doc_hits:
-                                dh["score"] = dh.get("score", 0) + 0.25  # graph-sourced boost
-                                hits.append(dh)
-                            if doc_hits:
-                                print(f"       📌 [Graph Doc Fetch] Added {len(doc_hits)} chunks from {doc_num}")
-                        except Exception as e:
-                            import logging; logging.getLogger(__name__).warning(f"Graph doc fetch error: {e}")
+                            for fh in final_hits:
+                                fh["score"] = fh.get("score", 0) + 0.15  # Conservative boost
+                        else:
+                            # Unknown strategy, fallback to batch
+                            final_hits = batch_hits_dict
+                            for fh in final_hits:
+                                fh["score"] = fh.get("score", 0) + 0.25
+                        
+                        # Append to hits
+                        hits.extend(final_hits)
+                        
+                        if final_hits:
+                            print(f"       📌 [Graph Doc Fetch] Strategy={strategy.upper()}: Added {len(final_hits)} chunks")
+                    
+                    except Exception as e:
+                        import logging; logging.getLogger(__name__).warning(f"Graph doc fetch error: {e}")
 
         # Thu thập entity_ids từ Hybrid hits (sau tất cả các phase fetch)
         entity_ids = [
