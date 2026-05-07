@@ -1000,6 +1000,20 @@ def _ensure_entity_constraint(session, label: str) -> None:
     except Exception:
         _constraint_created.add(label)  # giả sử đã tồn tại, không retry
 
+_leaf_index_created = False
+
+def _ensure_leaf_indexes(session) -> None:
+    """Tạo index trên qdrant_id cho các Structural Nodes để tránh Full Graph Scan khi APOC merge."""
+    global _leaf_index_created
+    if _leaf_index_created:
+        return
+    for label in ["LegalArticle", "Article", "Clause", "Chunk"]:
+        try:
+            session.run(f"CREATE INDEX {label.lower()}_qdrant_id_idx IF NOT EXISTS FOR (n:{label}) ON (n.qdrant_id)")
+        except Exception:
+            pass
+    _leaf_index_created = True
+
 
 
 def enrich_chunk_entities(
@@ -1024,6 +1038,12 @@ def enrich_chunk_entities(
     """
     if not driver or not params_list:
         return
+
+    try:
+        with driver.session() as session:
+            _ensure_leaf_indexes(session)
+    except Exception as e:
+        print(f"[_ensure_leaf_indexes] error: {e}")
 
     # Luôn ghi nhận đã xử lý đối với toàn bộ các chunk trong params
     # Rất quan trọng: Chunk có 0 entities vẫn phải mark để tránh fetch lại mãi mãi
