@@ -48,6 +48,7 @@ interface ChatContextProps {
   stagedFile: { id: string, name: string } | null;
   processingSteps: { text: string; time: string }[];
   activeMode: string;
+  setActiveMode: (mode: string) => void;
   
   // Actions
   setInputBuffer: (text: string) => void;
@@ -83,7 +84,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [isIngesting, setIsIngesting] = useState(false);
   const [stagedFile, setStagedFile] = useState<{ id: string, name: string } | null>(null);
   const [processingSteps, setProcessingSteps] = useState<{ text: string; time: string }[]>([]);
-  const [activeMode, setActiveMode] = useState<string>("GENERAL_CHAT");
+  const [activeMode, setActiveMode] = useState<string>("LEGAL_CHAT");
   const abortControllerRef = useRef<AbortController | null>(null);
   const isCreatingSessionRef = useRef(false);
   const [settings, setSettingsState] = useState<ChatSettings>({
@@ -276,6 +277,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
       // --- STREAMING HANDLER (SSE) ---
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
+      let lineBuffer = ""; // NEW: Buffer for partial lines
       
       if (!reader) throw new Error("No reader available");
 
@@ -283,40 +285,50 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
         const { done, value } = await reader.read();
         if (done) break;
         
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n");
+        const chunk = decoder.decode(value, { stream: true });
+        lineBuffer += chunk;
+        
+        const lines = lineBuffer.split("\n");
+        lineBuffer = lines.pop() || ""; // Keep the last partial line in buffer
         
         for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            try {
-              const data = JSON.parse(line.slice(6));
+          const trimmedLine = line.trim();
+          if (!trimmedLine || !trimmedLine.startsWith("data: ")) continue;
+          
+          try {
+            const data = JSON.parse(trimmedLine.slice(6));
+            
+            if (data.type === "step") {
+              setProcessingSteps(prev => [...prev, { text: data.content, time: new Date().toLocaleTimeString() }]);
+            } 
+            else if (data.type === "final") {
+              const final = data.content;
               
-              if (data.type === "step") {
-                setProcessingSteps(prev => [...prev, { text: data.content, time: new Date().toLocaleTimeString() }]);
-              } 
-              else if (data.type === "final") {
-                const final = data.content;
-                setMessages(prev => [...prev, {
-                  role: 'assistant',
-                  content: final.answer,
-                  thinking_content: final.thinking_content,
-                  references: final.references || [],
-                  related_docs: final.related_docs || []
-                }]);
-                
-                if (final.title) {
-                  fetchSessions();
-                }
+              // NEW: Update activeMode based on detected_mode from backend
+              if (final.detected_mode) {
+                setActiveMode(final.detected_mode);
               }
-              else if (data.type === "error") {
-                setMessages(prev => [...prev, { role: 'assistant', content: `Lỗi Hệ thống: ${data.content}` }]);
+
+              setMessages(prev => [...prev, {
+                role: 'assistant',
+                content: final.answer,
+                thinking_content: final.thinking_content,
+                references: final.references || [],
+                related_docs: final.related_docs || []
+              }]);
+              
+              if (final.title) {
+                fetchSessions();
               }
-              else if (data.type === "cancelled") {
-                 setMessages(prev => [...prev, { role: 'assistant', content: "_Đã dừng phản hồi._" }]);
-              }
-            } catch (e) {
-              // Ignore partial JSON or malformed SSE lines
             }
+            else if (data.type === "error") {
+              setMessages(prev => [...prev, { role: 'assistant', content: `Lỗi Hệ thống: ${data.content}` }]);
+            }
+            else if (data.type === "cancelled") {
+               setMessages(prev => [...prev, { role: 'assistant', content: "_Đã dừng phản hồi._" }]);
+            }
+          } catch (e) {
+            console.warn("Malformed SSE JSON:", trimmedLine, e);
           }
         }
       }
@@ -449,6 +461,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
     stagedFile,
     processingSteps,
     activeMode,
+    setActiveMode,
     setInputBuffer,
     setCurrentSessionId,
     setSettings,
@@ -466,7 +479,7 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
   }), [
     currentSessionId, sessions, messages, settings,
     inputBuffer, isPendingEdit, editingIndex, isLoading,
-    isSending, isIngesting, stagedFile, processingSteps, activeMode, fetchSessions, fetchMessages,
+    isSending, isIngesting, stagedFile, processingSteps, activeMode, setActiveMode, fetchSessions, fetchMessages,
     createNewSession, deleteSession, renameSession, sendMessage,
     stopResponse, uploadFile, ingestFile, clearStagedFile, syncConflict
   ]);
