@@ -1,0 +1,86 @@
+[
+    {
+        "session_name": "Tra cứu và phân tích Nghị định 105/2014/NĐ-CP về BHYT",
+        "document_id": "105/2014/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Văn bản 105/2014/NĐ-CP là văn bản gì và lĩnh vực điều chỉnh của nó là gì?",
+                "expected_answer": "Văn bản 105/2014/NĐ-CP là Nghị định quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế. Lĩnh vực điều chỉnh chính của văn bản này thuộc nhóm Bảo hiểm và Thể thao - Y tế.",
+                "citation": "Phần mở đầu và tiêu đề văn bản"
+            },
+            {
+                "turn": 2,
+                "query": "Căn cứ pháp lý để ban hành nghị định này là những văn bản nào?",
+                "expected_answer": "Nghị định này được ban hành căn cứ vào Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 và Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014; cùng với đề nghị của Bộ trưởng Bộ Y tế.",
+                "citation": "Phần Căn cứ ban hành"
+            },
+            {
+                "turn": 3,
+                "query": "Nếu tôi là cán bộ làm việc tại Sở Y tế tỉnh A, tôi có trách nhiệm gì liên quan đến việc thực hiện nghị định này không?",
+                "expected_answer": "Theo quy định tại Nghị định này, các bộ, ngành và cơ quan có liên quan (bao gồm cả các cơ quan địa phương như Sở Y tế trong phạm vi chức năng, nhiệm vụ và quyền hạn) có trách nhiệm hướng dẫn thi hành Nghị định này. Do đó, bạn cần phối hợp hướng dẫn và tổ chức thực hiện các quy định của Nghị định trong phạm vi quản lý của mình.",
+                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình... (Khoản 6)"
+            },
+            {
+                "turn": 4,
+                "query": "Trong quá trình hướng dẫn thi hành, nếu phát sinh vấn đề thuộc thẩm quyền của các cơ quan khác, tôi cần lưu ý điều gì về phạm vi trách nhiệm?",
+                "expected_answer": "Bạn cần lưu ý rằng trách nhiệm hướng dẫn thi hành chỉ nằm 'trong phạm vi chức năng, nhiệm vụ và quyền hạn' của cơ quan mình. Các bộ, ngành khác cũng có trách nhiệm tương tự trong phạm vi của họ. Vì vậy, nếu vấn đề vượt ra ngoài thẩm quyền hoặc thuộc lĩnh vực chuyên môn của cơ quan khác, cần phối hợp hoặc chuyển giao cho cơ quan có thẩm quyền phù hợp theo đúng chức năng được quy định.",
+                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình... (Khoản 6)"
+            },
+            {
+                "turn": 5,
+                "query": "Để đảm bảo tính pháp lý khi triển khai, tôi cần xác minh ai là người ký ban hành và văn bản này đã được gửi đến những cơ quan chủ chốt nào để nắm thông tin?",
+                "expected_answer": "Văn bản do Thủ tướng Chính phủ Nguyễn Tấn Dũng ký thay mặt Chính phủ. Văn bản đã được gửi đến các cơ quan chủ chốt bao gồm: Ban Bí thư Trung ương Đảng, Thủ tướng và các Phó Thủ tướng Chính phủ, các Bộ/cơ quan ngang Bộ, HĐND/UBND các tỉnh thành trực thuộc TW, Văn phòng Quốc hội, Tòa án nhân dân tối cao, Viện Kiểm sát nhân dân tối cao, Ngân hàng Chính sách Xã hội, Ngân hàng Phát triển Việt Nam và nhiều cơ quan khác như nêu trong phần Nơi nhận.",
+                "citation": "Phần Nơi nhận và Chữ ký"
+            },
+            {
+                "turn": 6,
+                "query": "Dựa trên thông tin đồ thị, nghị định này có mối quan hệ kế thừa hoặc hướng dẫn cụ thể đối với những văn bản nào trước đó?",
+                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP có quan hệ 'BASED_ON' (căn cứ/về mặt lịch sử liên quan đến) Nghị định 62/2009/NĐ-CP (Hướng dẫn Luật Bảo hiểm y tế) và Nghị quyết 32/2014/QĐ-TTG. Đồng thời, nó có quan hệ 'GUIDES' (hướng dẫn) trực tiếp cho Luật Bảo hiểm y tế và Luật Tổ chức Chính phủ.",
+                "citation": "Thông tin Đồ thị (Mối quan hệ & Thực thể)"
+            }
+        ]
+    },
+    {
+        "session_name": "Tra cứu và phân tích căn cứ pháp lý Nghị định 105/2014/NĐ-CP",
+        "document_id": "105/2014/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Văn bản 105/2014/NĐ-CP là gì và nó hướng dẫn thi hành luật nào?",
+                "expected_answer": "Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế.",
+                "citation": "Phần Nơi nhận và Chữ ký; Điều khoản: QUY ĐỊNH CHI TIẾT VÀ HƯỚNG DẪN THI HÀNH MỘT SỐ ĐIỀU CỦA LUẬT BẢO HIỂM Y TẾ"
+            },
+            {
+                "turn": 2,
+                "query": "Căn cứ để Chính phủ ban hành văn bản này là những luật và nghị định nào?",
+                "expected_answer": "Chính phủ ban hành Nghị định này căn cứ vào Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 và Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014.",
+                "citation": "Điều khoản: QUY ĐỊNH CHI TIẾT VÀ HƯỚNG DẪN THI HÀNH MỘT SỐ ĐIỀU CỦA LUẬT BẢO HIỂM Y TẾ"
+            },
+            {
+                "turn": 3,
+                "query": "Một hộ gia đình làm nông nghiệp có mức sống trung bình muốn tham gia BHYT. Theo nội dung trọng tâm được đề cập trong văn bản, việc lập danh sách cho nhóm đối tượng này được quy định như thế nào?",
+                "expected_answer": "Văn bản có điều khoản hướng dẫn cụ thể về việc 'Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình'. Đây là cơ sở pháp lý để xác định đối tượng thuộc diện đóng BHYT theo quy định.",
+                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình."
+            },
+            {
+                "turn": 4,
+                "query": "Trong quá trình thực hiện hướng dẫn trên, trách nhiệm của các bộ, ngành khác có liên quan là gì?",
+                "expected_answer": "Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này.",
+                "citation": "Nội dung: 6. Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này."
+            },
+            {
+                "turn": 5,
+                "query": "Ai là người ký ban hành Nghị định này và văn bản đã được gửi đến những nơi nào để phối hợp thực hiện?",
+                "expected_answer": "Nghị định do Thủ tướng Chính phủ Nguyễn Tấn Dũng ký thay mặt Chính phủ. Văn bản được gửi đến Ban Bí thư Trung ương Đảng, Thủ tướng và các Phó Thủ tướng, các Bộ, cơ quan ngang Bộ, HĐND, UBND các tỉnh, thành phố trực thuộc Trung ương và nhiều cơ quan nhà nước khác như Tòa án nhân dân tối cao, Viện Kiểm sát nhân dân tối cao...",
+                "citation": "Phần Nơi nhận và Chữ ký"
+            },
+            {
+                "turn": 6,
+                "query": "Dựa trên thông tin đồ thị, Nghị định 105/2014/NĐ-CP có mối quan hệ kế thừa hoặc thay thế nào với các văn bản trước đó?",
+                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP dựa trên (BASED_ON) Nghị định 62/2009/NĐ-CP (Hướng dẫn Luật Bảo hiểm y tế) và có quan hệ sửa đổi/bổ sung (AMENDS) đối với Nghị định 206/CP. Đồng thời, nó hướng dẫn (GUIDES) Luật Bảo hiểm y tế.",
+                "citation": "THÔNG TIN ĐỒ THỊ (Mối quan hệ & Thực thể): Quan hệ văn bản"
+            }
+        ]
+    }
+]

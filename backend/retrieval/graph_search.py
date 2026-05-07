@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 _ENTITY_LABELS = (
     "Organization", "Person", "Location", "Procedure",
     "Condition", "Fee", "Penalty", "Timeframe", "Role",
-    "Concept", "Term", "LegalArticle"
+    "Concept", "Term", "LegalArticle", "Article"
 )
 _LABEL_FILTER = "|".join(_ENTITY_LABELS)
 

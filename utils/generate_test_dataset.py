@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import time
+import argparse
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -12,36 +13,38 @@ from backend.database.neo4j_client import get_neo4j_driver
 from backend.models.llm_factory import chat_completion
 from backend.utils.text_utils import extract_json_from_text
 
-# Cấu hình
-TARGET_DOCS = ["105/2014/NĐ-CP", "105/2016/QH13"]
-OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "tests", "qa_evaluation", "Chatbot_test_2mode_3docs.json")
-os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+# Cấu hình mục tiêu
+TARGET_DOCS = [
+    "105/2014/NĐ-CP", "105/2016/QH13", "42/2025/NĐ-CP", "18/2008/QH12", 
+    "02/2017/TTVPCP","32/2018/TT-BYT", "11/2025/TT-BYT", "77/2015/QH13", 
+    "24/2024/NĐ-CP", "01/2023/TT-VPCP"
+]
 
-CATEGORIES = [
+# Chuyên đề cho chế độ bình thường
+NORMAL_CATEGORIES = [
     "Lớp 1: Siêu dữ liệu & Căn cứ",
     "Lớp 2: Phạm vi & Thời gian",
     "Lớp 3: Nội dung thực chất (Tình huống)",
     "Lớp 4: Logic xử lý xung đột (Ngoại lệ)",
-    "Lớp 6: Liên kết văn bản"
+    "Lớp 5: Liên kết văn bản"
 ]
 
-PROMPT_TEMPLATE = """Bạn là một chuyên gia Pháp lý và Kiểm thử hệ thống RAG (Retrieval-Augmented Generation).
-Nhiệm vụ của bạn là đọc toàn bộ nội dung của văn bản pháp luật dưới đây và tạo ra ĐÚNG 3 câu hỏi ĐÁNH ĐỐ, THỰC TẾ và VÔ CÙNG KHÓ kèm theo câu trả lời (Ground Truth).
+NORMAL_PROMPT_TEMPLATE = """Bạn là một chuyên gia Pháp lý và Kiểm thử hệ thống RAG (Retrieval-Augmented Generation).
+Nhiệm vụ của bạn là đọc toàn bộ nội dung của văn bản pháp luật dưới đây và tạo ra ĐÚNG 5 câu hỏi THỰC TẾ, TRỌNG TÂM và CÓ TÍNH ỨNG DỤNG CAO kèm theo câu trả lời (Ground Truth).
 Yêu cầu bắt buộc đối với câu hỏi:
 - KHÔNG hỏi lý thuyết suông (VD: "Luật này quy định gì?", "Điều kiện là gì?").
 - PHẢI tạo ra các "Case Study" (tình huống thực tế) giống như một người dân hoặc doanh nghiệp đang gặp rắc rối pháp lý đi hỏi luật sư.
-- Ví dụ về format tình huống: "Năm 2023, tôi gửi đơn xin làm chứng chỉ hành nghề dược. Tôi thực hành tại một quầy thuốc có người sở hữu là bằng trung cấp... Đến nay tôi bị từ chối với lý do XYZ. Tôi xin hỏi như vậy có đúng không? Căn cứ theo quy định nào?"
-- Đòi hỏi khả năng kết nối thông tin từ nhiều điều khoản khác nhau (Multi-hop).
+- Ví dụ về format tình huống: "Năm 2025, tôi gửi đơn xin làm chứng chỉ hành nghề dược. Tôi thực hành tại một quầy thuốc có người sở hữu là bằng trung cấp... Đến nay tôi bị từ chối với lý do XYZ. Tôi xin hỏi như vậy có đúng không? Căn cứ theo quy định nào?"
+- Tập trung vào các quy định chính và cách áp dụng thực tế.
 - Xử lý các tình huống ngoại lệ, điều khoản chuyển tiếp, hoặc xung đột luật.
 
 YÊU CẦU VỀ ĐỘ CHÍNH XÁC (CHỐNG ẢO GIÁC - HALLUCINATION):
 - Tuyệt đối KHÔNG BỊA ĐẶT thông tin, điều khoản, hay quy định pháp luật.
 - Mọi câu trả lời và trích dẫn (Điều, Khoản) phải được lấy TRỰC TIẾP và CHÍNH XÁC từ phần nội dung văn bản được cung cấp dưới đây.
-- Nếu ngữ cảnh không có đủ thông tin để tạo tình huống phức tạp cho chuyên đề được yêu cầu, hãy tạo tình huống ở mức độ vừa phải nhưng ĐẢM BẢO CHÍNH XÁC 100%.
 
 LƯU Ý QUAN TRỌNG: 
-TẤT CẢ 3 câu hỏi này phải thuộc chuyên đề: "{category}".
-Hãy tập trung đào sâu vào các khía cạnh khó nhất của chuyên đề này. Khai thác những tình huống hóc búa nhất.
+TẤT CẢ 5 câu hỏi này phải thuộc chuyên đề: "{category}".
+Hãy sử dụng thêm [THÔNG TIN ĐỒ THỊ] bên dưới để tạo các câu hỏi liên kết văn bản hoặc thực thể chính xác.
 
 ĐỊNH DẠNG ĐẦU RA BẮT BUỘC LÀ MỘT DANH SÁCH JSON HỢP LỆ (ARRAY OF OBJECTS):
 [
@@ -56,100 +59,226 @@ Hãy tập trung đào sâu vào các khía cạnh khó nhất của chuyên đ�
 
 Nội dung văn bản {doc_id}:
 ======================================
+[NỘI DUNG VĂN BẢN]:
 {context}
+
+[THÔNG TIN ĐỒ THỊ (Mối quan hệ & Thực thể)]:
+{graph_metadata}
 ======================================
 
-Chỉ trả về danh sách JSON hợp lệ chứa đúng 3 object. Bắt đầu bằng dấu [ và kết thúc bằng dấu ].
+Chỉ trả về danh sách JSON hợp lệ chứa đúng 5 object. Bắt đầu bằng dấu [ và kết thúc bằng dấu ].
 """
 
+LONG_TERM_PROMPT_TEMPLATE = """Bạn là một chuyên gia Pháp lý thiết bộ test cho Chatbot RAG dài hạn.
+Nhiệm vụ: Dựa trên văn bản pháp luật dưới đây, hãy tạo ra 01 "Phiên hội thoại" (Session) gồm 6 lượt hỏi đáp liên tục có tính kế thừa ngữ cảnh cực cao.
+
+Yêu cầu cho từng lượt (Turn):
+- Lượt 1: Câu hỏi tra cứu cơ bản về văn bản {doc_id}.
+- Lượt 2: Câu hỏi kế thừa lượt 1 bằng đại từ thay thế (nó, văn bản này, người đó...), yêu cầu chi tiết hơn về metadata hoặc căn cứ.
+- Lượt 3 (Tình huống thực tế): Tạo ra một tình huống thực tế điển hình, bám sát nội dung trọng tâm của văn bản để giải quyết.
+- Lượt 4 (Đào sâu nội dung): Hỏi sâu vào các chi tiết quan trọng hoặc điều kiện áp dụng phát sinh từ tình huống ở lượt 3. Tránh các câu hỏi quá đánh đố vô lý.
+- Lượt 5 (Thủ tục & Hồ sơ): Hỏi về quy trình thực hiện, các bước hoặc giấy tờ cần thiết liên quan đến tình huống trên.
+- Lượt 6 (Nâng cao): Hỏi về tính kế thừa, quy định chuyển tiếp hoặc mối quan hệ với các văn bản khác (Dựa trên thông tin Đồ thị).
+
+YÊU CẦU VỀ ĐỘ CHÍNH XÁC (CHỐNG ẢO GIÁC):
+- Tuyệt đối KHÔNG BỊA ĐẶT. Câu trả lời và trích dẫn phải lấy TRỰC TIẾP từ văn bản.
+- Đảm bảo tính logic xuyên suốt cả 6 lượt hỏi đáp.
+
+ĐỊNH DẠNG ĐẦU RA BẮT BUỘC LÀ MỘT DANH SÁCH JSON CHỨA 1 OBJECT (Session):
+[
+  {{
+    "session_name": "Tên mô tả phiên (ví dụ: Xử lý tình huống vi phạm dược...)",
+    "document_id": "{doc_id}",
+    "turns": [
+      {{
+        "turn": 1,
+        "query": "Câu hỏi lượt 1...",
+        "expected_answer": "Câu trả lời mẫu...",
+        "citation": "Điều... Khoản..."
+      }},
+      ... (đủ 6 lượt)
+    ]
+  }}
+]
+
+Nội dung văn bản {doc_id}:
+======================================
+[NỘI DUNG VĂN BẢN]:
+{context}
+
+[THÔNG TIN ĐỒ THỊ (Mối quan hệ & Thực thể)]:
+{graph_metadata}
+======================================
+
+Chỉ trả về danh sách JSON hợp lệ. Bắt đầu bằng dấu [ và kết thúc bằng dấu ].
+"""
+
+def generate_normal(driver, output_file):
+    all_qa_pairs = []
+    if os.path.exists(output_file):
+        try:
+            with open(output_file, "r", encoding="utf-8") as f:
+                all_qa_pairs = json.load(f)
+        except: pass
+
+    new_count = 0
+    for doc_id in TARGET_DOCS:
+        print(f"\n--- NORMAL MODE: Processing {doc_id} ---")
+        doc_data = get_doc_data_from_db(driver, doc_id)
+        if not doc_data: continue
+
+        context = doc_data["context"]
+        graph_metadata = doc_data["graph_metadata"]
+
+        for category in NORMAL_CATEGORIES:
+            print(f"   >>> Category: {category}")
+            prompt = NORMAL_PROMPT_TEMPLATE.format(doc_id=doc_id, context=context, graph_metadata=graph_metadata, category=category)
+            response = chat_completion([{"role": "user", "content": prompt}], temperature=0.3)
+            json_str = extract_json_from_text(response)
+            if json_str:
+                try:
+                    data = json.loads(json_str)
+                    qa_list = data if isinstance(data, list) else [data]
+                    all_qa_pairs.extend(qa_list)
+                    new_count += len(qa_list)
+                except:
+                    print("   ❌ Lỗi parse JSON.")
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(all_qa_pairs, f, ensure_ascii=False, indent=4)
+    print(f"✅ Đã tạo {new_count} câu hỏi normal vào {output_file}")
+
+def generate_long_term(driver, output_file):
+    all_sessions = []
+    if os.path.exists(output_file):
+        try:
+            with open(output_file, "r", encoding="utf-8") as f:
+                all_sessions = json.load(f)
+        except: pass
+
+    new_count = 0
+    for doc_id in TARGET_DOCS:
+        print(f"\n--- LONG_TERM MODE: Processing {doc_id} (Target: 2 sessions) ---")
+        doc_data = get_doc_data_from_db(driver, doc_id)
+        if not doc_data: continue
+
+        context = doc_data["context"]
+        graph_metadata = doc_data["graph_metadata"]
+
+        for i in range(2):
+            print(f"   🧠 Đang gọi LLM để tạo Session {i+1}/2 cho {doc_id} (Vui lòng đợi)...")
+            prompt = LONG_TERM_PROMPT_TEMPLATE.format(doc_id=doc_id, context=context, graph_metadata=graph_metadata)
+            response = chat_completion([{"role": "user", "content": prompt}], temperature=0.6)
+            json_str = extract_json_from_text(response)
+            if json_str:
+                try:
+                    data = json.loads(json_str)
+                    sessions = data if isinstance(data, list) else [data]
+                    all_sessions.extend(sessions)
+                    new_count += len(sessions)
+                    print(f"   ✅ Đã xong 1 session ({len(sessions[0]['turns'])} lượt).")
+                    
+                    # Lưu ngay lập tức để bảo toàn dữ liệu
+                    with open(output_file, "w", encoding="utf-8") as f:
+                        json.dump(all_sessions, f, ensure_ascii=False, indent=4)
+                except Exception as e:
+                    print(f"   ❌ Lỗi xử lý hoặc lưu JSON: {e}")
+            time.sleep(1) # Tránh rate limit nếu có
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(all_sessions, f, ensure_ascii=False, indent=4)
+    print(f"✅ Tổng cộng đã tạo {new_count} phiên multi-turn vào {output_file}")
+    
+    # Xuất file text để copy cho ChatGPT
+    export_path = output_file.replace(".json", "_for_chatgpt.txt")
+    export_to_chatgpt_txt(all_sessions, export_path)
+
+def export_to_chatgpt_txt(sessions, export_path):
+    with open(export_path, "w", encoding="utf-8") as f:
+        f.write("=== BỘ CÂU HỎI TEST MULTI-TURN CHO CHATGPT ===\n")
+        f.write("Hướng dẫn: Copy từng lượt hỏi dưới đây vào ChatGPT trong cùng một phiên chat.\n\n")
+        for i, sess in enumerate(sessions):
+            f.write(f"SESSION {i+1}: {sess['session_name']} (Văn bản: {sess['document_id']})\n")
+            f.write("="*50 + "\n")
+            for turn in sess['turns']:
+                f.write(f"Lượt {turn['turn']}: {turn['query']}\n")
+            f.write("\n" + "-"*50 + "\n\n")
+    print(f"👉 Đã xuất file câu hỏi cho ChatGPT tại: {export_path}")
+
+def get_doc_data_from_db(driver, doc_id):
+    try:
+        with driver.session() as session:
+            # 1. Lấy nội dung text
+            chunk_query = """
+            MATCH (d:Document {document_number: $doc})
+            MATCH (c:Chunk) WHERE c.id STARTS WITH d.id + '::'
+            RETURN c.text AS text ORDER BY c.id
+            """
+            chunk_res = session.run(chunk_query, doc=doc_id)
+            chunks = [r['text'] for r in chunk_res]
+            if not chunks: 
+                print(f"⚠️ Không tìm thấy context cho {doc_id}")
+                return None
+            
+            # 2. Lấy thông tin quan hệ văn bản (Graph Metadata)
+            rel_query = """
+            MATCH (d:Document {document_number: $doc})
+            OPTIONAL MATCH (d)-[r]->(other:Document)
+            WHERE type(r) IN ['AMENDS','REPLACES','BASED_ON','GUIDES','APPLIES','ISSUED_WITH']
+            RETURN type(r) AS rel_type, other.document_number AS target_doc, other.title AS target_title
+            """
+            rel_res = session.run(rel_query, doc=doc_id)
+            rels = []
+            for r in rel_res:
+                if r['target_doc']:
+                    rels.append(f"- {r['rel_type']}: {r['target_doc']} ({r['target_title']})")
+            
+            # 3. Lấy thực thể tiêu biểu
+            ent_query = """
+            MATCH (d:Document {document_number: $doc})
+            MATCH (d)<-[:PART_OF]-(section)
+            MATCH (section)<-[:PART_OF|BELONGS_TO*0..1]-(c:Chunk)
+            MATCH (c)-[:HAS_ENTITY]->(e)
+            WHERE NOT labels(e)[0] IN ['Chunk', 'Document', 'LegalArticle', 'Article', 'Clause']
+            RETURN labels(e)[0] AS type, e.name AS name, count(c) AS weight
+            ORDER BY weight DESC LIMIT 15
+            """
+            ent_res = session.run(ent_query, doc=doc_id)
+            entities = []
+            for e in ent_res:
+                entities.append(f"- {e['type']}: {e['name']} (Liên kết {e['weight']} đoạn)")
+
+        context = "\n".join(chunks)
+        graph_info = "Quan hệ văn bản:\n" + ("\n".join(rels) if rels else "Không có")
+        graph_info += "\n\nThực thể chính:\n" + ("\n".join(entities) if entities else "Không có")
+        
+        return {
+            "context": context[:40000] if len(context) > 40000 else context,
+            "graph_metadata": graph_info
+        }
+    except Exception as e:
+        print(f"❌ Lỗi truy vấn DB cho {doc_id}: {e}")
+        return None
+
 def main():
+    parser = argparse.ArgumentParser(description="Tạo bộ test QA cho Legal-RAG")
+    parser.add_argument("--mode", choices=["normal", "long_term"], default="normal", help="Chế độ: normal hoặc long_term")
+    args = parser.parse_args()
+
     print(f"🔄 Đang kết nối Neo4j...")
     driver = get_neo4j_driver()
     if not driver:
-        print("❌ Lỗi: Không có kết nối Neo4j.")
-        sys.exit(1)
-        
-    # Đọc dữ liệu JSON hiện có để append
-    all_qa_pairs = []
-    if os.path.exists(OUTPUT_FILE):
-        try:
-            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-                content = f.read().strip()
-                if content:
-                    all_qa_pairs = json.loads(content)
-                    print(f"📥 Đã tải {len(all_qa_pairs)} câu hỏi có sẵn từ file JSON.")
-        except Exception as e:
-            print(f"⚠️ Lỗi đọc file JSON cũ: {e}. Sẽ tạo danh sách mới.")
-    
-    new_qa_count = 0
-    
-    for doc_id in TARGET_DOCS:
-        print(f"\n--- Đang trích xuất nội dung văn bản {doc_id} ---")
-        try:
-            with driver.session() as session:
-                query = """
-                MATCH (d:Document {document_number: $doc})
-                MATCH (c:Chunk) WHERE c.id STARTS WITH d.id + '::'
-                RETURN c.text AS text ORDER BY c.id
-                """
-                res = session.run(query, doc=doc_id)
-                chunks = [r['text'] for r in res]
-                
-            if not chunks:
-                print(f"⚠️ Không tìm thấy chunk nào cho {doc_id}.")
-                continue
-                
-            print(f"✅ Đã tải {len(chunks)} chunks. Ghép lại thành context...")
-            context = "\n".join(chunks)
-            if len(context) > 60000:
-                context = context[:60000] + "\n...[TRUNCATED]"
-                
-            # Duyệt qua từng chuyên đề
-            for category in CATEGORIES:
-                print(f"\n   >>> Chuyên đề: {category}")
-                # Mỗi chuyên đề chạy 2 đợt, mỗi đợt 5 câu
-                for batch in range(1, 3):
-                    print(f"   🧠 Đang gọi LLM (Đợt {batch}/2) cho {doc_id}...")
-                    prompt = PROMPT_TEMPLATE.format(doc_id=doc_id, context=context, category=category)
-                    
-                    # Call LLM: Giảm nhiệt độ xuống 0.3 để bám sát thực tế, chống ảo giác
-                    start_time = time.time()
-                    response = chat_completion([{"role": "user", "content": prompt}], temperature=0.3) 
-                    print(f"   ⏱️ LLM hoàn thành sau {time.time() - start_time:.1f}s")
-                    
-                    # Extract JSON
-                    json_str = extract_json_from_text(response)
-                    if not json_str:
-                        print(f"   ❌ Lỗi: LLM không trả về JSON hợp lệ.")
-                        continue
-                        
-                    qa_list = json.loads(json_str)
-                    # Sửa lỗi LLM trả về object thay vì array
-                    if isinstance(qa_list, dict):
-                        if "question" in qa_list:
-                            qa_list = [qa_list]
-                        else:
-                            # Nếu dict có chứa 1 key bao bên ngoài list, ví dụ {"questions": [...]}
-                            possible_list = list(qa_list.values())[0] if qa_list else []
-                            qa_list = possible_list if isinstance(possible_list, list) else [qa_list]
-                    
-                    if not isinstance(qa_list, list):
-                        qa_list = []
-                        
-                    print(f"   ✅ Đã tạo thành công {len(qa_list)} câu hỏi.")
-                    
-                    all_qa_pairs.extend(qa_list)
-                    new_qa_count += len(qa_list)
-            
-        except Exception as e:
-            print(f"❌ Lỗi khi xử lý {doc_id}: {e}")
+        print("❌ Kết nối Neo4j thất bại.")
+        return
 
-    if new_qa_count > 0:
-        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            json.dump(all_qa_pairs, f, ensure_ascii=False, indent=4)
-        print(f"\n🎉 ĐÃ APPEND THÀNH CÔNG {new_qa_count} CÂU HỎI MỚI. TỔNG SỐ CÂU HỎI TRONG FILE: {len(all_qa_pairs)}")
+    if args.mode == "normal":
+        output = os.path.join(os.path.dirname(__file__), "..", "tests", "qa_evaluation", "Chatbot_test_normal.json")
+        os.makedirs(os.path.dirname(output), exist_ok=True)
+        generate_normal(driver, output)
     else:
-        print("\n⚠️ Không có câu hỏi mới nào được tạo.")
+        output = os.path.join(os.path.dirname(__file__), "..", "tests", "long_term_evaluation", "long_term_test_data.json")
+        os.makedirs(os.path.dirname(output), exist_ok=True)
+        generate_long_term(driver, output)
 
 if __name__ == "__main__":
     main()

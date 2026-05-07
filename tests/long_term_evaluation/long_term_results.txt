@@ -1,0 +1,93 @@
+STARTING TEST: LONG-TERM CONTEXT EVALUATION (MULTI-TURN)
+======================================================================
+Logging to: D:\iCOMM\Legal-RAG\tests\long_term_evaluation\long_term_results.txt
+Failures logged to: D:\iCOMM\Legal-RAG\tests\long_term_evaluation\long_term_false_result.txt
+
+🎬 [SESSION 1/18] Tra cứu và phân tích Nghị định 105/2014/NĐ-CP về BHYT (Document: 105/2014/NĐ-CP)
+----------------------------------------------------------------------
+
+🔹 [Turn 1] Query: Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP: tên đầy đủ, lĩnh vực điều chỉnh và mục đích ban hành chính của văn bản này là gì?
+       🎯 [SuperRouter] Intent: LEGAL_CHAT
+       🧠 [Understand] Prepared Query: 'Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP: tên đầy đủ, lĩnh vực điều chỉnh và m...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Thương mại'}
+       ✅ [Reranker] Đã re-score thành công 17 candidates trong 0.25s
+       🔍 [Retrieve] Phase0_Graph: 0 boost_ids, 0 doc_hints | Phase1_Hybrid: 17 hits
+       🎯 [Unified Rerank] Picked top 10 from 17 candidates (Upload: 0, DB: 5)
+       ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 17 refs
+       📌 [Generate] Cited 2/17 references
+   [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
+   [Rewrite]: Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP: tên đầy đủ, lĩnh vực điều chỉnh và mục đích ban hành chính của văn bản này là gì?
+   [Answer]: Căn cứ vào các đoạn trích từ Nghị định 105/2014/NĐ-CP trong ngữ cảnh cung cấp, thông tin cơ bản về văn bản này như sau:
+
+*   **Tên đầy đủ:** Nghị định 105/2014/NĐ-CP quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế.
+*   **Lĩ...
+   [JUDGE]: ✅ ĐẠT: RAG cung cấp đầy đủ và chính xác các thông tin cốt lõi (tên đầy đủ, lĩnh vực điều chỉnh, mục đích ban hành) khớp với câu trả lời mẫu, đồng thời diễn đạt rõ ràng, đúng bản chất pháp lý của Nghị định 105/2014/NĐ-CP.
+   ⏱️ [Time]: 48.04s
+----------------------------------------
+
+🔹 [Turn 2] Query: Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các luật và nghị định làm nền tảng cho việc ban hành nó.
+       🎯 [SuperRouter] Intent: LEGAL_CHAT
+       🧠 [Understand] Prepared Query: 'Nghị định 105/2014/NĐ-CP về xử phạt vi phạm hành chính trong lĩnh vực thương mại, giá và cạnh tranh ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Thương mại'}
+       ✅ [Reranker] Đã re-score thành công 17 candidates trong 0.22s
+       🔍 [Retrieve] Phase0_Graph: 0 boost_ids, 0 doc_hints | Phase1_Hybrid: 17 hits
+       🎯 [Unified Rerank] Picked top 10 from 17 candidates (Upload: 0, DB: 5)
+       ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 17 refs
+       📌 [Generate] Cited 2/17 references
+   [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
+   [Rewrite]: Nghị định 105/2014/NĐ-CP về xử phạt vi phạm hành chính trong lĩnh vực thương mại, giá và cạnh tranh được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các Luật và Nghị định làm cơ sở pháp lý trực tiếp cho việc ban hành Nghị định 105/2014/NĐ-CP.
+   [Answer]: Dựa trên ngữ cảnh hiện tại, không thấy quy định về vấn đề này, cần đối chiếu thêm.
+
+**Giải thích:**
+Trong `CONTEXT` cung cấp, Nghị định 105/2014/NĐ-CP được xác định là văn bản **"hướng dẫn Luật Bảo hiểm y tế"** (xem `<can_cu id="4">`, `<can_cu id="7"...
+   [JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời "không thấy quy định" trong khi Câu trả lời mẫu có thông tin chính xác, vi phạm tiêu chí đánh giá về việc báo không tìm thấy thông tin khi dữ liệu thực tế tồn tại.
+   ⏱️ [Time]: 46.84s
+----------------------------------------
+
+🔹 [Turn 3] Query: Tôi là cán bộ BHXH tỉnh. Hiện tại, tôi đang xử lý hồ sơ tham gia BHYT cho một hộ gia đình làm nông nghiệp có mức sống trung bình. Trong quá trình lập danh sách người thuộc nhóm đối tượng này, nếu có sự không thống nhất giữa UBND xã và Phòng LĐ-TB&HXH về việc xác định 'mức sống trung bình', thì trách nhiệm giải quyết tranh chấp hoặc hướng dẫn thi hành nằm ở đâu theo tinh thần của Nghị định này?
+       🎯 [SuperRouter] Intent: LEGAL_CHAT
+       🧠 [Understand] Prepared Query: 'Theo Nghị định 105/2014/NĐ-CP quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Bảo hiểm - Y tế'}
+       ✅ [Reranker] Đã re-score thành công 15 candidates trong 0.22s
+       🔍 [Retrieve] Phase0_Graph: 0 boost_ids, 0 doc_hints | Phase1_Hybrid: 15 hits
+       🎯 [Unified Rerank] Picked top 10 from 15 candidates (Upload: 0, DB: 5)
+       ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 15 refs
+       📌 [Generate] Cited 4/15 references
+   [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
+   [Rewrite]: Theo Nghị định 105/2014/NĐ-CP quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế, khi có sự không thống nhất giữa Ủy ban nhân dân xã và Phòng Lao động - Thương binh và Xã hội về việc xác định 'mức sống trung bình' đối với hộ gia đình làm nông nghiệp để lập danh sách tham gia bảo hiểm y tế, thì trách nhiệm giải quyết tranh chấp hoặc hướng dẫn thi hành thuộc thẩm quyền của cơ quan nào?
+   [Answer]: Dựa trên ngữ cảnh hiện tại, không thấy quy định về vấn đề này, cần đối chiếu thêm.
+
+**Giải thích chi tiết:**
+Trong các đoạn trích của Nghị định 105/2014/NĐ-CP được cung cấp trong `CONTEXT`, chỉ quy định chung về trách nhiệm của các bộ, ngành và địa p...
+   [JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời "không thấy quy định" trong khi Câu trả lời mẫu đã trích xuất được căn cứ pháp lý cụ thể (Khoản 6 về trách nhiệm hướng dẫn thi hành của các bộ, ngành) để giải quyết vướng mắc, dẫn đến việc RAG bỏ sót thông tin quan trọng có sẵn trong ngữ cảnh.
+   ⏱️ [Time]: 51.24s
+----------------------------------------
+
+🔹 [Turn 4] Query: Trong tình huống trên, giả sử UBND xã đã lập danh sách nhưng chưa được sự phê duyệt của cấp trên, và họ viện dẫn rằng Nghị định 105/2014/NĐ-CP không quy định rõ thủ tục phê duyệt cụ thể cho từng trường hợp ngoại lệ. Liệu Nghị định này có quy định rõ thẩm quyền phê duyệt hay chỉ dừng lại ở việc phân công trách nhiệm hướng dẫn thi hành cho các bộ ngành?
+       🎯 [SuperRouter] Intent: LEGAL_CHAT
+       🧠 [Understand] Prepared Query: 'Nghị định 105/2014/NĐ-CP quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế ...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Bảo hiểm - Y tế'}
+       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.21s
+       🔍 [Retrieve] Phase0_Graph: 109 boost_ids, 18 doc_hints | Phase1_Hybrid: 14 hits
+       📌 [Graph Doc Fetch] Strategy=NEO4J: Added 10 chunks
+       🎯 [Unified Rerank] Picked top 10 from 24 candidates (Upload: 0, DB: 5)
+       ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 24 refs
+       📌 [Generate] Cited 5/24 references
+   [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
+   [Rewrite]: Nghị định 105/2014/NĐ-CP quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế có quy định rõ thẩm quyền phê duyệt danh sách người tham gia bảo hiểm y tế đối với hộ gia đình làm nông nghiệp có mức sống trung bình không? Hay văn bản này chỉ phân công trách nhiệm hướng dẫn thi hành cho các bộ, ngành mà không quy định thủ tục phê duyệt cụ thể cho từng trường hợp ngoại lệ?
+   [Answer]: Căn cứ Điều 13 và Điều 14 của Nghị định 105/2014/NĐ-CP, văn bản này không quy định cụ thể thẩm quyền phê duyệt danh sách người tham gia bảo hiểm y tế đối với hộ gia đình làm nông nghiệp có mức sống trung bình, mà chỉ phân công trách nhiệm hướng dẫn t...
+   [JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời mâu thuẫn nội tại (vừa khẳng định không quy định thẩm quyền phê duyệt, vừa kết luận "không thấy quy định về vấn đề này, cần đối chiếu thêm") và thiếu tính quyết đoán so với Câu trả lời mẫu đã phân tích rõ ràng việc văn bản chỉ phân công trách nhiệm hướng dẫn mà không nêu chi tiết quy trình phê duyệt.
+   ⏱️ [Time]: 48.08s
+----------------------------------------
+
+🔹 [Turn 5] Query: Để đảm bảo tính hợp pháp khi thực hiện nhiệm vụ hướng dẫn thi hành Nghị định này tại địa phương, cơ quan BHXH cần phối hợp với những cơ quan nào được liệt kê trong phần Nơi nhận của Nghị định để đồng bộ hóa thông tin về đối tượng tham gia BHYT?
+       🎯 [SuperRouter] Intent: LEGAL_CHAT
+       🧠 [Understand] Prepared Query: 'Theo Nghị định 105/2014/NĐ-CP hướng dẫn Luật Bảo hiểm y tế, cơ quan Bảo hiểm xã hội cần phối hợp với...'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Bảo hiểm - Y tế'}
+       ✅ [Reranker] Đã re-score thành công 16 candidates trong 0.26s
+   [Intent]: Target: LEGAL_CHAT | Detected: Unknown -> ❌ SAI
+   [Rewrite]: Để đảm bảo tính hợp pháp khi thực hiện nhiệm vụ hướng dẫn thi hành Nghị định này tại địa phương, cơ quan BHXH cần phối hợp với những cơ quan nào được liệt kê trong phần Nơi nhận của Nghị định để đồng bộ hóa thông tin về đối tượng tham gia BHYT?
+   [Answer]: [No Answer Generated]...
+       🔍 [Retrieve] Phase0_Graph: 109 boost_ids, 18 doc_hints | Phase1_Hybrid: 16 hits
+       📌 [Graph Doc Fetch] Strategy=NEO4J: Added 10 chunks
+       🎯 [Unified Rerank] Picked top 10 from 26 candidates (Upload: 0, DB: 5)

@@ -35,24 +35,24 @@ def fetch_siblings_from_graph(missing_docs: List[str]) -> Dict[str, Any]:
     if not driver:
         return {"sibling_chunks": [], "sibling_texts": [], "metadata": {}}
     
-    # Query Neo4j: Lấy ALL chunks từ missing_docs (document hierarchy)
-    # Lấy không chỉ chunk, mà cả article/clause context để có đầy đủ ngữ cảnh
+    # Query Neo4j: Lấy ALL chunks từ missing_docs (Bao quát mọi cấu trúc)
     query = """
     UNWIND $doc_numbers AS doc_num
     MATCH (d:Document {document_number: doc_num})
-    OPTIONAL MATCH (art:LegalArticle)-[:BELONGS_TO]->(d)
-    OPTIONAL MATCH (c:Chunk)-[:BELONGS_TO|PART_OF*1..2]->(art)
+    // Lấy chunks qua Article/Clause hoặc trực tiếp
+    OPTIONAL MATCH (d)<-[:BELONGS_TO|PART_OF*1..3]-(c:Chunk)
     WHERE c.qdrant_id IS NOT NULL
+    OPTIONAL MATCH (c)-[:BELONGS_TO|PART_OF*1..2]->(art:LegalArticle|Article)
     RETURN DISTINCT
         d.document_number AS doc_number,
         d.title AS doc_title,
         d.document_toc AS doc_toc,
-        art.name AS article_ref,
+        coalesce(art.name, c.article_ref, "Nội dung") AS article_ref,
         c.qdrant_id AS chunk_id,
         c.text AS chunk_text,
         c.chunk_index AS chunk_index
-    ORDER BY d.document_number, art.name, c.chunk_index
-    LIMIT 100
+    ORDER BY d.document_number, article_ref, c.chunk_index
+    LIMIT 150
     """
     
     sibling_chunks = []

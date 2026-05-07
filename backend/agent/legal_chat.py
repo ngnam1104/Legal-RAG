@@ -89,7 +89,7 @@ class LegalChatStrategy(BaseRAGStrategy):
 
             file_analysis = sample_text[:200]
 
-        print(f"       🧠 [Understand] Prepared Query: '{hypothetical[:100]}...'")
+        print(f"       🧠 [Understand] Prepared Query: '{hypothetical}'")
         if filters:
             print(f"       🧠 [Understand] Extracted Filters: {filters}")
 
@@ -448,19 +448,19 @@ class LegalChatStrategy(BaseRAGStrategy):
             
             top_k = state.get("top_k") or int(os.environ.get("MAX_RETRIEVAL_HITS", 20))
 
-            # Cypher: lấy node + parent metadata (Dùng $id là tham số mặc định của QdrantNeo4jRetriever)
+            # Cypher: lấy node + parent metadata
+            # Lưu ý: $id là tham số mặc định được neo4j-graphrag truyền vào từ Qdrant result
             retrieval_query = """
             MATCH (node) 
-            WHERE node.qdrant_id = $id
-            OPTIONAL MATCH (node)-[:BELONGS_TO|PART_OF*1..2]->(parent)
-            OPTIONAL MATCH (node)-[:BELONGS_TO]->(doc:Document)
+            WHERE node.qdrant_id = $id OR node.id = $id
+            OPTIONAL MATCH (node)-[:BELONGS_TO|PART_OF*1..2]->(parent:Document)
             RETURN node {
                 .*,
-                parent_title:           coalesce(parent.title, doc.title),
-                parent_doc_number:      coalesce(parent.document_number, doc.document_number),
-                parent_url:             coalesce(parent.url, doc.url),
-                doc_effective_date:     doc.effective_date,
-                doc_issuing_authority:  doc.issuing_authority
+                parent_title:           parent.title,
+                parent_doc_number:      parent.document_number,
+                parent_url:             parent.url,
+                doc_effective_date:     parent.effective_date,
+                doc_issuing_authority:  parent.issuing_authority
             } AS metadata
             """
 
@@ -518,7 +518,9 @@ class LegalChatStrategy(BaseRAGStrategy):
             return hits, entity_ids
 
         except Exception as e:
+            import traceback
             logger.warning(f"QdrantNeo4jRetriever enrichment skipped: {e}")
+            # logger.debug(traceback.format_exc())
             return [], []
 
 
