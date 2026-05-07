@@ -662,8 +662,8 @@ class HybridRetriever:
         # Ta sẽ tự động "mở rộng lưới" và lấy thêm NHIỀU kết quả chung (không filter doc_number/legal_type) để Reranker ưu tiên.
         if doc_number or legal_type:
             extra_hits = self.broad_retrieve(
-                query, top_k=40,
-                main_limit=30,
+                query, top_k=30,
+                main_limit=20,
                 appendix_limit=10,
                 is_appendix=is_appendix, legal_type=None,
                 doc_number=None, include_inactive=include_inactive,
