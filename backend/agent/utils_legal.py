@@ -334,9 +334,10 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     doc_rel_query = """
     UNWIND $ids AS cid
     OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
-    WITH cid, coalesce(c1, c2, c3) AS c
+    OPTIONAL MATCH (c2:Chunk {id: cid})
+    OPTIONAL MATCH (c3:Clause {id: cid})
+    OPTIONAL MATCH (c4:LegalArticle {id: cid})
+    WITH cid, coalesce(c1, c2, c3, c4) AS c
     WHERE c IS NOT NULL
     // Lấy quan hệ thuộc về Document node cha
     OPTIONAL MATCH (c)-[:BELONGS_TO|PART_OF*1..3]->(doc:Document)
@@ -361,9 +362,10 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     entity_query = """
     UNWIND $ids AS cid
     OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
-    WITH cid, coalesce(c1, c2, c3) AS c
+    OPTIONAL MATCH (c2:Chunk {id: cid})
+    OPTIONAL MATCH (c3:Clause {id: cid})
+    OPTIONAL MATCH (c4:LegalArticle {id: cid})
+    WITH cid, coalesce(c1, c2, c3, c4) AS c
     WHERE c IS NOT NULL
     OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
     WHERE e.name IS NOT NULL
@@ -377,9 +379,10 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     node_rel_query = """
     UNWIND $ids AS cid
     OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
-    WITH cid, coalesce(c1, c2, c3) AS c
+    OPTIONAL MATCH (c2:Chunk {id: cid})
+    OPTIONAL MATCH (c3:Clause {id: cid})
+    OPTIONAL MATCH (c4:LegalArticle {id: cid})
+    WITH cid, coalesce(c1, c2, c3, c4) AS c
     WHERE c IS NOT NULL
     OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)
     OPTIONAL MATCH (src_ent)-[nr]->(tgt)
@@ -401,9 +404,10 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     sibling_query = """
     UNWIND $ids AS cid
     OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
-    WITH cid, coalesce(c1, c2, c3) AS c
+    OPTIONAL MATCH (c2:Chunk {id: cid})
+    OPTIONAL MATCH (c3:Clause {id: cid})
+    OPTIONAL MATCH (c4:LegalArticle {id: cid})
+    WITH cid, coalesce(c1, c2, c3, c4) AS c
     WHERE c IS NOT NULL
     MATCH (c)-[:HAS_ENTITY]->(e)
     WHERE labels(e)[0] IN ['Procedure', 'Term', 'Condition'] AND e.name IS NOT NULL

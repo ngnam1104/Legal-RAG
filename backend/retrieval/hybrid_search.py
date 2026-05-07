@@ -864,9 +864,10 @@ class HybridRetriever:
         doc_rel_query = """
         UNWIND $chunk_ids AS cid
         OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-        OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-        OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
-        WITH cid, coalesce(c1, c2, c3) AS c
+        OPTIONAL MATCH (c2:Chunk {id: cid})
+        OPTIONAL MATCH (c3:Clause {id: cid})
+        OPTIONAL MATCH (c4:LegalArticle {id: cid})
+        WITH cid, coalesce(c1, c2, c3, c4) AS c
         WHERE c IS NOT NULL
         OPTIONAL MATCH (c)-[:BELONGS_TO|PART_OF*1..3]->(doc:Document)
         OPTIONAL MATCH (doc)-[dr]->(other_doc:Document)
@@ -884,9 +885,10 @@ class HybridRetriever:
         entity_query = """
         UNWIND $chunk_ids AS cid
         OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-        OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-        OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
-        WITH cid, coalesce(c1, c2, c3) AS c
+        OPTIONAL MATCH (c2:Chunk {id: cid})
+        OPTIONAL MATCH (c3:Clause {id: cid})
+        OPTIONAL MATCH (c4:LegalArticle {id: cid})
+        WITH cid, coalesce(c1, c2, c3, c4) AS c
         WHERE c IS NOT NULL
         OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
         WHERE e.name IS NOT NULL
@@ -898,9 +900,10 @@ class HybridRetriever:
         node_rel_query = """
         UNWIND $chunk_ids AS cid
         OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-        OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-        OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
-        WITH cid, coalesce(c1, c2, c3) AS c
+        OPTIONAL MATCH (c2:Chunk {id: cid})
+        OPTIONAL MATCH (c3:Clause {id: cid})
+        OPTIONAL MATCH (c4:LegalArticle {id: cid})
+        WITH cid, coalesce(c1, c2, c3, c4) AS c
         WHERE c IS NOT NULL
         OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)-[nr]->(tgt)
         WHERE nr IS NOT NULL AND NOT type(nr) IN ['HAS_ENTITY']
