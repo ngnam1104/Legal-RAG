@@ -915,22 +915,28 @@ from backend.config import _ENTITY_LABELS
 
 _MARK_ENRICHED_QUERY = """
 UNWIND $ids AS chunk_id
-MATCH (c)
-WHERE (c:Chunk OR c:Clause OR c:LegalArticle OR c:Article)
-  AND (c.qdrant_id = chunk_id OR c.id = chunk_id)
+OPTIONAL MATCH (c1:Chunk) WHERE c1.qdrant_id = chunk_id
+OPTIONAL MATCH (c2:Chunk) WHERE c2.id = chunk_id
+OPTIONAL MATCH (cl1:Clause) WHERE cl1.qdrant_id = chunk_id
+OPTIONAL MATCH (cl2:Clause) WHERE cl2.id = chunk_id
+OPTIONAL MATCH (la1:LegalArticle) WHERE la1.qdrant_id = chunk_id
+OPTIONAL MATCH (la2:LegalArticle) WHERE la2.id = chunk_id
+OPTIONAL MATCH (a1:Article) WHERE a1.qdrant_id = chunk_id
+OPTIONAL MATCH (a2:Article) WHERE a2.id = chunk_id
+WITH coalesce(c1, c2, cl1, cl2, la1, la2, a1, a2) AS c
+WHERE c IS NOT NULL
 SET c.enriched_v2 = true
 """
 
 _ENRICH_ENTITY_QUERY = """
 UNWIND $items AS item
-// Tìm node lá theo qdrant_id (phải chỉ định rõ Label để Neo4j dùng Index)
-MATCH (leaf)
-WHERE (leaf:Chunk OR leaf:Clause OR leaf:LegalArticle OR leaf:Article) 
-  AND leaf.qdrant_id = item.qdrant_id
-WITH leaf, item
-// Upsert từng entity node theo label + name
+OPTIONAL MATCH (c:Chunk {qdrant_id: item.qdrant_id})
+OPTIONAL MATCH (cl:Clause {qdrant_id: item.qdrant_id})
+OPTIONAL MATCH (la:LegalArticle {qdrant_id: item.qdrant_id})
+OPTIONAL MATCH (a:Article {qdrant_id: item.qdrant_id})
+WITH item, coalesce(c, cl, la, a) AS leaf
+WHERE leaf IS NOT NULL
 CALL apoc.merge.node([item.label], {name: item.name}) YIELD node AS ent
-// Tạo cạnh HAS_ENTITY nếu chưa tồn tại
 MERGE (leaf)-[:HAS_ENTITY]->(ent)
 """
 
