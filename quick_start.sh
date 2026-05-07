@@ -15,6 +15,7 @@ for arg in "$@"; do
     case $arg in 
         --mode=*) MODE="${arg#*=}" ;;
         --tmux) USE_TMUX=true ;;
+        --log-only) USE_TMUX=false ;;
     esac
 done
 
@@ -91,48 +92,68 @@ else
     # --- 6. Start services ---
     echo -e "\n${CYAN}[6] Khoi dong Backend & Frontend...${NC}"
     
+    mkdir -p logs
+    LOG_BACKEND="logs/backend.log"
+    LOG_FRONTEND="logs/frontend.log"
+
+    # Function to check backend health
+    check_backend() {
+        echo -e "${YELLOW}Dang kiem tra Backend health (http://localhost:8005/health)...${NC}"
+        for i in {1..30}; do
+            if curl -s http://localhost:8005/health | grep -q "status"; then
+                echo -e "${GREEN}Backend da san sang!${NC}"
+                return 0
+            fi
+            sleep 2
+        done
+        echo -e "${RED}LOI: Backend khong khoi dong kip sau 60s!${NC}"
+        return 1
+    }
+
     if [ "$USE_TMUX" = true ]; then
         if ! command -v tmux &> /dev/null; then
-            echo -e "${RED}LOI: Khong tim thay tmux! Chuyen ve che do mac dinh (nohup)...${NC}"
+            echo -e "${RED}LOI: Khong tim thay tmux! Chuyen ve che do mac dinh...${NC}"
             USE_TMUX=false
         fi
     fi
 
     if [ "$USE_TMUX" = true ]; then
         SESSION_NAME="legal-rag"
-        tmux has-session -t $SESSION_NAME 2>/dev/null
-        if [ $? -eq 0 ]; then
-            echo -e "${YELLOW}Dang dong session tmux cu...${NC}"
-            tmux kill-session -t $SESSION_NAME
-        fi
-
-        echo -e "${GREEN}Dang khoi tao tmux session: $SESSION_NAME${NC}"
-        # Tao session va chay Backend
-        tmux new-session -d -s $SESSION_NAME -n "Services" "uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend | tee backend_log.txt"
-        # Chia pane va chay Frontend
-        tmux split-window -h -t $SESSION_NAME "cd frontend && export PORT=3005 && npm run dev -- --port 3005 | tee frontend_log.txt"
-        tmux select-layout -t $SESSION_NAME tiled
+        tmux has-session -t $SESSION_NAME 2>/dev/null && tmux kill-session -t $SESSION_NAME
         
-        echo -e "${GREEN}Services da chay trong tmux. Lenh quan ly:${NC}"
-        echo -e "  - Xem logs: ${YELLOW}tmux attach -t $SESSION_NAME${NC}"
-        echo -e "  - Thoat (detach): ${YELLOW}Ctrl+B, D${NC}"
-        echo -e "  - Dung tat ca: ${YELLOW}tmux kill-session -t $SESSION_NAME${NC}"
+        echo -e "${GREEN}Khoi tao Tmux Session: $SESSION_NAME${NC}"
+        
+        # Window 1: Backend
+        tmux new-session -d -s $SESSION_NAME -n "Backend" "uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload | tee $LOG_BACKEND"
+        
+        # Wait for backend before starting frontend
+        check_backend
+        
+        # Window 2: Frontend
+        tmux new-window -t $SESSION_NAME -n "Frontend" "cd frontend && export PORT=3005 && npm run dev -- --port 3005 | tee ../$LOG_FRONTEND"
+        
+        echo -e "${GREEN}Services da chay trong tmux.${NC}"
+        echo -e "  - Xem logs: ${YELLOW}tmux attach -t $SESSION_NAME${NC} (Su dung Ctrl+B, n/p de chuyen window)"
     else
-        nohup uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend > backend_log.txt 2>&1 &
-        echo -e "${YELLOW}Cho 20s de Backend warmup...${NC}"; sleep 20
+        echo -e "${YELLOW}Chay o che do log-only (background)...${NC}"
+        nohup uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend > "$LOG_BACKEND" 2>&1 &
+        
+        check_backend || { echo -e "${RED}Dung tien trinh do Backend loi.${NC}"; exit 1; }
 
         cd frontend || exit
         export PORT=3005
-        nohup npm run dev -- --port 3005 > frontend_log.txt 2>&1 &
+        nohup npm run dev -- --port 3005 > "../$LOG_FRONTEND" 2>&1 &
         cd ..
-        echo -e "${YELLOW}Logs: tail -f backend_log.txt | tail -f frontend/frontend_log.txt${NC}"
+        
+        echo -e "${GREEN}Logs duoc ghi vao thu muc logs/ (backend.log, frontend.log)${NC}"
+        echo -e "  - Xem logs backend : ${YELLOW}tail -f $LOG_BACKEND${NC}"
+        echo -e "  - Xem logs frontend: ${YELLOW}tail -f $LOG_FRONTEND${NC}"
     fi
 
     echo -e "\n${GREEN}============================================================${NC}"
     echo -e "${GREEN} LEGAL-RAG DA SAN SANG!${NC}"
     echo -e "${GREEN}============================================================${NC}"
-    echo -e "${CYAN}  - Frontend  : http://IP_MAY_CHU:3005${NC}"
-    echo -e "${CYAN}  - Backend   : http://IP_MAY_CHU:8005${NC}"
-    echo -e "${CYAN}  - Neo4j     : http://IP_MAY_CHU:7475${NC}"
-    echo -e "${CYAN}  - Qdrant    : http://IP_MAY_CHU:6337/dashboard${NC}"
+    echo -e "${CYAN}  - Frontend  : http://localhost:3005${NC}"
+    echo -e "${CYAN}  - Backend   : http://localhost:8005${NC}"
 fi
+
