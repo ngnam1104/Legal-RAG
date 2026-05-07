@@ -3,10 +3,16 @@ import sys
 import time
 import uuid
 import datetime
+import io
 from dotenv import load_dotenv
 from neo4j import GraphDatabase
 from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchValue
+
+# Force UTF-8 encoding for Windows console
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 # Tải biến môi trường
 repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

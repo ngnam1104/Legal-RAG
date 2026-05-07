@@ -1,0 +1,115 @@
+
+============================================================
+test_db_speed.py — 2026-05-08 00:51:08
+============================================================
+==================================================
+BAT DAU KIEM TRA TOC DO VA TRUY VAN CO SO DU LIEU
+==================================================
+Qdrant URL: http://10.9.2.57:6337 | Collection: legal_rag_docs_nam
+Neo4j URI: bolt://10.9.2.57:7688 | User: neo4j
+
+==================================================
+TEST QDRANT
+==================================================
+[OK] Da ket noi Qdrant. Collection 'legal_rag_docs_nam' ton tai.
+[ERROR] Ket noi Qdrant: 'charmap' codec can't encode character '\u1ec4' in position 13: character maps to <undefined>
+
+==================================================
+TEST NEO4J
+==================================================
+[OK] Da ket noi Neo4j thanh cong.
+[ERROR] Ket noi Neo4j: 'charmap' codec can't encode character '\u1ec4' in position 12: character maps to <undefined>
+
+==================================================
+HOAN THANH KIEM TRA
+==================================================
+
+============================================================
+test_db_speed.py — 2026-05-08 00:52:19
+============================================================
+==================================================
+BAT DAU KIEM TRA TOC DO VA TRUY VAN CO SO DU LIEU
+==================================================
+Qdrant URL: http://10.9.2.57:6337 | Collection: legal_rag_docs_nam
+Neo4j URI: bolt://10.9.2.57:7688 | User: neo4j
+
+==================================================
+TEST QDRANT
+==================================================
+[OK] Da ket noi Qdrant. Collection 'legal_rag_docs_nam' ton tai.
+
+[QDRANT - DỄ] 🔍 Scenario 1: Semantic Search Cơ Bản
+Mô tả: Tìm kiếm các chunk có ý nghĩa tương đồng với một vector (top 5).
+❌ Lỗi: 'QdrantClient' object has no attribute 'search'
+  Thoi gian: 0.00 ms
+
+[QDRANT - TRUNG BÌNH] 🔍 Scenario 2: Semantic Search kèm Metadata Filter (doc_id = 38/2020/QĐ-UBND)
+Mô tả: Tìm kiếm ngữ nghĩa nhưng giới hạn bắt buộc trong một văn bản cụ thể.
+❌ Lỗi: 'QdrantClient' object has no attribute 'search'
+  Thoi gian: 0.00 ms
+
+==================================================
+TEST NEO4J
+==================================================
+[OK] Da ket noi Neo4j thanh cong.
+
+[NEO4J - DỄ] 🕸️ Scenario 1: Tra cứu Node (Lookup)
+Mô tả: Tìm trực tiếp các Node có label là 'Organization' và tên chứa 'Y tế'.
+✅ Tìm thấy 10 node.
+  Thoi gian: 6.14 ms
+
+[NEO4J - DỄ] 🕸️ Scenario 2: Traversal 1 Bước (1-hop) - Quan hệ cơ bản
+Mô tả: Tìm tất cả Document có quan hệ ISSUED_BY với Organization 'Bộ Y tế'.
+✅ Tìm thấy 10 văn bản.
+  Thoi gian: 8.07 ms
+
+[NEO4J - TRUNG BÌNH] 🕸️ Scenario 3: Traversal Phân cấp Văn bản (Document -> Article -> Clause -> Chunk)
+Mô tả: Lấy toàn bộ cấu trúc cây của một văn bản (Document) xuống tới Chunk.
+✅ Phân tách cấu trúc văn bản: []
+  Thoi gian: 7.19 ms
+
+[NEO4J - TRUNG BÌNH] 🕸️ Scenario 4: Bán kính 1 Bước (1-hop Radius) từ một Concept
+Mô tả: Lấy *tất cả* các Node và loại quan hệ có kết nối trực tiếp (vào hoặc ra) với Concept 'An toàn thực phẩm'.
+✅ Thống kê bán kính 1 bước quanh 'An toàn thực phẩm':
+   - HAS_ENTITY -> Chunk (Số lượng: 913)
+   - HAS_ENTITY -> Clause (Số lượng: 248)
+   - HAS_ENTITY -> Article (Số lượng: 210)
+   - MANAGED_BY -> Organization (Số lượng: 14)
+   - SUBJECT_OF -> Concept (Số lượng: 8)
+  Thoi gian: 45.72 ms
+
+[NEO4J - KHÓ] 🕸️ Scenario 5: Bán kính 2 Bước (2-hop Radius) - Góc nhìn bao quát
+Mô tả: Tìm *tất cả* mọi thứ cách 'Bộ Y tế' đúng 2 bước nhảy (Organization -> Document -> Entities).
+✅ Thống kê bán kính 2 bước từ 'Bộ Y tế':
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Concept] (Số lượng: 87476)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Role] (Số lượng: 57354)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Timeframe] (Số lượng: 34511)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Procedure] (Số lượng: 21065)
+   - [Org] -HAS_ENTITY- [Mid] -HAS_ENTITY- [Location] (Số lượng: 16217)
+  Thoi gian: 593.10 ms
+
+[NEO4J - KHÓ] 🕸️ Scenario 6: Liên kết chéo giữa các Văn bản (Cross-document Traversal)
+Mô tả: Tìm các văn bản (D1) sửa đổi/căn cứ vào văn bản (D2) VÀ tìm các Tổ chức phát hành cả hai văn bản đó.
+✅ Tìm thấy 5 liên kết chéo phức tạp.
+   - None (Bộ Y tế) -[REPEALED_BY]-> None (Bộ Y tế)
+   - None (Bộ Y tế) -[BASED_ON]-> None (Ủy ban nhân dân)
+   - None (Bộ Y tế) -[BASED_ON]-> None (Ủy ban nhân dân tỉnh Bà Rịa - Vũng Tàu)
+  Thoi gian: 16.43 ms
+
+[NEO4J - CỰC KHÓ] 🕸️ Scenario 7: Đường đi ngắn nhất (Shortest Path)
+Mô tả: Tìm đường đi ngắn nhất giữa hai Concept 'An toàn thực phẩm' và 'Y tế' trong toàn bộ đồ thị tri thức.
+✅ Tìm thấy đường đi ngắn nhất (độ dài 2):
+   Đường đi: An toàn thực phẩm -> Điều 3 -> Trang thiết bị y tế
+  Thoi gian: 39784.22 ms
+
+[NEO4J - CỰC KHÓ] 🕸️ Scenario 8: Phân tích Tác động Sâu (Deep Impact Analysis)
+Mô tả: Nếu Concept/Condition 'An toàn thực phẩm' thay đổi, những văn bản nào, thủ tục nào và tổ chức nào sẽ bị ảnh hưởng (bán kính lên tới 3 bước)?
+✅ Tác động của việc thay đổi 'An toàn thực phẩm':
+   - Ảnh hưởng tới 2583 Procedure
+   - Ảnh hưởng tới 2190 Organization
+   - Ảnh hưởng tới 1917 Document
+  Thoi gian: 813.36 ms
+
+==================================================
+HOAN THANH KIEM TRA
+==================================================
