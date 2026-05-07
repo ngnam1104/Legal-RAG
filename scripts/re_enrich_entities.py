@@ -429,15 +429,23 @@ while not global_done:
                 _accumulate_nrels(doc_nrels, doc_nrel_seen, parsed.get("node_relations", []))
 
             # D. Flush Neo4j
+            # CHỈ gắn entities+rels vào chunk ĐẦU TIÊN để tránh nhân bản N lần
+            # Các chunk còn lại chỉ cần mark enriched_v2 (do _MARK_ENRICHED_QUERY xử lý)
             if doc_entities or doc_nrels:
                 enrich_params = [
                     {
-                        "qdrant_id"     : row["qdrant_id"],
+                        "qdrant_id"     : doc_rows[0]["qdrant_id"],
                         "entities"      : doc_entities,
                         "node_relations": doc_nrels,
                     }
-                    for row in doc_rows
                 ]
+                # Thêm các chunk còn lại CHỈ ĐỂ mark enriched_v2 (không duplicate entities)
+                for row in doc_rows[1:]:
+                    enrich_params.append({
+                        "qdrant_id"     : row["qdrant_id"],
+                        "entities"      : {},
+                        "node_relations": [],
+                    })
                 _flush_to_neo4j(enrich_params)
                 _log(f"      [FLUSH] doc={doc_number} → {sum(len(v) for v in doc_entities.values())} ents, {len(doc_nrels)} rels")
 

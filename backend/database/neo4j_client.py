@@ -916,15 +916,17 @@ from backend.config import _ENTITY_LABELS
 _MARK_ENRICHED_QUERY = """
 UNWIND $ids AS chunk_id
 MATCH (c)
-WHERE c.qdrant_id = chunk_id OR c.id = chunk_id
+WHERE (c:Chunk OR c:Clause OR c:LegalArticle OR c:Article)
+  AND (c.qdrant_id = chunk_id OR c.id = chunk_id)
 SET c.enriched_v2 = true
 """
 
 _ENRICH_ENTITY_QUERY = """
 UNWIND $items AS item
-// Tìm node lá chủ sỹ (Chunk / Clause / Article) theo qdrant_id
+// Tìm node lá theo qdrant_id (phải chỉ định rõ Label để Neo4j dùng Index)
 MATCH (leaf)
-WHERE leaf.qdrant_id = item.qdrant_id
+WHERE (leaf:Chunk OR leaf:Clause OR leaf:LegalArticle OR leaf:Article) 
+  AND leaf.qdrant_id = item.qdrant_id
 WITH leaf, item
 // Upsert từng entity node theo label + name
 CALL apoc.merge.node([item.label], {name: item.name}) YIELD node AS ent
@@ -1071,7 +1073,9 @@ def fetch_enriched_v2_chunk_ids() -> set:
 def _enrich_with_apoc(driver, params_list: list) -> None:
     """Phương án APOC: apoc.merge.node cho label động."""
     entity_items = []   # flatten: {qdrant_id, label, name}
+    entity_seen  = set()  # dedup key: (qdrant_id, label, name)
     node_rel_items = [] # flatten: {source_node, source_type, target_node, target_type, relationship, chunk_text}
+    nrel_seen    = set()  # dedup key: (src, tgt, rel_type)
 
     for p in params_list:
         qdrant_id = p.get("qdrant_id")
@@ -1084,16 +1088,28 @@ def _enrich_with_apoc(driver, params_list: list) -> None:
                 continue
             for name in names:
                 name = str(name).strip()
-                if name:
-                    entity_items.append({"qdrant_id": qdrant_id, "label": clean_label, "name": name})
+                if not name:
+                    continue
+                dedup_key = (qdrant_id, clean_label, name)
+                if dedup_key in entity_seen:
+                    continue
+                entity_seen.add(dedup_key)
+                entity_items.append({"qdrant_id": qdrant_id, "label": clean_label, "name": name})
         for nr in (p.get("node_relations") or []):
             if nr.get("source_node") and nr.get("target_node") and nr.get("relationship"):
+                src = str(nr["source_node"]).strip()
+                tgt = str(nr["target_node"]).strip()
+                rel = _sanitize_rel_type(nr["relationship"])
+                nrel_key = (src, tgt, rel)
+                if nrel_key in nrel_seen:
+                    continue
+                nrel_seen.add(nrel_key)
                 node_rel_items.append({
-                    "source_node": str(nr["source_node"]).strip(),
+                    "source_node": src,
                     "source_type": _sanitize_neo4j_label(nr.get("source_type", "Entity")),
-                    "target_node": str(nr["target_node"]).strip(),
+                    "target_node": tgt,
                     "target_type": _sanitize_neo4j_label(nr.get("target_type", "Entity")),
-                    "relationship": _sanitize_rel_type(nr["relationship"]),
+                    "relationship": rel,
                     "chunk_text": str(nr.get("chunk_text", ""))[:300],
                 })
 
@@ -1183,7 +1199,9 @@ def _enrich_fallback(driver, params_list: list) -> None:
             _ensure_entity_constraint(session, label)
             q = f"""
             UNWIND $items AS item
-            MATCH (leaf) WHERE leaf.qdrant_id = item.qdrant_id
+            MATCH (leaf) 
+            WHERE (leaf:Chunk OR leaf:Clause OR leaf:LegalArticle OR leaf:Article) 
+              AND leaf.qdrant_id = item.qdrant_id
             MERGE (ent:{label} {{name: item.name}})
             MERGE (leaf)-[:HAS_ENTITY]->(ent)
             """
