@@ -130,7 +130,7 @@ else
         check_backend
         
         # Window 2: Frontend
-        tmux new-window -t $SESSION_NAME -n "Frontend" "cd frontend && export PORT=3005 && npm run dev -- --port 3005 | tee ../$LOG_FRONTEND"
+        tmux new-window -t $SESSION_NAME -n "Frontend" "cd frontend && export PORT=3005 && npm run dev -- --port 3005 --hostname 0.0.0.0 | tee ../$LOG_FRONTEND"
         
         echo -e "${GREEN}Services da chay trong tmux.${NC}"
         echo -e "  - Xem logs: ${YELLOW}tmux attach -t $SESSION_NAME${NC} (Su dung Ctrl+B, n/p de chuyen window)"
@@ -142,7 +142,7 @@ else
 
         cd frontend || exit
         export PORT=3005
-        nohup npm run dev -- --port 3005 > "../$LOG_FRONTEND" 2>&1 &
+        nohup npm run dev -- --port 3005 --hostname 0.0.0.0 > "../$LOG_FRONTEND" 2>&1 &
         cd ..
         
         echo -e "${GREEN}Logs duoc ghi vao thu muc logs/ (backend.log, frontend.log)${NC}"
