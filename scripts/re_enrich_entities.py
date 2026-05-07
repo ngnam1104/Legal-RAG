@@ -404,11 +404,15 @@ while not global_done:
             _save_checkpoint()
             continue
 
-        # C. Parse + accumulate + flush per-doc
+        # C. Parse per-batch → gắn entities vào ĐÚNG batch chunks (không gom doc-level)
+        # Mỗi LLM prompt xử lý 8 chunks → entities thuộc về 8 chunks đó
         for doc_i, (doc_number, doc_rows, batches) in enumerate(doc_batch_plan):
-            doc_entities  : dict = {}
-            doc_nrels     : list = []
-            doc_nrel_seen : set  = set()
+            all_enrich_params = []
+            seen_qids = set()
+            doc_total_ents  = 0
+            doc_total_nrels = 0
+            doc_entity_counts = Counter()
+            doc_nrel_counts   = Counter()
 
             for batch_j, batch in enumerate(batches):
                 idx  = prompt_idx_map.get((doc_i, batch_j))
@@ -425,41 +429,53 @@ while not global_done:
                     _log(f"    [PARSE ERR] doc={doc_number} b={batch_j}: {e}")
                     continue
 
-                _accumulate_entities(doc_entities, parsed.get("entities", {}))
-                _accumulate_nrels(doc_nrels, doc_nrel_seen, parsed.get("node_relations", []))
+                batch_entities = parsed.get("entities", {})
+                batch_nrels    = parsed.get("node_relations", [])
 
-            # D. Flush Neo4j
-            # CHỈ gắn entities+rels vào chunk ĐẦU TIÊN để tránh nhân bản N lần
-            # Các chunk còn lại chỉ cần mark enriched_v2 (do _MARK_ENRICHED_QUERY xử lý)
-            if doc_entities or doc_nrels:
-                enrich_params = [
-                    {
-                        "qdrant_id"     : doc_rows[0]["qdrant_id"],
-                        "entities"      : doc_entities,
-                        "node_relations": doc_nrels,
-                    }
-                ]
-                # Thêm các chunk còn lại CHỈ ĐỂ mark enriched_v2 (không duplicate entities)
-                for row in doc_rows[1:]:
-                    enrich_params.append({
+                if batch_entities or batch_nrels:
+                    # Gắn entities+rels vào TỪNG CHUNK thuộc batch này
+                    for row in batch:
+                        qid = row["qdrant_id"]
+                        all_enrich_params.append({
+                            "qdrant_id"     : qid,
+                            "entities"      : batch_entities,
+                            "node_relations": batch_nrels,
+                        })
+                        seen_qids.add(qid)
+
+                    n_ents = sum(len(v) for v in batch_entities.values())
+                    doc_total_ents  += n_ents
+                    doc_total_nrels += len(batch_nrels)
+                    for etype, vals in batch_entities.items():
+                        doc_entity_counts[etype] += len(vals)
+                    for nr in batch_nrels:
+                        doc_nrel_counts[nr.get("relationship", "?")] += 1
+
+            # D. Flush Neo4j — 1 lần cho cả doc, nhưng entities đã gắn đúng batch
+            # Thêm chunks chưa có entity (chỉ để mark enriched_v2)
+            for row in doc_rows:
+                if row["qdrant_id"] not in seen_qids:
+                    all_enrich_params.append({
                         "qdrant_id"     : row["qdrant_id"],
                         "entities"      : {},
                         "node_relations": [],
                     })
-                _flush_to_neo4j(enrich_params)
-                _log(f"      [FLUSH] doc={doc_number} → {sum(len(v) for v in doc_entities.values())} ents, {len(doc_nrels)} rels")
+
+            if all_enrich_params:
+                _flush_to_neo4j(all_enrich_params)
+            if doc_total_ents or doc_total_nrels:
+                _log(f"      [FLUSH] doc={doc_number} → {doc_total_ents} ents, {doc_total_nrels} rels")
 
             # E. Stats
-            n_ents_doc = sum(len(v) for v in doc_entities.values())
-            stats["total_entities"] += n_ents_doc
-            stats["total_nrels"]    += len(doc_nrels)
+            stats["total_entities"] += doc_total_ents
+            stats["total_nrels"]    += doc_total_nrels
             stats["docs_done"]      += 1
             stats["chunks_done"]    += len(doc_rows)
 
-            for etype, vals in doc_entities.items():
-                stats["entity_counts"][etype] += len(vals)
-            for nr in doc_nrels:
-                stats["nrel_counts"][nr.get("relationship", "?")] += 1
+            for etype, cnt in doc_entity_counts.items():
+                stats["entity_counts"][etype] += cnt
+            for rel, cnt in doc_nrel_counts.items():
+                stats["nrel_counts"][rel] += cnt
 
             for row in doc_rows:
                 done_ids.add(row["qdrant_id"])
