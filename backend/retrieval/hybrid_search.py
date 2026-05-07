@@ -719,26 +719,7 @@ class HybridRetriever:
                     item['score'] = item['rerank_score']
                     print(f"       🌟 [Graph Boost] +0.3 score cho chunk {cid} (Chứa Entity truy vấn)")
 
-        # --- CROSS-SECTOR PENALIZATION ---
-        if sector:
-            # Normalize the extracted sector
-            lowered_extracted_sector = sector.lower().strip()
-            # Common sectors mapping or exact matching
-            for item in reranked_hits:
-                doc_sectors = item.get("payload", {}).get("legal_sectors", [])
-                if doc_sectors and isinstance(doc_sectors, list):
-                    # If the document has sectors defined but doesn't match the extracted sector
-                    matched = False
-                    for ds in doc_sectors:
-                        if lowered_extracted_sector in ds.lower() or ds.lower() in lowered_extracted_sector:
-                            matched = True
-                            break
-                    if not matched:
-                        item['rerank_score'] = item.get('rerank_score', 0.0) - 0.5
-                        item['score'] = item['rerank_score']
-                        print(f"       🔽 [Sector Penalty] -0.5 score cho chunk {item.get('id')} do sai lĩnh vực (Expected: {sector}, Got: {doc_sectors})")
-
-        # Re-sort sau khi áp dụng boost và penalty
+        # Re-sort sau khi áp dụng boost
         reranked_hits = sorted(reranked_hits, key=lambda x: x.get('rerank_score', 0.0), reverse=True)
 
         t2 = time.perf_counter()
