@@ -13,7 +13,7 @@ from backend.models.llm_factory import chat_completion
 from backend.utils.text_utils import extract_json_from_text
 
 # Cấu hình
-TARGET_DOCS = ["40/2009/QH12", "1620/QĐ-UBND", "3192/2000/QĐ-BYT"]
+TARGET_DOCS = ["43/2018/TT-BCT", "207/2025/NĐ-CP", "12/2008/TTLT-BYT-BNV"]
 OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "tests", "qa_evaluation", "Chatbot_test_2mode_3docs.json")
 os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
@@ -26,7 +26,7 @@ CATEGORIES = [
 ]
 
 PROMPT_TEMPLATE = """Bạn là một chuyên gia Pháp lý và Kiểm thử hệ thống RAG (Retrieval-Augmented Generation).
-Nhiệm vụ của bạn là đọc toàn bộ nội dung của văn bản pháp luật dưới đây và tạo ra ĐÚNG 5 câu hỏi ĐÁNH ĐỐ, THỰC TẾ và VÔ CÙNG KHÓ kèm theo câu trả lời (Ground Truth).
+Nhiệm vụ của bạn là đọc toàn bộ nội dung của văn bản pháp luật dưới đây và tạo ra ĐÚNG 3 câu hỏi ĐÁNH ĐỐ, THỰC TẾ và VÔ CÙNG KHÓ kèm theo câu trả lời (Ground Truth).
 Yêu cầu bắt buộc đối với câu hỏi:
 - KHÔNG hỏi lý thuyết suông (VD: "Luật này quy định gì?", "Điều kiện là gì?").
 - PHẢI tạo ra các "Case Study" (tình huống thực tế) giống như một người dân hoặc doanh nghiệp đang gặp rắc rối pháp lý đi hỏi luật sư.
@@ -40,7 +40,7 @@ YÊU CẦU VỀ ĐỘ CHÍNH XÁC (CHỐNG ẢO GIÁC - HALLUCINATION):
 - Nếu ngữ cảnh không có đủ thông tin để tạo tình huống phức tạp cho chuyên đề được yêu cầu, hãy tạo tình huống ở mức độ vừa phải nhưng ĐẢM BẢO CHÍNH XÁC 100%.
 
 LƯU Ý QUAN TRỌNG: 
-TẤT CẢ 5 câu hỏi này phải thuộc chuyên đề: "{category}".
+TẤT CẢ 3 câu hỏi này phải thuộc chuyên đề: "{category}".
 Hãy tập trung đào sâu vào các khía cạnh khó nhất của chuyên đề này. Khai thác những tình huống hóc búa nhất.
 
 ĐỊNH DẠNG ĐẦU RA BẮT BUỘC LÀ MỘT DANH SÁCH JSON HỢP LỆ (ARRAY OF OBJECTS):
@@ -59,7 +59,7 @@ Nội dung văn bản {doc_id}:
 {context}
 ======================================
 
-Chỉ trả về danh sách JSON hợp lệ chứa đúng 5 object. Bắt đầu bằng dấu [ và kết thúc bằng dấu ].
+Chỉ trả về danh sách JSON hợp lệ chứa đúng 3 object. Bắt đầu bằng dấu [ và kết thúc bằng dấu ].
 """
 
 def main():

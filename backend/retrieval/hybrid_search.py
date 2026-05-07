@@ -251,7 +251,6 @@ class HybridRetriever:
         if not has_sparse:
             # DIAGNOSTIC: In thử vector để kiểm tra lỗi đầu vào
             v_sample = dense_query[:5] if dense_query else []
-            print(f"       DEBUG: Dense Query Sample: {v_sample}")
             
             # OPTIMIZATION: Nếu chỉ có dense, gọi trực tiếp query_points không qua RRF để tránh lỗi/overhead
             if is_appendix is not None or article_ref is not None:
