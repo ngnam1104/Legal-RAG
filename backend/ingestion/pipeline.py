@@ -22,7 +22,7 @@ def fetch_old_text_from_qdrant(doc_number: str, article_ref: str) -> str:
     try:
         qdrant = get_qdrant_client()
         search_result = qdrant.scroll(
-            collection_name=os.environ.get("QDRANT_COLLECTION", "legal_hybrid_rag_docs"),
+            collection_name=os.environ.get("QDRANT_COLLECTION", "legal_rag_docs_nam"),
             scroll_filter=Filter(
                 must=[
                     FieldCondition(key="document_number", match=MatchValue(value=doc_number)),
@@ -112,7 +112,7 @@ def process_document_task(file_path: str):
                 payload=q_payload
             ))
 
-        collection_name = os.environ.get("QDRANT_COLLECTION", "legal_hybrid_rag_docs")
+        collection_name = os.environ.get("QDRANT_COLLECTION", "legal_rag_docs_nam")
         qdrant = get_qdrant_client()
         qdrant.upsert(collection_name=collection_name, points=points)
         print(f"✅ Đã Upsert {len(points)} chunks lên Qdrant.")

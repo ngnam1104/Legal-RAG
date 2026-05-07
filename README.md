@@ -12,10 +12,11 @@ Hệ thống **Advanced Agentic RAG** mã nguồn mở chuyên biệt cho văn b
 - **🕸️ Graph RAG (Neo4j)**: Sử dụng Knowledge Graph để mở rộng ngữ cảnh (Bottom-Up & Lateral Expansion), giúp AI hiểu mối quan hệ phân cấp giữa các văn bản pháp luật.
 - **⚖️ Chain-of-Thought (CoT) Legal Reasoning**: Ép buộc LLM tuân thủ logic suy luận pháp lý chuẩn xác (Lex Superior, Lex Posterior).
 - **🧩 Unified GraphRAG Architecture (Single Strategy)**: Mọi query pháp lý đều đi qua `LegalChatStrategy` duy nhất: QdrantNeo4jRetriever (vector search + Neo4j auto-fetch) → 2-hop subgraph expansion → GraphRAG Prompt.
-- **💬 2 Chế độ Hoạt động**:
-    1. **Legal Chat** (`LEGAL_CHAT`): Giải đáp tất cả câu hỏi pháp lý (tra cứu, tổng hợp, đối chiếu, phân tích) thông qua GraphRAG pipeline.
-    2. **General Chat** (`GENERAL_CHAT`): Trả lời thông thường, bỏ qua toàn bộ RAG pipeline.
-- **💾 Smart Memory & Tiered LLM**: Quản lý hội thoại đa tầng (Redis + SQLite). Tự động phân luồng Model phù hợp (Ollama/Internal cho định tuyến, Gemini/Llama cho suy luận).
+- **💬 Đa chế độ Hội thoại & Phiên (Multi-session)**: Hỗ trợ nhiều phiên chat riêng biệt, lịch sử được lưu trữ bền vững trong CSDL (SQLite/Postgres), cho phép truy xuất và tiếp tục hội thoại mọi lúc.
+- **💾 Smart Memory & Document Staging**: 
+    1. **RAM-Staged Upload**: Tài liệu tải lên được lưu tạm trong RAM để xử lý nhanh.
+    2. **Explicit Sync**: Chỉ nạp vào DB (Qdrant/Neo4j) khi người dùng nhấn "Sync to DB", giúp tránh nhiễu dữ liệu.
+- **🧩 Unified LLM Extraction (Single-Pass)**: Trích xuất quan hệ văn bản, thực thể tự do và quan hệ node đồ thị trong một lần gọi LLM duy nhất, loại bỏ các bước quét thừa.
 - **🧩 Unified LLM Extraction (Single-Pass)**: Trích xuất quan hệ văn bản, thực thể tự do và quan hệ node đồ thị trong một lần gọi LLM duy nhất, loại bỏ các bước quét thừa.
 
 ---
@@ -181,14 +182,19 @@ Pipeline sẽ tự động thực hiện 6 pha:
 4. **Phase 6**: Build Neo4j Graph (Document Tree + Entity Enrichment)
 
 **Bước 5: Khởi động toàn bộ Hệ thống**
-Sử dụng script tự động (tốt nhất trên Windows):
-```powershell
-.\quick_start.ps1
+Sử dụng script tự động hỗ trợ nhiều chế độ:
+```bash
+# Chế độ mặc định (Mở các cửa sổ terminal riêng - Tmux)
+./quick_start.sh --tmux
+
+# Chế độ Log-only (Chạy ngầm, ghi log ra file, phù hợp server)
+./quick_start.sh --log-only
 ```
 Script sẽ tự động:
-- Dọn dẹp các cổng 3000, 8000, 8001.
+- Kiểm tra và dọn dẹp các cổng 3000, 8000, 8001.
 - Kích hoạt Python Venv và cài thư viện.
-- Mở 3 cửa sổ riêng biệt cho: **Embedding Server**, **FastAPI Backend**, và **Next.js Frontend**.
+- Khởi động sequential: Chờ Backend ready (`/health`) mới chạy Frontend.
+- Ghi log chi tiết vào `logs/backend.log`, `logs/frontend.log`, v.v.
 
 ---
 

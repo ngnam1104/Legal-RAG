@@ -335,7 +335,7 @@ async def ingest_document(request: IngestRequest):
         if doc_number:
             print(f"    -> Checking duplicate for: {doc_number}")
             search_result = qdrant.scroll(
-                collection_name=os.environ.get("QDRANT_COLLECTION", "legal_hybrid_rag_docs"),
+                collection_name=os.environ.get("QDRANT_COLLECTION", "legal_rag_docs_nam"),
                 scroll_filter=models.Filter(
                     must=[
                         models.FieldCondition(

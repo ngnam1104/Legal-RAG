@@ -420,9 +420,10 @@ class LegalChatStrategy(BaseRAGStrategy):
             retriever_obj = QdrantNeo4jRetriever(
                 driver=neo4j_driver,
                 client=qdrant_client,
-                collection_name=os.environ.get("QDRANT_COLLECTION", "legal_hybrid_rag_docs"),
+                collection_name=os.environ.get("QDRANT_COLLECTION", "legal_rag_docs_nam"),
                 id_property_neo4j="qdrant_id",
                 id_property_external="id",
+                using="dense",
                 retrieval_query=retrieval_query,
             )
 

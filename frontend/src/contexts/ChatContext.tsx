@@ -250,13 +250,10 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
       setEditingIndex(null);
       setIsPendingEdit(false);
 
-      // Gọi API xóa trên Server nếu là Edit (Silent)
+      // Call API delete on Server if it's an Edit (Silent)
       if ((isPendingEdit || editIndex !== undefined) && sid) {
         fetch(`${API_BASE_URL}/sessions/${sid}/last-turn`, { method: 'DELETE' }).catch(e => console.error("Sync edit error:", e));
       }
-
-      // Clear staged file locally
-      clearStagedFile();
 
       // Setup abort controller
       const controller = new AbortController();

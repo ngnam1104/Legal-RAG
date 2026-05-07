@@ -38,7 +38,7 @@ def parse_chunk_order(chunk_id: str):
 
 class HybridRetriever:
     def __init__(self, collection_name: str = None):
-        self.collection_name = collection_name or os.environ.get("QDRANT_COLLECTION", "legal_hybrid_rag_docs")
+        self.collection_name = collection_name or os.environ.get("QDRANT_COLLECTION", "legal_rag_docs_nam")
         self.client = client
         self.hybrid_encoder = embedder
         self.reranker = reranker

@@ -9,7 +9,7 @@ def get_qdrant_client() -> QdrantClient:
         return QdrantClient(path=qdrant_path, check_compatibility=False)
         
     return QdrantClient(
-        url=os.environ.get("QDRANT_URL", "http://localhost:6335"),
+        url=os.environ.get("QDRANT_URL", "http://localhost:6337"),
         api_key=os.environ.get("QDRANT_API_KEY", "") or None,
         timeout=120,
         check_compatibility=False

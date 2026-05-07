@@ -10,8 +10,12 @@
 GREEN='\033[0;32m'; CYAN='\033[0;36m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
 
 MODE="start"
+USE_TMUX=false
 for arg in "$@"; do
-    case $arg in --mode=*) MODE="${arg#*=}" ;; esac
+    case $arg in 
+        --mode=*) MODE="${arg#*=}" ;;
+        --tmux) USE_TMUX=true ;;
+    esac
 done
 
 cd "$(dirname "$0")" || exit
@@ -86,13 +90,43 @@ else
 
     # --- 6. Start services ---
     echo -e "\n${CYAN}[6] Khoi dong Backend & Frontend...${NC}"
-    nohup uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend > backend_log.txt 2>&1 &
-    echo -e "${YELLOW}Cho 20s de Backend warmup...${NC}"; sleep 20
+    
+    if [ "$USE_TMUX" = true ]; then
+        if ! command -v tmux &> /dev/null; then
+            echo -e "${RED}LOI: Khong tim thay tmux! Chuyen ve che do mac dinh (nohup)...${NC}"
+            USE_TMUX=false
+        fi
+    fi
 
-    cd frontend || exit
-    export PORT=3005
-    nohup npm run dev -- --port 3005 > frontend_log.txt 2>&1 &
-    cd ..
+    if [ "$USE_TMUX" = true ]; then
+        SESSION_NAME="legal-rag"
+        tmux has-session -t $SESSION_NAME 2>/dev/null
+        if [ $? -eq 0 ]; then
+            echo -e "${YELLOW}Dang dong session tmux cu...${NC}"
+            tmux kill-session -t $SESSION_NAME
+        fi
+
+        echo -e "${GREEN}Dang khoi tao tmux session: $SESSION_NAME${NC}"
+        # Tao session va chay Backend
+        tmux new-session -d -s $SESSION_NAME -n "Services" "uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend | tee backend_log.txt"
+        # Chia pane va chay Frontend
+        tmux split-window -h -t $SESSION_NAME "cd frontend && export PORT=3005 && npm run dev -- --port 3005 | tee frontend_log.txt"
+        tmux select-layout -t $SESSION_NAME tiled
+        
+        echo -e "${GREEN}Services da chay trong tmux. Lenh quan ly:${NC}"
+        echo -e "  - Xem logs: ${YELLOW}tmux attach -t $SESSION_NAME${NC}"
+        echo -e "  - Thoat (detach): ${YELLOW}Ctrl+B, D${NC}"
+        echo -e "  - Dung tat ca: ${YELLOW}tmux kill-session -t $SESSION_NAME${NC}"
+    else
+        nohup uvicorn backend.api.main:app --host 0.0.0.0 --port 8005 --reload --reload-dir=backend > backend_log.txt 2>&1 &
+        echo -e "${YELLOW}Cho 20s de Backend warmup...${NC}"; sleep 20
+
+        cd frontend || exit
+        export PORT=3005
+        nohup npm run dev -- --port 3005 > frontend_log.txt 2>&1 &
+        cd ..
+        echo -e "${YELLOW}Logs: tail -f backend_log.txt | tail -f frontend/frontend_log.txt${NC}"
+    fi
 
     echo -e "\n${GREEN}============================================================${NC}"
     echo -e "${GREEN} LEGAL-RAG DA SAN SANG!${NC}"
@@ -101,5 +135,4 @@ else
     echo -e "${CYAN}  - Backend   : http://IP_MAY_CHU:8005${NC}"
     echo -e "${CYAN}  - Neo4j     : http://IP_MAY_CHU:7475${NC}"
     echo -e "${CYAN}  - Qdrant    : http://IP_MAY_CHU:6337/dashboard${NC}"
-    echo -e "${YELLOW}Logs: tail -f backend_log.txt | tail -f frontend/frontend_log.txt${NC}"
 fi

@@ -469,6 +469,11 @@ Mô hình Indexing dữ liệu RAG và Embed lưu trữ trên VectorDB (Qdrant) 
 > - **Bước 2 (Phase 4 — Ghost Nodes):** Tạo Ghost Node cho các VB được tham chiếu nhưng không có trong dataset.
 > - **Bước 3 (Phase 5 — Mã hoá Vector):** Embed batch 64 chunk qua `InternalAPIEmbedder` (Dense BGE-M3 1024-d) + fastembed BM25 (Sparse local). Upsert Qdrant.
 > - **Bước 4 (Phase 6 — Neo4j Build):** Đẩy payload `neo4j_metadata` lên Neo4j: Document Tree + Ghost Nodes + Graph Triplets + Entity Enrichment (10 loại entity từ Unified Extractor).
+- **Bước 5 (Online Staging - User Uploads):** Khác với pipeline offline, tài liệu người dùng tải lên qua UI sẽ đi qua quy trình:
+    1. **Staging**: Parse và chunking, sau đó lưu vào RAM Cache.
+    2. **Verification**: Người dùng xem trước kết quả chunking/metadata.
+    3. **Sync to DB**: Khi nhấn "Sync to DB", hệ thống mới thực hiện Phase 5 (Embedding) và Phase 6 (Neo4j Build) để lưu trữ bền vững.
+
 
 ## 2.1.2 Kiến trúc Neo4j Graph DB (Dynamic Tree & Leaf Level Logic)
 

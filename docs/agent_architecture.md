@@ -12,7 +12,8 @@ Thư mục `backend/agent/` đóng vai trò là "bộ não" của hệ thống L
 ```text
 backend/agent/
 ├── state.py                 # Định nghĩa Data Schema (AgentState)
-├── memory.py                # Quản lý bộ nhớ hội thoại / ChatSessionManager
+├── memory.py                # Quản lý bộ nhớ hội thoại / ChatSessionManager (Persistence Layer)
+├── db_chat.py                # [MỚI] SQLAlchemy/DB models cho Session & Message
 ├── query_router.py          # SuperRouter: phân loại 2 mode + HyDE + Metadata Filter
 ├── graph.py                 # LangGraph Topology — 10 Nodes, 3 Conditional Routers
 ├── chat_engine.py           # Vòng lặp chính, xử lý streaming SSE cho Frontend
@@ -99,7 +100,9 @@ Toàn bộ quá trình chạy của Agent chia sẻ một trạng thái chung c�
   - `raw_hits` / `graph_context` (Stage: Retrieve)
   - `final_response` / `references` (Stage: Generate)
   - `pass_flag` / `feedback` (Stage: Reflect)
+- **Persistence:** `session_id`, `user_id`, `created_at`.
 - **Batching:** `pending_tasks` (hàng đợi), `completed_results` (kết quả tích lũy)
+- **Staging Area:** `staged_files` (danh sách file trong RAM chờ Sync to DB)
 - **Stateful conversation:** `conversation_state` (`current_document`, `entities`)
 
 ### 3.2 SuperRouter — Chỉ 2 Mode (`query_router.py`)
@@ -168,9 +171,10 @@ entity_ids → fetch_related_graph() → subgraph (nodes[], edges[])
 
 Lớp `RAGEngine` quản lý I/O luồng người dùng qua SSE (Server-Sent Events):
 - Lấy `session_id`, khởi tạo `initial_state`.
+- **History Recovery:** Trước khi chạy, `RAGEngine` tải lịch sử hội thoại từ `db_chat.py` dựa trên `session_id`.
 - Chạy LangGraph qua `astream_events(initial_state, version="v2")`.
 - Map tên node thành thông báo tiến trình UI: `"retrieve"` → *"📚 Đang tìm kiếm..."*
-- Sau khi kết thúc: cập nhật `conversation_state` (lưu `current_document`, `entities`) → ghi history vào SQLite.
+- Sau khi kết thúc: cập nhật `conversation_state` (lưu `current_document`, `entities`) → ghi history vào Database (bền vững).
 
 ---
 
