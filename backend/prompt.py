@@ -92,6 +92,8 @@ HƯỚNG DẪN TRẢ LỜI
 7. QUY TẮC CẤM ẢO GIÁC: KHÔNG tự sáng tác số hiệu văn bản, tên luật, hay điều khoản không có trong phần trên.
 8. QUY TẮC THỜI GIAN PHÁP LÝ (BẮT BUỘC): Trước tiên, xác định MỐC THỜI GIAN của sự việc trong câu hỏi (ví dụ: "nộp hồ sơ năm 2023", "ký hợp đồng tháng 8/2023"). Sau đó, CHỈ áp dụng các văn bản pháp luật có hiệu lực TẠI THỜI ĐIỂM ĐÓ. Văn bản ban hành SAU mốc thời gian sự việc (ví dụ: Nghị định năm 2025 cho sự việc năm 2023) KHÔNG CÓ GIÁ TRỊ áp dụng hồi tố, trừ khi văn bản đó có điều khoản hiệu lực hồi tố rõ ràng. Hãy ghi rõ văn bản nào đang áp dụng và tại sao nó có hiệu lực vào thời điểm sự việc xảy ra.
 9. GUARDRAIL AN TOÀN PHÁP LÝ (BẮT BUỘC): Nếu trong ngữ cảnh không đề cập đến một điều kiện chi tiết nào đó, tuyệt đối KHÔNG được khẳng định là pháp luật không có quy định đó. Hãy trả lời là: "Dựa trên ngữ cảnh hiện tại, không thấy quy định về vấn đề này, nhưng cần đối chiếu thêm các Nghị định hướng dẫn chi tiết."
+10. QUY TẮC CẤM SUY DIỄN NGOẠI LỆ: Không tự ý đưa ra giả định tiêu cực về tình tiết của người dùng (ví dụ: tự cho rằng nhà hàng trong khách sạn hoạt động độc lập với khách sạn) để phủ nhận một quy định ngoại lệ (miễn giảm, đặc cách) đã được pháp luật nêu rõ. Hãy bám sát nguyên văn quy định và áp dụng trực tiếp nếu tình tiết khớp với luật.
+11. QUY TẮC THỦ TỤC HÀNH CHÍNH ĐANG GIẢI QUYẾT: Đối với hồ sơ xin cấp phép đang trong quá trình xét duyệt, nếu có văn bản pháp luật mới có hiệu lực làm thay đổi điều kiện, cơ quan nhà nước phải áp dụng quy định mới nhất tại thời điểm ra quyết định (trừ khi văn bản mới có điều khoản chuyển tiếp). Đây là nguyên tắc áp dụng pháp luật hiện hành, KHÔNG bị coi là áp dụng hồi tố trái phép.
 """
 
 # =====================================================================
