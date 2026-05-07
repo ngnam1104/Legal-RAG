@@ -645,11 +645,12 @@ class HybridRetriever:
             rerank_top_l = limit
 
         t0 = time.perf_counter()
-        # Khi có doc_number cụ thể, tăng broad_top_k để bắt đủ tất cả chunks (kể cả Phụ lục cuối)
-        actual_broad_top_k = 60 if doc_number else broad_top_k
+        # Khi có doc_number cụ thể, KHÔNG nên lấy quá nhiều chunk từ chính văn bản đó, 
+        # để chừa "đất" (pool) cho các văn bản hướng dẫn bên ngoài.
+        actual_broad_top_k = 30 if doc_number else broad_top_k
         broad_hits = self.broad_retrieve(
             query, top_k=actual_broad_top_k,
-            main_limit=20,
+            main_limit=15 if doc_number else 20,
             appendix_limit=5,
             is_appendix=is_appendix, legal_type=legal_type,
             doc_number=doc_number, include_inactive=include_inactive,
@@ -658,12 +659,12 @@ class HybridRetriever:
         
         # --- CHỐNG OVER-FILTERING ---
         # Nếu user cung cấp doc_number hoặc legal_type, có thể họ sẽ bị sót các Nghị định/Thông tư hướng dẫn liên quan.
-        # Ta sẽ tự động "thả lỏng" điều kiện và lấy thêm 15 kết quả chung (không filter doc_number/legal_type) để Reranker tự do lựa chọn.
+        # Ta sẽ tự động "mở rộng lưới" và lấy thêm NHIỀU kết quả chung (không filter doc_number/legal_type) để Reranker ưu tiên.
         if doc_number or legal_type:
             extra_hits = self.broad_retrieve(
-                query, top_k=15,
-                main_limit=10,
-                appendix_limit=5,
+                query, top_k=40,
+                main_limit=30,
+                appendix_limit=10,
                 is_appendix=is_appendix, legal_type=None,
                 doc_number=None, include_inactive=include_inactive,
                 article_ref=article_ref

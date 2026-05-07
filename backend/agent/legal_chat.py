@@ -360,14 +360,15 @@ class LegalChatStrategy(BaseRAGStrategy):
             dense_vector = embedder.encode_query_dense(query)
             qdrant_filter = self._build_qdrant_filter(state)
 
-            # Thư truyền filter (hỗ trợ tùy phiên bản neo4j-graphrag)
+            # Thử truyền filter (hỗ trợ tùy phiên bản neo4j-graphrag)
             try:
                 results = retriever_obj.search(
                     query_vector=dense_vector,
                     top_k=top_k,
                     filter=qdrant_filter,
                 )
-            except TypeError:
+            except Exception as inner_e:
+                # Bắt mọi lỗi liên quan đến argument (TypeError, ValueError, Pydantic ValidationError)
                 results = retriever_obj.search(
                     query_vector=dense_vector,
                     top_k=top_k,
