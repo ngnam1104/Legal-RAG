@@ -11,6 +11,7 @@ Quy tắc BẮT BUỘC để Viết lại câu hỏi mồ côi (Standalone Query
 2. Nếu QUERY tiếp nối chủ đề của văn bản đang thảo luận trong HISTORY, BẮT BUỘC phải chèn định danh/số hiệu văn bản đó vào QUERY mới. (VD: Nếu lịch sử đang bàn về Thông tư 54/2025/TT-BYT, câu hỏi "Việc bệnh viện tự bào chế..." phải được viết lại thành "Việc bệnh viện tự bào chế... theo Thông tư 54/2025/TT-BYT..."). Phải giữ nguyên ngữ cảnh pháp lý và ý định tra cứu.
 3. Phục hồi hoàn toàn đại từ ("nó", "điều đó", "luật kia"). Cấm để lại đại từ chỉ định thay cho Tên văn bản.
 4. (Tính năng HyDE) Bổ sung một đoạn "câu trả lời giả định" tối ưu từ khóa pháp lý (đặc biệt là tên văn bản + số hiệu) vào thẳng câu hỏi luôn để tạo thành "hypothetical_query" dựa trên QUERY.
+5. TỪ ĐỒNG NGHĨA PHÁP LÝ (Query Augmentation): Người dùng thường dùng từ ngữ đời thường. Hãy TỰ ĐỘNG CHUẨN HOÁ và BỔ SUNG thuật ngữ pháp lý tương đương vào câu hỏi viết lại. Ví dụ: "chủ sở hữu", "chủ quầy thuốc" -> "người chịu trách nhiệm chuyên môn", "người hướng dẫn thực hành chuyên môn". Việc làm giàu từ khóa này giúp Vector Search tìm kiếm chính xác hơn.
 
 Quy tắc Phân loại (Routing):
 - LEGAL_CHAT: Mục tiêu tối cao cho MỌI câu hỏi liên quan đến pháp luật, tra cứu thông tin, điều khoản, thủ tục hành chính, mức phạt, kiểm tra mâu thuẫn văn bản, thống kê luật, tóm tắt lĩnh vực, v.v. Bất cứ câu hỏi nào có ý định tìm kiếm hoặc xử lý thông tin pháp lý đều vào đây! Ngay cả khi người dùng không nhắc chữ "luật", chỉ cần hỏi về một vấn đề đời sống cần quy định điều chỉnh, thì LUÔN CHỌN LEGAL_CHAT.
@@ -90,6 +91,7 @@ HƯỚNG DẪN TRẢ LỜI
 6. Nếu không tìm thấy thông tin liên quan, trả lời: "Dựa trên cơ sở dữ liệu hiện tại, tôi không tìm thấy quy định liên quan."
 7. QUY TẮC CẤM ẢO GIÁC: KHÔNG tự sáng tác số hiệu văn bản, tên luật, hay điều khoản không có trong phần trên.
 8. QUY TẮC THỜI GIAN PHÁP LÝ (BẮT BUỘC): Trước tiên, xác định MỐC THỜI GIAN của sự việc trong câu hỏi (ví dụ: "nộp hồ sơ năm 2023", "ký hợp đồng tháng 8/2023"). Sau đó, CHỈ áp dụng các văn bản pháp luật có hiệu lực TẠI THỜI ĐIỂM ĐÓ. Văn bản ban hành SAU mốc thời gian sự việc (ví dụ: Nghị định năm 2025 cho sự việc năm 2023) KHÔNG CÓ GIÁ TRỊ áp dụng hồi tố, trừ khi văn bản đó có điều khoản hiệu lực hồi tố rõ ràng. Hãy ghi rõ văn bản nào đang áp dụng và tại sao nó có hiệu lực vào thời điểm sự việc xảy ra.
+9. GUARDRAIL AN TOÀN PHÁP LÝ (BẮT BUỘC): Nếu trong ngữ cảnh không đề cập đến một điều kiện chi tiết nào đó, tuyệt đối KHÔNG được khẳng định là pháp luật không có quy định đó. Hãy trả lời là: "Dựa trên ngữ cảnh hiện tại, không thấy quy định về vấn đề này, nhưng cần đối chiếu thêm các Nghị định hướng dẫn chi tiết."
 """
 
 # =====================================================================
