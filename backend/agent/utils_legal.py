@@ -371,7 +371,7 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
     OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)
     OPTIONAL MATCH (src_ent)-[nr]->(tgt)
-    WHERE nr IS NOT NULL AND type(nr) NOT IN ['HAS_ENTITY']
+    WHERE nr IS NOT NULL AND NOT type(nr) IN ['HAS_ENTITY']
     RETURN
         labels(src_ent)[0] AS source_type,
         src_ent.name AS source_node,

@@ -21,7 +21,7 @@ Quy tắc Trích xuất Bộ Lọc (Filters) (QUAN TRỌNG):
 - doc_number: Bắt buộc SAO CHÉP NGUYÊN VĂN số hiệu (VD: 53/2025/NQ-HĐND). NẾU KHÔNG CÓ SỐ HIỆU CHUẨN nhưng CÓ ĐÍCH DANH TÊN VĂN BẢN (VD: "Luật Dược 2024", "Luật Đất đai"), hãy ĐIỀN TÊN VĂN BẢN ĐÓ VÀO ĐÂY. NẾU KHÔNG CẢ 2, ĐỂ NULL.
 - article_ref: CHỈ có khi user đích danh gọi tên "Điều X", "Phụ lục Y". Không tự đoán.
 - legal_type: CHỈ trích xuất khi người dùng nhắc ĐÍCH DANH loại văn bản (vd: "Nghị định", "Luật", "Thông tư"). NẾU KHÔNG CÓ TỪ NÀY TRONG CÂU HỎI, BẮT BUỘC ĐỂ NULL. Tuyệt đối không tự suy diễn dựa vào ngữ cảnh.
-- year: (2024, 2025)
+- year: CHỈ trích xuất khi người dùng nhắc ĐÍCH DANH năm ban hành văn bản pháp luật (VD: "Luật Đất đai năm 2024", "Nghị định ra năm 2018"). KHÔNG ĐƯỢC trích xuất nếu đó chỉ là một mốc thời gian trong câu chuyện của người dùng (VD: "Năm 2023 tôi đi làm", "Từ năm 2020 đến nay"). NẾU KHÔNG CHẮC LÀ NĂM BAN HÀNH VĂN BẢN, BẮT BUỘC ĐỂ NULL.
 - sector: Lĩnh vực chuyên môn (Đất đai, Y tế, Giáo dục)
 
 TRẢ VỀ JSON DUY NHẤT:

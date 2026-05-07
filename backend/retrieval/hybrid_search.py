@@ -655,6 +655,24 @@ class HybridRetriever:
             doc_number=doc_number, include_inactive=include_inactive,
             article_ref=article_ref
         )
+        
+        # --- CHỐNG OVER-FILTERING ---
+        # Nếu user cung cấp doc_number hoặc legal_type, có thể họ sẽ bị sót các Nghị định/Thông tư hướng dẫn liên quan.
+        # Ta sẽ tự động "thả lỏng" điều kiện và lấy thêm 15 kết quả chung (không filter doc_number/legal_type) để Reranker tự do lựa chọn.
+        if doc_number or legal_type:
+            extra_hits = self.broad_retrieve(
+                query, top_k=15,
+                main_limit=10,
+                appendix_limit=5,
+                is_appendix=is_appendix, legal_type=None,
+                doc_number=None, include_inactive=include_inactive,
+                article_ref=article_ref
+            )
+            if extra_hits:
+                seen = {h.get("id", "") for h in broad_hits}
+                for eh in extra_hits:
+                    if eh.get("id", "") not in seen:
+                        broad_hits.append(eh)
 
         t1 = time.perf_counter()
         if use_rerank:
@@ -872,7 +890,7 @@ class HybridRetriever:
         UNWIND $chunk_ids AS cid
         MATCH (c) WHERE c.qdrant_id = cid OR c.id = cid
         OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)-[nr]->(tgt)
-        WHERE nr IS NOT NULL AND type(nr) NOT IN ['HAS_ENTITY']
+        WHERE nr IS NOT NULL AND NOT type(nr) IN ['HAS_ENTITY']
         RETURN cid AS chunk_id,
                collect(DISTINCT {
                  relationship: type(nr),
