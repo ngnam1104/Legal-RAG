@@ -27,25 +27,3 @@ Báo cáo này tổng hợp các chỉ số hiệu năng về tốc độ phản
 ---
 
 ## 2. Tốc độ và Quy mô Lập chỉ mục (Ingestion)
-*Nguồn: [result_500.txt](file:///d:/iCOMM/Legal-RAG/result_500.txt)*
-
-### Quy mô Dữ liệu (Cumulative Statistics - Phase 3)
-Hệ thống đã hoàn tất nạp dữ liệu với quy mô:
-- **Tổng số văn bản gốc**: 500 văn bản (Chủ yếu thuộc lĩnh vực Thể thao - Y tế)
-- **Tổng số thực thể (Entities)**: ~22,600 (Tổ chức), ~18,300 (Khái niệm), ~9,600 (Vai trò)
-- **Tổng số quan hệ (Relationships)**: ~17,381 quan hệ văn bản, ~33,259 quan hệ thực thể.
-
-### Điểm chuẩn Truy vấn (Query Benchmark)
-Đo lường tốc độ truy vấn trực tiếp trên cơ sở dữ liệu sau khi index:
-- **Dense search (top-5)**: 39.3ms
-- **Sparse (BM25) search (top-5)**: 5.9ms
-- **Hybrid search RRF (top-5)**: 19.0ms
-- **Find doc by number**: 94.8ms
-- **Thời gian truy vấn trung bình (Avg Benchmark)**: **111.0ms**
-
----
-
-## 3. Đánh giá chung
-- **Tốc độ truy vấn (Database Level)**: Rất nhanh (trung bình ~111ms), cho thấy cấu trúc Index và Graph đang hoạt động hiệu quả.
-- **Tốc độ phản hồi (End-to-End)**: Còn khá chậm (~56s), nguyên nhân chính do quá trình mở rộng đồ thị (Graph Expand) và gọi LLM nhiều lần trong pipeline.
-- **Độ chính xác**: Intent đạt tuyệt đối, tuy nhiên nội dung cần tối ưu thêm để vượt ngưỡng 71%.

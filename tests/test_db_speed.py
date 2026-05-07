@@ -52,7 +52,7 @@ def _save_results():
             f.write(line + "\n")
 
 def get_qdrant_client():
-    return QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+    return QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, timeout=60)
 
 def get_neo4j_driver():
     return GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS))
@@ -90,8 +90,8 @@ def test_qdrant_easy_semantic_search(client, collection_name, query_vector=None)
         _out(f"❌ Lỗi: {e}")
 
 @measure_time
-def test_qdrant_medium_filtered_search(client, collection_name, query_vector=None, doc_id="38/2020/QĐ-UBND"):
-    _out(f"\n[QDRANT - TRUNG BÌNH] 🔍 Scenario 2: Semantic Search kèm Metadata Filter (doc_id = {doc_id})")
+def test_qdrant_medium_filtered_search(client, collection_name, query_vector=None, doc_number="105/2016/QH13"):
+    _out(f"\n[QDRANT - TRUNG BÌNH] 🔍 Scenario 2: Semantic Search kèm Metadata Filter (doc_number = {doc_number})")
     _out("Mô tả: Tìm kiếm ngữ nghĩa nhưng giới hạn bắt buộc trong một văn bản cụ thể.")
     if query_vector is None:
         query_vector = [0.01] * 1024
@@ -104,8 +104,8 @@ def test_qdrant_medium_filtered_search(client, collection_name, query_vector=Non
             query_filter=Filter(
                 must=[
                     FieldCondition(
-                        key="document_id",
-                        match=MatchValue(value=doc_id)
+                        key="document_number",
+                        match=MatchValue(value=doc_number)
                     )
                 ]
             ),
