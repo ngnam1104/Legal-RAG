@@ -354,7 +354,7 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
         rel_type,
         target_article,
         chunk_text
-    LIMIT 50
+    LIMIT 100
     """
 
     # ── Query 2: Free-form Entities linked to chunk nodes (HAS_ENTITY) ──
@@ -370,7 +370,7 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     RETURN cid AS chunk_id,
            labels(e)[0] AS entity_type,
            e.name AS entity_name
-    LIMIT 200
+    LIMIT 500
     """
 
     # ── Query 3: Free-form Node Relations (RESPONSIBLE_FOR, SIGNED_BY, etc.) ──
@@ -391,7 +391,7 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
         labels(tgt)[0] AS target_type,
         tgt.name AS target_node,
         nr.chunk_text AS chunk_text
-    LIMIT 100
+    LIMIT 500
     """
 
     # ── Query 4: Cross-Document Entity Context (Sibling Documents) ──
@@ -407,10 +407,10 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     WITH cid, coalesce(c1, c2, c3, c4) AS c
     WHERE c IS NOT NULL
     MATCH (c)-[:HAS_ENTITY]->(e)
-    WHERE labels(e)[0] IN ['Procedure', 'Term', 'Condition'] AND e.name IS NOT NULL
-    // Chỉ dùng entity đặc thù: số chunk liên kết < 30
+    WHERE NOT labels(e)[0] IN ['Document', 'LegalArticle', 'Clause', 'Chunk'] AND e.name IS NOT NULL
+    // Lọc entity đặc thù: số chunk liên kết < 50 để tăng độ phủ (recall)
     WITH c, e, cid, count { (e)<-[:HAS_ENTITY]-() } AS usage_count
-    WHERE usage_count < 30
+    WHERE usage_count < 50
     // Tìm chunk khác cùng entity nhưng khác document
     MATCH (other_c)-[:HAS_ENTITY]->(e)
     WHERE other_c.qdrant_id IS NOT NULL AND other_c.qdrant_id <> cid
@@ -426,7 +426,7 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
         other_c.text AS sibling_text,
         usage_count
     ORDER BY usage_count ASC
-    LIMIT 20
+    LIMIT 50
     """
 
     result = {"doc_relations": [], "entities": [], "node_relations": [], "sibling_texts": []}
