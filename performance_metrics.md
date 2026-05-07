@@ -30,7 +30,10 @@ Báo cáo này tổng hợp các chỉ số hiệu năng về tốc độ phản
 *Nguồn: [result_500.txt](file:///d:/iCOMM/Legal-RAG/result_500.txt)*
 
 Hệ thống đã được kiểm thử với tập dữ liệu y tế quy mô lớn:
-- **Tổng quy mô**: ~21,000 văn bản (PDF/DOCX).
+- **Tổng quy mô**: ~21,000 văn bản (được thu thập qua 3 tầng từ `chunking_embedding.py`):
+    1. **Văn bản gốc**: Danh sách ưu tiên từ 8,000 VB y tế cốt lõi.
+    2. **Tham chiếu cấp 1**: Các VB được trích dẫn trực tiếp từ nhóm gốc.
+    3. **Tham chiếu cấp 2**: Các VB được trích dẫn tiếp từ nhóm cấp 1 để bao phủ toàn bộ mạng lưới quy định.
 - **Tổng số Points (Qdrant)**: ~672,185 points.
 - **Thời gian xử lý trung bình**: **23.75s / văn bản**.
 - **Công suất xử lý**: ~150 văn bản/giờ (với cấu hình LLM hiện tại).
