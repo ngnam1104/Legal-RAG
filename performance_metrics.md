@@ -27,3 +27,38 @@ Báo cáo này tổng hợp các chỉ số hiệu năng về tốc độ phản
 ---
 
 ## 2. Tốc độ và Quy mô Lập chỉ mục (Ingestion)
+*Nguồn: [result_500.txt](file:///d:/iCOMM/Legal-RAG/result_500.txt)*
+
+Hệ thống đã được kiểm thử với tập dữ liệu y tế quy mô lớn:
+- **Tổng quy mô**: ~21,000 văn bản (PDF/DOCX).
+- **Tổng số Points (Qdrant)**: ~672,185 points.
+- **Thời gian xử lý trung bình**: **23.75s / văn bản**.
+- **Công suất xử lý**: ~150 văn bản/giờ (với cấu hình LLM hiện tại).
+
+---
+
+## 3. Hiệu năng Cơ sở dữ liệu (Database Diagnostics)
+*Nguồn: [test_results.txt](file:///d:/iCOMM/Legal-RAG/test_results.txt)*
+
+Kết quả đo lường trực tiếp trên cụm Server (10.9.2.57) cho thấy tốc độ truy vấn ở mức Database cực kỳ tối ưu:
+
+### 3.1. Vector Search (Qdrant)
+| Kịch bản | Độ trễ (Latency) | Ghi chú |
+| :--- | :--- | :--- |
+| **Tìm kiếm ngữ nghĩa cơ bản** | **34.98 ms** | Top 5 tương đồng trên 670k points |
+| **Tìm kiếm kèm Filter Metadata** | **2666.89 ms** | Lọc theo `document_number` cụ thể |
+
+### 3.2. Graph Traversal (Neo4j)
+| Kịch bản | Độ trễ (Latency) | Ý nghĩa |
+| :--- | :--- | :--- |
+| **Tra cứu Node (Lookup)** | 11.38 ms | Tìm Organization theo tên |
+| **Phân cấp Văn bản (Hierarchy)** | 21.26 ms | Lấy cây: Doc -> Article -> Clause -> Chunk |
+| **Bán kính 2 bước (2-hop)** | 444.15 ms | Phân tích quan hệ gián tiếp quy mô lớn |
+| **Phân tích tác động sâu** | 702.19 ms | Lan truyền ảnh hưởng qua 3 bước nhảy |
+| **Đường đi ngắn nhất (Shortest Path)** | **44.00 s** | Tìm liên kết giữa 2 khái niệm xa nhau |
+
+> [!TIP]
+> **Nhận xét**: 
+> 1. Tốc độ truy vấn thô của DB rất nhanh (hầu hết < 50ms).
+> 2. Sự chênh lệch giữa 44s (Shortest Path) và 56s (Tổng Pipeline) cho thấy các thuật toán đồ thị phức tạp là nhân tố chính ảnh hưởng đến trải nghiệm người dùng cuối. 
+> 3. Cần tối ưu hóa việc cache kết quả Shortest Path cho các khái niệm phổ biến để giảm tải cho CPU Neo4j.
