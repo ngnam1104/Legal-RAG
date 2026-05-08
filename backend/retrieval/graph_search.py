@@ -254,19 +254,27 @@ class EntityGraphRetriever:
             else ""
         )
         rel_query = f"""
-        UNWIND $entities AS ent_name
-        MATCH (e:{label_filter})
-        WHERE toLower(e.name) CONTAINS toLower(ent_name)
-           OR toLower(e.document_number) CONTAINS toLower(ent_name)
+        // 1. Tìm từ danh sách thực thể/văn bản "hạt giống"
+        OPTIONAL MATCH (e_seed:{label_filter})
+        WHERE (toLower(e_seed.name) IN $entities OR toLower(e_seed.document_number) IN $entities)
+        
+        // 2. Tìm từ các node lá (chunks) đã xác định được ở bước A
+        OPTIONAL MATCH (c_leaf) WHERE c_leaf.qdrant_id IN $chunk_ids
+        OPTIONAL MATCH (c_leaf)-[:HAS_ENTITY]->(e_leaf)
+        
+        WITH DISTINCT coalesce(e_seed, e_leaf) AS e
+        WHERE e IS NOT NULL
+        
         MATCH (e)-[r]->(target)
-        WHERE type(r) <> 'HAS_ENTITY' {rel_filter} AND (target.name IS NOT NULL OR target.document_number IS NOT NULL)
+        WHERE type(r) <> 'HAS_ENTITY' {rel_filter} 
+          AND (target.name IS NOT NULL OR target.document_number IS NOT NULL)
         RETURN DISTINCT
-            COALESCE(e.name, e.document_number) AS src_name,
+            COALESCE(e.document_number, e.name) AS src_name,
             labels(e)[0]        AS src_type,
             type(r)             AS rel_type,
-            COALESCE(target.name, target.document_number) AS tgt_name,
+            COALESCE(target.document_number, target.name) AS tgt_name,
             labels(target)[0]   AS tgt_type
-        LIMIT 50
+        LIMIT 100
         """
 
         chunk_ids   = set()
@@ -290,8 +298,11 @@ class EntityGraphRetriever:
                     if r.get("doc_number"):
                         doc_numbers.add(r["doc_number"])
 
-                # B — Entity–Entity relations
-                rel_params = {"entities": entities}
+                # B — Entity–Entity relations (bao gồm cả quan hệ từ node lá)
+                rel_params = {
+                    "entities": [ent.lower() for ent in entities],
+                    "chunk_ids": list(chunk_ids)
+                }
                 if target_rels:
                     rel_params["target_rels"] = target_rels
                 for r in session.run(rel_query, **rel_params).data():
@@ -308,7 +319,7 @@ class EntityGraphRetriever:
             if entity_info:
                 ctx_parts.append("Thực thể liên quan: " + ", ".join(sorted(entity_info)))
             if rel_lines:
-                ctx_parts.append("Quan hệ Thực thể:\n" + "\n".join(rel_lines[:20]))
+                ctx_parts.append("Quan hệ Đồ thị:\n" + "\n".join(rel_lines[:20]))
 
             logger.info(
                 f"  [Graph Search] entities={len(entity_info)}, "
