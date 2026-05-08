@@ -82,6 +82,7 @@ Yêu cầu cho từng lượt (Turn):
 
 YÊU CẦU VỀ ĐỘ CHÍNH XÁC (CHỐNG ẢO GIÁC):
 - Tuyệt đối KHÔNG BỊA ĐẶT. Câu trả lời và trích dẫn phải lấy TRỰC TIẾP từ văn bản.
+- CẤM TẠO RA CÁC CÂU TRẢ LỜI MANG TÍNH CHẤT PHỦ ĐỊNH HOẶC KHÁI QUÁT SAI LỆCH (Ví dụ: "Văn bản này chỉ hướng dẫn chung chung không có quy định cụ thể") nếu trong văn bản (context) thực sự có điều khoản quy định cụ thể về vấn đề đó. Phải đọc kỹ context trước khi kết luận.
 - Đảm bảo tính logic xuyên suốt cả 6 lượt hỏi đáp.
 
 ĐỊNH DẠNG ĐẦU RA BẮT BUỘC LÀ MỘT DANH SÁCH JSON CHỨA 1 OBJECT (Session):

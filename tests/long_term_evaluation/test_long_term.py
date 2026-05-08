@@ -63,7 +63,8 @@ CÂU TRẢ LỜI TỪ RAG: {generated_answer}
 TIÊU CHÍ ĐÁNH GIÁ:
 1. ✅ ĐẠT: RAG trả lời đúng bản chất pháp lý VÀ hiểu đúng các tham chiếu ngữ cảnh (VD: "nó", "văn bản này", "ông ấy") từ lịch sử.
 2. ✅ ĐẠT: Cách diễn đạt có thể khác mẫu nhưng thông tin cốt lõi và căn cứ pháp luật phải chính xác.
-3. ❌ KHÔNG ĐẠT: Trả lời sai luật, báo không tìm thấy thông tin trong khi mẫu có, hoặc bị mất ngữ cảnh (hallucination về thực thể đã nhắc ở lượt trước).
+3. ✅ ĐẠT (Đặc cách): Nếu RAG báo "không tìm thấy quy định/thông tin" HOẶC "tiền đề sai" và RAG CÓ GIẢI THÍCH LÝ DO HỢP LÝ (ví dụ: chỉ ra rằng câu hỏi chứa thông tin mâu thuẫn với lịch sử hoặc pháp luật), thì đánh giá là ĐẠT, ngay cả khi Mẫu có câu trả lời.
+4. ❌ KHÔNG ĐẠT: Trả lời sai luật, báo không tìm thấy thông tin MỘT CÁCH VÔ LÝ mà không giải thích, hoặc bị mất ngữ cảnh (hallucination về thực thể đã nhắc ở lượt trước).
 
 ĐÁNH GIÁ CỦA BẠN: Trả về đúng MỘT DÒNG duy nhất bắt đầu bằng "✅ ĐẠT" hoặc "❌ KHÔNG ĐẠT", kèm theo lý giải ngắn gọn.
 """

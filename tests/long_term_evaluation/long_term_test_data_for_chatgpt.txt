@@ -1,201 +1,201 @@
 === BỘ CÂU HỎI TEST MULTI-TURN CHO CHATGPT ===
 Hướng dẫn: Copy từng lượt hỏi dưới đây vào ChatGPT trong cùng một phiên chat.
 
-SESSION 1: Tra cứu và phân tích Nghị định 105/2014/NĐ-CP về BHYT (Văn bản: 105/2014/NĐ-CP)
+SESSION 1: Xác định căn cứ pháp lý và phạm vi hướng dẫn của Nghị định 105/2014/NĐ-CP (Văn bản: 105/2014/NĐ-CP)
 ==================================================
-Lượt 1: Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP: tên đầy đủ, lĩnh vực điều chỉnh và mục đích ban hành chính của văn bản này là gì?
-Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các luật và nghị định làm nền tảng cho việc ban hành nó.
-Lượt 3: Tôi là cán bộ BHXH tỉnh. Hiện tại, tôi đang xử lý hồ sơ tham gia BHYT cho một hộ gia đình làm nông nghiệp có mức sống trung bình. Trong quá trình lập danh sách người thuộc nhóm đối tượng này, nếu có sự không thống nhất giữa UBND xã và Phòng LĐ-TB&HXH về việc xác định 'mức sống trung bình', thì trách nhiệm giải quyết tranh chấp hoặc hướng dẫn thi hành nằm ở đâu theo tinh thần của Nghị định này?
-Lượt 4: Trong tình huống trên, giả sử UBND xã đã lập danh sách nhưng chưa được sự phê duyệt của cấp trên, và họ viện dẫn rằng Nghị định 105/2014/NĐ-CP không quy định rõ thủ tục phê duyệt cụ thể cho từng trường hợp ngoại lệ. Liệu Nghị định này có quy định rõ thẩm quyền phê duyệt hay chỉ dừng lại ở việc phân công trách nhiệm hướng dẫn thi hành cho các bộ ngành?
-Lượt 5: Để đảm bảo tính hợp pháp khi thực hiện nhiệm vụ hướng dẫn thi hành Nghị định này tại địa phương, cơ quan BHXH cần phối hợp với những cơ quan nào được liệt kê trong phần Nơi nhận của Nghị định để đồng bộ hóa thông tin về đối tượng tham gia BHYT?
-Lượt 6: Xét về hiệu lực pháp lý lâu dài, Nghị định 105/2014/NĐ-CP này có mối quan hệ thế nào với các văn bản trước đó như Nghị định 62/2009/NĐ-CP và Luật Bảo hiểm y tế? Liệu nó có thay thế hoàn toàn hay chỉ bổ sung/hướng dẫn?
+Lượt 1: Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực áp dụng và mục đích ban hành chính của văn bản này.
+Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý nào? Hãy liệt kê các luật và nghị định cụ thể làm nền tảng cho việc ban hành Nghị định 105/2014/NĐ-CP.
+Lượt 3: Tôi là cán bộ phụ trách BHXH tại một huyện. Một hộ gia đình làm nông nghiệp muốn tham gia BHYT nhưng không chắc chắn mình có thuộc diện 'có mức sống trung bình' hay không để được hỗ trợ. Dựa trên nội dung Nghị định 105/2014/NĐ-CP, tôi cần xác định xem văn bản này có quy định cụ thể về tiêu chí xác định mức sống trung bình hay chỉ quy định về thủ tục lập danh sách không?
+Lượt 4: Nếu tôi hiểu đúng, Nghị định này giao trách nhiệm cho các bộ, ngành liên quan. Vậy cụ thể trách nhiệm của các bộ, ngành khác có liên quan trong việc thi hành Nghị định 105/2014/NĐ-CP là gì và phạm vi quyền hạn của họ được xác định ra sao?
+Lượt 5: Để đảm bảo tính hợp lệ khi triển khai, tôi cần biết Nghị định 105/2014/NĐ-CP đã được gửi đến những cơ quan nào để lưu trữ và phối hợp thực hiện? Hãy liệt kê các cơ quan chủ chốt trong phần Nơi nhận.
+Lượt 6: Dựa trên thông tin đồ thị mối quan hệ, Nghị định 105/2014/NĐ-CP có mối liên hệ thế nào với các văn bản trước đó và các văn bản khác? Đặc biệt, nó thay đổi hoặc hướng dẫn cho những văn bản nào?
 
 --------------------------------------------------
 
-SESSION 2: Tra cứu và Phân tích Nghị định 105/2014/NĐ-CP về Bảo hiểm y tế (Văn bản: 105/2014/NĐ-CP)
+SESSION 2: Tra cứu và phân tích căn cứ pháp lý của Nghị định 105/2014/NĐ-CP (Văn bản: 105/2014/NĐ-CP)
 ==================================================
-Lượt 1: Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực điều chỉnh và mục đích ban hành chính của văn bản này.
-Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý nào? Hãy liệt kê cụ thể các luật và nghị quyết đã được trích dẫn trong phần đầu của nghị định.
-Lượt 3: Giả sử tôi là cán bộ BHXH huyện tại một vùng nông thôn, cần xác định đối tượng tham gia BHYT theo diện hộ gia đình làm nông nghiệp có mức sống trung bình. Dựa trên nội dung nghị định này, tôi cần tập trung vào nhiệm vụ cụ thể nào được nêu rõ trong các điều khoản hướng dẫn?
-Lượt 4: Trong quá trình lập danh sách đó, nếu phát sinh vướng mắc về phối hợp giữa các cơ quan địa phương, thì trách nhiệm của các bộ, ngành liên quan được quy định như thế nào trong nghị định này để đảm bảo tính thống nhất?
-Lượt 5: Để đảm bảo tính hợp lệ và lưu trữ đúng quy định hành chính, Nghị định này đã được gửi đến những nơi nhận nào? Đặc biệt, văn phòng nào chịu trách nhiệm lưu trữ và công bố?
-Lượt 6: Xét về mối quan hệ với các văn bản trước đó, Nghị định 105/2014/NĐ-CP có thay thế hay sửa đổi những văn bản nào? Và nó hướng dẫn trực tiếp cho Luật nào?
+Lượt 1: Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành cho luật nào?
+Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào liên quan đến Luật Tổ chức Chính phủ và Luật Bảo hiểm y tế?
+Lượt 3: Một hộ gia đình làm nông nghiệp tại một huyện thuộc diện hỗ trợ giảm nghèo nhanh và bền vững muốn tham gia BHYT. Dựa trên mối quan hệ giữa Nghị định 105/2014/NĐ-CP và các văn bản liên quan, hãy xác định xem Nghị định này có quy định trực tiếp về việc áp dụng chính sách hỗ trợ cho nhóm đối tượng ở 61 huyện nghèo không, hay nó chỉ đóng vai trò hướng dẫn chung?
+Lượt 4: Nếu xét về tính kế thừa và hiệu lực, Nghị định 105/2014/NĐ-CP có mối quan hệ thế nào với Nghị định 62/2009/NĐ-CP trước đó, và điều này ảnh hưởng như thế nào đến việc áp dụng các quy định cũ đối với tình huống của hộ gia đình nói trên?
+Lượt 5: Trong trường hợp hộ gia đình cần xác minh quyền lợi BHYT theo Nghị định này, cơ quan nào có trách nhiệm hướng dẫn thi hành và phối hợp thực hiện?
+Lượt 6: Hãy liệt kê đầy đủ các cơ quan trung ương và địa phương được gửi Nghị định 105/2014/NĐ-CP để đảm bảo việc phối hợp triển khai thực hiện chính sách BHYT đồng bộ trên toàn quốc.
 
 --------------------------------------------------
 
-SESSION 3: Quyền thay thế thuốc và trách nhiệm của nhà thuốc lẻ (Văn bản: 105/2016/QH13)
+SESSION 3: Quyền thay thế thuốc và trách nhiệm của Nhà thuốc bán lẻ (Văn bản: 105/2016/QH13)
 ==================================================
-Lượt 1: Theo Luật Dược 2016 (105/2016/QH13), ai là người có thẩm quyền được phép thay thế thuốc đã kê trong đơn thuốc bằng một thuốc khác?
-Lượt 2: Trong trường hợp người đó thực hiện việc thay thế thuốc như đã nêu ở lượt trước, thì điều kiện bắt buộc về sự đồng ý và trách nhiệm pháp lý đối với hành động này là gì?
-Lượt 3: Tình huống: Một bệnh nhân đến Nhà thuốc lẻ A mua thuốc theo đơn của bác sĩ. Dược sỹ tại nhà thuốc đề nghị thay thế thuốc gốc bằng thuốc generic cùng hoạt chất, đường dùng và liều lượng để giảm chi phí. Bệnh nhân đồng ý. Tuy nhiên, sau khi dùng, bệnh nhân bị phản ứng phụ nghiêm trọng do dị ứng với tá dược khác nhau giữa hai loại thuốc. Hãy phân tích trách nhiệm của dược sỹ và nhà thuốc dựa trên văn bản này.
-Lượt 4: Tiếp nối tình huống trên, nếu cơ sở bán lẻ A là 'Quầy thuốc' thay vì 'Nhà thuốc', liệu quy định về quyền thay thế thuốc này có áp dụng tương tự không? Và quầy thuốc có được bán nguyên liệu làm thuốc để pha chế lại cho bệnh nhân không?
-Lượt 5: Để một cơ sở được cấp phép hoạt động như 'Nhà thuốc' và dược sỹ được phép thực hiện hành vi thay thế thuốc như đã thảo luận, cơ sở đó cần đáp ứng những điều kiện trách nhiệm cơ bản nào theo Luật Dược 2016?
-Lượt 6: Luật Dược 2016 (105/2016/QH13) có hiệu lực thi hành từ ngày nào và mối quan hệ kế thừa của nó với các văn bản pháp luật trước đây (như Luật Dược 2005) là gì, ảnh hưởng thế nào đến tính hợp lệ của các giấy phép hoặc hành vi thay thế thuốc được thực hiện trước ngày hiệu lực?
+Lượt 1: Văn bản 105/2016/QH13 là văn bản pháp lý nào và thuộc lĩnh vực quản lý nhà nước gì?
+Lượt 2: Luật này có hiệu lực thi hành từ thời điểm nào và được ban hành dựa trên cơ sở pháp lý nào?
+Lượt 3: Tôi là chủ một nhà thuốc bán lẻ. Một bệnh nhân đến mua thuốc theo đơn kê sẵn nhưng loại thuốc đó hết hàng. Tôi muốn thay thế bằng một loại thuốc khác có cùng hoạt chất, đường dùng và liều lượng. Theo quy định tại Luật Dược 2016, tôi được phép thực hiện việc này không? Nếu có, tôi cần đảm bảo những điều kiện gì và chịu trách nhiệm như thế nào?
+Lượt 4: Trong tình huống trên, nếu tôi là quầy thuốc (không phải nhà thuốc) thì quyền hạn của tôi có giống như vậy không? Ngoài ra, đối với nhà thuốc bán lẻ, ngoài trách nhiệm thay thế thuốc đúng quy định, tôi còn bị cấm thực hiện hành vi kinh doanh nào liên quan đến nguyên liệu làm thuốc?
+Lượt 5: Để vận hành nhà thuốc bán lẻ một cách hợp pháp theo Luật này, ngoài việc tuân thủ quy định về thay thế thuốc và cấm bán nguyên liệu, tôi cần đảm bảo điều kiện gì về kỹ thuật chuyên môn và tham gia vào các chương trình y tế như thế nào?
+Lượt 6: Luật Dược 2016 này có mối quan hệ kế thừa như thế nào với các văn bản pháp luật trước đó, đặc biệt là Luật Dược năm 2005?
 
 --------------------------------------------------
 
-SESSION 4: Xử lý tình huống thay thế thuốc tại nhà thuốc và quy định pháp lý (Văn bản: 105/2016/QH13)
+SESSION 4: Xác định quyền thay thế thuốc và phạm vi bán lẻ theo Luật Dược 2016 (Văn bản: 105/2016/QH13)
 ==================================================
-Lượt 1: Vui lòng tra cứu và cung cấp thông tin cơ bản về văn bản 105/2016/QH13, bao gồm tên gọi chính thức và lĩnh vực điều chỉnh.
-Lượt 2: Đối với văn bản này, hiệu lực thi hành được quy định như thế nào? Căn cứ vào đâu để xác định thời điểm bắt đầu áp dụng?
-Lượt 3: Giả sử tôi là một dược sĩ làm việc tại một nhà thuốc bán lẻ. Tôi nhận được đơn thuốc kê đơn A (thuốc gốc). Tuy nhiên, thuốc A đã hết hàng. Tôi muốn thay thế bằng thuốc B (thuốc tương đương sinh học) có cùng hoạt chất, đường dùng và liều lượng. Trong tình huống này, tôi cần tuân thủ những điều kiện gì theo Luật Dược 2016 để thực hiện việc thay thế hợp pháp?
-Lượt 4: Tiếp nối tình huống trên, nếu tôi là chủ một quầy thuốc (không phải nhà thuốc) ở vùng đồng bào dân tộc thiểu số, tôi có quyền thay thế thuốc giống như dược sĩ tại nhà thuốc không? Và tôi được phép bán thêm những loại thuốc nào ngoài danh mục thông thường?
-Lượt 5: Để đảm bảo tuân thủ pháp luật khi hoạt động, cơ sở bán lẻ là nhà thuốc cần phải đáp ứng trách nhiệm nào liên quan đến điều kiện pha chế thuốc?
-Lượt 6: Luật Dược 2016 này có mối quan hệ thế nào với các văn bản trước đó? Cụ thể, nó dựa trên hoặc thay thế cho văn bản pháp lý nào?
+Lượt 1: Văn bản 105/2016/QH13 là văn bản pháp lý gì và thuộc lĩnh vực nào?
+Lượt 2: Luật này có hiệu lực thi hành từ ngày nào và được ban hành bởi ai?
+Lượt 3: Tôi là một dược sĩ làm việc tại nhà thuốc bán lẻ. Một bệnh nhân đến mua thuốc theo đơn kê của bác sĩ nhưng loại thuốc đó đang hết hàng. Tôi muốn thay thế bằng một loại thuốc khác có cùng hoạt chất, đường dùng và liều lượng. Theo quy định của Luật Dược 2016, tôi được phép thực hiện việc thay thế này không và cần tuân thủ điều kiện gì?
+Lượt 4: Trong tình huống trên, nếu tôi thay thế thuốc mà không xin ý kiến người mua hoặc thay thế bằng thuốc có hoạt chất khác, tôi sẽ vi phạm nguyên tắc nào? Ngoài ra, trách nhiệm pháp lý cụ thể đối với hành vi thay đổi thuốc được quy định như thế nào để đảm bảo tính minh bạch và an toàn cho người dùng?
+Lượt 5: Để thực hiện việc bán lẻ thuốc tại nhà thuốc một cách hợp pháp, ngoài việc tuân thủ quy định về thay thế thuốc, cơ sở bán lẻ là nhà thuốc còn phải đảm bảo những điều kiện và trách nhiệm cốt lõi nào khác liên quan đến pha chế và kinh doanh nguyên liệu?
+Lượt 6: Luật Dược 2016 này có mối quan hệ kế thừa hay căn cứ vào những văn bản pháp lý nào trước đó, đặc biệt là so với Luật Dược cũ?
 
 --------------------------------------------------
 
-SESSION 5: Tra cứu chức năng và cơ cấu tổ chức Bộ Y tế theo Nghị định 42/2025/NĐ-CP (Văn bản: 42/2025/NĐ-CP)
+SESSION 5: Tra cứu và phân tích chức năng, cơ cấu tổ chức Bộ Y tế theo Nghị định 42/2025/NĐ-CP (Văn bản: 42/2025/NĐ-CP)
 ==================================================
-Lượt 1: Nghị định 42/2025/NĐ-CP quy định về nội dung gì?
-Lượt 2: Căn cứ pháp lý để ban hành văn bản này là gì?
-Lượt 3: Nếu một đơn vị sự nghiệp công lập mới trực thuộc Bộ Y tế cần xác định chức năng và cơ cấu tổ chức cụ thể, ai là người có thẩm quyền ban hành quyết định quy định điều này?
-Lượt 4: Trong trường hợp có sự thay đổi danh sách các đơn vị sự nghiệp công lập trực thuộc, quy trình phê duyệt danh sách này khác với việc ban hành quyết định nội bộ cho từng đơn vị như thế nào dựa trên văn bản?
-Lượt 5: Những cơ quan nào sẽ nhận được văn bản Nghị định 42/2025/NĐ-CP này sau khi ban hành?
-Lượt 6: Nghị định này có mối quan hệ thế nào với các văn bản trước đó về chức năng Bộ Y tế?
+Lượt 1: Vui lòng cung cấp thông tin cơ bản về Nghị định 42/2025/NĐ-CP, bao gồm tên đầy đủ của văn bản, lĩnh vực điều chỉnh và mục đích chính của việc ban hành.
+Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý nào? Hãy liệt kê cụ thể các văn bản luật hoặc nghị định làm cơ sở.
+Lượt 3: Giả sử tôi là một cán bộ nhân sự tại Bộ Y tế đang xây dựng mô hình tổ chức mới. Tôi cần xác định thẩm quyền của ai trong việc quyết định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của các tổ chức, đơn vị trực thuộc Bộ Y tế? Và đối với danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ, thủ tục trình duyệt như thế nào?
+Lượt 4: Trong tình huống trên, nếu một đơn vị sự nghiệp công lập mới được thành lập trực tiếp dưới sự quản lý của Bộ Y tế nhưng không nằm trong nhóm 'các tổ chức, đơn vị thuộc Bộ' mà Bộ trưởng tự quyết định, thì liệu Bộ trưởng có thể tự ý ban hành quyết định thành lập và quy định cơ cấu cho đơn vị đó hay không? Hãy phân tích dựa trên sự phân định thẩm quyền giữa Bộ trưởng và Thủ tướng Chính phủ nêu trong văn bản.
+Lượt 5: Để thực hiện đúng quy trình khi muốn thành lập thêm một đơn vị sự nghiệp công lập mới trực thuộc Bộ Y tế (thuộc diện phải trình Thủ tướng), hồ sơ hoặc bước đi đầu tiên mà Bộ trưởng Bộ Y tế cần thực hiện là gì theo tinh thần của văn bản?
+Lượt 6: Dựa trên thông tin đồ thị về mối quan hệ văn bản, Nghị định 42/2025/NĐ-CP có mối liên hệ kế thừa hay thay thế nào với Nghị định 95/2022/NĐ-CP? Điều này ngụ ý gì về tính hiệu lực của các quy định cũ trong cùng lĩnh vực?
 
 --------------------------------------------------
 
-SESSION 6: Tra cứu và phân tích cơ cấu tổ chức Bộ Y tế theo Nghị định 42/2025/NĐ-CP (Văn bản: 42/2025/NĐ-CP)
+SESSION 6: Tra cứu chức năng, nhiệm vụ và cơ cấu tổ chức Bộ Y tế theo Nghị định 42/2025/NĐ-CP (Văn bản: 42/2025/NĐ-CP)
 ==================================================
-Lượt 1: Nghị định 42/2025/NĐ-CP quy định về nội dung gì?
-Lượt 2: Căn cứ pháp lý để ban hành văn bản này là gì?
-Lượt 3: Giả sử tôi là một đơn vị sự nghiệp công lập trực thuộc Bộ Y tế muốn biết ai có thẩm quyền quy định chức năng, nhiệm vụ và cơ cấu tổ chức của đơn vị mình? Trong tình huống này, tôi cần chờ nghị định này quy định chi tiết hay có văn bản khác?
-Lượt 4: Nếu danh sách các đơn vị sự nghiệp công lập trực thuộc Bộ Y tế thay đổi hoặc bổ sung mới, ai là người trình Thủ tướng Chính phủ ban hành danh sách đó?
-Lượt 5: Vậy thủ tục cụ thể để một đơn vị mới được thành lập và đưa vào danh sách đó là như thế nào? Nghị định này có quy định hồ sơ hay bước nộp đơn không?
-Lượt 6: Nghị định 42/2025/NĐ-CP này có mối quan hệ thế nào với Nghị định 95/2022/NĐ-CP trước đó? Nó có thay thế hay sửa đổi văn bản cũ không?
+Lượt 1: Nghị định 42/2025/NĐ-CP quy định về nội dung gì đối với Bộ Y tế?
+Lượt 2: Căn cứ pháp lý nào để Chính phủ ban hành nghị định này?
+Lượt 3: Trong bối cảnh Chính phủ vừa ban hành Nghị định 42/2025/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế, nếu một đơn vị sự nghiệp công lập trực thuộc Bộ Y tế cần xác định rõ phạm vi hoạt động và bộ máy quản lý nội bộ của mình thì cần dựa vào văn bản nào và do ai ban hành?
+Lượt 4: Nếu danh sách các đơn vị sự nghiệp công lập trực thuộc Bộ Y tế thay đổi hoặc cần bổ sung mới, ai là người có thẩm quyền trình Thủ tướng Chính phủ để xem xét và phê duyệt danh sách này?
+Lượt 5: Văn bản Nghị định 42/2025/NĐ-CP này đã được gửi đến những cơ quan, tổ chức nào để thi hành và lưu trữ?
+Lượt 6: Dựa trên thông tin đồ thị, Nghị định 42/2025/NĐ-CP có mối quan hệ kế thừa hay thay thế cho văn bản nào trước đó về cùng nội dung quy định chức năng, nhiệm vụ của Bộ Y tế?
 
 --------------------------------------------------
 
-SESSION 7: Tính toán chi phí tuân thủ và căn cứ pháp lý trong kiểm soát thủ tục hành chính (Văn bản: 02/2017/TTVPCP)
+SESSION 7: Tính toán chi phí tuân thủ và kiểm soát thủ tục hành chính theo TT 02/2017 (Văn bản: 02/2017/TTVPCP)
 ==================================================
-Lượt 1: Thông tư 02/2017/TT-VPCP quy định về nội dung gì và thuộc lĩnh vực nào?
-Lượt 2: Văn bản này được ban hành dựa trên những Nghị định nào làm cơ sở pháp lý?
-Lượt 3: Tôi là một doanh nghiệp hoạt động tại vùng miền núi, hải đảo. Để làm một thủ tục hành chính cấp tỉnh, tôi phải đi lại và làm đơn gồm 2 trang giấy. Hãy tính tổng thời gian chuẩn bị hồ sơ và đi lại theo định mức quy định trong thông tư này để phục vụ tính chi phí tuân thủ.
-Lượt 4: Trong trường hợp trên, nếu doanh nghiệp sử dụng nhân viên có thu nhập thực tế cao hơn nhiều so với mức bình quân để làm thủ tục, thì mức lương nào sẽ được áp dụng để tính 'chi phí tuân thủ' theo công thức trong Điều 27? Và công thức tính mức thu nhập bình quân 01 người 01 giờ làm việc cụ thể như thế nào?
-Lượt 5: Để hoàn thành báo cáo tính chi phí tuân thủ thủ tục hành chính theo đúng quy trình nghiệp vụ, bên cạnh việc tính toán thời gian và thu nhập như đã trao đổi, tôi cần lưu ý thêm những yếu tố nào về dữ liệu đầu vào từ cơ quan thống kê để đảm bảo tính chính xác theo văn bản?
-Lượt 6: Nếu sau này có Nghị định mới sửa đổi hoặc thay thế Nghị định 92/2017/NĐ-CP (một trong những căn cứ ban hành của Thông tư này), thì hiệu lực và cách áp dụng các định mức tính toán trong Thông tư 02/2017/TT-VPCP sẽ bị ảnh hưởng như thế nào?
+Lượt 1: Thông tư 02/2017/TT-VPCP có nội dung chính và lĩnh vực điều chỉnh là gì?
+Lượt 2: Văn bản này được ban hành dựa trên những Nghị định nào làm căn cứ pháp lý trực tiếp?
+Lượt 3: Tôi là một doanh nghiệp hoạt động tại khu vực nông thôn. Để hoàn thành một thủ tục hành chính cấp huyện, tôi phải đi lại 2 lượt và chuẩn bị hồ sơ gồm 3 trang đơn/tờ khai. Theo quy định, thời gian tính cho việc đi lại và làm hồ sơ trong trường hợp của tôi là bao nhiêu giờ?
+Lượt 4: Ngoài thời gian đã tính ở trên, nếu tôi cần tính tổng chi phí tuân thủ thủ tục này trong một năm, tôi cần xác định 'Mức thu nhập bình quân 01 người 01 giờ làm việc'. Công thức cụ thể để tính chỉ số này theo văn bản là gì?
+Lượt 5: Để áp dụng chính xác công thức tính mức thu nhập bình quân như đã nêu, nguồn dữ liệu về Tổng sản phẩm trong nước (GDP) và Số dân phải được lấy từ đâu và thuộc năm nào?
+Lượt 6: Thông tư 02/2017/TT-VPCP này có mối quan hệ như thế nào với Nghị định 150/2016/NĐ-CP và Nghị định 92/2017/NĐ-CP? Nó đóng vai trò là văn bản hướng dẫn hay sửa đổi các nghị định này?
 
 --------------------------------------------------
 
-SESSION 8: Tính toán chi phí tuân thủ và kiểm soát thủ tục hành chính theo TT 02/2017 (Văn bản: 02/2017/TT-VPCP)
+SESSION 8: Tính toán chi phí tuân thủ thủ tục hành chính theo TT 02/2017 (Văn bản: 02/2017/TT-VPCP)
 ==================================================
-Lượt 1: Thông tư 02/2017/TT-VPCP quy định về lĩnh vực nào và nội dung chính là gì?
-Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý nào? Hãy liệt kê các Nghị định làm cơ sở.
-Lượt 3: Tôi đang tính toán chi phí tuân thủ cho một thủ tục cấp giấy phép tại cấp Huyện. Công dân là người dân vùng nông thôn, phải đi lại để nộp hồ sơ và làm 02 trang đơn/tờ khai. Theo thông tư này, thời gian tính cho việc đi lại và làm đơn là bao nhiêu giờ?
-Lượt 4: Trong trường hợp trên, nếu công dân đó phải chuẩn bị thêm tài liệu khác ngoài đơn/tờ khai mẫu, thời gian làm tài liệu khác được tính như thế nào? Và mức thu nhập bình quân 01 người 01 giờ làm việc được xác định bằng công thức nào để nhân với tổng thời gian?
-Lượt 5: Để thực hiện việc kiểm tra và xác minh các khoản tính toán chi phí tuân thủ này, cơ quan nào có thẩm quyền và hình thức kiểm tra được quy định trong chương nào của văn bản?
-Lượt 6: Thông tư này có mối quan hệ sửa đổi hoặc hướng dẫn cụ thể nào đối với Nghị định 150/2016/NĐ-CP và Nghị định 20/2008/NĐ-CP theo đồ thị thông tin không?
+Lượt 1: Thông tư 02/2017/TT-VPCP quy định về nội dung gì và do cơ quan nào ban hành?
+Lượt 2: Văn bản này được ban hành dựa trên căn cứ pháp lý nào? Hãy liệt kê các Nghị định liên quan đến kiểm soát thủ tục hành chính mà nó trích dẫn.
+Lượt 3: Một tổ chức tại vùng nông thôn cần thực hiện thủ tục hành chính cấp tỉnh. Theo quy định, thời gian đi lại trung bình cho 01 lượt và thời gian làm đơn, tờ khai cho 01 trang giấy lần lượt là bao nhiêu giờ để phục vụ tính toán chi phí tuân thủ?
+Lượt 4: Trong công thức tính tổng chi phí tuân thủ, nếu muốn xác định 'Mức thu nhập bình quân 01 người 01 giờ làm việc' để nhân với thời gian đã tính ở trên, tôi cần sử dụng công thức cụ thể nào từ Tổng sản phẩm trong nước (GDP) và dân số?
+Lượt 5: Để hoàn thiện báo cáo tính chi phí tuân thủ thủ tục hành chính trong một năm theo đúng nghiệp vụ hướng dẫn, ngoài thời gian đi lại và làm hồ sơ, tôi còn cần xác định thêm yếu tố nào nữa để đưa vào công thức tính tổng chi phí?
+Lượt 6: Thông tư 02/2017/TT-VPCP có mối quan hệ như thế nào với Nghị định 150/2016/NĐ-CP về chức năng, nhiệm vụ của Văn phòng Chính phủ? Nó chỉ dựa trên Nghị định này hay còn có tác động ngược lại?
 
 --------------------------------------------------
 
 SESSION 9: Xử lý hồ sơ đăng ký thuốc generic và ngoại lệ CPP (Văn bản: 32/2018/TT-BYT)
 ==================================================
-Lượt 1: Văn bản 32/2018/TT-BYT quy định về nội dung gì và có hiệu lực thi hành không?
-Lượt 2: Căn cứ pháp lý để ban hành văn bản này là những nghị định và luật nào?
-Lượt 3: Tôi đang muốn đăng ký lưu hành một loại thuốc generic nhập khẩu. Tuy nhiên, nhà sản xuất không cung cấp được Giấy chứng nhận phép sản xuất (CPP) từ cơ quan quản lý nước ngoài. Trong trường hợp này, tôi cần đáp ứng điều kiện gì để được xem xét cấp phép?
-Lượt 4: Nếu tôi chọn phương án nộp báo cáo nghiên cứu tương đương sinh học thay vì CPP như vừa nói, thì hồ sơ kỹ thuật của tôi cần tuân thủ theo hướng dẫn nào? Có được dùng mẫu ICH-CTD không?
-Lượt 5: Trong phần hồ sơ kỹ thuật đó, tôi cần cung cấp những thông tin cụ thể nào về công thức và tiêu chuẩn chất lượng của sản phẩm?
-Lượt 6: Tiêu chuẩn chất lượng thuốc mà tôi phải tuân theo trong hồ sơ này có liên quan đến văn bản nào khác được đề cập trực tiếp trong Điều 29 không?
+Lượt 1: Vui lòng cung cấp thông tin cơ bản về Thông tư 32/2018/TT-BYT, bao gồm tên đầy đủ, lĩnh vực điều chỉnh và mục đích chính của văn bản này.
+Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các Nghị định và Luật liên quan được trích dẫn trong phần căn cứ.
+Lượt 3: Công ty Dược phẩm ABC muốn đăng ký lưu hành một loại thuốc generic nhập khẩu từ Ấn Độ. Tuy nhiên, cơ quan quản lý tại Ấn Độ không cấp Giấy chứng nhận lưu hành tự do (CPP) theo đúng mẫu chuẩn quốc tế mà Việt Nam yêu cầu, nhưng thuốc này đã được cấp phép và lưu hành thực tế tại đó. Ngoài ra, công ty chưa có báo cáo nghiên cứu tương đương sinh học (BE) thực hiện tại Việt Nam. Trong tình huống này, hồ sơ kỹ thuật cần đáp ứng những yêu cầu gì về CPP hoặc BE theo quy định của Thông tư 32?
+Lượt 4: Giả sử trong tình huống trên, công ty ABC không thể thực hiện nghiên cứu BE tại Việt Nam do chi phí quá cao và thời gian gấp rút vì đây là thuốc phục vụ cho chương trình y tế quốc gia phòng chống dịch bệnh mới nổi. Họ vẫn không cung cấp được CPP chuẩn. Liệu Bộ trưởng Bộ Y tế có thể xem xét cấp phép lưu hành không? Nếu có, cần đáp ứng điều kiện gì và quy trình ra sao?
+Lượt 5: Nếu công ty ABC lựa chọn phương án nộp hồ sơ đăng ký thông thường (không áp dụng ngoại lệ điểm k Điều 23) và đã chuẩn bị hồ sơ theo chuẩn ICH-CTD, thì họ có cần chuyển đổi hồ sơ sang mẫu ACTD (Hồ sơ kỹ thuật chung ASEAN) không? Quy định về định dạng hồ sơ kỹ thuật trong trường hợp này là gì?
+Lượt 6: Trong quá trình thẩm định hồ sơ kỹ thuật cho đơn vị đóng gói nhỏ nhất, nếu thuốc của công ty ABC được sản xuất từ bán thành phẩm dược liệu, hồ sơ cần ghi rõ những thông tin gì về công thức? Và tiêu chuẩn chất lượng thành phẩm sẽ áp dụng văn bản pháp lý nào?
 
 --------------------------------------------------
 
-SESSION 10: Xử lý hồ sơ đăng ký thuốc generic nhập khẩu thiếu CPP và áp dụng chuẩn ICH-CTD (Văn bản: 32/2018/TT-BYT)
+SESSION 10: Xử lý hồ sơ đăng ký thuốc nhập khẩu thiếu CPP và áp dụng quy định ICH-CTD (Văn bản: 32/2018/TT-BYT)
 ==================================================
-Lượt 1: Văn bản 32/2018/TT-BYT quy định về lĩnh vực gì và căn cứ ban hành chính là những văn bản nào?
-Lượt 2: Đối với văn bản này, nếu tôi nộp hồ sơ theo mẫu ICH-CTD thì có cần phải chuyển đổi sang định dạng khác không?
-Lượt 3: Tôi có một tình huống: Công ty A muốn đăng ký lưu hành một loại thuốc generic nhập khẩu. Tuy nhiên, công ty này không thể cung cấp Giấy chứng nhận phép sản xuất (CPP) từ nước ngoài do nhà sản xuất gốc đã ngừng hoạt động. Trong trường hợp này, pháp luật Việt Nam quy định giải quyết thế nào để vẫn được xem xét cấp phép?
-Lượt 4: Quay lại tình huống thuốc generic ở lượt trước, giả sử thuốc này KHÔNG thuộc các trường hợp khẩn cấp/quốc phòng mà chỉ là thuốc điều trị thông thường. Nếu vẫn không có CPP, công ty A bắt buộc phải thực hiện thêm nghiên cứu gì và ở đâu để đủ điều kiện đăng ký?
-Lượt 5: Để hoàn thiện hồ sơ kỹ thuật cho cao dược liệu hoặc bán thành phẩm dược liệu trong trường hợp này, những thông tin cụ thể nào về công thức và tiêu chuẩn cần được khai báo chi tiết?
-Lượt 6: Nếu sau này có sự thay đổi về quy định chất lượng thuốc, ví dụ như Thông tư 11/2018/TT-BYT bị sửa đổi hoặc thay thế, thì hồ sơ đã nộp theo 32/2018/TT-BYT sẽ chịu ảnh hưởng ra sao về mặt tuân thủ tiêu chuẩn?
+Lượt 1: Thông tư 32/2018/TT-BYT quy định về nội dung gì và được ban hành bởi ai?
+Lượt 2: Văn bản này có căn cứ vào những nghị định nào của Chính phủ để quy định chức năng nhiệm vụ và điều kiện đầu tư kinh doanh không?
+Lượt 3: Tôi là đại diện cho một công ty dược muốn nhập khẩu một loại vắc xin mới để phục vụ chương trình y tế quốc gia phòng chống dịch bệnh. Tuy nhiên, vắc xin này chưa có Giấy chứng nhận lưu hành tự do (CPP) đáp ứng đầy đủ các quy định tại điểm đ, e, g, h khoản Điều 23. Trong trường hợp này, tôi cần làm gì để có thể đăng ký lưu hành theo Thông tư 32/2018/TT-BYT?
+Lượt 4: Nếu vắc xin nói trên cũng là một loại thuốc generic có báo cáo nghiên cứu tương đương sinh học nhưng vẫn không có CPP đáp ứng quy định tại điểm h, thì yêu cầu về báo cáo nghiên cứu tương đương sinh học cụ thể như thế nào để đảm bảo tính pháp lý khi nộp hồ sơ?
+Lượt 5: Về mặt hình thức hồ sơ kỹ thuật, nếu tôi chuẩn bị hồ sơ theo mẫu ICH-CTD thay vì ACTD, thì tôi có cần phải chuyển đổi hồ sơ sang định dạng ASEAN không? Và hồ sơ kỹ thuật chung cần tuân theo các hướng dẫn nào?
+Lượt 6: Thông tư 32/2018/TT-BYT có mối quan hệ kế thừa hay sửa đổi so với các thông tư trước đây về đăng ký thuốc không? Cụ thể là thông tư nào?
 
 --------------------------------------------------
 
-SESSION 11: Xử lý quy trình thay đổi GPP và thông báo TMĐT theo TT 11/2025 (Văn bản: 11/2025/TT-BYT)
+SESSION 11: Xử lý thủ tục báo cáo thay đổi và điều chỉnh GSP cho cơ sở bán lẻ thuốc (Văn bản: 11/2025/TT-BYT)
 ==================================================
-Lượt 1: Thông tư 11/2025/TT-BYT có hiệu lực từ ngày nào và sửa đổi văn bản pháp lý nào về thực hành tốt cơ sở bán lẻ thuốc?
-Lượt 2: Trong văn bản này, biểu mẫu số 05 dùng để làm gì và nó liên quan đến loại hình cơ sở nào?
-Lượt 3: Tôi là chủ một nhà thuốc bán lẻ đã có GPP. Tôi vừa mở thêm kênh bán hàng online (thương mại điện tử) và đồng thời thay đổi người chịu trách nhiệm chuyên môn. Tôi cần phải thực hiện những thủ tục thông báo hay báo cáo nào cụ thể theo văn bản này?
-Lượt 4: Trong báo cáo thay đổi (Mẫu 04/GPP) ở lượt trước, nếu tôi chỉ thay đổi địa chỉ kho bảo quản hoặc bổ sung phạm vi kinh doanh, hồ sơ cần kèm theo những giấy tờ gì? Và ai là người ký xác nhận cam kết tuân thủ?
-Lượt 5: Nếu sau một thời gian, tôi quyết định dừng hẳn hoạt động bán thuốc online, tôi cần gửi văn bản gì? Hãy nêu rõ tên biểu mẫu và nội dung chính của văn bản đó theo quy định tại Thông tư này.
-Lượt 6: Thông tư 11/2025/TT-BYT có ảnh hưởng gì đến hiệu lực của Giấy chứng nhận GSP (Thực hành tốt bảo quản) đang có hiệu lực không? Và nếu có thay thế, thì điều khoản nào trong văn bản này quy định về việc ghi nhận sự thay thế đó?
+Lượt 1: Thông tư 11/2025/TT-BYT được ban hành nhằm mục đích sửa đổi hay bổ sung những nội dung nào trong hệ thống văn bản quy phạm pháp luật về dược?
+Lượt 2: Văn bản này có hiệu lực thi hành từ khi nào và dựa trên căn cứ pháp lý chính nào để quy định về tiêu chuẩn GSP như đã đề cập ở lượt trước?
+Lượt 3: Tôi đại diện cho một nhà thuốc bán lẻ đã được cấp Giấy chứng nhận GPP. Hiện tại, cơ sở tôi có nhu cầu mở rộng hoạt động bằng cách thiết lập thêm một kho bảo quản thuốc riêng biệt để phục vụ xuất nhập khẩu và kinh doanh dịch vụ bảo quản. Theo quy định mới, tôi cần thực hiện những bước gì để đảm bảo cơ sở kho này đáp ứng tiêu chuẩn GSP? Tình huống này có liên quan đến việc thông báo chấm dứt hoạt động thương mại điện tử không?
+Lượt 4: Trong trường hợp tôi đã gửi thông báo đáp ứng GSP như ở lượt 3, nhưng sau đó cơ sở kho của tôi có sự thay đổi về địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, tôi cần xử lý như thế nào? Quy trình này có yêu cầu phải nộp lại toàn bộ hồ sơ xin cấp lại giấy chứng nhận GSP hay chỉ cần báo cáo thay đổi?
+Lượt 5: Chi tiết hơn, nếu tôi sử dụng 'Mẫu số 04/GPP' để báo cáo thay đổi cho nhà thuốc bán lẻ (phần bán lẻ, không phải kho GSP), tôi cần đính kèm những giấy tờ cụ thể nào theo quy định trong văn bản?
+Lượt 6: Giấy chứng nhận GSP (Mẫu số 05) mà tôi sẽ nhận được sau khi hoàn tất thủ tục cho kho bảo quản có thời hạn hiệu lực là bao lâu? Và mối quan hệ của văn bản này với Nghị định 42/2025/NĐ-CP là gì?
 
 --------------------------------------------------
 
-SESSION 12: Xử lý hồ sơ thay đổi và hiệu lực GSP trong bối cảnh sửa đổi TT 11/2025 (Văn bản: 11/2025/TT-BYT)
+SESSION 12: Quản lý thay đổi và chứng nhận GSP trong cơ sở kinh doanh dược theo TT 11/2025 (Văn bản: 11/2025/TT-BYT)
 ==================================================
-Lượt 1: Thông tư 11/2025/TT-BYT có chức năng pháp lý chính là gì đối với các quy định về thực hành tốt cơ sở bán lẻ thuốc?
-Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý nào từ Luật Dược và các nghị định/thông tư liên quan?
-Lượt 3: Tôi là chủ một cơ sở kinh doanh dược vừa nhập khẩu thuốc vừa cung cấp dịch vụ bảo quản thuê. Cơ sở của tôi đã có Giấy chứng nhận đủ điều kiện kinh doanh dược. Nay tôi muốn xin cấp mới hoặc gia hạn Giấy chứng nhận đáp ứng tiêu chuẩn GSP. Theo văn bản này, phạm vi chứng nhận GSP sẽ được ghi nhận như thế nào cho hai hoạt động này?
-Lượt 4: Nếu cơ sở của tôi là doanh nghiệp có vốn đầu tư nước ngoài, liệu Giấy chứng nhận GSP này có được dùng để làm cơ sở cấp phép kinh doanh dịch vụ bảo quản thuốc không? Hay nó chỉ dùng cho hoạt động xuất nhập khẩu?
-Lượt 5: Để hoàn tất thủ tục thông báo đáp ứng tiêu chuẩn GSP hoặc báo cáo thay đổi theo mẫu quy định trong phụ lục, tôi cần nộp kèm những giấy tờ cụ thể nào?
-Lượt 6: Giấy chứng nhận GSP này có hiệu lực trong bao lâu? Nếu có thay đổi so với quy định cũ, thời hạn này có thể bị rút ngắn hoặc kéo dài không, và giấy chứng nhận mới sẽ xử lý thế nào với giấy chứng nhận cũ?
+Lượt 1: Thông tư 11/2025/TT-BYT có nội dung chính là gì và văn bản nào được sửa đổi?
+Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý nào liên quan đến Luật Dược và các Nghị định hiện hành?
+Lượt 3: Tôi là đại diện một cơ sở kinh doanh dược đã được cấp Giấy chứng nhận đủ điều kiện kinh doanh dược và đang hoạt động bán lẻ. Cơ sở tôi vừa mở rộng thêm kho bảo quản thuốc sinh học cần điều kiện lạnh 2-8°C. Theo quy định mới, tôi cần thực hiện thủ tục gì để báo cáo sự thay đổi này và đảm bảo tuân thủ?
+Lượt 4: Trong trường hợp báo cáo thay đổi nêu trên, nếu cơ sở của tôi là doanh nghiệp có vốn đầu tư nước ngoài và muốn sử dụng kết quả đánh giá GSP để làm cơ sở xin cấp phép xuất nhập khẩu, thì có điểm khác biệt gì trong cách hiểu về hiệu lực của Giấy chứng nhận GSP so với doanh nghiệp trong nước không?
+Lượt 5: Để hoàn thiện hồ sơ báo cáo thay đổi theo Mẫu số 04/GPP mà tôi đã hỏi ở lượt trước, tôi bắt buộc phải nộp kèm những giấy tờ cụ thể nào?
+Lượt 6: Nếu tôi muốn xác minh tính xác thực của Giấy chứng nhận GSP mới được cấp sau quá trình thay đổi này, tôi có thể làm thế nào và thời hạn hiệu lực tối đa của giấy chứng nhận này là bao lâu?
 
 --------------------------------------------------
 
-SESSION 13: Tư vấn cấu trúc UBND và tình huống chuyển tiếp địa giới hành chính (Văn bản: 77/2015/QH13)
+SESSION 13: Tư vấn cơ cấu tổ chức UBND cấp huyện và quận theo Luật 77/2015 (Văn bản: 77/2015/QH13)
 ==================================================
-Lượt 1: Vui lòng tra cứu quy định về cơ cấu tổ chức của Ủy ban nhân dân thị trấn theo Luật tổ chức chính quyền địa phương 2015 (văn bản 77/2015/QH13).
-Lượt 2: Trong văn bản này, nếu nâng cấp một thị trấn lên thành thị xã loại I, thì số lượng Phó Chủ tịch tối đa được phép bổ nhiệm sẽ thay đổi như thế nào so với quy định ở lượt trước?
-Lượt 3: Giả sử Thị trấn A (loại I) vừa được quyết định sáp nhập vào Quận B để thành lập Phường C. Tuy nhiên, trong quá trình chờ bầu cử HĐND khóa mới, Chủ tịch UBND Phường C cũ từ chức đột ngột. Theo luật, ai có thẩm quyền chỉ định Quyền Chủ tịch hoặc UBND lâm thời cho Phường C trong giai đoạn này?
-Lượt 4: Tiếp nối tình huống trên, nếu Phường C sau khi ổn định bộ máy được đánh giá lại và xếp loại là Phường loại II, nhưng Ban Tổ chức Quận muốn giữ nguyên 02 Phó Chủ tịch như thời kỳ thị trấn loại I trước đó để đảm bảo tính liên tục công việc. Việc làm này có vi phạm quy định nào trong luật không? Hãy phân tích dựa trên điều khoản cụ thể về số lượng Phó Chủ tịch theo loại đơn vị.
-Lượt 5: Để điều chỉnh cơ cấu từ 02 xuống còn 01 Phó Chủ tịch cho Phường C (loại II) nêu trên, cần tuân thủ những bước thủ tục gì liên quan đến việc kiện toàn bộ máy và cơ quan chuyên môn thuộc UBND phường?
-Lượt 6: Xét về hiệu lực thi hành, nếu Quyết định sáp nhập và điều chỉnh loại đơn vị được ban hành vào ngày 15/12/2015 nhưng chưa kịp kiện toàn bộ máy trước ngày 01/01/2016, thì văn bản 77/2015/QH13 có áp dụng ngay không? Hãy dựa vào thông tin đồ thị về hiệu lực thi hành của luật này.
+Lượt 1: Xin chào. Tôi cần tra cứu thông tin về văn bản pháp luật có ký hiệu 77/2015/QH13. Văn bản này là gì và thuộc lĩnh vực nào?
+Lượt 2: Cảm ơn bạn. Với văn bản này, tôi muốn biết cụ thể hơn về hiệu lực thi hành và các văn bản pháp lý nào đã làm căn cứ để ban hành nó?
+Lượt 3: Tôi đang xử lý một tình huống thực tế tại Huyện A (được xếp loại I) vừa được thành lập. Ban lãnh đạo huyện dự kiến bổ nhiệm 4 Phó Chủ tịch UBND huyện cùng với các Ủy viên phụ trách quân sự, công an và người đứng đầu các phòng chuyên môn. Hãy phân tích xem cơ cấu đề xuất này có phù hợp với quy định của Luật 77/2015/QH13 không? Nếu không, hãy chỉ ra sai sót cụ thể dựa trên điều khoản về cơ cấu tổ chức.
+Lượt 4: Đúng vậy, chúng tôi đã điều chỉnh xuống còn 3 Phó Chủ tịch. Bây giờ, giả sử sau khi bầu cử HĐND khóa mới, Chủ tịch UBND huyện cũ hết nhiệm kỳ nhưng HĐND chưa kịp bầu Chủ tịch mới. Trong khoảng thời gian trống này, ai sẽ đảm nhiệm vai trò Quyền Chủ tịch UBND huyện để bảo đảm hoạt động liên tục? Và cơ quan nào có thẩm quyền chỉ định người này?
+Lượt 5: Rõ ràng rồi. Liên quan đến việc tổ chức bộ máy, nếu tôi chuyển sang xem xét trường hợp của một Quận B (loại II) trong cùng một tỉnh, thì cơ cấu tổ chức của UBND quận này sẽ khác biệt như thế nào so với huyện loại I刚才提到的? Cụ thể là số lượng Phó Chủ tịch tối đa và thành phần Ủy viên?
+Lượt 6: Cuối cùng, tôi muốn hiểu rõ mối quan hệ kế thừa. Luật 77/2015/QH13 này có thay thế hoàn toàn Luật Tổ chức Hội đồng nhân dân và Ủy ban Nhân dân 2003 (11/2003/QH11) không? Và liệu có bất kỳ quy định chuyển tiếp nào liên quan đến các thí điểm trước đây (như Nghị quyết 26/2008/QH12) mà tôi cần lưu ý khi áp dụng luật mới vào thực tiễn quản lý hành chính địa phương không?
 
 --------------------------------------------------
 
-SESSION 14: Kiểm tra tính hợp lệ cơ cấu UBND huyện loại I và quy trình chỉ định quyền trong thời gian chuyển tiếp (Văn bản: 77/2015/QH13)
+SESSION 14: Xác định cơ cấu và quyền hạn UBND cấp huyện/quận theo Luật 77/2015/QH13 (Văn bản: 77/2015/QH13)
 ==================================================
-Lượt 1: Vui lòng tra cứu quy định về thành phần và số lượng Phó Chủ tịch của Ủy ban nhân dân huyện loại I theo Luật tổ chức chính quyền địa phương 2015.
-Lượt 2: Đối với văn bản này, ngoài số lượng Phó Chủ tịch thì cơ quan chuyên môn thuộc Ủy ban nhân dân huyện được quy định như thế nào?
-Lượt 3: Giả sử ở một huyện loại I, Chủ tịch UBND huyện đột ngột nghỉ hưu trước khi hết nhiệm kỳ. Trong thời gian chờ bầu Chủ tịch mới, ai có thẩm quyền chỉ định Quyền Chủ tịch UBND huyện để đảm bảo hoạt động bộ máy?
-Lượt 4: Nếu tình huống trên xảy ra ngay sau khi HĐND huyện bầu xong nhưng chưa kịp phê chuẩn nhân sự, hoặc trong giai đoạn HĐND giải thể do thay đổi địa giới hành chính, liệu quy định về việc 'Chủ tịch UBND cấp trên trực tiếp chỉ định' có áp dụng cho trường hợp thành lập 'Ủy ban nhân dân lâm thời' không? Và ai chỉ định đối với đơn vị cấp tỉnh?
-Lượt 5: Để hoàn tất thủ tục chỉ định Quyền Chủ tịch UBND huyện nêu trên, cơ quan chuyên môn nào thuộc UBND tỉnh sẽ chịu trách nhiệm soạn thảo đề nghị và hồ sơ trình Chủ tịch UBND tỉnh ký quyết định?
-Lượt 6: Luật 77/2015/QH13 này có hiệu lực từ ngày 01/01/2016. Nếu một quyết định chỉ định Quyền Chủ tịch UBND huyện được ban hành vào năm 2014 theo Luật cũ (11/2003/QH11), thì quyết định đó còn giá trị pháp lý đến khi nào dưới góc độ quy định chuyển tiếp của Luật mới?
+Lượt 1: Vui lòng cung cấp thông tin cơ bản về văn bản có mã số 77/2015/QH13, bao gồm tên đầy đủ của luật và lĩnh vực pháp lý mà nó điều chỉnh.
+Lượt 2: Đối với văn bản này, hãy liệt kê các Nghị quyết hoặc Luật trước đó mà nó được xây dựng dựa trên (BASED_ON) theo thông tin đồ thị quan hệ văn bản.
+Lượt 3: Giả sử một Huyện loại I vừa được thành lập và cần bố trí nhân sự cho Ủy ban nhân dân huyện. Theo quy định của Luật 77/2015/QH13, cơ cấu tổ chức của Ủy ban nhân dân huyện loại I này sẽ bao gồm những chức danh nào? Số lượng Phó Chủ tịch tối đa được phép là bao nhiêu?
+Lượt 4: Trong tình huống trên, nếu xét về khía cạnh 'Cơ quan chuyên môn' trực thuộc Ủy ban nhân dân huyện loại I đó, thì các cơ quan này được tổ chức như thế nào theo quy định của Luật? Có sự khác biệt nào về thành phần Ủy viên nếu so sánh với Ủy ban nhân dân phường không?
+Lượt 5: Nếu xảy ra trường hợp đặc biệt khi Ủy ban nhân dân huyện khóa mới chưa được bầu ra, ai là người có thẩm quyền chỉ định Quyền Chủ tịch Ủy ban nhân dân hoặc Ủy ban nhân dân lâm thời để đảm bảo hoạt động quản lý nhà nước không bị gián đoạn?
+Lượt 6: Xét về tính kế thừa và hiệu lực thi hành, Luật 77/2015/QH13 có hiệu lực từ ngày nào và nó có mối quan hệ sửa đổi (AMENDS) với văn bản nào theo dữ liệu đồ thị đã cung cấp?
 
 --------------------------------------------------
 
-SESSION 15: Xử lý tình huống sơ tuyển và danh sách ngắn trong đấu thầu hạn chế (Văn bản: 24/2024/NĐ-CP)
+SESSION 15: Xử lý tình huống sơ tuyển và danh sách ngắn trong Đấu thầu hạn chế (Văn bản: 24/2024/NĐ-CP)
 ==================================================
-Lượt 1: Nghị định 24/2024/NĐ-CP quy định như thế nào về việc phát hành hồ sơ mời sơ tuyển?
-Lượt 2: Văn bản này còn quy định gì về thẩm định và phê duyệt hồ sơ mời sơ tuyển trước khi phát hành?
-Lượt 3: Tôi là bên mời thầu cho một gói thầu hạn chế. Sau khi mở thầu, chỉ có 02 nhà thầu nộp hồ sơ dự sơ tuyển đạt tiêu chuẩn về năng lực và kinh nghiệm. Tôi cần xử lý tình huống này như thế nào theo quy định?
-Lượt 4: Giả sử tôi đã chọn được danh sách ngắn gồm 05 nhà thầu. Trong quá trình chờ đóng thầu, nhà thầu A trong danh sách này muốn liên danh với nhà thầu B (cũng nằm trong danh sách ngắn) để tham dự thầu. Quy định pháp luật cho phép điều này không?
-Lượt 5: Nếu nhà thầu A muốn liên danh với nhà thầu C (không có trong danh sách ngắn), thì thủ tục hoặc điều kiện tiên quyết cần thực hiện là gì?
-Lượt 6: Nghị định 24/2024/NĐ-CP này thay thế hoặc hướng dẫn thi hành văn bản nào trước đó về lựa chọn nhà thầu, và nó dựa trên Luật Đấu thầu năm nào?
+Lượt 1: Vui lòng cung cấp thông tin cơ bản về Nghị định 24/2024/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực áp dụng và các văn bản pháp lý chính mà nghị định này căn cứ để ban hành.
+Lượt 2: Trong văn bản này, quy định về tiêu chuẩn đánh giá hồ sơ dự sơ tuyển được xây dựng dựa trên những tiêu chí nào? Và hồ sơ mời sơ tuyển sẽ được phát hành như thế nào?
+Lượt 3: Giả sử tôi là đại diện một Công ty TNHH ABC tham gia đấu thầu hạn chế cho gói thầu tư vấn thiết kế. Công ty tôi đã nộp hồ sơ dự sơ tuyển đúng hạn. Tuy nhiên, sau khi mở thầu, tổ chuyên gia nhận thấy hồ sơ của chúng tôi thiếu một chứng chỉ năng lực cụ thể nhưng lại có giải thưởng sáng tạo quốc tế gần đây. Bên cạnh đó, tôi muốn biết nếu công ty tôi trúng sơ tuyển và có tên trong danh sách ngắn, tôi có được phép liên danh với một công ty khác cũng đang có tên trong cùng danh sách ngắn đó để dự thầu không? Hãy phân tích dựa trên quy định về xử lý hồ sơ và quy định về liên danh.
+Lượt 4: Tiếp nối tình huống trên, giả sử Công ty ABC không vi phạm quy định liên danh nhưng Chủ đầu tư chỉ phê duyệt được 02 nhà thầu vào danh sách ngắn do thị trường hẹp, thay vì tối thiểu 03 nhà thầu như quy định chung. Trong trường hợp này, bên mời thầu cần xử lý ra sao theo quy định? Và nếu kết quả sơ tuyển không lựa chọn được danh sách ngắn, văn bản phê duyệt cần nêu rõ nội dung gì?
+Lượt 5: Để hoàn tất thủ tục phê duyệt kết quả sơ tuyển trong trường hợp bình thường (có danh sách ngắn), bên mời thầu cần chuẩn bị những hồ sơ, báo cáo nào để trình phê duyệt? Và kết quả này được công khai như thế nào?
+Lượt 6: Dựa trên thông tin đồ thị mối quan hệ văn bản, Nghị định 24/2024/NĐ-CP có mối quan hệ thế nào với Nghị định 63/2014/NĐ-CP và Luật Đấu thầu 2023? Điều này ảnh hưởng thế nào đến hiệu lực thi hành của các quy định cũ?
 
 --------------------------------------------------
 
-SESSION 16: Xử lý sơ tuyển và danh sách ngắn trong đấu thầu hạn chế theo NĐ 24/2024 (Văn bản: 24/2024/NĐ-CP)
+SESSION 16: Xử lý quy trình sơ tuyển và danh sách ngắn trong Đấu thầu hạn chế theo Nghị định 24/2024/NĐ-CP (Văn bản: 24/2024/NĐ-CP)
 ==================================================
-Lượt 1: Nghị định 24/2024/NĐ-CP hướng dẫn Luật Đấu thầu về lĩnh vực gì và căn cứ pháp lý chính để ban hành văn bản này là gì?
-Lượt 2: Trong văn bản này, hồ sơ mời sơ tuyển được phát hành như thế nào và ai chịu trách nhiệm tiếp nhận, quản lý hồ sơ dự sơ tuyển?
-Lượt 3: Giả sử tôi là một doanh nghiệp cá nhân chào thầu sản phẩm đổi mới sáng tạo. Tôi tham gia gói thầu có áp dụng sơ tuyển. Liệu tôi có phải đáp ứng đầy đủ mọi tiêu chí năng lực kinh nghiệm như các nhà thầu thông thường không? Nếu hồ sơ của tôi nộp chậm hơn thời điểm đóng thầu dù chỉ 1 phút thì sao?
-Lượt 4: Tiếp nối tình huống trên, giả sử hồ sơ của tôi đạt yêu cầu và tôi nằm trong danh sách ngắn cho một gói thầu hạn chế. Tôi muốn liên danh với một đối tác khác cũng nằm trong danh sách ngắn này để tăng sức mạnh cạnh tranh. Quy định về việc liên danh giữa các nhà thầu trong danh sách ngắn ra sao?
-Lượt 5: Nếu sau khi đánh giá, bên mời thầu xác định được danh sách ngắn gồm đúng 03 nhà thầu cho gói thầu hạn chế, quy trình phê duyệt và công khai danh sách này diễn ra như thế nào?
-Lượt 6: Văn bản này có mối quan hệ thế nào với Nghị định 63/2014/NĐ-CP trước đây? Và nếu trong quá trình sơ tuyển gói thầu hạn chế, chỉ tìm được 02 nhà thầu đáp ứng yêu cầu thay vì tối thiểu 03, sẽ áp dụng quy định nào?
+Lượt 1: Nghị định 24/2024/NĐ-CP là văn bản pháp lý gì và được ban hành nhằm mục đích chính xác nào?
+Lượt 2: Văn bản này dựa trên những cơ sở pháp lý cụ thể nào để được ban hành? Hãy liệt kê các luật hoặc nghị quyết làm căn cứ.
+Lượt 3: Giả sử tôi là bên mời thầu cho một gói thầu dịch vụ tư vấn phức tạp, áp dụng hình thức đấu thầu hạn chế. Tôi đã tiến hành sơ tuyển và có 5 nhà thầu đáp ứng đủ năng lực. Tuy nhiên, khi lập danh sách ngắn, tôi chỉ chọn được 2 nhà thầu vì 3 nhà thầu còn lại không có nhu cầu tham dự. Theo Nghị định 24/2024/NĐ-CP, việc xác định danh sách ngắn này có hợp lệ không? Nếu không, tôi cần xử lý như thế nào?
+Lượt 4: Trong quá trình đánh giá hồ sơ dự sơ tuyển cho tình huống trên, nếu một nhà thầu nộp hồ sơ muộn sau thời điểm đóng thầu, bên mời thầu sẽ xử lý ra sao? Và nếu một nhà thầu là cá nhân chào thầu sản phẩm đổi mới sáng tạo, họ có được miễn giảm các tiêu chí đánh giá năng lực so với quy định chung không?
+Lượt 5: Sau khi đã hoàn thành bước mở và đánh giá hồ sơ dự sơ tuyển, bên mời thầu cần thực hiện những bước thủ tục và công bố kết quả ra sao để đảm bảo đúng quy định về tính minh bạch và thời hạn?
+Lượt 6: Nếu các nhà thầu nằm trong danh sách ngắn muốn liên danh với nhau để tham dự thầu, hoặc liên danh với nhà thầu không có tên trong danh sách ngắn, thì cần tuân thủ những nguyên tắc và điều kiện gì theo Nghị định này?
 
 --------------------------------------------------
 
-SESSION 17: Kiểm tra tính hợp pháp của hồ sơ số hóa và căn cứ pháp lý (Văn bản: 01/2023/TT-VPCP)
+SESSION 17: Xác định cơ sở pháp lý và mối quan hệ điều chỉnh của Thông tư 01/2023/TT-VPCP (Văn bản: 01/2023/TT-VPCP)
 ==================================================
-Lượt 1: Thông tư 01/2023/TT-VPCP quy định về lĩnh vực gì và nội dung chính của văn bản này là gì?
+Lượt 1: Thông tư 01/2023/TT-VPCP quy định về nội dung gì và thuộc lĩnh vực nào?
 Lượt 2: Văn bản này được ban hành dựa trên những Nghị định nào liên quan đến cơ chế một cửa và thủ tục hành chính trên môi trường điện tử?
-Lượt 3: Tôi là cán bộ tiếp nhận hồ sơ tại Cổng Dịch vụ công quốc gia. Một doanh nghiệp nộp hồ sơ hoàn toàn bằng file ảnh chụp từ giấy tờ gốc thay vì file PDF/A hoặc định dạng số hóa chuẩn theo yêu cầu kỹ thuật. Với tư cách là người áp dụng Thông tư 01/2023/TT-VPCP, tôi có quyền yêu cầu doanh nghiệp nộp lại hồ sơ đúng định dạng không, hay phải tiếp nhận và chuyển xử lý?
-Lượt 4: Nếu doanh nghiệp đó lập luận rằng họ đã tuân thủ Nghị định 45/2020/NĐ-CP thì việc áp dụng Thông tư 01/2023/TT-VPCP có mâu thuẫn không? Và mối quan hệ giữa Thông tư này với Nghị định 45/2020/NĐ-CP là gì?
-Lượt 5: Để đảm bảo tính hợp lệ khi tiếp nhận hồ sơ điện tử theo quy định mới, tôi cần kiểm tra xem hồ sơ đó có tuân thủ Quy chế quản lý, vận hành Cổng Dịch vụ công quốc gia không. Văn bản này có căn cứ vào Quyết định nào về vấn đề đó không?
-Lượt 6: Với tư cách là cơ quan nhà nước, nếu trước đây chúng ta đang áp dụng Thông tư 02/2017/TT-VPCP, thì khi Thông tư 01/2023/TT-VPCP có hiệu lực, các quy định trong Thông tư 02/2017/TT-VPCP có còn giá trị thi hành không? Mối quan hệ giữa hai văn bản này là gì?
+Lượt 3: Một cơ quan nhà nước đang triển khai Cổng Dịch vụ công quốc gia và cần rà soát tính hợp lệ của việc cung cấp dịch vụ công trực tuyến. Trong bối cảnh áp dụng Thông tư 01/2023/TT-VPCP, văn bản này có mối quan hệ như thế nào với Quy chế quản lý, vận hành, khai thác Cổng Dịch vụ công quốc gia?
+Lượt 4: Nếu xét về khía cạnh kiểm soát thủ tục hành chính để đảm bảo chất lượng số hóa, Thông tư 01/2023/TT-VPCP kế thừa và bổ sung cho khung pháp lý nào về kiểm soát thủ tục hành chính?
+Lượt 5: Để đảm bảo tính thống nhất trong công tác văn thư khi số hóa hồ sơ, Thông tư này có liên hệ với văn bản nào quy định về công tác văn thư không?
+Lượt 6: Thông tư 01/2023/TT-VPCP có vai trò sửa đổi, bổ sung (AMENDS) đối với những văn bản pháp luật nào đang hiện hành?
 
 --------------------------------------------------
 
-SESSION 18: Quy định số hóa hồ sơ và căn cứ pháp lý của Thông tư 01/2023/TT-VPCP (Văn bản: 01/2023/TT-VPCP)
+SESSION 18: Tra cứu và Phân tích Quy định Số hóa Hồ sơ trong Thông tư 01/2023/TT-VPCP (Văn bản: 01/2023/TT-VPCP)
 ==================================================
-Lượt 1: Thông tư 01/2023/TT-VPCP quy định về lĩnh vực gì và nội dung chính là gì?
-Lượt 2: Văn bản này được ban hành dựa trên những Nghị định nào liên quan đến cơ chế một cửa và thủ tục hành chính trên môi trường điện tử?
-Lượt 3: Một cơ quan nhà nước đang triển khai dịch vụ công trực tuyến mức độ 4 nhưng chưa rõ quy trình số hóa hồ sơ để đảm bảo tính pháp lý khi lưu trữ lâu dài. Họ cần tuân thủ các quy định nào từ Thông tư này để tránh rủi ro pháp lý?
-Lượt 4: Trong tình huống trên, nếu có sự xung đột giữa quy định cụ thể trong Thông tư này và các hướng dẫn kỹ thuật trước đây, thì nguyên tắc ưu tiên áp dụng dựa trên mối quan hệ 'AMENDS' (sửa đổi, bổ sung) mà văn bản này thể hiện đối với Nghị định 45/2020/NĐ-CP là gì?
-Lượt 5: Để chính thức áp dụng các biện pháp thi hành trong số hóa hồ sơ theo Thông tư này, cơ quan quản lý cần xem xét thêm những văn bản quy phạm pháp luật nào khác được liệt kê trong phần căn cứ để đảm bảo quy trình văn thư và kiểm soát thủ tục đúng chuẩn?
-Lượt 6: Về mặt hệ quả pháp lý lâu dài, việc Thông tư 01/2023/TT-VPCP được ban hành dựa trên Nghị định 79/2022/NĐ-CP quy định chức năng của Văn phòng Chính phủ có ý nghĩa gì đối với tính ràng buộc của văn bản này đối với các bộ, ngành?
+Lượt 1: Thông tư 01/2023/TT-VPCP quy định về nội dung gì?
+Lượt 2: Văn bản này được ban hành dựa trên những căn cứ pháp lý nào liên quan đến chức năng của Văn phòng Chính phủ và cơ chế một cửa?
+Lượt 3: Một công dân nộp hồ sơ xin cấp giấy phép kinh doanh hoàn toàn trên Cổng Dịch vụ công quốc gia. Cơ quan nhà nước có thẩm quyền cần tuân thủ các quy định nào trong Thông tư này khi tiếp nhận và xử lý hồ sơ số hóa đó, đặc biệt là về mối liên hệ với việc cung cấp dịch vụ công trực tuyến?
+Lượt 4: Trong tình huống trên, nếu phát sinh yêu cầu đối chiếu hồ sơ giấy với hồ sơ điện tử, cơ quan nhà nước cần phân tích logic ra sao để đảm bảo tính hợp lệ của hồ sơ số hóa mà không vi phạm nguyên tắc 'không yêu cầu nộp thêm giấy tờ' trừ khi có quy định khác, dựa trên các văn bản nền tảng mà Thông tư 01/2023/TT-VPCP kế thừa?
+Lượt 5: Để triển khai việc số hóa hồ sơ và kết quả giải quyết thủ tục hành chính đúng theo Thông tư 01/2023/TT-VPCP, các bộ, cơ quan ngang bộ và UBND cấp tỉnh cần thực hiện những bước chuẩn bị về hệ thống và nghiệp vụ gì, dựa trên vai trò của Cục Kiểm soát thủ tục hành chính?
+Lượt 6: Thông tư 01/2023/TT-VPCP có mối quan hệ thế nào với Thông tư 02/2017/TT-VPCP và các Nghị định về kiểm soát thủ tục hành chính? Nó có thay thế hay bổ sung cho các quy định trước đó không?
 
 --------------------------------------------------
 

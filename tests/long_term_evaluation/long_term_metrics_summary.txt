@@ -1,0 +1,25 @@
+==================================================
+       BÁO CÁO ĐÁNH GIÁ HỘI THOẠI DÀI HẠN       
+==================================================
+
+1. Chỉ số Tổng quan (Overall Metrics):
+- Tổng số lượt chat (Total Turns): 108
+- Tỷ lệ chính xác nội dung: 59.26% (64/108)
+- Tỷ lệ đúng Intent: 100.00% (108/108)
+- Thời gian phản hồi trung bình: 56.16s
+
+2. Chi tiết Hiệu suất theo Mode:
+  [LEGAL_CHAT]
+    + Số lượt kích hoạt: 108 lượt
+    + Tỷ lệ Đạt: 59.26% (64/108)
+    + Tốc độ trung bình: 56.16s
+
+3. Phân rã thời gian Pipeline (Step Breakdown/Turn):
+  ⚡ Preprocess Memory/Files                 : 0.00s
+  ⚡ Condense & Route                        : 6.35s
+  ⚡ Detect Mode Only                        : 3.85s
+  ⚡ 1. Understand                           : 0.00s
+  ⚡ 2. Retrieve + Graph Expand              : 43.86s
+  ⚡ 3. Generate                             : 5.24s
+
+📌 Ghi chú: Kết quả dựa trên khả năng duy trì Context qua nhiều lượt chat.

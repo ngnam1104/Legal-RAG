@@ -1,211 +1,757 @@
 [
     {
-        "session_name": "Tra cứu và phân tích Nghị định 105/2014/NĐ-CP về BHYT",
+        "session_name": "Xác định căn cứ pháp lý và phạm vi hướng dẫn của Nghị định 105/2014/NĐ-CP",
         "document_id": "105/2014/NĐ-CP",
         "turns": [
             {
                 "turn": 1,
-                "query": "Văn bản 105/2014/NĐ-CP là văn bản gì và lĩnh vực điều chỉnh của nó là gì?",
-                "expected_answer": "Văn bản 105/2014/NĐ-CP là Nghị định quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế. Lĩnh vực điều chỉnh chính của văn bản này thuộc nhóm Bảo hiểm và Thể thao - Y tế.",
-                "citation": "Phần mở đầu và tiêu đề văn bản"
+                "query": "Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực áp dụng và mục đích ban hành chính của văn bản này.",
+                "expected_answer": "Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế. Văn bản này thuộc lĩnh vực Bảo hiểm và Thể thao - Y tế, được Chính phủ ban hành để cụ thể hóa các quy định trong Luật Bảo hiểm y tế.",
+                "citation": "Phần mở đầu; Điều khoản: QUY ĐỊNH CHI TIẾT VÀ HƯỚNG DẪN THI HÀNH MỘT SỐ ĐIỀU CỦA LUẬT BẢO HIỂM Y TẾ"
             },
             {
                 "turn": 2,
-                "query": "Căn cứ pháp lý để ban hành nghị định này là những văn bản nào?",
-                "expected_answer": "Nghị định này được ban hành căn cứ vào Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 và Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014; cùng với đề nghị của Bộ trưởng Bộ Y tế.",
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý nào? Hãy liệt kê các luật và nghị định cụ thể làm nền tảng cho việc ban hành Nghị định 105/2014/NĐ-CP.",
+                "expected_answer": "Nghị định 105/2014/NĐ-CP được ban hành dựa trên các căn cứ sau: Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 và Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014; theo đề nghị của Bộ trưởng Bộ Y tế.",
                 "citation": "Phần Căn cứ ban hành"
             },
             {
                 "turn": 3,
-                "query": "Nếu tôi là cán bộ làm việc tại Sở Y tế tỉnh A, tôi có trách nhiệm gì liên quan đến việc thực hiện nghị định này không?",
-                "expected_answer": "Theo quy định tại Nghị định này, các bộ, ngành và cơ quan có liên quan (bao gồm cả các cơ quan địa phương như Sở Y tế trong phạm vi chức năng, nhiệm vụ và quyền hạn) có trách nhiệm hướng dẫn thi hành Nghị định này. Do đó, bạn cần phối hợp hướng dẫn và tổ chức thực hiện các quy định của Nghị định trong phạm vi quản lý của mình.",
-                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình... (Khoản 6)"
+                "query": "Tôi là cán bộ phụ trách BHXH tại một huyện. Một hộ gia đình làm nông nghiệp muốn tham gia BHYT nhưng không chắc chắn mình có thuộc diện 'có mức sống trung bình' hay không để được hỗ trợ. Dựa trên nội dung Nghị định 105/2014/NĐ-CP, tôi cần xác định xem văn bản này có quy định cụ thể về tiêu chí xác định mức sống trung bình hay chỉ quy định về thủ tục lập danh sách không?",
+                "expected_answer": "Dựa trên nội dung trích dẫn của Nghị định 105/2014/NĐ-CP, văn bản này quy định về việc 'Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình'. Tuy nhiên, các đoạn trích dẫn hiện có tập trung vào phần căn cứ, nơi nhận và chữ ký, cũng như trách nhiệm của các bộ ngành liên quan. Để xác định tiêu chí cụ thể về 'mức sống trung bình', cần tra cứu thêm các điều khoản chi tiết về phân loại hộ gia đình trong văn bản này hoặc các văn bản hướng dẫn thi hành khác liên quan đến đối tượng tham gia BHYT.",
+                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình"
             },
             {
                 "turn": 4,
-                "query": "Trong quá trình hướng dẫn thi hành, nếu phát sinh vấn đề thuộc thẩm quyền của các cơ quan khác, tôi cần lưu ý điều gì về phạm vi trách nhiệm?",
-                "expected_answer": "Bạn cần lưu ý rằng trách nhiệm hướng dẫn thi hành chỉ nằm 'trong phạm vi chức năng, nhiệm vụ và quyền hạn' của cơ quan mình. Các bộ, ngành khác cũng có trách nhiệm tương tự trong phạm vi của họ. Vì vậy, nếu vấn đề vượt ra ngoài thẩm quyền hoặc thuộc lĩnh vực chuyên môn của cơ quan khác, cần phối hợp hoặc chuyển giao cho cơ quan có thẩm quyền phù hợp theo đúng chức năng được quy định.",
-                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình... (Khoản 6)"
+                "query": "Nếu tôi hiểu đúng, Nghị định này giao trách nhiệm cho các bộ, ngành liên quan. Vậy cụ thể trách nhiệm của các bộ, ngành khác có liên quan trong việc thi hành Nghị định 105/2014/NĐ-CP là gì và phạm vi quyền hạn của họ được xác định ra sao?",
+                "expected_answer": "Theo quy định tại Nghị định 105/2014/NĐ-CP, các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này. Điều này nghĩa là mỗi bộ, ngành sẽ chịu trách nhiệm hướng dẫn thực hiện các quy định của Nghị định trong lĩnh vực chuyên môn do mình quản lý.",
+                "citation": "Khoản 6, Điều khoản: Hướng dẫn lập danh sách... (Nội dung: '6. Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này.')"
             },
             {
                 "turn": 5,
-                "query": "Để đảm bảo tính pháp lý khi triển khai, tôi cần xác minh ai là người ký ban hành và văn bản này đã được gửi đến những cơ quan chủ chốt nào để nắm thông tin?",
-                "expected_answer": "Văn bản do Thủ tướng Chính phủ Nguyễn Tấn Dũng ký thay mặt Chính phủ. Văn bản đã được gửi đến các cơ quan chủ chốt bao gồm: Ban Bí thư Trung ương Đảng, Thủ tướng và các Phó Thủ tướng Chính phủ, các Bộ/cơ quan ngang Bộ, HĐND/UBND các tỉnh thành trực thuộc TW, Văn phòng Quốc hội, Tòa án nhân dân tối cao, Viện Kiểm sát nhân dân tối cao, Ngân hàng Chính sách Xã hội, Ngân hàng Phát triển Việt Nam và nhiều cơ quan khác như nêu trong phần Nơi nhận.",
+                "query": "Để đảm bảo tính hợp lệ khi triển khai, tôi cần biết Nghị định 105/2014/NĐ-CP đã được gửi đến những cơ quan nào để lưu trữ và phối hợp thực hiện? Hãy liệt kê các cơ quan chủ chốt trong phần Nơi nhận.",
+                "expected_answer": "Nghị định 105/2014/NĐ-CP được gửi đến nhiều cơ quan cao cấp và liên quan, bao gồm: Ban Bí thư Trung ương Đảng; Thủ tướng, các Phó Thủ tướng Chính phủ; Các Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ; HĐND, UBND các tỉnh, thành phố trực thuộc Trung ương; Văn phòng Trung ương và các Ban của Đảng; Văn phòng Tổng Bí thư; Văn phòng Chủ tịch nước; Hội đồng Dân tộc và các Ủy ban của Quốc hội; Văn phòng Quốc hội; Tòa án nhân dân tối cao; Viện Kiểm sát nhân dân tối cao; cùng các cơ quan khác như Ngân hàng Chính sách Xã hội, Ngân hàng Phát triển Việt Nam, v.v.",
                 "citation": "Phần Nơi nhận và Chữ ký"
             },
             {
                 "turn": 6,
-                "query": "Dựa trên thông tin đồ thị, nghị định này có mối quan hệ kế thừa hoặc hướng dẫn cụ thể đối với những văn bản nào trước đó?",
-                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP có quan hệ 'BASED_ON' (căn cứ/về mặt lịch sử liên quan đến) Nghị định 62/2009/NĐ-CP (Hướng dẫn Luật Bảo hiểm y tế) và Nghị quyết 32/2014/QĐ-TTG. Đồng thời, nó có quan hệ 'GUIDES' (hướng dẫn) trực tiếp cho Luật Bảo hiểm y tế và Luật Tổ chức Chính phủ.",
+                "query": "Dựa trên thông tin đồ thị mối quan hệ, Nghị định 105/2014/NĐ-CP có mối liên hệ thế nào với các văn bản trước đó và các văn bản khác? Đặc biệt, nó thay đổi hoặc hướng dẫn cho những văn bản nào?",
+                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP có các mối quan hệ sau:\n- BASED_ON (Căn cứ vào): Luật Bảo hiểm xã hội, Nghị định 62/2009/NĐ-CP (Hướng dẫn Luật Bảo hiểm y tế), Quyết định 32/2014/QĐ-TTG.\n- GUIDES (Hướng dẫn): Luật Bảo hiểm y tế, Luật Tổ chức Chính phủ.\n- AMENDS (Sửa đổi/Bổ sung): Nghị định 206/CP.\n- APPLIES (Áp dụng cho): Nghị quyết 2008/NQ-CP (Chương trình hỗ trợ giảm nghèo nhanh và bền vững đối với 61 huyện nghèo).\nĐiều này cho thấy Nghị định 105/2014/NĐ-CP kế thừa và thay thế/hướng dẫn từ Nghị định 62/2009/NĐ-CP và có liên kết chặt chẽ với các chương trình giảm nghèo.",
                 "citation": "Thông tin Đồ thị (Mối quan hệ & Thực thể)"
             }
         ]
     },
     {
-        "session_name": "Tra cứu và phân tích căn cứ pháp lý Nghị định 105/2014/NĐ-CP",
+        "session_name": "Tra cứu và phân tích căn cứ pháp lý của Nghị định 105/2014/NĐ-CP",
         "document_id": "105/2014/NĐ-CP",
         "turns": [
             {
                 "turn": 1,
-                "query": "Văn bản 105/2014/NĐ-CP là gì và nó hướng dẫn thi hành luật nào?",
-                "expected_answer": "Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế.",
+                "query": "Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành cho luật nào?",
+                "expected_answer": "Nghị định 105/2014/NĐ-CP quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế.",
                 "citation": "Phần Nơi nhận và Chữ ký; Điều khoản: QUY ĐỊNH CHI TIẾT VÀ HƯỚNG DẪN THI HÀNH MỘT SỐ ĐIỀU CỦA LUẬT BẢO HIỂM Y TẾ"
             },
             {
                 "turn": 2,
-                "query": "Căn cứ để Chính phủ ban hành văn bản này là những luật và nghị định nào?",
-                "expected_answer": "Chính phủ ban hành Nghị định này căn cứ vào Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 và Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014.",
-                "citation": "Điều khoản: QUY ĐỊNH CHI TIẾT VÀ HƯỚNG DẪN THI HÀNH MỘT SỐ ĐIỀU CỦA LUẬT BẢO HIỂM Y TẾ"
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào liên quan đến Luật Tổ chức Chính phủ và Luật Bảo hiểm y tế?",
+                "expected_answer": "Văn bản được ban hành căn cứ vào Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 và Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014.",
+                "citation": "Điều khoản: QUY ĐỊNH CHI TIẾT VÀ HƯỚNG DẪN THI HÀNH MỘT SỐ ĐIỀU CỦA LUẬT BẢO HIỂM Y TẾ (Căn cứ)"
             },
             {
                 "turn": 3,
-                "query": "Một hộ gia đình làm nông nghiệp có mức sống trung bình muốn tham gia BHYT. Theo nội dung trọng tâm được đề cập trong văn bản, việc lập danh sách cho nhóm đối tượng này được quy định như thế nào?",
-                "expected_answer": "Văn bản có điều khoản hướng dẫn cụ thể về việc 'Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình'. Đây là cơ sở pháp lý để xác định đối tượng thuộc diện đóng BHYT theo quy định.",
-                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình."
+                "query": "Một hộ gia đình làm nông nghiệp tại một huyện thuộc diện hỗ trợ giảm nghèo nhanh và bền vững muốn tham gia BHYT. Dựa trên mối quan hệ giữa Nghị định 105/2014/NĐ-CP và các văn bản liên quan, hãy xác định xem Nghị định này có quy định trực tiếp về việc áp dụng chính sách hỗ trợ cho nhóm đối tượng ở 61 huyện nghèo không, hay nó chỉ đóng vai trò hướng dẫn chung?",
+                "expected_answer": "Dựa trên thông tin đồ thị, Nghị định 105/2014/NĐ-CP có mối quan hệ 'APPLIES' với Nghị quyết số 30a/2008/NQ-CP về Chương trình hỗ trợ giảm nghèo nhanh và bền vững đối với 61 huyện nghèo. Tuy nhiên, nội dung văn bản cung cấp chỉ nêu rõ trách nhiệm của các bộ, ngành hướng dẫn thi hành và phần chữ ký/nơi nhận. Văn bản này chủ yếu đóng vai trò hướng dẫn thi hành Luật BHYT và có liên kết ứng dụng (applies) đến các chương trình giảm nghèo, nhưng trong đoạn trích cung cấp không có điều khoản chi tiết cụ thể về mức hưởng hay thủ tục riêng biệt cho nhóm 61 huyện nghèo mà chỉ khẳng định sự tồn tại của mối quan hệ áp dụng này.",
+                "citation": "Thông tin Đồ thị: APPLIES: 2008/NQ-CP (Nghị quyết số 30a/2008/NQ-CP...); Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp..."
             },
             {
                 "turn": 4,
-                "query": "Trong quá trình thực hiện hướng dẫn trên, trách nhiệm của các bộ, ngành khác có liên quan là gì?",
+                "query": "Nếu xét về tính kế thừa và hiệu lực, Nghị định 105/2014/NĐ-CP có mối quan hệ thế nào với Nghị định 62/2009/NĐ-CP trước đó, và điều này ảnh hưởng như thế nào đến việc áp dụng các quy định cũ đối với tình huống của hộ gia đình nói trên?",
+                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP có mối quan hệ 'BASED_ON' với Nghị định 62/2009/NĐ-CP (Hướng dẫn Luật Bảo hiểm y tế). Điều này cho thấy Nghị định 105/2014/NĐ-CP được xây dựng dựa trên nền tảng hoặc kế thừa từ các quy định trước đó. Khi áp dụng, cần xem xét Nghị định mới (105/2014) là văn bản hiện hành hướng dẫn Luật BHYT, thay thế hoặc bổ sung cho các hướng dẫn cũ nếu có sự xung đột, nhưng vẫn dựa trên khung pháp lý đã được thiết lập bởi các văn bản tiền nhiệm như 62/2009/NĐ-CP.",
+                "citation": "Thông tin Đồ thị: BASED_ON: 62/2009/NĐ-CP (Nghị định 62/2009/NĐ-CP Hướng dẫn Luật Bảo hiểm y tế)"
+            },
+            {
+                "turn": 5,
+                "query": "Trong trường hợp hộ gia đình cần xác minh quyền lợi BHYT theo Nghị định này, cơ quan nào có trách nhiệm hướng dẫn thi hành và phối hợp thực hiện?",
                 "expected_answer": "Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này.",
-                "citation": "Nội dung: 6. Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này."
-            },
-            {
-                "turn": 5,
-                "query": "Ai là người ký ban hành Nghị định này và văn bản đã được gửi đến những nơi nào để phối hợp thực hiện?",
-                "expected_answer": "Nghị định do Thủ tướng Chính phủ Nguyễn Tấn Dũng ký thay mặt Chính phủ. Văn bản được gửi đến Ban Bí thư Trung ương Đảng, Thủ tướng và các Phó Thủ tướng, các Bộ, cơ quan ngang Bộ, HĐND, UBND các tỉnh, thành phố trực thuộc Trung ương và nhiều cơ quan nhà nước khác như Tòa án nhân dân tối cao, Viện Kiểm sát nhân dân tối cao...",
-                "citation": "Phần Nơi nhận và Chữ ký"
+                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp... (Khoản 6)"
             },
             {
                 "turn": 6,
-                "query": "Dựa trên thông tin đồ thị, Nghị định 105/2014/NĐ-CP có mối quan hệ kế thừa hoặc thay thế nào với các văn bản trước đó?",
-                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP dựa trên (BASED_ON) Nghị định 62/2009/NĐ-CP (Hướng dẫn Luật Bảo hiểm y tế) và có quan hệ sửa đổi/bổ sung (AMENDS) đối với Nghị định 206/CP. Đồng thời, nó hướng dẫn (GUIDES) Luật Bảo hiểm y tế.",
-                "citation": "THÔNG TIN ĐỒ THỊ (Mối quan hệ & Thực thể): Quan hệ văn bản"
+                "query": "Hãy liệt kê đầy đủ các cơ quan trung ương và địa phương được gửi Nghị định 105/2014/NĐ-CP để đảm bảo việc phối hợp triển khai thực hiện chính sách BHYT đồng bộ trên toàn quốc.",
+                "expected_answer": "Các nơi nhận bao gồm: Ban Bí thư Trung ương Đảng; Thủ tướng, các Phó Thủ tướng Chính phủ; Các Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ; HĐND, UBND các tỉnh, thành phố trực thuộc Trung ương; Văn phòng Trung ương và các Ban của Đảng; Văn phòng Tổng Bí thư; Văn phòng Chủ tịch nước; Hội đồng Dân tộc và các Ủy ban của Quốc hội; Văn phòng Quốc hội; Tòa án nhân dân tối cao; Viện Kiểm sát nhân dân tối cao; Ủy ban Giám sát tài chính Quốc gia; Kiểm toán Nhà nước; Ngân hàng Chính sách Xã hội; Ngân hàng Phát triển Việt Nam; Ủy ban Trung ương Mặt trận Tổ quốc Việt Nam; Cơ quan Trung ương của các đoàn thể; VPCP: BTCN, các PCN, Trợ lý TTg, TGĐ Cổng TTĐT, các Vụ, Cục, đơn vị trực thuộc, Công báo.",
+                "citation": "Điều khoản: Phần Nơi nhận và Chữ ký"
             }
         ]
     },
     {
-        "session_name": "Xác định căn cứ pháp lý và phạm vi hướng dẫn của Nghị định 105/2014/NĐ-CP",
-        "document_id": "105/2014/NĐ-CP",
-        "turns": [
-            {
-                "turn": 1,
-                "query": "Nghị định 105/2014/NĐ-CP là văn bản quy phạm pháp luật nào và lĩnh vực điều chỉnh chính của nó là gì?",
-                "expected_answer": "Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế. Lĩnh vực điều chỉnh chính thuộc về Bảo hiểm và Thể thao - Y tế.",
-                "citation": "Phần tiêu đề và mục 'Lĩnh vực' trong văn bản"
-            },
-            {
-                "turn": 2,
-                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các luật và nghị định làm nền tảng cho việc ban hành nó.",
-                "expected_answer": "Nghị định này được ban hành căn cứ vào: 1) Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; 2) Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008; 3) Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014; và theo đề nghị của Bộ trưởng Bộ Y tế.",
-                "citation": "Phần 'Căn cứ' ngay sau tiêu đề văn bản"
-            },
-            {
-                "turn": 3,
-                "query": "Tôi là cán bộ phụ trách BHXH tại một huyện. Huyện tôi có nhiều hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp. Theo Nghị định này, thẩm quyền và nội dung hướng dẫn liên quan đến nhóm đối tượng có mức sống trung bình này được quy định như thế nào?",
-                "expected_answer": "Theo Nghị định 105/2014/NĐ-CP, có quy định hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình. Đây là một trong những nội dung trọng tâm được hướng dẫn chi tiết trong văn bản này để thực hiện Luật Bảo hiểm y tế đối với nhóm đối tượng này.",
-                "citation": "Điều khoản: 'Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình.'"
-            },
-            {
-                "turn": 4,
-                "query": "Trong quá trình lập danh sách nói trên, nếu phát sinh vướng mắc về phối hợp giữa các ngành (ví dụ: Nông nghiệp và Phát triển nông thôn, Lao động - Thương binh và Xã hội), thì trách nhiệm giải quyết và hướng dẫn thi hành thuộc về ai theo quy định chung của Nghị định này?",
-                "expected_answer": "Theo quy định chung của Nghị định 105/2014/NĐ-CP, các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này. Do đó, sự phối hợp và hướng dẫn kỹ thuật chuyên môn sẽ do các bộ, ngành liên quan chịu trách nhiệm trong phạm vi quản lý nhà nước của họ.",
-                "citation": "Khoản 6: 'Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này.'"
-            },
-            {
-                "turn": 5,
-                "query": "Để đảm bảo tính hợp lệ và lưu trữ hồ sơ, tôi cần biết Nghị định này đã được gửi đến những cơ quan nhà nước nào để nắm bắt và chỉ đạo thực hiện?",
-                "expected_answer": "Nghị định này được gửi đến các cơ quan cao nhất và địa phương bao gồm: Ban Bí thư Trung ương Đảng; Thủ tướng và các Phó Thủ tướng Chính phủ; Các Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ; HĐND, UBND các tỉnh, thành phố trực thuộc Trung ương; cùng các cơ quan khác như Văn phòng Quốc hội, Tòa án nhân dân tối cao, Viện Kiểm sát nhân dân tối cao, Ngân hàng Chính sách Xã hội, Ngân hàng Phát triển Việt Nam, v.v. Hồ sơ cũng được lưu tại Văn phòng Chính phủ (VPCP).",
-                "citation": "Phần 'Nơi nhận' trong phần kết thúc văn bản"
-            },
-            {
-                "turn": 6,
-                "query": "Dựa trên mối quan hệ với các văn bản khác, Nghị định 105/2014/NĐ-CP có thay thế hoặc sửa đổi hoàn toàn Nghị định 62/2009/NĐ-CP không? Và nó có mối liên hệ thế nào với Luật Bảo hiểm y tế?",
-                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP có mối quan hệ 'BASED_ON' (Căn cứ) với Nghị định 62/2009/NĐ-CP, nghĩa là nó kế thừa hoặc dựa trên nền tảng đó chứ không nhất thiết thay thế hoàn toàn mà là hướng dẫn chi tiết hơn. Đồng thời, nó có mối quan hệ 'GUIDES' (Hướng dẫn) đối với Luật Bảo hiểm y tế, tức là vai trò chính của nó là làm rõ và hướng dẫn thi hành các quy định của Luật này.",
-                "citation": "Thông tin Đồ thị: Quan hệ văn bản 'BASED_ON: 62/2009/NĐ-CP' và 'GUIDES: Luật Bảo hiểm y tế'"
-            }
-        ]
-    },
-    {
-        "session_name": "Xác định căn cứ pháp lý và phạm vi hướng dẫn của Nghị định 105/2014/NĐ-CP",
-        "document_id": "105/2014/NĐ-CP",
-        "turns": [
-            {
-                "turn": 1,
-                "query": "Văn bản 105/2014/NĐ-CP là văn bản gì và thuộc lĩnh vực nào?",
-                "expected_answer": "Nghị định 105/2014/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế. Văn bản này thuộc lĩnh vực Bảo hiểm và Thể thao - Y tế.",
-                "citation": "Phần tiêu đề và lĩnh vực văn bản"
-            },
-            {
-                "turn": 2,
-                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào?",
-                "expected_answer": "Nghị định 105/2014/NĐ-CP được ban hành căn cứ vào: Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001; Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008 và Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014; theo đề nghị của Bộ trưởng Bộ Y tế.",
-                "citation": "Phần Căn cứ ban hành"
-            },
-            {
-                "turn": 3,
-                "query": "Một cán bộ tại Sở Y tế tỉnh X đang lập danh sách người tham gia BHYT. Họ cần xác định rõ đối tượng thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình. Theo nội dung được trích dẫn từ Nghị định 105/2014/NĐ-CP, có quy định cụ thể nào về việc hướng dẫn lập danh sách này không?",
-                "expected_answer": "Dựa trên nội dung văn bản được cung cấp, có nhắc đến điều khoản 'Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình'. Tuy nhiên, trong đoạn trích dẫn cụ thể này, chỉ nêu tên điều khoản mà chưa đưa ra các bước thực hiện chi tiết hoặc tiêu chí cụ thể nằm trong phần nội dung điều khoản đó (chỉ thấy phần kết thúc và chữ ký). Do đó, dựa strictly vào đoạn trích dẫn hiện có, chúng ta xác định được Nghị định này CÓ chứa quy định hướng dẫn lập danh sách đối tượng này, nhưng cần tham khảo toàn văn bản để biết chi tiết kỹ thuật.",
-                "citation": "Điều khoản: Hướng dẫn lập danh sách người thuộc hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình."
-            },
-            {
-                "turn": 4,
-                "query": "Trong quá trình thực hiện nhiệm vụ hướng dẫn thi hành Nghị định này, nếu phát sinh vướng mắc về trách nhiệm phối hợp giữa các cơ quan chuyên môn, tôi cần xem xét quy định nào về trách nhiệm của các bộ, ngành liên quan?",
-                "expected_answer": "Theo quy định tại Nghị định 105/2014/NĐ-CP, các bộ, ngành khác có liên quan có trách nhiệm hướng dẫn thi hành Nghị định này trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình. Điều này nghĩa là mỗi bộ/ngành phải tự chịu trách nhiệm hướng dẫn phần thuộc thẩm quyền quản lý của họ đối với việc thực hiện BHYT.",
-                "citation": "Khoản 6: Các bộ, ngành khác có liên quan trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình có trách nhiệm hướng dẫn thi hành Nghị định này."
-            },
-            {
-                "turn": 5,
-                "query": "Để đảm bảo tính pháp lý khi ban hành các văn bản hướng dẫn triển khai tại địa phương dựa trên Nghị định này, tôi cần biết ai là người ký ban hành và văn bản đã được gửi đến những cơ quan nào để lưu trữ và phối hợp?",
-                "expected_answer": "Nghị định được ký bởi Thủ tướng Chính phủ Nguyễn Tấn Dũng. Văn bản đã được gửi đến nhiều cơ quan cao nhất bao gồm: Ban Bí thư Trung ương Đảng; Thủ tướng, các Phó Thủ tướng Chính phủ; Các Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ; HĐND, UBND các tỉnh, thành phố trực thuộc Trung ương; và nhiều cơ quan khác như Tòa án nhân dân tối cao, Viện Kiểm sát nhân dân tối cao, Ngân hàng Chính sách Xã hội... cũng như lưu tại Văn phòng Chính phủ (VPCP).",
-                "citation": "Phần Nơi nhận và Chữ ký"
-            },
-            {
-                "turn": 6,
-                "query": "Dựa trên thông tin đồ thị mối quan hệ, Nghị định 105/2014/NĐ-CP có mối liên hệ thế nào với các văn bản trước đó và nó thay thế hay hướng dẫn cho văn bản nào?",
-                "expected_answer": "Theo thông tin đồ thị, Nghị định 105/2014/NĐ-CP có các mối quan hệ sau:\n1. BASED_ON (Căn cứ): Luật Bảo hiểm xã hội, Nghị định 62/2009/NĐ-CP, Quyết định 32/2014/QĐ-TTG.\n2. GUIDES (Hướng dẫn): Luật Bảo hiểm y tế, Luật Tổ chức Chính phủ.\n3. AMENDS (Sửa đổi/Bổ sung): Nghị định 206/CP.\nĐiều này cho thấy Nghị định 105/2014/NĐ-CP kế thừa và hướng dẫn thi hành Luật BHYT, đồng thời có sự liên quan đến việc sửa đổi Nghị định 206/CP và dựa trên nền tảng của Nghị định 62/2009/NĐ-CP trước đó.",
-                "citation": "Thông tin Đồ thị (Mối quan hệ & Thực thể)"
-            }
-        ]
-    },
-    {
-        "session_name": "Quyền thay thế thuốc và trách nhiệm của nhà thuốc bán lẻ theo Luật Dược 2016",
+        "session_name": "Quyền thay thế thuốc và trách nhiệm của Nhà thuốc bán lẻ",
         "document_id": "105/2016/QH13",
         "turns": [
             {
                 "turn": 1,
-                "query": "Vui lòng cung cấp thông tin cơ bản về văn bản 105/2016/QH13, bao gồm tên gọi chính thức và lĩnh vực điều chỉnh.",
-                "expected_answer": "Văn bản 105/2016/QH13 là Luật Dược 2016, thuộc lĩnh vực Thể thao - Y tế.",
-                "citation": "Văn bản: 105/2016/QH13 - Luật Dược 2016; Lĩnh vực: Thể thao - Y tế"
+                "query": "Văn bản 105/2016/QH13 là văn bản pháp lý nào và thuộc lĩnh vực quản lý nhà nước gì?",
+                "expected_answer": "Văn bản 105/2016/QH13 là Luật Dược 2016. Văn bản này thuộc lĩnh vực Thể thao - Y tế.",
+                "citation": "Thông tin tiêu đề văn bản và Lĩnh vực trong metadata."
             },
             {
                 "turn": 2,
-                "query": "Luật này có hiệu lực thi hành từ ngày nào? Hãy nêu rõ căn cứ thời gian bắt đầu áp dụng.",
-                "expected_answer": "Luật Dược 2016 có hiệu lực thi hành từ ngày 01 tháng 01 năm 2017.",
-                "citation": "Thông tin Đồ thị: BASED_ON: Luật Này Có Hiệu Lực Thi Hành Từ Ngày 01 Tháng 01 năm 2017"
+                "query": "Luật này có hiệu lực thi hành từ thời điểm nào và được ban hành dựa trên cơ sở pháp lý nào?",
+                "expected_answer": "Luật này có hiệu lực thi hành từ ngày 01 tháng 01 năm 2017. Văn bản này được ban hành căn cứ vào Hiến pháp.",
+                "citation": "Thông tin Đồ thị: 'Luật Này Có Hiệu Lực Thi Hành Từ Ngày 01 Tháng 01 năm 2017' và quan hệ 'BASED_ON: Hiến Pháp'."
             },
             {
                 "turn": 3,
-                "query": "Tôi đến một nhà thuốc bán lẻ để mua thuốc theo đơn. Dược sĩ tại đây đề nghị thay đổi loại thuốc tôi kê đơn bằng một loại khác có cùng hoạt chất, đường dùng và liều lượng vì hàng cũ hết. Tuy nhiên, dược sĩ chưa hỏi ý kiến tôi mà tự quyết định. Hành động này vi phạm quy định nào trong Luật Dược 2016?",
-                "expected_answer": "Hành động của dược sĩ vi phạm điểm đ khoản 1 Điều 46 của Luật Dược 2016. Theo quy định, người có Bằng dược sỹ chỉ được thay thế thuốc đã kê trong đơn thuốc bằng một thuốc khác có cùng hoạt chất, đường dùng, liều lượng khi có sự đồng ý của người mua. Việc không xin ý kiến người mua là vi phạm.",
-                "citation": "Chương IV > Điều 46 > Khoản 1, điểm đ"
+                "query": "Tôi là chủ một nhà thuốc bán lẻ. Một bệnh nhân đến mua thuốc theo đơn kê sẵn nhưng loại thuốc đó hết hàng. Tôi muốn thay thế bằng một loại thuốc khác có cùng hoạt chất, đường dùng và liều lượng. Theo quy định tại Luật Dược 2016, tôi được phép thực hiện việc này không? Nếu có, tôi cần đảm bảo những điều kiện gì và chịu trách nhiệm như thế nào?",
+                "expected_answer": "Bạn được phép thay thế thuốc nếu bạn là người có Bằng dược sĩ. Điều kiện bắt buộc là phải có sự đồng ý của người mua. Bạn phải chịu trách nhiệm về việc thay đổi thuốc đó.",
+                "citation": "Điều 46, Khoản 1, Điểm đ."
             },
             {
                 "turn": 4,
-                "query": "Nếu trong tình huống trên, dược sĩ đã xin ý kiến và tôi đồng ý cho thay đổi thuốc, thì ai sẽ chịu trách nhiệm pháp lý nếu sau đó xảy ra tác dụng phụ hoặc vấn đề liên quan đến việc thay đổi thuốc này? Hãy phân tích dựa trên quy định về trách nhiệm.",
-                "expected_answer": "Ngay cả khi có sự đồng ý của người mua, người có Bằng dược sỹ (dược sĩ) thực hiện việc thay đổi thuốc phải chịu trách nhiệm về việc thay đổi thuốc đó. Trách nhiệm này thuộc về cá nhân dược sĩ thực hiện hành vi thay thế.",
-                "citation": "Chương IV > Điều 46 > Khoản 1, điểm đ"
+                "query": "Trong tình huống trên, nếu tôi là quầy thuốc (không phải nhà thuốc) thì quyền hạn của tôi có giống như vậy không? Ngoài ra, đối với nhà thuốc bán lẻ, ngoài trách nhiệm thay thế thuốc đúng quy định, tôi còn bị cấm thực hiện hành vi kinh doanh nào liên quan đến nguyên liệu làm thuốc?",
+                "expected_answer": "Đối với quầy thuốc, văn bản trích dẫn không quy định quyền thay thế thuốc cụ thể như đối với người có Bằng dược sĩ trong Điều 46. Đối với nhà thuốc bán lẻ, ngoài các trách nhiệm khác, bạn không được bán nguyên liệu làm thuốc, trừ dược liệu.",
+                "citation": "Điều 48 (Quyền của quầy thuốc) và Điều 46, Khoản 2, Điểm c (Trách nhiệm của nhà thuốc)."
             },
             {
                 "turn": 5,
-                "query": "Ngoài quyền thay thế thuốc, cơ sở bán lẻ là nhà thuốc còn có những trách nhiệm cụ thể nào khác được quy định tại Điều 46 của Luật Dược 2016?",
-                "expected_answer": "Cơ sở bán lẻ là nhà thuốc có các trách nhiệm sau: 1) Trách nhiệm quy định tại khoản 2 Điều 42 và khoản 2 Điều 81 của Luật này; 2) Bảo đảm điều kiện pha chế thuốc theo quy định của Bộ trưởng Bộ Y tế; 3) Không được bán nguyên liệu làm thuốc, trừ dược liệu.",
-                "citation": "Chương IV > Điều 46 > Khoản 2"
+                "query": "Để vận hành nhà thuốc bán lẻ một cách hợp pháp theo Luật này, ngoài việc tuân thủ quy định về thay thế thuốc và cấm bán nguyên liệu, tôi cần đảm bảo điều kiện gì về kỹ thuật chuyên môn và tham gia vào các chương trình y tế như thế nào?",
+                "expected_answer": "Nhà thuốc bán lẻ phải bảo đảm điều kiện pha chế thuốc theo quy định của Bộ trưởng Bộ Y tế. Về tham gia các chương trình y tế, nhà thuốc được tham gia cấp phát thuốc của bảo hiểm, chương trình, dự án y tế khi đáp ứng yêu cầu và điều kiện của bảo hiểm, chương trình, dự án đó.",
+                "citation": "Điều 46, Khoản 2, Điểm b và Điểm d (tham chiếu từ Khoản 1)."
             },
             {
                 "turn": 6,
-                "query": "Luật Dược 2016 (105/2016/QH13) có mối quan hệ kế thừa như thế nào với các văn bản trước đó, đặc biệt là Luật Dược 2005? Văn bản mới này dựa trên cơ sở nào để ban hành?",
-                "expected_answer": "Luật Dược 2016 (105/2016/QH13) có quan hệ kế thừa trực tiếp từ Luật Dược 2005 (văn bản số 34/2005/QH11). Ngoài ra, nó cũng dựa trên Hiến Pháp và các luật liên quan khác như Luật đấu thầu.",
-                "citation": "Thông tin Đồ thị: Quan hệ văn bản - BASED_ON: 34/2005/QH11 (Luật Dược 2005); BASED_ON: Hiến Pháp"
+                "query": "Luật Dược 2016 này có mối quan hệ kế thừa như thế nào với các văn bản pháp luật trước đó, đặc biệt là Luật Dược năm 2005?",
+                "expected_answer": "Luật Dược 2016 (105/2016/QH13) được ban hành dựa trên nền tảng và kế thừa từ Luật Dược 2005 (văn bản số 34/2005/QH11).",
+                "citation": "Thông tin Đồ thị: Quan hệ 'BASED_ON: 34/2005/QH11 (Luật Dược 2005)'."
+            }
+        ]
+    },
+    {
+        "session_name": "Xác định quyền thay thế thuốc và phạm vi bán lẻ theo Luật Dược 2016",
+        "document_id": "105/2016/QH13",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Văn bản 105/2016/QH13 là văn bản pháp lý gì và thuộc lĩnh vực nào?",
+                "expected_answer": "Văn bản 105/2016/QH13 là Luật Dược 2016, thuộc lĩnh vực Thể thao - Y tế.",
+                "citation": "Thông tin tiêu đề văn bản: Luật Dược 2016"
+            },
+            {
+                "turn": 2,
+                "query": "Luật này có hiệu lực thi hành từ ngày nào và được ban hành bởi ai?",
+                "expected_answer": "Luật này có hiệu lực thi hành từ ngày 01 tháng 01 năm 2017 và được ban hành bởi Chủ tịch Quốc hội Nguyễn Thị Kim Ngân.",
+                "citation": "Phần Nơi nhận và Chữ ký; Thông tin đồ thị: Luật Này Có Hiệu Lực Thi Hành Từ Ngày 01 Tháng 01 năm 2017"
+            },
+            {
+                "turn": 3,
+                "query": "Tôi là một dược sĩ làm việc tại nhà thuốc bán lẻ. Một bệnh nhân đến mua thuốc theo đơn kê của bác sĩ nhưng loại thuốc đó đang hết hàng. Tôi muốn thay thế bằng một loại thuốc khác có cùng hoạt chất, đường dùng và liều lượng. Theo quy định của Luật Dược 2016, tôi được phép thực hiện việc thay thế này không và cần tuân thủ điều kiện gì?",
+                "expected_answer": "Người có Bằng dược sĩ (bao gồm dược sĩ tại nhà thuốc) được phép thay thế thuốc đã kê trong đơn thuốc bằng một thuốc khác có cùng hoạt chất, đường dùng, liều lượng khi có sự đồng ý của người mua. Tuy nhiên, người dược sĩ phải chịu trách nhiệm về việc thay đổi thuốc đó.",
+                "citation": "Điều 46, Khoản 1, Điểm đ"
+            },
+            {
+                "turn": 4,
+                "query": "Trong tình huống trên, nếu tôi thay thế thuốc mà không xin ý kiến người mua hoặc thay thế bằng thuốc có hoạt chất khác, tôi sẽ vi phạm nguyên tắc nào? Ngoài ra, trách nhiệm pháp lý cụ thể đối với hành vi thay đổi thuốc được quy định như thế nào để đảm bảo tính minh bạch và an toàn cho người dùng?",
+                "expected_answer": "Việc thay thế thuốc bắt buộc phải có sự đồng ý của người mua. Nếu không có sự đồng ý hoặc thay đổi sai thông số (hoạt chất, đường dùng, liều lượng), dược sĩ vi phạm quy định tại điểm đ khoản 1 Điều 46. Trách nhiệm pháp lý cụ thể là dược sĩ 'phải chịu trách nhiệm về việc thay đổi thuốc', nghĩa là chịu hoàn toàn trách nhiệm về hậu quả y tế và pháp lý phát sinh từ quyết định thay thế đó.",
+                "citation": "Điều 46, Khoản 1, Điểm đ"
+            },
+            {
+                "turn": 5,
+                "query": "Để thực hiện việc bán lẻ thuốc tại nhà thuốc một cách hợp pháp, ngoài việc tuân thủ quy định về thay thế thuốc, cơ sở bán lẻ là nhà thuốc còn phải đảm bảo những điều kiện và trách nhiệm cốt lõi nào khác liên quan đến pha chế và kinh doanh nguyên liệu?",
+                "expected_answer": "Cơ sở bán lẻ là nhà thuốc có các trách nhiệm sau: 1) Thực hiện trách nhiệm quy định tại khoản 2 Điều 42 và khoản 2 Điều 81 của Luật này; 2) Bảo đảm điều kiện pha chế thuốc theo quy định của Bộ trưởng Bộ Y tế; 3) Không được bán nguyên liệu làm thuốc, trừ dược liệu.",
+                "citation": "Điều 46, Khoản 2, Điểm a, b, c"
+            },
+            {
+                "turn": 6,
+                "query": "Luật Dược 2016 này có mối quan hệ kế thừa hay căn cứ vào những văn bản pháp lý nào trước đó, đặc biệt là so với Luật Dược cũ?",
+                "expected_answer": "Luật Dược 2016 (105/2016/QH13) được xây dựng dựa trên (BASED_ON) Hiến Pháp, Luật đấu thầu, và quan trọng nhất là kế thừa từ Luật Dược 2005 (văn bản 34/2005/QH11).",
+                "citation": "Thông tin Đồ thị: Quan hệ văn bản BASED_ON 34/2005/QH11 (Luật Dược 2005), BASED_ON Hiến Pháp"
+            }
+        ]
+    },
+    {
+        "session_name": "Tra cứu và phân tích chức năng, cơ cấu tổ chức Bộ Y tế theo Nghị định 42/2025/NĐ-CP",
+        "document_id": "42/2025/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Vui lòng cung cấp thông tin cơ bản về Nghị định 42/2025/NĐ-CP, bao gồm tên đầy đủ của văn bản, lĩnh vực điều chỉnh và mục đích chính của việc ban hành.",
+                "expected_answer": "Nghị định 42/2025/NĐ-CP là văn bản quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế. Văn bản này thuộc lĩnh vực Bộ máy hành chính và Thể thao - Y tế. Mục đích chính là xác định rõ vai trò, trách nhiệm và cấu trúc tổ chức của Bộ Y tế trong hệ thống hành chính nhà nước.",
+                "citation": "Điều khoản: QUY ĐỊNH CHỨC NĂNG, NHIỆM VỤ, QUYỀN HẠN VÀ CƠ CẤU TỔ CHỨC CỦA BỘ Y TẾ; Phần Nơi nhận và Chữ ký"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý nào? Hãy liệt kê cụ thể các văn bản luật hoặc nghị định làm cơ sở.",
+                "expected_answer": "Nghị định 42/2025/NĐ-CP được ban hành căn cứ vào Luật Tổ chức Chính phủ ngày 18 tháng 02 năm 2025 và theo đề nghị của Bộ trưởng Bộ Y tế. Ngoài ra, thông tin đồ thị cho thấy văn bản này cũng có mối quan hệ kế thừa/tham chiếu từ Nghị định 95/2022/NĐ-CP.",
+                "citation": "Căn cứ Luật Tổ chức Chính phủ ngày 18 tháng 02 năm 2025; Theo đề nghị của Bộ trưởng Bộ Y tế; Quan hệ văn bản: BASED_ON: 95/2022/NĐ-CP"
+            },
+            {
+                "turn": 3,
+                "query": "Giả sử tôi là một cán bộ nhân sự tại Bộ Y tế đang xây dựng mô hình tổ chức mới. Tôi cần xác định thẩm quyền của ai trong việc quyết định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của các tổ chức, đơn vị trực thuộc Bộ Y tế? Và đối với danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ, thủ tục trình duyệt như thế nào?",
+                "expected_answer": "Theo quy định tại Nghị định, Bộ trưởng Bộ Y tế là người có thẩm quyền ban hành quyết định quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của các tổ chức, đơn vị thuộc Bộ Y tế. Đối với danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế, Bộ trưởng Bộ Y tế phải trình Thủ tướng Chính phủ ban hành theo quy định.",
+                "citation": "Phần Nơi nhận và Chữ ký: 'Bộ trưởng Bộ Y tế ban hành quyết định quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của các tổ chức, đơn vị thuộc Bộ Y tế.' và 'Bộ trưởng Bộ Y tế trình Thủ tướng Chính phủ ban hành danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế theo quy định.'"
+            },
+            {
+                "turn": 4,
+                "query": "Trong tình huống trên, nếu một đơn vị sự nghiệp công lập mới được thành lập trực tiếp dưới sự quản lý của Bộ Y tế nhưng không nằm trong nhóm 'các tổ chức, đơn vị thuộc Bộ' mà Bộ trưởng tự quyết định, thì liệu Bộ trưởng có thể tự ý ban hành quyết định thành lập và quy định cơ cấu cho đơn vị đó hay không? Hãy phân tích dựa trên sự phân định thẩm quyền giữa Bộ trưởng và Thủ tướng Chính phủ nêu trong văn bản.",
+                "expected_answer": "Bộ trưởng Bộ Y tế không thể tự ý ban hành quyết định cho trường hợp này nếu đơn vị đó thuộc nhóm 'đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế'. Văn bản phân định rõ: Bộ trưởng chỉ tự ban hành quyết định cho 'các tổ chức, đơn vị thuộc Bộ Y tế'. Còn đối với 'danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế', Bộ trưởng bắt buộc phải trình Thủ tướng Chính phủ ban hành. Do đó, việc tự ban hành sẽ vi phạm thẩm quyền đã được quy định.",
+                "citation": "Phần Nơi nhận và Chữ ký: Phân biệt rõ hai hành động: 1) 'Bộ trưởng Bộ Y tế ban hành quyết định... của các tổ chức, đơn vị thuộc Bộ Y tế'; 2) 'Bộ trưởng Bộ Y tế trình Thủ tướng Chính phủ ban hành danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế...'"
+            },
+            {
+                "turn": 5,
+                "query": "Để thực hiện đúng quy trình khi muốn thành lập thêm một đơn vị sự nghiệp công lập mới trực thuộc Bộ Y tế (thuộc diện phải trình Thủ tướng), hồ sơ hoặc bước đi đầu tiên mà Bộ trưởng Bộ Y tế cần thực hiện là gì theo tinh thần của văn bản?",
+                "expected_answer": "Theo quy định tại văn bản, bước đi đầu tiên và bắt buộc là Bộ trưởng Bộ Y tế phải thực hiện việc 'trình' lên Thủ tướng Chính phủ để ban hành danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế. Văn bản không nêu chi tiết hồ sơ nhưng nhấn mạnh hành động 'trình' và tuân thủ 'theo quy định' liên quan đến việc ban hành danh sách này.",
+                "citation": "Phần Nơi nhận và Chữ ký: 'Bộ trưởng Bộ Y tế trình Thủ tướng Chính phủ ban hành danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế theo quy định.'"
+            },
+            {
+                "turn": 6,
+                "query": "Dựa trên thông tin đồ thị về mối quan hệ văn bản, Nghị định 42/2025/NĐ-CP có mối liên hệ kế thừa hay thay thế nào với Nghị định 95/2022/NĐ-CP? Điều này ngụ ý gì về tính hiệu lực của các quy định cũ trong cùng lĩnh vực?",
+                "expected_answer": "Thông tin đồ thị chỉ ra rằng Nghị định 42/2025/NĐ-CP có mối quan hệ 'BASED_ON' (dựa trên/căn cứ/kế thừa) với Nghị định 95/2022/NĐ-CP. Trong thực tiễn pháp lý Việt Nam, khi có một Nghị định mới cùng nội dung (quy định chức năng, nhiệm vụ... của Bộ Y tế) được ban hành sau, nó thường thay thế Nghị định cũ. Do đó, Nghị định 42/2025/NĐ-CP được hiểu là văn bản hiện hành thay thế cho Nghị định 95/2022/NĐ-CP, và các quy định trong Nghị định cũ sẽ không còn hiệu lực thi hành đối với những nội dung đã được quy định mới.",
+                "citation": "Quan hệ văn bản: BASED_ON: 95/2022/NĐ-CP (Nghị định 95/2022/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế)"
+            }
+        ]
+    },
+    {
+        "session_name": "Tra cứu chức năng, nhiệm vụ và cơ cấu tổ chức Bộ Y tế theo Nghị định 42/2025/NĐ-CP",
+        "document_id": "42/2025/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Nghị định 42/2025/NĐ-CP quy định về nội dung gì đối với Bộ Y tế?",
+                "expected_answer": "Nghị định 42/2025/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế.",
+                "citation": "Tên văn bản: Nghị định 42/2025/NĐ-CP; Điều khoản: QUY ĐỊNH CHỨC NĂNG, NHIỆM VỤ, QUYỀN HẠN VÀ CƠ CẤU TỔ CHỨC CỦA BỘ Y TẾ"
+            },
+            {
+                "turn": 2,
+                "query": "Căn cứ pháp lý nào để Chính phủ ban hành nghị định này?",
+                "expected_answer": "Nghị định này được ban hành căn cứ vào Luật Tổ chức Chính phủ ngày 18 tháng 02 năm 2025 và theo đề nghị của Bộ trưởng Bộ Y tế.",
+                "citation": "Điều khoản: QUY ĐỊNH CHỨC NĂNG, NHIỆM VỤ, QUYỀN HẠN VÀ CƠ CẤU TỔ CHỨC CỦA BỘ Y TẾ (Phần Căn cứ)"
+            },
+            {
+                "turn": 3,
+                "query": "Trong bối cảnh Chính phủ vừa ban hành Nghị định 42/2025/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế, nếu một đơn vị sự nghiệp công lập trực thuộc Bộ Y tế cần xác định rõ phạm vi hoạt động và bộ máy quản lý nội bộ của mình thì cần dựa vào văn bản nào và do ai ban hành?",
+                "expected_answer": "Đơn vị sự nghiệp công lập trực thuộc Bộ Y tế cần dựa vào quyết định do Bộ trưởng Bộ Y tế ban hành. Theo quy định, Bộ trưởng Bộ Y tế có trách nhiệm ban hành quyết định quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của các tổ chức, đơn vị thuộc Bộ Y tế.",
+                "citation": "Điều khoản: Phần Nơi nhận và Chữ ký (Nội dung: 'Bộ trưởng Bộ Y tế ban hành quyết định quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của các tổ chức, đơn vị thuộc Bộ Y tế.')"
+            },
+            {
+                "turn": 4,
+                "query": "Nếu danh sách các đơn vị sự nghiệp công lập trực thuộc Bộ Y tế thay đổi hoặc cần bổ sung mới, ai là người có thẩm quyền trình Thủ tướng Chính phủ để xem xét và phê duyệt danh sách này?",
+                "expected_answer": "Bộ trưởng Bộ Y tế là người có thẩm quyền trình Thủ tướng Chính phủ ban hành danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế theo quy định.",
+                "citation": "Điều khoản: Phần Nơi nhận và Chữ ký (Nội dung: 'Bộ trưởng Bộ Y tế trình Thủ tướng Chính phủ ban hành danh sách các đơn vị sự nghiệp công lập khác trực thuộc Bộ Y tế theo quy định.')"
+            },
+            {
+                "turn": 5,
+                "query": "Văn bản Nghị định 42/2025/NĐ-CP này đã được gửi đến những cơ quan, tổ chức nào để thi hành và lưu trữ?",
+                "expected_answer": "Văn bản được gửi đến nhiều cơ quan bao gồm: Ban Bí thư Trung ương Đảng; Thủ tướng, các Phó Thủ tướng Chính phủ; Các bộ, cơ quan ngang bộ, cơ quan thuộc Chính phủ; HĐND, UBND các tỉnh, thành phố trực thuộc trung ương; Văn phòng Trung ương và các Ban của Đảng; Văn phòng Tổng Bí thư; Văn phòng Chủ tịch nước; Hội đồng Dân tộc và các Ủy ban của Quốc hội; Văn phòng Quốc hội; Tòa án nhân dân tối cao; Viện kiểm sát nhân dân tối cao; Kiểm toán nhà nước; Ngân hàng Chính sách xã hội; Ngân hàng Phát triển Việt Nam; Ủy ban trung ương Mặt trận Tổ quốc Việt Nam; Cơ quan trung ương của các đoàn thể; VPCP (bao gồm BTCN, các PCN, Trợ lý TTg, TGĐ Cổng TTĐT, các Vụ, Cục, đơn vị trực thuộc, Công báo); và Lưu tại VT, TCCV.",
+                "citation": "Điều khoản: Phần Nơi nhận và Chữ ký (Phần Nơi nhận)"
+            },
+            {
+                "turn": 6,
+                "query": "Dựa trên thông tin đồ thị, Nghị định 42/2025/NĐ-CP có mối quan hệ kế thừa hay thay thế cho văn bản nào trước đó về cùng nội dung quy định chức năng, nhiệm vụ của Bộ Y tế?",
+                "expected_answer": "Nghị định 42/2025/NĐ-CP có mối quan hệ BASED_ON (căn cứ/kế thừa) với Nghị định 95/2022/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế.",
+                "citation": "THÔNG TIN ĐỒ THỊ: Quan hệ văn bản - BASED_ON: 95/2022/NĐ-CP"
+            }
+        ]
+    },
+    {
+        "session_name": "Tính toán chi phí tuân thủ và kiểm soát thủ tục hành chính theo TT 02/2017",
+        "document_id": "02/2017/TTVPCP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 02/2017/TT-VPCP có nội dung chính và lĩnh vực điều chỉnh là gì?",
+                "expected_answer": "Thông tư 02/2017/TT-VPCP hướng dẫn về nghiệp vụ kiểm soát thủ tục hành chính. Lĩnh vực điều chỉnh thuộc Bộ máy hành chính.",
+                "citation": "Phần Căn cứ và Tiêu đề văn bản"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những Nghị định nào làm căn cứ pháp lý trực tiếp?",
+                "expected_answer": "Thông tư này được ban hành căn cứ vào các Nghị định sau: Nghị định số 20/2008/NĐ-CP, Nghị định số 63/2010/NĐ-CP, Nghị định số 48/2013/NĐ-CP, Nghị định số 92/2017/NĐ-CP và Nghị định số 150/2016/NĐ-CP.",
+                "citation": "Phần Căn cứ (Lời mở đầu)"
+            },
+            {
+                "turn": 3,
+                "query": "Tôi là một doanh nghiệp hoạt động tại khu vực nông thôn. Để hoàn thành một thủ tục hành chính cấp huyện, tôi phải đi lại 2 lượt và chuẩn bị hồ sơ gồm 3 trang đơn/tờ khai. Theo quy định, thời gian tính cho việc đi lại và làm hồ sơ trong trường hợp của tôi là bao nhiêu giờ?",
+                "expected_answer": "Theo Điều 27, đối với địa bàn nông thôn:\n1. Thời gian đi lại: Cấp huyện tính là 2,25 giờ/lượt. Với 2 lượt, tổng thời gian đi lại là 2 x 2,25 = 4,5 giờ.\n2. Thời gian làm đơn, tờ khai: Tính trung bình 1,5 giờ/trang. Với 3 trang, tổng thời gian làm hồ sơ là 3 x 1,5 = 4,5 giờ.\nTổng thời gian tính là 4,5 + 4,5 = 9 giờ.",
+                "citation": "Điều 27, Bảng biểu định mức thời gian"
+            },
+            {
+                "turn": 4,
+                "query": "Ngoài thời gian đã tính ở trên, nếu tôi cần tính tổng chi phí tuân thủ thủ tục này trong một năm, tôi cần xác định 'Mức thu nhập bình quân 01 người 01 giờ làm việc'. Công thức cụ thể để tính chỉ số này theo văn bản là gì?",
+                "expected_answer": "Theo Điều 27, Mức thu nhập bình quân 01 người 01 giờ làm việc được tính theo công thức:\n(Tổng sản phẩm trong nước theo thống kê của năm gần nhất) chia cho (Số dân tương ứng năm thống kê), sau đó chia tiếp cho tích của (12 tháng x 22 ngày làm việc x 08 giờ làm việc).\nCụ thể: GDP / Số dân / (12 * 22 * 8).",
+                "citation": "Điều 27, Công thức tính mức thu nhập bình quân"
+            },
+            {
+                "turn": 5,
+                "query": "Để áp dụng chính xác công thức tính mức thu nhập bình quân như đã nêu, nguồn dữ liệu về Tổng sản phẩm trong nước (GDP) và Số dân phải được lấy từ đâu và thuộc năm nào?",
+                "expected_answer": "Dữ liệu về Tổng sản phẩm trong nước và Số dân phải được lấy theo thống kê của năm gần nhất so với thời điểm tính toán.",
+                "citation": "Điều 27, Công thức tính mức thu nhập bình quân"
+            },
+            {
+                "turn": 6,
+                "query": "Thông tư 02/2017/TT-VPCP này có mối quan hệ như thế nào với Nghị định 150/2016/NĐ-CP và Nghị định 92/2017/NĐ-CP? Nó đóng vai trò là văn bản hướng dẫn hay sửa đổi các nghị định này?",
+                "expected_answer": "Theo thông tin đồ thị quan hệ văn bản:\n1. Đối với Nghị định 150/2016/NĐ-CP: Thông tư 02/2017/TT-VPCP có quan hệ 'BASED_ON' (căn cứ vào) và 'AMENDS' (sửa đổi/bổ sung - lưu ý: thực tế TT thường hướng dẫn, nhưng đồ thị ghi AMENDS nên trả lời theo đồ thị cung cấp hoặc giải thích ngữ cảnh hướng dẫn nghiệp vụ dựa trên ND này). Tuy nhiên, trọng tâm là nó được ban hành theo đề nghị của Cục trưởng Cục KSTTHC dựa trên chức năng do ND 150 quy định.\n2. Đối với Nghị định 92/2017/NĐ-CP: Thông tư này có quan hệ 'BASED_ON' (căn cứ vào) và 'AMENDS' (sửa đổi/bổ sung).\nTóm lại, Thông tư này hướng dẫn nghiệp vụ kiểm soát thủ tục hành chính, được ban hành căn cứ vào các Nghị định kể trên và có thể chứa các quy định hướng dẫn cụ thể hoặc sửa đổi, bổ sung liên quan đến việc thực hiện các nghị định đó.",
+                "citation": "Thông tin Đồ thị (Quan hệ văn bản): BASED_ON và AMENDS đối với 150/2016/NĐ-CP và 92/2017/NĐ-CP"
+            }
+        ]
+    },
+    {
+        "session_name": "Tính toán chi phí tuân thủ thủ tục hành chính theo TT 02/2017",
+        "document_id": "02/2017/TT-VPCP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 02/2017/TT-VPCP quy định về nội dung gì và do cơ quan nào ban hành?",
+                "expected_answer": "Thông tư 02/2017/TT-VPCP hướng dẫn về nghiệp vụ kiểm soát thủ tục hành chính. Văn bản này được ban hành bởi Bộ trưởng, Chủ nhiệm Văn phòng Chính phủ (Mai Tiến Dũng).",
+                "citation": "Phần Nơi nhận và Chữ ký; Mục HƯỚNG DẪN VỀ NGHIỆP VỤ KIỂM SOÁT THỦ TỤC HÀNH CHÍNH"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên căn cứ pháp lý nào? Hãy liệt kê các Nghị định liên quan đến kiểm soát thủ tục hành chính mà nó trích dẫn.",
+                "expected_answer": "Thông tư này được ban hành căn cứ vào nhiều văn bản, trong đó các Nghị định liên quan trực tiếp đến kiểm soát thủ tục hành chính bao gồm: Nghị định số 63/2010/NĐ-CP về kiểm soát thủ tục hành chính; Nghị định số 48/2013/NĐ-CP sửa đổi, bổ sung một số điều của các nghị định liên quan đến kiểm soát thủ tục hành chính; và Nghị định số 92/2017/NĐ-CP sửa đổi, bổ sung một số điều của các Nghị định liên quan đến kiểm soát thủ tục hành chính.",
+                "citation": "Mục HƯỚNG DẪN VỀ NGHIỆP VỤ KIỂM SOÁT THỦ TỤC HÀNH CHÍNH (Các khoản Căn cứ)"
+            },
+            {
+                "turn": 3,
+                "query": "Một tổ chức tại vùng nông thôn cần thực hiện thủ tục hành chính cấp tỉnh. Theo quy định, thời gian đi lại trung bình cho 01 lượt và thời gian làm đơn, tờ khai cho 01 trang giấy lần lượt là bao nhiêu giờ để phục vụ tính toán chi phí tuân thủ?",
+                "expected_answer": "Theo bảng định mức tại Điều 27, đối với địa bàn nông thôn và phạm vi cấp tỉnh:\n- Thời gian đi lại trung bình là 3.0 giờ/lượt.\n- Thời gian làm đơn, tờ khai trung bình là 1.5 giờ/trang.",
+                "citation": "Điều 27 > Dữ liệu Bảng biểu (Hàng 'Cấp tỉnh' cột 'Nông thôn' cho mục Đi lại; Hàng '01 trang' cột 'Nông thôn' cho mục Làm đơn, tờ khai)"
+            },
+            {
+                "turn": 4,
+                "query": "Trong công thức tính tổng chi phí tuân thủ, nếu muốn xác định 'Mức thu nhập bình quân 01 người 01 giờ làm việc' để nhân với thời gian đã tính ở trên, tôi cần sử dụng công thức cụ thể nào từ Tổng sản phẩm trong nước (GDP) và dân số?",
+                "expected_answer": "Mức thu nhập bình quân 01 người 01 giờ làm việc được tính theo công thức: Lấy Tổng sản phẩm trong nước (theo thống kê của năm gần nhất) chia cho Số dân (tương ứng năm thống kê), sau đó chia tiếp cho tích của 12 tháng, 22 ngày làm việc và 08 giờ làm việc. Cụ thể: GDP / Dân số / (12 * 22 * 8).",
+                "citation": "Điều 27 > Dữ liệu Bảng biểu (Công thức Mức thu nhập bình quân)"
+            },
+            {
+                "turn": 5,
+                "query": "Để hoàn thiện báo cáo tính chi phí tuân thủ thủ tục hành chính trong một năm theo đúng nghiệp vụ hướng dẫn, ngoài thời gian đi lại và làm hồ sơ, tôi còn cần xác định thêm yếu tố nào nữa để đưa vào công thức tính tổng chi phí?",
+                "expected_answer": "Ngoài thời gian đi lại và thời gian làm đơn/tờ khai, cần xác định số lượng lượt thực hiện thủ tục hành chính trong một năm. Công thức tính tổng chi phí tuân thủ một thủ tục hành chính trong một năm sẽ kết hợp các yếu tố: Thời gian (đi lại + làm hồ sơ) x Mức thu nhập bình quân/giờ x Số lượt thực hiện trong năm. (Lưu ý: Văn bản cung cấp công thức khung và các định mức thời gian/công thức tính lương, việc áp dụng cụ thể đòi hỏi số liệu thực tế về số lượt).",
+                "citation": "Điều 27 (Khoản b - Công thức tính tổng chi phí tuân thủ một thủ tục hành chính trong một năm)"
+            },
+            {
+                "turn": 6,
+                "query": "Thông tư 02/2017/TT-VPCP có mối quan hệ như thế nào với Nghị định 150/2016/NĐ-CP về chức năng, nhiệm vụ của Văn phòng Chính phủ? Nó chỉ dựa trên Nghị định này hay còn có tác động ngược lại?",
+                "expected_answer": "Thông tư 02/2017/TT-VPCP có hai mối quan hệ với Nghị định 150/2016/NĐ-CP:\n1. BASED_ON (Căn cứ): Thông tư được ban hành căn cứ vào Nghị định 150/2016/NĐ-CP để xác định chức năng, nhiệm vụ, quyền hạn của VPCP.\n2. AMENDS (Sửa đổi/Bổ sung): Theo thông tin đồ thị, Thông tư này cũng có quan hệ 'AMENDS' đối với Nghị định 150/2016/NĐ-CP, nghĩa là nó có thể chứa các quy định hướng dẫn hoặc bổ sung chi tiết cho việc thực thi chức năng quy định trong Nghị định này.",
+                "citation": "[THÔNG TIN ĐỒ THỊ (Mối quan hệ & Thực thể)] - Quan hệ văn bản: BASED_ON và AMENDS đối với 150/2016/NĐ-CP"
+            }
+        ]
+    },
+    {
+        "session_name": "Xử lý hồ sơ đăng ký thuốc generic và ngoại lệ CPP",
+        "document_id": "32/2018/TT-BYT",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Vui lòng cung cấp thông tin cơ bản về Thông tư 32/2018/TT-BYT, bao gồm tên đầy đủ, lĩnh vực điều chỉnh và mục đích chính của văn bản này.",
+                "expected_answer": "Thông tư 32/2018/TT-BYT do Bộ trưởng Bộ Y tế ban hành quy định việc đăng ký lưu hành thuốc, nguyên liệu thuốc. Văn bản thuộc lĩnh vực Thể thao - Y tế, nhằm hướng dẫn chi tiết các thủ tục, hồ sơ và điều kiện để thuốc và nguyên liệu làm thuốc được lưu hành hợp pháp tại Việt Nam.",
+                "citation": "Phần mở đầu và tiêu đề văn bản: 'Thông tư 32/2018/TT-BYT quy định việc đăng ký lưu hành thuốc, nguyên liệu thuốc...'"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các Nghị định và Luật liên quan được trích dẫn trong phần căn cứ.",
+                "expected_answer": "Thông tư này được ban hành dựa trên các căn cứ sau: Luật dược ngày 06 tháng 4 năm 2016; Nghị định số 54/2017/NĐ-CP quy định chi tiết một số điều và biện pháp thi hành Luật dược; Nghị định số 75/2017/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế; và Nghị định số 155/2018/NĐ-CP sửa đổi, bổ sung một số quy định liên quan đến điều kiện đầu tư kinh doanh thuộc phạm vi quản lý nhà nước của Bộ Y tế.",
+                "citation": "Phần 'Căn cứ' ngay sau tiêu đề văn bản."
+            },
+            {
+                "turn": 3,
+                "query": "Công ty Dược phẩm ABC muốn đăng ký lưu hành một loại thuốc generic nhập khẩu từ Ấn Độ. Tuy nhiên, cơ quan quản lý tại Ấn Độ không cấp Giấy chứng nhận lưu hành tự do (CPP) theo đúng mẫu chuẩn quốc tế mà Việt Nam yêu cầu, nhưng thuốc này đã được cấp phép và lưu hành thực tế tại đó. Ngoài ra, công ty chưa có báo cáo nghiên cứu tương đương sinh học (BE) thực hiện tại Việt Nam. Trong tình huống này, hồ sơ kỹ thuật cần đáp ứng những yêu cầu gì về CPP hoặc BE theo quy định của Thông tư 32?",
+                "expected_answer": "Theo quy định, đối với thuốc generic có báo cáo nghiên cứu tương đương sinh học, CPP phải được cấp bởi cơ quan quản lý quy định tại khoản 10 Điều 2 và có xác nhận thuốc được cấp phép và lưu hành thực tế. Nếu không có CPP đáp ứng quy định này (như trường hợp của công ty ABC), bắt buộc phải có báo cáo nghiên cứu tương đương sinh học của thuốc được thực hiện tại cơ sở kinh doanh dịch vụ thử tương đương sinh học của thuốc tại Việt Nam hoặc tại các cơ sở thử tương đương sinh học mà Việt Nam công nhận theo quy định của Bộ trưởng Bộ Y tế hoặc theo các thỏa thuận quốc tế mà Việt Nam đã tham gia ký kết.",
+                "citation": "Điều 23, điểm h."
+            },
+            {
+                "turn": 4,
+                "query": "Giả sử trong tình huống trên, công ty ABC không thể thực hiện nghiên cứu BE tại Việt Nam do chi phí quá cao và thời gian gấp rút vì đây là thuốc phục vụ cho chương trình y tế quốc gia phòng chống dịch bệnh mới nổi. Họ vẫn không cung cấp được CPP chuẩn. Liệu Bộ trưởng Bộ Y tế có thể xem xét cấp phép lưu hành không? Nếu có, cần đáp ứng điều kiện gì và quy trình ra sao?",
+                "expected_answer": "Có, Bộ trưởng Bộ Y tế có thể xem xét quyết định trên cơ sở ý kiến tư vấn của Hội đồng tư vấn cấp giấy đăng ký lưu hành thuốc, nguyên liệu làm thuốc. Điều kiện tiên quyết là thuốc phải được cấp phép lưu hành bởi ít nhất một cơ quan quản lý trên thế giới và thuộc trường hợp đặc biệt: Thuốc, vắc xin, sinh phẩm để đáp ứng nhu cầu cho quốc phòng, an ninh; phòng, chống dịch, bệnh, khắc phục hậu quả thiên tai, thảm họa, hoặc thuốc phục vụ cho chương trình y tế của nhà nước.",
+                "citation": "Điều 23, điểm k."
+            },
+            {
+                "turn": 5,
+                "query": "Nếu công ty ABC lựa chọn phương án nộp hồ sơ đăng ký thông thường (không áp dụng ngoại lệ điểm k Điều 23) và đã chuẩn bị hồ sơ theo chuẩn ICH-CTD, thì họ có cần chuyển đổi hồ sơ sang mẫu ACTD (Hồ sơ kỹ thuật chung ASEAN) không? Quy định về định dạng hồ sơ kỹ thuật trong trường hợp này là gì?",
+                "expected_answer": "Không, công ty ABC không cần chuyển đổi hồ sơ. Theo quy định, đối với hồ sơ thuốc đã chuẩn bị theo mẫu ICH-CTD và hướng dẫn kỹ thuật tương ứng của ICH thì không yêu cầu chuyển đổi hồ sơ theo quy định tại điểm a khoản 7 Điều 25 (về áp dụng ACTD). Công ty chỉ cần đảm bảo hồ sơ tuân thủ các hướng dẫn kỹ thuật của ICH.",
+                "citation": "Điều 25, khoản 7, điểm b."
+            },
+            {
+                "turn": 6,
+                "query": "Trong quá trình thẩm định hồ sơ kỹ thuật cho đơn vị đóng gói nhỏ nhất, nếu thuốc của công ty ABC được sản xuất từ bán thành phẩm dược liệu, hồ sơ cần ghi rõ những thông tin gì về công thức? Và tiêu chuẩn chất lượng thành phẩm sẽ áp dụng văn bản pháp lý nào?",
+                "expected_answer": "Đối với thuốc sản xuất từ bán thành phẩm dược liệu, cao dược liệu, công thức cho đơn vị đóng gói nhỏ nhất phải ghi rõ khối lượng dược liệu tương ứng với bán thành phẩm dược liệu, cao dược liệu hoặc tỷ lệ cao dược liệu, bán thành phẩm dược liệu so với dược liệu ban đầu hoặc kèm theo hàm lượng (%) của dược chất, nhóm hợp chất đã định lượng được theo từng dược liệu. Tiêu chuẩn thành phẩm phải thực hiện theo quy định tại Thông tư số 11/2018/TT-BYT ngày 04 tháng 5 năm 2018 của Bộ Y tế quy định về chất lượng thuốc, nguyên liệu làm thuốc.",
+                "citation": "Điều 29, các nội dung về Công thức cho đơn vị đóng gói nhỏ nhất và Tiêu chuẩn thành phẩm."
+            }
+        ]
+    },
+    {
+        "session_name": "Xử lý hồ sơ đăng ký thuốc nhập khẩu thiếu CPP và áp dụng quy định ICH-CTD",
+        "document_id": "32/2018/TT-BYT",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 32/2018/TT-BYT quy định về nội dung gì và được ban hành bởi ai?",
+                "expected_answer": "Thông tư 32/2018/TT-BYT quy định việc đăng ký lưu hành thuốc, nguyên liệu làm thuốc. Văn bản này do Bộ trưởng Bộ Y tế ban hành.",
+                "citation": "Tên văn bản: Thông tư 32/2018/TT-BYT; Phần Căn cứ và Nơi nhận"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này có căn cứ vào những nghị định nào của Chính phủ để quy định chức năng nhiệm vụ và điều kiện đầu tư kinh doanh không?",
+                "expected_answer": "Có, Thông tư 32/2018/TT-BYT căn cứ vào Nghị định số 75/2017/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế, và Nghị định số 155/2018/NĐ-CP sửa đổi, bổ sung một số quy định liên quan đến điều kiện đầu tư kinh doanh thuộc phạm vi quản lý nhà nước của Bộ Y tế.",
+                "citation": "Phần QUY ĐỊNH VIỆC ĐĂNG KÝ LƯU HÀNH THUỐC, NGUYÊN LIỆU LÀM THUỐC (Căn cứ)"
+            },
+            {
+                "turn": 3,
+                "query": "Tôi là đại diện cho một công ty dược muốn nhập khẩu một loại vắc xin mới để phục vụ chương trình y tế quốc gia phòng chống dịch bệnh. Tuy nhiên, vắc xin này chưa có Giấy chứng nhận lưu hành tự do (CPP) đáp ứng đầy đủ các quy định tại điểm đ, e, g, h khoản Điều 23. Trong trường hợp này, tôi cần làm gì để có thể đăng ký lưu hành theo Thông tư 32/2018/TT-BYT?",
+                "expected_answer": "Theo điểm k khoản Điều 23 của Thông tư 32/2018/TT-BYT, đối với vắc xin nhập khẩu không cung cấp được CPP đáp ứng quy định, nếu vắc xin đó nhằm đáp ứng nhu cầu phòng, chống dịch, bệnh hoặc phục vụ cho chương trình y tế của nhà nước và đã được cấp phép lưu hành bởi ít nhất một cơ quan quản lý trên thế giới, thì Bộ trưởng Bộ Y tế sẽ xem xét quyết định trên cơ sở ý kiến tư vấn của Hội đồng tư vấn cấp giấy đăng ký lưu hành thuốc, nguyên liệu làm thuốc.",
+                "citation": "Điều 23, điểm k"
+            },
+            {
+                "turn": 4,
+                "query": "Nếu vắc xin nói trên cũng là một loại thuốc generic có báo cáo nghiên cứu tương đương sinh học nhưng vẫn không có CPP đáp ứng quy định tại điểm h, thì yêu cầu về báo cáo nghiên cứu tương đương sinh học cụ thể như thế nào để đảm bảo tính pháp lý khi nộp hồ sơ?",
+                "expected_answer": "Theo điểm h khoản Điều 23, đối với thuốc generic có báo cáo nghiên cứu tương đương sinh học mà không có CPP đáp ứng quy định, phải có báo cáo nghiên cứu tương đương sinh học của thuốc được thực hiện tại cơ sở kinh doanh dịch vụ thử tương đương sinh học của thuốc tại Việt Nam hoặc tại các cơ sở thử tương đương sinh học mà Việt Nam công nhận theo quy định của Bộ trưởng Bộ Y tế hoặc theo các thỏa thuận quốc tế mà Việt Nam đã tham gia ký kết.",
+                "citation": "Điều 23, điểm h"
+            },
+            {
+                "turn": 5,
+                "query": "Về mặt hình thức hồ sơ kỹ thuật, nếu tôi chuẩn bị hồ sơ theo mẫu ICH-CTD thay vì ACTD, thì tôi có cần phải chuyển đổi hồ sơ sang định dạng ASEAN không? Và hồ sơ kỹ thuật chung cần tuân theo các hướng dẫn nào?",
+                "expected_answer": "Theo điểm b khoản 7 Điều 25, đối với hồ sơ thuốc đã chuẩn bị theo mẫu ICH-CTD và hướng dẫn kỹ thuật tương ứng của ICH thì không yêu cầu chuyển đổi hồ sơ theo quy định tại điểm a khoản này. Tuy nhiên, hồ sơ kỹ thuật chung nói chung áp dụng theo các quy định tại Phụ lục I ban hành kèm theo Thông tư, bao gồm Hướng dẫn nghiên cứu độ ổn định, Hướng dẫn thẩm định quy trình sản xuất, Hướng dẫn thẩm định phương pháp phân tích và Hướng dẫn nghiên cứu sinh khả dụng và tương đương sinh học.",
+                "citation": "Điều 25, khoản 7, điểm a và b"
+            },
+            {
+                "turn": 6,
+                "query": "Thông tư 32/2018/TT-BYT có mối quan hệ kế thừa hay sửa đổi so với các thông tư trước đây về đăng ký thuốc không? Cụ thể là thông tư nào?",
+                "expected_answer": "Dựa trên thông tin đồ thị, Thông tư 32/2018/TT-BYT có quan hệ 'BASED_ON' (căn cứ/liên quan) với Thông tư 44/2014/TT-BYT quy định việc đăng ký thuốc do Bộ trưởng Bộ Y tế ban hành. Điều này cho thấy Thông tư 32/2018/TT-BYT là văn bản mới quy định chi tiết hơn hoặc thay thế các quy định cũ trong lĩnh vực đăng ký lưu hành thuốc.",
+                "citation": "[THÔNG TIN ĐỒ THỊ]: Quan hệ văn bản - BASED_ON: 44/2014/TT-BYT"
+            }
+        ]
+    },
+    {
+        "session_name": "Xử lý thủ tục báo cáo thay đổi và điều chỉnh GSP cho cơ sở bán lẻ thuốc",
+        "document_id": "11/2025/TT-BYT",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 11/2025/TT-BYT được ban hành nhằm mục đích sửa đổi hay bổ sung những nội dung nào trong hệ thống văn bản quy phạm pháp luật về dược?",
+                "expected_answer": "Thông tư 11/2025/TT-BYT được ban hành để sửa đổi, bổ sung một số điều của Thông tư số 02/2018/TT-BYT ngày 22/01/2018 của Bộ trưởng Bộ Y tế quy định về Thực hành tốt cơ sở bán lẻ thuốc (GPP), Thông tư số 03/2018/TT-BYT ngày 09/02/2018 quy định về Thực hành tốt phân phối thuốc, nguyên liệu làm thuốc (GDP) và Thông tư số 36/2018/TT-BYT ngày 22/11/2018 quy định về Thực hành tốt bảo quản thuốc, nguyên liệu làm thuốc (GSP).",
+                "citation": "Tên văn bản: 11/2025/TT-BYT sửa đổi Thông tư 02/2018/TT-BYT...; Quan hệ AMENDS: 02/2018/TT-BYT, 03/2018/TT-BYT"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này có hiệu lực thi hành từ khi nào và dựa trên căn cứ pháp lý chính nào để quy định về tiêu chuẩn GSP như đã đề cập ở lượt trước?",
+                "expected_answer": "Thông tư số 11/2025/TT-BYT được ban hành kèm theo ngày 16 tháng 5 năm 2025. Căn cứ pháp lý chính để quy định về tiêu chuẩn GSP là Thông tư số 36/2018/TT-BYT ngày 22/11/2018 của Bộ trưởng Bộ Y tế quy định về Thực hành tốt bảo quản thuốc, nguyên liệu làm thuốc (GSP), cùng với Luật Dược số 105/2016/QH13 và Nghị định chi tiết thi hành Luật Dược.",
+                "citation": "PHỤ LỤC: Ban hành kèm theo Thông tư số 11/2025/TT-BYT ngày 16 tháng 5 năm 2025; Mẫu số 05/GSP: Căn cứ quy định tại Thông tư số 36/2018/TT-BYT... Điều 33 Luật dược số 105/2016/QH13"
+            },
+            {
+                "turn": 3,
+                "query": "Tôi đại diện cho một nhà thuốc bán lẻ đã được cấp Giấy chứng nhận GPP. Hiện tại, cơ sở tôi có nhu cầu mở rộng hoạt động bằng cách thiết lập thêm một kho bảo quản thuốc riêng biệt để phục vụ xuất nhập khẩu và kinh doanh dịch vụ bảo quản. Theo quy định mới, tôi cần thực hiện những bước gì để đảm bảo cơ sở kho này đáp ứng tiêu chuẩn GSP? Tình huống này có liên quan đến việc thông báo chấm dứt hoạt động thương mại điện tử không?",
+                "expected_answer": "Để cơ sở kho bảo quản đáp ứng tiêu chuẩn GSP, cơ sở phải tiến hành tự thanh tra và đánh giá đạt yêu cầu theo quy định tại Thông tư 36/2018/TT-BYT và các văn bản sửa đổi bởi TT 11/2025/TT-BYT. Sau khi tự đánh giá đạt, cơ sở phải gửi 'Thông báo đáp ứng thực hành tốt bảo quản thuốc, nguyên liệu làm thuốc' (Mẫu số 01) cho cơ quan có thẩm quyền. Việc này không liên quan đến Biểu mẫu số 02 (Thông báo chấm dứt hoạt động kinh doanh theo phương thức thương mại điện tử) vì đó là hai phạm vi quản lý khác nhau (GSP cho kho/bảo quản vs TMĐT cho kênh bán hàng trực tuyến).",
+                "citation": "Mẫu số 01: ...sau khi tiến hành tự thanh tra và đánh giá đạt yêu cầu; cơ sở chúng tôi xin thông báo đáp ứng tiêu chuẩn GSP...; Dữ liệu Bảng biểu: Biểu mẫu số 02 là Văn bản thông báo chấm dứt hoạt động kinh doanh thuốc... theo phương thức thương mại điện tử"
+            },
+            {
+                "turn": 4,
+                "query": "Trong trường hợp tôi đã gửi thông báo đáp ứng GSP như ở lượt 3, nhưng sau đó cơ sở kho của tôi có sự thay đổi về địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, tôi cần xử lý như thế nào? Quy trình này có yêu cầu phải nộp lại toàn bộ hồ sơ xin cấp lại giấy chứng nhận GSP hay chỉ cần báo cáo thay đổi?",
+                "expected_answer": "Khi có thay đổi (như địa chỉ kho, người chịu trách nhiệm...), cơ sở không cần nộp lại toàn bộ hồ sơ xin cấp lại ngay lập tức mà cần thực hiện việc 'Báo cáo thay đổi của cơ sở' (nếu áp dụng cho cơ sở bán lẻ liên quan) hoặc thông báo/thay đổi phạm vi chứng nhận GSP. Cụ thể, đối với cơ sở bảo quản, nếu có thay đổi ảnh hưởng đến phạm vi chứng nhận, cần xem xét điều chỉnh Giấy chứng nhận GSP. Tuy nhiên, trọng tâm của TT 11/2025/TT-BYT trong phần mẫu biểu nhấn mạnh vào 'Mẫu số 04/GPP: Báo cáo thay đổi của cơ sở bán lẻ'. Đối với GSP, cơ sở cần đảm bảo thông tin trên Giấy chứng nhận GSP (Mẫu số 05) luôn chính xác. Nếu thay đổi lớn dẫn đến mất điều kiện, cần thông báo. Nếu thay đổi nhỏ, cần cập nhật thông tin. Điểm mấu chốt là cơ sở phải cam đoan thực hiện đầy đủ văn bản pháp luật và đề nghị Sở Y tế/Cục Quản lý Dược đánh giá lại nếu thay đổi thuộc phạm vi cần đánh giá GSP.",
+                "citation": "Mẫu số 04/GPP: Báo cáo thay đổi của cơ sở bán lẻ; Danh mục tài liệu liên quan đến thay đổi: Đề nghị Sở Y tế.... đánh giá việc đáp ứng GPP đối với thay đổi nêu trên...; Mẫu số 05/GSP: Giấy chứng nhận đáp ứng thực hành tốt bảo quản..."
+            },
+            {
+                "turn": 5,
+                "query": "Chi tiết hơn, nếu tôi sử dụng 'Mẫu số 04/GPP' để báo cáo thay đổi cho nhà thuốc bán lẻ (phần bán lẻ, không phải kho GSP), tôi cần đính kèm những giấy tờ cụ thể nào theo quy định trong văn bản?",
+                "expected_answer": "Khi gửi báo cáo thay đổi theo Mẫu số 04/GPP, cơ sở cần gửi kèm các tài liệu sau: 1. Bản sao Giấy chứng nhận đủ điều kiện kinh doanh dược đã cấp; 2. Bản sao Giấy chứng nhận GPP; 3. Bản sao Giấy chứng nhận đăng ký kinh doanh (phù hợp với nội dung bổ sung/thay đổi). Người chịu trách nhiệm chuyên môn về dược phải ký, ghi rõ họ tên và đóng dấu.",
+                "citation": "Danh mục tài liệu liên quan đến thay đổi (tùy theo loại hình thay đổi, kèm theo các tài liệu tương ứng): 1. Bản sao Giấy chứng nhận đủ điều kiện kinh doanh dược đã cấp; 2. Bản sao Giấy chứng nhận GPP; 3. Bản sao Giấy chứng nhận đăng ký kinh doanh..."
+            },
+            {
+                "turn": 6,
+                "query": "Giấy chứng nhận GSP (Mẫu số 05) mà tôi sẽ nhận được sau khi hoàn tất thủ tục cho kho bảo quản có thời hạn hiệu lực là bao lâu? Và mối quan hệ của văn bản này với Nghị định 42/2025/NĐ-CP là gì?",
+                "expected_answer": "Giấy chứng nhận GSP có hiệu lực không quá 03 năm kể từ ngày đánh giá. Tuy nhiên, thời gian hiệu lực có thể được rút ngắn hoặc kéo dài dựa trên nguyên tắc quản lý rủi ro và sẽ được ghi chú tại mục 'Những nội dung hạn chế hoặc làm rõ'. Về mối quan hệ với Nghị định 42/2025/NĐ-CP, Thông tư 11/2025/TT-BYT có mối quan hệ 'BASED_ON' (căn cứ vào) Nghị định 42/2025/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế, đồng thời cũng có mối quan hệ 'AMENDS' (sửa đổi) đối với một số điều khoản liên quan trong hệ thống văn bản dưới luật của Bộ Y tế.",
+                "citation": "Phần 1 Mẫu số 05/GSP: ...có hiệu lực không quá 3 năm kể từ ngày đánh giá...; Quan hệ văn bản: BASED_ON: 42/2025/NĐ-CP; AMENDS: 42/2025/NĐ-CP"
+            }
+        ]
+    },
+    {
+        "session_name": "Quản lý thay đổi và chứng nhận GSP trong cơ sở kinh doanh dược theo TT 11/2025",
+        "document_id": "11/2025/TT-BYT",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 11/2025/TT-BYT có nội dung chính là gì và văn bản nào được sửa đổi?",
+                "expected_answer": "Thông tư 11/2025/TT-BYT do Bộ trưởng Bộ Y tế ban hành ngày 16 tháng 5 năm 2025 có nội dung chính là sửa đổi, bổ sung một số điều của các Thông tư quy định về thực hành tốt, cụ thể bao gồm: Thông tư 02/2018/TT-BYT về thực hành tốt cơ sở bán lẻ thuốc (GPP), Thông tư 03/2018/TT-BYT về thực hành tốt phân phối thuốc, nguyên liệu làm thuốc (GDP) và Thông tư 36/2018/TT-BYT về thực hành tốt bảo quản thuốc, nguyên liệu làm thuốc (GSP).",
+                "citation": "Tên văn bản và Phụ lục"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý nào liên quan đến Luật Dược và các Nghị định hiện hành?",
+                "expected_answer": "Căn cứ pháp lý trực tiếp được nêu trong các mẫu giấy chứng nhận và văn bản liên quan kèm theo thông tư bao gồm: Luật Dược số 105/2016/QH13; Nghị định số 42/2025/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn của Bộ Y tế; Nghị định số 45/2025/NĐ-CP về tổ chức cơ quan chuyên môn thuộc UBND địa phương; và đặc biệt là Thông tư 36/2018/TT-BYT quy định về GSP. Văn bản này cũng liên quan đến việc thi hành các quy định chi tiết của Chính phủ về Luật Dược.",
+                "citation": "Phần 1 của Mẫu số 05 (Giấy chứng nhận GSP) và Thông tin Đồ thị (BASED_ON)"
+            },
+            {
+                "turn": 3,
+                "query": "Tôi là đại diện một cơ sở kinh doanh dược đã được cấp Giấy chứng nhận đủ điều kiện kinh doanh dược và đang hoạt động bán lẻ. Cơ sở tôi vừa mở rộng thêm kho bảo quản thuốc sinh học cần điều kiện lạnh 2-8°C. Theo quy định mới, tôi cần thực hiện thủ tục gì để báo cáo sự thay đổi này và đảm bảo tuân thủ?",
+                "expected_answer": "Cơ sở của bạn cần lập và gửi 'Báo cáo thay đổi của cơ sở bán lẻ' theo Mẫu số 04/GPP. Trong báo cáo này, bạn phải kê khai rõ nội dung thay đổi về địa chỉ kho bảo quản hoặc phạm vi bảo quản (cụ thể là thuốc sinh học điều kiện lạnh). Đồng thời, bạn cần cam đoan đã tự thanh tra và đánh giá đạt yêu cầu tiêu chuẩn GSP đối với phạm vi bảo quản mới này trước khi nộp báo cáo cho Sở Y tế để đánh giá việc đáp ứng GPP đối với thay đổi nêu trên.",
+                "citation": "Mẫu số 04/GPP: Báo cáo thay đổi của cơ sở bán lẻ và Danh mục tài liệu liên quan đến thay đổi"
+            },
+            {
+                "turn": 4,
+                "query": "Trong trường hợp báo cáo thay đổi nêu trên, nếu cơ sở của tôi là doanh nghiệp có vốn đầu tư nước ngoài và muốn sử dụng kết quả đánh giá GSP để làm cơ sở xin cấp phép xuất nhập khẩu, thì có điểm khác biệt gì trong cách hiểu về hiệu lực của Giấy chứng nhận GSP so với doanh nghiệp trong nước không?",
+                "expected_answer": "Có sự khác biệt quan trọng. Đối với cơ sở kinh doanh dược có vốn đầu tư nước ngoài, Giấy chứng nhận đáp ứng Thực hành tốt bảo quản thuốc, nguyên liệu làm thuốc (GSP) chỉ là cơ sở để xem xét cấp Giấy chứng nhận đủ điều kiện kinh doanh dược cho phạm vi xuất khẩu, nhập khẩu. Nó KHÔNG áp dụng cho phạm vi kinh doanh dịch vụ bảo quản thuốc, nguyên liệu làm thuốc. Điều này được ghi chú rõ ràng tại Phần 2 của Mẫu số 05 (Giấy chứng nhận GSP).",
+                "citation": "Phần 2 của Mẫu số 05 (Giấy chứng nhận GSP) - Ghi chú (1)"
+            },
+            {
+                "turn": 5,
+                "query": "Để hoàn thiện hồ sơ báo cáo thay đổi theo Mẫu số 04/GPP mà tôi đã hỏi ở lượt trước, tôi bắt buộc phải nộp kèm những giấy tờ cụ thể nào?",
+                "expected_answer": "Bạn cần nộp kèm 03 loại giấy tờ bắt buộc sau đây:\n1. Bản sao Giấy chứng nhận đủ điều kiện kinh doanh dược đã cấp.\n2. Bản sao Giấy chứng nhận GPP.\n3. Bản sao Giấy chứng nhận đăng ký kinh doanh (phù hợp với nội dung bổ sung/thay đổi).\nNgoài ra, người chịu trách nhiệm chuyên môn về dược của cơ sở phải ký, ghi rõ họ tên và đóng dấu vào hồ sơ.",
+                "citation": "Danh mục tài liệu liên quan đến thay đổi (tùy theo loại hình thay đổi, kèm theo các tài liệu tương ứng) > Khoản 1, 2, 3"
+            },
+            {
+                "turn": 6,
+                "query": "Nếu tôi muốn xác minh tính xác thực của Giấy chứng nhận GSP mới được cấp sau quá trình thay đổi này, tôi có thể làm thế nào và thời hạn hiệu lực tối đa của giấy chứng nhận này là bao lâu?",
+                "expected_answer": "Tính xác thực của Giấy chứng nhận có thể được xác nhận thông qua nội dung đăng tải trên Trang thông tin điện tử của Cục Quản lý Dược. Nếu không tìm thấy, bạn liên hệ trực tiếp với Cục Quản lý Dược. Về thời hạn, Giấy chứng nhận có hiệu lực không quá 03 năm kể từ ngày đánh giá. Tuy nhiên, căn cứ theo nguyên tắc quản lý rủi ro, thời gian hiệu lực có thể được rút ngắn hoặc kéo dài và sẽ được ghi rõ tại mục 'Những nội dung hạn chế hoặc làm rõ' trên giấy chứng nhận.",
+                "citation": "Phần 1 của Mẫu số 05 (Giấy chứng nhận GSP)"
+            }
+        ]
+    },
+    {
+        "session_name": "Tư vấn cơ cấu tổ chức UBND cấp huyện và quận theo Luật 77/2015",
+        "document_id": "77/2015/QH13",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Xin chào. Tôi cần tra cứu thông tin về văn bản pháp luật có ký hiệu 77/2015/QH13. Văn bản này là gì và thuộc lĩnh vực nào?",
+                "expected_answer": "Văn bản 77/2015/QH13 là Luật tổ chức chính quyền địa phương năm 2015. Văn bản này thuộc lĩnh vực Bộ máy hành chính.",
+                "citation": "Thông tin chung về văn bản 77/2015/QH13"
+            },
+            {
+                "turn": 2,
+                "query": "Cảm ơn bạn. Với văn bản này, tôi muốn biết cụ thể hơn về hiệu lực thi hành và các văn bản pháp lý nào đã làm căn cứ để ban hành nó?",
+                "expected_answer": "Theo thông tin đồ thị, Luật này có hiệu lực thi hành từ ngày 01 tháng 01 năm 2016. Các văn bản làm căn cứ bao gồm: Hiến Pháp, Luật Tổ chức Hội đồng nhân dân và Ủy ban Nhân dân 2003 (11/2003/QH11), Nghị quyết số 26/2008/QH12, Nghị quyết số 724/2009/UBTVQH12 và Nghị quyết số 725/2009/UBTVQH12.",
+                "citation": "Thông tin Đồ thị: Quan hệ văn bản (BASED_ON)"
+            },
+            {
+                "turn": 3,
+                "query": "Tôi đang xử lý một tình huống thực tế tại Huyện A (được xếp loại I) vừa được thành lập. Ban lãnh đạo huyện dự kiến bổ nhiệm 4 Phó Chủ tịch UBND huyện cùng với các Ủy viên phụ trách quân sự, công an và người đứng đầu các phòng chuyên môn. Hãy phân tích xem cơ cấu đề xuất này có phù hợp với quy định của Luật 77/2015/QH13 không? Nếu không, hãy chỉ ra sai sót cụ thể dựa trên điều khoản về cơ cấu tổ chức.",
+                "expected_answer": "Cơ cấu đề xuất này vi phạm quy định về số lượng Phó Chủ tịch UBND huyện. Theo Luật 77/2015/QH13, Ủy ban nhân dân huyện loại I có không quá ba Phó Chủ tịch, việc bổ nhiệm 4 Phó Chủ tịch là vượt quá quy định. Tuy nhiên, phần còn lại của cơ cấu là đúng: Ủy viên UBND huyện bao gồm người đứng đầu cơ quan chuyên môn, Ủy viên phụ trách quân sự và Ủy viên phụ trách công an. Cơ quan chuyên môn thuộc UBND huyện gồm các phòng và cơ quan tương đương phòng.",
+                "citation": "Điều khoản: Phần Nơi nhận và Chữ ký > Khoản 2 (Quy định về UBND huyện loại I)"
+            },
+            {
+                "turn": 4,
+                "query": "Đúng vậy, chúng tôi đã điều chỉnh xuống còn 3 Phó Chủ tịch. Bây giờ, giả sử sau khi bầu cử HĐND khóa mới, Chủ tịch UBND huyện cũ hết nhiệm kỳ nhưng HĐND chưa kịp bầu Chủ tịch mới. Trong khoảng thời gian trống này, ai sẽ đảm nhiệm vai trò Quyền Chủ tịch UBND huyện để bảo đảm hoạt động liên tục? Và cơ quan nào có thẩm quyền chỉ định người này?",
+                "expected_answer": "Trong trường hợp này, Chủ tịch Ủy ban nhân dân cấp trên trực tiếp (tức là Chủ tịch UBND tỉnh) sẽ chỉ định Quyền Chủ tịch Ủy ban nhân dân hoặc Ủy ban nhân dân lâm thời. Người được chỉ định sẽ thực hiện các nhiệm vụ, quyền hạn của Chủ tịch Ủy ban nhân dân cho đến khi Ủy ban nhân dân khóa mới được bầu ra.",
+                "citation": "Điều khoản: Phần Nơi nhận và Chữ ký (Quy định về chỉ định Quyền Chủ tịch UBND)"
+            },
+            {
+                "turn": 5,
+                "query": "Rõ ràng rồi. Liên quan đến việc tổ chức bộ máy, nếu tôi chuyển sang xem xét trường hợp của một Quận B (loại II) trong cùng một tỉnh, thì cơ cấu tổ chức của UBND quận này sẽ khác biệt như thế nào so với huyện loại I刚才提到的? Cụ thể là số lượng Phó Chủ tịch tối đa và thành phần Ủy viên?",
+                "expected_answer": "Đối với UBND quận loại II, số lượng Phó Chủ tịch tối đa là không quá hai Phó Chủ tịch (thấp hơn huyện loại I). Thành phần Ủy viên UBND quận bao gồm: các Ủy viên là người đứng đầu cơ quan chuyên môn thuộc UBND quận, Ủy viên phụ trách quân sự và Ủy viên phụ trách công an. Cơ quan chuyên môn thuộc UBND quận cũng gồm có các phòng và cơ quan tương đương phòng.",
+                "citation": "Điều khoản: Phần Nơi nhận và Chữ ký > Khoản 2 (Quy định về UBND quận loại II)"
+            },
+            {
+                "turn": 6,
+                "query": "Cuối cùng, tôi muốn hiểu rõ mối quan hệ kế thừa. Luật 77/2015/QH13 này có thay thế hoàn toàn Luật Tổ chức Hội đồng nhân dân và Ủy ban Nhân dân 2003 (11/2003/QH11) không? Và liệu có bất kỳ quy định chuyển tiếp nào liên quan đến các thí điểm trước đây (như Nghị quyết 26/2008/QH12) mà tôi cần lưu ý khi áp dụng luật mới vào thực tiễn quản lý hành chính địa phương không?",
+                "expected_answer": "Luật 77/2015/QH13 được xây dựng dựa trên (BASED_ON) Luật Tổ chức Hội đồng nhân dân và Ủy ban Nhân dân 2003 (11/2003/QH11), đồng thời kế thừa và tổng kết kinh nghiệm từ các thí điểm như Nghị quyết 26/2008/QH12, Nghị quyết 724/2009/UBTVQH12 và Nghị quyết 725/2009/UBTVQH12. Khi Luật 77/2015/QH13 có hiệu lực (từ 01/01/2016), các quy định trước đó mâu thuẫn sẽ không còn giá trị thi hành, thay vào đó là các quy định mới trong Luật này. Việc áp dụng cần tuân thủ nguyên tắc ưu tiên văn bản mới hơn, trừ khi có quy định chuyển tiếp cụ thể (mặc dù đoạn trích cung cấp không nêu chi tiết điều khoản chuyển tiếp cụ thể, nhưng mối quan hệ BASED_ON khẳng định tính kế thừa và thay thế quy định cũ bằng khung pháp lý mới toàn diện hơn).",
+                "citation": "Thông tin Đồ thị: Quan hệ văn bản (BASED_ON: 11/2003/QH11, 26/2008/QH12, 724/2009/UBTVQH12, 725/2009/UBTVQH12)"
+            }
+        ]
+    },
+    {
+        "session_name": "Xác định cơ cấu và quyền hạn UBND cấp huyện/quận theo Luật 77/2015/QH13",
+        "document_id": "77/2015/QH13",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Vui lòng cung cấp thông tin cơ bản về văn bản có mã số 77/2015/QH13, bao gồm tên đầy đủ của luật và lĩnh vực pháp lý mà nó điều chỉnh.",
+                "expected_answer": "Văn bản 77/2015/QH13 là Luật tổ chức chính quyền địa phương 2015. Lĩnh vực pháp lý mà văn bản này điều chỉnh là Bộ máy hành chính.",
+                "citation": "Thông tin tiêu đề và lĩnh vực trong nội dung văn bản"
+            },
+            {
+                "turn": 2,
+                "query": "Đối với văn bản này, hãy liệt kê các Nghị quyết hoặc Luật trước đó mà nó được xây dựng dựa trên (BASED_ON) theo thông tin đồ thị quan hệ văn bản.",
+                "expected_answer": "Luật 77/2015/QH13 được xây dựng dựa trên các văn bản sau: Nghị quyết số 724/2009/UBTVQH12, Nghị quyết số 26/2008/QH12, Nghị quyết số 725/2009/UBTVQH12, Luật Tổ chức Hội đồng nhân dân và Ủy ban Nhân dân 2003 (11/2003/QH11), và Hiến Pháp.",
+                "citation": "Thông tin Đồ thị - Quan hệ văn bản: BASED_ON"
+            },
+            {
+                "turn": 3,
+                "query": "Giả sử một Huyện loại I vừa được thành lập và cần bố trí nhân sự cho Ủy ban nhân dân huyện. Theo quy định của Luật 77/2015/QH13, cơ cấu tổ chức của Ủy ban nhân dân huyện loại I này sẽ bao gồm những chức danh nào? Số lượng Phó Chủ tịch tối đa được phép là bao nhiêu?",
+                "expected_answer": "Ủy ban nhân dân huyện loại I gồm các thành viên: Chủ tịch, Phó Chủ tịch, Ủy viên phụ trách quân sự, Ủy viên phụ trách công an, và các Ủy viên là người đứng đầu cơ quan chuyên môn thuộc Ủy ban nhân dân huyện. Về số lượng, Ủy ban nhân dân huyện loại I có không quá ba Phó Chủ tịch.",
+                "citation": "Phần Nơi nhận và Chữ ký > Khoản 2 (Nội dung về UBND huyện)"
+            },
+            {
+                "turn": 4,
+                "query": "Trong tình huống trên, nếu xét về khía cạnh 'Cơ quan chuyên môn' trực thuộc Ủy ban nhân dân huyện loại I đó, thì các cơ quan này được tổ chức như thế nào theo quy định của Luật? Có sự khác biệt nào về thành phần Ủy viên nếu so sánh với Ủy ban nhân dân phường không?",
+                "expected_answer": "Cơ quan chuyên môn thuộc Ủy ban nhân dân huyện gồm có các phòng và cơ quan tương đương phòng. So với Ủy ban nhân dân phường (chỉ gồm Chủ tịch, Phó Chủ tịch, Ủy viên phụ trách quân sự, công an), Ủy ban nhân dân huyện có thêm các Ủy viên là người đứng đầu cơ quan chuyên môn thuộc UBND huyện vào thành phần Ban Chấp hành/UBND.",
+                "citation": "Phần Nơi nhận và Chữ ký > Khoản 2 (Điều khoản 2 về cơ quan chuyên môn huyện) và Phần Nơi nhận và Chữ ký (Nội dung về UBND phường)"
+            },
+            {
+                "turn": 5,
+                "query": "Nếu xảy ra trường hợp đặc biệt khi Ủy ban nhân dân huyện khóa mới chưa được bầu ra, ai là người có thẩm quyền chỉ định Quyền Chủ tịch Ủy ban nhân dân hoặc Ủy ban nhân dân lâm thời để đảm bảo hoạt động quản lý nhà nước không bị gián đoạn?",
+                "expected_answer": "Chủ tịch Ủy ban nhân dân cấp trên trực tiếp (tức là Chủ tịch UBND tỉnh/thành phố trực thuộc trung ương) sẽ chỉ định Quyền Chủ tịch Ủy ban nhân dân, Ủy ban nhân dân lâm thời để thực hiện các nhiệm vụ, quyền hạn cho đến khi Ủy ban nhân dân khóa mới được bầu ra.",
+                "citation": "Phần Nơi nhận và Chữ ký (Nội dung về việc chỉ định Quyền Chủ tịch UBND)"
+            },
+            {
+                "turn": 6,
+                "query": "Xét về tính kế thừa và hiệu lực thi hành, Luật 77/2015/QH13 có hiệu lực từ ngày nào và nó có mối quan hệ sửa đổi (AMENDS) với văn bản nào theo dữ liệu đồ thị đã cung cấp?",
+                "expected_answer": "Luật này có hiệu lực thi hành từ ngày 01 tháng 01 năm 2016. Theo thông tin đồ thị, văn bản này có quan hệ AMENDS (sửa đổi/cập nhật) đối với Nghị quyết số 30/2009/QH12 về việc phê chuẩn quyết toán ngân sách nhà nước năm 2007.",
+                "citation": "Thông tin Đồ thị - Quan hệ văn bản: BASED_ON (Hiệu lực) và AMENDS"
+            }
+        ]
+    },
+    {
+        "session_name": "Xử lý tình huống sơ tuyển và danh sách ngắn trong Đấu thầu hạn chế",
+        "document_id": "24/2024/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Vui lòng cung cấp thông tin cơ bản về Nghị định 24/2024/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực áp dụng và các văn bản pháp lý chính mà nghị định này căn cứ để ban hành.",
+                "expected_answer": "Nghị định 24/2024/NĐ-CP có tên đầy đủ là 'Nghị định quy định chi tiết một số điều và biện pháp thi hành Luật Đấu thầu về lựa chọn nhà thầu'. Văn bản này thuộc lĩnh vực Đầu tư. Nghị định được ban hành căn cứ vào: Luật Tổ chức Chính phủ ngày 19 tháng 6 năm 2015; Luật sửa đổi, bổ sung một số điều của Luật Tổ chức Chính phủ và Luật Tổ chức chính quyền địa phương ngày 22 tháng 11 năm 2019; và Luật Đấu thầu ngày 23 tháng 6 năm 2023. Theo đề nghị của Bộ trưởng Bộ Kế hoạch và Đầu tư.",
+                "citation": "Phần Lời nói đầu/Căn cứ ban hành; Tiêu đề văn bản"
+            },
+            {
+                "turn": 2,
+                "query": "Trong văn bản này, quy định về tiêu chuẩn đánh giá hồ sơ dự sơ tuyển được xây dựng dựa trên những tiêu chí nào? Và hồ sơ mời sơ tuyển sẽ được phát hành như thế nào?",
+                "expected_answer": "Tiêu chuẩn đánh giá hồ sơ dự sơ tuyển được xây dựng theo các tiêu chí 'đạt' hoặc 'không đạt', trong đó phải quy định mức tối thiểu để đánh giá là 'đạt' đối với từng nội dung về năng lực và kinh nghiệm của nhà thầu. Về việc phát hành, hồ sơ mời sơ tuyển được phát hành miễn phí trên Hệ thống mạng đấu thầu quốc gia.",
+                "citation": "Điều khoản: Tiêu chuẩn đánh giá hồ sơ dự sơ tuyển...; Điểm d) mục Phát hành hồ sơ mời sơ tuyển"
+            },
+            {
+                "turn": 3,
+                "query": "Giả sử tôi là đại diện một Công ty TNHH ABC tham gia đấu thầu hạn chế cho gói thầu tư vấn thiết kế. Công ty tôi đã nộp hồ sơ dự sơ tuyển đúng hạn. Tuy nhiên, sau khi mở thầu, tổ chuyên gia nhận thấy hồ sơ của chúng tôi thiếu một chứng chỉ năng lực cụ thể nhưng lại có giải thưởng sáng tạo quốc tế gần đây. Bên cạnh đó, tôi muốn biết nếu công ty tôi trúng sơ tuyển và có tên trong danh sách ngắn, tôi có được phép liên danh với một công ty khác cũng đang có tên trong cùng danh sách ngắn đó để dự thầu không? Hãy phân tích dựa trên quy định về xử lý hồ sơ và quy định về liên danh.",
+                "expected_answer": "Về hồ sơ dự sơ tuyển: Việc đánh giá thực hiện theo tiêu chuẩn quy định trong hồ sơ mời sơ tuyển. Nếu công ty là cá nhân/nhóm cá nhân chào thầu sản phẩm đổi mới sáng tạo đáp ứng quy định tại khoản 4 Điều 5 thì có thể không phải đáp ứng một số tiêu chí tại khoản 3 Điều 9. Tuy nhiên, nếu là doanh nghiệp thông thường, việc thiếu chứng chỉ năng lực (nếu là tiêu chí bắt buộc 'đạt/không đạt') sẽ dẫn đến hồ sơ bị đánh giá 'không đạt' và bị loại, trừ khi có quy định đặc thù cho sáng tạo mà công ty đáp ứng. \n\nVề liên danh: Tuyệt đối không được. Quy định rõ ràng rằng các nhà thầu có tên trong danh sách ngắn không được liên danh với nhau để tham dự thầu. Trường hợp liên danh với nhà thầu ngoài danh sách ngắn thì phải được sự chấp thuận của chủ đầu tư trước thời điểm đóng thầu.",
+                "citation": "Điểm e) mục Mở và đánh giá hồ sơ dự sơ tuyển; Khoản 3 mục Đối với đấu thầu hạn chế"
+            },
+            {
+                "turn": 4,
+                "query": "Tiếp nối tình huống trên, giả sử Công ty ABC không vi phạm quy định liên danh nhưng Chủ đầu tư chỉ phê duyệt được 02 nhà thầu vào danh sách ngắn do thị trường hẹp, thay vì tối thiểu 03 nhà thầu như quy định chung. Trong trường hợp này, bên mời thầu cần xử lý ra sao theo quy định? Và nếu kết quả sơ tuyển không lựa chọn được danh sách ngắn, văn bản phê duyệt cần nêu rõ nội dung gì?",
+                "expected_answer": "Đối với đấu thầu hạn chế, danh sách ngắn gồm tối thiểu 03 nhà thầu. Tuy nhiên, trường hợp có ít hơn 03 nhà thầu đáp ứng yêu cầu, bên mời thầu phải xử lý tình huống theo quy định tại khoản 3 Điều 131 của Nghị định này (thay vì tự ý phê duyệt dưới 03 nhà thầu). \n\nTrường hợp không lựa chọn được danh sách ngắn (ví dụ: không có nhà thầu nào đạt hoặc không đủ điều kiện), văn bản phê duyệt kết quả sơ tuyển bắt buộc phải nêu rõ lý do không lựa chọn được danh sách ngắn.",
+                "citation": "Khoản 2.a) mục Đối với đấu thầu hạn chế; Khoản 2, 3 mục Trình, thẩm định và phê duyệt kết quả sơ tuyển"
+            },
+            {
+                "turn": 5,
+                "query": "Để hoàn tất thủ tục phê duyệt kết quả sơ tuyển trong trường hợp bình thường (có danh sách ngắn), bên mời thầu cần chuẩn bị những hồ sơ, báo cáo nào để trình phê duyệt? Và kết quả này được công khai như thế nào?",
+                "expected_answer": "Bên mời thầu cần chuẩn bị: Tờ trình phê duyệt kết quả sơ tuyển và Báo cáo thẩm định kết quả sơ tuyển (được thẩm định theo quy định tại khoản 1 và khoản 2 Điều 130). Trên cơ sở báo cáo kết quả đánh giá của tổ chuyên gia, bên mời thầu nêu rõ ý kiến về các nội dung đánh giá. \n\nKết quả sơ tuyển được phê duyệt bằng văn bản. Danh sách ngắn (bao gồm tên các nhà thầu trúng sơ tuyển và các nội dung cần lưu ý nếu có) được đăng tải theo quy định tại điểm b khoản 1 và khoản 4 Điều 8 của Luật Đấu thầu và thông báo đến các nhà thầu nộp hồ sơ dự sơ tuyển.",
+                "citation": "Khoản g) mục Trình, thẩm định và phê duyệt kết quả sơ tuyển; Khoản h) mục Công khai danh sách ngắn"
+            },
+            {
+                "turn": 6,
+                "query": "Dựa trên thông tin đồ thị mối quan hệ văn bản, Nghị định 24/2024/NĐ-CP có mối quan hệ thế nào với Nghị định 63/2014/NĐ-CP và Luật Đấu thầu 2023? Điều này ảnh hưởng thế nào đến hiệu lực thi hành của các quy định cũ?",
+                "expected_answer": "Theo thông tin đồ thị, Nghị định 24/2024/NĐ-CP có quan hệ 'APPLIES' (Áp dụng/Thay thế) đối với Nghị định 63/2014/NĐ-CP (nghị định hướng dẫn luật đấu thầu cũ) và quan hệ 'BASED_ON' (Căn cứ) đối với Luật Đấu thầu 2023 (22/2023/QH15). Điều này có nghĩa Nghị định 24/2024/NĐ-CP được ban hành để hướng dẫn thi hành Luật Đấu thầu mới năm 2023 và thay thế các quy định hướng dẫn trước đó (như NĐ 63/2014/NĐ-CP) đã hết hiệu lực hoặc không còn phù hợp với khung pháp lý mới.",
+                "citation": "Thông tin Đồ thị: Quan hệ văn bản (APPLIES: 63/2014/NĐ-CP; BASED_ON: 22/2023/QH15)"
+            }
+        ]
+    },
+    {
+        "session_name": "Xử lý quy trình sơ tuyển và danh sách ngắn trong Đấu thầu hạn chế theo Nghị định 24/2024/NĐ-CP",
+        "document_id": "24/2024/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Nghị định 24/2024/NĐ-CP là văn bản pháp lý gì và được ban hành nhằm mục đích chính xác nào?",
+                "expected_answer": "Nghị định 24/2024/NĐ-CP là văn bản quy định chi tiết một số điều và biện pháp thi hành Luật Đấu thầu về lựa chọn nhà thầu. Văn bản này được Chính phủ ban hành nhằm hướng dẫn Luật Đấu thầu ngày 23 tháng 6 năm 2023.",
+                "citation": "Phần Nơi nhận và Chữ ký; Căn cứ Luật Đấu thầu ngày 23 tháng 6 năm 2023"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này dựa trên những cơ sở pháp lý cụ thể nào để được ban hành? Hãy liệt kê các luật hoặc nghị quyết làm căn cứ.",
+                "expected_answer": "Nghị định 24/2024/NĐ-CP được ban hành căn cứ vào: Luật Tổ chức Chính phủ ngày 19 tháng 6 năm 2015; Luật sửa đổi, bổ sung một số điều của Luật Tổ chức Chính phủ và Luật Tổ chức chính quyền địa phương ngày 22 tháng 11 năm 2019; và Luật Đấu thầu ngày 23 tháng 6 năm 2023. Ngoài ra, văn bản cũng được ban hành theo đề nghị của Bộ trưởng Bộ Kế hoạch và Đầu tư.",
+                "citation": "Phần Căn cứ ban hành Nghị định"
+            },
+            {
+                "turn": 3,
+                "query": "Giả sử tôi là bên mời thầu cho một gói thầu dịch vụ tư vấn phức tạp, áp dụng hình thức đấu thầu hạn chế. Tôi đã tiến hành sơ tuyển và có 5 nhà thầu đáp ứng đủ năng lực. Tuy nhiên, khi lập danh sách ngắn, tôi chỉ chọn được 2 nhà thầu vì 3 nhà thầu còn lại không có nhu cầu tham dự. Theo Nghị định 24/2024/NĐ-CP, việc xác định danh sách ngắn này có hợp lệ không? Nếu không, tôi cần xử lý như thế nào?",
+                "expected_answer": "Việc xác định danh sách ngắn chỉ gồm 2 nhà thầu là KHÔNG HỢP LỆ đối với đấu thầu hạn chế. Theo quy định, danh sách ngắn phải gồm tối thiểu 03 nhà thầu có năng lực, kinh nghiệm đáp ứng yêu cầu và có nhu cầu tham dự thầu. Trường hợp có ít hơn 03 nhà thầu đáp ứng yêu cầu (do không đủ số lượng nhà thầu có nhu cầu), bên mời thầu phải xử lý tình huống theo quy định tại khoản 3 Điều 131 của Nghị định này.",
+                "citation": "Khoản 2, Điểm a (Về đấu thầu hạn chế)"
+            },
+            {
+                "turn": 4,
+                "query": "Trong quá trình đánh giá hồ sơ dự sơ tuyển cho tình huống trên, nếu một nhà thầu nộp hồ sơ muộn sau thời điểm đóng thầu, bên mời thầu sẽ xử lý ra sao? Và nếu một nhà thầu là cá nhân chào thầu sản phẩm đổi mới sáng tạo, họ có được miễn giảm các tiêu chí đánh giá năng lực so với quy định chung không?",
+                "expected_answer": "Đối với hồ sơ dự sơ tuyển nộp sau thời điểm đóng thầu: Hồ sơ đó là không hợp lệ, không được mở và bị loại ngay. Đối với nhà thầu là cá nhân, nhóm cá nhân chào thầu sản phẩm đổi mới sáng tạo: Họ không phải đáp ứng một số tiêu chí quy định tại khoản 3 Điều 9 của Nghị định này, miễn là đáp ứng quy định tại khoản 4 Điều 5 của Nghị định này.",
+                "citation": "Điểm đ (Mở và đánh giá hồ sơ dự sơ tuyển); Điểm e (Mở và đánh giá hồ sơ dự sơ tuyển - phần ngoại lệ cho đổi mới sáng tạo)"
+            },
+            {
+                "turn": 5,
+                "query": "Sau khi đã hoàn thành bước mở và đánh giá hồ sơ dự sơ tuyển, bên mời thầu cần thực hiện những bước thủ tục và công bố kết quả ra sao để đảm bảo đúng quy định về tính minh bạch và thời hạn?",
+                "expected_answer": "Các bước thực hiện bao gồm:\n1. Mở hồ sơ ngay sau thời điểm đóng thầu, ghi thành biên bản.\n2. Gửi biên bản mở hồ sơ cho các nhà thầu nộp hồ sơ dự sơ tuyển.\n3. Đăng tải thông tin mở hồ sơ trên Hệ thống mạng đấu thầu quốc gia trong thời hạn 24 giờ kể từ thời điểm mở thầu.\n4. Đánh giá theo tiêu chuẩn trong hồ sơ mời sơ tuyển, đưa nhà thầu đạt tất cả nội dung về năng lực và kinh nghiệm vào danh sách ngắn.\n5. Trình phê duyệt kết quả sơ tuyển bằng văn bản dựa trên tờ trình và báo cáo thẩm định.\n6. Công khai danh sách ngắn bằng cách đăng tải theo quy định tại điểm b khoản 1 và khoản 4 Điều 8 của Luật Đấu thầu và thông báo đến các nhà thầu nộp hồ sơ dự sơ tuyển.",
+                "citation": "Điểm đ, g, h (Quy trình mở, đánh giá, phê duyệt và công khai)"
+            },
+            {
+                "turn": 6,
+                "query": "Nếu các nhà thầu nằm trong danh sách ngắn muốn liên danh với nhau để tham dự thầu, hoặc liên danh với nhà thầu không có tên trong danh sách ngắn, thì cần tuân thủ những nguyên tắc và điều kiện gì theo Nghị định này?",
+                "expected_answer": "Theo quy định:\n1. Các nhà thầu có tên trong danh sách ngắn KHÔNG ĐƯỢC liên danh với nhau để tham dự thầu.\n2. Trường hợp một nhà thầu trong danh sách ngắn muốn liên danh với nhà thầu ngoài danh sách ngắn, thì phải được sự chấp thuận của chủ đầu tư trước thời điểm đóng thầu.",
+                "citation": "Khoản 3 (Quy định về liên danh)"
+            }
+        ]
+    },
+    {
+        "session_name": "Xác định cơ sở pháp lý và mối quan hệ điều chỉnh của Thông tư 01/2023/TT-VPCP",
+        "document_id": "01/2023/TT-VPCP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 01/2023/TT-VPCP quy định về nội dung gì và thuộc lĩnh vực nào?",
+                "expected_answer": "Thông tư 01/2023/TT-VPCP quy định một số nội dung và biện pháp thi hành trong số hóa hồ sơ, kết quả giải quyết thủ tục hành chính và thực hiện thủ tục hành chính trên môi trường điện tử. Văn bản này thuộc lĩnh vực Công nghệ thông tin và Bộ máy hành chính.",
+                "citation": "Điều khoản: QUY ĐỊNH MỘT SỐ NỘI DUNG VÀ BIỆN PHÁP THI HÀNH TRONG SỐ HÓA HỒ SƠ, KẾT QUẢ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH VÀ THỰC HIỆN THỦ TỤC HÀNH CHÍNH TRÊN MÔI TRƯỜNG ĐIỆN TỬ; Lĩnh vực: Công nghệ thông tin, Bộ máy hành chính"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những Nghị định nào liên quan đến cơ chế một cửa và thủ tục hành chính trên môi trường điện tử?",
+                "expected_answer": "Thông tư 01/2023/TT-VPCP được ban hành căn cứ vào Nghị định số 61/2018/NĐ-CP (và Nghị định sửa đổi bổ sung số 107/2021/NĐ-CP) về thực hiện cơ chế một cửa, một cửa liên thông trong giải quyết thủ tục hành chính; và Nghị định số 45/2020/NĐ-CP về thực hiện thủ tục hành chính trên môi trường điện tử.",
+                "citation": "Căn cứ Nghị định số 61/2018/NĐ-CP...; Nghị định số 107/2021/NĐ-CP...; Căn cứ Nghị định số 45/2020/NĐ-CP..."
+            },
+            {
+                "turn": 3,
+                "query": "Một cơ quan nhà nước đang triển khai Cổng Dịch vụ công quốc gia và cần rà soát tính hợp lệ của việc cung cấp dịch vụ công trực tuyến. Trong bối cảnh áp dụng Thông tư 01/2023/TT-VPCP, văn bản này có mối quan hệ như thế nào với Quy chế quản lý, vận hành, khai thác Cổng Dịch vụ công quốc gia?",
+                "expected_answer": "Thông tư 01/2023/TT-VPCP có mối quan hệ 'BASED_ON' (căn cứ) với Quyết định số 31/2021/QĐ-TTg ngày 11 tháng 10 năm 2021 của Thủ tướng Chính phủ ban hành Quy chế quản lý, vận hành, khai thác Cổng Dịch vụ công quốc gia. Điều này nghĩa là các quy định về số hóa hồ sơ và thực hiện thủ tục trên môi trường điện tử trong Thông tư này phải tuân thủ hoặc tương thích với Quy chế đã được ban hành bởi Quyết định 31/2021/QĐ-TTg.",
+                "citation": "Căn cứ Quyết định số 31/2021/QĐ-TTg ngày 11 tháng 10 năm 2021 của Thủ tướng Chính phủ ban hành Quy chế quản lý, vận hành, khai thác Cổng Dịch vụ công quốc gia; Quan hệ văn bản: BASED_ON: 31/2021/QĐ-TTG"
+            },
+            {
+                "turn": 4,
+                "query": "Nếu xét về khía cạnh kiểm soát thủ tục hành chính để đảm bảo chất lượng số hóa, Thông tư 01/2023/TT-VPCP kế thừa và bổ sung cho khung pháp lý nào về kiểm soát thủ tục hành chính?",
+                "expected_answer": "Về khía cạnh kiểm soát thủ tục hành chính, Thông tư 01/2023/TT-VPCP căn cứ vào Nghị định số 63/2010/NĐ-CP về kiểm soát thủ tục hành chính và Nghị định số 92/2017/NĐ-CP sửa đổi, bổ sung một số điều của các Nghị định liên quan đến kiểm soát thủ tục hành chính. Ngoài ra, nó cũng có mối quan hệ 'BASED_ON' với Thông tư 02/2017/TT-VPCP hướng dẫn về nghiệp vụ kiểm soát thủ tục hành chính.",
+                "citation": "Căn cứ Nghị định số 63/2010/NĐ-CP...; Nghị định số 92/2017/NĐ-CP...; Quan hệ văn bản: BASED_ON: 63/2010/NĐ-CP; BASED_ON: 92/2017/NĐCP; BASED_ON: 02/2017/TTVPCP"
+            },
+            {
+                "turn": 5,
+                "query": "Để đảm bảo tính thống nhất trong công tác văn thư khi số hóa hồ sơ, Thông tư này có liên hệ với văn bản nào quy định về công tác văn thư không?",
+                "expected_answer": "Có, theo thông tin đồ thị mối quan hệ, Thông tư 01/2023/TT-VPCP có quan hệ 'BASED_ON' với Nghị định số 30/2020/NĐ-CP về công tác văn thư. Điều này cho thấy các biện pháp thi hành số hóa hồ sơ cần tuân thủ các quy định chung về công tác văn thư đã được thiết lập trong Nghị định này.",
+                "citation": "Quan hệ văn bản: BASED_ON: 30/2020/NĐ-CP (Nghị định 30/2020/NĐ-CP về công tác văn thư)"
+            },
+            {
+                "turn": 6,
+                "query": "Thông tư 01/2023/TT-VPCP có vai trò sửa đổi, bổ sung (AMENDS) đối với những văn bản pháp luật nào đang hiện hành?",
+                "expected_answer": "Thông tư 01/2023/TT-VPCP có vai trò sửa đổi, bổ sung (AMENDS) đối với hai văn bản chính: Nghị định số 61/2018/NĐ-CP về thực hiện cơ chế một cửa, một cửa liên thông trong giải quyết thủ tục hành chính và Nghị định số 45/2020/NĐ-CP về thực hiện thủ tục hành chính trên môi trường điện tử.",
+                "citation": "Quan hệ văn bản: AMENDS: 61/2018/NĐ-CP; AMENDS: 45/2020/NĐ-CP"
+            }
+        ]
+    },
+    {
+        "session_name": "Tra cứu và Phân tích Quy định Số hóa Hồ sơ trong Thông tư 01/2023/TT-VPCP",
+        "document_id": "01/2023/TT-VPCP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 01/2023/TT-VPCP quy định về nội dung gì?",
+                "expected_answer": "Thông tư 01/2023/TT-VPCP quy định một số nội dung và biện pháp thi hành trong số hóa hồ sơ, kết quả giải quyết thủ tục hành chính và thực hiện thủ tục hành chính trên môi trường điện tử.",
+                "citation": "Điều khoản: QUY ĐỊNH MỘT SỐ NỘI DUNG VÀ BIỆN PHÁP THI HÀNH TRONG SỐ HÓA HỒ SƠ, KẾT QUẢ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH VÀ THỰC HIỆN THỦ TỤC HÀNH CHÍNH TRÊN MÔI TRƯỜNG ĐIỆN TỬ"
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý nào liên quan đến chức năng của Văn phòng Chính phủ và cơ chế một cửa?",
+                "expected_answer": "Thông tư này được ban hành căn cứ vào Nghị định số 79/2022/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Văn phòng Chính phủ; và căn cứ Nghị định số 61/2018/NĐ-CP (được sửa đổi, bổ sung bởi Nghị định số 107/2021/NĐ-CP) về thực hiện cơ chế một cửa, một cửa liên thông trong giải quyết thủ tục hành chính.",
+                "citation": "Phần Căn cứ ban hành văn bản (Căn cứ Nghị định 79/2022/NĐ-CP; Căn cứ Nghị định 61/2018/NĐ-CP và Nghị định 107/2021/NĐ-CP)"
+            },
+            {
+                "turn": 3,
+                "query": "Một công dân nộp hồ sơ xin cấp giấy phép kinh doanh hoàn toàn trên Cổng Dịch vụ công quốc gia. Cơ quan nhà nước có thẩm quyền cần tuân thủ các quy định nào trong Thông tư này khi tiếp nhận và xử lý hồ sơ số hóa đó, đặc biệt là về mối liên hệ với việc cung cấp dịch vụ công trực tuyến?",
+                "expected_answer": "Khi tiếp nhận và xử lý hồ sơ số hóa trên môi trường điện tử, cơ quan nhà nước phải tuân thủ các quy định về biện pháp thi hành trong số hóa hồ sơ và kết quả giải quyết thủ tục hành chính theo Thông tư 01/2023/TT-VPCP. Việc này được thực hiện dựa trên nền tảng của Nghị định 45/2020/NĐ-CP về thực hiện thủ tục hành chính trên môi trường điện tử và Nghị định 42/2022/NĐ-CP về cung cấp thông tin và dịch vụ công trực tuyến, đồng thời đảm bảo vận hành theo Quy chế quản lý, vận hành, khai thác Cổng Dịch vụ công quốc gia (Quyết định 31/2021/QĐ-TTg).",
+                "citation": "Phần Căn cứ ban hành văn bản (Căn cứ Nghị định 45/2020/NĐ-CP; Nghị định 42/2022/NĐ-CP; Quyết định 31/2021/QĐ-TTg) và Điều khoản tiêu đề."
+            },
+            {
+                "turn": 4,
+                "query": "Trong tình huống trên, nếu phát sinh yêu cầu đối chiếu hồ sơ giấy với hồ sơ điện tử, cơ quan nhà nước cần phân tích logic ra sao để đảm bảo tính hợp lệ của hồ sơ số hóa mà không vi phạm nguyên tắc 'không yêu cầu nộp thêm giấy tờ' trừ khi có quy định khác, dựa trên các văn bản nền tảng mà Thông tư 01/2023/TT-VPCP kế thừa?",
+                "expected_answer": "Cơ quan nhà nước cần phân tích dựa trên nguyên tắc rằng hồ sơ điện tử có giá trị tương đương hồ sơ giấy nếu đáp ứng các điều kiện về chữ ký số/mã xác thực theo Nghị định 45/2020/NĐ-CP. Thông tư 01/2023/TT-VPCP quy định biện pháp thi hành nhằm cụ thể hóa việc số hóa, do đó, việc yêu cầu đối chiếu chỉ xảy ra khi hệ thống không thể xác thực hoặc có nghi ngờ về tính toàn vẹn dữ liệu. Logic xử lý phải bám sát quy định về kiểm soát thủ tục hành chính (Nghị định 63/2010/NĐ-CP và 92/2017/NĐ-CP) để loại bỏ các thủ tục rườm rà, chỉ yêu cầu bổ sung giấy tờ khi thực sự cần thiết theo quy định pháp luật chuyên ngành, tránh chồng chéo với cam kết dịch vụ công trực tuyến mức độ 4.",
+                "citation": "Phần Căn cứ ban hành văn bản (Căn cứ Nghị định 45/2020/NĐ-CP; Nghị định 63/2010/NĐ-CP; Nghị định 92/2017/NĐ-CP) và Điều khoản tiêu đề về biện pháp thi hành."
+            },
+            {
+                "turn": 5,
+                "query": "Để triển khai việc số hóa hồ sơ và kết quả giải quyết thủ tục hành chính đúng theo Thông tư 01/2023/TT-VPCP, các bộ, cơ quan ngang bộ và UBND cấp tỉnh cần thực hiện những bước chuẩn bị về hệ thống và nghiệp vụ gì, dựa trên vai trò của Cục Kiểm soát thủ tục hành chính?",
+                "expected_answer": "Các cơ quan cần phối hợp với Cục Kiểm soát thủ tục hành chính (đơn vị đề nghị ban hành Thông tư) để rà soát và cập nhật quy trình nghiệp vụ số hóa. Cụ thể, cần đảm bảo hệ thống thông tin đáp ứng yêu cầu kết nối với Cổng Dịch vụ công quốc gia (theo Quyết định 31/2021/QĐ-TTg), áp dụng các biện pháp kỹ thuật số hóa hồ sơ, kết quả giải quyết TTHC trên môi trường điện tử theo hướng dẫn chi tiết trong Thông tư này, và tuân thủ quy định về văn thư điện tử (Nghị định 30/2020/NĐ-CP) trong quá trình trao đổi dữ liệu.",
+                "citation": "Phần Căn cứ ban hành văn bản (Theo đề nghị của Cục trưởng Cục Kiểm soát thủ tục hành chính; Căn cứ Nghị định 30/2020/NĐ-CP; Quyết định 31/2021/QĐ-TTg) và Điều khoản tiêu đề."
+            },
+            {
+                "turn": 6,
+                "query": "Thông tư 01/2023/TT-VPCP có mối quan hệ thế nào với Thông tư 02/2017/TT-VPCP và các Nghị định về kiểm soát thủ tục hành chính? Nó có thay thế hay bổ sung cho các quy định trước đó không?",
+                "expected_answer": "Thông tư 01/2023/TT-VPCP được ban hành căn cứ vào Thông tư 02/2017/TT-VPCP hướng dẫn về nghiệp vụ kiểm soát thủ tục hành chính, cũng như các Nghị định về kiểm soát thủ tục hành chính (63/2010/NĐ-CP, 92/2017/NĐ-CP). Nó đóng vai trò cụ thể hóa các biện pháp thi hành trong lĩnh vực số hóa hồ sơ và TTHC điện tử, bổ sung và làm rõ hơn các quy định chung trong các văn bản nền tảng như Nghị định 45/2020/NĐ-CP và Nghị định 61/2018/NĐ-CP, chứ không phải là văn bản thay thế hoàn toàn các văn bản gốc về nguyên tắc kiểm soát thủ tục.",
+                "citation": "Phần Thông tin Đồ thị (Quan hệ BASED_ON: 02/2017/TTVPCP, 63/2010/NĐ-CP, 92/2017/NĐCP, 61/2018/NĐ-CP, 45/2020/NĐ-CP) và Phần Căn cứ ban hành văn bản."
             }
         ]
     }
