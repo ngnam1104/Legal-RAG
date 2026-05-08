@@ -220,13 +220,20 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
         fetchSessions();
       }
 
+      // Nếu là Edit, kiểm tra xem tin nhắn cũ có file đính kèm không để giữ lại
+      const existingAttachment = (editIndex !== undefined && messages[editIndex]) 
+        ? messages[editIndex].attached_file 
+        : null;
+
       const payload = {
         session_id: sid,
         query,
         mode: 'AUTO',
         file_path: lastFileId ? lastFileId : null,
         use_rerank: settings.use_rerank,
-        attached_file: stagedFile ? { id: stagedFile.id, name: stagedFile.name } : null
+        attached_file: stagedFile 
+          ? { id: stagedFile.id, name: stagedFile.name } 
+          : (existingAttachment ? { id: existingAttachment.id, name: existingAttachment.name } : null)
       };
 
       // --- STATE CẬP NHẬT (Xử lý Edit + Append Query) ---
@@ -242,8 +249,12 @@ export const ChatProvider: React.FC<{children: React.ReactNode}> = ({ children }
         // 2. Dọn dẹp tin nhắn "Đã dừng"
         const filtered = baseMessages.filter(msg => msg.content !== "_Đã dừng phản hồi._");
         
-        // 3. Append tin nhắn mới
-        return [...filtered, { role: 'user', content: query, attached_file: stagedFile ? { ...stagedFile } : undefined }];
+        // 3. Append tin nhắn mới (giữ lại file đính kèm nếu có)
+        const finalFile = stagedFile 
+          ? { ...stagedFile } 
+          : (existingAttachment ? { ...existingAttachment } : undefined);
+          
+        return [...filtered, { role: 'user', content: query, attached_file: finalFile }];
       });
 
       // Reset edit and file states immediately

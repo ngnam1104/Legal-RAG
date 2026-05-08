@@ -361,24 +361,34 @@ class LegalChatStrategy(BaseRAGStrategy):
             seen_ids.setdefault(eid)
         all_entity_ids = list(seen_ids.keys())
 
-        # ── Phase 3: Lighter Subgraph Expansion (Siblings Only) ──
-        # Subgraph chính (nodes/edges) đã lấy từ Phase 0 để tiết kiệm thời gian.
-        # Phase 3 chỉ "vét" thêm các đoạn văn liên quan ở các văn bản khác (siblings).
+        # ── Phase 3: 2-hop Subgraph Expansion ──
+        # entity_pre_context từ Phase 0 LUÔN được giữ, kể cả khi Phase 3 trống
         graph_ctx = {
-            "nodes": graph_res.get("nodes", []),
-            "edges": graph_res.get("edges", []),
-            "entity_context": entity_pre_context,
-            "node_rel_lines": [], 
-            "lateral_docs": [],
-            "document_toc": "", 
-            "sibling_texts": []
+            "nodes": [], "edges": [],
+            "entity_context": entity_pre_context,  # ← default từ Phase 0
+            "node_rel_lines": [], "lateral_docs": [],
+            "document_toc": "", "sibling_texts": []
         }
-        with timer.step("Neo4j_Siblings_Only"):
+        with timer.step("Neo4j_Subgraph"):
             if all_entity_ids and not is_pure_upload:
-                from backend.agent.utils_legal import fetch_sibling_context
-                siblings = fetch_sibling_context(all_entity_ids)
-                graph_ctx["sibling_texts"] = siblings
-                print(f"       🕸️ [Retrieve] Phase 3 Lighter: Found {len(siblings)} sibling texts via graph.")
+                subgraph = fetch_related_graph(all_entity_ids)
+                if subgraph:
+                    formatted = format_graph_context(subgraph)
+                    graph_ctx["nodes"] = formatted["nodes"]
+                    graph_ctx["edges"] = formatted["edges"]
+                    # Merge: Phase 0 context + Phase 3 entity context
+                    phase3_ctx = formatted.get("entity_context", "")
+                    if phase3_ctx:
+                        sep = "\n" if graph_ctx["entity_context"] else ""
+                        graph_ctx["entity_context"] += sep + phase3_ctx
+                    graph_ctx["node_rel_lines"] = formatted.get("node_rel_lines", [])
+                    graph_ctx["sibling_texts"]  = formatted.get("sibling_texts", [])
+                    print(
+                        f"       🕸️ [Retrieve] Subgraph: "
+                        f"{len(graph_ctx['nodes'])} nodes, {len(graph_ctx['edges'])} edges, "
+                        f"{len(graph_ctx['node_rel_lines'])} node_rels, "
+                        f"siblings={len(graph_ctx['sibling_texts'])}"
+                    )
 
         return {"raw_hits": hits, "graph_context": graph_ctx, "metrics": timer.results()}
 
@@ -607,6 +617,7 @@ class LegalChatStrategy(BaseRAGStrategy):
             "references": cited_refs,
             "metrics": timer.results()
         }
+
     # ------------------------------------------------------------------
     # 4. REFLECT  (Reviewer Agent — Optional)
     # ------------------------------------------------------------------

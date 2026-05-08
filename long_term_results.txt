@@ -8,98 +8,33 @@ Failures logged to: /home/ubuntu/nam.nguyen3/Legal-RAG/tests/long_term_evaluatio
 
 🔹 [Turn 1] Query: Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực áp dụng và mục đích ban hành chính của văn bản này.
        🎯 [SuperRouter] Intent: LEGAL_CHAT
-       🧠 [Understand] Prepared Query: 'Thông tin tổng quan Nghị định 105/2014/NĐ-CP xử phạt vi phạm hành chính trong lĩnh vực giao thông đường bộ và đường sắt: tên văn bản, phạm vi điều chỉnh, mục đích ban hành.'
-       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Giao thông'}
-       ✅ [Reranker] Đã re-score thành công 17 candidates trong 0.25s
-       🔍 [Retrieve] Phase0_Graph: 0 boost_ids, 0 doc_hints | Phase1_Hybrid: 17 hits
+       🧠 [Understand] Prepared Query: 'Thông tin cơ bản về Nghị định 105/2014/NĐ-CP: tên đầy đủ, lĩnh vực áp dụng, mục đích ban hành.'
+       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'An ninh trật tự'}
+       ✅ [Reranker] Đã re-score thành công 17 candidates trong 0.20s
+       🔍 [Retrieve] Phase0_Graph: 26 boost_ids, 1 doc_hints | Phase1_Hybrid: 17 hits
        🎯 [Unified Rerank] Picked top 10 from 17 candidates (Upload: 0, DB: 5)
        ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 17 refs
-       📌 [Generate] Cited 2/17 references
+       📌 [Generate] Cited 7/17 references
    [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
    [Rewrite]: Vui lòng cung cấp thông tin cơ bản về Nghị định 105/2014/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực áp dụng và mục đích ban hành chính của văn bản này.
-   [Answer]: Căn cứ vào các thông tin trong Nghị định 105/2014/NĐ-CP được cung cấp, dưới đây là nội dung trả lời cho yêu cầu của bạn:
+   [Answer]: Căn cứ vào các thông tin trích xuất từ Nghị định 105/2014/NĐ-CP trong ngữ cảnh cung cấp, dưới đây là thông tin cơ bản về văn bản này:
 
-1.  **Tên đầy đủ:** Nghị định 105/2014/NĐ-CP quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế.
-2.  **Lĩnh vực áp dụng:** Lĩnh vực Bảo hiểm, Thể thao - Y tế.
-3.  **Mục đích ban hành chính:** Quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế.
-   [JUDGE]: ✅ ĐẠT: RAG cung cấp đầy đủ và chính xác các thông tin về tên, lĩnh vực áp dụng và mục đích ban hành của Nghị định 105/2014/NĐ-CP, nội dung trùng khớp với câu trả lời mẫu và đúng với quy định pháp luật hiện hành.
-   ⏱️ [Time]: 59.53s
+**1. Tên đầy đủ và Số hiệu:**
+Nghị định số 105/2014/NĐ-CP ngày 15 tháng 11 năm 2014 của Chính phủ.
+
+**2. Lĩnh vực áp dụng:**
+Văn bản thuộc lĩnh vực **Bảo hiểm** và **Thể thao - Y tế**.
+
+**3. Mục đích ban hành chính:**
+Mục đích chính của Nghị định là **quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế**. Cụ thể, văn bản tập trung vào việc quy định mức kinh phí hỗ trợ đóng bảo hiểm y tế cho một số đối tượng (như hộ gia đình cận nghèo, học sinh/sinh viên, hộ gia đình làm nông nghiệp có mức sống trung bình) và mức hưởng bảo hiểm y tế khi đi khám chữa bệnh.
+
+*Cơ sở pháp lý tham chiếu:*
+*   *Phần Nơi nhận và Chữ ký (can_cú id="2", "3", "5"):* Xác định tên văn bản, ngày ban hành và mục đích "Chính phủ ban hành Nghị định quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế".
+*   *Metadata (can_cú id="1"):* Xác định lĩnh vực "Bảo hiểm, Thể thao - Y tế".
+*   *Điều 3 (can_cú id="4"):* Chi tiết hóa nội dung về mức hỗ trợ đóng BHYT.
+*   *Điều 4 (can_cú id="16"):* Chi tiết hóa nội dung về mức hưởng BHYT.
+   [JUDGE]: ✅ ĐẠT: RAG cung cấp đầy đủ và chính xác các thông tin cốt lõi (tên văn bản, lĩnh vực, mục đích) trùng khớp với câu trả lời mẫu, đồng thời bổ sung chi tiết cụ thể về nội dung quy định và trích dẫn rõ ràng các căn cứ pháp lý từ ngữ cảnh.
+   ⏱️ [Time]: 82.46s
 ----------------------------------------
 
 🔹 [Turn 2] Query: Văn bản này được ban hành dựa trên những căn cứ pháp lý nào? Hãy liệt kê các luật và nghị định cụ thể làm nền tảng cho việc ban hành Nghị định 105/2014/NĐ-CP.
-       🎯 [SuperRouter] Intent: LEGAL_CHAT
-       🧠 [Understand] Prepared Query: 'Căn cứ ban hành Nghị định 105/2014/NĐ-CP về xử phạt vi phạm hành chính trong lĩnh vực giao thông đường bộ và đường sắt. Các văn bản pháp lý tiền đề.'
-       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Giao thông'}
-       ✅ [Reranker] Đã re-score thành công 17 candidates trong 0.24s
-       🔍 [Retrieve] Phase0_Graph: 0 boost_ids, 0 doc_hints | Phase1_Hybrid: 17 hits
-       🎯 [Unified Rerank] Picked top 10 from 17 candidates (Upload: 0, DB: 5)
-       ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 17 refs
-       📌 [Generate] Cited 2/17 references
-   [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
-   [Rewrite]: Nghị định 105/2014/NĐ-CP được ban hành dựa trên những căn cứ pháp lý nào? Hãy liệt kê các luật và nghị định cụ thể làm nền tảng cho việc ban hành Nghị định 105/2014/NĐ-CP.
-   [Answer]: Căn cứ nội dung tại `<can_cu id="11">` trong ngữ cảnh cung cấp, Nghị định 105/2014/NĐ-CP được ban hành dựa trên các căn cứ pháp lý cụ thể sau:
-
-1.  Luật Tổ chức Chính phủ ngày 25 tháng 12 năm 2001.
-2.  Luật Bảo hiểm y tế ngày 14 tháng 11 năm 2008.
-3.  Luật sửa đổi, bổ sung một số điều của Luật Bảo hiểm y tế ngày 13 tháng 6 năm 2014.
-   [JUDGE]: ✅ ĐẠT: RAG đã xác định chính xác các căn cứ pháp lý (Luật Tổ chức Chính phủ, Luật Bảo hiểm y tế và Luật sửa đổi, bổ sung) trùng khớp với Câu trả lời mẫu, đồng thời hiểu đúng ngữ cảnh "văn bản này" là Nghị định 105/2014/NĐ-CP từ lịch sử hội thoại.
-   ⏱️ [Time]: 53.79s
-----------------------------------------
-
-🔹 [Turn 3] Query: Tôi là cán bộ phụ trách BHXH tại một huyện. Một hộ gia đình làm nông nghiệp muốn tham gia BHYT nhưng không chắc chắn mình có thuộc diện 'có mức sống trung bình' hay không để được hỗ trợ. Dựa trên nội dung Nghị định 105/2014/NĐ-CP, tôi cần xác định xem văn bản này có quy định cụ thể về tiêu chí xác định mức sống trung bình hay chỉ quy định về thủ tục lập danh sách không?
-       🎯 [SuperRouter] Intent: LEGAL_CHAT
-       🧠 [Understand] Prepared Query: 'Tiêu chí xác định mức sống trung bình hỗ trợ BHYT Nghị định 105/2014/NĐ-CP'
-       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Bảo hiểm y tế'}
-       ✅ [Reranker] Đã re-score thành công 14 candidates trong 0.18s
-       🔍 [Retrieve] Phase0_Graph: 0 boost_ids, 0 doc_hints | Phase1_Hybrid: 14 hits
-       🎯 [Unified Rerank] Picked top 10 from 14 candidates (Upload: 0, DB: 5)
-       ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 14 refs
-       📌 [Generate] Cited 5/14 references
-   [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
-   [Rewrite]: Nghị định 105/2014/NĐ-CP có quy định cụ thể về tiêu chí xác định mức sống trung bình để hỗ trợ tham gia BHYT hay chỉ quy định về thủ tục lập danh sách?
-   [Answer]: Căn cứ Điều 13 Khoản 5 và Điều 3 Khoản 3 Nghị định 105/2014/NĐ-CP, Nghị định này không quy định cụ thể các tiêu chí xác định mức sống trung bình mà chỉ giao trách nhiệm cho Bộ Lao động - Thương binh và Xã hội nghiên cứu, xây dựng các tiêu chí này trình Thủ tướng Chính phủ ban hành.
-
-Cụ thể:
-1.  **Về tiêu chí:** Điều 13 Khoản 5 quy định Bộ Lao động - Thương binh và Xã hội có trách nhiệm "nghiên cứu, xây dựng tiêu chí xác định hộ gia đình làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình trình Thủ tướng Chính phủ ban hành".
-2.  **Về áp dụng:** Điều 3 Khoản 3 quy định mức hỗ trợ BHYT cho đối tượng này là dựa trên "Quyết định số 32/2014/QĐ-TTg ngày 27 tháng 5 năm 2014 của Thủ tướng Chính phủ" (văn bản riêng quy định tiêu chí), chứ không nằm trong nội dung chi tiết của Nghị định 105/2014/NĐ-CP.
-
-Do đó, Nghị định 105/2014/NĐ-CP chủ yếu quy định về mức hỗ trợ và cơ chế thực hiện, còn việc xác định tiêu chí thuộc phạm vi của văn bản khác do Thủ tướng Chính phủ ban hành theo đề xuất của Bộ LĐ-TB&XH.
-   [JUDGE]: ✅ ĐẠT: RAG trả lời chính xác bản chất pháp lý, xác định đúng rằng Nghị định 105/2014/NĐ-CP không quy định chi tiết tiêu chí mức sống trung bình mà chỉ giao trách nhiệm xây dựng và áp dụng văn bản khác (QĐ 32/2014/QĐ-TTg), đồng thời trích dẫn đúng các điều khoản cụ thể (Điều 13, Điều 3) để làm rõ vấn đề, vượt trội hơn so với câu trả lời mẫu mang tính chung chung.
-   ⏱️ [Time]: 51.52s
-----------------------------------------
-
-🔹 [Turn 4] Query: Nếu tôi hiểu đúng, Nghị định này giao trách nhiệm cho các bộ, ngành liên quan. Vậy cụ thể trách nhiệm của các bộ, ngành khác có liên quan trong việc thi hành Nghị định 105/2014/NĐ-CP là gì và phạm vi quyền hạn của họ được xác định ra sao?
-       🎯 [SuperRouter] Intent: LEGAL_CHAT
-       🧠 [Understand] Prepared Query: 'Quy định về trách nhiệm và quyền hạn của các cơ quan nhà nước có thẩm quyền khi thực hiện Nghị định 105/2014/NĐ-CP về bảo hiểm y tế'
-       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Y tế'}
-       ✅ [Reranker] Đã re-score thành công 13 candidates trong 0.18s
-       🔍 [Retrieve] Phase0_Graph: 0 boost_ids, 0 doc_hints | Phase1_Hybrid: 13 hits
-       🎯 [Unified Rerank] Picked top 10 from 13 candidates (Upload: 0, DB: 5)
-       ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 13 refs
-       📌 [Generate] Cited 4/13 references
-   [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
-   [Rewrite]: Trách nhiệm cụ thể của các bộ, ngành khác có liên quan trong việc thi hành Nghị định 105/2014/NĐ-CP là gì và phạm vi quyền hạn của họ được xác định ra sao?
-   [Answer]: Căn cứ Khoản 6 Điều 13 Nghị định 105/2014/NĐ-CP, trách nhiệm của các bộ, ngành khác có liên quan là hướng dẫn thi hành Nghị định này trong phạm vi chức năng, nhiệm vụ và quyền hạn của mình.
-   [JUDGE]: ✅ ĐẠT: RAG trả lời chính xác nội dung pháp lý (trách nhiệm hướng dẫn thi hành trong phạm vi chức năng) và trích dẫn đúng căn cứ cụ thể (Khoản 6 Điều 13), đồng thời duy trì tốt ngữ cảnh hội thoại về Nghị định 105/2014/NĐ-CP.
-   ⏱️ [Time]: 41.41s
-----------------------------------------
-
-🔹 [Turn 5] Query: Để đảm bảo tính hợp lệ khi triển khai, tôi cần biết Nghị định 105/2014/NĐ-CP đã được gửi đến những cơ quan nào để lưu trữ và phối hợp thực hiện? Hãy liệt kê các cơ quan chủ chốt trong phần Nơi nhận.
-       🎯 [SuperRouter] Intent: LEGAL_CHAT
-       🧠 [Understand] Prepared Query: 'Danh sách cơ quan trong phần Nơi nhận của Nghị định 105/2014/NĐ-CP về hỗ trợ tham gia BHYT cho hộ gia đình làm nông nghiệp có mức sống trung bình.'
-       🧠 [Understand] Extracted Filters: {'legal_type': 'Nghị định', 'doc_number': '105/2014/NĐ-CP', 'article_ref': None, 'year': 2014, 'sector': 'Bảo hiểm y tế'}
-       ✅ [Reranker] Đã re-score thành công 17 candidates trong 0.22s
-       🔍 [Retrieve] Phase0_Graph: 0 boost_ids, 0 doc_hints | Phase1_Hybrid: 17 hits
-       🎯 [Unified Rerank] Picked top 10 from 17 candidates (Upload: 0, DB: 5)
-       ✍️ [Generate] GraphRAG prompt with 0 nodes, 0 edges, 0 node_rels, 17 refs
-       📌 [Generate] Cited 1/17 references
-   [Intent]: Target: LEGAL_CHAT | Detected: LEGAL_CHAT -> ✅ KHỚP
-   [Rewrite]: Nghị định 105/2014/NĐ-CP đã được gửi đến những cơ quan nào để lưu trữ và phối hợp thực hiện? Hãy liệt kê các cơ quan chủ chốt trong phần Nơi nhận của Nghị định này.
-   [Answer]: Căn cứ vào nội dung tại `<can_cu id="1">`, `<can_cu id="12">` và `<can_cu id="13">` trong ngữ cảnh cung cấp, các văn bản này chỉ nêu rõ mục đích ban hành là "Chính phủ ban hành Nghị định quy định chi tiết và hướng dẫn thi hành một số điều của Luật Bảo hiểm y tế" mà không liệt kê danh sách cụ thể các cơ quan trong phần "Nơi nhận".
-
-Do đó, dựa trên ngữ cảnh hiện tại, không thấy quy định về vấn đề này, cần đối chiếu thêm.
-   [JUDGE]: ❌ KHÔNG ĐẠT: RAG trả lời sai thực tế pháp lý vì Nghị định 105/2014/NĐ-CP có phần "Nơi nhận" liệt kê rõ ràng các cơ quan (như trong Câu trả lời mẫu), việc RAG khẳng định "không liệt kê danh sách cụ thể" là lỗi thiếu thông tin hoặc xử lý ngữ cảnh kém, không thuộc trường hợp đặc cách vì câu hỏi không chứa tiền đề sai hay mâu thuẫn.
-   ⏱️ [Time]: 58.52s
-----------------------------------------
-
-🔹 [Turn 6] Query: Dựa trên thông tin đồ thị mối quan hệ, Nghị định 105/2014/NĐ-CP có mối liên hệ thế nào với các văn bản trước đó và các văn bản khác? Đặc biệt, nó thay đổi hoặc hướng dẫn cho những văn bản nào?

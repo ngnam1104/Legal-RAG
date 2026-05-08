@@ -1,5 +1,13 @@
 # Neo4j Graph Database Schema & Queries
 
+
+Nếu bạn muốn kiểm tra các quan hệ cấu trúc (thay vì quan hệ thực thể), hãy dùng lệnh này:
+
+cypher
+MATCH (d:Document {document_number: "105/2014/NĐ-CP"})<-[r:PART_OF|BELONGS_TO*1..3]-(child)
+RETURN d.document_number, type(r), labels(child), count(child)
+
+
 Tài liệu này mô tả cấu trúc các Node, Relationship và các mẫu truy vấn (Cypher) được sử dụng trong hệ thống Legal-RAG.
 
 ## 1. Node Labels

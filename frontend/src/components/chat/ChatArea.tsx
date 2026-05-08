@@ -54,6 +54,14 @@ export function MessageItem({ message, index, isLastUserMessage }: {
         {isUser ? (
           isEditing ? (
             <div className="flex flex-col w-full min-w-[300px] md:min-w-[500px] animate-in fade-in zoom-in-95 duration-300">
+              {message.attached_file && (
+                <div className="flex items-center gap-2 bg-emerald-primary/10 border border-emerald-primary/20 rounded-xl p-2 pr-3 self-end mb-2">
+                  <Paperclip size={14} className="text-emerald-accent" />
+                  <span className="text-[12px] font-bold text-text-main truncate max-w-[200px]">
+                    {message.attached_file.name}
+                  </span>
+                </div>
+              )}
               <TextareaAutosize
                 value={editValue}
                 onChange={(e) => setEditValue(e.target.value)}

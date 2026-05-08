@@ -21,7 +21,7 @@ Hãy trích xuất các Thực thể pháp lý quan trọng (Cơ quan, Tổ ch�
 Tối đa 5 thực thể. Chỉ trả về JSON thuần túy.
 
 Định dạng:
-{"entities": ["Thực thể 1", "Thực thể 2"]}
+{{"entities": ["Thực thể 1", "Thực thể 2"]}}
 
 Câu hỏi: {query}
 JSON:
@@ -314,7 +314,7 @@ class EntityGraphRetriever:
                         f"[{tgt_t}: {r.get('tgt_name','?')}]"
                     )
 
-            # Format Graph Context for logging and legacy support
+            # Format Graph Context
             ctx_parts = []
             if entity_info:
                 ctx_parts.append("Thực thể liên quan: " + ", ".join(sorted(entity_info)))
@@ -331,8 +331,6 @@ class EntityGraphRetriever:
                 "doc_numbers"   : list(doc_numbers),
                 "graph_context" : "\n".join(ctx_parts),
                 "found_entities": list(entity_info),
-                "nodes"         : list(entity_info),
-                "edges"         : rel_lines,
             }
 
         except Exception as e:
