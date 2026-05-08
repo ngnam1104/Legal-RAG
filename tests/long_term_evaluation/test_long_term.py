@@ -269,28 +269,35 @@ async def main():
         hierarchy = {
             "Preprocess Memory/Files_time": {"indent": 0},
             "Condense & Route_time": {"indent": 0},
+            "Route.LLM_Call": {"indent": 2},
+            "Route.JSON_Parse": {"indent": 2},
             "Detect Mode Only_time": {"indent": 0},
-            "Route.LLM_Call_time": {"indent": 2},
-            "Route.JSON_Parse_time": {"indent": 2},
             "1. Understand_time": {"indent": 0},
             "2. Retrieve + Graph Expand_time": {"indent": 0},
-            "Retrieve.Phase0_and_Phase1_Parallel_time": {"indent": 2},
-            "Retrieve.QdrantNeo4j_Enrich_time": {"indent": 2},
-            "Retrieve.Neo4j_Subgraph_time": {"indent": 2},
-            "Retrieve.Graph_Doc_Fetch_time": {"indent": 2},
+            "Retrieve.InMemorySearch": {"indent": 2},
+            "Retrieve.Phase0_and_Phase1_Parallel": {"indent": 2},
+            "Retrieve.Graph_Doc_Fetch": {"indent": 2},
+            "Retrieve.Unified_Reranking": {"indent": 2},
+            "Retrieve.QdrantNeo4j_Enrich": {"indent": 2},
+            "Retrieve.Neo4j_Subgraph": {"indent": 2},
             "3. Generate_time": {"indent": 0},
-            "Generate.BuildContext_time": {"indent": 2},
-            "Generate.LLM_Call_time": {"indent": 2},
+            "Generate.BuildContext": {"indent": 2},
+            "Generate.LLM_Call": {"indent": 2},
+            "Generate.FilterRefs": {"indent": 2},
             "4. Reflect_time": {"indent": 0},
         }
         
         execution_order = [
-            "Preprocess Memory/Files_time", "Condense & Route_time", "Detect Mode Only_time",
-            "Route.LLM_Call_time", "Route.JSON_Parse_time", "1. Understand_time",
-            "2. Retrieve + Graph Expand_time", "Retrieve.Phase0_and_Phase1_Parallel_time",
-            "Retrieve.QdrantNeo4j_Enrich_time", "Retrieve.Neo4j_Subgraph_time",
-            "Retrieve.Graph_Doc_Fetch_time", "3. Generate_time", "Generate.BuildContext_time",
-            "Generate.LLM_Call_time", "4. Reflect_time"
+            "Preprocess Memory/Files_time", 
+            "Condense & Route_time", "Route.LLM_Call", "Route.JSON_Parse",
+            "Detect Mode Only_time", 
+            "1. Understand_time",
+            "2. Retrieve + Graph Expand_time", 
+            "Retrieve.InMemorySearch", "Retrieve.Phase0_and_Phase1_Parallel", "Retrieve.Graph_Doc_Fetch", 
+            "Retrieve.Unified_Reranking", "Retrieve.QdrantNeo4j_Enrich", "Retrieve.Neo4j_Subgraph",
+            "3. Generate_time", 
+            "Generate.BuildContext", "Generate.LLM_Call", "Generate.FilterRefs",
+            "4. Reflect_time"
         ]
         
         for step_key in execution_order:
