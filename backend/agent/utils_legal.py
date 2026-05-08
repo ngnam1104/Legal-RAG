@@ -384,7 +384,8 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     OPTIONAL MATCH (c3:LegalArticle) WHERE c3.qdrant_id = cid OR c3.id = cid
     WITH cid, coalesce(c1, c2, c3) AS c
     WHERE c IS NOT NULL
-    OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
+    // Mở rộng từ node lá lên cha (0..2 bước PART_OF) để lấy thực thể
+    OPTIONAL MATCH (c)-[:PART_OF*0..2]->(p)-[:HAS_ENTITY]->(e)
     WHERE e.name IS NOT NULL
     RETURN cid AS chunk_id,
            labels(e)[0] AS entity_type,
@@ -400,7 +401,9 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     OPTIONAL MATCH (c3:LegalArticle) WHERE c3.qdrant_id = cid OR c3.id = cid
     WITH cid, coalesce(c1, c2, c3) AS c
     WHERE c IS NOT NULL
-    OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)
+    // Mở rộng từ lá lên cha để tìm thực thể nguồn
+    OPTIONAL MATCH (c)-[:PART_OF*0..2]->(p)-[:HAS_ENTITY]->(src_ent)
+    // Từ thực thể nguồn, tìm quan hệ tới thực thể khác
     OPTIONAL MATCH (src_ent)-[nr]->(tgt)
     WHERE nr IS NOT NULL AND NOT type(nr) IN ['HAS_ENTITY'] AND (tgt.name IS NOT NULL OR tgt.document_number IS NOT NULL)
     RETURN
