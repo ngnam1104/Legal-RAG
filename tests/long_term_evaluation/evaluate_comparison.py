@@ -90,9 +90,10 @@ CÂU HỎI: {query}
 ĐÁP ÁN MẪU: {ground_truth}
 CÂU TRẢ LỜI CỦA {system_name}: {answer}
 
-TIÊU CHÍ:
-- ✅ ĐẠT: Đúng bản chất pháp lý, đúng căn cứ (Điều/Khoản) và giữ được ngữ cảnh multi-turn.
-- ❌ KHÔNG ĐẠT: Sai luật, thiếu căn cứ hoặc bị mất ngữ cảnh (quên nhân vật/văn bản đã nhắc).
+TIÊU CHÍ (Nới lỏng):
+- ✅ ĐẠT: Đúng bản chất pháp lý và giữ được ngữ cảnh multi-turn. KHÔNG BẮT BUỘC phải có số Điều/Khoản chính xác nếu nội dung pháp lý đã đúng.
+- ✅ ĐẠT: Nếu {system_name} diễn giải bằng ngôn ngữ tự nhiên nhưng khớp với ý chính của ĐÁP ÁN MẪU.
+- ❌ KHÔNG ĐẠT: Sai lệch hoàn toàn về bản chất pháp lý, đưa ra thông tin trái luật, hoặc bị mất hoàn toàn ngữ cảnh hội thoại.
 
 TRẢ VỀ: Một dòng bắt đầu bằng "✅ ĐẠT" hoặc "❌ KHÔNG ĐẠT" kèm lý do ngắn gọn.
 """
