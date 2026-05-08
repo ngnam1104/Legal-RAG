@@ -31,8 +31,8 @@ TRẢ VỀ JSON DUY NHẤT:
 {{
     "reasoning": "Tại sao lại phân loại vào Intent này?",
     "intent": "LEGAL_CHAT | GENERAL_CHAT",
-    "standalone_query": "[CÂU HỎI VIẾT LẠI HOÀN CHỈNH - Ngắn gọn, súc tích, tuyệt đối không chứa nội dung trả lời]",
-    "hypothetical_query": "[Giống standalone_query nhưng có thể thêm 1 vài từ khóa pháp lý bổ trợ]",
+    "standalone_query": "[CÂU HỎI VIẾT LẠI HOÀN CHỈNH - Chỉ phục hồi đại từ và định danh văn bản từ HISTORY. TUYỆT ĐỐI KHÔNG thêm thông tin bên ngoài]",
+    "hypothetical_query": "[CÂU HỎI VIẾT LẠI HOÀN CHỈNH - Tuyệt đối KHÔNG tự ý thêm lĩnh vực, nội dung hay từ khóa nếu không có trong HISTORY hoặc QUERY]",
     "filters": {{
         "legal_type": "...",
         "doc_number": "...",

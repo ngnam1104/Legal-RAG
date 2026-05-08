@@ -448,38 +448,56 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     LIMIT 50
     """
 
+    from concurrent.futures import ThreadPoolExecutor
+
     result = {"doc_relations": [], "entities": [], "node_relations": [], "sibling_texts": []}
 
+    def run_query(query_name, cypher_query):
+        try:
+            t_start = time.perf_counter()
+            with driver.session() as session:
+                data = session.run(cypher_query, ids=entity_ids).data()
+                duration = time.perf_counter() - t_start
+                # logger.debug(f"       ⏱️ [GraphQuery] {query_name} took {duration:.2f}s")
+                return query_name, data
+        except Exception as e:
+            import logging
+            logging.getLogger("utils_legal").warning(f"fetch_related_graph query {query_name} error: {e}")
+            return query_name, []
+
+    queries = {
+        "doc_relations": doc_rel_query,
+        "entities": entity_query,
+        "node_relations": node_rel_query,
+        "sibling_texts": sibling_query
+    }
+
     try:
-        with driver.session() as session:
-            # Doc relations
-            for r in session.run(doc_rel_query, ids=entity_ids).data():
-                if r.get("target"):
-                    result["doc_relations"].append(r)
-
-            # Free-form entities
-            for r in session.run(entity_query, ids=entity_ids).data():
-                if r.get("entity_name"):
-                    result["entities"].append(r)
-
-            # Node relations
-            for r in session.run(node_rel_query, ids=entity_ids).data():
-                if r.get("source_node") and r.get("target_node"):
-                    result["node_relations"].append(r)
-                    
-            # Sibling texts
-            for r in session.run(sibling_query, ids=entity_ids).data():
-                if r.get("sibling_text") and r.get("sibling_doc"):
-                    ent = r["shared_entity"]
-                    doc_num = r["sibling_doc"]
-                    text = r["sibling_text"]
-                    formatted_sib = f"[Liên kết qua {r['entity_type']}: {ent}] - Nguồn: {doc_num}\nNội dung: {text[:1500]}"
-                    if formatted_sib not in result["sibling_texts"]:
-                        result["sibling_texts"].append(formatted_sib)
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            futures = [executor.submit(run_query, name, q) for name, q in queries.items()]
+            for future in futures:
+                name, data = future.result()
+                if name == "sibling_texts":
+                    for r in data:
+                        if r.get("sibling_text") and r.get("sibling_doc"):
+                            ent = r["shared_entity"]
+                            doc_num = r["sibling_doc"]
+                            text = r["sibling_text"]
+                            formatted_sib = f"[Liên kết qua {r['entity_type']}: {ent}] - Nguồn: {doc_num}\nNội dung: {text[:1500]}"
+                            if formatted_sib not in result["sibling_texts"]:
+                                result["sibling_texts"].append(formatted_sib)
+                else:
+                    # For doc_relations, entities, node_relations, just filter/append
+                    if name == "doc_relations":
+                        result[name] = [r for r in data if r.get("target")]
+                    elif name == "entities":
+                        result[name] = [r for r in data if r.get("entity_name")]
+                    elif name == "node_relations":
+                        result[name] = [r for r in data if r.get("source_node") and r.get("target_node")]
 
     except Exception as e:
         import logging
-        logging.getLogger("utils_legal").warning(f"fetch_related_graph error: {e}")
+        logging.getLogger("utils_legal").warning(f"fetch_related_graph parallel execution error: {e}")
 
     return result
 
