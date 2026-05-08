@@ -352,24 +352,24 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     # ── Query 1: Document-level Relations (AMENDS, REPLACES, BASED_ON, etc.) ──
     doc_rel_query = """
     UNWIND $ids AS cid
-    OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+    OPTIONAL MATCH (c1:Chunk) WHERE c1.qdrant_id = cid OR c1.id = cid
+    OPTIONAL MATCH (c2:Clause) WHERE c2.qdrant_id = cid OR c2.id = cid
+    OPTIONAL MATCH (c3:LegalArticle) WHERE c3.qdrant_id = cid OR c3.id = cid
     WITH cid, coalesce(c1, c2, c3) AS c
     WHERE c IS NOT NULL
     // Lấy quan hệ thuộc về Document node cha
     OPTIONAL MATCH (c)-[:BELONGS_TO|PART_OF*1..3]->(doc:Document)
-    OPTIONAL MATCH (doc)-[dr]->(other_doc:Document)
-    WHERE type(dr) IN ['AMENDS','REPLACES','REPEALS','BASED_ON','GUIDES','APPLIES','ISSUED_WITH','ASSIGNS','CORRECTS']
-    WITH c, cid, doc, other_doc,
+    OPTIONAL MATCH (doc)-[dr]->(target)
+    WHERE type(dr) IN ['AMENDS','REPLACES','REPEALS','BASED_ON','GUIDES','APPLIES','ISSUED_WITH','ASSIGNS','CORRECTS','ISSUED_BY','SIGNED_BY','HAS_TYPE','HAS_SECTOR']
+    WITH c, cid, doc, target,
          type(dr) AS rel_type,
          dr.target_article AS target_article,
          dr.chunk_text AS chunk_text
     WHERE rel_type IS NOT NULL
     RETURN
         coalesce(doc.document_number, cid) AS source,
-        other_doc.document_number AS target,
-        other_doc.title AS target_title,
+        coalesce(target.document_number, target.name, target.id) AS target,
+        target.title AS target_title,
         rel_type,
         target_article,
         chunk_text
@@ -379,9 +379,9 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     # ── Query 2: Free-form Entities linked to chunk nodes (HAS_ENTITY) ──
     entity_query = """
     UNWIND $ids AS cid
-    OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+    OPTIONAL MATCH (c1:Chunk) WHERE c1.qdrant_id = cid OR c1.id = cid
+    OPTIONAL MATCH (c2:Clause) WHERE c2.qdrant_id = cid OR c2.id = cid
+    OPTIONAL MATCH (c3:LegalArticle) WHERE c3.qdrant_id = cid OR c3.id = cid
     WITH cid, coalesce(c1, c2, c3) AS c
     WHERE c IS NOT NULL
     OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
@@ -395,20 +395,20 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     # ── Query 3: Free-form Node Relations (RESPONSIBLE_FOR, SIGNED_BY, etc.) ──
     node_rel_query = """
     UNWIND $ids AS cid
-    OPTIONAL MATCH (c1:Chunk {qdrant_id: cid})
-    OPTIONAL MATCH (c2:Clause {qdrant_id: cid})
-    OPTIONAL MATCH (c3:LegalArticle {qdrant_id: cid})
+    OPTIONAL MATCH (c1:Chunk) WHERE c1.qdrant_id = cid OR c1.id = cid
+    OPTIONAL MATCH (c2:Clause) WHERE c2.qdrant_id = cid OR c2.id = cid
+    OPTIONAL MATCH (c3:LegalArticle) WHERE c3.qdrant_id = cid OR c3.id = cid
     WITH cid, coalesce(c1, c2, c3) AS c
     WHERE c IS NOT NULL
     OPTIONAL MATCH (c)-[:HAS_ENTITY]->(src_ent)
     OPTIONAL MATCH (src_ent)-[nr]->(tgt)
-    WHERE nr IS NOT NULL AND NOT type(nr) IN ['HAS_ENTITY']
+    WHERE nr IS NOT NULL AND NOT type(nr) IN ['HAS_ENTITY'] AND (tgt.name IS NOT NULL OR tgt.document_number IS NOT NULL)
     RETURN
         labels(src_ent)[0] AS source_type,
         src_ent.name AS source_node,
         type(nr) AS relationship,
         labels(tgt)[0] AS target_type,
-        tgt.name AS target_node,
+        coalesce(tgt.name, tgt.document_number) AS target_node,
         nr.chunk_text AS chunk_text
     LIMIT 500
     """
