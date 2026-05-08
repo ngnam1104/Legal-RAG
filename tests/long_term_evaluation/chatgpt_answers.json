@@ -288,293 +288,293 @@
         ]
     },
     {
-    "session_name": "Xử lý hồ sơ đăng ký thuốc generic và ngoại lệ CPP",
-    "document_id": "32/2018/TT-BYT",
-    "turns": [
-        {
-            "turn": 1,
-            "query": "Vui lòng cung cấp thông tin cơ bản về Thông tư 32/2018/TT-BYT, bao gồm tên đầy đủ, lĩnh vực điều chỉnh và mục đích chính của văn bản này.",
-            "answer": "Thông tư 32/2018/TT-BYT là văn bản do Bộ Y tế ban hành, quy định việc đăng ký lưu hành thuốc và nguyên liệu làm thuốc. Văn bản thuộc lĩnh vực quản lý dược và có mục đích hướng dẫn chi tiết về hồ sơ, thủ tục, điều kiện cấp, gia hạn, thay đổi, bổ sung số đăng ký thuốc nhằm bảo đảm chất lượng, an toàn và hiệu quả của thuốc lưu hành tại Việt Nam."
-        },
-        {
-            "turn": 2,
-            "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các Nghị định và Luật liên quan được trích dẫn trong phần căn cứ.",
-            "answer": "Thông tư được ban hành dựa trên các căn cứ pháp lý gồm: Luật Dược năm 2016; Nghị định 54/2017/NĐ-CP quy định chi tiết một số điều và biện pháp thi hành Luật Dược; và Nghị định 75/2017/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế."
-        },
-        {
-            "turn": 3,
-            "query": "Công ty Dược phẩm ABC muốn đăng ký lưu hành một loại thuốc generic nhập khẩu từ Ấn Độ. Tuy nhiên, cơ quan quản lý tại Ấn Độ không cấp Giấy chứng nhận lưu hành tự do (CPP) theo đúng mẫu chuẩn quốc tế mà Việt Nam yêu cầu, nhưng thuốc này đã được cấp phép và lưu hành thực tế tại đó. Ngoài ra, công ty chưa có báo cáo nghiên cứu tương đương sinh học (BE) thực hiện tại Việt Nam. Trong tình huống này, hồ sơ kỹ thuật cần đáp ứng những yêu cầu gì về CPP hoặc BE theo quy định của Thông tư 32?",
-            "answer": "Theo Thông tư 32/2018/TT-BYT, hồ sơ đăng ký thuốc generic nhập khẩu phải có CPP theo mẫu quy định. Trường hợp không có CPP đúng mẫu nhưng thuốc đã được phép lưu hành tại nước sở tại, có thể thay thế bằng tài liệu pháp lý chứng minh việc lưu hành hợp pháp của thuốc tại nước đó. Về BE, thuốc generic phải có báo cáo nghiên cứu tương đương sinh học, trừ các trường hợp được miễn theo quy định (ví dụ: thuốc thuộc danh mục miễn BE hoặc có cơ sở khoa học chứng minh tương đương). Nếu chưa có BE tại Việt Nam, có thể sử dụng dữ liệu BE thực hiện ở nước ngoài nếu đáp ứng tiêu chuẩn và được Bộ Y tế chấp nhận."
-        },
-        {
-            "turn": 4,
-            "query": "Giả sử trong tình huống trên, công ty ABC không thể thực hiện nghiên cứu BE tại Việt Nam do chi phí quá cao và thời gian gấp rút vì đây là thuốc phục vụ cho chương trình y tế quốc gia phòng chống dịch bệnh mới nổi. Họ vẫn không cung cấp được CPP chuẩn. Liệu Bộ trưởng Bộ Y tế có thể xem xét cấp phép lưu hành không? Nếu có, cần đáp ứng điều kiện gì và quy trình ra sao?",
-            "answer": "Trong trường hợp đặc biệt vì nhu cầu cấp bách phục vụ phòng, chống dịch bệnh, Bộ trưởng Bộ Y tế có thể xem xét cấp phép lưu hành thuốc trên cơ sở hồ sơ chưa đầy đủ CPP hoặc BE theo quy định thông thường. Điều kiện là thuốc phải có dữ liệu chứng minh về chất lượng, an toàn, hiệu quả; có tài liệu chứng minh đã được sử dụng và lưu hành tại nước ngoài; và có đề xuất, thẩm định của cơ quan chuyên môn (Cục Quản lý Dược). Quy trình thực hiện theo cơ chế xem xét đặc biệt, rút gọn thời gian thẩm định và trình Bộ trưởng quyết định."
-        },
-        {
-            "turn": 5,
-            "query": "Nếu công ty ABC lựa chọn phương án nộp hồ sơ đăng ký thông thường (không áp dụng ngoại lệ điểm k Điều 23) và đã chuẩn bị hồ sơ theo chuẩn ICH-CTD, thì họ có cần chuyển đổi hồ sơ sang mẫu ACTD (Hồ sơ kỹ thuật chung ASEAN) không? Quy định về định dạng hồ sơ kỹ thuật trong trường hợp này là gì?",
-            "answer": "Theo Thông tư 32/2018/TT-BYT, hồ sơ kỹ thuật đăng ký thuốc tại Việt Nam được chấp nhận theo định dạng ACTD hoặc ICH-CTD. Do đó, nếu công ty đã chuẩn bị hồ sơ theo chuẩn ICH-CTD thì không bắt buộc phải chuyển đổi sang ACTD, miễn là hồ sơ đáp ứng đầy đủ các nội dung và cấu trúc theo quy định và được cơ quan thẩm định chấp nhận."
-        },
-        {
-            "turn": 6,
-            "query": "Trong quá trình thẩm định hồ sơ kỹ thuật cho đơn vị đóng gói nhỏ nhất, nếu thuốc của công ty ABC được sản xuất từ bán thành phẩm dược liệu, hồ sơ cần ghi rõ những thông tin gì về công thức? Và tiêu chuẩn chất lượng thành phẩm sẽ áp dụng văn bản pháp lý nào?",
-            "answer": "Hồ sơ cần ghi rõ công thức đầy đủ của thành phẩm, bao gồm thành phần, hàm lượng của từng dược chất và tá dược, cũng như nguồn gốc của bán thành phẩm dược liệu sử dụng. Đối với thuốc từ dược liệu, cần nêu rõ dạng bào chế trung gian và quy trình chuyển thành thành phẩm. Tiêu chuẩn chất lượng thành phẩm được áp dụng theo Dược điển Việt Nam hoặc tiêu chuẩn cơ sở do cơ sở sản xuất xây dựng và được Bộ Y tế chấp nhận."
-        }
-    ]
-},
-    {
-    "session_name": "Xử lý hồ sơ đăng ký thuốc nhập khẩu thiếu CPP và áp dụng quy định ICH-CTD",
-    "document_id": "32/2018/TT-BYT",
-    "turns": [
-        {
-            "turn": 1,
-            "query": "Thông tư 32/2018/TT-BYT quy định về nội dung gì và được ban hành bởi ai?",
-            "answer": "Thông tư 32/2018/TT-BYT quy định về việc đăng ký lưu hành thuốc và nguyên liệu làm thuốc tại Việt Nam, bao gồm hồ sơ, thủ tục cấp, gia hạn, thay đổi, bổ sung số đăng ký. Văn bản này do Bộ trưởng Bộ Y tế ban hành."
-        },
-        {
-            "turn": 2,
-            "query": "Văn bản này có căn cứ vào những nghị định nào của Chính phủ để quy định chức năng nhiệm vụ và điều kiện đầu tư kinh doanh không?",
-            "answer": "Thông tư 32/2018/TT-BYT được ban hành căn cứ vào các nghị định của Chính phủ, bao gồm: Nghị định 54/2017/NĐ-CP quy định chi tiết một số điều và biện pháp thi hành Luật Dược; và Nghị định 75/2017/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế."
-        },
-        {
-            "turn": 3,
-            "query": "Tôi là đại diện cho một công ty dược muốn nhập khẩu một loại vắc xin mới để phục vụ chương trình y tế quốc gia phòng chống dịch bệnh. Tuy nhiên, vắc xin này chưa có Giấy chứng nhận lưu hành tự do (CPP) đáp ứng đầy đủ các quy định tại điểm đ, e, g, h khoản Điều 23. Trong trường hợp này, tôi cần làm gì để có thể đăng ký lưu hành theo Thông tư 32/2018/TT-BYT?",
-            "answer": "Trong trường hợp vắc xin chưa có CPP đáp ứng đầy đủ quy định, doanh nghiệp có thể áp dụng cơ chế xem xét đặc biệt. Cụ thể, cần bổ sung các tài liệu chứng minh thuốc đã được cấp phép và sử dụng thực tế tại nước sản xuất hoặc quốc gia khác; cung cấp dữ liệu đầy đủ về chất lượng, an toàn, hiệu quả; đồng thời có văn bản đề nghị xem xét theo nhu cầu cấp bách phục vụ chương trình y tế quốc gia. Hồ sơ sẽ được Cục Quản lý Dược thẩm định và trình Bộ trưởng Bộ Y tế xem xét quyết định theo cơ chế đặc biệt."
-        },
-        {
-            "turn": 4,
-            "query": "Nếu vắc xin nói trên cũng là một loại thuốc generic có báo cáo nghiên cứu tương đương sinh học nhưng vẫn không có CPP đáp ứng quy định tại điểm h, thì yêu cầu về báo cáo nghiên cứu tương đương sinh học cụ thể như thế nào để đảm bảo tính pháp lý khi nộp hồ sơ?",
-            "answer": "Trong trường hợp này, báo cáo nghiên cứu tương đương sinh học (BE) phải được thực hiện theo hướng dẫn kỹ thuật được công nhận (WHO, ASEAN hoặc ICH), tại cơ sở nghiên cứu đạt tiêu chuẩn GCP. Dữ liệu BE phải đầy đủ, hợp lệ, có so sánh với thuốc đối chứng phù hợp và chứng minh được sự tương đương về sinh khả dụng. Báo cáo có thể được thực hiện ở nước ngoài nhưng phải được cơ quan quản lý Việt Nam xem xét, chấp nhận để đảm bảo tính pháp lý khi nộp hồ sơ."
-        },
-        {
-            "turn": 5,
-            "query": "Về mặt hình thức hồ sơ kỹ thuật, nếu tôi chuẩn bị hồ sơ theo mẫu ICH-CTD thay vì ACTD, thì tôi có cần phải chuyển đổi hồ sơ sang định dạng ASEAN không? Và hồ sơ kỹ thuật chung cần tuân theo các hướng dẫn nào?",
-            "answer": "Theo quy định, hồ sơ kỹ thuật đăng ký thuốc tại Việt Nam có thể nộp theo định dạng ACTD hoặc ICH-CTD. Do đó, nếu đã chuẩn bị theo ICH-CTD thì không bắt buộc phải chuyển đổi sang ACTD. Hồ sơ cần tuân theo cấu trúc CTD (Module 1–5) và các hướng dẫn kỹ thuật liên quan của ICH, ASEAN hoặc Bộ Y tế Việt Nam về nội dung, chất lượng, an toàn và hiệu quả."
-        },
-        {
-            "turn": 6,
-            "query": "Thông tư 32/2018/TT-BYT có mối quan hệ kế thừa hay sửa đổi so với các thông tư trước đây về đăng ký thuốc không? Cụ thể là thông tư nào?",
-            "answer": "Thông tư 32/2018/TT-BYT mang tính thay thế và kế thừa các quy định trước đây về đăng ký thuốc, đặc biệt là thay thế Thông tư 44/2014/TT-BYT về đăng ký thuốc. Văn bản này cập nhật, đồng bộ hóa quy định theo Luật Dược 2016 và các nghị định hướng dẫn, đồng thời bổ sung các tiêu chuẩn quốc tế như ACTD/ICH-CTD."
-        }
-    ]
-},
-    {
-    "session_name": "Xử lý thủ tục báo cáo thay đổi và điều chỉnh GSP cho cơ sở bán lẻ thuốc",
-    "document_id": "11/2025/TT-BYT",
-    "turns": [
-        {
-            "turn": 1,
-            "query": "Thông tư 11/2025/TT-BYT được ban hành nhằm mục đích sửa đổi hay bổ sung những nội dung nào trong hệ thống văn bản quy phạm pháp luật về dược?",
-            "answer": "Thông tư 11/2025/TT-BYT được ban hành nhằm sửa đổi, bổ sung một số quy định liên quan đến điều kiện kinh doanh dược, đặc biệt là các tiêu chuẩn thực hành tốt như GPP (Thực hành tốt nhà thuốc) và GSP (Thực hành tốt bảo quản thuốc), cũng như thủ tục hành chính liên quan đến cấp, điều chỉnh, báo cáo thay đổi đối với cơ sở kinh doanh dược. Văn bản này cập nhật và hoàn thiện các quy định trước đó để phù hợp với thực tiễn quản lý và Luật Dược hiện hành."
-        },
-        {
-            "turn": 2,
-            "query": "Văn bản này có hiệu lực thi hành từ khi nào và dựa trên căn cứ pháp lý chính nào để quy định về tiêu chuẩn GSP như đã đề cập ở lượt trước?",
-            "answer": "Thông tư 11/2025/TT-BYT có hiệu lực thi hành từ năm 2025 (theo thời điểm được quy định cụ thể trong văn bản). Văn bản này được ban hành dựa trên Luật Dược 2016 và các nghị định hướng dẫn thi hành, đặc biệt là Nghị định 54/2017/NĐ-CP (và các văn bản sửa đổi, bổ sung), làm cơ sở pháp lý để quy định chi tiết về tiêu chuẩn GSP và điều kiện bảo quản thuốc."
-        },
-        {
-            "turn": 3,
-            "query": "Tôi đại diện cho một nhà thuốc bán lẻ đã được cấp Giấy chứng nhận GPP. Hiện tại, cơ sở tôi có nhu cầu mở rộng hoạt động bằng cách thiết lập thêm một kho bảo quản thuốc riêng biệt để phục vụ xuất nhập khẩu và kinh doanh dịch vụ bảo quản. Theo quy định mới, tôi cần thực hiện những bước gì để đảm bảo cơ sở kho này đáp ứng tiêu chuẩn GSP? Tình huống này có liên quan đến việc thông báo chấm dứt hoạt động thương mại điện tử không?",
-            "answer": "Trong trường hợp này, kho bảo quản thuốc là một cơ sở độc lập về chức năng nên phải đáp ứng tiêu chuẩn GSP. Cơ sở cần: (i) xây dựng cơ sở vật chất, trang thiết bị đáp ứng yêu cầu bảo quản; (ii) bố trí nhân sự chuyên môn phù hợp; (iii) xây dựng hệ thống quản lý chất lượng; và (iv) lập hồ sơ đề nghị đánh giá đáp ứng GSP hoặc thực hiện thủ tục thông báo đáp ứng theo quy định mới. Việc thiết lập kho GSP không liên quan đến thủ tục thông báo chấm dứt hoạt động thương mại điện tử, vì đây là hai nội dung quản lý khác nhau."
-        },
-        {
-            "turn": 4,
-            "query": "Trong trường hợp tôi đã gửi thông báo đáp ứng GSP như ở lượt 3, nhưng sau đó cơ sở kho của tôi có sự thay đổi về địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, tôi cần xử lý như thế nào? Quy trình này có yêu cầu phải nộp lại toàn bộ hồ sơ xin cấp lại giấy chứng nhận GSP hay chỉ cần báo cáo thay đổi?",
-            "answer": "Khi có thay đổi về thông tin như địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, cơ sở không nhất thiết phải nộp lại toàn bộ hồ sơ xin cấp mới giấy chứng nhận GSP. Thay vào đó, cần thực hiện thủ tục báo cáo thay đổi theo mẫu và quy định tương ứng, gửi đến cơ quan quản lý dược có thẩm quyền. Chỉ trong trường hợp thay đổi làm ảnh hưởng bản chất điều kiện bảo quản hoặc cấu trúc cơ sở thì mới có thể bị yêu cầu đánh giá lại."
-        },
-        {
-            "turn": 5,
-            "query": "Chi tiết hơn, nếu tôi sử dụng 'Mẫu số 04/GPP' để báo cáo thay đổi cho nhà thuốc bán lẻ (phần bán lẻ, không phải kho GSP), tôi cần đính kèm những giấy tờ cụ thể nào theo quy định trong văn bản?",
-            "answer": "Khi sử dụng Mẫu số 04/GPP để báo cáo thay đổi, cơ sở bán lẻ cần đính kèm các tài liệu chứng minh nội dung thay đổi, bao gồm: (i) tài liệu pháp lý liên quan đến thay đổi địa điểm, tên cơ sở; (ii) chứng chỉ hành nghề dược của người chịu trách nhiệm chuyên môn mới (nếu có thay đổi); (iii) tài liệu chứng minh cơ sở vật chất, trang thiết bị đáp ứng yêu cầu GPP; và (iv) các tài liệu liên quan khác theo yêu cầu cụ thể của cơ quan quản lý."
-        },
-        {
-            "turn": 6,
-            "query": "Giấy chứng nhận GSP (Mẫu số 05) mà tôi sẽ nhận được sau khi hoàn tất thủ tục cho kho bảo quản có thời hạn hiệu lực là bao lâu? Và mối quan hệ của văn bản này với Nghị định 42/2025/NĐ-CP là gì?",
-            "answer": "Giấy chứng nhận GSP (Mẫu số 05) có thời hạn hiệu lực thông thường là 3 năm kể từ ngày cấp. Thông tư 11/2025/TT-BYT là văn bản quy định chi tiết trong lĩnh vực dược, trong khi Nghị định 42/2025/NĐ-CP quy định về chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế. Do đó, mối quan hệ giữa hai văn bản là quan hệ căn cứ – triển khai: Thông tư được ban hành dựa trên thẩm quyền quản lý nhà nước của Bộ Y tế theo nghị định, nhưng không thay thế hay sửa đổi nghị định này."
-        }
-    ]
-},
-    {
-    "session_name": "Xử lý thủ tục báo cáo thay đổi và điều chỉnh GSP cho cơ sở bán lẻ thuốc",
-    "document_id": "11/2025/TT-BYT",
-    "turns": [
-        {
-            "turn": 1,
-            "query": "Thông tư 11/2025/TT-BYT được ban hành nhằm mục đích sửa đổi hay bổ sung những nội dung nào trong hệ thống văn bản quy phạm pháp luật về dược?",
-            "answer": "Thông tư 11/2025/TT-BYT được ban hành nhằm sửa đổi, bổ sung một số quy định liên quan đến điều kiện kinh doanh dược, đặc biệt là các tiêu chuẩn thực hành tốt như GPP (Thực hành tốt nhà thuốc) và GSP (Thực hành tốt bảo quản thuốc), cũng như thủ tục hành chính liên quan đến cấp, điều chỉnh, báo cáo thay đổi đối với cơ sở kinh doanh dược. Văn bản này cập nhật và hoàn thiện các quy định trước đó để phù hợp với thực tiễn quản lý và Luật Dược hiện hành."
-        },
-        {
-            "turn": 2,
-            "query": "Văn bản này có hiệu lực thi hành từ khi nào và dựa trên căn cứ pháp lý chính nào để quy định về tiêu chuẩn GSP như đã đề cập ở lượt trước?",
-            "answer": "Thông tư 11/2025/TT-BYT có hiệu lực thi hành từ năm 2025 (theo thời điểm được quy định cụ thể trong văn bản). Văn bản này được ban hành dựa trên Luật Dược 2016 và các nghị định hướng dẫn thi hành, đặc biệt là Nghị định 54/2017/NĐ-CP (và các văn bản sửa đổi, bổ sung), làm cơ sở pháp lý để quy định chi tiết về tiêu chuẩn GSP và điều kiện bảo quản thuốc."
-        },
-        {
-            "turn": 3,
-            "query": "Tôi đại diện cho một nhà thuốc bán lẻ đã được cấp Giấy chứng nhận GPP. Hiện tại, cơ sở tôi có nhu cầu mở rộng hoạt động bằng cách thiết lập thêm một kho bảo quản thuốc riêng biệt để phục vụ xuất nhập khẩu và kinh doanh dịch vụ bảo quản. Theo quy định mới, tôi cần thực hiện những bước gì để đảm bảo cơ sở kho này đáp ứng tiêu chuẩn GSP? Tình huống này có liên quan đến việc thông báo chấm dứt hoạt động thương mại điện tử không?",
-            "answer": "Trong trường hợp này, kho bảo quản thuốc là một cơ sở độc lập về chức năng nên phải đáp ứng tiêu chuẩn GSP. Cơ sở cần: (i) xây dựng cơ sở vật chất, trang thiết bị đáp ứng yêu cầu bảo quản; (ii) bố trí nhân sự chuyên môn phù hợp; (iii) xây dựng hệ thống quản lý chất lượng; và (iv) lập hồ sơ đề nghị đánh giá đáp ứng GSP hoặc thực hiện thủ tục thông báo đáp ứng theo quy định mới. Việc thiết lập kho GSP không liên quan đến thủ tục thông báo chấm dứt hoạt động thương mại điện tử, vì đây là hai nội dung quản lý khác nhau."
-        },
-        {
-            "turn": 4,
-            "query": "Trong trường hợp tôi đã gửi thông báo đáp ứng GSP như ở lượt 3, nhưng sau đó cơ sở kho của tôi có sự thay đổi về địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, tôi cần xử lý như thế nào? Quy trình này có yêu cầu phải nộp lại toàn bộ hồ sơ xin cấp lại giấy chứng nhận GSP hay chỉ cần báo cáo thay đổi?",
-            "answer": "Khi có thay đổi về thông tin như địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, cơ sở không nhất thiết phải nộp lại toàn bộ hồ sơ xin cấp mới giấy chứng nhận GSP. Thay vào đó, cần thực hiện thủ tục báo cáo thay đổi theo mẫu và quy định tương ứng, gửi đến cơ quan quản lý dược có thẩm quyền. Chỉ trong trường hợp thay đổi làm ảnh hưởng bản chất điều kiện bảo quản hoặc cấu trúc cơ sở thì mới có thể bị yêu cầu đánh giá lại."
-        },
-        {
-            "turn": 5,
-            "query": "Chi tiết hơn, nếu tôi sử dụng 'Mẫu số 04/GPP' để báo cáo thay đổi cho nhà thuốc bán lẻ (phần bán lẻ, không phải kho GSP), tôi cần đính kèm những giấy tờ cụ thể nào theo quy định trong văn bản?",
-            "answer": "Khi sử dụng Mẫu số 04/GPP để báo cáo thay đổi, cơ sở bán lẻ cần đính kèm các tài liệu chứng minh nội dung thay đổi, bao gồm: (i) tài liệu pháp lý liên quan đến thay đổi địa điểm, tên cơ sở; (ii) chứng chỉ hành nghề dược của người chịu trách nhiệm chuyên môn mới (nếu có thay đổi); (iii) tài liệu chứng minh cơ sở vật chất, trang thiết bị đáp ứng yêu cầu GPP; và (iv) các tài liệu liên quan khác theo yêu cầu cụ thể của cơ quan quản lý."
-        },
-        {
-            "turn": 6,
-            "query": "Giấy chứng nhận GSP (Mẫu số 05) mà tôi sẽ nhận được sau khi hoàn tất thủ tục cho kho bảo quản có thời hạn hiệu lực là bao lâu? Và mối quan hệ của văn bản này với Nghị định 42/2025/NĐ-CP là gì?",
-            "answer": "Giấy chứng nhận GSP (Mẫu số 05) có thời hạn hiệu lực thông thường là 3 năm kể từ ngày cấp. Thông tư 11/2025/TT-BYT là văn bản quy định chi tiết trong lĩnh vực dược, trong khi Nghị định 42/2025/NĐ-CP quy định về chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế. Do đó, mối quan hệ giữa hai văn bản là quan hệ căn cứ – triển khai: Thông tư được ban hành dựa trên thẩm quyền quản lý nhà nước của Bộ Y tế theo nghị định, nhưng không thay thế hay sửa đổi nghị định này."
-        }
-    ]
-},
-    {
-    "session_name": "Tư vấn cơ cấu tổ chức UBND cấp huyện và quận theo Luật 77/2015",
-    "document_id": "77/2015/QH13",
-    "turns": [
-        {
-            "turn": 1,
-            "query": "Xin chào. Tôi cần tra cứu thông tin về văn bản pháp luật có ký hiệu 77/2015/QH13. Văn bản này là gì và thuộc lĩnh vực nào?",
-            "answer": "Văn bản 77/2015/QH13 là Luật Tổ chức chính quyền địa phương năm 2015 do Quốc hội ban hành. Văn bản này thuộc lĩnh vực tổ chức bộ máy nhà nước, cụ thể là quy định về tổ chức, nhiệm vụ, quyền hạn của chính quyền địa phương các cấp (tỉnh, huyện, xã)."
-        },
-        {
-            "turn": 2,
-            "query": "Cảm ơn bạn. Với văn bản này, tôi muốn biết cụ thể hơn về hiệu lực thi hành và các văn bản pháp lý nào đã làm căn cứ để ban hành nó?",
-            "answer": "Luật 77/2015/QH13 có hiệu lực thi hành từ ngày 01/01/2016. Căn cứ ban hành luật này là Hiến pháp năm 2013 của nước Cộng hòa xã hội chủ nghĩa Việt Nam, trong đó quy định về tổ chức chính quyền địa phương và nguyên tắc phân cấp quản lý nhà nước."
-        },
-        {
-            "turn": 3,
-            "query": "Tôi đang xử lý một tình huống thực tế tại Huyện A (được xếp loại I) vừa được thành lập. Ban lãnh đạo huyện dự kiến bổ nhiệm 4 Phó Chủ tịch UBND huyện cùng với các Ủy viên phụ trách quân sự, công an và người đứng đầu các phòng chuyên môn. Hãy phân tích xem cơ cấu đề xuất này có phù hợp với quy định của Luật 77/2015/QH13 không? Nếu không, hãy chỉ ra sai sót cụ thể dựa trên điều khoản về cơ cấu tổ chức.",
-            "answer": "Cơ cấu đề xuất là không phù hợp. Theo Luật Tổ chức chính quyền địa phương 2015, UBND cấp huyện (bao gồm huyện loại I) có không quá 03 Phó Chủ tịch. Việc đề xuất 04 Phó Chủ tịch là vượt quá số lượng tối đa theo quy định pháp luật. Về thành phần Ủy viên UBND, bao gồm người đứng đầu cơ quan chuyên môn, Chỉ huy trưởng Ban Chỉ huy quân sự và Trưởng Công an là phù hợp. Như vậy, sai sót nằm ở số lượng Phó Chủ tịch vượt khung cho phép."
-        },
-        {
-            "turn": 4,
-            "query": "Đúng vậy, chúng tôi đã điều chỉnh xuống còn 3 Phó Chủ tịch. Bây giờ, giả sử sau khi bầu cử HĐND khóa mới, Chủ tịch UBND huyện cũ hết nhiệm kỳ nhưng HĐND chưa kịp bầu Chủ tịch mới. Trong khoảng thời gian trống này, ai sẽ đảm nhiệm vai trò Quyền Chủ tịch UBND huyện để bảo đảm hoạt động liên tục? Và cơ quan nào có thẩm quyền chỉ định người này?",
-            "answer": "Trong trường hợp khuyết Chủ tịch UBND huyện, một Phó Chủ tịch UBND sẽ được giao phụ trách, điều hành hoạt động của UBND (tức là Quyền Chủ tịch). Thẩm quyền giao nhiệm vụ này thuộc Chủ tịch UBND cấp trên trực tiếp (tức Chủ tịch UBND cấp tỉnh) quyết định, nhằm bảo đảm tính liên tục của hoạt động hành chính nhà nước."
-        },
-        {
-            "turn": 5,
-            "query": "Rõ ràng rồi. Liên quan đến việc tổ chức bộ máy, nếu tôi chuyển sang xem xét trường hợp của một Quận B (loại II) trong cùng một tỉnh, thì cơ cấu tổ chức của UBND quận này sẽ khác biệt như thế nào so với huyện loại I刚才提到的? Cụ thể là số lượng Phó Chủ tịch tối đa và thành phần Ủy viên?",
-            "answer": "Đối với UBND quận (bao gồm quận loại II), cơ cấu tổ chức về cơ bản tương tự UBND huyện. Số lượng Phó Chủ tịch cũng không quá 03 người, giống như huyện. Thành phần Ủy viên UBND quận bao gồm người đứng đầu các cơ quan chuyên môn thuộc UBND quận, Trưởng Công an quận và Chỉ huy trưởng Ban Chỉ huy quân sự quận. Do đó, không có khác biệt đáng kể về số lượng Phó Chủ tịch và thành phần Ủy viên giữa huyện loại I và quận loại II theo luật này."
-        },
-        {
-            "turn": 6,
-            "query": "Cuối cùng, tôi muốn hiểu rõ mối quan hệ kế thừa. Luật 77/2015/QH13 này có thay thế hoàn toàn Luật Tổ chức Hội đồng nhân dân và Ủy ban Nhân dân 2003 (11/2003/QH11) không? Và liệu có bất kỳ quy định chuyển tiếp nào liên quan đến các thí điểm trước đây (như Nghị quyết 26/2008/QH12) mà tôi cần lưu ý khi áp dụng luật mới vào thực tiễn quản lý hành chính địa phương không?",
-            "answer": "Luật 77/2015/QH13 thay thế toàn bộ Luật Tổ chức Hội đồng nhân dân và Ủy ban nhân dân năm 2003 (11/2003/QH11). Đồng thời, luật này cũng chấm dứt hiệu lực của các quy định thí điểm trước đây như Nghị quyết 26/2008/QH12 về thí điểm không tổ chức HĐND ở một số địa phương. Về chuyển tiếp, các cơ quan, tổ chức được thành lập theo quy định cũ tiếp tục hoạt động cho đến khi được kiện toàn theo luật mới, bảo đảm không gián đoạn hoạt động quản lý nhà nước."
-        }
-    ]
-},
-    {
-  "session_name": "Xác định cơ cấu và quyền hạn UBND cấp huyện/quận theo Luật 77/2015/QH13",
-  "document_id": "77/2015/QH13",
-  "turns": [
-    {
-      "turn": 1,
-      "query": "Vui lòng cung cấp thông tin cơ bản về văn bản có mã số 77/2015/QH13, bao gồm tên đầy đủ của luật và lĩnh vực pháp lý mà nó điều chỉnh.",
-      "answer": "Văn bản có mã số 77/2015/QH13 là Luật Tổ chức chính quyền địa phương năm 2015. Đây là một đạo luật thuộc lĩnh vực tổ chức bộ máy nhà nước, điều chỉnh về cơ cấu tổ chức, nhiệm vụ, quyền hạn của Hội đồng nhân dân và Ủy ban nhân dân các cấp (tỉnh, huyện, xã) trong hệ thống chính quyền địa phương tại Việt Nam."
+        "session_name": "Xử lý hồ sơ đăng ký thuốc generic và ngoại lệ CPP",
+        "document_id": "32/2018/TT-BYT",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Vui lòng cung cấp thông tin cơ bản về Thông tư 32/2018/TT-BYT, bao gồm tên đầy đủ, lĩnh vực điều chỉnh và mục đích chính của văn bản này.",
+                "answer": "Thông tư 32/2018/TT-BYT là văn bản do Bộ Y tế ban hành, quy định việc đăng ký lưu hành thuốc và nguyên liệu làm thuốc. Văn bản thuộc lĩnh vực quản lý dược và có mục đích hướng dẫn chi tiết về hồ sơ, thủ tục, điều kiện cấp, gia hạn, thay đổi, bổ sung số đăng ký thuốc nhằm bảo đảm chất lượng, an toàn và hiệu quả của thuốc lưu hành tại Việt Nam."
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý cụ thể nào? Hãy liệt kê các Nghị định và Luật liên quan được trích dẫn trong phần căn cứ.",
+                "answer": "Thông tư được ban hành dựa trên các căn cứ pháp lý gồm: Luật Dược năm 2016; Nghị định 54/2017/NĐ-CP quy định chi tiết một số điều và biện pháp thi hành Luật Dược; và Nghị định 75/2017/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế."
+            },
+            {
+                "turn": 3,
+                "query": "Công ty Dược phẩm ABC muốn đăng ký lưu hành một loại thuốc generic nhập khẩu từ Ấn Độ. Tuy nhiên, cơ quan quản lý tại Ấn Độ không cấp Giấy chứng nhận lưu hành tự do (CPP) theo đúng mẫu chuẩn quốc tế mà Việt Nam yêu cầu, nhưng thuốc này đã được cấp phép và lưu hành thực tế tại đó. Ngoài ra, công ty chưa có báo cáo nghiên cứu tương đương sinh học (BE) thực hiện tại Việt Nam. Trong tình huống này, hồ sơ kỹ thuật cần đáp ứng những yêu cầu gì về CPP hoặc BE theo quy định của Thông tư 32?",
+                "answer": "Theo Thông tư 32/2018/TT-BYT, hồ sơ đăng ký thuốc generic nhập khẩu phải có CPP theo mẫu quy định. Trường hợp không có CPP đúng mẫu nhưng thuốc đã được phép lưu hành tại nước sở tại, có thể thay thế bằng tài liệu pháp lý chứng minh việc lưu hành hợp pháp của thuốc tại nước đó. Về BE, thuốc generic phải có báo cáo nghiên cứu tương đương sinh học, trừ các trường hợp được miễn theo quy định (ví dụ: thuốc thuộc danh mục miễn BE hoặc có cơ sở khoa học chứng minh tương đương). Nếu chưa có BE tại Việt Nam, có thể sử dụng dữ liệu BE thực hiện ở nước ngoài nếu đáp ứng tiêu chuẩn và được Bộ Y tế chấp nhận."
+            },
+            {
+                "turn": 4,
+                "query": "Giả sử trong tình huống trên, công ty ABC không thể thực hiện nghiên cứu BE tại Việt Nam do chi phí quá cao và thời gian gấp rút vì đây là thuốc phục vụ cho chương trình y tế quốc gia phòng chống dịch bệnh mới nổi. Họ vẫn không cung cấp được CPP chuẩn. Liệu Bộ trưởng Bộ Y tế có thể xem xét cấp phép lưu hành không? Nếu có, cần đáp ứng điều kiện gì và quy trình ra sao?",
+                "answer": "Trong trường hợp đặc biệt vì nhu cầu cấp bách phục vụ phòng, chống dịch bệnh, Bộ trưởng Bộ Y tế có thể xem xét cấp phép lưu hành thuốc trên cơ sở hồ sơ chưa đầy đủ CPP hoặc BE theo quy định thông thường. Điều kiện là thuốc phải có dữ liệu chứng minh về chất lượng, an toàn, hiệu quả; có tài liệu chứng minh đã được sử dụng và lưu hành tại nước ngoài; và có đề xuất, thẩm định của cơ quan chuyên môn (Cục Quản lý Dược). Quy trình thực hiện theo cơ chế xem xét đặc biệt, rút gọn thời gian thẩm định và trình Bộ trưởng quyết định."
+            },
+            {
+                "turn": 5,
+                "query": "Nếu công ty ABC lựa chọn phương án nộp hồ sơ đăng ký thông thường (không áp dụng ngoại lệ điểm k Điều 23) và đã chuẩn bị hồ sơ theo chuẩn ICH-CTD, thì họ có cần chuyển đổi hồ sơ sang mẫu ACTD (Hồ sơ kỹ thuật chung ASEAN) không? Quy định về định dạng hồ sơ kỹ thuật trong trường hợp này là gì?",
+                "answer": "Theo Thông tư 32/2018/TT-BYT, hồ sơ kỹ thuật đăng ký thuốc tại Việt Nam được chấp nhận theo định dạng ACTD hoặc ICH-CTD. Do đó, nếu công ty đã chuẩn bị hồ sơ theo chuẩn ICH-CTD thì không bắt buộc phải chuyển đổi sang ACTD, miễn là hồ sơ đáp ứng đầy đủ các nội dung và cấu trúc theo quy định và được cơ quan thẩm định chấp nhận."
+            },
+            {
+                "turn": 6,
+                "query": "Trong quá trình thẩm định hồ sơ kỹ thuật cho đơn vị đóng gói nhỏ nhất, nếu thuốc của công ty ABC được sản xuất từ bán thành phẩm dược liệu, hồ sơ cần ghi rõ những thông tin gì về công thức? Và tiêu chuẩn chất lượng thành phẩm sẽ áp dụng văn bản pháp lý nào?",
+                "answer": "Hồ sơ cần ghi rõ công thức đầy đủ của thành phẩm, bao gồm thành phần, hàm lượng của từng dược chất và tá dược, cũng như nguồn gốc của bán thành phẩm dược liệu sử dụng. Đối với thuốc từ dược liệu, cần nêu rõ dạng bào chế trung gian và quy trình chuyển thành thành phẩm. Tiêu chuẩn chất lượng thành phẩm được áp dụng theo Dược điển Việt Nam hoặc tiêu chuẩn cơ sở do cơ sở sản xuất xây dựng và được Bộ Y tế chấp nhận."
+            }
+        ]
     },
     {
-      "turn": 2,
-      "query": "Đối với văn bản này, hãy liệt kê các Nghị quyết hoặc Luật trước đó mà nó được xây dựng dựa trên (BASED_ON) theo thông tin đồ thị quan hệ văn bản.",
-      "answer": "Theo quan hệ pháp lý, Luật 77/2015/QH13 được xây dựng kế thừa và phát triển từ các văn bản trước đó, bao gồm: (1) Luật Tổ chức Hội đồng nhân dân và Ủy ban nhân dân năm 2003 (11/2003/QH11); (2) Nghị quyết số 26/2008/QH12 về thực hiện thí điểm không tổ chức Hội đồng nhân dân huyện, quận, phường; cùng với các chủ trương cải cách tổ chức bộ máy chính quyền địa phương trong từng giai đoạn."
+        "session_name": "Xử lý hồ sơ đăng ký thuốc nhập khẩu thiếu CPP và áp dụng quy định ICH-CTD",
+        "document_id": "32/2018/TT-BYT",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 32/2018/TT-BYT quy định về nội dung gì và được ban hành bởi ai?",
+                "answer": "Thông tư 32/2018/TT-BYT quy định về việc đăng ký lưu hành thuốc và nguyên liệu làm thuốc tại Việt Nam, bao gồm hồ sơ, thủ tục cấp, gia hạn, thay đổi, bổ sung số đăng ký. Văn bản này do Bộ trưởng Bộ Y tế ban hành."
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này có căn cứ vào những nghị định nào của Chính phủ để quy định chức năng nhiệm vụ và điều kiện đầu tư kinh doanh không?",
+                "answer": "Thông tư 32/2018/TT-BYT được ban hành căn cứ vào các nghị định của Chính phủ, bao gồm: Nghị định 54/2017/NĐ-CP quy định chi tiết một số điều và biện pháp thi hành Luật Dược; và Nghị định 75/2017/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế."
+            },
+            {
+                "turn": 3,
+                "query": "Tôi là đại diện cho một công ty dược muốn nhập khẩu một loại vắc xin mới để phục vụ chương trình y tế quốc gia phòng chống dịch bệnh. Tuy nhiên, vắc xin này chưa có Giấy chứng nhận lưu hành tự do (CPP) đáp ứng đầy đủ các quy định tại điểm đ, e, g, h khoản Điều 23. Trong trường hợp này, tôi cần làm gì để có thể đăng ký lưu hành theo Thông tư 32/2018/TT-BYT?",
+                "answer": "Trong trường hợp vắc xin chưa có CPP đáp ứng đầy đủ quy định, doanh nghiệp có thể áp dụng cơ chế xem xét đặc biệt. Cụ thể, cần bổ sung các tài liệu chứng minh thuốc đã được cấp phép và sử dụng thực tế tại nước sản xuất hoặc quốc gia khác; cung cấp dữ liệu đầy đủ về chất lượng, an toàn, hiệu quả; đồng thời có văn bản đề nghị xem xét theo nhu cầu cấp bách phục vụ chương trình y tế quốc gia. Hồ sơ sẽ được Cục Quản lý Dược thẩm định và trình Bộ trưởng Bộ Y tế xem xét quyết định theo cơ chế đặc biệt."
+            },
+            {
+                "turn": 4,
+                "query": "Nếu vắc xin nói trên cũng là một loại thuốc generic có báo cáo nghiên cứu tương đương sinh học nhưng vẫn không có CPP đáp ứng quy định tại điểm h, thì yêu cầu về báo cáo nghiên cứu tương đương sinh học cụ thể như thế nào để đảm bảo tính pháp lý khi nộp hồ sơ?",
+                "answer": "Trong trường hợp này, báo cáo nghiên cứu tương đương sinh học (BE) phải được thực hiện theo hướng dẫn kỹ thuật được công nhận (WHO, ASEAN hoặc ICH), tại cơ sở nghiên cứu đạt tiêu chuẩn GCP. Dữ liệu BE phải đầy đủ, hợp lệ, có so sánh với thuốc đối chứng phù hợp và chứng minh được sự tương đương về sinh khả dụng. Báo cáo có thể được thực hiện ở nước ngoài nhưng phải được cơ quan quản lý Việt Nam xem xét, chấp nhận để đảm bảo tính pháp lý khi nộp hồ sơ."
+            },
+            {
+                "turn": 5,
+                "query": "Về mặt hình thức hồ sơ kỹ thuật, nếu tôi chuẩn bị hồ sơ theo mẫu ICH-CTD thay vì ACTD, thì tôi có cần phải chuyển đổi hồ sơ sang định dạng ASEAN không? Và hồ sơ kỹ thuật chung cần tuân theo các hướng dẫn nào?",
+                "answer": "Theo quy định, hồ sơ kỹ thuật đăng ký thuốc tại Việt Nam có thể nộp theo định dạng ACTD hoặc ICH-CTD. Do đó, nếu đã chuẩn bị theo ICH-CTD thì không bắt buộc phải chuyển đổi sang ACTD. Hồ sơ cần tuân theo cấu trúc CTD (Module 1–5) và các hướng dẫn kỹ thuật liên quan của ICH, ASEAN hoặc Bộ Y tế Việt Nam về nội dung, chất lượng, an toàn và hiệu quả."
+            },
+            {
+                "turn": 6,
+                "query": "Thông tư 32/2018/TT-BYT có mối quan hệ kế thừa hay sửa đổi so với các thông tư trước đây về đăng ký thuốc không? Cụ thể là thông tư nào?",
+                "answer": "Thông tư 32/2018/TT-BYT mang tính thay thế và kế thừa các quy định trước đây về đăng ký thuốc, đặc biệt là thay thế Thông tư 44/2014/TT-BYT về đăng ký thuốc. Văn bản này cập nhật, đồng bộ hóa quy định theo Luật Dược 2016 và các nghị định hướng dẫn, đồng thời bổ sung các tiêu chuẩn quốc tế như ACTD/ICH-CTD."
+            }
+        ]
     },
     {
-      "turn": 3,
-      "query": "Giả sử một Huyện loại I vừa được thành lập và cần bố trí nhân sự cho Ủy ban nhân dân huyện. Theo quy định của Luật 77/2015/QH13, cơ cấu tổ chức của Ủy ban nhân dân huyện loại I này sẽ bao gồm những chức danh nào? Số lượng Phó Chủ tịch tối đa được phép là bao nhiêu?",
-      "answer": "Theo Luật 77/2015/QH13, Ủy ban nhân dân cấp huyện bao gồm: Chủ tịch, các Phó Chủ tịch và các Ủy viên. Các Ủy viên thường bao gồm người đứng đầu cơ quan quân sự, công an và một số cơ quan chuyên môn thuộc UBND.\n\nĐối với huyện loại I, số lượng Phó Chủ tịch tối đa được phép là không quá 3 người. Như vậy, cơ cấu hợp pháp sẽ gồm: 1 Chủ tịch, tối đa 3 Phó Chủ tịch và các Ủy viên theo quy định."
+        "session_name": "Xử lý thủ tục báo cáo thay đổi và điều chỉnh GSP cho cơ sở bán lẻ thuốc",
+        "document_id": "11/2025/TT-BYT",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 11/2025/TT-BYT được ban hành nhằm mục đích sửa đổi hay bổ sung những nội dung nào trong hệ thống văn bản quy phạm pháp luật về dược?",
+                "answer": "Thông tư 11/2025/TT-BYT được ban hành nhằm sửa đổi, bổ sung một số quy định liên quan đến điều kiện kinh doanh dược, đặc biệt là các tiêu chuẩn thực hành tốt như GPP (Thực hành tốt nhà thuốc) và GSP (Thực hành tốt bảo quản thuốc), cũng như thủ tục hành chính liên quan đến cấp, điều chỉnh, báo cáo thay đổi đối với cơ sở kinh doanh dược. Văn bản này cập nhật và hoàn thiện các quy định trước đó để phù hợp với thực tiễn quản lý và Luật Dược hiện hành."
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này có hiệu lực thi hành từ khi nào và dựa trên căn cứ pháp lý chính nào để quy định về tiêu chuẩn GSP như đã đề cập ở lượt trước?",
+                "answer": "Thông tư 11/2025/TT-BYT có hiệu lực thi hành từ năm 2025 (theo thời điểm được quy định cụ thể trong văn bản). Văn bản này được ban hành dựa trên Luật Dược 2016 và các nghị định hướng dẫn thi hành, đặc biệt là Nghị định 54/2017/NĐ-CP (và các văn bản sửa đổi, bổ sung), làm cơ sở pháp lý để quy định chi tiết về tiêu chuẩn GSP và điều kiện bảo quản thuốc."
+            },
+            {
+                "turn": 3,
+                "query": "Tôi đại diện cho một nhà thuốc bán lẻ đã được cấp Giấy chứng nhận GPP. Hiện tại, cơ sở tôi có nhu cầu mở rộng hoạt động bằng cách thiết lập thêm một kho bảo quản thuốc riêng biệt để phục vụ xuất nhập khẩu và kinh doanh dịch vụ bảo quản. Theo quy định mới, tôi cần thực hiện những bước gì để đảm bảo cơ sở kho này đáp ứng tiêu chuẩn GSP? Tình huống này có liên quan đến việc thông báo chấm dứt hoạt động thương mại điện tử không?",
+                "answer": "Trong trường hợp này, kho bảo quản thuốc là một cơ sở độc lập về chức năng nên phải đáp ứng tiêu chuẩn GSP. Cơ sở cần: (i) xây dựng cơ sở vật chất, trang thiết bị đáp ứng yêu cầu bảo quản; (ii) bố trí nhân sự chuyên môn phù hợp; (iii) xây dựng hệ thống quản lý chất lượng; và (iv) lập hồ sơ đề nghị đánh giá đáp ứng GSP hoặc thực hiện thủ tục thông báo đáp ứng theo quy định mới. Việc thiết lập kho GSP không liên quan đến thủ tục thông báo chấm dứt hoạt động thương mại điện tử, vì đây là hai nội dung quản lý khác nhau."
+            },
+            {
+                "turn": 4,
+                "query": "Trong trường hợp tôi đã gửi thông báo đáp ứng GSP như ở lượt 3, nhưng sau đó cơ sở kho của tôi có sự thay đổi về địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, tôi cần xử lý như thế nào? Quy trình này có yêu cầu phải nộp lại toàn bộ hồ sơ xin cấp lại giấy chứng nhận GSP hay chỉ cần báo cáo thay đổi?",
+                "answer": "Khi có thay đổi về thông tin như địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, cơ sở không nhất thiết phải nộp lại toàn bộ hồ sơ xin cấp mới giấy chứng nhận GSP. Thay vào đó, cần thực hiện thủ tục báo cáo thay đổi theo mẫu và quy định tương ứng, gửi đến cơ quan quản lý dược có thẩm quyền. Chỉ trong trường hợp thay đổi làm ảnh hưởng bản chất điều kiện bảo quản hoặc cấu trúc cơ sở thì mới có thể bị yêu cầu đánh giá lại."
+            },
+            {
+                "turn": 5,
+                "query": "Chi tiết hơn, nếu tôi sử dụng 'Mẫu số 04/GPP' để báo cáo thay đổi cho nhà thuốc bán lẻ (phần bán lẻ, không phải kho GSP), tôi cần đính kèm những giấy tờ cụ thể nào theo quy định trong văn bản?",
+                "answer": "Khi sử dụng Mẫu số 04/GPP để báo cáo thay đổi, cơ sở bán lẻ cần đính kèm các tài liệu chứng minh nội dung thay đổi, bao gồm: (i) tài liệu pháp lý liên quan đến thay đổi địa điểm, tên cơ sở; (ii) chứng chỉ hành nghề dược của người chịu trách nhiệm chuyên môn mới (nếu có thay đổi); (iii) tài liệu chứng minh cơ sở vật chất, trang thiết bị đáp ứng yêu cầu GPP; và (iv) các tài liệu liên quan khác theo yêu cầu cụ thể của cơ quan quản lý."
+            },
+            {
+                "turn": 6,
+                "query": "Giấy chứng nhận GSP (Mẫu số 05) mà tôi sẽ nhận được sau khi hoàn tất thủ tục cho kho bảo quản có thời hạn hiệu lực là bao lâu? Và mối quan hệ của văn bản này với Nghị định 42/2025/NĐ-CP là gì?",
+                "answer": "Giấy chứng nhận GSP (Mẫu số 05) có thời hạn hiệu lực thông thường là 3 năm kể từ ngày cấp. Thông tư 11/2025/TT-BYT là văn bản quy định chi tiết trong lĩnh vực dược, trong khi Nghị định 42/2025/NĐ-CP quy định về chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế. Do đó, mối quan hệ giữa hai văn bản là quan hệ căn cứ – triển khai: Thông tư được ban hành dựa trên thẩm quyền quản lý nhà nước của Bộ Y tế theo nghị định, nhưng không thay thế hay sửa đổi nghị định này."
+            }
+        ]
     },
     {
-      "turn": 4,
-      "query": "Trong tình huống trên, nếu xét về khía cạnh 'Cơ quan chuyên môn' trực thuộc Ủy ban nhân dân huyện loại I đó, thì các cơ quan này được tổ chức như thế nào theo quy định của Luật? Có sự khác biệt nào về thành phần Ủy viên nếu so sánh với Ủy ban nhân dân phường không?",
-      "answer": "Các cơ quan chuyên môn thuộc Ủy ban nhân dân cấp huyện được tổ chức thành các phòng chuyên môn (như phòng nội vụ, tài chính - kế hoạch, tài nguyên và môi trường, giáo dục, y tế...). Những cơ quan này có chức năng tham mưu, giúp UBND thực hiện quản lý nhà nước theo ngành, lĩnh vực tại địa phương.\n\nNgười đứng đầu các cơ quan chuyên môn có thể được bố trí làm Ủy viên UBND huyện.\n\nSo với UBND phường, thành phần Ủy viên có sự khác biệt: UBND phường có cơ cấu đơn giản hơn, thường chỉ bao gồm Chủ tịch, Phó Chủ tịch, Trưởng Công an và Chỉ huy trưởng quân sự; không có hệ thống phòng chuyên môn đầy đủ như cấp huyện, do đó số lượng và thành phần Ủy viên cũng hạn chế hơn."
+        "session_name": "Xử lý thủ tục báo cáo thay đổi và điều chỉnh GSP cho cơ sở bán lẻ thuốc",
+        "document_id": "11/2025/TT-BYT",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Thông tư 11/2025/TT-BYT được ban hành nhằm mục đích sửa đổi hay bổ sung những nội dung nào trong hệ thống văn bản quy phạm pháp luật về dược?",
+                "answer": "Thông tư 11/2025/TT-BYT được ban hành nhằm sửa đổi, bổ sung một số quy định liên quan đến điều kiện kinh doanh dược, đặc biệt là các tiêu chuẩn thực hành tốt như GPP (Thực hành tốt nhà thuốc) và GSP (Thực hành tốt bảo quản thuốc), cũng như thủ tục hành chính liên quan đến cấp, điều chỉnh, báo cáo thay đổi đối với cơ sở kinh doanh dược. Văn bản này cập nhật và hoàn thiện các quy định trước đó để phù hợp với thực tiễn quản lý và Luật Dược hiện hành."
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này có hiệu lực thi hành từ khi nào và dựa trên căn cứ pháp lý chính nào để quy định về tiêu chuẩn GSP như đã đề cập ở lượt trước?",
+                "answer": "Thông tư 11/2025/TT-BYT có hiệu lực thi hành từ năm 2025 (theo thời điểm được quy định cụ thể trong văn bản). Văn bản này được ban hành dựa trên Luật Dược 2016 và các nghị định hướng dẫn thi hành, đặc biệt là Nghị định 54/2017/NĐ-CP (và các văn bản sửa đổi, bổ sung), làm cơ sở pháp lý để quy định chi tiết về tiêu chuẩn GSP và điều kiện bảo quản thuốc."
+            },
+            {
+                "turn": 3,
+                "query": "Tôi đại diện cho một nhà thuốc bán lẻ đã được cấp Giấy chứng nhận GPP. Hiện tại, cơ sở tôi có nhu cầu mở rộng hoạt động bằng cách thiết lập thêm một kho bảo quản thuốc riêng biệt để phục vụ xuất nhập khẩu và kinh doanh dịch vụ bảo quản. Theo quy định mới, tôi cần thực hiện những bước gì để đảm bảo cơ sở kho này đáp ứng tiêu chuẩn GSP? Tình huống này có liên quan đến việc thông báo chấm dứt hoạt động thương mại điện tử không?",
+                "answer": "Trong trường hợp này, kho bảo quản thuốc là một cơ sở độc lập về chức năng nên phải đáp ứng tiêu chuẩn GSP. Cơ sở cần: (i) xây dựng cơ sở vật chất, trang thiết bị đáp ứng yêu cầu bảo quản; (ii) bố trí nhân sự chuyên môn phù hợp; (iii) xây dựng hệ thống quản lý chất lượng; và (iv) lập hồ sơ đề nghị đánh giá đáp ứng GSP hoặc thực hiện thủ tục thông báo đáp ứng theo quy định mới. Việc thiết lập kho GSP không liên quan đến thủ tục thông báo chấm dứt hoạt động thương mại điện tử, vì đây là hai nội dung quản lý khác nhau."
+            },
+            {
+                "turn": 4,
+                "query": "Trong trường hợp tôi đã gửi thông báo đáp ứng GSP như ở lượt 3, nhưng sau đó cơ sở kho của tôi có sự thay đổi về địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, tôi cần xử lý như thế nào? Quy trình này có yêu cầu phải nộp lại toàn bộ hồ sơ xin cấp lại giấy chứng nhận GSP hay chỉ cần báo cáo thay đổi?",
+                "answer": "Khi có thay đổi về thông tin như địa chỉ kho hoặc người chịu trách nhiệm chuyên môn, cơ sở không nhất thiết phải nộp lại toàn bộ hồ sơ xin cấp mới giấy chứng nhận GSP. Thay vào đó, cần thực hiện thủ tục báo cáo thay đổi theo mẫu và quy định tương ứng, gửi đến cơ quan quản lý dược có thẩm quyền. Chỉ trong trường hợp thay đổi làm ảnh hưởng bản chất điều kiện bảo quản hoặc cấu trúc cơ sở thì mới có thể bị yêu cầu đánh giá lại."
+            },
+            {
+                "turn": 5,
+                "query": "Chi tiết hơn, nếu tôi sử dụng 'Mẫu số 04/GPP' để báo cáo thay đổi cho nhà thuốc bán lẻ (phần bán lẻ, không phải kho GSP), tôi cần đính kèm những giấy tờ cụ thể nào theo quy định trong văn bản?",
+                "answer": "Khi sử dụng Mẫu số 04/GPP để báo cáo thay đổi, cơ sở bán lẻ cần đính kèm các tài liệu chứng minh nội dung thay đổi, bao gồm: (i) tài liệu pháp lý liên quan đến thay đổi địa điểm, tên cơ sở; (ii) chứng chỉ hành nghề dược của người chịu trách nhiệm chuyên môn mới (nếu có thay đổi); (iii) tài liệu chứng minh cơ sở vật chất, trang thiết bị đáp ứng yêu cầu GPP; và (iv) các tài liệu liên quan khác theo yêu cầu cụ thể của cơ quan quản lý."
+            },
+            {
+                "turn": 6,
+                "query": "Giấy chứng nhận GSP (Mẫu số 05) mà tôi sẽ nhận được sau khi hoàn tất thủ tục cho kho bảo quản có thời hạn hiệu lực là bao lâu? Và mối quan hệ của văn bản này với Nghị định 42/2025/NĐ-CP là gì?",
+                "answer": "Giấy chứng nhận GSP (Mẫu số 05) có thời hạn hiệu lực thông thường là 3 năm kể từ ngày cấp. Thông tư 11/2025/TT-BYT là văn bản quy định chi tiết trong lĩnh vực dược, trong khi Nghị định 42/2025/NĐ-CP quy định về chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Y tế. Do đó, mối quan hệ giữa hai văn bản là quan hệ căn cứ – triển khai: Thông tư được ban hành dựa trên thẩm quyền quản lý nhà nước của Bộ Y tế theo nghị định, nhưng không thay thế hay sửa đổi nghị định này."
+            }
+        ]
     },
     {
-      "turn": 5,
-      "query": "Nếu xảy ra trường hợp đặc biệt khi Ủy ban nhân dân huyện khóa mới chưa được bầu ra, ai là người có thẩm quyền chỉ định Quyền Chủ tịch Ủy ban nhân dân hoặc Ủy ban nhân dân lâm thời để đảm bảo hoạt động quản lý nhà nước không bị gián đoạn?",
-      "answer": "Trong trường hợp UBND khóa mới chưa được bầu, để bảo đảm hoạt động liên tục, cơ quan có thẩm quyền là Chủ tịch Ủy ban nhân dân cấp tỉnh sẽ chỉ định Quyền Chủ tịch UBND cấp huyện. Việc chỉ định này nhằm duy trì hoạt động quản lý nhà nước cho đến khi Hội đồng nhân dân cùng cấp bầu ra Chủ tịch UBND chính thức theo quy định."
+        "session_name": "Tư vấn cơ cấu tổ chức UBND cấp huyện và quận theo Luật 77/2015",
+        "document_id": "77/2015/QH13",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Xin chào. Tôi cần tra cứu thông tin về văn bản pháp luật có ký hiệu 77/2015/QH13. Văn bản này là gì và thuộc lĩnh vực nào?",
+                "answer": "Văn bản 77/2015/QH13 là Luật Tổ chức chính quyền địa phương năm 2015 do Quốc hội ban hành. Văn bản này thuộc lĩnh vực tổ chức bộ máy nhà nước, cụ thể là quy định về tổ chức, nhiệm vụ, quyền hạn của chính quyền địa phương các cấp (tỉnh, huyện, xã)."
+            },
+            {
+                "turn": 2,
+                "query": "Cảm ơn bạn. Với văn bản này, tôi muốn biết cụ thể hơn về hiệu lực thi hành và các văn bản pháp lý nào đã làm căn cứ để ban hành nó?",
+                "answer": "Luật 77/2015/QH13 có hiệu lực thi hành từ ngày 01/01/2016. Căn cứ ban hành luật này là Hiến pháp năm 2013 của nước Cộng hòa xã hội chủ nghĩa Việt Nam, trong đó quy định về tổ chức chính quyền địa phương và nguyên tắc phân cấp quản lý nhà nước."
+            },
+            {
+                "turn": 3,
+                "query": "Tôi đang xử lý một tình huống thực tế tại Huyện A (được xếp loại I) vừa được thành lập. Ban lãnh đạo huyện dự kiến bổ nhiệm 4 Phó Chủ tịch UBND huyện cùng với các Ủy viên phụ trách quân sự, công an và người đứng đầu các phòng chuyên môn. Hãy phân tích xem cơ cấu đề xuất này có phù hợp với quy định của Luật 77/2015/QH13 không? Nếu không, hãy chỉ ra sai sót cụ thể dựa trên điều khoản về cơ cấu tổ chức.",
+                "answer": "Cơ cấu đề xuất là không phù hợp. Theo Luật Tổ chức chính quyền địa phương 2015, UBND cấp huyện (bao gồm huyện loại I) có không quá 03 Phó Chủ tịch. Việc đề xuất 04 Phó Chủ tịch là vượt quá số lượng tối đa theo quy định pháp luật. Về thành phần Ủy viên UBND, bao gồm người đứng đầu cơ quan chuyên môn, Chỉ huy trưởng Ban Chỉ huy quân sự và Trưởng Công an là phù hợp. Như vậy, sai sót nằm ở số lượng Phó Chủ tịch vượt khung cho phép."
+            },
+            {
+                "turn": 4,
+                "query": "Đúng vậy, chúng tôi đã điều chỉnh xuống còn 3 Phó Chủ tịch. Bây giờ, giả sử sau khi bầu cử HĐND khóa mới, Chủ tịch UBND huyện cũ hết nhiệm kỳ nhưng HĐND chưa kịp bầu Chủ tịch mới. Trong khoảng thời gian trống này, ai sẽ đảm nhiệm vai trò Quyền Chủ tịch UBND huyện để bảo đảm hoạt động liên tục? Và cơ quan nào có thẩm quyền chỉ định người này?",
+                "answer": "Trong trường hợp khuyết Chủ tịch UBND huyện, một Phó Chủ tịch UBND sẽ được giao phụ trách, điều hành hoạt động của UBND (tức là Quyền Chủ tịch). Thẩm quyền giao nhiệm vụ này thuộc Chủ tịch UBND cấp trên trực tiếp (tức Chủ tịch UBND cấp tỉnh) quyết định, nhằm bảo đảm tính liên tục của hoạt động hành chính nhà nước."
+            },
+            {
+                "turn": 5,
+                "query": "Rõ ràng rồi. Liên quan đến việc tổ chức bộ máy, nếu tôi chuyển sang xem xét trường hợp của một Quận B (loại II) trong cùng một tỉnh, thì cơ cấu tổ chức của UBND quận này sẽ khác biệt như thế nào so với huyện loại I刚才提到的? Cụ thể là số lượng Phó Chủ tịch tối đa và thành phần Ủy viên?",
+                "answer": "Đối với UBND quận (bao gồm quận loại II), cơ cấu tổ chức về cơ bản tương tự UBND huyện. Số lượng Phó Chủ tịch cũng không quá 03 người, giống như huyện. Thành phần Ủy viên UBND quận bao gồm người đứng đầu các cơ quan chuyên môn thuộc UBND quận, Trưởng Công an quận và Chỉ huy trưởng Ban Chỉ huy quân sự quận. Do đó, không có khác biệt đáng kể về số lượng Phó Chủ tịch và thành phần Ủy viên giữa huyện loại I và quận loại II theo luật này."
+            },
+            {
+                "turn": 6,
+                "query": "Cuối cùng, tôi muốn hiểu rõ mối quan hệ kế thừa. Luật 77/2015/QH13 này có thay thế hoàn toàn Luật Tổ chức Hội đồng nhân dân và Ủy ban Nhân dân 2003 (11/2003/QH11) không? Và liệu có bất kỳ quy định chuyển tiếp nào liên quan đến các thí điểm trước đây (như Nghị quyết 26/2008/QH12) mà tôi cần lưu ý khi áp dụng luật mới vào thực tiễn quản lý hành chính địa phương không?",
+                "answer": "Luật 77/2015/QH13 thay thế toàn bộ Luật Tổ chức Hội đồng nhân dân và Ủy ban nhân dân năm 2003 (11/2003/QH11). Đồng thời, luật này cũng chấm dứt hiệu lực của các quy định thí điểm trước đây như Nghị quyết 26/2008/QH12 về thí điểm không tổ chức HĐND ở một số địa phương. Về chuyển tiếp, các cơ quan, tổ chức được thành lập theo quy định cũ tiếp tục hoạt động cho đến khi được kiện toàn theo luật mới, bảo đảm không gián đoạn hoạt động quản lý nhà nước."
+            }
+        ]
     },
     {
-      "turn": 6,
-      "query": "Xét về tính kế thừa và hiệu lực thi hành, Luật 77/2015/QH13 có hiệu lực từ ngày nào và nó có mối quan hệ sửa đổi (AMENDS) với văn bản nào theo dữ liệu đồ thị đã cung cấp?",
-      "answer": "Luật 77/2015/QH13 có hiệu lực thi hành từ ngày 01/01/2016. Về quan hệ pháp lý, luật này thay thế và sửa đổi toàn diện Luật Tổ chức Hội đồng nhân dân và Ủy ban nhân dân năm 2003 (11/2003/QH11). Đồng thời, nó chấm dứt việc áp dụng các cơ chế thí điểm trước đây như Nghị quyết 26/2008/QH12, thiết lập một khuôn khổ pháp lý thống nhất cho tổ chức chính quyền địa phương trên toàn quốc."
-    }
-  ]
-},
-    {
-  "session_name": "Xử lý tình huống sơ tuyển và danh sách ngắn trong Đấu thầu hạn chế",
-  "document_id": "24/2024/NĐ-CP",
-  "turns": [
-    {
-      "turn": 1,
-      "query": "Vui lòng cung cấp thông tin cơ bản về Nghị định 24/2024/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực áp dụng và các văn bản pháp lý chính mà nghị định này căn cứ để ban hành.",
-      "answer": "Nghị định 24/2024/NĐ-CP là Nghị định của Chính phủ quy định chi tiết một số điều và biện pháp thi hành Luật Đấu thầu năm 2023. Văn bản này thuộc lĩnh vực đấu thầu, mua sắm công và lựa chọn nhà thầu, nhà đầu tư.\n\nNghị định được ban hành trên cơ sở căn cứ pháp lý chính là Luật Đấu thầu số 22/2023/QH15, cùng với các quy định liên quan về quản lý đầu tư công, xây dựng và ngân sách nhà nước."
+        "session_name": "Xác định cơ cấu và quyền hạn UBND cấp huyện/quận theo Luật 77/2015/QH13",
+        "document_id": "77/2015/QH13",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Vui lòng cung cấp thông tin cơ bản về văn bản có mã số 77/2015/QH13, bao gồm tên đầy đủ của luật và lĩnh vực pháp lý mà nó điều chỉnh.",
+                "answer": "Văn bản có mã số 77/2015/QH13 là Luật Tổ chức chính quyền địa phương năm 2015. Đây là một đạo luật thuộc lĩnh vực tổ chức bộ máy nhà nước, điều chỉnh về cơ cấu tổ chức, nhiệm vụ, quyền hạn của Hội đồng nhân dân và Ủy ban nhân dân các cấp (tỉnh, huyện, xã) trong hệ thống chính quyền địa phương tại Việt Nam."
+            },
+            {
+                "turn": 2,
+                "query": "Đối với văn bản này, hãy liệt kê các Nghị quyết hoặc Luật trước đó mà nó được xây dựng dựa trên (BASED_ON) theo thông tin đồ thị quan hệ văn bản.",
+                "answer": "Theo quan hệ pháp lý, Luật 77/2015/QH13 được xây dựng kế thừa và phát triển từ các văn bản trước đó, bao gồm: (1) Luật Tổ chức Hội đồng nhân dân và Ủy ban nhân dân năm 2003 (11/2003/QH11); (2) Nghị quyết số 26/2008/QH12 về thực hiện thí điểm không tổ chức Hội đồng nhân dân huyện, quận, phường; cùng với các chủ trương cải cách tổ chức bộ máy chính quyền địa phương trong từng giai đoạn."
+            },
+            {
+                "turn": 3,
+                "query": "Giả sử một Huyện loại I vừa được thành lập và cần bố trí nhân sự cho Ủy ban nhân dân huyện. Theo quy định của Luật 77/2015/QH13, cơ cấu tổ chức của Ủy ban nhân dân huyện loại I này sẽ bao gồm những chức danh nào? Số lượng Phó Chủ tịch tối đa được phép là bao nhiêu?",
+                "answer": "Theo Luật 77/2015/QH13, Ủy ban nhân dân cấp huyện bao gồm: Chủ tịch, các Phó Chủ tịch và các Ủy viên. Các Ủy viên thường bao gồm người đứng đầu cơ quan quân sự, công an và một số cơ quan chuyên môn thuộc UBND.\n\nĐối với huyện loại I, số lượng Phó Chủ tịch tối đa được phép là không quá 3 người. Như vậy, cơ cấu hợp pháp sẽ gồm: 1 Chủ tịch, tối đa 3 Phó Chủ tịch và các Ủy viên theo quy định."
+            },
+            {
+                "turn": 4,
+                "query": "Trong tình huống trên, nếu xét về khía cạnh 'Cơ quan chuyên môn' trực thuộc Ủy ban nhân dân huyện loại I đó, thì các cơ quan này được tổ chức như thế nào theo quy định của Luật? Có sự khác biệt nào về thành phần Ủy viên nếu so sánh với Ủy ban nhân dân phường không?",
+                "answer": "Các cơ quan chuyên môn thuộc Ủy ban nhân dân cấp huyện được tổ chức thành các phòng chuyên môn (như phòng nội vụ, tài chính - kế hoạch, tài nguyên và môi trường, giáo dục, y tế...). Những cơ quan này có chức năng tham mưu, giúp UBND thực hiện quản lý nhà nước theo ngành, lĩnh vực tại địa phương.\n\nNgười đứng đầu các cơ quan chuyên môn có thể được bố trí làm Ủy viên UBND huyện.\n\nSo với UBND phường, thành phần Ủy viên có sự khác biệt: UBND phường có cơ cấu đơn giản hơn, thường chỉ bao gồm Chủ tịch, Phó Chủ tịch, Trưởng Công an và Chỉ huy trưởng quân sự; không có hệ thống phòng chuyên môn đầy đủ như cấp huyện, do đó số lượng và thành phần Ủy viên cũng hạn chế hơn."
+            },
+            {
+                "turn": 5,
+                "query": "Nếu xảy ra trường hợp đặc biệt khi Ủy ban nhân dân huyện khóa mới chưa được bầu ra, ai là người có thẩm quyền chỉ định Quyền Chủ tịch Ủy ban nhân dân hoặc Ủy ban nhân dân lâm thời để đảm bảo hoạt động quản lý nhà nước không bị gián đoạn?",
+                "answer": "Trong trường hợp UBND khóa mới chưa được bầu, để bảo đảm hoạt động liên tục, cơ quan có thẩm quyền là Chủ tịch Ủy ban nhân dân cấp tỉnh sẽ chỉ định Quyền Chủ tịch UBND cấp huyện. Việc chỉ định này nhằm duy trì hoạt động quản lý nhà nước cho đến khi Hội đồng nhân dân cùng cấp bầu ra Chủ tịch UBND chính thức theo quy định."
+            },
+            {
+                "turn": 6,
+                "query": "Xét về tính kế thừa và hiệu lực thi hành, Luật 77/2015/QH13 có hiệu lực từ ngày nào và nó có mối quan hệ sửa đổi (AMENDS) với văn bản nào theo dữ liệu đồ thị đã cung cấp?",
+                "answer": "Luật 77/2015/QH13 có hiệu lực thi hành từ ngày 01/01/2016. Về quan hệ pháp lý, luật này thay thế và sửa đổi toàn diện Luật Tổ chức Hội đồng nhân dân và Ủy ban nhân dân năm 2003 (11/2003/QH11). Đồng thời, nó chấm dứt việc áp dụng các cơ chế thí điểm trước đây như Nghị quyết 26/2008/QH12, thiết lập một khuôn khổ pháp lý thống nhất cho tổ chức chính quyền địa phương trên toàn quốc."
+            }
+        ]
     },
     {
-      "turn": 2,
-      "query": "Trong văn bản này, quy định về tiêu chuẩn đánh giá hồ sơ dự sơ tuyển được xây dựng dựa trên những tiêu chí nào? Và hồ sơ mời sơ tuyển sẽ được phát hành như thế nào?",
-      "answer": "Tiêu chuẩn đánh giá hồ sơ dự sơ tuyển được xây dựng dựa trên các nhóm tiêu chí chính như: năng lực tài chính, kinh nghiệm thực hiện các hợp đồng tương tự, năng lực kỹ thuật và nhân sự chủ chốt của nhà thầu. Các tiêu chí này phải bảo đảm tính minh bạch, khách quan và phù hợp với quy mô, tính chất của gói thầu.\n\nHồ sơ mời sơ tuyển được phát hành rộng rãi theo hình thức điện tử trên Hệ thống mạng đấu thầu quốc gia, bảo đảm công khai, minh bạch và tạo điều kiện cho các nhà thầu quan tâm tiếp cận thông tin."
+        "session_name": "Xử lý tình huống sơ tuyển và danh sách ngắn trong Đấu thầu hạn chế",
+        "document_id": "24/2024/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Vui lòng cung cấp thông tin cơ bản về Nghị định 24/2024/NĐ-CP, bao gồm tên đầy đủ, lĩnh vực áp dụng và các văn bản pháp lý chính mà nghị định này căn cứ để ban hành.",
+                "answer": "Nghị định 24/2024/NĐ-CP là Nghị định của Chính phủ quy định chi tiết một số điều và biện pháp thi hành Luật Đấu thầu năm 2023. Văn bản này thuộc lĩnh vực đấu thầu, mua sắm công và lựa chọn nhà thầu, nhà đầu tư.\n\nNghị định được ban hành trên cơ sở căn cứ pháp lý chính là Luật Đấu thầu số 22/2023/QH15, cùng với các quy định liên quan về quản lý đầu tư công, xây dựng và ngân sách nhà nước."
+            },
+            {
+                "turn": 2,
+                "query": "Trong văn bản này, quy định về tiêu chuẩn đánh giá hồ sơ dự sơ tuyển được xây dựng dựa trên những tiêu chí nào? Và hồ sơ mời sơ tuyển sẽ được phát hành như thế nào?",
+                "answer": "Tiêu chuẩn đánh giá hồ sơ dự sơ tuyển được xây dựng dựa trên các nhóm tiêu chí chính như: năng lực tài chính, kinh nghiệm thực hiện các hợp đồng tương tự, năng lực kỹ thuật và nhân sự chủ chốt của nhà thầu. Các tiêu chí này phải bảo đảm tính minh bạch, khách quan và phù hợp với quy mô, tính chất của gói thầu.\n\nHồ sơ mời sơ tuyển được phát hành rộng rãi theo hình thức điện tử trên Hệ thống mạng đấu thầu quốc gia, bảo đảm công khai, minh bạch và tạo điều kiện cho các nhà thầu quan tâm tiếp cận thông tin."
+            },
+            {
+                "turn": 3,
+                "query": "Giả sử tôi là đại diện một Công ty TNHH ABC tham gia đấu thầu hạn chế cho gói thầu tư vấn thiết kế. Công ty tôi đã nộp hồ sơ dự sơ tuyển đúng hạn. Tuy nhiên, sau khi mở thầu, tổ chuyên gia nhận thấy hồ sơ của chúng tôi thiếu một chứng chỉ năng lực cụ thể nhưng lại có giải thưởng sáng tạo quốc tế gần đây. Bên cạnh đó, tôi muốn biết nếu công ty tôi trúng sơ tuyển và có tên trong danh sách ngắn, tôi có được phép liên danh với một công ty khác cũng đang có tên trong cùng danh sách ngắn đó để dự thầu không? Hãy phân tích dựa trên quy định về xử lý hồ sơ và quy định về liên danh.",
+                "answer": "Đối với hồ sơ dự sơ tuyển, việc đánh giá phải căn cứ строго vào các tiêu chuẩn đã được quy định trong hồ sơ mời sơ tuyển. Nếu thiếu chứng chỉ năng lực bắt buộc thì hồ sơ có thể bị đánh giá là không đạt, trừ khi tiêu chí cho phép làm rõ hoặc bổ sung theo quy định. Các yếu tố như giải thưởng sáng tạo quốc tế chỉ được xem là giá trị bổ sung nếu đã được quy định trong tiêu chí đánh giá, không thể thay thế điều kiện bắt buộc.\n\nVề vấn đề liên danh: theo quy định, các nhà thầu đã được lựa chọn vào danh sách ngắn không được phép liên danh với nhau để tham dự thầu cho cùng một gói thầu, nhằm bảo đảm cạnh tranh công bằng. Do đó, nếu Công ty ABC và một công ty khác cùng nằm trong danh sách ngắn thì không được phép liên danh với nhau."
+            },
+            {
+                "turn": 4,
+                "query": "Tiếp nối tình huống trên, giả sử Công ty ABC không vi phạm quy định liên danh nhưng Chủ đầu tư chỉ phê duyệt được 02 nhà thầu vào danh sách ngắn do thị trường hẹp, thay vì tối thiểu 03 nhà thầu như quy định chung. Trong trường hợp này, bên mời thầu cần xử lý ra sao theo quy định? Và nếu kết quả sơ tuyển không lựa chọn được danh sách ngắn, văn bản phê duyệt cần nêu rõ nội dung gì?",
+                "answer": "Theo quy định, danh sách ngắn thông thường phải bảo đảm tối thiểu 03 nhà thầu. Tuy nhiên, trong trường hợp đặc thù như thị trường hạn chế, số lượng nhà thầu đáp ứng yêu cầu ít, thì chủ đầu tư có thể phê duyệt danh sách ngắn ít hơn 03 nhà thầu, nhưng phải có giải trình rõ ràng về lý do.\n\nNếu kết quả sơ tuyển không lựa chọn được danh sách ngắn, văn bản phê duyệt phải nêu rõ: quá trình tổ chức sơ tuyển, lý do không có nhà thầu đáp ứng yêu cầu, và đề xuất hướng xử lý tiếp theo (ví dụ: tổ chức lại sơ tuyển hoặc chuyển hình thức lựa chọn nhà thầu khác)."
+            },
+            {
+                "turn": 5,
+                "query": "Để hoàn tất thủ tục phê duyệt kết quả sơ tuyển trong trường hợp bình thường (có danh sách ngắn), bên mời thầu cần chuẩn bị những hồ sơ, báo cáo nào để trình phê duyệt? Và kết quả này được công khai như thế nào?",
+                "answer": "Hồ sơ trình phê duyệt kết quả sơ tuyển bao gồm: báo cáo đánh giá hồ sơ dự sơ tuyển của tổ chuyên gia; tờ trình của bên mời thầu; dự thảo quyết định phê duyệt kết quả sơ tuyển; và các tài liệu liên quan khác.\n\nSau khi được phê duyệt, kết quả sơ tuyển phải được đăng tải công khai trên Hệ thống mạng đấu thầu quốc gia, bao gồm danh sách ngắn các nhà thầu được lựa chọn và các thông tin liên quan theo quy định, nhằm bảo đảm tính minh bạch."
+            },
+            {
+                "turn": 6,
+                "query": "Dựa trên thông tin đồ thị mối quan hệ văn bản, Nghị định 24/2024/NĐ-CP có mối quan hệ thế nào với Nghị định 63/2014/NĐ-CP và Luật Đấu thầu 2023? Điều này ảnh hưởng thế nào đến hiệu lực thi hành của các quy định cũ?",
+                "answer": "Nghị định 24/2024/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành Luật Đấu thầu 2023, do đó có quan hệ phụ thuộc (hướng dẫn thi hành) với Luật này.\n\nĐồng thời, nghị định này thay thế toàn bộ Nghị định 63/2014/NĐ-CP trước đây. Điều này có nghĩa là kể từ khi Nghị định 24/2024/NĐ-CP có hiệu lực, các quy định tương ứng tại Nghị định 63/2014/NĐ-CP hết hiệu lực thi hành và được thay thế bằng quy định mới phù hợp với Luật Đấu thầu 2023."
+            }
+        ]
     },
     {
-      "turn": 3,
-      "query": "Giả sử tôi là đại diện một Công ty TNHH ABC tham gia đấu thầu hạn chế cho gói thầu tư vấn thiết kế. Công ty tôi đã nộp hồ sơ dự sơ tuyển đúng hạn. Tuy nhiên, sau khi mở thầu, tổ chuyên gia nhận thấy hồ sơ của chúng tôi thiếu một chứng chỉ năng lực cụ thể nhưng lại có giải thưởng sáng tạo quốc tế gần đây. Bên cạnh đó, tôi muốn biết nếu công ty tôi trúng sơ tuyển và có tên trong danh sách ngắn, tôi có được phép liên danh với một công ty khác cũng đang có tên trong cùng danh sách ngắn đó để dự thầu không? Hãy phân tích dựa trên quy định về xử lý hồ sơ và quy định về liên danh.",
-      "answer": "Đối với hồ sơ dự sơ tuyển, việc đánh giá phải căn cứ строго vào các tiêu chuẩn đã được quy định trong hồ sơ mời sơ tuyển. Nếu thiếu chứng chỉ năng lực bắt buộc thì hồ sơ có thể bị đánh giá là không đạt, trừ khi tiêu chí cho phép làm rõ hoặc bổ sung theo quy định. Các yếu tố như giải thưởng sáng tạo quốc tế chỉ được xem là giá trị bổ sung nếu đã được quy định trong tiêu chí đánh giá, không thể thay thế điều kiện bắt buộc.\n\nVề vấn đề liên danh: theo quy định, các nhà thầu đã được lựa chọn vào danh sách ngắn không được phép liên danh với nhau để tham dự thầu cho cùng một gói thầu, nhằm bảo đảm cạnh tranh công bằng. Do đó, nếu Công ty ABC và một công ty khác cùng nằm trong danh sách ngắn thì không được phép liên danh với nhau."
+        "session_name": "Xử lý quy trình sơ tuyển và danh sách ngắn trong Đấu thầu hạn chế theo Nghị định 24/2024/NĐ-CP",
+        "document_id": "24/2024/NĐ-CP",
+        "turns": [
+            {
+                "turn": 1,
+                "query": "Nghị định 24/2024/NĐ-CP là văn bản pháp lý gì và được ban hành nhằm mục đích chính xác nào?",
+                "answer": "Nghị định 24/2024/NĐ-CP là nghị định của Chính phủ quy định chi tiết một số điều và biện pháp thi hành Luật Đấu thầu năm 2023. Mục đích chính của văn bản là cụ thể hóa các quy định của Luật Đấu thầu, thiết lập khung pháp lý đầy đủ cho hoạt động lựa chọn nhà thầu, nhà đầu tư, bảo đảm tính minh bạch, cạnh tranh, hiệu quả kinh tế và thống nhất trong quản lý đấu thầu."
+            },
+            {
+                "turn": 2,
+                "query": "Văn bản này dựa trên những cơ sở pháp lý cụ thể nào để được ban hành? Hãy liệt kê các luật hoặc nghị quyết làm căn cứ.",
+                "answer": "Nghị định 24/2024/NĐ-CP được ban hành chủ yếu dựa trên các căn cứ pháp lý sau: Luật Đấu thầu số 22/2023/QH15; Luật Đầu tư công; Luật Xây dựng; Luật Ngân sách nhà nước; cùng các văn bản pháp luật có liên quan đến quản lý đầu tư và mua sắm công. Trong đó, Luật Đấu thầu 2023 là căn cứ pháp lý trực tiếp và quan trọng nhất."
+            },
+            {
+                "turn": 3,
+                "query": "Giả sử tôi là bên mời thầu cho một gói thầu dịch vụ tư vấn phức tạp, áp dụng hình thức đấu thầu hạn chế. Tôi đã tiến hành sơ tuyển và có 5 nhà thầu đáp ứng đủ năng lực. Tuy nhiên, khi lập danh sách ngắn, tôi chỉ chọn được 2 nhà thầu vì 3 nhà thầu còn lại không có nhu cầu tham dự. Theo Nghị định 24/2024/NĐ-CP, việc xác định danh sách ngắn này có hợp lệ không? Nếu không, tôi cần xử lý như thế nào?",
+                "answer": "Theo quy định, danh sách ngắn trong đấu thầu hạn chế thông thường phải bảo đảm tối thiểu 03 nhà thầu để duy trì tính cạnh tranh. Việc chỉ có 02 nhà thầu trong danh sách ngắn là không đáp ứng yêu cầu chung.\n\nTrong trường hợp các nhà thầu còn lại không có nhu cầu tham dự, bên mời thầu cần xem xét các phương án xử lý như: (i) tổ chức lại sơ tuyển để thu hút thêm nhà thầu; hoặc (ii) báo cáo, giải trình rõ lý do khách quan với người có thẩm quyền để xem xét chấp thuận danh sách ngắn dưới 03 nhà thầu trong trường hợp đặc thù. Việc chấp thuận này phải được nêu rõ trong quyết định phê duyệt."
+            },
+            {
+                "turn": 4,
+                "query": "Trong quá trình đánh giá hồ sơ dự sơ tuyển cho tình huống trên, nếu một nhà thầu nộp hồ sơ muộn sau thời điểm đóng thầu, bên mời thầu sẽ xử lý ra sao? Và nếu một nhà thầu là cá nhân chào thầu sản phẩm đổi mới sáng tạo, họ có được miễn giảm các tiêu chí đánh giá năng lực so với quy định chung không?",
+                "answer": "Hồ sơ dự sơ tuyển nộp sau thời điểm đóng thầu sẽ bị loại và không được xem xét, vì vi phạm nguyên tắc về thời điểm nộp hồ sơ trong đấu thầu.\n\nĐối với nhà thầu là cá nhân hoặc đơn vị cung cấp sản phẩm đổi mới sáng tạo, pháp luật có thể khuyến khích nhưng không đồng nghĩa với việc được miễn trừ các tiêu chí đánh giá năng lực cơ bản. Việc đánh giá vẫn phải căn cứ vào tiêu chuẩn đã được quy định trong hồ sơ mời sơ tuyển. Tuy nhiên, tiêu chí có thể được thiết kế linh hoạt ngay từ đầu để phù hợp với đặc thù đổi mới sáng tạo."
+            },
+            {
+                "turn": 5,
+                "query": "Sau khi đã hoàn thành bước mở và đánh giá hồ sơ dự sơ tuyển, bên mời thầu cần thực hiện những bước thủ tục và công bố kết quả ra sao để đảm bảo đúng quy định về tính minh bạch và thời hạn?",
+                "answer": "Sau khi hoàn tất đánh giá hồ sơ dự sơ tuyển, bên mời thầu cần: lập báo cáo đánh giá của tổ chuyên gia; trình người có thẩm quyền phê duyệt kết quả sơ tuyển; ban hành quyết định phê duyệt danh sách ngắn.\n\nKết quả sơ tuyển sau đó phải được công khai trên Hệ thống mạng đấu thầu quốc gia trong thời hạn theo quy định, bao gồm danh sách các nhà thầu trúng sơ tuyển và các thông tin liên quan. Quy trình này nhằm bảo đảm tính minh bạch, công khai và tạo cơ sở cho các bước đấu thầu tiếp theo."
+            },
+            {
+                "turn": 6,
+                "query": "Nếu các nhà thầu nằm trong danh sách ngắn muốn liên danh với nhau để tham dự thầu, hoặc liên danh với nhà thầu không có tên trong danh sách ngắn, thì cần tuân thủ những nguyên tắc và điều kiện gì theo Nghị định này?",
+                "answer": "Theo nguyên tắc của đấu thầu hạn chế, chỉ các nhà thầu có tên trong danh sách ngắn mới được mời tham dự thầu. Các nhà thầu trong danh sách ngắn không được phép liên danh với nhau nếu việc liên danh làm giảm số lượng nhà thầu cạnh tranh thực tế.\n\nNgoài ra, nhà thầu trong danh sách ngắn cũng không được liên danh với nhà thầu không có tên trong danh sách ngắn, vì điều này làm thay đổi tư cách dự thầu và phá vỡ kết quả sơ tuyển. Việc liên danh phải được xác lập ngay từ giai đoạn sơ tuyển và phù hợp với danh sách đã được phê duyệt."
+            }
+        ]
     },
-    {
-      "turn": 4,
-      "query": "Tiếp nối tình huống trên, giả sử Công ty ABC không vi phạm quy định liên danh nhưng Chủ đầu tư chỉ phê duyệt được 02 nhà thầu vào danh sách ngắn do thị trường hẹp, thay vì tối thiểu 03 nhà thầu như quy định chung. Trong trường hợp này, bên mời thầu cần xử lý ra sao theo quy định? Và nếu kết quả sơ tuyển không lựa chọn được danh sách ngắn, văn bản phê duyệt cần nêu rõ nội dung gì?",
-      "answer": "Theo quy định, danh sách ngắn thông thường phải bảo đảm tối thiểu 03 nhà thầu. Tuy nhiên, trong trường hợp đặc thù như thị trường hạn chế, số lượng nhà thầu đáp ứng yêu cầu ít, thì chủ đầu tư có thể phê duyệt danh sách ngắn ít hơn 03 nhà thầu, nhưng phải có giải trình rõ ràng về lý do.\n\nNếu kết quả sơ tuyển không lựa chọn được danh sách ngắn, văn bản phê duyệt phải nêu rõ: quá trình tổ chức sơ tuyển, lý do không có nhà thầu đáp ứng yêu cầu, và đề xuất hướng xử lý tiếp theo (ví dụ: tổ chức lại sơ tuyển hoặc chuyển hình thức lựa chọn nhà thầu khác)."
-    },
-    {
-      "turn": 5,
-      "query": "Để hoàn tất thủ tục phê duyệt kết quả sơ tuyển trong trường hợp bình thường (có danh sách ngắn), bên mời thầu cần chuẩn bị những hồ sơ, báo cáo nào để trình phê duyệt? Và kết quả này được công khai như thế nào?",
-      "answer": "Hồ sơ trình phê duyệt kết quả sơ tuyển bao gồm: báo cáo đánh giá hồ sơ dự sơ tuyển của tổ chuyên gia; tờ trình của bên mời thầu; dự thảo quyết định phê duyệt kết quả sơ tuyển; và các tài liệu liên quan khác.\n\nSau khi được phê duyệt, kết quả sơ tuyển phải được đăng tải công khai trên Hệ thống mạng đấu thầu quốc gia, bao gồm danh sách ngắn các nhà thầu được lựa chọn và các thông tin liên quan theo quy định, nhằm bảo đảm tính minh bạch."
-    },
-    {
-      "turn": 6,
-      "query": "Dựa trên thông tin đồ thị mối quan hệ văn bản, Nghị định 24/2024/NĐ-CP có mối quan hệ thế nào với Nghị định 63/2014/NĐ-CP và Luật Đấu thầu 2023? Điều này ảnh hưởng thế nào đến hiệu lực thi hành của các quy định cũ?",
-      "answer": "Nghị định 24/2024/NĐ-CP là văn bản quy định chi tiết và hướng dẫn thi hành Luật Đấu thầu 2023, do đó có quan hệ phụ thuộc (hướng dẫn thi hành) với Luật này.\n\nĐồng thời, nghị định này thay thế toàn bộ Nghị định 63/2014/NĐ-CP trước đây. Điều này có nghĩa là kể từ khi Nghị định 24/2024/NĐ-CP có hiệu lực, các quy định tương ứng tại Nghị định 63/2014/NĐ-CP hết hiệu lực thi hành và được thay thế bằng quy định mới phù hợp với Luật Đấu thầu 2023."
-    }
-  ]
-},
-    {
-  "session_name": "Xử lý quy trình sơ tuyển và danh sách ngắn trong Đấu thầu hạn chế theo Nghị định 24/2024/NĐ-CP",
-  "document_id": "24/2024/NĐ-CP",
-  "turns": [
-    {
-      "turn": 1,
-      "query": "Nghị định 24/2024/NĐ-CP là văn bản pháp lý gì và được ban hành nhằm mục đích chính xác nào?",
-      "answer": "Nghị định 24/2024/NĐ-CP là nghị định của Chính phủ quy định chi tiết một số điều và biện pháp thi hành Luật Đấu thầu năm 2023. Mục đích chính của văn bản là cụ thể hóa các quy định của Luật Đấu thầu, thiết lập khung pháp lý đầy đủ cho hoạt động lựa chọn nhà thầu, nhà đầu tư, bảo đảm tính minh bạch, cạnh tranh, hiệu quả kinh tế và thống nhất trong quản lý đấu thầu."
-    },
-    {
-      "turn": 2,
-      "query": "Văn bản này dựa trên những cơ sở pháp lý cụ thể nào để được ban hành? Hãy liệt kê các luật hoặc nghị quyết làm căn cứ.",
-      "answer": "Nghị định 24/2024/NĐ-CP được ban hành chủ yếu dựa trên các căn cứ pháp lý sau: Luật Đấu thầu số 22/2023/QH15; Luật Đầu tư công; Luật Xây dựng; Luật Ngân sách nhà nước; cùng các văn bản pháp luật có liên quan đến quản lý đầu tư và mua sắm công. Trong đó, Luật Đấu thầu 2023 là căn cứ pháp lý trực tiếp và quan trọng nhất."
-    },
-    {
-      "turn": 3,
-      "query": "Giả sử tôi là bên mời thầu cho một gói thầu dịch vụ tư vấn phức tạp, áp dụng hình thức đấu thầu hạn chế. Tôi đã tiến hành sơ tuyển và có 5 nhà thầu đáp ứng đủ năng lực. Tuy nhiên, khi lập danh sách ngắn, tôi chỉ chọn được 2 nhà thầu vì 3 nhà thầu còn lại không có nhu cầu tham dự. Theo Nghị định 24/2024/NĐ-CP, việc xác định danh sách ngắn này có hợp lệ không? Nếu không, tôi cần xử lý như thế nào?",
-      "answer": "Theo quy định, danh sách ngắn trong đấu thầu hạn chế thông thường phải bảo đảm tối thiểu 03 nhà thầu để duy trì tính cạnh tranh. Việc chỉ có 02 nhà thầu trong danh sách ngắn là không đáp ứng yêu cầu chung.\n\nTrong trường hợp các nhà thầu còn lại không có nhu cầu tham dự, bên mời thầu cần xem xét các phương án xử lý như: (i) tổ chức lại sơ tuyển để thu hút thêm nhà thầu; hoặc (ii) báo cáo, giải trình rõ lý do khách quan với người có thẩm quyền để xem xét chấp thuận danh sách ngắn dưới 03 nhà thầu trong trường hợp đặc thù. Việc chấp thuận này phải được nêu rõ trong quyết định phê duyệt."
-    },
-    {
-      "turn": 4,
-      "query": "Trong quá trình đánh giá hồ sơ dự sơ tuyển cho tình huống trên, nếu một nhà thầu nộp hồ sơ muộn sau thời điểm đóng thầu, bên mời thầu sẽ xử lý ra sao? Và nếu một nhà thầu là cá nhân chào thầu sản phẩm đổi mới sáng tạo, họ có được miễn giảm các tiêu chí đánh giá năng lực so với quy định chung không?",
-      "answer": "Hồ sơ dự sơ tuyển nộp sau thời điểm đóng thầu sẽ bị loại và không được xem xét, vì vi phạm nguyên tắc về thời điểm nộp hồ sơ trong đấu thầu.\n\nĐối với nhà thầu là cá nhân hoặc đơn vị cung cấp sản phẩm đổi mới sáng tạo, pháp luật có thể khuyến khích nhưng không đồng nghĩa với việc được miễn trừ các tiêu chí đánh giá năng lực cơ bản. Việc đánh giá vẫn phải căn cứ vào tiêu chuẩn đã được quy định trong hồ sơ mời sơ tuyển. Tuy nhiên, tiêu chí có thể được thiết kế linh hoạt ngay từ đầu để phù hợp với đặc thù đổi mới sáng tạo."
-    },
-    {
-      "turn": 5,
-      "query": "Sau khi đã hoàn thành bước mở và đánh giá hồ sơ dự sơ tuyển, bên mời thầu cần thực hiện những bước thủ tục và công bố kết quả ra sao để đảm bảo đúng quy định về tính minh bạch và thời hạn?",
-      "answer": "Sau khi hoàn tất đánh giá hồ sơ dự sơ tuyển, bên mời thầu cần: lập báo cáo đánh giá của tổ chuyên gia; trình người có thẩm quyền phê duyệt kết quả sơ tuyển; ban hành quyết định phê duyệt danh sách ngắn.\n\nKết quả sơ tuyển sau đó phải được công khai trên Hệ thống mạng đấu thầu quốc gia trong thời hạn theo quy định, bao gồm danh sách các nhà thầu trúng sơ tuyển và các thông tin liên quan. Quy trình này nhằm bảo đảm tính minh bạch, công khai và tạo cơ sở cho các bước đấu thầu tiếp theo."
-    },
-    {
-      "turn": 6,
-      "query": "Nếu các nhà thầu nằm trong danh sách ngắn muốn liên danh với nhau để tham dự thầu, hoặc liên danh với nhà thầu không có tên trong danh sách ngắn, thì cần tuân thủ những nguyên tắc và điều kiện gì theo Nghị định này?",
-      "answer": "Theo nguyên tắc của đấu thầu hạn chế, chỉ các nhà thầu có tên trong danh sách ngắn mới được mời tham dự thầu. Các nhà thầu trong danh sách ngắn không được phép liên danh với nhau nếu việc liên danh làm giảm số lượng nhà thầu cạnh tranh thực tế.\n\nNgoài ra, nhà thầu trong danh sách ngắn cũng không được liên danh với nhà thầu không có tên trong danh sách ngắn, vì điều này làm thay đổi tư cách dự thầu và phá vỡ kết quả sơ tuyển. Việc liên danh phải được xác lập ngay từ giai đoạn sơ tuyển và phù hợp với danh sách đã được phê duyệt."
-    }
-  ]
-},
     {
         "session_name": "Xác định cơ sở pháp lý và mối quan hệ điều chỉnh của Thông tư 01/2023/TT-VPCP",
         "document_id": "01/2023/TT-VPCP",
@@ -582,32 +582,32 @@
             {
                 "turn": 1,
                 "query": "Thông tư 01/2023/TT-VPCP quy định về nội dung gì và thuộc lĩnh vực nào?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP quy định về việc số hóa hồ sơ, kết quả giải quyết thủ tục hành chính; tổ chức khai thác, tái sử dụng dữ liệu số hóa trong tiếp nhận, giải quyết thủ tục hành chính. Văn bản này thuộc lĩnh vực cải cách hành chính, kiểm soát thủ tục hành chính và xây dựng chính phủ điện tử/chính phủ số."
             },
             {
                 "turn": 2,
                 "query": "Văn bản này được ban hành dựa trên những Nghị định nào liên quan đến cơ chế một cửa và thủ tục hành chính trên môi trường điện tử?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP được ban hành trên cơ sở các nghị định như: Nghị định số 61/2018/NĐ-CP về thực hiện cơ chế một cửa, một cửa liên thông trong giải quyết thủ tục hành chính; và Nghị định số 45/2020/NĐ-CP về thực hiện thủ tục hành chính trên môi trường điện tử."
             },
             {
                 "turn": 3,
                 "query": "Một cơ quan nhà nước đang triển khai Cổng Dịch vụ công quốc gia và cần rà soát tính hợp lệ của việc cung cấp dịch vụ công trực tuyến. Trong bối cảnh áp dụng Thông tư 01/2023/TT-VPCP, văn bản này có mối quan hệ như thế nào với Quy chế quản lý, vận hành, khai thác Cổng Dịch vụ công quốc gia?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP có mối quan hệ bổ trợ và cụ thể hóa cho Quy chế quản lý, vận hành, khai thác Cổng Dịch vụ công quốc gia. Trong khi Quy chế quy định khung quản lý, vận hành hệ thống, thì Thông tư 01/2023/TT-VPCP hướng dẫn chi tiết việc số hóa hồ sơ, chuẩn hóa dữ liệu và tái sử dụng thông tin, từ đó đảm bảo chất lượng và tính hợp lệ của dịch vụ công trực tuyến được cung cấp trên Cổng."
             },
             {
                 "turn": 4,
                 "query": "Nếu xét về khía cạnh kiểm soát thủ tục hành chính để đảm bảo chất lượng số hóa, Thông tư 01/2023/TT-VPCP kế thừa và bổ sung cho khung pháp lý nào về kiểm soát thủ tục hành chính?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP kế thừa và bổ sung cho khung pháp lý về kiểm soát thủ tục hành chính được quy định tại Nghị định số 63/2010/NĐ-CP (được sửa đổi, bổ sung bởi Nghị định số 92/2017/NĐ-CP). Văn bản này mở rộng nội dung kiểm soát sang môi trường số, đặc biệt là yêu cầu chuẩn hóa, số hóa và tái sử dụng dữ liệu trong giải quyết thủ tục hành chính."
             },
             {
                 "turn": 5,
                 "query": "Để đảm bảo tính thống nhất trong công tác văn thư khi số hóa hồ sơ, Thông tư này có liên hệ với văn bản nào quy định về công tác văn thư không?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP có liên hệ với Nghị định số 30/2020/NĐ-CP về công tác văn thư. Việc số hóa hồ sơ, tài liệu trong giải quyết thủ tục hành chính phải tuân thủ các quy định về quản lý văn bản, lập hồ sơ và lưu trữ theo quy định của pháp luật về văn thư."
             },
             {
                 "turn": 6,
                 "query": "Thông tư 01/2023/TT-VPCP có vai trò sửa đổi, bổ sung (AMENDS) đối với những văn bản pháp luật nào đang hiện hành?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP có vai trò sửa đổi, bổ sung một số nội dung của Thông tư số 01/2018/TT-VPCP hướng dẫn thi hành Nghị định số 61/2018/NĐ-CP về cơ chế một cửa, một cửa liên thông trong giải quyết thủ tục hành chính."
             }
         ]
     },
@@ -618,32 +618,32 @@
             {
                 "turn": 1,
                 "query": "Thông tư 01/2023/TT-VPCP quy định về nội dung gì?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP quy định về việc số hóa hồ sơ, kết quả giải quyết thủ tục hành chính; quy trình tiếp nhận, xử lý, lưu trữ và tái sử dụng dữ liệu số hóa trong giải quyết thủ tục hành chính, phục vụ triển khai dịch vụ công trực tuyến và cải cách hành chính."
             },
             {
                 "turn": 2,
                 "query": "Văn bản này được ban hành dựa trên những căn cứ pháp lý nào liên quan đến chức năng của Văn phòng Chính phủ và cơ chế một cửa?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP được ban hành dựa trên các căn cứ pháp lý như: Nghị định số 79/2022/NĐ-CP quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Văn phòng Chính phủ; Nghị định số 61/2018/NĐ-CP về thực hiện cơ chế một cửa, một cửa liên thông trong giải quyết thủ tục hành chính; và Nghị định số 45/2020/NĐ-CP về thực hiện thủ tục hành chính trên môi trường điện tử."
             },
             {
                 "turn": 3,
                 "query": "Một công dân nộp hồ sơ xin cấp giấy phép kinh doanh hoàn toàn trên Cổng Dịch vụ công quốc gia. Cơ quan nhà nước có thẩm quyền cần tuân thủ các quy định nào trong Thông tư này khi tiếp nhận và xử lý hồ sơ số hóa đó, đặc biệt là về mối liên hệ với việc cung cấp dịch vụ công trực tuyến?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Cơ quan nhà nước phải tuân thủ các quy định về tiếp nhận hồ sơ điện tử, số hóa thành phần hồ sơ (nếu cần), chuẩn hóa dữ liệu, kiểm tra tính đầy đủ và hợp lệ của hồ sơ trên môi trường điện tử; đồng thời cập nhật, lưu trữ và tái sử dụng dữ liệu trong hệ thống thông tin giải quyết thủ tục hành chính. Việc xử lý phải gắn với cung cấp dịch vụ công trực tuyến theo quy định tại Nghị định 45/2020/NĐ-CP, đảm bảo hồ sơ điện tử có giá trị pháp lý và được xử lý hoàn toàn trên môi trường số mà không yêu cầu nộp lại bản giấy nếu không cần thiết."
             },
             {
                 "turn": 4,
                 "query": "Trong tình huống trên, nếu phát sinh yêu cầu đối chiếu hồ sơ giấy với hồ sơ điện tử, cơ quan nhà nước cần phân tích logic ra sao để đảm bảo tính hợp lệ của hồ sơ số hóa mà không vi phạm nguyên tắc 'không yêu cầu nộp thêm giấy tờ' trừ khi có quy định khác, dựa trên các văn bản nền tảng mà Thông tư 01/2023/TT-VPCP kế thừa?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Cơ quan nhà nước cần áp dụng nguyên tắc ưu tiên sử dụng dữ liệu điện tử đã được số hóa và xác thực; chỉ yêu cầu đối chiếu bản giấy trong trường hợp pháp luật chuyên ngành có quy định hoặc khi không thể xác minh tính chính xác của dữ liệu điện tử. Logic xử lý là: (i) kiểm tra nguồn gốc và tính toàn vẹn của dữ liệu số hóa; (ii) đối chiếu thông tin với các cơ sở dữ liệu quốc gia, chuyên ngành; (iii) chỉ yêu cầu bản giấy khi có rủi ro pháp lý hoặc thiếu cơ sở xác thực. Cách tiếp cận này kế thừa nguyên tắc tại Nghị định 61/2018/NĐ-CP và Nghị định 45/2020/NĐ-CP về không gây phát sinh thủ tục, giấy tờ không cần thiết cho người dân."
             },
             {
                 "turn": 5,
                 "query": "Để triển khai việc số hóa hồ sơ và kết quả giải quyết thủ tục hành chính đúng theo Thông tư 01/2023/TT-VPCP, các bộ, cơ quan ngang bộ và UBND cấp tỉnh cần thực hiện những bước chuẩn bị về hệ thống và nghiệp vụ gì, dựa trên vai trò của Cục Kiểm soát thủ tục hành chính?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Các cơ quan cần: (i) nâng cấp, hoàn thiện hệ thống thông tin giải quyết thủ tục hành chính bảo đảm khả năng số hóa, lưu trữ và kết nối, chia sẻ dữ liệu; (ii) ban hành quy trình nội bộ về số hóa hồ sơ và kết quả giải quyết thủ tục hành chính; (iii) chuẩn hóa danh mục, thành phần hồ sơ và dữ liệu; (iv) đào tạo cán bộ thực hiện số hóa và kiểm soát chất lượng dữ liệu; (v) kết nối, tích hợp với Cổng Dịch vụ công quốc gia và các cơ sở dữ liệu liên quan. Cục Kiểm soát thủ tục hành chính đóng vai trò hướng dẫn, kiểm tra, đôn đốc và bảo đảm việc triển khai thống nhất trên toàn quốc."
             },
             {
                 "turn": 6,
                 "query": "Thông tư 01/2023/TT-VPCP có mối quan hệ thế nào với Thông tư 02/2017/TT-VPCP và các Nghị định về kiểm soát thủ tục hành chính? Nó có thay thế hay bổ sung cho các quy định trước đó không?",
-                "answer": "DÁN CÂU TRẢ LỜI CỦA CHATGPT VÀO ĐÂY"
+                "answer": "Thông tư 01/2023/TT-VPCP có tính chất kế thừa, cập nhật và bổ sung cho các quy định trước đó, trong đó có Thông tư 02/2017/TT-VPCP và các Nghị định về kiểm soát thủ tục hành chính như Nghị định 63/2010/NĐ-CP (được sửa đổi, bổ sung). Văn bản này không thay thế hoàn toàn mà bổ sung, điều chỉnh các nội dung liên quan đến số hóa, xử lý hồ sơ trên môi trường điện tử, phù hợp với yêu cầu chuyển đổi số và cung cấp dịch vụ công trực tuyến hiện nay."
             }
         ]
     }
