@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 _ENTITY_LABELS = (
     "Organization", "Person", "Location", "Procedure",
     "Condition", "Fee", "Penalty", "Timeframe", "Role",
-    "Concept", "Term", "LegalArticle", "Article"
+    "Concept", "Term", "LegalArticle", "Article", "Document"
 )
 _LABEL_FILTER = "|".join(_ENTITY_LABELS)
 
@@ -37,7 +37,7 @@ class EntityGraphRetriever:
     Lazy-init: driver/LLM không block khi import module.
     """
 
-    _FULLTEXT_INDEX_NAME = "entity_name_fulltext"
+    _FULLTEXT_INDEX_NAME = "entity_search_fulltext"
     _fulltext_index_ready: bool = False   # class-level, chia sẻ mọi instance
 
     def __init__(self):
@@ -66,7 +66,7 @@ class EntityGraphRetriever:
         labels_str = "|".join(_ENTITY_LABELS)
         cypher = (
             f"CREATE FULLTEXT INDEX {self._FULLTEXT_INDEX_NAME} IF NOT EXISTS "
-            f"FOR (n:{labels_str}) ON EACH [n.name] "
+            f"FOR (n:{labels_str}) ON EACH [n.name, n.document_number, n.title] "
             f"OPTIONS {{ indexConfig: {{ `fulltext.analyzer`: 'standard' }} }}"
         )
         try:
@@ -218,12 +218,12 @@ class EntityGraphRetriever:
             chunk_query = """
             CALL db.index.fulltext.queryNodes($idx, $lucene_terms)
             YIELD node AS e, score
-            WHERE score > 0.5
-            OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
+            WHERE score > 0.4
+            OPTIONAL MATCH (c)-[:HAS_ENTITY|PART_OF|BELONGS_TO*1..3]->(e)
             WHERE c.qdrant_id IS NOT NULL
             OPTIONAL MATCH (c)-[:PART_OF|BELONGS_TO*1..3]->(doc:Document)
             RETURN DISTINCT
-                e.name              AS entity_name,
+                COALESCE(e.name, e.document_number, e.title) AS entity_name,
                 labels(e)[0]        AS entity_type,
                 c.qdrant_id         AS chunk_id,
                 doc.document_number AS doc_number
@@ -234,12 +234,13 @@ class EntityGraphRetriever:
             UNWIND $entities AS ent_name
             MATCH (e:{label_filter})
             WHERE toLower(e.name) CONTAINS toLower(ent_name)
+               OR toLower(e.document_number) CONTAINS toLower(ent_name)
                OR toLower(ent_name) CONTAINS toLower(e.name)
-            OPTIONAL MATCH (c)-[:HAS_ENTITY]->(e)
+            OPTIONAL MATCH (c)-[:HAS_ENTITY|PART_OF|BELONGS_TO*1..3]->(e)
             WHERE c.qdrant_id IS NOT NULL
             OPTIONAL MATCH (c)-[:PART_OF|BELONGS_TO*1..3]->(doc:Document)
             RETURN DISTINCT
-                e.name              AS entity_name,
+                COALESCE(e.name, e.document_number, e.title) AS entity_name,
                 labels(e)[0]        AS entity_type,
                 c.qdrant_id         AS chunk_id,
                 doc.document_number AS doc_number
@@ -256,13 +257,14 @@ class EntityGraphRetriever:
         UNWIND $entities AS ent_name
         MATCH (e:{label_filter})
         WHERE toLower(e.name) CONTAINS toLower(ent_name)
+           OR toLower(e.document_number) CONTAINS toLower(ent_name)
         MATCH (e)-[r]->(target)
-        WHERE type(r) <> 'HAS_ENTITY' {rel_filter} AND target.name IS NOT NULL
+        WHERE type(r) <> 'HAS_ENTITY' {rel_filter} AND (target.name IS NOT NULL OR target.document_number IS NOT NULL)
         RETURN DISTINCT
-            e.name              AS src_name,
+            COALESCE(e.name, e.document_number) AS src_name,
             labels(e)[0]        AS src_type,
             type(r)             AS rel_type,
-            target.name         AS tgt_name,
+            COALESCE(target.name, target.document_number) AS tgt_name,
             labels(target)[0]   AS tgt_type
         LIMIT 50
         """
