@@ -8,11 +8,11 @@ Nhiệm vụ của bạn là thực hiện CÙNG LÚC 3 công việc: Viết l�
 
 Quy tắc BẮT BUỘC để Viết lại câu hỏi mồ côi (Standalone Query):
 1. Đọc HISTORY, CONTEXT và QUERY mới nhất.
-2. Nếu QUERY tiếp nối chủ đề của văn bản đang thảo luận trong HISTORY, BẮT BUỘC phải chèn định danh/số hiệu văn bản đó vào QUERY mới. (VD: Nếu lịch sử đang bàn về Thông tư 54/2025/TT-BYT, câu hỏi "Việc bệnh viện tự bào chế..." phải được viết lại thành "Việc bệnh viện tự bào chế... theo Thông tư 54/2025/TT-BYT..."). Phải giữ nguyên ngữ cảnh pháp lý và ý định tra cứu.
+2. Nếu QUERY tiếp nối chủ đề của văn bản đang thảo luận trong HISTORY, BẮT BUỘC phải chèn định danh/số hiệu văn bản đó vào QUERY mới. Phải giữ nguyên ngữ cảnh pháp lý và ý định tra cứu.
 3. Phục hồi hoàn toàn đại từ ("nó", "điều đó", "luật kia"). Cấm để lại đại từ chỉ định thay cho Tên văn bản.
-4. (Tính năng HyDE) Bổ sung một đoạn "câu trả lời giả định" tối ưu từ khóa pháp lý (đặc biệt là tên văn bản + số hiệu) vào thẳng câu hỏi luôn để tạo thành "hypothetical_query" dựa trên QUERY.
-5. TỪ ĐỒNG NGHĨA PHÁP LÝ (Query Augmentation): Người dùng thường dùng từ ngữ đời thường. Hãy TỰ ĐỘNG CHUẨN HOÁ và BỔ SUNG thuật ngữ pháp lý tương đương vào câu hỏi viết lại. Ví dụ: "chủ sở hữu", "chủ quầy thuốc" -> "người chịu trách nhiệm chuyên môn", "người hướng dẫn thực hành chuyên môn". Việc làm giàu từ khóa này giúp Vector Search tìm kiếm chính xác hơn.
-6. CẤM TỰ SUY DIỄN TÊN VĂN BẢN (ANTI-HALLUCINATION): TUYỆT ĐỐI KHÔNG tự ý đoán mò hoặc bịa ra "Tên văn bản" hay "Lĩnh vực" nếu người dùng chỉ cung cấp Số hiệu (VD: Người dùng hỏi "Nghị định 105/2014/NĐ-CP", CẤM TỰ CHẾ thành "Nghị định 105/2014/NĐ-CP về xử phạt vi phạm hành chính..."). CHỈ ĐƯỢC PHÉP thêm tên văn bản/lĩnh vực nếu thông tin đó ĐÃ XUẤT HIỆN rõ ràng trong HISTORY hoặc QUERY. Nếu không biết chắc, CHỈ GIỮ NGUYÊN SỐ HIỆU.
+4. CẤM TIỀN GIẢI ĐÁP (NO PRE-ANSWERING): Tuyệt đối KHÔNG được đưa bất kỳ nội dung mang tính trả lời, giải thích, liệt kê chi tiết (danh sách cơ quan, tiêu chí, mốc thời gian...) vào câu hỏi viết lại. Câu hỏi viết lại CHỈ ĐƯỢC PHÉP chứa câu hỏi và định danh văn bản liên quan.
+5. TỪ ĐỒNG NGHĨA (Synonyms): Chỉ bổ sung thuật ngữ pháp lý tương đương nếu cần thiết để làm rõ nghĩa của từ ngữ đời thường (VD: "đất ở" -> "đất thổ cư"). Không được thêm cả một đoạn văn.
+6. CẤM TỰ SUY DIỄN NỘI DUNG (ANTI-HALLUCINATION): TUYỆT ĐỐI KHÔNG tự ý đoán mò nội dung bên trong văn bản (VD: Cấm tự liệt kê "Các cơ quan bao gồm: ABC, XYZ..." hay "Tiêu chí bao gồm: 1, 2, 3..."). Nếu thông tin không có trong HISTORY hoặc QUERY, CẤM đưa vào. Sai lầm này sẽ làm hỏng kết quả tìm kiếm.
 
 Quy tắc Phân loại (Routing):
 - LEGAL_CHAT: Mục tiêu tối cao cho MỌI câu hỏi liên quan đến pháp luật, tra cứu thông tin, điều khoản, thủ tục hành chính, mức phạt, kiểm tra mâu thuẫn văn bản, thống kê luật, tóm tắt lĩnh vực, v.v. Bất cứ câu hỏi nào có ý định tìm kiếm hoặc xử lý thông tin pháp lý đều vào đây! Ngay cả khi người dùng không nhắc chữ "luật", chỉ cần hỏi về một vấn đề đời sống cần quy định điều chỉnh, thì LUÔN CHỌN LEGAL_CHAT.
@@ -31,8 +31,8 @@ TRẢ VỀ JSON DUY NHẤT:
 {{
     "reasoning": "Tại sao lại phân loại vào Intent này?",
     "intent": "LEGAL_CHAT | GENERAL_CHAT",
-    "standalone_query": "[CÂU HỎI VIẾT LẠI HOÀN CHỈNH - Đã thay thế đầy đủ đại từ]",
-    "hypothetical_query": "[Câu hỏi viết lại] + [CÂU TRẢ LỜI GIẢ ĐỊNH TỪ KHÓA]",
+    "standalone_query": "[CÂU HỎI VIẾT LẠI HOÀN CHỈNH - Ngắn gọn, súc tích, tuyệt đối không chứa nội dung trả lời]",
+    "hypothetical_query": "[Giống standalone_query nhưng có thể thêm 1 vài từ khóa pháp lý bổ trợ]",
     "filters": {{
         "legal_type": "...",
         "doc_number": "...",
