@@ -314,7 +314,7 @@ class EntityGraphRetriever:
                         f"[{tgt_t}: {r.get('tgt_name','?')}]"
                     )
 
-            # Format Graph Context
+            # Format Graph Context for logging and legacy support
             ctx_parts = []
             if entity_info:
                 ctx_parts.append("Thực thể liên quan: " + ", ".join(sorted(entity_info)))
@@ -331,6 +331,8 @@ class EntityGraphRetriever:
                 "doc_numbers"   : list(doc_numbers),
                 "graph_context" : "\n".join(ctx_parts),
                 "found_entities": list(entity_info),
+                "nodes"         : list(entity_info),
+                "edges"         : rel_lines,
             }
 
         except Exception as e:

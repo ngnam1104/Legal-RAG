@@ -505,6 +505,67 @@ def fetch_related_graph(entity_ids: List[str]) -> Dict[str, Any]:
     return result
 
 
+def fetch_sibling_context(entity_ids: List[str]) -> List[str]:
+    """
+    Phiên bản rút gọn của fetch_related_graph, CHỈ lấy sibling texts.
+    Dùng cho Phase 3 sau khi Phase 0 đã lấy đủ nodes/edges.
+    """
+    if not entity_ids:
+        return []
+
+    from backend.database.neo4j_client import get_neo4j_driver
+    driver = get_neo4j_driver()
+    if not driver:
+        return []
+
+    sibling_query = """
+    UNWIND $ids AS cid
+    OPTIONAL MATCH (c1:Chunk) WHERE c1.qdrant_id = cid OR c1.id = cid
+    OPTIONAL MATCH (c2:Clause) WHERE c2.qdrant_id = cid OR c2.id = cid
+    OPTIONAL MATCH (c3:LegalArticle) WHERE c3.qdrant_id = cid OR c3.id = cid
+    WITH cid, coalesce(c1, c2, c3) AS c
+    WHERE c IS NOT NULL
+    MATCH (c)-[:HAS_ENTITY]->(e)
+    WHERE NOT labels(e)[0] IN ['Document', 'LegalArticle', 'Clause', 'Chunk'] AND e.name IS NOT NULL
+    // Lọc entity đặc thù: số chunk liên kết < 50
+    WITH c, e, cid, count { (e)<-[:HAS_ENTITY]-() } AS usage_count
+    WHERE usage_count < 50
+    MATCH (other_c)-[:HAS_ENTITY]->(e)
+    WHERE other_c.qdrant_id IS NOT NULL AND other_c.qdrant_id <> cid
+    OPTIONAL MATCH (other_c)-[:PART_OF|BELONGS_TO*1..3]->(other_doc:Document)
+    OPTIONAL MATCH (c)-[:PART_OF|BELONGS_TO*1..3]->(doc:Document)
+    WHERE other_doc IS NOT NULL
+      AND other_doc.document_number IS NOT NULL
+      AND other_doc.document_number <> coalesce(doc.document_number, '__NONE__')
+    RETURN DISTINCT
+        e.name AS shared_entity,
+        labels(e)[0] AS entity_type,
+        other_doc.document_number AS sibling_doc,
+        other_c.text AS sibling_text,
+        usage_count
+    ORDER BY usage_count ASC
+    LIMIT 15
+    """
+
+    siblings = []
+    try:
+        with driver.session() as session:
+            data = session.run(sibling_query, ids=entity_ids).data()
+            for r in data:
+                if r.get("sibling_text") and r.get("sibling_doc"):
+                    ent = r["shared_entity"]
+                    doc_num = r["sibling_doc"]
+                    text = r["sibling_text"]
+                    formatted = f"[Liên kết qua {r['entity_type']}: {ent}] - Nguồn: {doc_num}\nNội dung: {text[:800]}"
+                    if formatted not in siblings:
+                        siblings.append(formatted)
+    except Exception as e:
+        import logging
+        logging.getLogger("utils_legal").warning(f"fetch_sibling_context error: {e}")
+
+    return siblings
+
+
 def format_graph_context(subgraph: Dict[str, Any]) -> Dict[str, Any]:
     """
     Format subgraph dict (từ fetch_related_graph) thành:
