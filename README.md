@@ -1,12 +1,12 @@
 # ⚖️ Legal-RAG: Trợ lý Pháp luật Việt Nam Thông minh
 
-Hệ thống **Advanced Agentic RAG** mã nguồn mở chuyên biệt cho văn bản pháp luật Việt Nam. Ứng dụng công nghệ Hybrid Search (Dense + Sparse), Kiến trúc Đa tác vụ (Multi-agent) và cơ chế Tự phản hồi (Reflection) để đảm bảo độ chính xác pháp lý tối đa.
+Hệ thống **Advanced Agentic RAG** mã nguồn mở chuyên biệt cho văn bản pháp luật Việt Nam. Ứng dụng công nghệ Hybrid Search (Dense + Sparse), Kiến trúc Đa tác vụ (Multi-agent) và cơ chế Tự phản hồi (Reflection) để đảm bảo độ chính xác pháp lý tối đa. Hệ thống đã được kiểm thử, tối ưu trên quy mô **hàng chục ngàn văn bản pháp luật** (đặc biệt trong lĩnh vực Y tế).
 
 ---
 
 ## 🌟 Tính năng Nổi bật
 
-- **🧠 Universal 5-Stage Agentic Pipeline**: Hệ thống được điều phối đồng nhất qua LangGraph qua các bước: `Understand` → `Retrieve` → `Resolve References` → `Grade` → `Generate` → `Reflect`.
+- **🧠 Universal 5-Stage Agentic Pipeline**: Hệ thống được điều phối đồng nhất qua các bước: `Understand` → `Retrieve` → `Resolve References` → `Grade` → `Generate` → `Reflect`.
 - **🛡️ CRAG & Self-RAG (Anti-Hallucination)**: Đánh giá độ tin cậy của tài liệu truy xuất (Grade) với cơ chế Retry/Rewrite. Tự động kiểm tra chéo trích dẫn và tính xác thực (Fact Check) trước khi trả câu trả lời cho người dùng.
 - **🔍 HyDE & Hybrid Search**: Sinh "câu trả lời giả định" (HyDE) kết hợp với tìm kiếm lai (Dense `BGE-M3` + Sparse) và Cross-Encoder Rerank để xử lý các thuật ngữ pháp lý phức tạp.
 - **🕸️ Graph RAG (Neo4j)**: Sử dụng Knowledge Graph để mở rộng ngữ cảnh (Bottom-Up & Lateral Expansion), giúp AI hiểu mối quan hệ phân cấp giữa các văn bản pháp luật.
@@ -17,7 +17,7 @@ Hệ thống **Advanced Agentic RAG** mã nguồn mở chuyên biệt cho văn b
     1. **RAM-Staged Upload**: Tài liệu tải lên được lưu tạm trong RAM để xử lý nhanh.
     2. **Explicit Sync**: Chỉ nạp vào DB (Qdrant/Neo4j) khi người dùng nhấn "Sync to DB", giúp tránh nhiễu dữ liệu.
 - **🧩 Unified LLM Extraction (Single-Pass)**: Trích xuất quan hệ văn bản, thực thể tự do và quan hệ node đồ thị trong một lần gọi LLM duy nhất, loại bỏ các bước quét thừa.
-- **🧩 Unified LLM Extraction (Single-Pass)**: Trích xuất quan hệ văn bản, thực thể tự do và quan hệ node đồ thị trong một lần gọi LLM duy nhất, loại bỏ các bước quét thừa.
+- **⚡ Advanced Graph Context Optimization**: Cung cấp chiến lược tối ưu `Graph_Doc_Fetch` bằng 2 cách song song: **Batch Scroll + Rerank** và **Neo4j Sibling Expansion** để lấy chính xác các điều khoản liên quan trong cùng văn bản thay vì chỉ phụ thuộc vào Vector Search.
 
 ---
 
@@ -29,8 +29,7 @@ Dưới đây là sơ đồ luồng dữ liệu tổng thể từ lúc người 
 graph LR
     FE[Frontend] -->|SSE| API[FastAPI]
     API -->|Stream| CE[RAGEngine]
-    CE -->|Events| LG[LangGraph]
-    LG -->|SuperRouter| R["LEGAL_CHAT / GENERAL_CHAT"]
+    CE -->|Events| R["LEGAL_CHAT / GENERAL_CHAT"]
     R -->|LEGAL_CHAT| QNR["QdrantNeo4jRetriever\n+ Subgraph Expand"]
     R -->|GENERAL_CHAT| GC[General Chat]
     QNR --> GEN[Generate GraphRAG]
@@ -84,15 +83,16 @@ graph TB
 ```text
 Legal-RAG/
 ├── backend/
-│   ├── agent/                             # LÕI HỆ THỐNG: LangGraph Agent Framework
+│   ├── agent/                             # LÕI HỆ THỐNG: Agent Framework
 │   │   ├── state.py                       #   Data Schema (AgentState)
 │   │   ├── memory.py                      #   Bộ nhớ hội thoại (Redis + SQLite)
 │   │   ├── query_router.py                #   SuperRouter: phân loại 2 mode + HyDE + Filters
-│   │   ├── graph.py                       #   LangGraph Topology & 10 Nodes
+│   │   ├── graph.py                       #   Agent Topology & 10 Nodes
 │   │   ├── chat_engine.py                 #   Vòng lặp streaming SSE cho Frontend
 │   │   ├── legal_chat.py                  #   LegalChatStrategy duy nhất (Unified GraphRAG)
 │   │   ├── utils_legal.py                 #   fetch_related_graph, format_graph_context, build_legal_context
-│   │   └── utils_general.py               #   execute_general_chat, SubTimer
+│   │   ├── utils_general.py               #   execute_general_chat, SubTimer
+│   │   └── utils_legal_optimization.py    #   Chiến lược tối ưu fetch context (Graph Sibling Expansion, Batch Scroll)
 │   ├── api/                               # FastAPI endpoints & Session Management
 │   │   ├── main.py                        #   Khởi tạo app, CORS, lifespan
 │   │   └── routes/                        #   Route handlers
@@ -134,10 +134,22 @@ Legal-RAG/
 ├── .debug/                                # (Auto-generated) Log debug từ Extractor
 ├── .checkpoints/                          # (Auto-generated) Checkpoint resume cho Ingestion
 ├── .reports/                              # (Auto-generated) Báo cáo pipeline
+├── performance_metrics.md                 # Báo cáo hiệu năng, tốc độ phản hồi QA và Ingestion
 ├── quick_start.ps1                        # Script khởi động 1-click (Windows)
 ├── quick_start.sh                         # Script khởi động 1-click (Linux/Mac)
 └── docker-compose.yml                     # Triển khai Redis, Qdrant & Neo4j Containers
 ```
+
+---
+
+## 📊 Hiệu năng & Khả năng Mở rộng (Thực tế)
+
+Hệ thống đã được đánh giá hiệu năng (Benchmark) trên tập dữ liệu quy mô lớn (đặc biệt trong lĩnh vực Y tế) với các thông số:
+- **Dữ liệu**: Hơn **21.000 văn bản pháp luật**, tạo ra **~672.000 Vector Points** trong Qdrant.
+- **Tốc độ Lập chỉ mục (Ingestion)**: Xử lý sâu (Chunking + Graph Extractor + Embedding) đạt mức ~23.75s / văn bản.
+- **Thời gian phản hồi QA**: Phản hồi câu hỏi phức tạp trung bình **~56.78s** với nhiều vòng tư duy (Understand -> Retrieve -> Neo4j Expansion -> Rerank -> Generate).
+- Tốc độ query Database thô đặc biệt tối ưu (< 50ms cho vector kNN/Neo4j lookup).
+- Đọc chi tiết tại [`performance_metrics.md`](./performance_metrics.md) và các file log test.
 
 ---
 
@@ -210,7 +222,7 @@ Script sẽ tự động:
 
 | Biến | Mô tả |
 | :--- | :--- |
-| `LLM_PROVIDER` | `internal` \| `gemini` \| `ollama` |
+| `LLM_PROVIDER` | `internal` (ICLLM/PontusINC Server cục bộ) \| `gemini` \| `ollama` |
 | `QDRANT_URL` | Địa chỉ Qdrant (mặc định localhost:6335) |
 | `NEO4J_URI` | Địa chỉ Neo4j (mặc định bolt://localhost:7687) |
 | `REDIS_URL` | Địa chỉ Redis cho memory |
@@ -221,7 +233,7 @@ Script sẽ tự động:
 ## 🛠️ Công nghệ Sử dụng
 
 - **Models**: BGE-M3 (Embedding), Llama-3 (LLM), Gemini (Pro).
-- **Backend**: FastAPI, Redis, LangGraph.
+- **Backend**: FastAPI, Redis, Agent Framework.
 - **Frontend**: Next.js 15, TailwindCSS (Premium UI).
 - **Vector DB**: Qdrant.
 - **Graph DB**: Neo4j.
